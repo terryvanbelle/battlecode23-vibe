@@ -42,7 +42,7 @@ public final class HQ {
         // diag-top4 showed our launchers fighting one at a time); a threatened HQ builds whatever it can
         int mnStart = rc.getResourceAmount(ResourceType.MANA);
         boolean batchOK = threatened || G.round <= 2 || mnStart >= 45 * C.LAUNCHER_BATCH;
-        for (int guard = 0; guard < 6 && rc.isActionReady(); guard++) {
+        for (int guard = 0; guard < 6 && rc.isActionReady() && Clock.getBytecodesLeft() > 4000; guard++) {
             int ad = rc.getResourceAmount(ResourceType.ADAMANTIUM), mn = rc.getResourceAmount(ResourceType.MANA);
             boolean wantAnchor = !threatened && G.round >= C.ANCHOR_START && launchersBuilt >= C.ANCHOR_MIN_LAUNCHERS
                 && rc.getNumAnchors(Anchor.STANDARD) == 0 && G.round - lastAnchorRound >= C.ANCHOR_PERIOD && islandToTake();
@@ -86,6 +86,37 @@ public final class HQ {
     }
 
     /** Build on the free spawn tile nearest the unit's purpose: carriers toward wells, others toward the enemy. */
+    static int[] threatCache;
+    static int threatRound = -1;
+
+    /**
+     * A newborn cannot act until next round, but enemies that move after us this round can shoot it: spawn on the tile
+     * the fewest visible enemy fighters can reach (r2 26), then nearest the unit's purpose (C.SPAWN_SAFETY). Computed
+     * once per turn (c_audit1 recomputed it for every build: 29 tiles x enemies x up to 6 builds pushed sieged HQs past
+     * their 20,000 bytecodes, 111 overruns in 10 of 174 calibration games).
+     */
+    static int[] spawnThreat() {
+        if (threatRound == G.round && threatCache != null) return threatCache;
+        int n = spawnTiles.length;
+        int[] th = new int[n];
+        if (C.SPAWN_SAFETY && G.nEnemyFighters > 0) {
+            int f = 0;
+            int[] fx = new int[G.nEnemyFighters], fy = new int[G.nEnemyFighters];
+            for (int k = G.enemies.length; --k >= 0 && f < fx.length; ) {
+                RobotInfo e = G.enemies[k];
+                if (e.type == RobotType.LAUNCHER || e.type == RobotType.DESTABILIZER) { fx[f] = e.location.x; fy[f++] = e.location.y; }
+            }
+            for (int i = n; --i >= 0; ) {
+                int x = spawnTiles[i].x, y = spawnTiles[i].y, c = 0;
+                for (int k = f; --k >= 0; ) { int dx = x - fx[k], dy = y - fy[k]; if (dx * dx + dy * dy <= C.THREAT_R2) c++; }
+                th[i] = c;
+            }
+        }
+        threatCache = th;
+        threatRound = G.round;
+        return th;
+    }
+
     static boolean tryBuild(RobotType t) throws GameActionException {
         RobotController rc = G.rc;
         MapLocation goal;
@@ -98,17 +129,11 @@ public final class HQ {
         if (goal == null) goal = new MapLocation(G.W / 2, G.H / 2);
         MapLocation best = null;
         long bd = Long.MAX_VALUE;
+        int[] threat = spawnThreat();
         for (int i = spawnTiles.length; --i >= 0; ) {
             MapLocation l = spawnTiles[i];
             if (!rc.canBuildRobot(t, l)) continue;
-            // a newborn cannot act until next round, but enemies that move after us this round can shoot it: spawn on
-            // the tile the fewest visible enemy fighters can reach (r2 26), then nearest the unit's purpose
-            int threat = 0;
-            if (C.SPAWN_SAFETY) for (int k = G.enemies.length; --k >= 0; ) {
-                RobotInfo e = G.enemies[k];
-                if ((e.type == RobotType.LAUNCHER || e.type == RobotType.DESTABILIZER) && l.distanceSquaredTo(e.location) <= C.THREAT_R2) threat++;
-            }
-            long d = threat * 100_000L + l.distanceSquaredTo(goal);
+            long d = threat[i] * 100_000L + l.distanceSquaredTo(goal);
             if (d < bd) { bd = d; best = l; }
         }
         if (best == null) return false;

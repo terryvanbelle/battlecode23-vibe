@@ -156,3 +156,18 @@ of history. Times are PDT. Grep it; do not read it whole.
   surplus/shortage) is still queued and decides whether ROLES becomes 2. Every arm queued after c_mana1 (micro1,
   batch1, spawn1, army1, audit1) carries c_mana1's roles: their comparisons against their own predecessors stand,
   but their absolute levels are depressed.
+
+## 2026-10-07 16:50 — The line since g_iter0 (c_audit1) loses to g_iter0; HQ overruns found
+
+- c_audit1 (econ1 + nav1 + mana1 + micro1 + batch1 + spawn1 + audit fixes) vs g_iter0's calibration run, same 174
+  cells: identical 162, gained 3, lost 9 (net -6, -1.73 SE, sign p 0.15); island-rounds margin -259 (t -1.96).
+- The economy tilted to adamantium: Ad collected +894 (t +8.3), carriers built +19 (t +10.3) and lost +6.9, Mn
+  -107, launchers built -6.7 (t -3.4), anchors placed -0.2. Causes on record: c_mana1's roles (rejected), and a
+  carrier bound (live robots, 30 + 15 per well) that no longer limits anything while carriers are built 1:1 with
+  launchers.
+- Basics regression: 111 HQ bytecode overruns in 10 of 174 games, all sieges we lost (HQ max 20,005-20,019 of
+  20,000). Cause: spawn safety scored every spawn tile against every visible enemy for every build (up to 6 a turn).
+  Fixed in the working line: threat per spawn tile once per turn, and the build loop stops below 4,000 bytecodes
+  left. To be confirmed on replica games (siege cells are against field bots).
+- Not accepted. The working line now: c_nav1's carrier roles (C.ROLES = 0), c_nav2's navigation, audit fixes, the
+  HQ fix. Next evaluations go through the galaxy replica (PROMPTS 11).
