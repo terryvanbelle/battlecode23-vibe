@@ -98,6 +98,49 @@ class BenchSelectTest(unittest.TestCase):
         self.assertFalse(self.s.JUNK.search('launcherbot'))
 
 
+class ReplayDumpTest(unittest.TestCase):
+    """The replay reader on a committed fixture: examplefuncsplayer mirror on maptestsmall, 2000 rounds, A wins on the
+    mana tiebreak. Pinned numbers were cross-checked against the raw event stream (204 SPAWN_UNIT actions = 2 x 102
+    built; B's 96 deaths = A's 86 attributed kills + 10 from HQ damage) and the engine's verdict (A 420 Mn vs B 17)."""
+    FIX = REPO / 'test/fixtures/example-mirror-maptestsmall.bc23'
+
+    @classmethod
+    def setUpClass(cls):
+        def dump(*args):
+            return subprocess.run(['bash', str(TOOLS / 'replay-dump.sh'), str(cls.FIX), *args],
+                                  capture_output=True, text=True, timeout=600).stdout
+        cls.summary = dump()
+        cls.census = dump('--census')
+        cls.bc = dump('--bytecode')
+
+    def test_result_and_builds(self):
+        self.assertIn('result: A (examplefuncsplayer) wins at round 2000', self.summary)
+        self.assertEqual(self.summary.count('built:  CARRIER=48 LAUNCHER=54'), 2)
+
+    def test_deaths_and_kills(self):
+        self.assertIn('died:   CARRIER=47 LAUNCHER=49', self.summary)
+        self.assertIn('kills=86', self.summary)
+
+    def test_final_bank_matches_tiebreak(self):
+        self.assertIn('r2000[Ad441 Mn420 Ex0', self.summary)
+        self.assertIn('r2000[Ad46 Mn17 Ex0', self.summary)
+
+    def test_census_shape(self):
+        lines = self.census.strip().splitlines()
+        self.assertEqual(len(lines), 3)
+        hdr = lines[0].split(',')
+        for row in lines[1:]:
+            self.assertEqual(len(row.split(',')), len(hdr))
+        a = dict(zip(hdr, lines[1].split(',')))
+        self.assertEqual((a['side'], a['won'], a['rounds'], a['built_C'], a['built_L']), ('A', '1', '2000', '48', '54'))
+
+    def test_bytecode_limits(self):
+        self.assertIn('A HQ', self.bc)
+        for line in self.bc.splitlines()[1:]:
+            f = line.split()
+            self.assertEqual(f[-2], '0', line)   # no overruns in the example bot
+
+
 if __name__ == '__main__':
     r = unittest.main(exit=False, verbosity=0).result
     print(f"test_tools: {r.testsRun} tests, {len(r.failures)} failures, {len(r.errors)} errors")
