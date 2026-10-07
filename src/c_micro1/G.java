@@ -1,4 +1,4 @@
-package bot;
+package c_micro1;
 
 import battlecode.common.*;
 
