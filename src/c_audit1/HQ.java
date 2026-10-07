@@ -1,4 +1,4 @@
-package bot;
+package c_audit1;
 
 import battlecode.common.*;
 
