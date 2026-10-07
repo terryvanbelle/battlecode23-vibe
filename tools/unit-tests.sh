@@ -2,7 +2,8 @@
 # One command for the bot and the apparatus (run after EVERY change to the bot or any tool):
 #   1. compile every bot package under src/ (a compile error fails the suite);
 #   2. compile test/bot/*Test.java against the bot and run each *Test main (no JUnit in the engine jar);
-#   3. python tool tests (tools/test_tools.py: synthetic inputs and committed fixtures).
+#   3. python tool tests (tools/test_tools.py: synthetic inputs and committed fixtures);
+#   4. the replica tests (test/replica) and the galaxy frontend build checks (test/galaxy/test_frontend.py).
 set -euo pipefail
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"; source "$REPO/tools/lib.sh"
 # one run at a time: overlapping runs shared build directories and raced (a predecessor project's lesson)
@@ -21,4 +22,5 @@ fi
 tt=$(python3 "$REPO/tools/test_tools.py" 2>&1) || fail=1
 printf '%s\n' "$tt" | tail -1
 rt=$(python3 "$REPO/test/replica/test_replica.py" 2>&1) && echo "replica: $(printf '%s\n' "$rt" | grep -E '^(Ran|OK)' | tr '\n' ' ')" || { printf '%s\n' "$rt" | tail -40; fail=1; }
+gt=$(python3 "$REPO/test/galaxy/test_frontend.py" 2>&1) && echo "galaxy frontend: $(printf '%s\n' "$gt" | grep -E '^(Ran|OK)' | tr '\n' ' ')" || { printf '%s\n' "$gt" | tail -40; fail=1; }
 [ $fail = 0 ] && echo "unit-tests: PASS" || { echo "unit-tests: FAIL"; exit 1; }
