@@ -61,3 +61,7 @@ Try again
 ## 11. 2026-10-07 16:09 PDT
 
 I just tried the replica web server.  It looks great, but I'd really like you to use the exact same look and feel as the one in play.battlecode.org.  The main purpose of replicating galaxy is for you to get used to the actual contest interface, so I'd like you to be submitting bots, challenging opponents, and downloading the game results all from the replica.  This will be less efficient than you doing it yourself, but that's the point.  You need to get used to the actual contest environment, which is where you'll be getting all your ladder matches during the actual contest.
+
+## 12. 2026-10-07 16:20 PDT
+
+Remember that none of this should affect the real play.battlecode.org in any way
