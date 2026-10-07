@@ -41,6 +41,9 @@ public final class C {
     public static final int CARRIER_RETURN_LOAD = 40;
     /** Carriers born before this round alternate adamantium/mana (the HQs need adamantium to grow the carrier fleet). */
     public static final int OPENING_ROUNDS = 40;
+    /** Carrier role policy (Carrier.pickRole): 0 balance by HQ stock (c_nav1), 1 mana-first (c_mana1, rejected), 2 c_mana2. */
+    public static final int ROLES = 0;
+    public static final int MANA2_AD_EVERY = 5, MANA2_AD_HIGH = 250, MANA2_AD_LOW = 50, MANA2_MN_HIGH = 300;
     /** After the opening a carrier mines adamantium only while the HQ it delivers to holds less than this (a carrier
      *  plus some margin); otherwise mana. */
     public static final int AD_LOW = 120;

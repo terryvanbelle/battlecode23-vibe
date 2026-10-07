@@ -145,3 +145,14 @@ of history. Times are PDT. Grep it; do not read it whole.
     per-enemy data once and a bytecode guard; "pinned" no longer counts current pushes.
 - Gate: c_audit1 on the 174 calibration cells, paired against g_iter0's own calibration run (the cumulative line
   since the incumbent), moved to the front of the queue.
+
+## 2026-10-07 16:30 — Arm c_mana1 rejected (the mechanism ran backwards)
+
+- c_mana1 vs c_nav1, 174 calibration cells: identical 163, gained 2, lost 9 (net -7, -2.11 SE, sign p 0.065).
+- Delivery inverted: mana collected -294 (t -4.5), adamantium +229 (t +3.3), mana by r250 -112 (t -6.7), launchers
+  alive at r250 -1.7 (t -5.8), launchers built -4.2. The adaptive rule (adamantium while the HQ holds < 120 Ad) read
+  "short" nearly always, because the HQ spends Ad on carriers as soon as it has it.
+- The working line keeps c_nav1's policy (switch C.ROLES = 0); c_mana2 (1 in 5 on Ad, overrides only on real
+  surplus/shortage) is still queued and decides whether ROLES becomes 2. Every arm queued after c_mana1 (micro1,
+  batch1, spawn1, army1, audit1) carries c_mana1's roles: their comparisons against their own predecessors stand,
+  but their absolute levels are depressed.
