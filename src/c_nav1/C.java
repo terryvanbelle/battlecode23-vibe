@@ -1,4 +1,4 @@
-package bot;
+package c_nav1;
 
 /**
  * Every tunable constant and every arm switch, each with the measurement or reason that set it.
@@ -25,11 +25,6 @@ public final class C {
     // ---- carriers
     /** A carrier returns home at this load (capacity 40; full loads maximise kg per trip, RULES economy). */
     public static final int CARRIER_RETURN_LOAD = 40;
-    /** Carriers born before this round alternate adamantium/mana (the HQs need adamantium to grow the carrier fleet). */
-    public static final int OPENING_ROUNDS = 40;
-    /** After the opening a carrier mines adamantium only while the HQ it delivers to holds less than this (a carrier
-     *  plus some margin); otherwise mana. */
-    public static final int AD_LOW = 120;
     /** Turns a carrier searches for a well of its own type before taking any well. */
     public static final int WELL_SEARCH_TURNS = 60;
     /** Turns a carrier waits at a crowded well before trying another well of its type. */

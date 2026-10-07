@@ -1,4 +1,4 @@
-package bot;
+package c_mana1;
 
 import battlecode.common.*;
 

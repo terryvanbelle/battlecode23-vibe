@@ -32,3 +32,63 @@ of history. Times are PDT. Grep it; do not read it whole.
   games/min; K=12 9.7 games/min. About 3 MB per replay.
 - GitHub code search (REST `search/code`) returns HTTP 500 for every query today; discovery uses repository search,
   push/creation-date windows and the forks of `battlecode/battlecode23-scaffold` instead (864 candidates).
+
+## 2026-10-07 08:00-13:00 — Phase 0 instruments, reading, field
+
+- Reading (workflow, 26 agents): per-slice reports for bc22/26/25/21/20/24, bcenv, the basics guides mapped to 2023,
+  galaxy; synthesis and gap reads in `research/prior/`. Rules digest (workflow, 13 agents, adversarially verified):
+  `RULES.md` + `research/rules/`. TRAINING_ALGORITHM.md written (year-agnostic).
+- Field (BENCHMARK.md): 864 repo-search candidates + 22 from a web sweep; 148 repos use the 2023 API; 18 excluded
+  (engine and its forks, non-entrants); 968 packages compiled; 87 entrants after two selection rules and hash dedupe.
+- Replay reader `tools/replay-dump.sh` (.bc23): rebuilt state from events; fixture tests pin numbers cross-checked
+  against the raw stream and the engine's verdict.
+
+## 2026-10-07 13:00-15:00 — Foundation bot g_iter0
+
+- Draft bot vs examplefuncsplayer, 8 maps x 2 sides: 16/16. Replay trace found (1) overruns on every unit's first turn
+  (map memory alloc + full scan): fixed by a bytecode-budgeted end-of-turn fill; (2) carriers mined 0 mana (wells seen
+  out of write range were never shared): fixed by late reporting and role adaptation; (3) Ad floating.
+- Exceptions 1-7 per game: a robot that moved since turn start wrote the shared array outside its write zone. Every write
+  now re-checks legality (`Comms.put`). 0 since.
+- foundation1/2 (all 103 maps x 2 sides): 206/206. Basics: 0 overruns, 0 exceptions; symmetry wrong on Sine (HQ evidence
+  used at round 1 before every HQ had registered; fixed: no HQ evidence before round 2); 12 games never decided
+  (ambiguous maps; fixed: candidates that predict the same enemy HQs count as decided).
+- Anchor degeneracy (Forest trace): 89 anchors built, 85 taken, 4 placed; carriers hoarded unplaceable anchors all game.
+  Fix: safe-side targets, free-tile approach, timeout and return, per-HQ anchor period, predicted islands by symmetry.
+  foundation3: 206/206; basics PASS (0/0/0, symmetry never wrong, decided by r150 in 204/206, never-decided 0); anchors
+  placed 51% of built (36% before); r2000 games 9 (18 before); Mn collected +3.6 SE.
+- Snapshot **g_iter0** (code hash e6f2fc5356c6).
+
+## 2026-10-07 15:00 — First field calibration (174 games, 2 per entrant, random maps/sides/seeds)
+
+- g_iter0: 131-43 (75.3%); BT 1732 +- 66, rank 17 of 88; field score 75.0%; 16 entrants beat us 2-0.
+- Loss census (43 games, medians, us vs them): carriers built 21 vs 78; launchers 58 vs 141; Mn collected 602 vs 6,492;
+  Ad 442 vs 2,559; kills 29 vs 82; anchors placed 1 vs 4. Wins: collected Mn 1,245 vs 85.
+- Trace (awesomelemonade.finalBot, ReverseFunnel): equal collection to r250; our carriers flatlined at 16 (cap) while
+  theirs reached 50; Ad floated 1,000-1,900 from r300; our launchers stuck below the dividing wall r120-r250 (bug
+  navigation flipped hand every 24 moves along a long wall). Strong bots mine mostly mana (camel_case on Risk: 1,700 Mn,
+  27 Ad; awesomelemonade on ReverseFunnel: 12,186 Mn, 4,521 Ad); none upgraded wells.
+
+## 2026-10-07 15:00-15:30 — Instruments: identity control, paired cells
+
+- Identity control: the working bot (byte-identical to g_iter0) on 30 calibration cells: 30/30 identical results and
+  identical island-rounds margins. Games are deterministic against external bots given (opponent, map, side, seed).
+- A second "identity" run was not one: it compiled src/bot after the next change had been synced. Runs now record the
+  code hash of the bot that played (`provenance.txt`).
+
+## 2026-10-07 15:30 — Arm c_econ1: carrier production bounded by live robots per known well
+
+- Pre-registered: the old cap counted carriers EVER built per HQ (4 + round/40, max 24), a lockout under attrition.
+  Counter: carriers built in losses. Gate: paired on the 174 calibration cells vs g_iter0.
+- Result: carriers built in losses 21 -> 34, Mn 602 -> 799, Ad 442 -> 813, Ad float at end 1,340 -> 880; outcomes
+  identical 164, gained 7, lost 3: net +4 (+1.26 SE, sign p 0.34); island-rounds margin -9.7 (t -0.14). Neutral.
+  Kept in the working line (a cap removal; it is the base for the next arms), not snapshotted as an accept.
+
+## 2026-10-07 15:30 — Queued arms (each paired on the 174 calibration cells against its predecessor)
+
+- c_nav1 (on c_econ1): bug navigation keeps its hand for the whole obstacle; flips only at the map edge or after
+  2(W+H) moves; refuses steps onto currents that push straight back; waits for robots on the wall path. Counters wh/bf.
+- c_mana1 (on c_nav1): mana-first carrier roles (adamantium only while the delivering HQ holds < 120 Ad; the first 40
+  rounds alternate).
+- diag-top4: the working bot vs awesomelemonade, camel_case, CyrilSharma, NotLLeon on DefaultMap/Maze/Forest, both
+  sides, all replays kept, census with carrier state tokens and launcher micro rates.

@@ -1,4 +1,4 @@
-package bot;
+package c_nav1;
 
 import battlecode.common.*;
 

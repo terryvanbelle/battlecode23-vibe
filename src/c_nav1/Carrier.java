@@ -1,4 +1,4 @@
-package bot;
+package c_nav1;
 
 import battlecode.common.*;
 
@@ -45,11 +45,10 @@ public final class Carrier {
 
     static void note() { G.note = "" + state + role + (anchorTarget != null ? "k" + anchorIsland : ""); }
 
-    /** Mana first (launchers, the army, cost mana; strong field bots mine mostly mana: camel_case on Risk collected
-     *  1,700 Mn and 27 Ad, awesomelemonade on ReverseFunnel 12,186 Mn and 4,521 Ad). The opening alternates so the HQs can
-     *  afford carriers; afterwards a carrier mines adamantium only when its HQ is short of it (deliver()). */
+    /** Early carriers alternate; later two in three mine mana (launchers are the main spend). Roles adapt at each
+     *  delivery to the HQ's stock (deliver()). */
     static int pickRole() {
-        return G.round < C.OPENING_ROUNDS ? 1 + (G.id & 1) : 2;
+        return G.round < 60 ? 1 + (G.id & 1) : (G.id % 3 == 0 ? 1 : 2);
     }
 
     static void reportEnemies() throws GameActionException {
@@ -106,7 +105,7 @@ public final class Carrier {
                 RobotInfo hq = rc.senseRobotAtLocation(home);
                 if (hq != null) {
                     int ad = hq.getResourceAmount(ResourceType.ADAMANTIUM), mn = hq.getResourceAmount(ResourceType.MANA);
-                    int want = ad < C.AD_LOW ? 1 : 2;     // adamantium only while this HQ is short of it
+                    int want = mn + 100 < ad ? 2 : ad + 150 < mn ? 1 : role;   // mine what the HQ is short of
                     if (want != role) { role = want; well = null; }
                 }
             }

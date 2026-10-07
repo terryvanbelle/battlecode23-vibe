@@ -71,7 +71,10 @@ public class ReplayDump {
     final long[] kills = new long[3];
     final long[][] wellThrown = new long[3][3], gifted = new long[3][3];
     final Map<Integer, Integer> hitRound = new HashMap<>();
-    final long[][][] stateCount = new long[3][NT][128];    // [team][type][first char of the indicator note]
+    final long[][][] stateCount = new long[3][NT][128];
+    // micro (launchers): [team][0 rounds,1 contact,2 fired|contact,3 moved|contact,4 exposed at end,5 dmg taken in
+    // contact,6 fired total,7 contact with fighter,8 fired|fighter contact,9 ended in reach of a ready-to-fire fighter]
+    final long[][] micro = new long[3][10];    // [team][type][first char of the indicator note]
     final long[][] bcMax = new long[3][NT], bcSum = new long[3][NT], bcN = new long[3][NT], bcNear = new long[3][NT], bcOver = new long[3][NT];
     final long[][] moveTurns = new long[3][NT], aliveTurns = new long[3][NT], aba = new long[3][NT];
     final List<int[]>[][] bcHist = new List[3][NT];
@@ -261,6 +264,8 @@ public class ReplayDump {
                 else if (used * 10 >= lim * 9) bcNear[t][ty]++;
                 bcHist[t][ty].add(new int[]{used});
             }
+            // micro: contact is judged on positions at the end of the previous round (what the launcher saw)
+            microRound(r);
             // navigation statistics for living mobile robots
             for (Robot rb : robots.values()) {
                 if (rb.died >= 0 || rb.born >= rn || rb.type == 0) continue;
@@ -274,6 +279,49 @@ public class ReplayDump {
             if (perRound != null) perRound.accept(rn);
         }
         if (!snaps.containsKey(totalRounds)) snaps.put(totalRounds, snapshot());
+    }
+
+    void microRound(Round r) {
+        java.util.HashSet<Integer> fired = new java.util.HashSet<>();
+        java.util.HashMap<Integer, Integer> dmg = new java.util.HashMap<>();
+        for (int k = 0; k < r.actionsLength(); k++) {
+            if (r.actions(k) == Action.LAUNCH_ATTACK) fired.add(r.actionIDs(k));
+            if (r.actions(k) == Action.CHANGE_HEALTH && r.actionTargets(k) < 0) dmg.merge(r.actionIDs(k), -r.actionTargets(k), Integer::sum);
+        }
+        java.util.List<Robot> alive = new java.util.ArrayList<>();
+        for (Robot rb : robots.values()) if (rb.died < 0 || rb.died == r.roundID()) alive.add(rb);
+        for (Robot rb : alive) {
+            if (rb.type != 2 || rb.px < 0 || rb.born >= r.roundID()) continue;
+            int t = rb.team;
+            boolean contact = false, fighter = false, exposed = false;
+            for (Robot e : alive) {
+                if (e.team == t || e.px < 0 || e.type == 0) continue;
+                int d0 = G2(rb.px, rb.py, e.px, e.py);
+                if (d0 <= 16) { contact = true; if (e.type == 2 || e.type == 4) fighter = true; }
+                if ((e.type == 2) && e.died < 0 && G2(rb.x, rb.y, e.x, e.y) <= 16) exposed = true;
+            }
+            micro[t][0]++;
+            boolean f = fired.contains(rb.id), mv = rb.px != rb.x || rb.py != rb.y;
+            if (f) micro[t][6]++;
+            if (contact) {
+                micro[t][1]++;
+                if (f) micro[t][2]++;
+                if (mv) micro[t][3]++;
+                micro[t][5] += dmg.getOrDefault(rb.id, 0);
+            }
+            if (fighter) { micro[t][7]++; if (f) micro[t][8]++; }
+            if (exposed && rb.died < 0) micro[t][4]++;
+        }
+    }
+
+    static int G2(int x1, int y1, int x2, int y2) { int dx = x1 - x2, dy = y1 - y2; return dx * dx + dy * dy; }
+
+    String microShares(int t) {
+        long[] m = micro[t];
+        if (m[0] == 0) return "";
+        return String.format("contact=%.3f fire|contact=%.3f fire|fighter=%.3f move|contact=%.3f exposed=%.3f dmg/contact=%.1f fire=%.3f",
+            ratio(m[1], m[0]), ratio(m[2], m[1]), ratio(m[8], m[7]), ratio(m[3], m[1]), ratio(m[4], m[0]),
+            m[1] == 0 ? 0.0 : (double) m[5] / m[1], ratio(m[6], m[0]));
     }
 
     int[][] snapshot() {
@@ -386,7 +434,7 @@ public class ReplayDump {
         + "shots,hits,throws,throw_hits,dmg,kills,healed,anchors_built,anchors_placed,first_anchor,island_rounds,"
         + "isl500,isl1000,isl1500,isl_end,bank250_Mn,bank250_Ad,bank500_Mn,bank500_Ad,bank_end_Ad,bank_end_Mn,bank_end_Ex,"
         + "L_end,C_end,bc_max_C,bc_max_L,bc_max_HQ,near,over,still_L,still_C,aba,sym_robots,sym_wrong,sym_first_decided,sym_undecided,"
-        + "C100,L100,cAd100,cMn100,C250,L250,cAd250,cMn250,states_C,counters";
+        + "C100,L100,cAd100,cMn100,C250,L250,cAd250,cMn250,states_C,micro_L,counters";
 
     void census(PrintStream o, boolean header) {
         run(null);
@@ -411,7 +459,7 @@ public class ReplayDump {
                 fmt(1.0 - ratio(moveTurns[t][2], aliveTurns[t][2])), fmt(1.0 - ratio(moveTurns[t][1], aliveTurns[t][1])),
                 "" + (aba[t][1] + aba[t][2]), "" + symStats(t)[0], "" + symStats(t)[1], "" + symStats(t)[2], "" + symStats(t)[3],
                 snapCol(100, t, 4), snapCol(100, t, 5), snapCol(100, t, 8), snapCol(100, t, 9),
-                snapCol(250, t, 4), snapCol(250, t, 5), snapCol(250, t, 8), snapCol(250, t, 9), stateShares(t, 1), cs.toString()));
+                snapCol(250, t, 4), snapCol(250, t, 5), snapCol(250, t, 8), snapCol(250, t, 9), stateShares(t, 1), microShares(t), cs.toString()));
         }
     }
 
@@ -533,6 +581,7 @@ public class ReplayDump {
 
     void states(PrintStream o) {
         run(null);
+        for (int t = 1; t <= 2; t++) o.printf("%s LAUNCHER micro: %s%n", side(t), microShares(t));
         for (int t = 1; t <= 2; t++) for (int ty = 0; ty < NT; ty++) {
             String sh = stateShares(t, ty);
             if (!sh.isEmpty()) o.printf("%s %-12s %s%n", side(t), TN[ty], sh);
