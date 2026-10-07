@@ -17,16 +17,29 @@ Updated 2026-10-07 ~15:45 PDT.
 | job | candidate | change | control | state |
 |---|---|---|---|---|
 | cand-nav1 | c_nav1 | bug navigation keeps its hand per obstacle | c_econ1 | done: net 0, more stalls, -7% collection |
-| cand-mana1 | c_mana1 | mana-first roles, adaptive at delivery | c_nav1 | running |
+| cand-mana1 | c_mana1 | mana-first roles, adaptive at delivery | c_nav1 | done: rejected, net -7; mined MORE Ad |
 | cand-mana2 | c_mana2 | 1 in 5 carriers on adamantium, overrides by HQ stock | c_nav1 | queued |
 | deliv-mana1/micro1/batch1 | c_micro1, c_batch1 | pinned-enemy micro, safe step-in; launcher batches of 3 | c_mana1, c_micro1 | queued |
 | deliv-spawn1 | c_spawn1 | spawn on the tile fewest enemy fighters reach | c_batch1 | queued |
 | deliv-army1 | c_army1 | launcher cohesion (`C.ARMY`): regroup, follow the lowest id | c_spawn1 | queued |
 | cand-nav2 | c_nav2 | c_nav1 without the 3-turn wait for robots on the wall path | c_nav1 | queued |
-| cand-audit1 | c_audit1 | the whole line since g_iter0 + audit fixes (double-move carriers, seen wells, staleness, fight bytecode) | g_iter0 calibration | next |
+| cand-audit1 | c_audit1 | the whole line since g_iter0 + audit fixes (double-move carriers, seen wells, staleness, fight bytecode); carries c_mana1's roles | g_iter0 calibration | running |
 
 Cells: `test/cells/calib-g_iter0.txt` (174, every entrant twice) and `test/cells/diag-top4.txt` (24, four top bots).
 Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <cand run> <control run>`.
+
+## Switch to the real galaxy (owner, PROMPTS 11-12; in progress since 2026-10-07 16:10 PDT)
+
+- The owner wants the exact look and feel of play.battlecode.org and wants us to submit bots, challenge opponents
+  and download results through the replica, as in the contest; none of it may affect the real play.battlecode.org.
+- Being built (two background agents): galaxy's own siarnaq backend, unmodified, with local stand-ins for Google
+  Cloud (storage, Pub/Sub, Cloud Tasks), a saturn replacement that compiles and runs games, and galaxy's own frontend
+  built with the backend URL overridden to our host (the stock build points at api.battlecode.org). New host:
+  https://galaxy.136-86-167-127.sslip.io/ (same basic-auth gate). Code in `tools/galaxy/`, docs in `docs/galaxy/`.
+- After it: seed the field as teams through the API, our team submits through `tools/contest.py`, all games against
+  other teams through scrimmage requests (galaxy limits: 10 unranked requests of up to 10 maps per hour, 10 ranked
+  of 3 random maps, ranked only upward), results and replays downloaded through the API (`ReplayDump --games`
+  reads multi-game match files). The galaxy-lite replica below is retired at cutover.
 
 ## The ladder replica (galaxy-lite)
 
