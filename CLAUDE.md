@@ -6,8 +6,8 @@ Read `TRAINING_ALGORITHM.md` (the loop), `RULES.md` (the game, engine-checked) a
 1. **Games in volume run only on the VM `battlecode-dev`** (us-west1-b, internal IP, `tools/vm.sh`). The driver
    (claude-driver, 2 vCPU / 2 GB) hosts this session and plays at most one diagnostic game at a time. The VM
    `battlecode-dev2` belongs to the paused 2024 project: never touch it.
-2. **Record every owner prompt verbatim in `PROMPTS.md`** (PDT), except `/loop` commands and the prompts a `/loop`
-   fires ("task check") (owner, PROMPTS 3).
+2. **Record every owner prompt verbatim in `PROMPTS.md`** (PDT), including `/loop` commands, but never a prompt that a
+   `/loop` fires, such as "task check" (owner, PROMPTS 4-5).
    **Push after every commit.** Stage explicit paths.
 3. **External bots' source is never read**, except the automated security scan before first compile
    (`tools/bench-scan.sh`, which prints pattern counts, and a minimal look at a hit only to rule out a risk).

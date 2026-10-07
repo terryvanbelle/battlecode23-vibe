@@ -3,7 +3,7 @@
 Append-only record of the project, one entry per step or attempt. Corrections are dated entries in place, never edits
 of history. Times are PDT. Grep it; do not read it whole.
 
-## 2026-10-07 07:45 — Start (PROMPTS 1-3)
+## 2026-10-07 07:45 — Start (PROMPTS 1-5)
 
 - Repo `terryvanbelle/battlecode23-vibe` created. Prior-year repos are all present locally and up to date with GitHub
   (2020, 2024, 2025 working copies; 21, 22, 26 and anicolao/bcenv under `~/projects/vibe/reference/`). Cross-year advice

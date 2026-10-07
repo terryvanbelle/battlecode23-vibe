@@ -1,7 +1,7 @@
 # PROMPTS
 
-Every prompt the owner sends, verbatim, in order. Times are PDT (America/Los_Angeles). `/loop` commands and the
-prompts a `/loop` fires (for example "task check") are not recorded (owner, prompt 3).
+Every prompt the owner sends, verbatim, in order. Times are PDT (America/Los_Angeles). Prompts that a `/loop` fires
+(for example "task check") are not recorded; the `/loop` command itself is (owner, prompts 4-5).
 
 ## 1. 2026-10-07 07:45 PDT
 
@@ -22,10 +22,18 @@ Starting with this one, save all of my prompts in a document called PROMPTS.md. 
 
 This year we will compete in Battlecode 2023.  Store all results in a new Github repository called battlecode23-vibe.  Download the rules and begin.
 
-## 2. 2026-10-07 07:55 PDT
+## 2. 2026-10-07 07:47 PDT
+
+/loop 30m task check
+
+## 3. 2026-10-07 07:55 PDT
 
 You can clear local storage from bc24 to free up disk space
 
-## 3. 2026-10-07 08:20 PDT
+## 4. 2026-10-07 08:20 PDT
 
 To avoid clutter, don't store any of the /loop commands in PROMPTS
+
+## 5. 2026-10-07 08:23 PDT
+
+Sorry, what I meant was don't record any command in PROMPTS that was triggered by a /loop (e.g. "task check")
