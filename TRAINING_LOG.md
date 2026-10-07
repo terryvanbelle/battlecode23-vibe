@@ -92,3 +92,25 @@ of history. Times are PDT. Grep it; do not read it whole.
   rounds alternate).
 - diag-top4: the working bot vs awesomelemonade, camel_case, CyrilSharma, NotLLeon on DefaultMap/Maze/Forest, both
   sides, all replays kept, census with carrier state tokens and launcher micro rates.
+
+## 2026-10-07 15:45 — Ladder replica live; tactics of the top four (diag-top4, g_iter0 code)
+
+- The ladder replica started for real (87 field bots, `us:examplefuncsplayer`, `us:g_iter0`; one autoscrim round to
+  seed ratings, then the matchmaker). Site and access: `ACCESS.md`.
+- Profile (`tools/profile.py`, 24 games, means; alive counts at r100 and r250, collected by r100 and r250):
+
+  | team | C100 | L100 | Mn100 | Ad100 | C250 | L250 | Mn250 | first anchor | exposed | dmg/contact |
+  |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+  | us | 22 | 10 | 296 | 449 | 21 | 8 | 913 | 118 | 0.168 | 13 |
+  | CyrilSharma.finalBot | 18 | 18 | 682 | 86 | 30 | 46 | 2,450 | 276 | 0.002 | 5.7 |
+  | awesomelemonade.finalBot | 18 | 17 | 653 | 177 | 30 | 50 | 2,322 | 314 | 0.005 | 2.4 |
+  | jmerle.camel_case_v30_final | 18 | 17 | 760 | 59 | 30 | 53 | 2,460 | 349 | | |
+  | NotLLeon.v7 | 14 | 14 | 478 | 7 | 20 | 20 | 1,392 | 196 | 0.137 | 9.2 |
+
+- Timeline (awesomelemonade on DefaultMap, 3 HQs each, both teams start with 600 Ad + 600 Mn): by r20 they field 13
+  launchers to our 6 and have killed 6 of ours for 3; they spent the whole starting mana on launchers and their
+  carriers delivered 107 Mn by r20 (ours 56). Our launchers die by r140 (0 alive), our carriers by r180; the rest of the
+  game is their island count climbing to 75%.
+- Reading: total collection is equal to r100 (745 vs ~770); the split and the launcher count decide the game, and the
+  early launcher fights are lost in numbers and exposure. The queued arms (mana-first roles; pinned-enemy micro and
+  safe step-in; launcher batches) target exactly these. Their first anchor comes at r200-350, after map control.
