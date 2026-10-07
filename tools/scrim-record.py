@@ -11,24 +11,7 @@ import argparse, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import elolib
 
-# engine 3.0.15 Server.java:613-634 end-of-match reasons -> codes (the old 40-character cut merged all tiebreaks)
-REASONS = [
-    ('capturing 75% of sky islands', 'ISL75'),
-    ('having more sky islands', 'TB_ISL'),
-    ('more reality anchors', 'TB_ANCH'),
-    ('more elixir net worth', 'TB_EX'),
-    ('more mana net worth', 'TB_MN'),
-    ('more adamantium net worth', 'TB_AD'),
-    ('coin flip', 'COIN'),
-    ('resigned', 'RESIGN'),
-]
-
-
-def reason_code(text):
-    for k, c in REASONS:
-        if k in text:
-            return c
-    return 'OTHER'
+REASONS, reason_code = elolib.REASONS, elolib.reason_code
 
 
 def main():

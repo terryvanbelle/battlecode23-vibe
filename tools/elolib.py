@@ -1,19 +1,40 @@
 """Shared ladder bookkeeping over progress/games.csv (one row per scrimmage, in play order).
 Columns: run,seq,teamA,teamB,map,winner(A|B),rounds,reason,seed. Our team appears as 'us:<build>'.
 
-Ratings are a batch Bradley-Terry fit over every game at once (2026-09-24, PROMPTS 15-16), on the Elo
-scale (400 points = 10:1 odds), and each of our builds is its own player. The old sequential K=32 Elo,
-with one 'us' rating inherited by every build, depended on play order: 96 easy calibration games lifted
-'us' from rank 65 to rank 4, above bots with 104-9 records against us. The fit has no order, and a
-build's rating comes only from its own games. A weak prior (one virtual win and one loss against a
-1500 anchor) keeps unbeaten or winless records finite; the anchor fixes the scale at 1500.
-Since 2026-10-06 (owner PROMPTS 191) each pair of players counts at most PAIR_CAP games in the fit (its games and wins
-scaled down in proportion; records shown stay raw): the target filler plays one opponent thousands of times, and with
-matchups that are not transitive that one pairing pulled the fit (g_iter7 fell from 2150 to 2116, under NotLLeon, which
-it beats 48-40, after ~1,500 games against andli28). 200 games pin a pair's win rate to about +- 3.5 points."""
+Ratings are a batch Bradley-Terry fit over every game at once, on the Elo scale (400 points = 10:1 odds), and each of
+our builds is its own player: a sequential Elo depends on play order and lets a new build inherit an old one's rating.
+A weak prior (one virtual win and one loss against a 1500 anchor) keeps unbeaten or winless records finite; the anchor
+fixes the scale at 1500. Each pair of players counts at most PAIR_CAP games in the fit (its games and wins scaled down
+in proportion; records shown stay raw), so one heavily repeated pairing cannot pull the fit when matchups are not
+transitive. 200 games pin a pair's win rate to about +- 3.5 points.
+The reason column holds a code (REASONS); seed '' or 'map' is the map file's own seed, 'map-rev' the same map with the
+HQ ownership flipped (the engine's alternate-order games inside a ladder match)."""
 import sys, csv, os, math, collections
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GAMES = os.path.join(REPO, 'progress', 'games.csv')
+
+# engine 3.0.15 Server.java:613-634 end-of-match reasons -> codes (a 40-character cut would merge all tiebreaks)
+REASONS = [
+    ('capturing 75% of sky islands', 'ISL75'),
+    ('having more sky islands', 'TB_ISL'),
+    ('more reality anchors', 'TB_ANCH'),
+    ('more elixir net worth', 'TB_EX'),
+    ('more mana net worth', 'TB_MN'),
+    ('more adamantium net worth', 'TB_AD'),
+    ('coin flip', 'COIN'),
+    ('resigned', 'RESIGN'),
+]
+
+
+def reason_code(text):
+    """Engine 'Reason:' text (or an existing code) -> code."""
+    text = text or ''
+    if text in {c for _, c in REASONS}:
+        return text
+    for k, c in REASONS:
+        if k in text:
+            return c
+    return 'OTHER'
 HDR = ['run', 'seq', 'teamA', 'teamB', 'map', 'winner', 'rounds', 'reason', 'seed']
 def dedupe(rows):
     """One game per (teamA, teamB, map, seed): the engine replays the same pairing identically unless the seed differs

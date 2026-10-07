@@ -53,6 +53,7 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
 - Replays carry no robot stdout: our counters are in the indicator string (`note|ov=,ex=,nm=,sm=,sd=,wh=,bf=...`); the
   first character of the note is a state token (carriers: G C W R D F X K T).
 - Some field bots fire every round at empty tiles (blind fire): count hits, not attacks.
-- `-Dbc.testing.debug=true` does not seem to reach the bot (debug prints never appeared); open question.
+- Debug prints need both flags: `GAME_OPTS='-Dbc.testing.debug=true'` (the bot reads it) and `SHOW_LOGS=true` (the server
+  forwards robot stdout). With only the first, nothing appears; checked with a probe bot on 2026-10-07.
 - `vm-run.sh` must background with `cd X; CMD &`, not `cd X && CMD &` (the latter holds ssh open until the job ends).
 - Never `pkill -f` a pattern that can match the caller (it killed the issuing shell once on 2026-10-07).

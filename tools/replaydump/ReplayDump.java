@@ -285,7 +285,9 @@ public class ReplayDump {
         java.util.HashSet<Integer> fired = new java.util.HashSet<>();
         java.util.HashMap<Integer, Integer> dmg = new java.util.HashMap<>();
         for (int k = 0; k < r.actionsLength(); k++) {
-            if (r.actions(k) == Action.LAUNCH_ATTACK) fired.add(r.actionIDs(k));
+            // a shot counts only if it hit a robot: some bots fire every round at empty tiles (blind fire), which is
+            // not combat (diag-top4: awesomelemonade launchers fired at fixed empty tiles every round)
+            if (r.actions(k) == Action.LAUNCH_ATTACK && r.actionTargets(k) >= 0) fired.add(r.actionIDs(k));
             if (r.actions(k) == Action.CHANGE_HEALTH && r.actionTargets(k) < 0) dmg.merge(r.actionIDs(k), -r.actionTargets(k), Integer::sum);
         }
         java.util.List<Robot> alive = new java.util.ArrayList<>();
@@ -319,7 +321,7 @@ public class ReplayDump {
     String microShares(int t) {
         long[] m = micro[t];
         if (m[0] == 0) return "";
-        return String.format("contact=%.3f fire|contact=%.3f fire|fighter=%.3f move|contact=%.3f exposed=%.3f dmg/contact=%.1f fire=%.3f",
+        return String.format("contact=%.3f hit|contact=%.3f hit|fighter=%.3f move|contact=%.3f exposed=%.3f dmg/contact=%.1f hit=%.3f",
             ratio(m[1], m[0]), ratio(m[2], m[1]), ratio(m[8], m[7]), ratio(m[3], m[1]), ratio(m[4], m[0]),
             m[1] == 0 ? 0.0 : (double) m[5] / m[1], ratio(m[6], m[0]));
     }
