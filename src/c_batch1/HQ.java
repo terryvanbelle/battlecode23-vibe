@@ -1,4 +1,4 @@
-package bot;
+package c_batch1;
 
 import battlecode.common.*;
 
