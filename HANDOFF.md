@@ -14,12 +14,15 @@ Updated 2026-10-07 ~15:45 PDT.
 
 ## In flight (VM queue, each paired on identical cells)
 
-| job | candidate | change | control |
-|---|---|---|---|
-| cand-nav1 | c_nav1 | bug navigation keeps its hand per obstacle | c_econ1 (live-robot carrier bound; neutral, +4 net) |
-| cand-mana1 | c_mana1 | mana-first roles, adaptive at delivery | c_nav1 |
-| cand-mana2 | c_mana2 | 1 in 5 carriers on adamantium, overrides by HQ stock | c_nav1 |
-| deliv-mana1/micro1/batch1 | c_micro1, c_batch1 | pinned-enemy micro, safe step-in; launcher batches of 3 | c_mana1, c_micro1 |
+| job | candidate | change | control | state |
+|---|---|---|---|---|
+| cand-nav1 | c_nav1 | bug navigation keeps its hand per obstacle | c_econ1 | done: net 0, more stalls, -7% collection |
+| cand-mana1 | c_mana1 | mana-first roles, adaptive at delivery | c_nav1 | running |
+| cand-mana2 | c_mana2 | 1 in 5 carriers on adamantium, overrides by HQ stock | c_nav1 | queued |
+| deliv-mana1/micro1/batch1 | c_micro1, c_batch1 | pinned-enemy micro, safe step-in; launcher batches of 3 | c_mana1, c_micro1 | queued |
+| deliv-spawn1 | c_spawn1 | spawn on the tile fewest enemy fighters reach | c_batch1 | queued |
+| deliv-army1 | c_army1 | launcher cohesion (`C.ARMY`): regroup, follow the lowest id | c_spawn1 | queued |
+| cand-nav2 | c_nav2 | c_nav1 without the 3-turn wait for robots on the wall path | c_nav1 | queued |
 
 Cells: `test/cells/calib-g_iter0.txt` (174, every entrant twice) and `test/cells/diag-top4.txt` (24, four top bots).
 Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <cand run> <control run>`.

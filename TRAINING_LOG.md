@@ -114,3 +114,14 @@ of history. Times are PDT. Grep it; do not read it whole.
 - Reading: total collection is equal to r100 (745 vs ~770); the split and the launcher count decide the game, and the
   early launcher fights are lost in numbers and exposure. The queued arms (mana-first roles; pinned-enemy micro and
   safe step-in; launcher batches) target exactly these. Their first anchor comes at r200-350, after map control.
+
+## 2026-10-07 15:50 — Arm c_nav1: neutral, negative signature; c_nav2 queued
+
+- c_nav1 vs c_econ1, 174 calibration cells: identical 164, gained 5, lost 5 (net 0); island-rounds margin -70 (t -0.58).
+- Delivery: oscillation fell (aba -50 per game, t -2.8) but robots stood still more (launchers +3.1 points of their
+  rounds, t +6.1; carriers +5.1, t +7.7), collection fell ~7% (Mn -125, t -1.67; Ad -126, t -1.68) and games ran 30
+  rounds longer. Not accepted as is.
+- Likeliest cause: the new 3-turn wait for a robot on the wall-following path (carriers crowd wells and the HQ).
+  c_nav2 = c_nav1 without it, paired on the same cells against c_nav1 (queued). The working line drops the wait too.
+- Arms built on c_nav1 (mana1, mana2, micro1, batch1, spawn1, army1) keep their paired comparisons against their own
+  predecessors; the combined candidate will carry c_nav2's navigation if it holds.
