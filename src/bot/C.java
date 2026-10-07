@@ -24,8 +24,9 @@ public final class C {
     public static final int WELL_CROWD_PATIENCE = 6;
 
     // ---- launchers
-    /** Enemy fighters within this dist2 of a tile can hit it next turn (attack r2 16; a step adds ~1.4 tiles). */
-    public static final int THREAT_R2 = 20;
+    /** Enemy fighters within this dist2 of a tile can hit it next turn: attack r2 16 after one step reaches every
+     *  offset up to r2 26 ((5,1) steps to (4,0)); (5,2) = 29 cannot (synthesis 4.7; checked by BotTest). */
+    public static final int THREAT_R2 = 26;
 
     // ---- monitoring
     /** Near-miss bar: 90% of the type's bytecode limit. */

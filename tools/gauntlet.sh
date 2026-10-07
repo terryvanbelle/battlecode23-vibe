@@ -68,7 +68,7 @@ game () {  # opp map side [seed]
   local seedopt=""; [ "$SEED" != map ] && seedopt="-Dbc.game.seed=$SEED"
   local LOG TO=0
   LOG=$(timeout "${GAME_TIMEOUT:-1800}" java -Xmx${GAME_XMX:-768m} -XX:+UseSerialGC -XX:ReservedCodeCacheSize=256m \
-    -Dbc.server.mode=headless -Dbc.server.debug=false -Dbc.engine.debug-methods=false -Dbc.engine.enable-profiler=false \
+    -Dbc.server.mode=headless -Dbc.server.websocket=false -Dbc.server.debug=false -Dbc.engine.debug-methods=false -Dbc.engine.enable-profiler=false \
     -Dbc.server.validate-maps=false -Dbc.server.robot-player-to-system-out=false \
     -Dbc.server.robot-player-replay-file-per-team-limit-bytes=${LOG_LIMIT:-4000000} \
     ${CUSTOM_MAPS:+-Dbc.game.map-path=$CUSTOM_MAPS} "$silence" \

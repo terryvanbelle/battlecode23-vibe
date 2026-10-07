@@ -48,7 +48,7 @@ run_game () {
   UA="$(team_url "$TA")" || return 1; UB="$(team_url "$TB")" || return 1
   PA="$(team_pkg "$TA")"; PB="$(team_pkg "$TB")"
   timeout "${GAME_TIMEOUT:-1800}" java -Xmx${GAME_XMX:-768m} -XX:+UseSerialGC -XX:ReservedCodeCacheSize=256m \
-    -Dbc.server.mode=headless -Dbc.server.debug=false -Dbc.engine.debug-methods=false -Dbc.engine.enable-profiler=false \
+    -Dbc.server.mode=headless -Dbc.server.websocket=false -Dbc.server.debug=false -Dbc.engine.debug-methods=false -Dbc.engine.enable-profiler=false \
     -Dbc.server.validate-maps=false -Dbc.engine.show-indicators=true \
     -Dbc.server.robot-player-to-system-out=${SHOW_LOGS:-false} \
     -Dbc.server.robot-player-replay-file-per-team-limit-bytes=${LOG_LIMIT:-4000000} \

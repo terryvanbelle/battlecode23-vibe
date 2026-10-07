@@ -34,6 +34,13 @@ public strictfp class RobotPlayer {
                 G.exceptions++;
                 if (G.DEBUG) { System.out.println("EXC r" + r0 + " " + G.type + "#" + G.id); e.printStackTrace(); }
             }
+            // near misses and the peak are measured on the turn's own work, before the deliberate budget fill below
+            // (a fill to a fixed reserve would otherwise saturate the near-miss count: bc24 M10)
+            int work = Clock.getBytecodeNum();
+            if (rc.getRoundNum() == r0) {
+                if (work > G.maxBc) G.maxBc = work;
+                if (work * 100 > limit * C.NEAR_MISS_PCT) G.nearMiss++;
+            }
             try {
                 if (rc.getRoundNum() == r0) {
                     MapMem.process(G.type == RobotType.HEADQUARTERS ? 2500 : 1200);
@@ -44,9 +51,6 @@ public strictfp class RobotPlayer {
                 if (G.DEBUG) { System.out.println("EXC-END r" + r0 + " " + G.type + "#" + G.id); e.printStackTrace(); }
             }
             if (rc.getRoundNum() != r0) G.overruns++;
-            int used = Clock.getBytecodeNum();
-            if (used > G.maxBc) G.maxBc = used;
-            if (used * 100 > limit * C.NEAR_MISS_PCT) G.nearMiss++;
             rc.setIndicatorString(G.note + "|ov=" + G.overruns + ",ex=" + G.exceptions + ",nm=" + G.nearMiss
                 + ",sm=" + MapMem.cand + ",sd=" + MapMem.decidedRound);
             Clock.yield();

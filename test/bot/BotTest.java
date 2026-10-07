@@ -20,6 +20,7 @@ public class BotTest {
         commsLayout();
         symmetryImages();
         symmetryInference();
+        threatRadius();
         System.out.println("BotTest: " + checks + " checks, " + fails + " failures");
         if (fails > 0) System.exit(1);
     }
@@ -66,6 +67,18 @@ public class BotTest {
         check(MapMem.imgDir(MapMem.FLIP_X, Direction.NORTH) == Direction.NORTH, "FLIP_X N->N");
         check(MapMem.imgDir(MapMem.FLIP_Y, Direction.NORTHEAST) == Direction.SOUTHEAST, "FLIP_Y NE->SE");
         check(MapMem.imgDir(MapMem.FLIP_Y, Direction.EAST) == Direction.EAST, "FLIP_Y E->E");
+    }
+
+    /** C.THREAT_R2 covers every offset from which an enemy launcher can step once and attack (r2 16). */
+    static void threatRadius() {
+        int worst = 0;
+        for (int dx = -7; dx <= 7; dx++) for (int dy = -7; dy <= 7; dy++) {
+            boolean reach = dx * dx + dy * dy <= 16;
+            for (Direction d : G.DIRS) { int ex = dx - d.dx, ey = dy - d.dy; if (ex * ex + ey * ey <= 16) reach = true; }
+            if (reach) worst = Math.max(worst, dx * dx + dy * dy);
+        }
+        check(worst == 26, "one-step attack reach is r2 26, got " + worst);
+        check(C.THREAT_R2 >= worst, "THREAT_R2 covers the one-step reach");
     }
 
     /**
