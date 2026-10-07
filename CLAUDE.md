@@ -15,7 +15,9 @@ Read `TRAINING_ALGORITHM.md` (the loop), `RULES.md` (the game, engine-checked) a
 4. **Battlecode 2023 post-mortems are never read**, first- or second-hand. Documents from the prior-year repos are read
    only through the filtered copy `~/projects/vibe/reference/readroom-no2023/` (blocks tagged 2023 removed by
    `reference/battlecode-vibe-no2023/filter_year.py`). Ignore any line tagged with the current year.
-5. **No effect on official Battlecode infrastructure.** The galaxy replica runs only on our VM with every external
+5. **No effect on official Battlecode infrastructure** (owner, PROMPTS 1 and 12: "none of this should affect the real
+   play.battlecode.org in any way"). The replica's frontend is galaxy's own: its stock `.env.production` points at
+   api.battlecode.org, so every build overrides the backend URL to our host, and the site's CSP allows `self` only. The galaxy replica runs only on our VM with every external
    integration (GCP Pub/Sub, GCS, Secret Manager, email, OAuth, Sentry, battlecode.org APIs) removed or stubbed and
    egress to those hosts blocked. The only contact with battlecode.org is the read-only, checksum-pinned engine jar
    download in `tools/get-engine.sh`.
@@ -25,3 +27,8 @@ Read `TRAINING_ALGORITHM.md` (the loop), `RULES.md` (the game, engine-checked) a
 8. **Nothing stale stays**: charts and documents that no longer match the data are regenerated or deleted.
 9. **Basics first**: economy, movement, exploration, symmetry, combat, zero bytecode overruns, zero exceptions. A failed
    basics bar stops work above it.
+10. **Play other teams only through the replica, as a contestant** (owner, PROMPTS 11). The replica runs galaxy's own
+   backend (siarnaq) and frontend. Our team submits bots, requests scrimmages and downloads results and replays through
+   its API (`tools/contest.py`), exactly as in the contest. Local games are only between our own builds (self-play,
+   examplefuncsplayer, smoke tests), as a contestant has no other team's code. Until the replica cutover, only the
+   gauntlet jobs already queued on 2026-10-07 finish; no new gauntlet against field bots is queued.
