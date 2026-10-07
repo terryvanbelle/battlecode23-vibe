@@ -11,3 +11,4 @@ tools/.venv/
 *.bc23
 !test/fixtures/*.bc23
 .claude/scheduled_tasks.lock
+research/**/classes/

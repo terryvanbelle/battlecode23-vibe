@@ -1,0 +1,125 @@
+file: /home/terryvanbelle/projects/vibe/2023/research/rules/replay/../../../matches/test1.bc23  gunzipped bytes: 7025880
+GameWrapper: events=2004 matchHeaders=[1] matchFooters=[2002]
+[0] GameHeader specVersion=3.0.14
+    team id=1 name=examplefuncsplayer package=examplefuncsplayer
+    team id=2 name=examplefuncsplayer package=examplefuncsplayer
+    body HEADQUARTERS cost Ad/Mn/Ex=0/0/0 actCD=2 moveCD=-1 hp=1 actR2=9 visR2=34 bc=20000
+    body CARRIER      cost Ad/Mn/Ex=50/0/0 actCD=10 moveCD=0 hp=150 actR2=9 visR2=20 bc=12500
+    body LAUNCHER     cost Ad/Mn/Ex=0/45/0 actCD=10 moveCD=20 hp=200 actR2=16 visR2=20 bc=10000
+    body DESTABILIZER cost Ad/Mn/Ex=0/0/200 actCD=70 moveCD=25 hp=300 actR2=13 visR2=20 bc=10000
+    body BOOSTER      cost Ad/Mn/Ex=0/0/150 actCD=140 moveCD=25 hp=400 actR2=-1 visR2=20 bc=10000
+    body AMPLIFIER    cost Ad/Mn/Ex=30/15/0 actCD=-1 moveCD=15 hp=120 actR2=-1 visR2=34 bc=10000
+    constants increasePeriod=5 AdAdditiveIncrease=6 MnAdditiveIncrease=6
+[1] MatchHeader map=maptestsmall min=(0,0) max=(20,20) => 20x20 symmetry=0 seed=919 maxRounds=2000
+    tiles: walls=14 clouds=2 currents=0 wells Ad/Mn/Ex=10/10/0 islands=6 ids=[1, 2, 3, 4, 5, 6]
+    initial body id=2 team=2 type=HEADQUARTERS at (14,14)
+    initial body id=3 team=1 type=HEADQUARTERS at (5,5)
+
+=== Round 1 ===
+  robots team1: HEADQUARTERS=1 CARRIER=0 LAUNCHER=0 AMPLIFIER=0 DESTABILIZER=0 BOOSTER=0  total=1
+  robots team2: HEADQUARTERS=1 CARRIER=0 LAUNCHER=0 AMPLIFIER=0 DESTABILIZER=0 BOOSTER=0  total=1
+  resources team1: total Ad/Mn/Ex=120/120/0 (HQs 120/120/0, carried 0/0/0); this-round delta 120/120/0
+  resources team2: total Ad/Mn/Ex=120/120/0 (HQs 120/120/0, carried 0/0/0); this-round delta 120/120/0
+  actions this round: {BUILD_ANCHOR team1=1, BUILD_ANCHOR team2=1, CHANGE_ADAMANTIUM team1=2, CHANGE_ADAMANTIUM team2=2, CHANGE_ELIXIR team1=1, CHANGE_ELIXIR team2=1, CHANGE_MANA team1=2, CHANGE_MANA team2=2}
+  spawned=0 died=0 movedIDs(=living)=2 bytecodeIDs=2 indicatorStrings=2 dots=0 lines=0
+  bytecodes team1: robots=1 sum=758 avg=758 max=758
+  bytecodes team2: robots=1 sum=758 avg=758 max=758
+  islands: neutral=6 team1=0 team2=0
+  wells: 20 (Ad/Mn/Ex type 10/10/0) upgraded=0 deposited-into-wells Ad/Mn/Ex=0/0/0
+  indicator robot 2: "Hello world!"
+  indicator robot 3: "Hello world!"
+
+=== Round 100 ===
+  robots team1: HEADQUARTERS=1 CARRIER=3 LAUNCHER=3 AMPLIFIER=0 DESTABILIZER=0 BOOSTER=0  total=7
+  robots team2: HEADQUARTERS=1 CARRIER=3 LAUNCHER=3 AMPLIFIER=0 DESTABILIZER=0 BOOSTER=0  total=7
+  resources team1: total Ad/Mn/Ex=26/25/0 (HQs 10/25/0, carried 16/0/0); this-round delta 7/6/0
+  resources team2: total Ad/Mn/Ex=36/55/0 (HQs 10/25/0, carried 26/30/0); this-round delta 6/6/0
+  actions this round: {CHANGE_ADAMANTIUM team1=2, CHANGE_ADAMANTIUM team2=1, CHANGE_MANA team1=1, CHANGE_MANA team2=1, LAUNCH_ATTACK team1=3, LAUNCH_ATTACK team2=2, PICK_UP_RESOURCE team1=1}
+  spawned=0 died=0 movedIDs(=living)=14 bytecodeIDs=14 indicatorStrings=14 dots=0 lines=0
+  bytecodes team1: robots=7 sum=2571 avg=367 max=678
+  bytecodes team2: robots=7 sum=2667 avg=381 max=694
+  islands: neutral=6 team1=0 team2=0
+  wells: 20 (Ad/Mn/Ex type 10/10/0) upgraded=0 deposited-into-wells Ad/Mn/Ex=0/0/0
+  indicator robot 2: "Trying to build a carrier"
+  indicator robot 3: "Trying to build a carrier"
+  indicator robot 10869: "Attacking"
+
+=== Round 500 ===
+  robots team1: HEADQUARTERS=1 CARRIER=8 LAUNCHER=13 AMPLIFIER=0 DESTABILIZER=0 BOOSTER=0  total=22
+  robots team2: HEADQUARTERS=1 CARRIER=7 LAUNCHER=10 AMPLIFIER=0 DESTABILIZER=0 BOOSTER=0  total=18
+  resources team1: total Ad/Mn/Ex=95/22/0 (HQs 40/10/0, carried 55/12/0); this-round delta 6/7/0
+  resources team2: total Ad/Mn/Ex=139/74/0 (HQs 40/10/0, carried 99/64/0); this-round delta 8/7/0
+  actions this round: {CHANGE_ADAMANTIUM team1=1, CHANGE_ADAMANTIUM team2=3, CHANGE_HEALTH team2=1, CHANGE_MANA team1=2, CHANGE_MANA team2=2, LAUNCH_ATTACK team1=12, LAUNCH_ATTACK team2=10, PICK_UP_RESOURCE team1=1, PICK_UP_RESOURCE team2=3}
+  spawned=0 died=0 movedIDs(=living)=40 bytecodeIDs=40 indicatorStrings=40 dots=0 lines=0
+  bytecodes team1: robots=22 sum=7813 avg=355 max=680
+  bytecodes team2: robots=18 sum=6908 avg=383 max=711
+  islands: neutral=6 team1=0 team2=0
+  wells: 20 (Ad/Mn/Ex type 10/10/0) upgraded=0 deposited-into-wells Ad/Mn/Ex=0/0/0
+  indicator robot 2: "Trying to build a launcher"
+  indicator robot 3: "Trying to build a launcher"
+  indicator robot 13497: "Attacking"
+
+=== Round 2000 ===
+  robots team1: HEADQUARTERS=1 CARRIER=31 LAUNCHER=28 AMPLIFIER=0 DESTABILIZER=0 BOOSTER=0  total=60
+  robots team2: HEADQUARTERS=1 CARRIER=1 LAUNCHER=5 AMPLIFIER=0 DESTABILIZER=0 BOOSTER=0  total=7
+  resources team1: total Ad/Mn/Ex=441/420/0 (HQs 40/10/0, carried 401/410/0); this-round delta 9/10/0
+  resources team2: total Ad/Mn/Ex=46/17/0 (HQs 40/10/0, carried 6/7/0); this-round delta 6/6/0
+  actions this round: {CHANGE_ADAMANTIUM team1=4, CHANGE_ADAMANTIUM team2=1, CHANGE_MANA team1=5, CHANGE_MANA team2=1, LAUNCH_ATTACK team1=28, LAUNCH_ATTACK team2=5, PICK_UP_RESOURCE team1=7}
+  spawned=0 died=0 movedIDs(=living)=67 bytecodeIDs=67 indicatorStrings=67 dots=0 lines=0
+  bytecodes team1: robots=60 sum=26096 avg=434 max=814
+  bytecodes team2: robots=7 sum=1830 avg=261 max=611
+  islands: neutral=6 team1=0 team2=0
+  wells: 20 (Ad/Mn/Ex type 10/10/0) upgraded=0 deposited-into-wells Ad/Mn/Ex=0/0/0
+  indicator robot 2: "Trying to build a carrier"
+  indicator robot 3: "Trying to build a carrier"
+  indicator robot 10456: "Attacking"
+[2002] MatchFooter winner=1 totalRounds=2000 profilerFiles=0
+[2003] GameFooter winner=1
+
+first decoded sample of each action type:
+    BUILD_ANCHOR: round 1 robot 2 HEADQUARTERS team2 -> STANDARD
+    CHANGE_ADAMANTIUM: round 1 robot 2 HEADQUARTERS team2 -> delta 200
+    CHANGE_ELIXIR: round 1 robot 2 HEADQUARTERS team2 -> delta 0
+    CHANGE_HEALTH: round 133 robot 13801 CARRIER team1 -> delta -50
+    CHANGE_MANA: round 1 robot 2 HEADQUARTERS team2 -> delta 200
+    LAUNCH_ATTACK: round 9 robot 10869 LAUNCHER team2 -> no-damage location (16,13)
+    PICK_UP_RESOURCE: round 23 robot 11039 CARRIER team2 -> well at (3,14)
+    SPAWN_UNIT: round 8 robot 2 HEADQUARTERS team2 -> new robot 10869 LAUNCHER
+    THROW_ATTACK: round 133 robot 12003 CARRIER team2 -> robot 13801 CARRIER
+
+whole-match tallies:
+    720  CHANGE_AD/MN/EX entries with delta 0
+    4  action total BUILD_ANCHOR
+    6520  action total CHANGE_ADAMANTIUM
+    347  action total CHANGE_ELIXIR
+    1776  action total CHANGE_HEALTH
+    5412  action total CHANGE_MANA
+    50553  action total LAUNCH_ATTACK
+    9634  action total PICK_UP_RESOURCE
+    204  action total SPAWN_UNIT
+    320  action total THROW_ATTACK
+    20  deaths where (robot-target hits - negative CHANGE_HEALTH that round) = 0, within one step of enemy HQ r2<=9
+    100  deaths where (robot-target hits - negative CHANGE_HEALTH that round) = 1, not near enemy HQ
+    19  deaths where (robot-target hits - negative CHANGE_HEALTH that round) = 1, within one step of enemy HQ r2<=9
+    64281  indicator string entries non-empty
+    31592  indicator string entries that are empty
+
+consistency checks (violations):
+    0  LAUNCH_ATTACK robot target is an enemy
+    0  MatchFooter.totalRounds == last Round.roundID
+    0  PICK_UP_RESOURCE target is a well
+    0  SPAWN_UNIT actor is HQ
+    0  SPAWN_UNIT target in this round's spawnedBodies
+    0  THROW_ATTACK robot target is an enemy
+    0  action actor id known
+    0  dead robot inventory zeroed by CHANGE_* actions
+    0  died id was alive
+    0  islands listed every round
+    0  moved id is alive
+    0  movedIDs == all living robots
+    0  one indicator string per robot that ran
+    0  robot spawned this round is absent from bytecodeIDs
+    0  roundID increments by 1
+    0  spawned id is new
+    0  team totals == sum of living robots' inventories
+    0  wells listed every round == wells on map
