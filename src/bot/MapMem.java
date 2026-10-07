@@ -184,7 +184,10 @@ public final class MapMem {
     /** Enemy HQ evidence: a seen enemy HQ must be an image of one of ours; a predicted image seen empty kills it. */
     static void observeHQs() throws GameActionException {
         MapLocation[] ours = HQState.ourHQs;
-        if (ours == null || ours.length == 0) return;
+        // before round 2 the list of our HQs is incomplete (HQs register on their round-1 turn, in turn order), and an
+        // enemy HQ that is the image of a not-yet-registered HQ of ours would wrongly eliminate the true symmetry
+        // (foundation2 census: Sine, both sides, symWrong 1, decided at round 1)
+        if (ours == null || ours.length == 0 || G.round < 2) return;
         RobotController rc = G.rc;
         for (int i = G.enemies.length; --i >= 0; ) {
             RobotInfo ri = G.enemies[i];
@@ -211,6 +214,26 @@ public final class MapMem {
         }
     }
 
+    /** True when one candidate survives, or every survivor predicts the same set of enemy HQs (then the choice
+     *  cannot matter for any HQ-based decision; terrain may still differ). */
+    public static boolean decided() {
+        if (cand == 1 || cand == 2 || cand == 4) return true;
+        MapLocation[] ours = HQState.ourHQs;
+        if (ours == null || ours.length == 0 || G.round < 2) return false;
+        int first = -1;
+        for (int s = 1; s <= 4; s <<= 1) {
+            if ((cand & s) == 0) continue;
+            if (first < 0) { first = s; continue; }
+            for (int k = ours.length; --k >= 0; ) {
+                MapLocation p = img(s, ours[k]);
+                boolean found = false;
+                for (int j = ours.length; --j >= 0; ) if (img(first, ours[j]).equals(p)) found = true;
+                if (!found) return false;
+            }
+        }
+        return true;
+    }
+
     /** Merge with the team's eliminations and publish ours when we can write. */
     public static void syncSym() throws GameActionException {
         int teamElim = Comms.symEliminated();
@@ -218,7 +241,7 @@ public final class MapMem {
         if (merged != 0) cand = merged; else symConflicts++;
         int mine = 7 & ~cand;
         if (Comms.canWrite && (mine & ~published) != 0) { Comms.publishSym(mine); published |= mine; }
-        if (decidedRound < 0 && (cand == 1 || cand == 2 || cand == 4)) decidedRound = G.round;
+        if (decidedRound < 0 && decided()) decidedRound = G.round;
     }
 
     /** Predicted enemy HQ locations under the surviving candidates (seen ones first). */

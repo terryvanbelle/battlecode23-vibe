@@ -84,14 +84,24 @@ game () {  # opp map side [seed]
   if [ "$res" = unknown ] || [ "$res" = dud ]; then
     printf '%s\n' "$LOG" | grep -v '^\s*at ' | head -60 > "$OUT/${res}__${OPP}__${MAP}__s${SEED}__bot${SIDE}.log"; fi
   printf '%s,%s,%s,%s,%s,%s,%s,%s\n' "$OPP" "$MAP" "$SIDE" "$W" "$RND" "$res" "${RE//,/;}" "$SEED" >> "$OUT/results.raw"
+  # CENSUS=1: one census row per team per game (tools/replay-dump.sh --census), keyed by opponent/map/side/seed, before
+  # the replay can be deleted
+  if [ "${CENSUS:-0}" = 1 ] && [ -s "$REPLAY" ]; then
+    bash "$REPO/tools/replay-dump.sh" "$REPLAY" --census --no-header 2>/dev/null \
+      | sed "s/^/$OPP,$MAP,$SIDE,$SEED,/" >> "$OUT/census.raw"
+  fi
   [ "$res" = win ] && [ "${KEEP_ALL:-0}" != 1 ] && rm -f "$REPLAY"
   printf '  [%3d/%d] %-7s %-20s %-40s r%s\n' "$(wc -l < "$OUT/results.raw")" "$NG" "$res" "$MAP" "$OPP" "$RND"
 }
 export -f game resolve parse_result engine_cp
-export OUT BOT ENGINE_DIR ENGINE_VER REPO MANIFEST GAME_XMX KEEP_ALL NG CLASSES SEED_MODE GAME_TIMEOUT LOG_LIMIT CUSTOM_MAPS
+export OUT BOT ENGINE_DIR ENGINE_VER REPO MANIFEST GAME_XMX KEEP_ALL NG CLASSES SEED_MODE GAME_TIMEOUT LOG_LIMIT CUSTOM_MAPS CENSUS
 xargs -P "$MAXJOBS" -L 1 bash -c 'game "$0" "$1" "$2" "${3:-}"' < "$OUT/cells.txt"
 
 { echo "opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed"; sort "$OUT/results.raw"; } > "$OUT/results.csv"
+if [ -f "$OUT/census.raw" ]; then
+  hdr=$(bash "$REPO/tools/replay-dump.sh" --census-header 2>/dev/null)
+  { echo "cell_opponent,cell_map,cell_side,cell_seed,$hdr"; sort "$OUT/census.raw"; } > "$OUT/census.csv"; rm -f "$OUT/census.raw"
+fi
 rm -f "$OUT/results.raw"; rmdir "$OUT/replays" 2>/dev/null || true
 python3 "$REPO/tools/summarize.py" "$OUT/results.csv" "$BOT" | tee "$OUT/summary.txt"
 echo "wrote $OUT/"

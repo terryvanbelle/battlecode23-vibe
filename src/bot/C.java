@@ -12,6 +12,11 @@ public final class C {
     public static final int ANCHOR_MIN_LAUNCHERS = 6;
     /** Carriers per HQ: CARRIER_BASE + round / CARRIER_PER_ROUNDS, capped at CARRIER_MAX (first guess). */
     public static final int CARRIER_BASE = 4, CARRIER_PER_ROUNDS = 40, CARRIER_MAX = 24;
+    /** An HQ builds at most one anchor per this many rounds (foundation2/Forest: anchors built every turn piled up in
+     *  carriers that could not place them). */
+    public static final int ANCHOR_PERIOD = 30;
+    /** A carrier gives up an anchor it could not place within this many turns and returns it to an HQ. */
+    public static final int ANCHOR_TIMEOUT = 150;
     /** One amplifier per this many launchers built (comms coverage in the field). */
     public static final int LAUNCHERS_PER_AMP = 8;
 

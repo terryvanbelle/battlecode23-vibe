@@ -520,6 +520,7 @@ public class ReplayDump {
     static boolean flag(String[] a, String k) { return Arrays.asList(a).contains(k); }
 
     public static void main(String[] a) throws Exception {
+        if (a.length == 1 && a[0].equals("--census-header")) { System.out.println(CENSUS_HDR); return; }
         if (a.length < 1) {
             System.err.println("usage: ReplayDump <replay.bc23> [--census [--no-header] | --metrics [--every N] | --robot ID | --map-at R | "
                 + "--logs [--team A|B] [--id ID] [--from R --to R] | --bytecode | --navstats | --events --from R --to R | --islands]");

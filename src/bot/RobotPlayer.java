@@ -39,11 +39,16 @@ public strictfp class RobotPlayer {
             int work = Clock.getBytecodeNum();
             if (rc.getRoundNum() == r0) {
                 if (work > G.maxBc) G.maxBc = work;
-                if (work * 100 > limit * C.NEAR_MISS_PCT) G.nearMiss++;
+                if (work * 100 > limit * C.NEAR_MISS_PCT) {
+                    G.nearMiss++;
+                    if (G.DEBUG) System.out.println("NM r" + r0 + " " + G.type + " age=" + (r0 - G.spawnRound) + " used=" + work + " note=" + G.note);
+                }
             }
             try {
                 if (rc.getRoundNum() == r0) {
-                    MapMem.process(G.type == RobotType.HEADQUARTERS ? 2500 : 1200);
+                    // the fill stops at 88% of the limit for every type, below the 90% near-miss line, so replay-side
+                    // near-miss counts measure real work (carriers at a fixed 1200 reserve filled to 90.4%)
+                    MapMem.process(limit * 12 / 100);
                     if ((r0 + G.id) % 5 == 0) MapMem.flushIslands();
                 }
             } catch (Exception e) {

@@ -17,9 +17,11 @@ GAMES = os.path.join(REPO, 'progress', 'games.csv')
 HDR = ['run', 'seq', 'teamA', 'teamB', 'map', 'winner', 'rounds', 'reason', 'seed']
 def dedupe(rows):
     """One game per (teamA, teamB, map, seed): the engine replays the same pairing identically unless the seed differs
-    (2026-09-24: 491 of 2825 ladder games were exact repeats of an earlier game). Keeps the first occurrence."""
+    (a predecessor project found 491 of 2825 ladder games were exact repeats). Keeps the first occurrence. Coin-flip
+    results (reason COIN: the engine's unseeded Math.random tiebreak) carry no information and are dropped."""
     seen = set(); out = []
     for r in rows:
+        if r.get('reason') == 'COIN': continue
         k = (r['teamA'], r['teamB'], r['map'], r.get('seed') or '')
         if k in seen: continue
         seen.add(k); out.append(r)
@@ -80,7 +82,7 @@ def current_build(rows):
             last = last or b
     return last
 def ladder_bots():
-    p = os.path.join(REPO, 'tools', 'ladder-bots.txt')
+    p = os.path.join(REPO, 'tools', 'field.txt')
     return [l.strip() for l in open(p) if l.strip() and not l.startswith('#')]
 def append(rows):
     new = not os.path.exists(GAMES)

@@ -10,6 +10,7 @@ import battlecode.common.*;
  */
 public final class HQ {
     static int carriersBuilt, launchersBuilt, ampsBuilt, anchorsBuilt;
+    static int lastAnchorRound = -1000;
     static MapLocation[] spawnTiles;
     public static int floatRounds;      // rounds ending with >= 200 of a resource unspent (diagnostic)
 
@@ -39,10 +40,11 @@ public final class HQ {
         for (int guard = 0; guard < 6 && rc.isActionReady(); guard++) {
             int ad = rc.getResourceAmount(ResourceType.ADAMANTIUM), mn = rc.getResourceAmount(ResourceType.MANA);
             boolean wantAnchor = !threatened && G.round >= C.ANCHOR_START && launchersBuilt >= C.ANCHOR_MIN_LAUNCHERS
-                && rc.getNumAnchors(Anchor.STANDARD) == 0 && islandToTake();
+                && rc.getNumAnchors(Anchor.STANDARD) == 0 && G.round - lastAnchorRound >= C.ANCHOR_PERIOD && islandToTake();
             if (wantAnchor && ad >= 80 && mn >= 80 && rc.canBuildAnchor(Anchor.STANDARD)) {
                 rc.buildAnchor(Anchor.STANDARD);
                 anchorsBuilt++;
+                lastAnchorRound = G.round;
                 continue;
             }
             int resAd = wantAnchor ? 80 : 0, resMn = wantAnchor ? 80 : 0;

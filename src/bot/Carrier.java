@@ -112,7 +112,7 @@ public final class Carrier {
         if (rc.getWeight() != 0) return false;
         MapLocation home = HQState.nearest(G.here);
         if (home == null || G.here.distanceSquaredTo(home) > 2) return false;
-        if (rc.canTakeAnchor(home, Anchor.STANDARD)) { rc.takeAnchor(home, Anchor.STANDARD); anchorTarget = null; return true; }
+        if (rc.canTakeAnchor(home, Anchor.STANDARD)) { rc.takeAnchor(home, Anchor.STANDARD); anchorTarget = null; anchorTurns = 0; return true; }
         return false;
     }
 
@@ -167,48 +167,115 @@ public final class Carrier {
         Nav.moveTo(exploreTarget);
     }
 
-    /** Take the anchor to the nearest island nobody owns; place it on arrival. */
+    static int anchorTurns;
+    public static int anchorsReturned;
+
+    /**
+     * Take the anchor to an island nobody owns and place it. Targets on our side of the map first (nearer our HQs than
+     * the predicted enemy HQs), the nearest free tile of the island once it is in view, predicted islands (mirror
+     * images of known ones) when no free island is known. A carrier that cannot place within C.ANCHOR_TIMEOUT turns
+     * brings the anchor home and returns it (foundation2/Forest: 85 anchors taken, 4 placed, the rest carried for the
+     * whole game).
+     */
     static void deliverAnchor() throws GameActionException {
         RobotController rc = G.rc;
-        int here = rc.senseIsland(G.here);
-        if (here > 0 && rc.senseTeamOccupyingIsland(here) == Team.NEUTRAL && rc.canPlaceAnchor()) {
-            rc.placeAnchor();
-            anchorsPlaced++;
-            anchorTarget = null;
-            MapMem.islandOwner[here] = 1;
-            Comms.reportIsland(here, 1, G.here);
+        anchorTurns++;
+        if (tryPlace()) return;
+        if (anchorTurns > C.ANCHOR_TIMEOUT) {                 // give up: return the anchor so it can be reused
+            MapLocation home = HQState.nearest(G.here);
+            if (home != null) {
+                if (G.here.distanceSquaredTo(home) > 2) moveTwice(home);
+                if (rc.canReturnAnchor(home)) { rc.returnAnchor(home); anchorsReturned++; anchorTurns = 0; anchorTarget = null; }
+            }
             return;
         }
-        if (anchorTarget == null || ownerOf(anchorIsland) != 0) chooseIsland();
+        if (anchorTarget == null || (anchorIsland > 0 && ownerOf(anchorIsland) != 0)) chooseIsland();
         if (anchorTarget == null) { explore(); return; }
-        Nav.moveTo(anchorTarget);
-        int now = rc.senseIsland(rc.getLocation());
-        if (now > 0 && rc.senseTeamOccupyingIsland(now) == Team.NEUTRAL && rc.canPlaceAnchor()) {
-            rc.placeAnchor();
-            anchorsPlaced++;
-            anchorTarget = null;
-            MapMem.islandOwner[now] = 1;
-            Comms.reportIsland(now, 1, rc.getLocation());
+        if (anchorIsland > 0 && G.here.distanceSquaredTo(anchorTarget) <= 20) {
+            MapLocation[] tiles = rc.senseNearbyIslandLocations(anchorIsland);
+            MapLocation best = null;
+            int bd = Integer.MAX_VALUE;
+            for (int i = tiles.length; --i >= 0; ) {
+                MapLocation t = tiles[i];
+                if (!t.equals(G.here) && rc.canSenseLocation(t) && rc.isLocationOccupied(t)) continue;
+                int d = G.here.distanceSquaredTo(t);
+                if (d < bd) { bd = d; best = t; }
+            }
+            if (best != null) anchorTarget = best;
         }
+        moveTwice(anchorTarget);
+        tryPlace();
+    }
+
+    static boolean tryPlace() throws GameActionException {
+        RobotController rc = G.rc;
+        MapLocation at = rc.getLocation();
+        int id = rc.senseIsland(at);
+        if (id <= 0 || rc.senseTeamOccupyingIsland(id) != Team.NEUTRAL || !rc.canPlaceAnchor()) return false;
+        rc.placeAnchor();
+        anchorsPlaced++;
+        anchorTarget = null;
+        anchorTurns = 0;
+        MapMem.islandOwner[id] = 1;
+        MapMem.islandSeen[id] = G.round;
+        MapMem.islandTile[id] = at;
+        Comms.canWrite = true;      // standing on our own island now: writes are allowed (r2 4)
+        Comms.reportIsland(id, 1, at);
+        return true;
+    }
+
+    /** Move up to twice (a light carrier's move cooldown can be under 10). */
+    static void moveTwice(MapLocation t) throws GameActionException {
+        Nav.moveTo(t);
+        if (G.rc.isMovementReady()) Nav.moveTo(t);
     }
 
     static int ownerOf(int id) throws GameActionException {
-        if (id <= 0) return -1;
+        if (id < 0) return 0;          // a predicted island: unknown id, treated as free until seen
+        if (id == 0) return -1;
         if (MapMem.islandSeen[id] > 0 && G.round - MapMem.islandSeen[id] < 10) return MapMem.islandOwner[id];
         return Comms.islandOwner(id);
     }
 
+    /** Nearest neutral island, preferring our side of the map; else a predicted island (mirror of a known one). */
     static void chooseIsland() throws GameActionException {
         anchorTarget = null;
         anchorIsland = 0;
         int n = Math.min(35, G.rc.getIslandCount());
+        MapLocation[] ehq = MapMem.enemyHQs();
         int bd = Integer.MAX_VALUE;
         for (int id = 1; id <= n; id++) {
             MapLocation t = MapMem.islandTile[id];
             if (t == null) t = Comms.islandTile(id);
             if (t == null || ownerOf(id) != 0) continue;
             int d = G.here.distanceSquaredTo(t);
+            if (enemySide(t, ehq)) d = d * 4 + 400;           // contested islands only when nothing safer is known
             if (d < bd) { bd = d; anchorTarget = t; anchorIsland = id; }
         }
+        if (anchorTarget != null || !MapMem.decided()) return;
+        // predicted islands: images of known island tiles that no known island covers yet
+        int s = MapMem.cand == 1 || MapMem.cand == 2 || MapMem.cand == 4 ? MapMem.cand : (MapMem.cand & 1) != 0 ? 1 : (MapMem.cand & 2) != 0 ? 2 : 4;
+        for (int id = 1; id <= n; id++) {
+            MapLocation t = Comms.islandTile(id);
+            if (t == null) continue;
+            MapLocation p = MapMem.img(s, t);
+            boolean covered = false;
+            for (int j = 1; j <= n && !covered; j++) {
+                MapLocation u = Comms.islandTile(j);
+                if (u != null && u.distanceSquaredTo(p) <= 25) covered = true;
+            }
+            if (covered) continue;
+            int d = G.here.distanceSquaredTo(p);
+            if (enemySide(p, ehq)) d = d * 4 + 400;
+            if (d < bd) { bd = d; anchorTarget = p; anchorIsland = -1; }
+        }
+    }
+
+    /** A location nearer the predicted enemy HQs than our own. */
+    static boolean enemySide(MapLocation t, MapLocation[] ehq) {
+        MapLocation mine = HQState.nearest(t);
+        if (mine == null || ehq.length == 0) return false;
+        MapLocation theirs = G.nearest(t, ehq);
+        return theirs != null && t.distanceSquaredTo(theirs) < t.distanceSquaredTo(mine);
     }
 }
