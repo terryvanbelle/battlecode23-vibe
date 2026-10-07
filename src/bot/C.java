@@ -19,6 +19,8 @@ public final class C {
     public static final int ANCHOR_PERIOD = 30;
     /** A carrier gives up an anchor it could not place within this many turns and returns it to an HQ. */
     public static final int ANCHOR_TIMEOUT = 150;
+    /** Spawn on the tile fewest visible enemy fighters can reach (diag-top4: top bots fire at our spawn tiles). */
+    public static final boolean SPAWN_SAFETY = true;
     /** Launchers are built in batches of this many in one turn (unless the HQ is threatened). */
     public static final int LAUNCHER_BATCH = 3;
     /** One amplifier per this many launchers built (comms coverage in the field). */

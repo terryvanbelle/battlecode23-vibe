@@ -94,11 +94,18 @@ public final class HQ {
         }
         if (goal == null) goal = new MapLocation(G.W / 2, G.H / 2);
         MapLocation best = null;
-        int bd = Integer.MAX_VALUE;
+        long bd = Long.MAX_VALUE;
         for (int i = spawnTiles.length; --i >= 0; ) {
             MapLocation l = spawnTiles[i];
             if (!rc.canBuildRobot(t, l)) continue;
-            int d = l.distanceSquaredTo(goal);
+            // a newborn cannot act until next round, but enemies that move after us this round can shoot it: spawn on
+            // the tile the fewest visible enemy fighters can reach (r2 26), then nearest the unit's purpose
+            int threat = 0;
+            if (C.SPAWN_SAFETY) for (int k = G.enemies.length; --k >= 0; ) {
+                RobotInfo e = G.enemies[k];
+                if ((e.type == RobotType.LAUNCHER || e.type == RobotType.DESTABILIZER) && l.distanceSquaredTo(e.location) <= C.THREAT_R2) threat++;
+            }
+            long d = threat * 100_000L + l.distanceSquaredTo(goal);
             if (d < bd) { bd = d; best = l; }
         }
         if (best == null) return false;
