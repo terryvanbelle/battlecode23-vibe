@@ -1,0 +1,13 @@
+# engine jar and maps are downloaded (tools/get-engine.sh), not committed
+engine/
+build/
+matches/
+diag/
+gauntlet/
+*.class
+__pycache__/
+.venv/
+tools/.venv/
+*.bc23
+!test/fixtures/*.bc23
+.claude/scheduled_tasks.lock
