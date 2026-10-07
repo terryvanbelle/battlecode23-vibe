@@ -53,3 +53,7 @@ Sounds good.  Ideally, once it's built, I'd like to have web access to the infra
 ## 9. 2026-10-07 13:11 PDT
 
 Once the site is ready, please write a file with instructions on how to access it
+
+## 10. 2026-10-07 15:00 PDT
+
+Try again

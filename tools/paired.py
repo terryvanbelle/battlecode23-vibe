@@ -58,6 +58,9 @@ def main():
     a = ap.parse_args()
     c_res, c_cen = load(a.candidate)
     k_res, k_cen = load(a.control)
+    for name, run in (('candidate', a.candidate), ('control', a.control)):
+        pv = os.path.join(run, 'provenance.txt')
+        print(f'{name}: ' + (open(pv).read().replace(chr(10), ' ').strip() if os.path.exists(pv) else 'no provenance.txt (run predates code hashes)'))
     keys = sorted(set(c_res) & set(k_res))
     same = gained = lost = coin = 0
     by_opp = {}

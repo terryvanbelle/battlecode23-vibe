@@ -9,4 +9,6 @@ source "$REPO/tools/vm.sh"
 NAME="$1"; CMD="$2"
 ensure_vm
 [ "${NO_SYNC:-0}" = 1 ] || vm_sync
-gssh "mkdir -p ~/$REMOTE_REPO/logs && cd ~/$REMOTE_REPO && setsid nohup bash -c $(printf '%q' "$CMD") > logs/$NAME.log 2>&1 < /dev/null & echo started $NAME on $VM"
+# `cd X; CMD &` (not `cd X && CMD &`): with && the whole list is backgrounded as a subshell that keeps the ssh pipes
+# open until the run ends, and this script hangs for the length of the job (the 2024 project's fix, found again here).
+gssh "mkdir -p ~/$REMOTE_REPO/logs; cd ~/$REMOTE_REPO; setsid nohup bash -c $(printf '%q' "$CMD") > logs/$NAME.log 2>&1 < /dev/null & disown; echo started $NAME on $VM"

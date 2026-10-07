@@ -1,4 +1,4 @@
-package bot;
+package c_econ1;
 
 import battlecode.common.*;
 

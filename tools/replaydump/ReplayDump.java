@@ -33,6 +33,7 @@ import java.util.zip.GZIPInputStream;
  *   --navstats                per team and type: moved share, still streaks, ABA oscillation
  *   --events --from R --to R  every event in a round window
  *   --islands                 island ownership changes over time
+ *   --states                  per team and type, the share of robot-turns in each state token (first note char)
  *   --overruns                every robot-turn that used its whole bytecode limit (round, robot, age in rounds)
  */
 public class ReplayDump {
@@ -70,6 +71,7 @@ public class ReplayDump {
     final long[] kills = new long[3];
     final long[][] wellThrown = new long[3][3], gifted = new long[3][3];
     final Map<Integer, Integer> hitRound = new HashMap<>();
+    final long[][][] stateCount = new long[3][NT][128];    // [team][type][first char of the indicator note]
     final long[][] bcMax = new long[3][NT], bcSum = new long[3][NT], bcN = new long[3][NT], bcNear = new long[3][NT], bcOver = new long[3][NT];
     final long[][] moveTurns = new long[3][NT], aliveTurns = new long[3][NT], aba = new long[3][NT];
     final List<int[]>[][] bcHist = new List[3][NT];
@@ -248,6 +250,7 @@ public class ReplayDump {
                 if (listener != null && !str.equals(rb.ind)) emit(rn, String.format("ind %s %s#%d '%s'", side(rb.team), TN[rb.type], rb.id, str));
                 rb.ind = str;
                 parseCounters(rb, str);
+                if (str.length() > 0 && str.charAt(0) < 128) stateCount[rb.team][rb.type][str.charAt(0)]++;
             }
             for (int k = 0; k < r.bytecodeIDsLength(); k++) {
                 Robot rb = robots.get(r.bytecodeIDs(k));
@@ -274,8 +277,11 @@ public class ReplayDump {
     }
 
     int[][] snapshot() {
-        int[][] s = new int[3][8];
-        for (int t = 1; t <= 2; t++) { s[t][0] = teamRes[t][0]; s[t][1] = teamRes[t][1]; s[t][2] = teamRes[t][2]; }
+        int[][] s = new int[3][10];
+        for (int t = 1; t <= 2; t++) {
+            s[t][0] = teamRes[t][0]; s[t][1] = teamRes[t][1]; s[t][2] = teamRes[t][2];
+            s[t][8] = (int) collected[t][0]; s[t][9] = (int) collected[t][1];   // cumulative Ad, Mn collected
+        }
         for (int i = 1; i < islandOwner.length; i++) if (islandOwner[i] == 1 || islandOwner[i] == 2) s[islandOwner[i]][3]++;
         for (Robot rb : robots.values()) {
             if (rb.died >= 0) continue;
@@ -379,7 +385,8 @@ public class ReplayDump {
         + "died_C,died_L,died_A,died_D,died_B,exceptions,coll_Ad,coll_Mn,coll_Ex,dep_Ad,dep_Mn,dep_Ex,pickups,deposits,"
         + "shots,hits,throws,throw_hits,dmg,kills,healed,anchors_built,anchors_placed,first_anchor,island_rounds,"
         + "isl500,isl1000,isl1500,isl_end,bank250_Mn,bank250_Ad,bank500_Mn,bank500_Ad,bank_end_Ad,bank_end_Mn,bank_end_Ex,"
-        + "L_end,C_end,bc_max_C,bc_max_L,bc_max_HQ,near,over,still_L,still_C,aba,sym_robots,sym_wrong,sym_first_decided,sym_undecided,counters";
+        + "L_end,C_end,bc_max_C,bc_max_L,bc_max_HQ,near,over,still_L,still_C,aba,sym_robots,sym_wrong,sym_first_decided,sym_undecided,"
+        + "C100,L100,cAd100,cMn100,C250,L250,cAd250,cMn250,states_C,counters";
 
     void census(PrintStream o, boolean header) {
         run(null);
@@ -402,8 +409,16 @@ public class ReplayDump {
                 "" + sEnd[t][0], "" + sEnd[t][1], "" + sEnd[t][2], "" + sEnd[t][5], "" + sEnd[t][4],
                 "" + bcMax[t][1], "" + bcMax[t][2], "" + bcMax[t][0], "" + near, "" + over,
                 fmt(1.0 - ratio(moveTurns[t][2], aliveTurns[t][2])), fmt(1.0 - ratio(moveTurns[t][1], aliveTurns[t][1])),
-                "" + (aba[t][1] + aba[t][2]), "" + symStats(t)[0], "" + symStats(t)[1], "" + symStats(t)[2], "" + symStats(t)[3], cs.toString()));
+                "" + (aba[t][1] + aba[t][2]), "" + symStats(t)[0], "" + symStats(t)[1], "" + symStats(t)[2], "" + symStats(t)[3],
+                snapCol(100, t, 4), snapCol(100, t, 5), snapCol(100, t, 8), snapCol(100, t, 9),
+                snapCol(250, t, 4), snapCol(250, t, 5), snapCol(250, t, 8), snapCol(250, t, 9), stateShares(t, 1), cs.toString()));
         }
+    }
+
+    /** A snapshot column, blank when the game ended before that round. */
+    String snapCol(int round, int team, int idx) {
+        int[][] sn = snaps.get(round);
+        return sn == null ? "" : "" + sn[team][idx];
     }
 
     static double ratio(long a, long b) { return b == 0 ? 0 : (double) a / b; }
@@ -503,6 +518,27 @@ public class ReplayDump {
         run(null);
     }
 
+    /** "C:G=.31 C=.25 ..." state-token shares for one team and type, from the first character of the note. */
+    String stateShares(int t, int ty) {
+        long tot = 0;
+        for (long c : stateCount[t][ty]) tot += c;
+        if (tot == 0) return "";
+        StringBuilder sb = new StringBuilder();
+        for (int ch = 33; ch < 127; ch++) {
+            long c = stateCount[t][ty][ch];
+            if (c * 100 >= tot) sb.append((char) ch).append('=').append(String.format("%.2f", (double) c / tot)).append(' ');
+        }
+        return sb.toString().trim();
+    }
+
+    void states(PrintStream o) {
+        run(null);
+        for (int t = 1; t <= 2; t++) for (int ty = 0; ty < NT; ty++) {
+            String sh = stateShares(t, ty);
+            if (!sh.isEmpty()) o.printf("%s %-12s %s%n", side(t), TN[ty], sh);
+        }
+    }
+
     void islands(PrintStream o) {
         listener = (rn, line) -> { if (line.startsWith("island ") || line.contains("PLACE_ANCHOR")) o.printf("r%-5d %s%n", rn, line); };
         run(null);
@@ -538,6 +574,7 @@ public class ReplayDump {
         else if (flag(a, "--navstats")) d.navstats(o);
         else if (flag(a, "--events")) d.events(o, from, to);
         else if (flag(a, "--islands")) d.islands(o);
+        else if (flag(a, "--states")) d.states(o);
         else if (flag(a, "--overruns")) { d.listener = (rn, line) -> { if (line.startsWith("overrun")) o.printf("r%-5d %s%n", rn, line); }; d.run(null); }
         else d.summary(o);
         o.flush();

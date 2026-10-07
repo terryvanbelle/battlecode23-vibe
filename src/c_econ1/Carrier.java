@@ -1,4 +1,4 @@
-package bot;
+package c_econ1;
 
 import battlecode.common.*;
 
@@ -29,21 +29,16 @@ public final class Carrier {
         if ((G.round + G.id) % 3 == 0) MapMem.scanIslands();
         MapMem.syncSym();
         reportEnemies();
-        if (rc.getNumAnchors(null) > 0) { state = 'K'; deliverAnchor(); note(); return; }
-        if (survive()) { state = 'F'; note(); return; }
+        if (rc.getNumAnchors(null) > 0) { deliverAnchor(); note(); return; }
+        if (survive()) { note(); return; }
         int w = rc.getWeight();
         if (w >= C.CARRIER_RETURN_LOAD) returning = true;
-        if (returning || (w > 0 && rc.getRoundNum() > 1900)) { state = 'R'; deliver(); }
-        else if (takeAnchor()) state = 'T';
-        else gather();
+        if (returning || (w > 0 && rc.getRoundNum() > 1900)) deliver();
+        else if (!takeAnchor()) gather();
         note();
     }
 
-    /** State token this turn, first character of the indicator note: G going to a well, C collecting, W waiting at a
-     *  crowded well, R returning, D depositing, F fleeing, X exploring for a well, K carrying an anchor, T took an anchor. */
-    static char state = '?';
-
-    static void note() { G.note = "" + state + role + (anchorTarget != null ? "k" + anchorIsland : ""); }
+    static void note() { G.note = (returning ? "R" : "G") + role + (anchorTarget != null ? "K" + anchorIsland : ""); }
 
     /** Early carriers alternate; later two in three mine mana (launchers are the main spend). Roles adapt at each
      *  delivery to the HQ's stock (deliver()). */
@@ -93,7 +88,6 @@ public final class Carrier {
         if (home == null) return;
         if (G.here.distanceSquaredTo(home) > 2) Nav.moveTo(home);
         if (G.rc.getLocation().distanceSquaredTo(home) <= 2) {
-            state = 'D';
             ResourceType[] types = {ResourceType.ADAMANTIUM, ResourceType.MANA, ResourceType.ELIXIR};
             for (int i = 0; i < 3 && rc.isActionReady(); i++) {
                 int a = rc.getResourceAmount(types[i]);
@@ -126,20 +120,17 @@ public final class Carrier {
         RobotController rc = G.rc;
         if (well == null) well = Comms.nearestWell(G.here, role);
         if (well == null && ++searchTurns > C.WELL_SEARCH_TURNS) well = Comms.nearestWell(G.here, 0);
-        if (well == null) { state = 'X'; explore(); return; }
+        if (well == null) { explore(); return; }
         searchTurns = 0;
-        state = 'G';
         int d = G.here.distanceSquaredTo(well);
         if (d > 2) {
             Nav.moveTo(well);
             d = rc.getLocation().distanceSquaredTo(well);
-            if (d <= 8 && d > 2) state = 'W';
             if (d <= 8 && d > 2 && !rc.isMovementReady()) crowdTurns++;
             if (d <= 8 && d > 2 && ++crowdTurns > C.WELL_CROWD_PATIENCE) { switchWell(); crowdTurns = 0; }
         }
         if (rc.getLocation().distanceSquaredTo(well) <= 2) {
             crowdTurns = 0;
-            state = 'C';
             while (rc.isActionReady() && rc.getWeight() < 40) {
                 int room = 40 - rc.getWeight();
                 if (rc.canCollectResource(well, -1)) rc.collectResource(well, -1);

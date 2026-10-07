@@ -53,7 +53,11 @@ for o in $BOT $(awk '{print $1}' "$OUT/cells.txt" | sort -u); do resolve "$o" >/
 if [ "${SCRIM:-0}" != 1 ]; then
   for o in $(awk '{print $1}' "$OUT/cells.txt" | sort -u); do [ -d "$CLASSES/$o" ] || { echo "!! $o is external: SCRIM=1 needed" >&2; exit 1; }; done
 fi
-echo "gauntlet $RUN_ID bot=$BOT games=$NG jobs=$MAXJOBS seeds=$SEED_MODE"
+# provenance: the content hash of the code that plays (results are keyed by code, never by a package or dir name;
+# identity run 2 of 2026-10-07 compiled a src/bot that had changed under it and was misread as an identity control)
+if [ -d "$REPO/src/$BOT" ]; then BOT_HASH=$(bash "$REPO/tools/bot-hash.sh" "$BOT"); else BOT_HASH=$(awk -F'\t' -v n="$BOT" '$1==n{print $2}' "$BENCH_ROOT/hashes.tsv"); fi
+printf 'bot=%s\nbot_hash=%s\ncells=%s\n' "$BOT" "${BOT_HASH:-?}" "$(sha1sum "$OUT/cells.txt" | cut -c1-12)" > "$OUT/provenance.txt"
+echo "gauntlet $RUN_ID bot=$BOT hash=${BOT_HASH:-?} games=$NG jobs=$MAXJOBS seeds=$SEED_MODE"
 : > "$OUT/results.raw"
 
 # One machine-wide game semaphore for every gauntlet (GAME_SLOTS slot files, flock): two runners side by side never
@@ -117,5 +121,5 @@ if [ -f "$OUT/census.raw" ]; then
   { echo "cell_opponent,cell_map,cell_side,cell_seed,$hdr"; sort "$OUT/census.raw"; } > "$OUT/census.csv"; rm -f "$OUT/census.raw"
 fi
 rm -f "$OUT/results.raw"; rmdir "$OUT/replays" 2>/dev/null || true
-python3 "$REPO/tools/summarize.py" "$OUT/results.csv" "$BOT" | tee "$OUT/summary.txt"
+{ python3 "$REPO/tools/summarize.py" "$OUT/results.csv" "$BOT"; echo "bot_hash: ${BOT_HASH:-?}"; } | tee "$OUT/summary.txt"
 echo "wrote $OUT/"
