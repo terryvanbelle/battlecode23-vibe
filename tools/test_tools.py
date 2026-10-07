@@ -153,6 +153,24 @@ class ReplayDumpTest(unittest.TestCase):
             self.assertEqual(f[-2], '0', line)   # no overruns in the example bot
 
 
+class MatchmakerTest(unittest.TestCase):
+    """tools/replica-matchmaker.py: opponents come from the band of ranks around the challenger, never itself."""
+
+    def setUp(self):
+        self.m = load('matchmaker', 'replica-matchmaker.py')
+
+    def test_band(self):
+        import random
+        teams = [(f't{i}', 2000 - i) for i in range(20)]
+        rnd = random.Random(1)
+        for _ in range(200):
+            to = self.m.pick(teams, 't10', 3, rnd)
+            self.assertIn(to, {'t7', 't8', 't9', 't11', 't12', 't13'})
+        self.assertIn(self.m.pick(teams, 't0', 3, rnd), {'t1', 't2', 't3'})
+        self.assertIsNone(self.m.pick(teams, 'nobody', 3, rnd))
+        self.assertIsNone(self.m.pick([('solo', 1500)], 'solo', 3, rnd))
+
+
 if __name__ == '__main__':
     r = unittest.main(exit=False, verbosity=0).result
     print(f"test_tools: {r.testsRun} tests, {len(r.failures)} failures, {len(r.errors)} errors")
