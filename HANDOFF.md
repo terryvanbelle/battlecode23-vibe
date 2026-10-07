@@ -26,13 +26,19 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
 
 ## The ladder replica (galaxy-lite)
 
-- Site: https://136-86-167-127.sslip.io/ (user `owner`, password in `~/.bc23-replica-password`; `ACCESS.md`).
-- Code `tools/replica/`, docs `docs/replica/` (README, DEPLOY, VIEWER). Runs as user `bcreplica` under systemd with an
-  egress block; the replay viewer is the official 3.0.15 web client, downloaded once and checksum-pinned.
-- To do next: archive the test DB, init, seed the 87 entrants + us:g_iter0 + examplefuncsplayer, start
-  `tools/replica-matchmaker.py` (incumbent vs rating neighbours, random field bots in spare cycles), export games to
-  `progress/games.csv`, commit `progress/ladder.{md,png}` after each round, rotate the site password (it was printed
-  once in the session transcript, never committed).
+- Site: https://136-86-167-127.sslip.io/ (user `owner`, password in `~/.bc23-replica-password`, rotated 2026-10-07;
+  `ACCESS.md`). Code `tools/replica/`, docs `docs/replica/` (README, DEPLOY, VIEWER). Runs as user `bcreplica` under
+  systemd: egress blocked by nftables, the worker in its own network namespace, resolver access denied over D-Bus;
+  `tools/replica/deploy/verify.sh` checks all of it. The replay viewer is the official 3.0.15 web client, downloaded
+  once and checksum-pinned.
+- Started for real 2026-10-07 15:40 PDT (`tools/replica-reset.sh`; the test data is archived under
+  `/home/bcreplica/replica/archive/`): 87 field bots + `us:examplefuncsplayer` + `us:g_iter0`, one autoscrim round
+  (178 matches) to seed the ratings, worker at 3 slots (`REPLICA_SLOTS` in `/etc/bc23-replica/replica.env`; raise it
+  when the gauntlet queue is idle). `tools/replica-matchmaker.py` (VM, `logs/matchmaker.log`) keeps 6 matches queued
+  once the backlog drains: half by our incumbent against its rating neighbours, half by random field teams.
+- Each check-in: `bash tools/replica-export.sh` (games into `progress/games.csv`, idempotent), then
+  `tools/.venv/bin/python tools/replica/snapshot.py --from-vm` and commit `progress/ladder.{md,png}`.
+- A new incumbent enters with `bc23-replica add-team us:<build>` and a line in `tools/incumbent.txt`.
 
 ## Compute
 

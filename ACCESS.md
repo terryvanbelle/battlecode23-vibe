@@ -15,7 +15,12 @@ VM `battlecode-dev`. It has a web front end where you can see who is ranked wher
   ```
 
 The site uses HTTPS (a Let's Encrypt certificate) and HTTP basic authentication, and it is read-only: nothing can be
-changed from the browser.
+changed from the browser. The password was last rotated on 2026-10-07; an old one no longer works.
+
+The real ladder started from a clean database on 2026-10-07 at 15:40 PDT: 87 public 2023 bots, `us:examplefuncsplayer`
+and our incumbent build. A first galaxy-style round (4 matches per team, 178 matches of 3 games) seeds the ratings and
+takes several hours; after it, our incumbent keeps challenging the teams ranked just above and below it, and random
+ladder teams do the same in spare cycles. Ratings move fast in the first ~20 matches of each team.
 
 ## What is there
 
