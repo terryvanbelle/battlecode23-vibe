@@ -153,6 +153,23 @@ class ReplayDumpTest(unittest.TestCase):
             self.assertEqual(f[-2], '0', line)   # no overruns in the example bot
 
 
+class ReplayDumpMultiGameTest(unittest.TestCase):
+    """A galaxy match file holds one game per map: --games lists them and --game N reads one (fixture: g_iter0 vs
+    examplefuncsplayer on maptestsmall then SmallElements, alternate order; the engine printed A wins r339 and r188)."""
+    FIX = REPO / 'test/fixtures/two-games.bc23'
+
+    def dump(self, *args):
+        return subprocess.run(['bash', str(TOOLS / 'replay-dump.sh'), str(self.FIX), *args],
+                              capture_output=True, text=True, timeout=600).stdout
+
+    def test_games_and_selection(self):
+        self.assertEqual(self.dump('--games').split('\n')[:2], ['0 maptestsmall A 339', '1 SmallElements A 188'])
+        g1 = self.dump('--game', '1')
+        self.assertIn('map SmallElements', g1)
+        self.assertIn('wins at round 188', g1)
+        self.assertNotIn('maptestsmall', g1)
+
+
 class ProfileTest(unittest.TestCase):
     """profile.py: our rows are those whose side equals the cell side; means per team; micro_L fields are columns."""
     def test_means(self):

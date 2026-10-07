@@ -91,11 +91,24 @@ public class ReplayDump {
         }
     }
 
-    ReplayDump(String file) throws IOException {
+    // a match file holds one game per map (galaxy matches: 3 to 10); every view reads one game (--game N, 0-based)
+    final java.util.List<String> gameList = new ArrayList<>();
+
+    ReplayDump(String file) throws IOException { this(file, 0); }
+
+    ReplayDump(String file, int game) throws IOException {
         gw = GameWrapper.getRootAsGameWrapper(ByteBuffer.wrap(read(file)));
+        int gi = -1;
+        String curMap = "?";
         for (int i = 0; i < gw.eventsLength(); i++) {
             EventWrapper ew = gw.events(i);
             byte t = ew.eType();
+            if (t == Event.MatchHeader) { gi++; curMap = ((MatchHeader) ew.e(new MatchHeader())).map().name(); }
+            if (t == Event.MatchFooter) {
+                MatchFooter f0 = (MatchFooter) ew.e(new MatchFooter());
+                gameList.add(gi + " " + curMap + " " + (f0.winner() == 1 ? "A" : f0.winner() == 2 ? "B" : "-") + " " + f0.totalRounds());
+            }
+            if (t != Event.GameHeader && t != Event.GameFooter && gi != game) continue;
             if (t == Event.GameHeader) {
                 GameHeader h = (GameHeader) ew.e(new GameHeader());
                 for (int k = 0; k < h.teamsLength(); k++) {
@@ -609,11 +622,15 @@ public class ReplayDump {
     public static void main(String[] a) throws Exception {
         if (a.length == 1 && a[0].equals("--census-header")) { System.out.println(CENSUS_HDR); return; }
         if (a.length < 1) {
-            System.err.println("usage: ReplayDump <replay.bc23> [--census [--no-header] | --metrics [--every N] | --robot ID | --map-at R | "
+            System.err.println("usage: ReplayDump <replay.bc23> [--game N] [--games | --census [--no-header] | --metrics [--every N] | --robot ID | --map-at R | "
                 + "--logs [--team A|B] [--id ID] [--from R --to R] | --bytecode | --navstats | --events --from R --to R | --islands]");
             System.exit(2);
         }
-        ReplayDump d = new ReplayDump(a[0]);
+        ReplayDump d = new ReplayDump(a[0], Integer.parseInt(arg(a, "--game", "0")));
+        if (flag(a, "--games")) {      // one line per game in the file: index map winner(A|B) rounds
+            for (String g : d.gameList) System.out.println(g);
+            return;
+        }
         PrintStream o = new PrintStream(new BufferedOutputStream(System.out), false);
         int from = Integer.parseInt(arg(a, "--from", "0")), to = Integer.parseInt(arg(a, "--to", "1000000"));
         if (flag(a, "--census")) d.census(o, !flag(a, "--no-header"));
