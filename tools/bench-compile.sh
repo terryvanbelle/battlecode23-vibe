@@ -28,7 +28,7 @@ compile_repo () {
   local commit; commit=$(git -C "$d" rev-parse --short HEAD 2>/dev/null || echo '?')
   local owner="${tag%%_*}"
   # drop stale rows for this repo, then append
-  [ -f "$MANIFEST" ] && grep -v -P "\t$tag\t" "$MANIFEST" > "$MANIFEST.tmp" && mv "$MANIFEST.tmp" "$MANIFEST"
+  # (stale rows are removed by the final sort -u on the name; parallel runs must not rewrite the file)
   for p in $pk; do
     [ "$p" = examplefuncsplayer ] && continue
     printf '%s\t%s\t%s\t%s\t%s\n' "${owner}.${p}" "$p" "$out" "$tag" "$commit" >> "$MANIFEST"
@@ -38,6 +38,24 @@ compile_repo () {
 
 [ -f "$MANIFEST" ] || printf 'name\tpackage\tclassdir\trepo\tcommit\n' > "$MANIFEST"
 if [ $# -gt 0 ]; then for d in "$@"; do compile_repo "$d"; done
-else for d in "$BENCH_ROOT"/*/; do d=${d%/}; case "$(basename "$d")" in _*) continue;; esac; compile_repo "$d"; done; fi
-{ head -1 "$MANIFEST"; tail -n +2 "$MANIFEST" | sort -u -t$'\t' -k1,1; } > "$MANIFEST.tmp" && mv "$MANIFEST.tmp" "$MANIFEST"
+else
+  export -f compile_repo; export BCLASSES LOGS MANIFEST CP DRV
+  for d in "$BENCH_ROOT"/*/; do d=${d%/}; case "$(basename "$d")" in _*) continue;; esac; echo "$d"; done | \
+    xargs -P "${JOBS:-6}" -I{} bash -c 'compile_repo "$@"' _ {}
+fi
+# one row per (repo, package); a name shared by two repos of one owner becomes <owner_repo>.<package>
+python3 - "$MANIFEST" <<'PY'
+import sys, collections
+p = sys.argv[1]; lines = open(p).read().splitlines(); head, rows = lines[0], lines[1:]
+uniq = {}
+for r in rows:
+    f = r.split('\t')
+    uniq[(f[3], f[1])] = f
+names = collections.Counter(f[0] for f in uniq.values())
+out = []
+for f in uniq.values():
+    if names[f[0]] > 1: f[0] = f'{f[3]}.{f[1]}'
+    out.append('\t'.join(f))
+open(p, 'w').write('\n'.join([head] + sorted(out)) + '\n')
+PY
 echo "manifest: $(($(wc -l < "$MANIFEST") - 1)) bot packages"

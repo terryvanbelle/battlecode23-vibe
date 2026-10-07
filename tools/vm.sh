@@ -29,6 +29,9 @@ vm_sync () {
   local d
   for d in src tools test maps engine; do
     [ -e "$here/$d" ] || continue
+    # seed the staging copy with hard links so rsync sends only changes (rsync writes changed files to a temp name
+    # and renames, so the live tree's inodes are never modified)
+    gssh "rm -rf ~/$REMOTE_REPO/.$d.sync; [ -d ~/$REMOTE_REPO/$d ] && cp -al ~/$REMOTE_REPO/$d ~/$REMOTE_REPO/.$d.sync; true"
     rsync -a --delete -e "ssh ${SSHO[*]}" --exclude '.venv' --exclude '__pycache__' \
       "$here/$d/" "$USER_NAME@$IP:$REMOTE_REPO/.$d.sync/" && \
     gssh "rm -rf ~/$REMOTE_REPO/.$d.old; [ -e ~/$REMOTE_REPO/$d ] && mv ~/$REMOTE_REPO/$d ~/$REMOTE_REPO/.$d.old; mv ~/$REMOTE_REPO/.$d.sync ~/$REMOTE_REPO/$d; rm -rf ~/$REMOTE_REPO/.$d.old"
