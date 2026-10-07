@@ -1,38 +1,58 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-07 ~13:00 PDT.
+Updated 2026-10-07 ~15:45 PDT.
 
-## Where things stand
+## Standing
 
-- **Phase 0 (foundations, TRAINING_ALGORITHM §1)** nearly complete:
-  - rules: engine-verified area reports in `research/rules/` (round order, actions, constants, maps census, bytecode
-    runtime); `RULES.md` is being assembled from them.
-  - runner: `tools/lib.sh` (`run_game`), `tools/gauntlet.sh` (parallel cells, seeds, census per game with `CENSUS=1`),
-    `tools/run-dev.sh` (one diagnostic game with robot output), engine `3.0.15` with a seed patch (`tools/get-engine.sh`).
-  - replay reader: `tools/replay-dump.sh` (summary, census, metrics, robot, map-at, logs, bytecode, navstats, events,
-    islands, overruns), fixture-tested.
-  - bot: `src/bot` foundation (no snapshot yet; the first snapshot will be `g_iter0`).
-  - field: 87 entrants (`tools/field.txt`) from 148 public 2023 repos; discovery, safety scan, blind compile, dedupe:
-    `BENCHMARK.md` (to be written) and `tools/bench-*`.
-  - ladder replica (galaxy-lite) being built by a workflow: `tools/replica/`, `docs/replica/`.
-- **Foundation bar** (TRAINING_ALGORITHM §1): beats examplefuncsplayer 206/206 on all 103 maps from both sides
-  (foundation1/2); 0 overruns, 0 exceptions; symmetry wrong on Sine (fixed: HQ evidence before round 2); anchor
-  logistics degenerate on some maps (fixed, being re-measured in foundation3).
+- **Incumbent g_iter0** (code hash e6f2fc5356c6): the foundation bot. Field calibration (174 games, 2 per entrant):
+  131-43 (75.3%), BT 1732 +- 66, rank 17 of 88 (`progress/ELO.md`). Beats examplefuncsplayer 206/206 on every map.
+  Basics battery PASS (0 overruns, 0 exceptions, 0 near misses, symmetry never wrong, decided by r150 in 204/206).
+- **Why we lose** (43 calibration losses and a 24-game block against four top bots): the opponents' carriers mine mana
+  from the start (by r100: 470-866 Mn and 0-179 Ad against our 204-350 Mn and 308-440 Ad), so they field 2-6x our
+  launchers by r250; our launchers fight one at a time and stay inside enemy reach (14-28% of launcher-rounds against
+  their 0.3-3%), taking 9-26 damage per contact round against their 3.5-7.7; by about r150 they hold our half.
+
+## In flight (VM queue, each paired on identical cells)
+
+| job | candidate | change | control |
+|---|---|---|---|
+| cand-nav1 | c_nav1 | bug navigation keeps its hand per obstacle | c_econ1 (live-robot carrier bound; neutral, +4 net) |
+| cand-mana1 | c_mana1 | mana-first roles, adaptive at delivery | c_nav1 |
+| cand-mana2 | c_mana2 | 1 in 5 carriers on adamantium, overrides by HQ stock | c_nav1 |
+| deliv-mana1/micro1/batch1 | c_micro1, c_batch1 | pinned-enemy micro, safe step-in; launcher batches of 3 | c_mana1, c_micro1 |
+
+Cells: `test/cells/calib-g_iter0.txt` (174, every entrant twice) and `test/cells/diag-top4.txt` (24, four top bots).
+Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <cand run> <control run>`.
+
+## The ladder replica (galaxy-lite)
+
+- Site: https://136-86-167-127.sslip.io/ (user `owner`, password in `~/.bc23-replica-password`; `ACCESS.md`).
+- Code `tools/replica/`, docs `docs/replica/` (README, DEPLOY, VIEWER). Runs as user `bcreplica` under systemd with an
+  egress block; the replay viewer is the official 3.0.15 web client, downloaded once and checksum-pinned.
+- To do next: archive the test DB, init, seed the 87 entrants + us:g_iter0 + examplefuncsplayer, start
+  `tools/replica-matchmaker.py` (incumbent vs rating neighbours, random field bots in spare cycles), export games to
+  `progress/games.csv`, commit `progress/ladder.{md,png}` after each round, rotate the site password (it was printed
+  once in the session transcript, never committed).
 
 ## Compute
 
 - Driver `claude-driver` (2 vCPU, 2 GB): this session; one diagnostic game at a time at most.
-- VM `battlecode-dev` (us-west1-b, 8 vCPU, 31 GB, 20 GB disk), internal IP 10.138.0.3: every game in volume
-  (`tools/vm-run.sh <name> '<cmd>'`, `tools/vm-tail.sh <name>`). About 9-10 games/min at 8 parallel (example bots).
+- VM `battlecode-dev` (us-west1-b, 8 vCPU, 31 GB, 20 GB disk), internal IP 10.138.0.3. Standing queue
+  (`tools/vm-enqueue.sh`, runner `tools/vm-queue.sh`); gauntlet games share 5 slots (`/tmp/bc23-game-slots`), the
+  replica worker has its own. Games against top bots run 1,000-2,000 rounds and take several minutes each.
 - `battlecode-dev2` (us-west2-a) belongs to the paused 2024 project: never touch it.
 
 ## Gotchas a fresh reader will hit
 
-- The 2023 engine seeds robot ids and sandboxed randomness from the map file; `-Dbc.game.seed` (our patch) varies
-  spawned robots only. The final tiebreak is an unseeded coin flip: such results are recorded as reason COIN and ignored.
-- An uncaught exception destroys the robot (HQs included). Every write to the shared array is re-checked at write time
-  (`Comms.put`); a robot that moved can leave the write zone.
-- Replays carry no robot stdout: our counters are in the indicator string (`note|ov=,ex=,nm=,sm=,sd=`).
-- The bot's near-miss counter measures work before the end-of-turn map-memory fill (fill stops at 88% of the limit).
+- The engine seeds robot ids and sandboxed randomness from the map file; our `-Dbc.game.seed` patch varies spawned
+  robots only. Identical code on an identical cell replays identically, even against external bots (30/30 checked).
+  The final tiebreak is an unseeded coin flip: such games are recorded as COIN and ignored.
+- Runs record the code hash of the bot that played (`provenance.txt`). A package name is not provenance: one
+  "identity" run compiled a src/bot that had changed under it.
+- An uncaught exception destroys the robot (HQs included). Every shared-array write is re-checked at write time.
+- Replays carry no robot stdout: our counters are in the indicator string (`note|ov=,ex=,nm=,sm=,sd=,wh=,bf=...`); the
+  first character of the note is a state token (carriers: G C W R D F X K T).
+- Some field bots fire every round at empty tiles (blind fire): count hits, not attacks.
 - `-Dbc.testing.debug=true` does not seem to reach the bot (debug prints never appeared); open question.
-- GitHub code search returned HTTP 500 on 2026-10-07; discovery used repo search, date windows and scaffold forks.
+- `vm-run.sh` must background with `cd X; CMD &`, not `cd X && CMD &` (the latter holds ssh open until the job ends).
+- Never `pkill -f` a pattern that can match the caller (it killed the issuing shell once on 2026-10-07).
