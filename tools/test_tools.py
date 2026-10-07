@@ -170,6 +170,50 @@ class ReplayDumpMultiGameTest(unittest.TestCase):
         self.assertNotIn('maptestsmall', g1)
 
 
+class ContestClientTest(unittest.TestCase):
+    """tools/contest.py offline pieces: the submission zip layout, multipart encoding, cells, game rows, site guard."""
+    @classmethod
+    def setUpClass(cls):
+        cls.c = load('contest', TOOLS / 'contest.py')
+
+    def test_zip_layout(self):
+        import zipfile, io
+        z = zipfile.ZipFile(io.BytesIO(self.c.zip_package('examplefuncsplayer')))
+        names = z.namelist()
+        self.assertIn('examplefuncsplayer/RobotPlayer.java', names)
+        self.assertTrue(all(n.startswith('examplefuncsplayer/') and n.endswith('.java') for n in names))
+
+    def test_multipart(self):
+        body, ct = self.c.multipart({'package': 'p'}, {'source_code': ('s.zip', b'PK', 'application/zip')})
+        b = ct.split('boundary=')[1]
+        self.assertIn(b'name="package"\r\n\r\np\r\n', body)
+        self.assertIn(b'filename="s.zip"', body)
+        self.assertTrue(body.endswith(f'--{b}--\r\n'.encode()))
+
+    def test_cells_and_rows(self):
+        d = tempfile.mkdtemp()
+        Path(d, 'c.txt').write_text('# x\nTeamX m1,m2 -\nTeamY m3\n')
+        self.assertEqual(self.c.read_cells(str(Path(d, 'c.txt'))), [('TeamX', ['m1', 'm2'], '-'), ('TeamY', ['m3'], '+')])
+        m = {'id': 7, 'alternate_order': True, 'participants': [
+            {'team': 1, 'teamname': 'us', 'player_index': 1}, {'team': 2, 'teamname': 'TeamX', 'player_index': 0}]}
+        orig = self.c.games_of
+        self.c.games_of = lambda rep: [(0, 'm1', 'B', 300), (1, 'm2', 'A', 400)]
+        try:
+            rows = self.c.run_rows(m, 'x', 1)
+        finally:
+            self.c.games_of = orig
+        self.assertEqual([(r['opponent'], r['map'], r['bot_side'], r['bot_result'], r['seed']) for r in rows],
+                         [('TeamX', 'm1', 'B', 'win', 'map'), ('TeamX', 'm2', 'B', 'loss', 'map-rev')])
+
+    def test_refuses_real_site(self):
+        env = dict(os.environ, CONTEST_SITE='https://play.battlecode.org')
+        r = subprocess.run([sys.executable, str(TOOLS / 'contest.py'), 'me'], env=env, capture_output=True, text=True)
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn('refusing', r.stderr + r.stdout)
+        with self.assertRaises(SystemExit):
+            self.c.http('GET', 'https://api.battlecode.org/api/episode/e/')
+
+
 class ProfileTest(unittest.TestCase):
     """profile.py: our rows are those whose side equals the cell side; means per team; micro_L fields are columns."""
     def test_means(self):
