@@ -125,3 +125,23 @@ of history. Times are PDT. Grep it; do not read it whole.
   c_nav2 = c_nav1 without it, paired on the same cells against c_nav1 (queued). The working line drops the wait too.
 - Arms built on c_nav1 (mana1, mana2, micro1, batch1, spawn1, army1) keep their paired comparisons against their own
   predecessors; the combined candidate will carry c_nav2's navigation if it holds.
+
+## 2026-10-07 16:15 — Correctness audit (engine API; shared state) -> arm c_audit1
+
+- Two read-only auditors on src/bot. Clean: every action guarded by its can* check, no reachable
+  GameActionException, every write re-checked, encodings and symmetry images correct, costs and radii match RULES.
+- Defects found and fixed (c_audit1 = c_spawn1 + c_nav2's navigation + these):
+  - carriers moved once a turn when empty or light although the engine allows two (move cooldown 5 + 0.375 w < 10
+    up to 13 kg): every outbound trip, well search and flight ran at half speed;
+  - carriers mined only wells in the 16 shared slots, so a well a carrier saw out of write range waited for a
+    delivery to be registered (62 of 103 maps have no mana well in HQ vision);
+  - island slots have no timestamp and robots republished 60-round-old owners over newer news; HQs built anchors for
+    enemy-held islands no carrier could place; launchers trusted a stale "enemy" owner over their own sighting and
+    all walked to one stored tile of an enemy island (anchor decay scales with robots on its squares);
+  - enemy sightings: the 4-bit round stamp wrapped after 256 rounds (old sightings looked fresh); clears reached
+    beyond the launcher's vision;
+  - the shared symmetry mask could eliminate all three; predicted anchor islands were never resolved;
+  - launcher fight() cost ~47 + 8P bytecodes per enemy per tile (~12k in a 10-fighter fight, limit 10k): now
+    per-enemy data once and a bytecode guard; "pinned" no longer counts current pushes.
+- Gate: c_audit1 on the 174 calibration cells, paired against g_iter0's own calibration run (the cumulative line
+  since the incumbent), moved to the front of the queue.

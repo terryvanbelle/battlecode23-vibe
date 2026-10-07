@@ -23,6 +23,7 @@ Updated 2026-10-07 ~15:45 PDT.
 | deliv-spawn1 | c_spawn1 | spawn on the tile fewest enemy fighters reach | c_batch1 | queued |
 | deliv-army1 | c_army1 | launcher cohesion (`C.ARMY`): regroup, follow the lowest id | c_spawn1 | queued |
 | cand-nav2 | c_nav2 | c_nav1 without the 3-turn wait for robots on the wall path | c_nav1 | queued |
+| cand-audit1 | c_audit1 | the whole line since g_iter0 + audit fixes (double-move carriers, seen wells, staleness, fight bytecode) | g_iter0 calibration | next |
 
 Cells: `test/cells/calib-g_iter0.txt` (174, every entrant twice) and `test/cells/diag-top4.txt` (24, four top bots).
 Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <cand run> <control run>`.
