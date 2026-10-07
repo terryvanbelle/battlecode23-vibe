@@ -49,3 +49,7 @@ What is the progress on the galaxy-based infrastructure?
 ## 8. 2026-10-07 11:25 PDT
 
 Sounds good.  Ideally, once it's built, I'd like to have web access to the infrastructure so that I can see who's ranked where, and replay scrimmage games.  If that's not possible, then at least maintain screenshots of the most recent state in github so that I can consult them that way
+
+## 9. 2026-10-07 13:11 PDT
+
+Once the site is ready, please write a file with instructions on how to access it

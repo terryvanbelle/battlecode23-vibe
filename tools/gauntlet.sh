@@ -56,8 +56,22 @@ fi
 echo "gauntlet $RUN_ID bot=$BOT games=$NG jobs=$MAXJOBS seeds=$SEED_MODE"
 : > "$OUT/results.raw"
 
+# One machine-wide game semaphore for every gauntlet (GAME_SLOTS slot files, flock): two runners side by side never
+# exceed the measured knee. The replica worker keeps its own separate slots (docs/replica).
+SLOTDIR="${SLOTDIR:-/tmp/bc23-game-slots}"; GAME_SLOTS="${GAME_SLOTS:-5}"; mkdir -p "$SLOTDIR"
+acquire_slot () {
+  while true; do
+    for i in $(seq 1 "$GAME_SLOTS"); do
+      exec {SLOTFD}>"$SLOTDIR/slot.$i"
+      if flock -n "$SLOTFD"; then return 0; fi
+      exec {SLOTFD}>&-
+    done
+    sleep 2
+  done
+}
 game () {  # opp map side [seed]
   local OPP="$1" MAP="$2" SIDE="$3" SEED="${4:-}" rb ro PB UB PA UA
+  acquire_slot
   rb=$(resolve "$BOT"); ro=$(resolve "$OPP")
   PB=${rb%% *}; UB=${rb#* }; PA=${ro%% *}; UA=${ro#* }
   if [ -z "$SEED" ]; then if [ "$SEED_MODE" = map ]; then SEED=map; else SEED=$(( (RANDOM << 15) | RANDOM )); fi; fi
@@ -93,8 +107,8 @@ game () {  # opp map side [seed]
   [ "$res" = win ] && [ "${KEEP_ALL:-0}" != 1 ] && rm -f "$REPLAY"
   printf '  [%3d/%d] %-7s %-20s %-40s r%s\n' "$(wc -l < "$OUT/results.raw")" "$NG" "$res" "$MAP" "$OPP" "$RND"
 }
-export -f game resolve parse_result engine_cp
-export OUT BOT ENGINE_DIR ENGINE_VER REPO MANIFEST GAME_XMX KEEP_ALL NG CLASSES SEED_MODE GAME_TIMEOUT LOG_LIMIT CUSTOM_MAPS CENSUS
+export -f game resolve parse_result engine_cp acquire_slot
+export OUT BOT ENGINE_DIR ENGINE_VER REPO MANIFEST GAME_XMX KEEP_ALL NG CLASSES SEED_MODE GAME_TIMEOUT LOG_LIMIT CUSTOM_MAPS CENSUS SLOTDIR GAME_SLOTS
 xargs -P "$MAXJOBS" -L 1 bash -c 'game "$0" "$1" "$2" "${3:-}"' < "$OUT/cells.txt"
 
 { echo "opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed"; sort "$OUT/results.raw"; } > "$OUT/results.csv"
