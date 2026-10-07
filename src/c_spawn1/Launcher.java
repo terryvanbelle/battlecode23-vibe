@@ -1,4 +1,4 @@
-package bot;
+package c_spawn1;
 
 import battlecode.common.*;
 

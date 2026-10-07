@@ -1,4 +1,4 @@
-package bot;
+package c_army1;
 
 /**
  * Every tunable constant and every arm switch, each with the measurement or reason that set it.
@@ -27,7 +27,7 @@ public final class C {
      *  (itself included) in vision, follows the lowest-id launcher in vision when farther than r2 FOLLOW_R2, and
      *  otherwise regroups (nearest visible ally launcher, else back to the nearest own HQ). diag-top4: by r20 the top
      *  bots fielded 13 launchers in one mass while ours fought in ones and twos and lost 6 for 3. */
-    public static final boolean ARMY = false;
+    public static final boolean ARMY = true;
     public static final int GROUP_MIN = 3, FOLLOW_R2 = 8;
     /** A lone launcher still goes to an enemy sighting this close (r2) to one of our HQs: home defence. */
     public static final int HOME_DEFENCE_R2 = 100;
