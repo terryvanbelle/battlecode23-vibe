@@ -10,12 +10,12 @@ OUT="$REPO/build/tests"; rm -rf "$OUT"; mkdir -p "$OUT"
 CLASSES="$OUT/bots" bash "$REPO/tools/build.sh" > /dev/null || { echo "unit-tests: bot compile FAILED"; exit 1; }
 echo "bots: compiled $(ls "$REPO/src" | wc -l) packages"
 if ls "$REPO"/test/bot/*Test.java >/dev/null 2>&1; then
-  javac -nowarn -encoding UTF-8 -d "$OUT/tests" -cp "$(engine_cp):$OUT/bots" "$REPO"/test/bot/*.java
+  mkdir -p "$OUT/tests"; javac -nowarn -encoding UTF-8 -d "$OUT/tests" -cp "$(engine_cp):$OUT/bots" "$REPO"/test/bot/*.java
   for t in "$REPO"/test/bot/*Test.java; do
     cls="$(sed -n 's/^package \(.*\);/\1/p' "$t" | head -1)"; cls="${cls:+$cls.}$(basename "$t" .java)"
     java -cp "$OUT/tests:$OUT/bots:$(engine_cp)" "$cls" || fail=1
   done
 fi
-python3 "$REPO/tools/test_tools.py" 2>&1 | tail -1 || fail=1
-python3 "$REPO/tools/test_tools.py" > /dev/null 2>&1 || fail=1
+tt=$(python3 "$REPO/tools/test_tools.py" 2>&1) || fail=1
+printf '%s\n' "$tt" | tail -1
 [ $fail = 0 ] && echo "unit-tests: PASS" || { echo "unit-tests: FAIL"; exit 1; }

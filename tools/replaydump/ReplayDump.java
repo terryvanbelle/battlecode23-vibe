@@ -33,6 +33,7 @@ import java.util.zip.GZIPInputStream;
  *   --navstats                per team and type: moved share, still streaks, ABA oscillation
  *   --events --from R --to R  every event in a round window
  *   --islands                 island ownership changes over time
+ *   --overruns                every robot-turn that used its whole bytecode limit (round, robot, age in rounds)
  */
 public class ReplayDump {
     static final String[] TN = {"HQ", "CARRIER", "LAUNCHER", "AMPLIFIER", "DESTABILIZER", "BOOSTER"};
@@ -253,7 +254,7 @@ public class ReplayDump {
                 if (rb == null) continue;
                 int used = r.bytecodesUsed(k), lim = BC_LIMIT[rb.type], t = rb.team, ty = rb.type;
                 bcMax[t][ty] = Math.max(bcMax[t][ty], used); bcSum[t][ty] += used; bcN[t][ty]++;
-                if (used >= lim) bcOver[t][ty]++;
+                if (used >= lim) { bcOver[t][ty]++; if (listener != null) emit(rn, String.format("overrun %s %s#%d age=%d used=%d", side(t), TN[ty], rb.id, rn - rb.born, used)); }
                 else if (used * 10 >= lim * 9) bcNear[t][ty]++;
                 bcHist[t][ty].add(new int[]{used});
             }
@@ -306,13 +307,32 @@ public class ReplayDump {
             for (Map.Entry<String, Integer> e : rb.counters.entrySet()) {
                 String k = e.getKey();
                 long v = e.getValue();
-                if (k.startsWith("max")) m.merge(k, v, Math::max); else m.merge(k, v, Long::sum);
+                if (k.equals("sm") || k.equals("sd")) continue;   // masks and rounds, not counters: see symStats
+            if (k.startsWith("max")) m.merge(k, v, Math::max); else m.merge(k, v, Long::sum);
             }
         }
         return m;
     }
 
     String winnerSide() { return side(winner); }
+
+    /** The true symmetry as our bot's candidate bit (MapMem: 1 ROT, 2 FLIP_X = engine VERTICAL, 4 FLIP_Y = HORIZONTAL). */
+    int truthBit() { return symmetry == 0 ? 1 : symmetry == 1 ? 4 : 2; }
+
+    /** [robots reporting sm, robots whose final mask excludes the truth, earliest decided round or -1, undecided at end]. */
+    int[] symStats(int team) {
+        int n = 0, wrong = 0, first = -1, undecided = 0, tb = truthBit();
+        for (Robot rb : robots.values()) {
+            if (rb.team != team) continue;
+            Integer sm = rb.counters.get("sm"), sd = rb.counters.get("sd");
+            if (sm == null) continue;
+            n++;
+            if ((sm & tb) == 0) wrong++;
+            if (sm != 1 && sm != 2 && sm != 4) undecided++;
+            if (sd != null && sd >= 0 && (first < 0 || sd < first)) first = sd;
+        }
+        return new int[]{n, wrong, first, undecided};
+    }
 
     // ---------------------------------------------------------------- modes
     void summary(PrintStream o) {
@@ -344,6 +364,8 @@ public class ReplayDump {
             o.printf("  bytecode:%s%n", bc);
             Map<String, Long> c = counterTotals(t);
             if (!c.isEmpty()) o.printf("  counters: %s%n", c);
+            int[] ss = symStats(t);
+            if (ss[0] > 0) o.printf("  symmetry: truth=%d robots=%d wrong=%d undecided_at_end=%d first_decided=r%d%n", truthBit(), ss[0], ss[1], ss[3], ss[2]);
         }
     }
 
@@ -357,7 +379,7 @@ public class ReplayDump {
         + "died_C,died_L,died_A,died_D,died_B,exceptions,coll_Ad,coll_Mn,coll_Ex,dep_Ad,dep_Mn,dep_Ex,pickups,deposits,"
         + "shots,hits,throws,throw_hits,dmg,kills,healed,anchors_built,anchors_placed,first_anchor,island_rounds,"
         + "isl500,isl1000,isl1500,isl_end,bank250_Mn,bank250_Ad,bank500_Mn,bank500_Ad,bank_end_Ad,bank_end_Mn,bank_end_Ex,"
-        + "L_end,C_end,bc_max_C,bc_max_L,bc_max_HQ,near,over,still_L,still_C,aba,counters";
+        + "L_end,C_end,bc_max_C,bc_max_L,bc_max_HQ,near,over,still_L,still_C,aba,sym_robots,sym_wrong,sym_first_decided,sym_undecided,counters";
 
     void census(PrintStream o, boolean header) {
         run(null);
@@ -380,7 +402,7 @@ public class ReplayDump {
                 "" + sEnd[t][0], "" + sEnd[t][1], "" + sEnd[t][2], "" + sEnd[t][5], "" + sEnd[t][4],
                 "" + bcMax[t][1], "" + bcMax[t][2], "" + bcMax[t][0], "" + near, "" + over,
                 fmt(1.0 - ratio(moveTurns[t][2], aliveTurns[t][2])), fmt(1.0 - ratio(moveTurns[t][1], aliveTurns[t][1])),
-                "" + (aba[t][1] + aba[t][2]), cs.toString()));
+                "" + (aba[t][1] + aba[t][2]), "" + symStats(t)[0], "" + symStats(t)[1], "" + symStats(t)[2], "" + symStats(t)[3], cs.toString()));
         }
     }
 
@@ -515,6 +537,7 @@ public class ReplayDump {
         else if (flag(a, "--navstats")) d.navstats(o);
         else if (flag(a, "--events")) d.events(o, from, to);
         else if (flag(a, "--islands")) d.islands(o);
+        else if (flag(a, "--overruns")) { d.listener = (rn, line) -> { if (line.startsWith("overrun")) o.printf("r%-5d %s%n", rn, line); }; d.run(null); }
         else d.summary(o);
         o.flush();
     }

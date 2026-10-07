@@ -5,7 +5,6 @@ CodeClash-ai.mysubmission
 ColtG5.rexv9
 CyrilSharma.finalBot
 DannyZhang686.pqual2
-DukeBas.turn200
 GabeG888.v8
 IvanGeffner.fortytwo
 JackLee9355.jackPlayer
@@ -27,10 +26,12 @@ VarunVejalla.ali8
 Vinceyou1.Player1
 Yooncw0223.lec3player
 addiesteward.NDeClaw
+aj-chau.attempt1
 andrewgopher.gopherbot1
 andrewkbank.First
 anicolao.jumbled
 awesomelemonade.finalBot
+ax-95174.MPAction
 battlecode-archive.Sprint1
 battlecode-archive.sprintBot
 beaverbois.USQualifiers
@@ -46,7 +47,6 @@ kevinli405.maggi3
 legobridge.kushalplayer
 louishu17.louisv10
 mama4294.currentPlayer
-maxwelljones14.MPAction
 michael-tyl.cc_v0_5_0_6
 nail-e.Barry
 polyllc.poly

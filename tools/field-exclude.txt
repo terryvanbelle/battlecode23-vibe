@@ -1,0 +1,2 @@
+# Entrants excluded from the ladder field (name, reason). Engine forks are moved to bc23-benchmarks/_excluded/ instead.
+DukeBas.turn200  resigns at round 200 in every game (a test bot; smoke test 2026-10-07: 2/2 resignations vs examplefuncsplayer)
