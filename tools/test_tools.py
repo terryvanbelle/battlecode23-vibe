@@ -153,6 +153,24 @@ class ReplayDumpTest(unittest.TestCase):
             self.assertEqual(f[-2], '0', line)   # no overruns in the example bot
 
 
+class ProfileTest(unittest.TestCase):
+    """profile.py: our rows are those whose side equals the cell side; means per team; micro_L fields are columns."""
+    def test_means(self):
+        d = tempfile.mkdtemp()
+        hdr = 'cell_opponent,cell_map,cell_side,cell_seed,team,side,won,C100,micro_L\n'
+        rows = ['X,m,A,1,bot,A,1,10,exposed=0.100 dmg/contact=4.0', 'X,m,A,1,X,B,0,20,exposed=0.300 dmg/contact=8.0',
+                'X,m,B,2,X,A,1,30,', 'X,m,B,2,bot,B,0,30,exposed=0.300 dmg/contact=6.0']
+        Path(d, 'census.csv').write_text(hdr + '\n'.join(rows) + '\n')
+        out = subprocess.run([sys.executable, str(TOOLS / 'profile.py'), d, '--cols', 'won,C100,exposed,dmg/contact'],
+                             capture_output=True, text=True).stdout.splitlines()
+        us = out[1].split()
+        x = out[2].split()
+        self.assertEqual(us[:2], ['us', '2'])
+        self.assertEqual([float(v) for v in us[2:]], [0.5, 20.0, 0.2, 5.0])
+        self.assertEqual(x[:2], ['X', '2'])
+        self.assertEqual([float(v) for v in x[2:]], [0.5, 25.0, 0.3, 8.0])
+
+
 class MatchmakerTest(unittest.TestCase):
     """tools/replica-matchmaker.py: opponents come from the band of ranks around the challenger, never itself."""
 
