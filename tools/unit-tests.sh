@@ -5,6 +5,8 @@
 #   3. python tool tests (tools/test_tools.py: synthetic inputs and committed fixtures).
 set -euo pipefail
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"; source "$REPO/tools/lib.sh"
+# one run at a time: overlapping runs shared build directories and raced (a predecessor project's lesson)
+mkdir -p "$REPO/build"; exec 9>"$REPO/build/.unit-tests.lock"; flock -w 1800 9 || { echo "unit-tests: lock busy"; exit 1; }
 fail=0
 OUT="$REPO/build/tests"; rm -rf "$OUT"; mkdir -p "$OUT"
 CLASSES="$OUT/bots" bash "$REPO/tools/build.sh" > /dev/null || { echo "unit-tests: bot compile FAILED"; exit 1; }
@@ -18,4 +20,5 @@ if ls "$REPO"/test/bot/*Test.java >/dev/null 2>&1; then
 fi
 tt=$(python3 "$REPO/tools/test_tools.py" 2>&1) || fail=1
 printf '%s\n' "$tt" | tail -1
+rt=$(python3 "$REPO/test/replica/test_replica.py" 2>&1) && echo "replica: $(printf '%s\n' "$rt" | grep -E '^(Ran|OK)' | tr '\n' ' ')" || { printf '%s\n' "$rt" | tail -40; fail=1; }
 [ $fail = 0 ] && echo "unit-tests: PASS" || { echo "unit-tests: FAIL"; exit 1; }

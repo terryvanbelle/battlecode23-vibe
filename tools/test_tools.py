@@ -106,9 +106,21 @@ class ReplayDumpTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        # outputs are cached by the hash of the reader's source and the fixture: they rerun whenever either changes
+        import hashlib
+        h = hashlib.sha1((TOOLS / 'replaydump/ReplayDump.java').read_bytes() + cls.FIX.read_bytes()).hexdigest()[:12]
+        cache = REPO / 'build' / 'test-cache' / h
+        cache.mkdir(parents=True, exist_ok=True)
+
         def dump(*args):
-            return subprocess.run(['bash', str(TOOLS / 'replay-dump.sh'), str(cls.FIX), *args],
-                                  capture_output=True, text=True, timeout=600).stdout
+            f = cache / ('dump' + ''.join(args).replace('-', '_') + '.txt')
+            if f.exists():
+                return f.read_text()
+            out = subprocess.run(['bash', str(TOOLS / 'replay-dump.sh'), str(cls.FIX), *args],
+                                 capture_output=True, text=True, timeout=600).stdout
+            if out.strip():
+                f.write_text(out)
+            return out
         cls.summary = dump()
         cls.census = dump('--census')
         cls.bc = dump('--bytecode')
