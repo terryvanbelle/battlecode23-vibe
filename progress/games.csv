@@ -173,3 +173,15 @@ run,seq,teamA,teamB,map,winner,rounds,reason,seed
 20261007-195015-calib-g_iter0,172,us:g_iter0,vrangr1.AFinalsBot,Tightrope,A,453,ISL75,1059713752
 20261007-195015-calib-g_iter0,173,yaonam.PoonPoonv4,us:g_iter0,Pillars,B,328,ISL75,867854656
 20261007-195015-calib-g_iter0,174,us:g_iter0,yaonam.PoonPoonv4,Rainbow,B,2000,TB_ISL,903158817
+replica-1,1,Vinceyou1.Player1,aj-chau.attempt1,Risk,B,1037,ISL75,map
+replica-1,2,Vinceyou1.Player1,aj-chau.attempt1,Dreamy,B,1604,ISL75,map-rev
+replica-1,3,Vinceyou1.Player1,aj-chau.attempt1,LookingGlass,B,1288,ISL75,map
+replica-2,1,toyat522.bot5,yaonam.PoonPoonv4,Maze,B,1255,ISL75,map
+replica-2,2,toyat522.bot5,yaonam.PoonPoonv4,RaceToTheTop,B,2000,TB_ISL,map-rev
+replica-2,3,toyat522.bot5,yaonam.PoonPoonv4,Crossword,B,2000,TB_ISL,map
+replica-4,1,reeceyang.v5anaconda,pranayagra.finalbotfinal,Orbit,B,605,ISL75,map
+replica-4,2,reeceyang.v5anaconda,pranayagra.finalbotfinal,Risk,B,604,ISL75,map-rev
+replica-4,3,reeceyang.v5anaconda,pranayagra.finalbotfinal,AbsoluteW,A,1095,ISL75,map
+replica-5,1,mama4294.currentPlayer,legobridge.tacoplayer,Elephant,B,360,ISL75,map
+replica-5,2,mama4294.currentPlayer,legobridge.tacoplayer,Lantern,B,583,ISL75,map-rev
+replica-5,3,mama4294.currentPlayer,legobridge.tacoplayer,Pathfind,B,361,ISL75,map

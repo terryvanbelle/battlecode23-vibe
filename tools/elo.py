@@ -21,7 +21,7 @@ ap.add_argument('--established', type=int, default=0,
 ap.add_argument('--challenge', type=int, default=0,
                 help='the N bots that beat us at least half the time, fewest games against us first, then highest rating')
 ap.add_argument('--band', type=int, default=0,
-                help='the N rated bots nearest to us in rating on EITHER side: the graded pool (owner, 2026-09-24, PROMPTS 8-9)')
+                help='the N rated bots nearest to us in rating on EITHER side: the graded pool (slightly better and slightly worse)')
 ap.add_argument('--quiet', action='store_true'); a = ap.parse_args()
 rows = elolib.load(); R, SE, games, wins = elolib.fit(rows)
 bots = elolib.ladder_bots()
@@ -63,8 +63,7 @@ if a.build:
           f"rank {rank.get(p_, '-')} of {len(table)}; expected score vs the {len(bots)}-bot field {elolib.field_score(R, p_, bots):.1%}")
     raise SystemExit
 ndist = len(elolib.dedupe(rows))
-# Each opponent's record (PROMPTS 53-55, revised by PROMPTS 181 below). RUN_MIN marks a thin record: a 240-game band run
-# gives each of its 8 bots 30 games (+-18 points at 95%); the seeded band seeds give the upper tier 24 each.
+# Each opponent's record. RUN_MIN marks a thin record: 30 games pin a win rate to about +-18 points at 95%.
 RUN_MIN = 30
 last_seen = {}
 for i, r in enumerate(rows):
@@ -77,9 +76,8 @@ for r in elolib.dedupe(rows):
     if elolib.is_ours(ta) == elolib.is_ours(tb): continue
     us_, opp = (ta, tb) if elolib.is_ours(ta) else (tb, ta)
     vs[us_, opp][1] += 1; vs[us_, opp][0] += (r['winner'] == 'A') == (opp == ta)
-# PROMPTS 181 (2026-10-05): the column showed g_iter1's record against most of the upper tier, because later builds met
-# each of those bots only 24 times (the band seeds) and fell under RUN_MIN. Now: the INCUMBENT's record against the bot
-# whatever the count (fewer than RUN_MIN games marked *), else the most recent of our builds that played it.
+# The INCUMBENT's record against the bot whatever the count (fewer than RUN_MIN games marked *), else the most recent of
+# our builds that played it (a record by an old build against a bot later builds met only a few times misleads).
 incumbent = (elolib.accepted_builds(ours) or [None])[-1]
 def recent_run(bot):
     order = ([incumbent] if incumbent else []) + [p for p in recent if p != incumbent]
@@ -90,10 +88,12 @@ def recent_run(bot):
 def higher_field(p):   # expected score against only the ladder bots rated above p
     up = [b for b in rated if R[b] > R[p]]
     return f"{elolib.field_score(R, p, up):.1%} (vs {len(up)})" if up else '-'
+n_ours = sum(1 for r in rows if elolib.is_ours(r['teamA']) or elolib.is_ours(r['teamB']))
 lines = ["# Ladder", "",
-         f"{len(rows)} scrimmages (ours only), {ndist} distinct (a repeated pairing with the same seed replays the same game and counts once), "
+         f"{len(rows)} games ({n_ours} ours, {len(rows) - n_ours} between field bots on the ladder replica), {ndist} distinct "
+         f"(a repeated pairing on the same map, orientation and seed replays the same game and counts once), "
          f"rated by a batch Bradley-Terry fit on the Elo scale (`tools/elolib.py`), each pair of players counting at most "
-         f"{elolib.PAIR_CAP} games (owner PROMPTS 191: the target filler plays one opponent thousands of times); "
+         f"{elolib.PAIR_CAP} games (so one heavily repeated pairing cannot pull the fit); "
          f"each of our builds is its own player. {len(rated)} of {len(bots)} ladder bots met.", "",
          "Our builds (rating +- 95%; field score = expected score against every ladder bot, one game each; "
          "vs higher = the same against only the ladder bots rated above the build, with their count):", "",
