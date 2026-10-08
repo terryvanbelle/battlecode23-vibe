@@ -226,6 +226,46 @@ class ContestClientTest(unittest.TestCase):
             self.c.http('GET', 'https://api.battlecode.org/api/episode/e/')
 
 
+class LadderPolicyTest(unittest.TestCase):
+    """tools/ladder_policy.py: ranked only with the validated build active, burst while young or fresh, trials only
+    when they end before the next autoscrim (docs/LADDER_STRATEGY.md)."""
+    @classmethod
+    def setUpClass(cls):
+        cls.p = load('ladder_policy', TOOLS / 'ladder_policy.py')
+
+    def t(self, h, m=0, day=8):
+        import datetime
+        return datetime.datetime(2026, 10, day, h, m, tzinfo=datetime.timezone.utc)
+
+    def test_next_cron(self):
+        self.assertEqual(self.p.next_cron('0 */8 * * *', self.t(2, 30)), self.t(8))
+        self.assertEqual(self.p.next_cron('0 */8 * * *', self.t(16, 0)), self.t(0, day=9))
+        self.assertEqual(self.p.next_cron('15 3 * * *', self.t(4)), self.t(3, 15, day=9))
+        self.assertIsNone(self.p.next_cron('garbage', self.t(1)))
+
+    def test_mode(self):
+        import datetime
+        self.assertEqual(self.p.ranked_mode(5, None, self.t(9)), 'BURST')
+        self.assertEqual(self.p.ranked_mode(40, self.t(9) - datetime.timedelta(hours=2), self.t(9)), 'BURST')
+        self.assertEqual(self.p.ranked_mode(40, self.t(9) - datetime.timedelta(hours=30), self.t(9)), 'MAINTAIN')
+
+    def test_may_challenge(self):
+        import datetime
+        st = {'validated': {'submission': 24}, 'trial': None}
+        now = self.t(9)
+        self.assertEqual(self.p.may_challenge(st, 24, 0, None, 'BURST', now), (True, 'BURST'))
+        self.assertFalse(self.p.may_challenge(dict(st, trial={'submission': 30}), 30, 0, None, 'BURST', now)[0])
+        self.assertFalse(self.p.may_challenge(st, 30, 0, None, 'BURST', now)[0])          # a candidate is active
+        self.assertFalse(self.p.may_challenge(st, 24, 2, None, 'BURST', now)[0])          # queue busy
+        self.assertFalse(self.p.may_challenge(st, 24, 0, now - datetime.timedelta(minutes=10), 'MAINTAIN', now)[0])
+        self.assertTrue(self.p.may_challenge(st, 24, 0, now - datetime.timedelta(minutes=10), 'BURST', now)[0])
+
+    def test_trial_window(self):
+        self.assertTrue(self.p.trial_window_ok(self.t(16), self.t(9)))
+        self.assertFalse(self.p.trial_window_ok(self.t(8), self.t(6)))
+        self.assertTrue(self.p.trial_window_ok(None, self.t(6)))
+
+
 class ProfileTest(unittest.TestCase):
     """profile.py: our rows are those whose side equals the cell side; means per team; micro_L fields are columns."""
     def test_means(self):

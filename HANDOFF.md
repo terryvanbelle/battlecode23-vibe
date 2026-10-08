@@ -42,9 +42,12 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
 - Active submission: 24 = g_iter0 (2026-10-07 17:45 PDT). Baseline panel (test/cells/panel-v1.txt, 10 opponents x 10
   maps) running from the driver: `logs/panel1-g_iter0.log`, run dir `gauntlet/*-panel1-g_iter0`.
-- Our ranked play: `python3 tools/contest.py ladder` runs detached on the driver (log `logs/ladder-vibe23.log`), one
-  ranked challenge every 10 minutes to a team rated closest at or above us (galaxy: ranked only upward; weaker teams
-  challenge us). Galaxy's autoscrim (ranked, every team) fires every 8 hours (00:00, 08:00, 16:00 UTC).
+- Ranked vs unranked follows `docs/LADDER_STRATEGY.md` (owner, PROMPTS 17-18), state in `progress/ladder-state.json`:
+  `tools/ladder_policy.py ranked` runs detached on the driver (`logs/ranked-policy.log`): ranked challenges upward
+  only while the validated build is active (BURST one per 5 min while we have < 30 rated matches or the build is < 24 h
+  old, else one per 30 min). Candidates go through `trial-start <package>` (incoming ranked auto-rejected, unranked
+  panel) and `trial-end --accept|--reject`. Validated build: submission 24 = g_iter0 (panel run
+  `gauntlet/20261008-011350-panel1-g_iter0`). Galaxy's autoscrim fires every 8 hours (00:00, 08:00, 16:00 UTC).
 - Every replica game must count (owner, PROMPTS 13): a workflow is adding bot telemetry (indicator strings plus
   indicator dots/lines, which cost 0 bytecodes per call and are uncapped), new ReplayDump extractors (engagements,
   timelines, death causes, opponent tactics) and a per-match report for every downloaded match

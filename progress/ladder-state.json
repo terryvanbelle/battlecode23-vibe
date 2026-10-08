@@ -1,0 +1,17 @@
+{
+ "validated": {
+  "submission": 24,
+  "package": "g_iter0",
+  "since": "2026-10-08T02:35:39.835128+00:00",
+  "panel_run": "gauntlet/20261008-011350-panel1-g_iter0"
+ },
+ "trial": null,
+ "history": [
+  {
+   "at": "2026-10-08T02:35:39.835215+00:00",
+   "event": "init",
+   "submission": 24,
+   "package": "g_iter0"
+  }
+ ]
+}

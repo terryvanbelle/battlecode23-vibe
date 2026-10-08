@@ -128,6 +128,14 @@ When accepts stop, escalate in this order and do not skip steps:
   closed-directions ledger; a short learnings file in which every lesson names its measurement; a handoff that is a
   closure map. Record measurements, not explanations. Nothing stale stays.
 - Push after every commit. Record every owner prompt verbatim.
+- **Play other teams the way the contest allows.** When games against other teams come only through a contest
+  ladder, learn with unranked games (fixed opponent, maps and order: paired experiments) and bank rating with ranked
+  games only while a validated build is active. A candidate on trial is exposed to every match created while it is
+  active, so trials are short, avoid automatic rounds, and refuse incoming ranked challenges. Pace ranked play by the
+  rating's volume penalty and by how recently the build improved. Details and thresholds: `docs/LADDER_STRATEGY.md`.
+- **Every game must count.** When games are scarce, instrument them: the bot logs its own reasons through the free
+  replay channels, and every downloaded match gets an automatic report (both teams' tactics, turning point, our
+  decisions against outcomes).
 
 ## 6. Working with the owner
 
