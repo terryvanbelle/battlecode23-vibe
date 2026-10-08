@@ -57,8 +57,11 @@ public strictfp class RobotPlayer {
                     if (C.TELEMETRY) Telemetry.phase = 4;
                     // the fill stops at 88% of the limit for every type, below the 90% near-miss line, so replay-side
                     // near-miss counts measure real work (carriers at a fixed 1200 reserve filled to 90.4%)
+                    // island flush BEFORE the fill, bounded: after the fill it ran on the 12% reserve and overran
+                    // HQs by 1-12 bytecodes every ~40 rounds (HQ island scan every 8 rounds x flush every 5;
+                    // c_line4 trial, match 196: 37 overruns in one game against camel_case)
+                    if ((r0 + G.id) % 5 == 0) MapMem.flushIslands(limit * 12 / 100 + 1000);
                     MapMem.process(limit * 12 / 100);
-                    if ((r0 + G.id) % 5 == 0) MapMem.flushIslands();
                 } else if (C.TELEMETRY && Telemetry.ovPhase == 0) Telemetry.ovPhase = 3;
             } catch (Exception e) {
                 G.exceptions++;

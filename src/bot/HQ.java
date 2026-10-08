@@ -51,7 +51,7 @@ public final class HQ {
         reason = -1;
         lastWant = false;
         int guard;
-        for (guard = 0; guard < 6 && rc.isActionReady() && Clock.getBytecodesLeft() > 4000; guard++) {
+        for (guard = 0; guard < 6 && rc.isActionReady() && Clock.getBytecodesLeft() > 7000; guard++) {
             int ad = rc.getResourceAmount(ResourceType.ADAMANTIUM), mn = rc.getResourceAmount(ResourceType.MANA);
             boolean wantAnchor = !threatened && G.round >= C.ANCHOR_START && launchersBuilt >= C.ANCHOR_MIN_LAUNCHERS
                 && rc.getNumAnchors(Anchor.STANDARD) == 0 && G.round - lastAnchorRound >= C.ANCHOR_PERIOD && islandToTake();
@@ -113,7 +113,9 @@ public final class HQ {
         if (threatRound == G.round && threatCache != null) return threatCache;
         int n = spawnTiles.length;
         int[] th = new int[n];
-        if (C.SPAWN_SAFETY && G.nEnemyFighters > 0) {
+        // under a heavy siege (20+ fighters in view) the scoring costs ~29 x F x 12 bytecodes: skip it rather than
+        // overrun (c_line4 trial: HQ overruns only in sieges, 1-37 a game)
+        if (C.SPAWN_SAFETY && G.nEnemyFighters > 0 && Clock.getBytecodesLeft() > 8000 + n * G.nEnemyFighters * 14) {
             int f = 0;
             int[] fx = new int[G.nEnemyFighters], fy = new int[G.nEnemyFighters];
             for (int k = G.enemies.length; --k >= 0 && f < fx.length; ) {
@@ -145,6 +147,7 @@ public final class HQ {
         long bd = Long.MAX_VALUE;
         int[] threat = spawnThreat();
         for (int i = spawnTiles.length; --i >= 0; ) {
+            if (Clock.getBytecodesLeft() < 3500) break;       // keep the turn: the best tile so far, or none
             MapLocation l = spawnTiles[i];
             if (!rc.canBuildRobot(t, l)) continue;
             long d = threat[i] * 100_000L + l.distanceSquaredTo(goal);

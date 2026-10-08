@@ -296,7 +296,7 @@ static void pad() {
   a `tryBuild` returned false on that iteration.
   ```
   loop condition failed on !isActionReady()                 -> 0 '.'
-  loop condition failed on getBytecodesLeft() <= 4000       -> 1 'b'
+  loop condition failed on getBytecodesLeft() <= 7000       -> 1 'b'
   loop ended at guard == 6                                  -> 2 'g'
   otherwise (break), with that iteration's ad, mn, resAd, resMn, room, batchOK, threatened, wantAnchor:
     tileFail                                                -> 7 's'

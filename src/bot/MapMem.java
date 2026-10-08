@@ -161,9 +161,10 @@ public final class MapMem {
     /** Publish islands this robot has seen in the last C.ISLAND_FRESH rounds. Island slots carry no timestamp, so an
      *  older observation would overwrite newer news (audit ISL-1: a 60-round window let carriers republish
      *  "neutral" over an island anchored since, and "ours" over one the enemy had taken). */
-    public static void flushIslands() throws GameActionException {
+    public static void flushIslands(int reserve) throws GameActionException {
         if (!Comms.canWrite) return;
         for (int id = 1; id < 40; id++) {
+            if (Clock.getBytecodesLeft() < reserve) return;
             if (islandTile[id] == null || G.round - islandSeen[id] > C.ISLAND_FRESH) continue;
             Comms.reportIsland(id, islandOwner[id], islandTile[id]);
         }
