@@ -129,3 +129,7 @@ Can you tell me more about how you encode information in the game replays?
 ## 28. 2026-10-08 09:15 PDT
 
 Please report all times using PDT
+
+## 29. 2026-10-08 09:50 PDT
+
+The number of benchmark vs. benchmark games seems a bit excessive.  Now that we have a basic ordering, can we maybe restrict the number of those games so that we can fit more candidate vs. benchmark games in?
