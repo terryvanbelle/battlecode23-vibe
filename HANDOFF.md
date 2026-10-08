@@ -28,18 +28,21 @@ Updated 2026-10-07 ~15:45 PDT.
 Cells: `test/cells/calib-g_iter0.txt` (174, every entrant twice) and `test/cells/diag-top4.txt` (24, four top bots).
 Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <cand run> <control run>`.
 
-## Switch to the real galaxy (owner, PROMPTS 11-12; in progress since 2026-10-07 16:10 PDT)
+## The galaxy replica (owner, PROMPTS 11-12)
 
-- The owner wants the exact look and feel of play.battlecode.org and wants us to submit bots, challenge opponents
-  and download results through the replica, as in the contest; none of it may affect the real play.battlecode.org.
-- Being built (two background agents): galaxy's own siarnaq backend, unmodified, with local stand-ins for Google
-  Cloud (storage, Pub/Sub, Cloud Tasks), a saturn replacement that compiles and runs games, and galaxy's own frontend
-  built with the backend URL overridden to our host (the stock build points at api.battlecode.org). New host:
-  https://galaxy.136-86-167-127.sslip.io/ (same basic-auth gate). Code in `tools/galaxy/`, docs in `docs/galaxy/`.
-- After it: seed the field as teams through the API, our team submits through `tools/contest.py`, all games against
-  other teams through scrimmage requests (galaxy limits: 10 unranked requests of up to 10 maps per hour, 10 ranked
-  of 3 random maps, ranked only upward), results and replays downloaded through the API (`ReplayDump --games`
-  reads multi-game match files). The galaxy-lite replica below is retired at cutover.
+- Galaxy's own siarnaq backend (unmodified; Google Cloud replaced by local stand-ins) and galaxy's own frontend run on
+  battlecode-dev at https://galaxy.136-86-167-127.sslip.io/ (gate: user owner, `~/.bc23-replica-password`; galaxy
+  superuser `owner`, same password). Docs `docs/galaxy/README.md`; code `tools/galaxy/`. Nothing contacts
+  battlecode.org: the stock frontend build pointed at api.battlecode.org and is overridden; CSP self only.
+- Our team: **vibe23** (user vibe23, credentials `~/.bc23-galaxy-team`, mode 600), auto-accepts ranked and unranked.
+  Everything goes through `tools/contest.py`: `submit <package> --wait`, `request <team> --maps a,b --order +`,
+  `matches`, `fetch <id>`, `block <cells> --tag T` (a block of unranked requests, downloaded into a run directory
+  for `tools/paired.py`). Galaxy's limits: 10 unranked requests (up to 10 maps each) and 10 ranked (3 random maps,
+  upward only) per hour, counting matches as well as requests.
+- Active submission: 24 = g_iter0 (2026-10-07 17:45 PDT).
+- In progress (background agent): the 87 field teams seeded through the API with their bots, the autoscrim timer,
+  field teams' own ranked requests in spare cycles, results export to `progress/games.csv`, ladder snapshot, and the
+  retirement of galaxy-lite below.
 
 ## The ladder replica (galaxy-lite)
 

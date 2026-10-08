@@ -2,7 +2,10 @@
 """Contestant client for the galaxy replica: everything a team does on play.battlecode.org, through the same HTTP API
 the website uses (siarnaq), so that our ladder play is exactly the contest's (owner, PROMPTS 11). Standard library only.
 
-    tools/contest.py login                                  # JWT for our team user (credentials file below)
+    tools/contest.py register --email E                     # sign up our team user (credentials file below)
+    tools/contest.py create-team <name>                     # create our team in the episode
+    tools/contest.py auto-accept [--ranked A|R|M] [--unranked A|R|M]
+    tools/contest.py login                                  # JWT for our team user
     tools/contest.py me                                     # our team: rating, active submission
     tools/contest.py submit <package> [-m TEXT] [--wait]    # zip src/<package>/ as the contest expects and upload it
     tools/contest.py submissions                            # our submissions and their compile status
@@ -129,6 +132,23 @@ def pages(path, limit=None):
         url = r.get('next')
         n += 1
     return out
+
+
+# ---------------------------------------------------------------- account
+def register(username, password, email, first='Vibe', last='Bot', country='US'):
+    """POST /api/user/u/ (the sign-up form). No JWT yet: the request carries the site gate."""
+    body = {'username': username, 'password': password, 'email': email, 'first_name': first, 'last_name': last,
+            'profile': {'gender': '*', 'country': country}}
+    return http('POST', '/api/user/u/', body)
+
+
+def create_team(name, quote=''):
+    return api('POST', f'/api/team/{EPISODE}/t/', {'name': name, 'episode': EPISODE, 'profile': {'quote': quote}})
+
+
+def set_auto_accept(ranked='A', unranked='A'):
+    return api('PATCH', f'/api/team/{EPISODE}/t/me/',
+               {'profile': {'auto_accept_reject_ranked': ranked, 'auto_accept_reject_unranked': unranked}})
 
 
 # ---------------------------------------------------------------- team and submissions
@@ -360,6 +380,10 @@ def write_run(run, rows, census_rows):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sp = ap.add_subparsers(dest='cmd', required=True)
+    s = sp.add_parser('register'); s.add_argument('--email', required=True)
+    s = sp.add_parser('create-team'); s.add_argument('name'); s.add_argument('--quote', default='')
+    s = sp.add_parser('auto-accept'); s.add_argument('--ranked', default='A', choices=['A', 'R', 'M'])
+    s.add_argument('--unranked', default='A', choices=['A', 'R', 'M'])
     sp.add_parser('login')
     sp.add_parser('me')
     s = sp.add_parser('submit'); s.add_argument('package'); s.add_argument('-m', default=''); s.add_argument('--src')
@@ -376,7 +400,14 @@ def main():
     s = sp.add_parser('block'); s.add_argument('cells'); s.add_argument('--tag', required=True)
     a = ap.parse_args()
     E = EPISODE
-    if a.cmd == 'login':
+    if a.cmd == 'register':
+        user, pw = [l.strip() for l in open(TEAM_FILE).read().splitlines()[:2]]
+        r = register(user, pw, a.email); print('registered', r.get('username'), r.get('id'))
+    elif a.cmd == 'create-team':
+        t = create_team(a.name, a.quote); print('team', t.get('id'), t.get('name'))
+    elif a.cmd == 'auto-accept':
+        t = set_auto_accept(a.ranked, a.unranked); print('profile', (t.get('profile') or {}))
+    elif a.cmd == 'login':
         login(); print('logged in')
     elif a.cmd == 'me':
         t = me(); print(json.dumps(t, indent=1)[:3000])
