@@ -1145,10 +1145,13 @@ def free_gb(path=None):
     return shutil.disk_usage(p).free / 2 ** 30
 
 
+MIN_FREE_GB = float(os.environ.get('MATCH_REPORT_MIN_FREE_GB', '2'))   # the driver's disk is shared with other projects
+
+
 def cmd_sweep(pages=2, max_n=30, contest=None):
     c = contest or load_contest()
-    if free_gb() < 2:
-        print(f'sweep: refusing, {free_gb():.1f} GB free (< 2 GB)')
+    if free_gb() < MIN_FREE_GB:
+        print(f'sweep: refusing, {free_gb():.1f} GB free (< {MIN_FREE_GB:g} GB)')
         return 1
     tid = c.me()['id']
     done = read_lines()
@@ -1156,8 +1159,8 @@ def cmd_sweep(pages=2, max_n=30, contest=None):
                   key=lambda m: m['id'])
     n = 0
     for m in todo[:max_n]:
-        if free_gb() < 2:
-            print(f'sweep: stopping, {free_gb():.1f} GB free (< 2 GB)')
+        if free_gb() < MIN_FREE_GB:
+            print(f'sweep: stopping, {free_gb():.1f} GB free (< {MIN_FREE_GB:g} GB)')
             break
         try:
             p = c.download(m, os.path.join(p_matches(), str(m['id'])))
