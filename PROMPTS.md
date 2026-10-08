@@ -146,3 +146,7 @@ While a candidate is being evaluated, I'd like you to continue working locally t
 
 Here's how I'd like you to think about the project globally:  a) You should be working constantly on building the best local candidate using intelligence and bot vs. bot local runs for verification b) Whenever you feel you have a superior bot, submit it to the ladder, but treat the scrimmages as asynchronous to the main work c) Use all scrimmage replays as a valuable resource for diagnosing issues and coming up with new ideas for how to beat the benchmark bots.
 Realistically, in a tournament situation we'll only have 2 weeks to build the best bot possible, so you should be optimizing time use.
+
+## 33. 2026-10-08 11:25 PDT
+
+I just noticed that we're losing badly to vrangr1.AFinalsBot (10-0 both sides), and yet that bot is ranked near the bottom of the ladder.  This tells me that I was incorrect to ask you to restrict the number of benchmark vs. benchmark games on the ladder.  Clearly the ladder has not yet converged
