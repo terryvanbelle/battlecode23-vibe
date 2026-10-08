@@ -1,4 +1,4 @@
-package c_line2;
+package c_line3;
 
 import battlecode.common.*;
 

@@ -136,6 +136,7 @@ public final class Launcher {
         RobotController rc = G.rc;
         boolean ready = rc.isActionReady();
         boolean superior = G.nAllyFighters + 1 > G.nEnemyFighters;
+        boolean outnumbered = G.nEnemyFighters > G.nAllyFighters + 1;
         MapLocation here = rc.getLocation();
         // per-enemy data computed once (audit R2: per-tile pinned lookups made a 10-fighter fight cost ~12k bytecodes
         // against the launcher's 10k): kind 0 = hittable non-fighter, 1 = fighter (threat radius r), 2 = HQ
@@ -146,7 +147,7 @@ public final class Launcher {
             RobotInfo e = es[i];
             ex[i] = e.location.x; ey[i] = e.location.y;
             if (e.type == RobotType.HEADQUARTERS) kind[i] = 2;
-            else if (e.type == RobotType.LAUNCHER || e.type == RobotType.DESTABILIZER) { kind[i] = 1; er[i] = isPinned(e.ID) ? 16 : C.THREAT_R2; }
+            else if (e.type == RobotType.LAUNCHER || e.type == RobotType.DESTABILIZER) { kind[i] = 1; er[i] = C.MICRO && isPinned(e.ID) ? 16 : C.THREAT_R2; }
         }
         Direction best = Direction.CENTER;
         long bestScore = Long.MIN_VALUE;
@@ -167,15 +168,23 @@ public final class Launcher {
                 }
             }
             long s;
-            if (ready) {
+            if (!C.MICRO) {
+                // g_iter0's scoring (c_micro1's pinned/acceptable/stay rules failed delivery on diag-top4: exposure
+                // +0.029, t +1.75; kills -5.3, t -2.3): not outnumbered and ready -> any hitting tile, fewest
+                // threats, then the edge of range; else fewest threats, then the farthest tile
+                if (ready && !outnumbered) { s = (canHit ? 1_000_000L : 0) - threat * 10_000L + Math.min(minD, 100) * 10; if (canHit) anyCanHit = true; }
+                else s = -threat * 10_000L + Math.min(minD, 100) * 10;
+                if (d == Direction.CENTER) s += 1;
+            } else if (ready) {
                 boolean acceptable = canHit && (threat <= 1 || superior);
                 if (canHit && !acceptable) unsafeStepsAvoided++;
                 if (acceptable) anyCanHit = true;
                 s = (acceptable ? 1_000_000L : 0) - threat * 10_000L + Math.min(minD, 100) * 10;
+                if (d == Direction.CENTER) s += 50;
             } else {
                 s = -threat * 10_000L + Math.min(minD, 100);
+                if (d == Direction.CENTER) s += 50;   // moving costs the next turn's move: stay on ties
             }
-            if (d == Direction.CENTER) s += 50;   // moving costs the next turn's move: stay on ties
             s += G.rand(3);
             if (s > bestScore) { bestScore = s; best = d; }
         }

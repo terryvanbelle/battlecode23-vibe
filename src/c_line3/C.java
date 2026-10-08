@@ -1,4 +1,4 @@
-package c_line2;
+package c_line3;
 
 /**
  * Every tunable constant and every arm switch, each with the measurement or reason that set it.
@@ -23,6 +23,10 @@ public final class C {
     public static final boolean SPAWN_SAFETY = true;
     /** Launchers are built in batches of this many in one turn (unless the HQ is threatened). */
     public static final int LAUNCHER_BATCH = 3;
+    /** Launcher fight scoring: false = g_iter0's; true = c_micro1's (pinned enemies threaten r2 16, step in only where
+     *  at most one enemy answers unless superior, stay put on ties). c_micro1 failed delivery on diag-top4 vs c_mana1:
+     *  exposure up (+0.029, t +1.75), damage per contact up, kills -5.3 (t -2.3), launchers alive at r100 -1.7. */
+    public static final boolean MICRO = false;
     /** Launcher cohesion (arm c_army1): with no enemy in sight a launcher advances only with GROUP_MIN launchers
      *  (itself included) in vision, follows the lowest-id launcher in vision when farther than r2 FOLLOW_R2, and
      *  otherwise regroups (nearest visible ally launcher, else back to the nearest own HQ). diag-top4: by r20 the top
