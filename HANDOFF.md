@@ -37,8 +37,9 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
 - Our team: **vibe23** (user vibe23, credentials `~/.bc23-galaxy-team`, mode 600), auto-accepts ranked and unranked.
   Everything goes through `tools/contest.py`: `submit <package> --wait`, `request <team> --maps a,b --order +`,
   `matches`, `fetch <id>`, `block <cells> --tag T` (a block of unranked requests, downloaded into a run directory
-  for `tools/paired.py`). Galaxy's limits: 10 unranked requests (up to 10 maps each) and 10 ranked (3 random maps,
-  upward only) per hour, counting matches as well as requests.
+  for `tools/paired.py`). Galaxy's limits: 10 unranked and 10 ranked per hour, counting requests AND the matches they
+  create, so 5 auto-accepted unranked requests (up to 10 maps each, 50 games) an hour; ranked: 3 random maps,
+  upward only.
 - Active submission: 24 = g_iter0 (2026-10-07 17:45 PDT).
 - In progress (background agent): the 87 field teams seeded through the API with their bots, the autoscrim timer,
   field teams' own ranked requests in spare cycles, results export to `progress/games.csv`, ladder snapshot, and the

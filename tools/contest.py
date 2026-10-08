@@ -24,8 +24,8 @@ without a JWT (login, replay downloads) carry the gate login (user owner, passwo
 requests carry our team's JWT, as the website does. Our team user's credentials: ~/.bc23-galaxy-team (two lines: user
 name, password; mode 600). Tokens are cached in ~/.cache/bc23-contest/token.json (mode 600).
 
-Galaxy's own rules apply (enforced by the server, not here): 10 unranked and 10 ranked requests per hour (requests
-plus matches in the last hour), up to 10 maps per unranked request, ranked requests use 3 random maps in shuffled
+Galaxy's own rules apply (enforced by the server, not here): 10 unranked and 10 ranked requests per hour, counting
+requests AND matches of the last hour, so an accepted request counts twice: 5 auto-accepted requests an hour, up to 10 maps per unranked request, ranked requests use 3 random maps in shuffled
 order and only against teams rated at least as high, at most 3 active ranked scrimmages against one team.
 
 Run directory (`block`): gauntlet/<stamp>-<tag>/ with results.csv (opponent,map,bot_side,winner_side,rounds,
@@ -312,7 +312,7 @@ def block(cells_file, tag, poll=60, max_wait=6 * 3600):
                 r = request(opp, False, maps, order)
                 break
             except ApiError as e:
-                if e.code in (400, 429) and ('limit' in e.detail.lower() or 'rate' in e.detail.lower()):
+                if e.code == 429 or (e.code == 400 and ('limit' in e.detail.lower() or 'too many' in e.detail.lower())):
                     print(time.strftime('%H:%M:%S'), 'hourly request limit reached; waiting', flush=True)
                     time.sleep(300)
                     continue
