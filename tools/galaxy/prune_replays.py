@@ -3,7 +3,7 @@
 # progress/games.csv (tools/galaxy/results.py), contestants cannot watch other teams' scrimmages, and our own
 # matches' replays are always kept. Run inside siarnaq's Django context, as the replica user:
 #   sudo -n bc23-galaxy-manage shell -c "exec(open('/home/terryvanbelle/projects/vibe/2023/tools/galaxy/prune_replays.py').read())"
-# Installed in the operator's crontab on battlecode-dev, daily at 23:30 UTC (16:30 PDT) (docs/galaxy/README.md).
+# Installed in the operator's crontab on battlecode-dev every 6 hours at :30 (docs/galaxy/README.md).
 import datetime
 import os
 
@@ -11,7 +11,7 @@ from django.conf import settings
 from django.utils import timezone
 from siarnaq.api.compete.models import Match
 
-KEEP_HOURS = 24
+KEEP_HOURS = 6     # results are exported every 2 hours (tools/galaxy/results.py); the VM disk is 20 GB
 OURS = 'vibe23'
 ROOT = os.environ.get('GALAXY_STORAGE_ROOT', '/srv/bc23-galaxy/storage')
 

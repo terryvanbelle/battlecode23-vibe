@@ -167,8 +167,8 @@ sudo journalctl -u bc23-galaxy-web -u bc23-galaxy-relay -u bc23-galaxy-saturn -n
 - **Autoscrims.** Episode bc23 has `autoscrim_schedule = "0 */8 * * *"` (UTC: 17:00, 01:00, 09:00 PDT), galaxy's
   own round over every team; field teams also challenge in idle capacity, weighted toward the low end of the displayed
   ladder (mostly teams with few rated matches) so the volume penalty fades sooner (section 6 for the history).
-- **Replay retention.** The VM's disk is 20 GB. `tools/galaxy/prune_replays.py` (operator crontab, 23:30 UTC =
-  16:30 PDT) deletes the replay files of finished matches our team did not play once they are 24 hours old: their
+- **Replay retention.** The VM's disk is 20 GB. `tools/galaxy/prune_replays.py` (operator crontab, every 6 hours
+  at :30) deletes the replay files of finished matches our team did not play once they are 6 hours old: their
   results are already in `progress/games.csv`, and contestants cannot watch other teams' scrimmages anyway. Our own
   matches' replays are kept. siarnaq recorded it as the job `replica-autoscrim-bc23`. The timer that fires it,
   `bc23-galaxy-scheduler.timer`, was enabled on 2026-10-08 01:19 UTC after the 87 field teams compiled; the first
