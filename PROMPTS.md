@@ -69,3 +69,15 @@ Remember that none of this should affect the real play.battlecode.org in any way
 ## 13. 2026-10-07 18:21 PDT
 
 Because you will have access to many fewer ladder replays through the replica, you should make sure that each one counts when coming up with new ideas.  Instrument them to get as much information as possible per game
+
+## 14. 2026-10-07 ~18:28 PDT
+
+It looks like all of our games are Unranked, while games between two benchmark bots are Ranked.  Is that intentional?
+
+## 15. 2026-10-07 ~18:32 PDT
+
+This artificial limit on number of matches is going to be a problem.  I wanted realistic, but that seems a bit too realistic at this point.  Is there a setting to increase it?
+
+## 16. 2026-10-07 ~18:35 PDT
+
+That sounds good, do that
