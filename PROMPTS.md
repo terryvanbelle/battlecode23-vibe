@@ -109,3 +109,7 @@ How do you select candidates?  Do you do local head-to-head evaluations with g_i
 ## 23. 2026-10-08 06:35 PDT
 
 Yes, I think that's wise.  If you want to bring back the previous-year practice of building archetypes, that also seems like a good idea to me
+
+## 24. 2026-10-08 06:50 PDT
+
+I can't seem to find where on the replica I can view matches.  What am I missing?
