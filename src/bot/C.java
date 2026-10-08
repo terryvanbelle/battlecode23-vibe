@@ -41,8 +41,9 @@ public final class C {
      *  (itself included) in vision, follows the lowest-id launcher in vision when farther than r2 FOLLOW_R2, and
      *  otherwise regroups (nearest visible ally launcher, else back to the nearest own HQ). diag-top4: by r20 the top
      *  bots fielded 13 launchers in one mass while ours fought in ones and twos and lost 6 for 3. c_army1 passed
-     *  delivery vs c_spawn1 (exposure -0.030, t -2.85; launchers lost -17, alive r250 +3.0, t +3.3; kills equal). */
-    public static final boolean ARMY = true;
+     *  delivery vs c_spawn1 (exposure -0.030, t -2.85; launchers lost -17, alive r250 +3.0, t +3.3; kills equal), but
+     *  it costs island presence: self-play vs g_iter0 on the 10 panel maps, both sides, cohesion on 7/20 vs off 15/20. */
+    public static final boolean ARMY = false;
     public static final int GROUP_MIN = 3, FOLLOW_R2 = 8;
     /** A lone launcher still goes to an enemy sighting this close (r2) to one of our HQs: home defence. */
     public static final int HOME_DEFENCE_R2 = 100;

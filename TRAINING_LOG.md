@@ -299,3 +299,8 @@ of history. Times are PDT. Grep it; do not read it whole.
 - c_line6 = balanced roles, early carrier cap (g_iter0's 4 + round/40 per HQ until r300), lazy spawn scoring
   (siege fix), island-slot fill, cohesion OFF; trial now. c_line6a = the same with cohesion on, for a VM self-play
   suite against g_iter0 on the 10 panel maps, both sides (our builds only).
+
+## 2026-10-08 06:15 — Self-play suite: cohesion off 15/20, on 7/20 against g_iter0
+
+- VM self-play (our builds only), the 10 panel maps x both sides against g_iter0: c_line6 (cohesion off) 15/20,
+  losses Forest x2 (r2000), BatSignal A, Cat B, MassiveL B; c_line6a (cohesion on) 7/20. Working line: C.ARMY = false.
