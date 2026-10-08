@@ -113,3 +113,7 @@ Yes, I think that's wise.  If you want to bring back the previous-year practice 
 ## 24. 2026-10-08 06:50 PDT
 
 I can't seem to find where on the replica I can view matches.  What am I missing?
+
+## 25. 2026-10-08 06:58 PDT
+
+Got it, thanks!
