@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 24,
+  "submission": 113,
   "package": "g_iter0",
   "since": "2026-10-08T02:35:39.835128+00:00",
   "panel_run": "gauntlet/20261008-011350-panel1-g_iter0"
@@ -12,6 +12,18 @@
    "event": "init",
    "submission": 24,
    "package": "g_iter0"
+  },
+  {
+   "at": "2026-10-08T05:09:55.951076+00:00",
+   "event": "trial-start",
+   "submission": 112,
+   "package": "c_line4"
+  },
+  {
+   "at": "2026-10-08T06:29:59.400845+00:00",
+   "event": "reject",
+   "submission": 112,
+   "package": "c_line4"
   }
  ]
 }

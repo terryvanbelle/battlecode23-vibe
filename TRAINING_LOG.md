@@ -233,3 +233,22 @@ of history. Times are PDT. Grep it; do not read it whole.
   0.009-0.052 (us 0.123), damage per contact round 5.3-8.0 (us 14). The same signature as the diag-top4 study:
   early mana, launcher numbers, and fights not taken alone. Trial targets for the next candidate: Mn r100 up,
   launchers alive r250 up, exposure down.
+
+## 2026-10-07 23:30 — First replica trial: c_line4 rejected (economy and army up, results down, HQ overruns)
+
+- Trial per docs/LADDER_STRATEGY.md: c_line4 (submission 112: mana2 roles, nav2, audit fixes, spawn safety, cohesion
+  on, no batches, telemetry) on panel v1 against g_iter0's panel run, same 100 cells:
+  identical 88, gained 3, lost 9 (net -6, -1.73 SE); 25/100 vs 31/100.
+- Delivered as designed: Mn by r100 +125 (t +11.1), launchers alive r100 +3.4 (t +10.6) and r250 +3.4 (t +4.4),
+  kills +16.7 (t +2.9); exposure and damage per contact unchanged.
+- Basics failure: HQ overruns 15.8 per game (t +4.4; 143 and 72 in the two 2000-round losses to britacatalin), only
+  in sieges, which self-play does not reproduce. Fixed in the working line by bounding spawn scoring, the spawn-tile
+  scan and the build loop by the bytecodes left (commit 89ed0d4).
+- Where the games went: 9 of the 12 flipped cells were g_iter0 quick wins (r235-384, 5-7 anchors placed) that the
+  candidate dragged to r572-2000 with 1-3 anchors. g_iter0 won 24 games by r400, c_line4 18. Overall anchor counts
+  and first-anchor round are unchanged, so the loss is in specific quick-win games.
+- HQ telemetry (bytecode channel, 100 games): build loop ended "threatened" (affordable carrier withheld under
+  threat) in 43% of HQ turns, "poor" 39%, "anchor reserve" 16%; enemies within r2 9 of our HQs 2,934 HQ-rounds per
+  game vs 190 near theirs. wantAnchor requires the HQ not to be threatened.
+- Rejected; g_iter0 resubmitted (submission 113, validated). Next: the same line with the HQ bounds, after the
+  08:00 UTC autoscrim, once the baseline reports say whether the HQ threat lockout is new.
