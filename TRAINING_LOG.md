@@ -345,3 +345,15 @@ of history. Times are PDT. Grep it; do not read it whole.
   min 5. Our own Bradley-Terry fit (progress/ELO.md) already ranks it 5th.
 - Restored galaxy's 8-hourly autoscrim over every team and uncapped field activity in idle capacity; challengers are
   now weighted toward the low end of the displayed ladder (mostly under-played teams) so n grows where it is lowest.
+
+## 2026-10-08 12:45 PDT — ACCEPT: c_line8a becomes the validated build (g_iter1)
+
+- Panel v1 on the replica: c_line8a 33/100 vs g_iter0 31 (identical 90, gained 6, lost 4, net +2, +0.63 SE).
+  Island-rounds margin +403 (t +2.44), launchers alive r250 +2.7 (t +5.5), kills +35 (t +4.3), anchors built -3.8
+  (t -2.8, the gate working), carriers lost +9.5 (longer, more contested games); 0 overruns, 0 exceptions.
+- Local: 18/20 vs g_iter0 on the pinned self-play cells (c_line6 15/20).
+- Decision: accepted on the combination (local head-to-head, panel direction, consistent secondary signals) under
+  the owner's operating model (PROMPTS 32: submit when superior, optimise time); the panel alone is not significant.
+  Alias g_iter1 = c_line8a (code 83d878c19411, submission 120). Next candidates are screened against it.
+- Also: c_line9a (launcher-first opening) 14/20 vs g_iter0 locally (c_line8a 18): worse against g_iter0; its runs
+  against the swarm archetype are in progress (the opening targets swarm-style bots).

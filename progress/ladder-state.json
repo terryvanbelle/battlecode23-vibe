@@ -1,16 +1,11 @@
 {
  "validated": {
-  "submission": 119,
-  "package": "g_iter0",
-  "since": "2026-10-08T02:35:39.835128+00:00",
-  "panel_run": "gauntlet/20261008-011350-panel1-g_iter0"
- },
- "trial": {
   "submission": 120,
   "package": "c_line8a",
-  "started": "2026-10-08T18:00:14.067282+00:00",
-  "panel": "test/cells/panel-v1.txt"
+  "since": "2026-10-08T19:43:59.529490+00:00",
+  "panel_run": "gauntlet/20261008-180016-panel1-c_line8a"
  },
+ "trial": null,
  "history": [
   {
    "at": "2026-10-08T02:35:39.835215+00:00",
@@ -69,6 +64,12 @@
   {
    "at": "2026-10-08T18:00:14.067318+00:00",
    "event": "trial-start",
+   "submission": 120,
+   "package": "c_line8a"
+  },
+  {
+   "at": "2026-10-08T19:43:59.747198+00:00",
+   "event": "accept",
    "submission": 120,
    "package": "c_line8a"
   }

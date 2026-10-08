@@ -40,11 +40,9 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
   for `tools/paired.py`). Hourly limits count requests AND the matches they create (an accepted request counts
   twice); galaxy's default 10/10 was raised to 40 unranked and 20 ranked (owner, PROMPTS 15-16), so about 20 panel
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
-- Validated build: g_iter0 (latest resubmission 117). Its panel run `gauntlet/20261008-011350-panel1-g_iter0` (31/100,
-  test/cells/panel-v1.txt: 10 opponents x 10 maps) is the baseline every trial is paired against.
-- Trial in progress since 2026-10-08 09:05 PDT: c_line7m (submission 118; c_line6 + parity-hold micro), log
-  `logs/trial-c_line7m.log`; it passed the local head-to-head screen (16/20 vs g_iter0); the archetype roster is
-  being built (workflow; docs/ARCHETYPES.md, tools/screen.py when done).
+- Validated build: **g_iter1 = c_line8a** (submission 120, accepted 2026-10-08 12:45 PDT: panel 33/100 vs g_iter0's 31,
+  18/20 vs g_iter0 locally). Its panel run `gauntlet/20261008-180016-panel1-c_line8a` is the baseline for the next trials
+  (test/cells/panel-v1.txt: 10 opponents x 10 maps). g_iter0's panel run: `gauntlet/20261008-011350-panel1-g_iter0`.
 - Ranked vs unranked follows `docs/LADDER_STRATEGY.md` (owner, PROMPTS 17-18), state in `progress/ladder-state.json`:
   `tools/ladder_policy.py ranked` runs detached on the driver (`logs/ranked-policy.log`): ranked challenges upward
   only while the validated build is active (BURST one per 5 min while we have < 30 rated matches or the build is < 24 h
