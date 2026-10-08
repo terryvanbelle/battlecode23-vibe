@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-07 ~15:45 PDT.
+Updated 2026-10-08 09:20 PDT.
 
 ## Standing
 
@@ -40,22 +40,24 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
   for `tools/paired.py`). Hourly limits count requests AND the matches they create (an accepted request counts
   twice); galaxy's default 10/10 was raised to 40 unranked and 20 ranked (owner, PROMPTS 15-16), so about 20 panel
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
-- Active submission: 24 = g_iter0 (2026-10-07 17:45 PDT). Baseline panel (test/cells/panel-v1.txt, 10 opponents x 10
-  maps) running from the driver: `logs/panel1-g_iter0.log`, run dir `gauntlet/*-panel1-g_iter0`.
+- Validated build: g_iter0 (latest resubmission 117). Its panel run `gauntlet/20261008-011350-panel1-g_iter0` (31/100,
+  test/cells/panel-v1.txt: 10 opponents x 10 maps) is the baseline every trial is paired against.
+- Trial in progress since 2026-10-08 09:05 PDT: c_line7m (submission 118; c_line6 + parity-hold micro), log
+  `logs/trial-c_line7m.log`; it passed the local head-to-head screen (16/20 vs g_iter0); the archetype roster is
+  being built (workflow; docs/ARCHETYPES.md, tools/screen.py when done).
 - Ranked vs unranked follows `docs/LADDER_STRATEGY.md` (owner, PROMPTS 17-18), state in `progress/ladder-state.json`:
   `tools/ladder_policy.py ranked` runs detached on the driver (`logs/ranked-policy.log`): ranked challenges upward
   only while the validated build is active (BURST one per 5 min while we have < 30 rated matches or the build is < 24 h
   old, else one per 30 min). Candidates go through `trial-start <package>` (incoming ranked auto-rejected, unranked
-  panel) and `trial-end --accept|--reject`. Validated build: submission 113 = g_iter0 (panel run
-  `gauntlet/20261008-011350-panel1-g_iter0`, 31/100). Trials: c_line4 25/100 (rejected), c_line5 28 (rejected), c_line6 32 (even, not accepted; working base). Galaxy's autoscrim fires every 8 hours (17:00, 01:00, 09:00 PDT).
-- Every replica game must count (owner, PROMPTS 13): a workflow is adding bot telemetry (indicator strings plus
-  indicator dots/lines, which cost 0 bytecodes per call and are uncapped), new ReplayDump extractors (engagements,
-  timelines, death causes, opponent tactics) and a per-match report for every downloaded match
-  (`docs/TELEMETRY.md` when done). The next candidate is submitted only with telemetry on (c_line3 was held back).
+  panel) and `trial-end --accept|--reject`. Trials: c_line4 25/100 (rejected), c_line5 28 (rejected), c_line6 32 (even, not accepted; working base). Galaxy's autoscrim fires every 8 hours (17:00, 01:00, 09:00 PDT).
+- Every replica game must count (owner, PROMPTS 13): bot telemetry (docs/TELEMETRY.md; galaxy runs with indicators
+  off, so contest replays carry a 6-bit state code per robot-turn in the bytecode count), ReplayDump extractors (engagements,
+  timelines, death causes, opponent tactics) and a per-match report for every downloaded match (`research/matches/`,
+  `progress/telemetry.jsonl`, `tools/telemetry_query.py`). Every submitted build carries telemetry.
 - The field: 87 teams, one per public 2023 bot (`tools/galaxy/field.py`, mapping `tools/galaxy/field-teams.tsv`; one
   name shortened: `remember-to-hydrate.sprint_1`), each its own user (passwords only on the VM,
   `~/.bc23-galaxy-field/accounts.json`), all compiled, auto-accept on. Autoscrims: `bc23-galaxy-scheduler.timer`
-  enabled 2026-10-07 18:19 PDT, every 8 h from 01:00 PDT (176 matches per round, about 4.5-5 h on 5 engines: our
+  enabled 2026-10-07 18:19 PDT, every 8 h from 01:00 PDT (176 matches per round, about 3-4 h on 7 engines: our
   requests queue behind a round; `docs/galaxy/README.md` section 8, capacity). Field activity on the VM
   (`field.py activity`, `logs/field-activity.log`): random field teams request ranked scrimmages upward, one a
   minute while fewer than 2 matches wait. saturn has 7 engines (since the experiment queue drained).
