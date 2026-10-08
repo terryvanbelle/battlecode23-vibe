@@ -105,3 +105,7 @@ How do we compare a candidate against g_iter0?  Do we submit the candidate, run 
 ## 22. 2026-10-08 06:30 PDT
 
 How do you select candidates?  Do you do local head-to-head evaluations with g_iter0 first?
+
+## 23. 2026-10-08 06:35 PDT
+
+Yes, I think that's wise.  If you want to bring back the previous-year practice of building archetypes, that also seems like a good idea to me
