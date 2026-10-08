@@ -1,4 +1,4 @@
-package bot;
+package c_line6;
 
 /**
  * Every tunable constant and every arm switch, each with the measurement or reason that set it.
@@ -42,7 +42,7 @@ public final class C {
      *  otherwise regroups (nearest visible ally launcher, else back to the nearest own HQ). diag-top4: by r20 the top
      *  bots fielded 13 launchers in one mass while ours fought in ones and twos and lost 6 for 3. c_army1 passed
      *  delivery vs c_spawn1 (exposure -0.030, t -2.85; launchers lost -17, alive r250 +3.0, t +3.3; kills equal). */
-    public static final boolean ARMY = true;
+    public static final boolean ARMY = false;
     public static final int GROUP_MIN = 3, FOLLOW_R2 = 8;
     /** A lone launcher still goes to an enemy sighting this close (r2) to one of our HQs: home defence. */
     public static final int HOME_DEFENCE_R2 = 100;

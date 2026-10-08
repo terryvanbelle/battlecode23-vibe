@@ -1,4 +1,4 @@
-package bot;
+package c_line6;
 
 import battlecode.common.*;
 
