@@ -314,3 +314,12 @@ of history. Times are PDT. Grep it; do not read it whole.
 - Not accepted (no stacking on non-inferiority); g_iter0 resubmitted. The working line (src/bot) is c_line6: the
   next arms (HQ real-danger threat, parity-hold micro) build on it and pass the new pre-trial screen first
   (head-to-head vs the incumbent and an archetype roster; owner, PROMPTS 22-23; workflow building it now).
+
+## 2026-10-08 07:50 — Local screens on c_line6 (20 pinned self-play cells vs g_iter0)
+
+- c_line7t (HQ threatened only under real danger): 13/20 vs c_line6's 15/20 on the same cells (gained 1, lost 3);
+  anchors placed -0.7 (t -2.0), island-rounds -385 (t -1.6). Fails the screen: building under nearby threat costs
+  anchors. Closed for now (re-open: a version that withholds anchor builds only, not carriers).
+- c_line7m (parity hold): 16/20 (gained 1, lost 0; 19 identical). Passes, but g_iter0's fights barely exercise the
+  change; the archetype roster (swarm style) is the real test. Next replica trial after the 16:00 UTC autoscrim,
+  once the full screen with archetypes has run.
