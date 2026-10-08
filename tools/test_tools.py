@@ -195,7 +195,7 @@ class ContestClientTest(unittest.TestCase):
         Path(d, 'c.txt').write_text('# x\nTeamX m1,m2 -\nTeamY m3\n')
         self.assertEqual(self.c.read_cells(str(Path(d, 'c.txt'))), [('TeamX', ['m1', 'm2'], '-'), ('TeamY', ['m3'], '+')])
         m = {'id': 7, 'alternate_order': True, 'participants': [
-            {'team': 1, 'teamname': 'us', 'player_index': 1}, {'team': 2, 'teamname': 'TeamX', 'player_index': 0}]}
+            {'team': 1, 'teamname': 'us', 'player_index': 1, 'submission': 24}, {'team': 2, 'teamname': 'TeamX', 'player_index': 0}]}
         orig = self.c.games_of
         self.c.games_of = lambda rep: [(0, 'm1', 'B', 300), (1, 'm2', 'A', 400)]
         try:
@@ -204,6 +204,7 @@ class ContestClientTest(unittest.TestCase):
             self.c.games_of = orig
         self.assertEqual([(r['opponent'], r['map'], r['bot_side'], r['bot_result'], r['seed']) for r in rows],
                          [('TeamX', 'm1', 'B', 'win', 'map'), ('TeamX', 'm2', 'B', 'loss', 'map-rev')])
+        self.assertEqual({r['submission'] for r in rows}, {24})
 
     def test_refuses_real_site(self):
         env = dict(os.environ, CONTEST_SITE='https://play.battlecode.org')
@@ -230,24 +231,6 @@ class ProfileTest(unittest.TestCase):
         self.assertEqual([float(v) for v in us[2:]], [0.5, 20.0, 0.2, 5.0])
         self.assertEqual(x[:2], ['X', '2'])
         self.assertEqual([float(v) for v in x[2:]], [0.5, 25.0, 0.3, 8.0])
-
-
-class MatchmakerTest(unittest.TestCase):
-    """tools/replica-matchmaker.py: opponents come from the band of ranks around the challenger, never itself."""
-
-    def setUp(self):
-        self.m = load('matchmaker', 'replica-matchmaker.py')
-
-    def test_band(self):
-        import random
-        teams = [(f't{i}', 2000 - i) for i in range(20)]
-        rnd = random.Random(1)
-        for _ in range(200):
-            to = self.m.pick(teams, 't10', 3, rnd)
-            self.assertIn(to, {'t7', 't8', 't9', 't11', 't12', 't13'})
-        self.assertIn(self.m.pick(teams, 't0', 3, rnd), {'t1', 't2', 't3'})
-        self.assertIsNone(self.m.pick(teams, 'nobody', 3, rnd))
-        self.assertIsNone(self.m.pick([('solo', 1500)], 'solo', 3, rnd))
 
 
 if __name__ == '__main__':

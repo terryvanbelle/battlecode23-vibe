@@ -271,9 +271,10 @@ def run_rows(match, replay, team_id):
     for i, m, w, rounds in games_of(replay):
         rev = bool(match.get('alternate_order')) and i % 2 == 1
         res = 'win' if w == lab else 'loss' if w in ('A', 'B') else 'unknown'
+        sub = next((p.get('submission', '') for p in match['participants'] if p['team'] == team_id), '')
         rows.append({'opponent': opp, 'map': m, 'bot_side': lab, 'winner_side': w, 'rounds': rounds,
                      'bot_result': res, 'reason': '', 'seed': 'map-rev' if rev else 'map', 'game': i,
-                     'match': match['id']})
+                     'match': match['id'], 'submission': sub})
     return rows
 
 
@@ -301,9 +302,17 @@ def block(cells_file, tag, poll=60, max_wait=6 * 3600):
     os.makedirs(run, exist_ok=True)
     log_p = os.path.join(run, 'requests.jsonl')
     done = [json.loads(l) for l in open(log_p)] if os.path.exists(log_p) else []
-    sub = (team.get('active_submission') or {})
+    # matches that existed before this block (an earlier panel's identical requests) are never taken as ours
+    floor_p = os.path.join(run, 'match_floor.txt')
+    if not os.path.exists(floor_p):
+        ids = [m['id'] for m in matches(tid, limit_pages=1)]
+        open(floor_p, 'w').write(str(max(ids) if ids else 0))
+    floor = int(open(floor_p).read().strip() or 0)
+    subs = pages(f'/api/compete/{EPISODE}/submission/', limit=1)
+    active = next((x for x in subs if x.get('accepted')), {})
     with open(os.path.join(run, 'provenance.txt'), 'a') as fh:
-        fh.write(f'team={team["name"]} team_id={tid} site={SITE} cells={cells_file} submission={json.dumps(sub)[:200]}\n')
+        fh.write(f'team={team["name"]} team_id={tid} site={SITE} cells={cells_file} match_floor={floor} '
+                 f'latest_accepted_submission={active.get("id")} package={active.get("package")}\n')
     for k, (opp, maps, order) in enumerate(cells):
         if any(d['cell'] == k for d in done):
             continue
@@ -330,7 +339,7 @@ def block(cells_file, tag, poll=60, max_wait=6 * 3600):
     while pending and time.time() - t0 < max_wait:
         ms = matches(tid, limit_pages=5)
         for m in ms:
-            if m['id'] in found.values():
+            if m['id'] in found.values() or m['id'] <= floor:
                 continue
             for rid, d in list(pending.items()):
                 if opponent_name(m, tid) == d['opponent'] and list(m.get('maps') or []) == d['maps'] \
@@ -361,7 +370,8 @@ def census_of(replay, game_rows):
 
 
 def write_run(run, rows, census_rows):
-    hdr = ['opponent', 'map', 'bot_side', 'winner_side', 'rounds', 'bot_result', 'reason', 'seed', 'game', 'match']
+    hdr = ['opponent', 'map', 'bot_side', 'winner_side', 'rounds', 'bot_result', 'reason', 'seed', 'game', 'match',
+           'submission']
     with open(os.path.join(run, 'results.csv'), 'w', newline='') as fh:
         w = csv.DictWriter(fh, fieldnames=hdr)
         w.writeheader()
