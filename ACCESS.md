@@ -40,7 +40,8 @@ play.battlecode.org, no replays: galaxy hides other teams' scrimmage replays fro
   match; it opens the official Battlecode 2023 viewer on that match's games. (`owner` has no team, so these pages
   are empty for it.)
 
-Every 8 hours galaxy's automatic round gives each team 4 ranked best-of-3 matches. In between, our team requests
+Once a day, at 17:00 PDT, galaxy's automatic round gives the 24 top-rated teams and ours 4 ranked best-of-3 matches
+each. In between, our team requests
 scrimmages as a contestant, and field teams challenge the teams rated just above them when the VM has spare time.
 
 ## If the address stops working

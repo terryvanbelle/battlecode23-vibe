@@ -137,3 +137,7 @@ The number of benchmark vs. benchmark games seems a bit excessive.  Now that we 
 ## 30. 2026-10-08 10:00 PDT
 
 That sounds good to me.  I'm also OK if you want to restrict autoscrim to just the top N bots
+
+## 31. 2026-10-08 10:05 PDT
+
+While a candidate is being evaluated, I'd like you to continue working locally to improve the candidate, rather than pausing to wait for the results.  We can't let ourselves get blocked on waiting for scrimmages

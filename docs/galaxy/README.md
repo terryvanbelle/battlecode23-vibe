@@ -164,8 +164,9 @@ bc23-galaxy-manage showmigrations             # any manage.py command, as bcrepl
 sudo journalctl -u bc23-galaxy-web -u bc23-galaxy-relay -u bc23-galaxy-saturn -n 100
 ```
 
-- **Autoscrims.** Episode bc23 has `autoscrim_schedule = "0 */8 * * *"` (galaxy's documented example is every 4
-  hours; see section 6 for why 8), interpreted in UTC (the job's `time_zone`). siarnaq recorded it as the job `replica-autoscrim-bc23`. The timer that fires it,
+- **Autoscrims.** Episode bc23's own `autoscrim_schedule` is null (disabled). A daily top-N round replaces it: the
+  operator's crontab on the VM runs `tools/galaxy/autoscrim_top.py` at 00:00 UTC (17:00 PDT), galaxy's own autoscrim
+  matchmaking on the 24 teams with the highest rating mean plus ours (section 6). Earlier history below. siarnaq recorded it as the job `replica-autoscrim-bc23`. The timer that fires it,
   `bc23-galaxy-scheduler.timer`, was enabled on 2026-10-08 01:19 UTC after the 87 field teams compiled; the first
   round is due at 08:00 UTC (01:00 PDT), then every 8 hours (00:00, 08:00, 16:00 UTC). `sudo systemctl disable --now
   bc23-galaxy-scheduler.timer` pauses the rounds. One round by hand:
@@ -251,7 +252,7 @@ site through Caddy on 127.0.0.1 with the real certificate, and every other host 
 | saturn reports a match OK! whatever the winner lines say | scores that do not add up to the maps, or a malformed binary zip, are TRY | siarnaq would divide by zero rating such a match. |
 | no per-game limit | 1800 s per game (`GALAXY_GAME_TIMEOUT`) | A hung engine does not hold a slot. |
 | Cloud Scheduler fires the autoscrim job | the job is recorded; a systemd timer fires it each minute its cron matches (enabled 2026-10-08) | No Google. |
-| autoscrim every 4 hours (galaxy's documented example; staff choose it per episode) | every 8 hours (`0 */8 * * *`, set 2026-10-08) | One round is 176 three-game matches, ~4.5-5 h on 5 engines: every 4 hours would leave a permanent backlog ahead of every team's requests. |
+| autoscrim every 4 hours over every team (galaxy's documented example; staff choose it per episode) | once a day at 17:00 PDT over the 24 teams with the highest rating mean plus ours (galaxy's own `TeamQuerySet.autoscrim` on that subset, `tools/galaxy/autoscrim_top.py` from the operator's crontab; the episode's own schedule is null) | Owner, PROMPTS 29-30 (2026-10-08): once the field's ordering was known, fewer field-vs-field games so candidates' games run sooner. The same day the 137 field-only matches then queued were cancelled with galaxy's own cancel. |
 | saturn on autoscaled cloud machines | 5 engines on one 8-vCPU VM shared with the experiment queue | One autoscrim round (176 matches of 3 games for 88 teams) takes several hours here (section 8, capacity). |
 | logged-out API calls get 401 | 403 (no challenge) on the basic-auth path | Keeps the browser's basic-auth login (section 5). |
 | episode hourly scrimmage limits 10 ranked, 10 unranked (model defaults; staff-editable per episode) | 20 ranked, 40 unranked (`tools/galaxy/bootstrap.py`; set 2026-10-07) | Owner, PROMPTS 15-16: galaxy counts a request and its match, so 10 meant 5 requests an hour; the VM is the real limit. |

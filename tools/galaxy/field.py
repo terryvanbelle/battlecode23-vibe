@@ -353,7 +353,22 @@ def pick_opponent(ladder, team_id, band, rnd):
     return rnd.choice(above[:band]) if above else None
 
 
-def activity(c, acc, mapping, ep, poll=60, max_backlog=2, band=3, once=False, seed=None, ladder_ttl=300):
+def under_hourly_cap(times, now, max_per_hour):
+    """True if fewer than max_per_hour requests were made in the hour before now (times: request epoch seconds)."""
+    return sum(1 for t in times if now - t < 3600) < max_per_hour
+
+
+def team_waiting(c, ep, team_id):
+    """Matches of one team that are queued or running (first page of its scrimmages, newest first)."""
+    r = c.request('GET', f'/api/compete/{ep}/match/scrimmage/?team_id={team_id}')
+    return sum(1 for m in r.get('results', []) if m['status'] in WAITING + ('RUN',))
+
+
+def activity(c, acc, mapping, ep, poll=60, max_backlog=1, band=3, once=False, seed=None, ladder_ttl=300,
+             max_per_hour=4, pause_team='vibe23'):
+    # owner, PROMPTS 29 (2026-10-08): once the field's ordering was known, field-vs-field games were cut back so that
+    # our candidates' games run sooner: at most max_per_hour requests an hour, none while any match waits beyond
+    # max_backlog, and none while pause_team (our team) has a match queued or running
     rnd = random.Random(seed)
     sess = sessions(c, acc, mapping)
     ids = {r['team']: acc[r['user']]['team_id'] for r in mapping if r['team'] in sess}
@@ -365,14 +380,21 @@ def activity(c, acc, mapping, ep, poll=60, max_backlog=2, band=3, once=False, se
     signal.signal(signal.SIGTERM, on_signal)
     signal.signal(signal.SIGINT, on_signal)
     ladder, ladder_at, made = None, 0, 0
-    log(f'field activity: {len(sess)} field teams; one ranked request per {poll}s while fewer than {max_backlog} '
-        f'matches wait; opponents among the {band} closest teams rated at or above')
+    times = []
+    log(f'field activity: {len(sess)} field teams; at most {max_per_hour} ranked requests an hour, one per {poll}s while '
+        f'fewer than {max_backlog} matches wait and {pause_team} has none waiting; opponents among the {band} closest '
+        f'teams rated at or above')
     while not stop['now']:
         try:
             backlog = queue_backlog(client=c, ep=ep)
-            if backlog < max_backlog:
+            ok = backlog < max_backlog and under_hourly_cap(times, time.time(), max_per_hour)
+            if ok:
                 if ladder is None or time.time() - ladder_at > ladder_ttl:
                     ladder, ladder_at = rankings(c, ep), time.time()
+                ours = next((t['id'] for t in ladder if t['name'] == pause_team), None)
+                if ours is not None and team_waiting(c, ep, ours) > 0:
+                    ok = False
+            if ok:
                 active = {t['id'] for t in ladder if t['has_active_submission']}
                 pool = [n for n in sess if ids[n] in active and rest.get(n, 0) <= time.time()]
                 rnd.shuffle(pool)
@@ -384,6 +406,7 @@ def activity(c, acc, mapping, ep, poll=60, max_backlog=2, band=3, once=False, se
                         r = sess[name].api('POST', f'/api/compete/{ep}/request/', {
                             'is_ranked': True, 'requested_to': opp['id'], 'player_order': '?', 'map_names': []})
                         made += 1
+                        times.append(time.time())
                         log(f'request {r["id"]}: {name} -> {opp["name"]} (ranked; {name} {fmt(rating_of(ladder, ids[name]))}'
                             f', {opp["name"]} {fmt(opp["rating"])}; backlog {backlog}; {made} made)')
                         ladder_at = 0                    # ratings move: re-read before the next pick
@@ -431,7 +454,8 @@ def main(argv=None):
     s = sp.add_parser('wait'); s.add_argument('--timeout', type=int, default=3600)
     sp.add_parser('status')
     s = sp.add_parser('activity'); s.add_argument('--poll', type=int, default=60)
-    s.add_argument('--max-backlog', type=int, default=2); s.add_argument('--band', type=int, default=3)
+    s.add_argument('--max-backlog', type=int, default=1); s.add_argument('--band', type=int, default=3)
+    s.add_argument('--max-per-hour', type=int, default=4); s.add_argument('--pause-team', default='vibe23')
     s.add_argument('--once', action='store_true')
     a = ap.parse_args(argv)
     kw = {'connect': a.connect or None}
@@ -488,7 +512,8 @@ def main(argv=None):
         print(f'{ok} of {len(mapping)} field teams have an accepted submission')
         return 0 if ok == len(mapping) else 1
     if a.cmd == 'activity':
-        activity(c, acc, mapping, ep, a.poll, a.max_backlog, a.band, a.once)
+        activity(c, acc, mapping, ep, a.poll, a.max_backlog, a.band, a.once, max_per_hour=a.max_per_hour,
+                 pause_team=a.pause_team)
         return 0
     return 2
 

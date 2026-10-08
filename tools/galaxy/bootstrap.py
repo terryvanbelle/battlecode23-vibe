@@ -46,9 +46,9 @@ EPISODE = {
     'game_release': datetime.datetime(2023, 1, 9, 19, 0, tzinfo=UTC),
     'game_archive': datetime.datetime(2099, 12, 31, 0, 0, tzinfo=UTC),   # far future: ranked play stays open
     'submission_frozen': False,
-    # galaxy's documented example is every 4 hours (docs-general/operations.md); one round here is 176 three-game
-    # matches, ~4.5-5 h on 5 engines, so every 4 hours would leave a permanent backlog ahead of our own requests
-    'autoscrim_schedule': '0 */8 * * *',
+    # galaxy's own schedule is disabled (null): a daily top-N autoscrim at 17:00 PDT replaces it
+    # (tools/galaxy/autoscrim_top.py, operator crontab; owner, PROMPTS 29-30: fewer field-vs-field games)
+    'autoscrim_schedule': None,
     'language': Language.JAVA_8,
     'scaffold': 'https://github.com/battlecode/battlecode23-scaffold',
     'artifact_name': 'battlecode23',

@@ -22,7 +22,9 @@ Read `TRAINING_ALGORITHM.md` (the loop), `RULES.md` (the game, engine-checked) a
    egress to those hosts blocked. The only contact with battlecode.org is the read-only, checksum-pinned engine jar
    download in `tools/get-engine.sh`.
 6. **Unit tests after every change** to the bot or any tool: `tools/unit-tests.sh`.
-7. Bot changes need no approval. **Never stop to wait for ideas**; when stuck, re-read the principles of other years
+7. Bot changes need no approval. **Never block on scrimmages** (owner, PROMPTS 31): while a candidate is on trial,
+   keep improving the next one locally (self-play against the incumbent and the archetypes, replay and telemetry
+   study). **Never stop to wait for ideas**; when stuck, re-read the principles of other years
    (`~/projects/vibe/reference/readroom-no2023/advice/`), audit the basics, or take a big swing.
 8. **Nothing stale stays**: charts and documents that no longer match the data are regenerated or deleted.
 9. **Basics first**: economy, movement, exploration, symmetry, combat, zero bytecode overruns, zero exceptions. A failed

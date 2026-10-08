@@ -155,6 +155,20 @@ class ActivityTest(unittest.TestCase):
         seen = {field.pick_opponent(flat, 6, 2, rnd)['name'] for _ in range(200)}
         self.assertEqual(seen, {'a', 'b', 'c', 'd', 'e'})           # all tied at 0: any of them, not the lowest ids
 
+    def test_hourly_cap_and_our_waiting(self):
+        now = 10_000.0
+        self.assertTrue(field.under_hourly_cap([], now, 4))
+        self.assertTrue(field.under_hourly_cap([now - 4000] * 9 + [now - 10] * 3, now, 4))   # old ones expire
+        self.assertFalse(field.under_hourly_cap([now - 10] * 4, now, 4))
+
+        class Stub:
+            def __init__(self, statuses): self.statuses = statuses
+            def request(self, method, path):
+                assert path.endswith('team_id=28'), path
+                return {'results': [{'status': s} for s in self.statuses]}
+        self.assertEqual(field.team_waiting(Stub(['OK!', 'QUE', 'RUN', 'CAN', 'TRY']), 'bc23', 28), 3)
+        self.assertEqual(field.team_waiting(Stub(['OK!', 'ERR']), 'bc23', 28), 0)
+
     def test_queue_backlog_from_spool(self):
         d = tempfile.mkdtemp()
         try:
