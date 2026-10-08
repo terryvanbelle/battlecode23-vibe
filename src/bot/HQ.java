@@ -116,37 +116,36 @@ public final class HQ {
         return false;
     }
 
-    static int[] threatCache;
-    static int threatRound = -1;
+    static int[] threatCache, fx, fy;
+    static int threatRound = -1, nf;
 
     /**
      * A newborn cannot act until next round, but enemies that move after us this round can shoot it: spawn on the tile
-     * the fewest visible enemy fighters can reach (r2 26), then nearest the unit's purpose (C.SPAWN_SAFETY). Computed
-     * once per turn (c_audit1 recomputed it for every build: 29 tiles x enemies x up to 6 builds pushed sieged HQs past
-     * their 20,000 bytecodes, 111 overruns in 10 of 174 calibration games).
+     * the fewest visible enemy fighters can reach (r2 26), then nearest the unit's purpose (C.SPAWN_SAFETY).
+     * Lazy and cached per turn: only tiles where a build is possible are scored (under a siege most spawn tiles are
+     * occupied). Scoring every tile cost ~21 bytecodes per tile and fighter, 15,000 with 24 fighters in view, and left
+     * the build loop no bytecodes to build at all (profiled in a self-play siege, DefaultMap r571-586).
      */
-    static int[] spawnThreat() {
-        if (threatRound == G.round && threatCache != null) return threatCache;
-        int n = spawnTiles.length;
-        int[] th = new int[n];
-        // under a heavy siege (20+ fighters in view) the scoring costs ~29 x F x 12 bytecodes: skip it rather than
-        // overrun (c_line4 trial: HQ overruns only in sieges, 1-37 a game)
-        if (C.SPAWN_SAFETY && G.nEnemyFighters > 0 && Clock.getBytecodesLeft() > 8000 + n * G.nEnemyFighters * 14) {
-            int f = 0;
-            int[] fx = new int[G.nEnemyFighters], fy = new int[G.nEnemyFighters];
-            for (int k = G.enemies.length; --k >= 0 && f < fx.length; ) {
+    static int tileThreat(int i) {
+        if (!C.SPAWN_SAFETY || G.nEnemyFighters == 0) return 0;
+        if (threatRound != G.round) {
+            threatRound = G.round;
+            if (threatCache == null) threatCache = new int[spawnTiles.length];
+            java.util.Arrays.fill(threatCache, -1);
+            fx = new int[G.nEnemyFighters]; fy = new int[G.nEnemyFighters]; nf = 0;
+            for (int k = G.enemies.length; --k >= 0 && nf < fx.length; ) {
                 RobotInfo e = G.enemies[k];
-                if (e.type == RobotType.LAUNCHER || e.type == RobotType.DESTABILIZER) { fx[f] = e.location.x; fy[f++] = e.location.y; }
-            }
-            for (int i = n; --i >= 0; ) {
-                int x = spawnTiles[i].x, y = spawnTiles[i].y, c = 0;
-                for (int k = f; --k >= 0; ) { int dx = x - fx[k], dy = y - fy[k]; if (dx * dx + dy * dy <= C.THREAT_R2) c++; }
-                th[i] = c;
+                if (e.type == RobotType.LAUNCHER || e.type == RobotType.DESTABILIZER) { fx[nf] = e.location.x; fy[nf++] = e.location.y; }
             }
         }
-        threatCache = th;
-        threatRound = G.round;
-        return th;
+        int c = threatCache[i];
+        if (c >= 0) return c;
+        if (Clock.getBytecodesLeft() < 4000 + nf * 25) return 0;   // no room to score: treat as safe
+        int x = spawnTiles[i].x, y = spawnTiles[i].y;
+        c = 0;
+        for (int k = nf; --k >= 0; ) { int dx = x - fx[k], dy = y - fy[k]; if (dx * dx + dy * dy <= C.THREAT_R2) c++; }
+        threatCache[i] = c;
+        return c;
     }
 
     static boolean tryBuild(RobotType t) throws GameActionException {
@@ -161,12 +160,11 @@ public final class HQ {
         if (goal == null) goal = new MapLocation(G.W / 2, G.H / 2);
         MapLocation best = null;
         long bd = Long.MAX_VALUE;
-        int[] threat = spawnThreat();
         for (int i = spawnTiles.length; --i >= 0; ) {
             if (Clock.getBytecodesLeft() < 3500) break;       // keep the turn: the best tile so far, or none
             MapLocation l = spawnTiles[i];
             if (!rc.canBuildRobot(t, l)) continue;
-            long d = threat[i] * 100_000L + l.distanceSquaredTo(goal);
+            long d = tileThreat(i) * 100_000L + l.distanceSquaredTo(goal);
             if (d < bd) { bd = d; best = l; }
         }
         if (best == null) { tileFail = true; return false; }

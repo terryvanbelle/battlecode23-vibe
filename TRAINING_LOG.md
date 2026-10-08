@@ -273,3 +273,15 @@ of history. Times are PDT. Grep it; do not read it whole.
   fire-and-retreat 0.096 (0.084). We walk into range and they shoot first.
 - Next micro arm (after the role decision): at parity, hold just outside the enemy's reach and let them step in
   (stand-and-fire); step in only to finish a target or when ahead. Judged on the panel by win@dN=0 and first-hit rate.
+
+## 2026-10-08 03:20 — Siege overruns found and fixed (spawn-safety scoring); parity-hold micro switch added
+
+- A self-play siege (bot with C.MICRO2 vs c_line5, DefaultMap) reproduced the replica's HQ overruns: 6 in one game.
+  Per-step profiling of HQ #7 (debug copy, r570-586): build() cost 15,500-18,000 bytecodes with 24-30 enemies in
+  view, of which spawn-threat scoring alone 15,000 (29 tiles x fighters x ~21 bytecodes); it left the tile loop
+  under its 3,500 guard, so the HQ could not build at all and then overran in telemetry or the fill.
+- Fix: threat scored lazily, only for tiles where a build is possible (under a siege most spawn tiles are occupied),
+  cached per turn, skipped when it would not fit. Same scenario after the fix: HQ max 17,923, 0 overruns, 0 near
+  misses. c_line5 (on trial) predates this fix; the next candidate carries it.
+- New switch C.MICRO2 (parity hold, off): unless ahead by 2+, a launcher does not step into more enemy reach to
+  fire, and stays to fire when it can already hit (replica telemetry: we lose at parity 0.31 vs 0.61).

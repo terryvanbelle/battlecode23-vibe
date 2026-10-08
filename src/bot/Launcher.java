@@ -162,6 +162,9 @@ public final class Launcher {
         boolean ready = rc.isActionReady();
         boolean superior = G.nAllyFighters + 1 > G.nEnemyFighters;
         boolean outnumbered = G.nEnemyFighters > G.nAllyFighters + 1;
+        boolean ahead = G.nAllyFighters + 1 - G.nEnemyFighters >= 2;
+        int threat0 = 0;
+        boolean hit0 = false;
         MapLocation here = rc.getLocation();
         // per-enemy data computed once (audit R2: per-tile pinned lookups made a 10-fighter fight cost ~12k bytecodes
         // against the launcher's 10k): kind 0 = hittable non-fighter, 1 = fighter (threat radius r), 2 = HQ
@@ -201,7 +204,13 @@ public final class Launcher {
                 // g_iter0's scoring (c_micro1's pinned/acceptable/stay rules failed delivery on diag-top4: exposure
                 // +0.029, t +1.75; kills -5.3, t -2.3): not outnumbered and ready -> any hitting tile, fewest
                 // threats, then the edge of range; else fewest threats, then the farthest tile
-                if (ready && !outnumbered) { s = (canHit ? 1_000_000L : 0) - threat * 10_000L + Math.min(minD, 100) * 10; if (canHit) anyCanHit = true; }
+                if (d == Direction.CENTER) { threat0 = threat; hit0 = canHit; }
+                boolean hit = canHit;
+                // C.MICRO2 (parity hold): unless clearly ahead, never step into more enemy reach to fire, and stay to
+                // fire when we can already hit (replica telemetry: at dN=0 we won 0.31 of engagements vs their 0.61;
+                // first hit 0.42 vs 0.58; we stepped in to fire 0.155 of turns vs their 0.107)
+                if (C.MICRO2 && !ahead && d != Direction.CENTER && (hit0 || threat > threat0)) hit = false;
+                if (ready && !outnumbered) { s = (hit ? 1_000_000L : 0) - threat * 10_000L + Math.min(minD, 100) * 10; if (hit) anyCanHit = true; }
                 else s = -threat * 10_000L + Math.min(minD, 100) * 10;
                 if (d == Direction.CENTER) s += 1;
             } else if (ready) {

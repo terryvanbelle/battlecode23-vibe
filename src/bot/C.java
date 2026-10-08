@@ -31,6 +31,9 @@ public final class C {
      *  at most one enemy answers unless superior, stay put on ties). c_micro1 failed delivery on diag-top4 vs c_mana1:
      *  exposure up (+0.029, t +1.75), damage per contact up, kills -5.3 (t -2.3), launchers alive at r100 -1.7. */
     public static final boolean MICRO = false;
+    /** Parity hold (Launcher.fight): unless ahead by 2+, do not step into more enemy reach to fire; stay when we can
+     *  already hit. Off until its trial. */
+    public static final boolean MICRO2 = false;
     /** Launcher cohesion (arm c_army1): with no enemy in sight a launcher advances only with GROUP_MIN launchers
      *  (itself included) in vision, follows the lowest-id launcher in vision when farther than r2 FOLLOW_R2, and
      *  otherwise regroups (nearest visible ally launcher, else back to the nearest own HQ). diag-top4: by r20 the top
