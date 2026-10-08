@@ -46,7 +46,7 @@ RUN_ID="$(date +%Y%m%d-%H%M%S)${TAG:+-$TAG}"
 mkdir -p "$REPO/gauntlet"
 until mkdir "$REPO/gauntlet/$RUN_ID" 2>/dev/null; do sleep 1; RUN_ID="$(date +%Y%m%d-%H%M%S)-$$${TAG:+-$TAG}"; done
 OUT="$REPO/gauntlet/$RUN_ID"; mkdir -p "$OUT/replays"
-if [ -n "${CELLS:-}" ]; then cp "$CELLS" "$OUT/cells.txt"
+if [ -n "${CELLS:-}" ]; then grep -v -e '^[[:space:]]*#' -e '^[[:space:]]*$' "$CELLS" > "$OUT/cells.txt"   # comments allowed
 else for o in $OPPONENTS; do for m in $MAPS; do for s in A B; do echo "$o $m $s"; done; done; done > "$OUT/cells.txt"; fi
 NG=$(grep -c . "$OUT/cells.txt")
 for o in $BOT $(awk '{print $1}' "$OUT/cells.txt" | sort -u); do resolve "$o" >/dev/null || exit 1; done
