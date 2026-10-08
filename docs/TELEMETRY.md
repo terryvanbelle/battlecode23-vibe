@@ -42,7 +42,7 @@ So information leaves the bot through three channels. Replay-only extractors cov
 | Channel | Carries | Reaches replica replays as configured | Cost to the bot |
 |---|---|---|---|
 | **BCC**, the bytecode channel (A.3) | One 6-bit state code per robot-turn | **Yes** | About 48 bytecodes per turn on average |
-| **Indicator string v2** (A.5) | Human-readable state, the same 6-bit code, and the health counters | Only for local games, shadow re-runs (C.7), or if the owner turns indicators on | About 60 per turn, as today |
+| **Indicator string v2** (A.5) | Human-readable state, the same 6-bit code, and the health counters | Only for local games of our own builds (shadow re-runs, C.7, are not used: rule 10) | About 60 per turn, as today |
 | **Data dots** (A.6) | Events, fight turns, periodic counters, HQ and comms snapshots | Same as strings | About 10 to 40 per record |
 | **Replay extractors** (B) | Engagements, death causes, timelines, HQ pressure and the rest, for both teams | **Yes** | 0 |
 
@@ -1032,6 +1032,11 @@ Replica rows carry no counters. Today they read as passes for exceptions, near m
 
 ### C.7 Shadow re-runs (`tools/shadow.py`, Tier 2): full telemetry for replica games at no quota cost
 
+> **Not used, and `tools/shadow.py` is not built** (decided 2026-10-08). A shadow re-run plays the other team's bot on
+> our own machine, which a contestant cannot do: CLAUDE.md rule 10 allows local games only between our own builds.
+> Replica games carry the bytecode channel and the replay-only extractors; dots and strings are for local games of
+> our own builds. The section is kept as the record of the design.
+
 Games are deterministic: the indicator flag does not change play, and identical code on an identical cell replays
 identically. Re-running one of our replica matches on the VM with indicators on therefore recovers every string and
 dot.
@@ -1145,8 +1150,8 @@ tools/shadow.py pending [--max-per-hour 6]           # losses first, then anomal
   10-game match.
 - **Analysis outputs.** Each match's extract is under 5 MB, in `matches/` (gitignored). Each report is at most 8 KB in
   `research/matches/`, which is committed: about 120 to 400 reports a day, or 1 to 3 MB a day.
-- **Owner decision, not implemented here.** A runner change could enable `show-indicators=true` for matches that
-  include vibe23. That would put dots and strings into every replica replay of ours, with no shadow compute, and the
+- **Declined.** A runner change could enable `show-indicators=true` for matches that include vibe23 (galaxy's saturn
+  passes `-PshowIndicators=false`, so the contest never has indicators). That would put dots and strings into every replica replay of ours, with no shadow compute, and the
   measurements say outcomes would not change. The price:
   - replays about 50% larger;
   - the flag would also record opponents' strings, and a lone surrogate from an opponent would crash that match. An

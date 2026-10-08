@@ -642,15 +642,16 @@ class GuardsTest(unittest.TestCase):
                'sym_first_decided': '-1'}
         res = {name: (p, d) for name, p, d in self.b.battery([bcc])}
         self.assertEqual(res['exceptions'], (False, '3 caught (tele_exc_turns in 1 games without strings)'))
-        self.assertEqual(res['near misses'][0], False)
-        self.assertIn('7 turns', res['near misses'][1])
+        # replay-side near includes the end-of-turn fill: informational, not a bar, for games without strings
+        self.assertEqual(res['near misses'][0], None)
+        self.assertIn('replay-side near 7', res['near misses'][1])
         self.assertEqual(res['symmetry never wrong'], (None, '(no strings)'))
         self.assertEqual(res['symmetry decided by r150'], (None, '(no strings)'))
         none = dict(bcc, tele='none', tele_exc_turns='', near='0')
         res = {name: (p, d) for name, p, d in self.b.battery([none])}
         self.assertIsNone(res['exceptions'][0])
         self.assertIn('n/a', res['exceptions'][1])
-        self.assertEqual(res['near misses'][0], True)
+        self.assertEqual(res['near misses'][0], None)
 
     def test_cli(self):
         d = Path(tempfile.mkdtemp(prefix='guards-'))

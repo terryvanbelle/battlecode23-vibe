@@ -53,15 +53,23 @@ def battery(rows):
     n = len(srows)
     over = sum(int(r['over']) for r in rows)
     ex = sum(counters(r).get('ex', 0) for r in srows) + sum(int(r.get('tele_exc_turns') or 0) for r in bcc)
-    nm = sum(counters(r).get('nm', 0) for r in srows) + sum(int(r.get('near') or 0) for r in bare)
+    nm = sum(counters(r).get('nm', 0) for r in srows)
+    # replay-side `near` counts turns above 90% INCLUDING the deliberate end-of-turn map fill (budgeted to 88%) plus
+    # telemetry, so it is informational only; the bar is the bot's own counter, which games without strings lack
+    near_bare = sum(int(r.get('near') or 0) for r in bare)
     res.append(('overruns', over == 0, f'{over} robot-turns at the limit'))
     if srows or bcc:
         res.append(('exceptions', ex == 0, f'{ex} caught' + note(len(bcc), 'tele_exc_turns') +
                     (f'; n/a in {blind} games (tele=none)' if blind else '')))
     else:
         res.append(('exceptions', None, f'n/a in {blind} games (tele=none: no counters, no telemetry)'))
-    res.append(('near misses', nm == 0, f'{nm} turns above 90% (work before the fill)' +
-                note(len(bare), 'replay-side near')))
+    if srows:
+        res.append(('near misses', nm == 0, f'{nm} turns above 90% (work before the fill)' +
+                    (f'; {near_bare} replay-side near in {len(bare)} games without strings (includes the fill; '
+                     f'informational)' if bare else '')))
+    else:
+        res.append(('near misses', None, f'n/a without strings: replay-side near {near_bare} includes the '
+                    f'end-of-turn fill (informational); overruns are the bar'))
     if not srows:
         res.append(('symmetry never wrong', None, '(no strings)'))
         res.append((f'symmetry decided by r{SYM_BOUND}', None, '(no strings)'))
