@@ -252,3 +252,14 @@ of history. Times are PDT. Grep it; do not read it whole.
   game vs 190 near theirs. wantAnchor requires the HQ not to be threatened.
 - Rejected; g_iter0 resubmitted (submission 113, validated). Next: the same line with the HQ bounds, after the
   08:00 UTC autoscrim, once the baseline reports say whether the HQ threat lockout is new.
+
+## 2026-10-07 23:55 — Why c_line4 lost quick wins: adamantium for the anchor rush; c_line5 queued
+
+- Baseline reports (match_report on g_iter0's 10 panel matches) vs c_line4's: HQ enemy pressure is the same for both
+  (2,628 vs 2,934 HQ-rounds per game near our HQs), idle funds the same (1,715 vs 1,604; opponents ~750). The HQ
+  threat lockout is a standing weakness of both, not the cause of the drop (next arm: threat = real danger only).
+- The flipped quick wins: at r150 g_iter0 banked 390-750 Ad and placed 2-5 anchors by r200-250 (conquest at
+  r235-309); c_line4 banked 90-140 Ad (mana2 roles) and placed 1-2. Against mid-tier bots, the early anchor rush is
+  worth more on the panel than the larger army mana2 buys against the top bots.
+- c_line5 = the working line with the HQ siege bounds and g_iter0's balanced roles (C.ROLES = 0); src/bot keeps
+  ROLES = 2 until the panel decides. Trial at 08:05 UTC, after the 08:00 autoscrim (a trial must end before the next).
