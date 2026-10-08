@@ -40,33 +40,32 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
   for `tools/paired.py`). Galaxy's limits: 10 unranked and 10 ranked per hour, counting requests AND the matches they
   create, so 5 auto-accepted unranked requests (up to 10 maps each, 50 games) an hour; ranked: 3 random maps,
   upward only.
-- Active submission: 24 = g_iter0 (2026-10-07 17:45 PDT).
-- In progress (background agent): the 87 field teams seeded through the API with their bots, the autoscrim timer,
-  field teams' own ranked requests in spare cycles, results export to `progress/games.csv`, ladder snapshot, and the
-  retirement of galaxy-lite below.
-
-## The ladder replica (galaxy-lite)
-
-- Site: https://136-86-167-127.sslip.io/ (user `owner`, password in `~/.bc23-replica-password`, rotated 2026-10-07;
-  `ACCESS.md`). Code `tools/replica/`, docs `docs/replica/` (README, DEPLOY, VIEWER). Runs as user `bcreplica` under
-  systemd: egress blocked by nftables, the worker in its own network namespace, resolver access denied over D-Bus;
-  `tools/replica/deploy/verify.sh` checks all of it. The replay viewer is the official 3.0.15 web client, downloaded
-  once and checksum-pinned.
-- Started for real 2026-10-07 15:40 PDT (`tools/replica-reset.sh`; the test data is archived under
-  `/home/bcreplica/replica/archive/`): 87 field bots + `us:examplefuncsplayer` + `us:g_iter0`, one autoscrim round
-  (178 matches) to seed the ratings, worker at 3 slots (`REPLICA_SLOTS` in `/etc/bc23-replica/replica.env`; raise it
-  when the gauntlet queue is idle). `tools/replica-matchmaker.py` (VM, `logs/matchmaker.log`) keeps 6 matches queued
-  once the backlog drains: half by our incumbent against its rating neighbours, half by random field teams.
-- Each check-in: `bash tools/replica-export.sh` (games into `progress/games.csv`, idempotent), then
-  `tools/.venv/bin/python tools/replica/snapshot.py --from-vm` and commit `progress/ladder.{md,png}`.
-- A new incumbent enters with `bc23-replica add-team us:<build>` and a line in `tools/incumbent.txt`.
+- Active submission: 24 = g_iter0 (2026-10-07 17:45 PDT). Baseline panel (test/cells/panel-v1.txt, 10 opponents x 10
+  maps) running from the driver: `logs/panel1-g_iter0.log`, run dir `gauntlet/*-panel1-g_iter0`.
+- Every replica game must count (owner, PROMPTS 13): a workflow is adding bot telemetry (indicator strings plus
+  indicator dots/lines, which cost 0 bytecodes per call and are uncapped), new ReplayDump extractors (engagements,
+  timelines, death causes, opponent tactics) and a per-match report for every downloaded match
+  (`docs/TELEMETRY.md` when done). The next candidate is submitted only with telemetry on (c_line3 was held back).
+- The field: 87 teams, one per public 2023 bot (`tools/galaxy/field.py`, mapping `tools/galaxy/field-teams.tsv`; one
+  name shortened: `remember-to-hydrate.sprint_1`), each its own user (passwords only on the VM,
+  `~/.bc23-galaxy-field/accounts.json`), all compiled, auto-accept on. Autoscrims: `bc23-galaxy-scheduler.timer`
+  enabled 2026-10-08 01:19 UTC, every 4 h from 04:00 UTC (176 matches per round, about 4.5-5 h on 5 engines: our
+  requests queue behind a round; `docs/galaxy/README.md` section 8, capacity). Field activity on the VM
+  (`field.py activity`, `logs/field-activity.log`): random field teams request ranked scrimmages upward, one a
+  minute while fewer than 2 matches wait. saturn has 5 engines.
+- Each check-in: `python3 tools/galaxy/results.py` (finished matches into `progress/games.csv` as `galaxy-<match>`,
+  our rows `us:<package>`; idempotent), `tools/.venv/bin/python tools/galaxy/snapshot.py` (`progress/ladder.{md,png}`
+  from the Rankings page), `tools/elo.py`; commit them together.
+- galaxy-lite (the first replica, `tools/replica/`) was retired 2026-10-08 01:01 UTC: units stopped and disabled, data
+  archived under `/home/bcreplica/replica/archive/20261008-010127-retired/`, its 159 games already in `games.csv`
+  (`replica-*`), its host name redirects to the galaxy site (`docs/replica/README.md`).
 
 ## Compute
 
 - Driver `claude-driver` (2 vCPU, 2 GB): this session; one diagnostic game at a time at most.
 - VM `battlecode-dev` (us-west1-b, 8 vCPU, 31 GB, 20 GB disk), internal IP 10.138.0.3. Standing queue
   (`tools/vm-enqueue.sh`, runner `tools/vm-queue.sh`); gauntlet games share 5 slots (`/tmp/bc23-game-slots`), the
-  replica worker has its own. Games against top bots run 1,000-2,000 rounds and take several minutes each.
+  galaxy saturn has its own 5 engines. Games against top bots run 1,000-2,000 rounds and take several minutes each.
 - `battlecode-dev2` (us-west2-a) belongs to the paused 2024 project: never touch it.
 
 ## Gotchas a fresh reader will hit
