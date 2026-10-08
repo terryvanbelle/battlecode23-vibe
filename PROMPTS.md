@@ -81,3 +81,11 @@ This artificial limit on number of matches is going to be a problem.  I wanted r
 ## 16. 2026-10-07 18:30 PDT
 
 That sounds good, do that
+
+## 17. 2026-10-07 ~19:25 PDT
+
+In a real tournament, what would be the optimal strategy for when to issue a ranked challenge vs. an unranked challenge?
+
+## 18. 2026-10-07 19:33 PDT
+
+OK, from now on I'd like you to use optimal strategy for deciding what kinds of games to challenge.  Make sure it's documented
