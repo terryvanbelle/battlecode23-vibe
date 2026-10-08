@@ -58,7 +58,7 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
   enabled 2026-10-08 01:19 UTC, every 8 h from 08:00 UTC (176 matches per round, about 4.5-5 h on 5 engines: our
   requests queue behind a round; `docs/galaxy/README.md` section 8, capacity). Field activity on the VM
   (`field.py activity`, `logs/field-activity.log`): random field teams request ranked scrimmages upward, one a
-  minute while fewer than 2 matches wait. saturn has 5 engines.
+  minute while fewer than 2 matches wait. saturn has 7 engines (since the experiment queue drained).
 - Each check-in: `python3 tools/galaxy/results.py` (finished matches into `progress/games.csv` as `galaxy-<match>`,
   our rows `us:<package>`; idempotent), `tools/.venv/bin/python tools/galaxy/snapshot.py` (`progress/ladder.{md,png}`
   from the Rankings page), `tools/elo.py`; commit them together.

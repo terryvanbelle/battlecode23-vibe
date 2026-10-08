@@ -40,7 +40,7 @@ browser --https--> Caddy (user caddy, galaxy.<host>)
 |---|---|---|
 | `bc23-galaxy-web.service` | siarnaq: `python -m gunicorn siarnaq.wsgi:application --bind 127.0.0.1:8024 --workers 3` | enabled, running |
 | `bc23-galaxy-relay.service` | `tools/galaxy/relay.py serve`: saturn's reports (unix socket) and Cloud Tasks to siarnaq | enabled, running |
-| `bc23-galaxy-saturn.service` | `tools/galaxy/saturn.py run`: 1 compile slot + `GALAXY_EXECUTE_SLOTS` (5) engines; `PrivateNetwork=yes` | enabled, running |
+| `bc23-galaxy-saturn.service` | `tools/galaxy/saturn.py run`: 1 compile slot + `GALAXY_EXECUTE_SLOTS` (7) engines; `PrivateNetwork=yes` | enabled, running |
 | `bc23-galaxy-scheduler.service` + `.timer` | `relay.py fire-jobs` each minute: fires the recorded Cloud Scheduler jobs (the autoscrim job) whose cron matches | timer enabled 2026-10-08 01:19 UTC, once the field was in (section 8) |
 | `postgresql@15-main` (Debian, user postgres) | database `siarnaq`, owned by role `bcreplica` (peer auth over the unix socket); `listen_addresses = ''` | enabled, running |
 | `bc23-replica-caddy.service` (shared) | the galaxy site is a second site in the same Caddyfile | running |
@@ -127,8 +127,8 @@ Scheduler OIDC, `GCLOUD_SERVICE_EMAIL`), `saturn-compile@` and `saturn-execute@b
   - Team names are siarnaq's.
   - The replay goes to `episode/bc23/replays/<uuid>.bc23` (public ACL).
   - Scores are counted with saturn's regex.
-- **Concurrency.** `GALAXY_EXECUTE_SLOTS=5` engines (about 1 GB each; 3 until galaxy-lite was retired on
-  2026-10-08) plus 1 compile slot. Edit `/etc/bc23-galaxy/galaxy.env` and restart `bc23-galaxy-saturn` to change
+- **Concurrency.** `GALAXY_EXECUTE_SLOTS=7` engines (about 1 GB each; 3 until galaxy-lite was retired, 5 until the
+  experiment queue drained on 2026-10-08, 7 since: games against other teams now run only here) plus 1 compile slot. Edit `/etc/bc23-galaxy/galaxy.env` and restart `bc23-galaxy-saturn` to change
   it (a restart interrupts running matches; they are redelivered). The VM also runs the experiment queue
   (`tools/vm-queue.sh`, 5 game slots).
 - **Isolation.** saturn, javac and the engines run in a private network namespace that holds only `lo`, so they

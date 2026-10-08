@@ -212,3 +212,16 @@ of history. Times are PDT. Grep it; do not read it whole.
   island-rounds -73 (t -1.2); outcomes 1-0. Fired in 24/24 games (regroup turns mean 1,150, follow turns 126).
 - Working line: C.ARMY = true and C.LAUNCHER_BATCH = 1, applied once the telemetry workflow releases src/bot; the
   combined line goes to the replica as a trial (docs/LADDER_STRATEGY.md).
+
+## 2026-10-07 20:20 — Replica baseline panel (g_iter0); c_nav2 neutral; saturn at 7 engines
+
+- Panel v1 with g_iter0 active (submission 24), 100 games through the replica (gauntlet/20261008-011350-panel1-g_iter0):
+  31/100. By opponent: yaonam 9, Sprint1 6, reeceyang 6, britacatalin 4, pranayagra 2, NotLLeon 2, camel_case 1,
+  CB_tuning2 1, vrangr1 0, awesomelemonade 0 (of 10 each). By map: Cat 6, DefaultMap 5, Hah 5, Maze 5, Cornucopia 3,
+  IslandHopping 3, BatSignal 2, Forest 1, MassiveL 1, ReverseFunnel 0 (of 10 each). This is the validated build's
+  panel run for every trial (docs/LADDER_STRATEGY.md).
+- c_nav2 vs c_nav1 (174 calibration cells, the last pre-switch gauntlet): identical 166, gained 3, lost 5 (net -2,
+  -0.71 SE). Stillness back to c_econ1's level (launchers -3.2 points, carriers -4.7, t -8), but collection did not
+  recover (Mn +11, Ad -19): c_nav1's 7% collection drop came from another part of the change (hand kept per
+  obstacle, current check or stall rule). Kept (neutral; fixes the stall). Open question for telemetry.
+- The experiment queue on the VM has drained: saturn now runs 7 engines.
