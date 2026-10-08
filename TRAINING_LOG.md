@@ -204,3 +204,11 @@ of history. Times are PDT. Grep it; do not read it whole.
   alive r100 +0.4 (t +1.3); launchers lost +18.8 (longer fights); exposure +0.023; outcomes 0-0 (24 losses each).
 - It carried the per-build spawn scoring that overran sieged HQs: 22.6 overruns per game (t +3.4). The working line
   has the once-per-turn fix; spawn safety stays in and is judged with the line on the replica panel.
+
+## 2026-10-07 19:45 — Arm c_army1 (launcher cohesion) passed delivery (diag-top4)
+
+- c_army1 vs c_spawn1, 24 games against four top bots: exposure -0.030 (t -2.85), contact -0.040 (t -3.1),
+  launchers lost -17.0 (t -2.8), launchers alive r100 +1.5 (t +2.4) and r250 +3.0 (t +3.3), kills unchanged (-0.7),
+  island-rounds -73 (t -1.2); outcomes 1-0. Fired in 24/24 games (regroup turns mean 1,150, follow turns 126).
+- Working line: C.ARMY = true and C.LAUNCHER_BATCH = 1, applied once the telemetry workflow releases src/bot; the
+  combined line goes to the replica as a trial (docs/LADDER_STRATEGY.md).
