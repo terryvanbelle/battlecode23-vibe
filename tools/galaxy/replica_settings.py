@@ -11,13 +11,19 @@ What differs from siarnaq's Production class, and why (docs/galaxy/README.md, "D
   * Secrets (Django key, the migration-created admin's password) are files generated on the VM, never committed.
   * E-mail is off twice: EMAIL_ENABLED=False and a backend that drops every message (replica_gcp/mail.py).
   * Caddy terminates TLS and adds X-Forwarded-Proto/-For (SECURE_PROXY_SSL_HEADER, NUM_PROXIES=1).
+  * Python 3.11 instead of 3.10: py310compat restores the one 3.10 behaviour siarnaq relies on (random.sample of a
+    dict view, used for the maps of every ranked scrimmage request).
 """
 import os
 from typing import Any
 
+import py310compat
+
+py310compat.apply()
+
 from siarnaq.settings import _LOGGING_COMMON, Base  # noqa: E402  (imports the google stand-ins)
 
-from replica_gcp import config as rc
+from replica_gcp import config as rc  # noqa: E402
 
 STANDINS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'standins')
 

@@ -1,44 +1,41 @@
 # ACCESS.md — how to look at the scrimmage ladder
 
-The private ladder (a replica of the official judging stack, built on galaxy's rating and matchmaking rules) runs on our
-VM `battlecode-dev`. It has a web front end where you can see who is ranked where and replay any scrimmage game.
+Our practice contest runs on a private copy of the Battlecode website: galaxy's own frontend and backend, the same
+pages as play.battlecode.org, on our VM `battlecode-dev`. Nothing there touches the real play.battlecode.org.
 
 ## Open the site
 
-- **URL:** https://136-86-167-127.sslip.io/
-- **User name:** `owner`
-- **Password:** not stored in this repository (it is public). It is in `~/.bc23-replica-password` on the driver machine
-  (and on the VM). From this Claude Code session you can show it with:
+1. Go to **https://galaxy.136-86-167-127.sslip.io/**
+2. The browser first asks for the site password (the gate in front of everything): user **`owner`**, password from
+   this Claude Code session with `! cat ~/.bc23-replica-password`. It is not in this repository (it is public).
+3. Then log in on galaxy's own login page (Log In, top right): user **`owner`**, the same password. `owner` is the
+   site's superuser: it sees every team, match and replay, and `/admin/` (Django admin; read there, change nothing).
 
-  ```
-  ! cat ~/.bc23-replica-password
-  ```
+The old address, https://136-86-167-127.sslip.io/, belonged to the first replica (galaxy-lite, retired in the evening of
+2026-10-07 PDT) and now forwards to the new one.
 
-The site uses HTTPS (a Let's Encrypt certificate) and HTTP basic authentication, and it is read-only: nothing can be
-changed from the browser. The password was last rotated on 2026-10-07; an old one no longer works.
+## What is there (episode bc23, galaxy's own pages)
 
-The real ladder started from a clean database on 2026-10-07 at 15:40 PDT: 87 public 2023 bots, `us:examplefuncsplayer`
-and our incumbent build. A first galaxy-style round (4 matches per team, 178 matches of 3 games) seeds the ratings and
-takes several hours; after it, our incumbent keeps challenging the teams ranked just above and below it, and random
-ladder teams do the same in spare cycles. Ratings move fast in the first ~20 matches of each team.
+- **Rankings** (`/bc23/rankings`): every team and its rating. The rating is galaxy's displayed rating (a penalized
+  Elo: every team starts at 0 and climbs over its first ~20 ranked matches). Our team is **vibe23**; the other 87
+  teams are public 2023 bots, named `<github owner>.<package>`.
+- **Queue** (`/bc23/queue`): every match, newest first, with status, score and rating change.
+- **Team pages** (click a team name, `/bc23/team/<id>`): profile, members and rating history.
+- **Scrimmaging**, **Submissions**, **My Team**: the logged-in team's own pages. As in the real contest, replays
+  are watched from a team's own scrimmage history: to watch our games, log in as our team instead of `owner` (user
+  **`vibe23`**, password from `! sed -n 2p ~/.bc23-galaxy-team`), open **Scrimmaging**, and press **Replay** on a
+  match; it opens the official Battlecode 2023 viewer on that match's games. (`owner` has no team, so these pages
+  are empty for it.)
 
-## What is there
-
-- **Ladder** (`/`): every team with its rank, displayed rating (galaxy's penalized Elo), rating mean, matches played and
-  win-loss record. Our builds are named `us:<build>` and highlighted.
-- **Team pages** (`/team/<id>`): rating history and every match with opponent, score and maps.
-- **Matches** (`/matches`): the most recent matches and their status.
-- **Match pages** (`/match/<id>`): the three games (map, winner, rounds, end reason), the rating change, and a **Watch**
-  link that opens the official Battlecode 2023 replay viewer (hosted on the VM itself) on that game.
+Every 4 hours galaxy's automatic round gives each team 4 ranked best-of-3 matches. In between, our team requests
+scrimmages as a contestant, and field teams challenge the teams rated just above them when the VM has spare time.
 
 ## If the address stops working
 
-The host name is built from the VM's external IP address, which changes if the VM is stopped and started. A boot script
-updates the site's certificate and name automatically, and this file is updated with the new address. If it is stale,
-ask me (or run `tools/replica/deploy/refresh-hostname.sh` on the VM). Reserving a static IP would remove this problem;
-that is an owner decision because it costs money while the VM is stopped (`docs/replica/DEPLOY.md`).
+The host name is built from the VM's external IP, which changes if the VM is stopped and started; a boot script
+renews the certificate, and this file is updated with the new address. If it is stale, ask me.
 
 ## Fallback in GitHub
 
-After every ladder round the current standings are also committed as `progress/ladder.md` (a table) and
-`progress/ladder.png` (a picture), so you can check them from GitHub without the site.
+`progress/ladder.md` (table) and `progress/ladder.png` (chart) are a snapshot of the Rankings page, with the latest
+matches, regenerated at each check-in.

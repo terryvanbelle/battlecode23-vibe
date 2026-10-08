@@ -2,6 +2,10 @@
 """Snapshot of the replica ladder for GitHub: progress/ladder.md (markdown tables) and progress/ladder.png (the
 ladder as an image, with rating sparklines). The owner's fallback when the web pages are unreachable.
 
+RETIRED with galaxy-lite (2026-10-08, docs/replica/README.md): progress/ladder.{md,png} now come from the galaxy
+replica (tools/galaxy/snapshot.py). This script reads only galaxy-lite's archived DB (--home <archive dir>); give it
+--out-dir elsewhere so it does not overwrite the current snapshot.
+
   python3 tools/replica/snapshot.py --from-vm      on the driver: read the ladder on battlecode-dev over ssh
                                                    (tools/vm.sh gssh), write the files into this checkout
   python3 tools/replica/snapshot.py                on the VM: read the DB directly, write <repo>/progress/

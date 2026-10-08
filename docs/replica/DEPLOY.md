@@ -15,6 +15,15 @@ files under `/srv/bc23-galaxy`. Its routing, access rules and services are in `d
 covers the host guards both sites share. The galaxy site is rendered into the same Caddyfile while
 `/etc/bc23-replica/galaxy.enabled` exists.
 
+**galaxy-lite retired (2026-10-08):** `sudo /usr/local/lib/bc23-replica/vm-setup.sh retire-lite` stopped and disabled
+the galaxy-lite units, archived their data under `/home/bcreplica/replica/archive/<stamp>-retired/` and created
+`/etc/bc23-replica/galaxy-lite.retired`. While that flag exists, the first site block is a 302 redirect from
+`https://<ip-with-dashes>.sslip.io/<path>` to `https://galaxy.<ip-with-dashes>.sslip.io/<path>` (no password asked,
+nothing proxied), nothing listens on 8023, and `vm-setup.sh services` leaves the units stopped. `verify.sh` checks
+that state instead of the old site's access rules. The diagram below and the old site's checks in section 5 describe
+galaxy-lite as it ran; the host guards (user, egress, Caddy, host name, firewall) are unchanged and serve the galaxy
+site (`docs/galaxy/README.md`, `docs/replica/README.md`).
+
 ```
 browser --https:443, basic auth--> Caddy (user caddy) --http, 127.0.0.1:8023--> replica web server (user bcreplica)
           (http:80 = ACME challenge + 308 redirect)       GET/HEAD only;            DB + replays in /home/bcreplica/replica
@@ -193,7 +202,7 @@ All from the driver, in the repo root:
 ```
 tools/replica/deploy/deploy.sh            # everything, idempotent (gcloud on the driver makes it take ~6 min)
 tools/replica/deploy/deploy.sh --no-web   # lockdown only (user + egress), no Caddy, no open ports
-tools/replica/deploy/verify.sh            # ~116 PASS/FAIL checks with the galaxy replica; exit 1 on any FAIL (~2 min)
+tools/replica/deploy/verify.sh            # ~101 PASS/FAIL checks (galaxy-lite retired, galaxy replica); exit 1 on any FAIL
 tools/replica/deploy/verify.sh vm|web|fw  # one part (web includes fw, the GCP firewall audit)
 python3 test/replica/test_deploy.py       # offline checks of the scripts and rendered configs
 ```

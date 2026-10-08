@@ -51,6 +51,9 @@ DBUS_POLICY=/etc/dbus-1/system.d/bc23-replica.conf
 # render asks its installed setup script for the site block.
 GALAXY_SITE_FLAG=/etc/bc23-replica/galaxy.enabled
 GALAXY_SETUP="${GALAXY_SETUP:-/usr/local/lib/bc23-galaxy/galaxy-setup.sh}"
+# galaxy-lite was retired on 2026-10-08 (vm-setup.sh retire-lite): while this flag file exists its units stay stopped
+# and disabled, and its host name redirects to the galaxy site (docs/replica/README.md).
+LITE_RETIRED_FLAG=/etc/bc23-replica/galaxy-lite.retired
 
 # The replica's own services (vm-setup.sh services): run as $REPLICA_USER from the operator's checkout on the VM
 UNIT_API=bc23-replica-api.service          # web pages, replay viewer, JSON API on 127.0.0.1:$REPLICA_PORT

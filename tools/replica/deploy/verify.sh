@@ -85,8 +85,17 @@ else
   sudo kill "$srv" 2>/dev/null; wait "$srv" 2>/dev/null
 fi
 
-# the replica's own services (vm-setup.sh services)
-if [ -n "${UNIT_API:-}" ] && [ -f "/etc/systemd/system/$UNIT_API" ]; then
+# the replica's own services (vm-setup.sh services); retired since 2026-10-08 (vm-setup.sh retire-lite)
+if [ -n "${LITE_RETIRED_FLAG:-}" ] && [ -f "$LITE_RETIRED_FLAG" ]; then
+  for u in "$UNIT_API" "$UNIT_WORKER" "$TIMER_AUTOSCRIM"; do
+    a=$(systemctl is-active "$u" 2>/dev/null || true); e=$(systemctl is-enabled "$u" 2>/dev/null || true)
+    case "$a $e" in active*|*" enabled") bad "galaxy-lite retired, but $u is $a/$e" ;; *) pass "galaxy-lite retired: $u $a/$e" ;; esac
+  done
+  bound=$(ss -ltnH "sport = :$REPLICA_PORT" | awk '{print $4}' | sort -u | tr '\n' ' ')
+  [ -z "$bound" ] && pass "galaxy-lite retired: nothing listens on port $REPLICA_PORT" || bad "port $REPLICA_PORT still bound: $bound"
+  [ ! -e "$REPLICA_HOME/replica.db" ] && pass "galaxy-lite data archived ($(ls -d "$REPLICA_HOME"/archive/*-retired 2>/dev/null | tail -1))" \
+    || bad "galaxy-lite retired, but $REPLICA_HOME/replica.db is still in place"
+elif [ -n "${UNIT_API:-}" ] && [ -f "/etc/systemd/system/$UNIT_API" ]; then
   for u in "$UNIT_API" "$UNIT_WORKER"; do
     systemctl is-active --quiet "$u" && pass "$u active" || bad "$u not active"
     pid=$(systemctl show -p MainPID --value "$u")
@@ -191,6 +200,21 @@ web_checks () {
   bad () { echo "FAIL $*"; fail=1; }
   got=$(curl -sS -m 20 -o /dev/null -w '%{http_code} %{redirect_url}' "http://$host/" || true)
   case "$got" in 30[178]" https://$host/") pass "http redirects to https ($got)" ;; *) bad "http: $got" ;; esac
+  if gssh "test -f $LITE_RETIRED_FLAG"; then         # galaxy-lite retired: its host name only points at the galaxy site
+    got=$(curl -sS -m 20 -o /dev/null -w '%{http_code} %{redirect_url} %{ssl_verify_result}' "https://$host/bc23/rankings?x=1" || true)
+    [ "$got" = "302 https://galaxy.$host/bc23/rankings?x=1 0" ] && pass "galaxy-lite retired: https://$host/ redirects to the galaxy site ($got)" \
+      || bad "retired host: $got"
+    got=$(curl -sS -m 20 -H 'Host: 127.0.0.1:8023' -o /dev/null -w '%{http_code} %{size_download}' "https://$host/replica/status" || true)
+    case "$got" in 30*|401*|*" 0") pass "foreign Host header is not proxied ($got)" ;; *) bad "foreign Host header: $got" ;; esac
+    local ext=${host%.sslip.io} p; ext=${ext//-/.}
+    for p in "$REPLICA_PORT" 2019 6175; do
+      if curl -sS -m 5 -o /dev/null "http://$ext:$p/" 2>/dev/null; then bad "port $p reachable from outside"; else pass "port $p closed from outside"; fi
+    done
+    [ "$(stat -c %a "$PASSWORD_FILE")" = 600 ] && pass "driver password file mode 600" || bad "driver password file mode"
+    if gssh "test -f $ETC_DIR/galaxy.enabled"; then galaxy_web_checks "galaxy.$host"; fi
+    [ $fail = 0 ] || rc=1
+    return 0
+  fi
   got=$(curl -sS -m 20 -o /dev/null -w '%{http_code} %{ssl_verify_result}' "https://$host/" || true)
   [ "$got" = "401 0" ] && pass "https without credentials: 401 (certificate verified)" || bad "https no creds: $got"
   curl -sS -m 20 -D - -o /dev/null "https://$host/" 2>/dev/null | grep -i '^www-authenticate: basic' >/dev/null \

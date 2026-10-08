@@ -32,7 +32,7 @@ UNIT_GSATURN=bc23-galaxy-saturn.service # compile + execute (PrivateNetwork=yes)
 UNIT_GSCHED=bc23-galaxy-scheduler.service
 TIMER_GSCHED=bc23-galaxy-scheduler.timer   # installed DISABLED (autoscrim cadence; the lead's decision)
 GALAXY_COMPILE_SLOTS=1                  # galaxy: saturn-compile parallelism 1
-GALAXY_EXECUTE_SLOTS=3                  # concurrent engines (each ~1 GB); default for a new env file
+GALAXY_EXECUTE_SLOTS=5                  # concurrent engines (each ~1 GB); default for a new env file (5 since galaxy-lite retired)
 GALAXY_GUNICORN_WORKERS=3
 VIEWER_DOWNLOAD=/home/$OPERATOR_USER/projects/vibe/bc23-viewer-3.0.15   # docs/replica/VIEWER.md
 FRONTEND_DIST=$GALAXY_HOME/frontend-dist   # where tools/galaxy/frontend/build.sh installs by default
