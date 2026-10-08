@@ -121,3 +121,7 @@ Got it, thanks!
 ## 26. 2026-10-08 07:55 PDT
 
 /loop 2h Make sure everything in the progress directory is up to date
+
+## 27. 2026-10-08 08:45 PDT
+
+Can you tell me more about how you encode information in the game replays?
