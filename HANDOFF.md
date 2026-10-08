@@ -42,6 +42,9 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
 - Active submission: 24 = g_iter0 (2026-10-07 17:45 PDT). Baseline panel (test/cells/panel-v1.txt, 10 opponents x 10
   maps) running from the driver: `logs/panel1-g_iter0.log`, run dir `gauntlet/*-panel1-g_iter0`.
+- Our ranked play: `python3 tools/contest.py ladder` runs detached on the driver (log `logs/ladder-vibe23.log`), one
+  ranked challenge every 10 minutes to a team rated closest at or above us (galaxy: ranked only upward; weaker teams
+  challenge us). Galaxy's autoscrim (ranked, every team) fires every 4 hours (04:00, 08:00, ... UTC).
 - Every replica game must count (owner, PROMPTS 13): a workflow is adding bot telemetry (indicator strings plus
   indicator dots/lines, which cost 0 bytecodes per call and are uncapped), new ReplayDump extractors (engagements,
   timelines, death causes, opponent tactics) and a per-match report for every downloaded match
