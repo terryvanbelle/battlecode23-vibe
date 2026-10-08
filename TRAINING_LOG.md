@@ -225,3 +225,11 @@ of history. Times are PDT. Grep it; do not read it whole.
   recover (Mn +11, Ad -19): c_nav1's 7% collection drop came from another part of the change (hand kept per
   obstacle, current check or stall rule). Kept (neutral; fixes the stall). Open question for telemetry.
 - The experiment queue on the VM has drained: saturn now runs 7 engines.
+
+## 2026-10-07 21:15 — Baseline panel profile (tools/profile.py on the g_iter0 panel run)
+
+- Opponents that beat g_iter0 on the panel (NotLLeon, awesomelemonade, CB_tuning2, camel_case, pranayagra, vrangr1):
+  Mn by r100 374-571 (us 249), Ad by r100 16-386 (us 330), launchers alive r250 26-35 (us 7.8), exposure
+  0.009-0.052 (us 0.123), damage per contact round 5.3-8.0 (us 14). The same signature as the diag-top4 study:
+  early mana, launcher numbers, and fights not taken alone. Trial targets for the next candidate: Mn r100 up,
+  launchers alive r250 up, exposure down.
