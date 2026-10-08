@@ -14,7 +14,8 @@ REPLICA_USER=bcreplica
 REPLICA_GROUP=bcreplica           # terryvanbelle is a member: read access to the DB and replays
 REPLICA_HOME=/home/bcreplica/replica
 REPLICA_PORT=8023                 # replica web server; must bind 127.0.0.1 only
-REPLICA_LO_PORTS="8023"           # loopback TCP ports bcreplica may open NEW connections to (space-separated)
+REPLICA_LO_PORTS="8023 8024"      # loopback TCP ports bcreplica may open NEW connections to (space-separated);
+                                  # 8024: the galaxy replica's siarnaq (tools/galaxy/deploy, docs/galaxy/README.md)
 OPERATOR_USER=terryvanbelle
 
 # Public web access: Caddy (HTTPS + basic auth) -> 127.0.0.1:$REPLICA_PORT
@@ -46,6 +47,10 @@ NFT_DROPIN=/etc/systemd/system/nftables.service.d/bc23-replica-egress.conf
 NFT_COMBINED=/etc/bc23-replica/nftables-with-egress.nft
 # D-Bus policy: $REPLICA_USER may not ask systemd-resolved (DNS), networkd or timesyncd to do network work for it
 DBUS_POLICY=/etc/dbus-1/system.d/bc23-replica.conf
+# The galaxy replica (tools/galaxy/deploy) adds a second Caddy site, galaxy.<host>, while this flag file exists;
+# render asks its installed setup script for the site block.
+GALAXY_SITE_FLAG=/etc/bc23-replica/galaxy.enabled
+GALAXY_SETUP="${GALAXY_SETUP:-/usr/local/lib/bc23-galaxy/galaxy-setup.sh}"
 
 # The replica's own services (vm-setup.sh services): run as $REPLICA_USER from the operator's checkout on the VM
 UNIT_API=bc23-replica-api.service          # web pages, replay viewer, JSON API on 127.0.0.1:$REPLICA_PORT

@@ -58,4 +58,9 @@ if [ -s "$ETC_DIR/owner.bcrypt" ]; then
 else
   echo "no password hash yet: run tools/replica/deploy/set-password.sh from the driver"
 fi
+# The galaxy replica's siarnaq reads its host name (ALLOWED_HOSTS, CSRF origin) at start: restart it on a change.
+if [ "$host" != "$old" ] && [ -f "${GALAXY_SITE_FLAG:-/nonexistent}" ]; then
+  systemctl --no-block try-restart bc23-galaxy-web.service || true
+fi
 echo "https://$host/"
+if [ -f "${GALAXY_SITE_FLAG:-/nonexistent}" ]; then echo "https://galaxy.$host/"; fi

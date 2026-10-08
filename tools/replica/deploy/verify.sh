@@ -112,6 +112,49 @@ if [ -n "${UNIT_API:-}" ] && [ -f "/etc/systemd/system/$UNIT_API" ]; then
   echo "INFO $TIMER_AUTOSCRIM: $(systemctl is-enabled "$TIMER_AUTOSCRIM" 2>/dev/null) (installed disabled; enabling it is the operator's call)"
 fi
 
+# the galaxy replica (tools/galaxy/deploy): siarnaq, relay, saturn, PostgreSQL, stand-ins
+if [ -f /usr/local/lib/bc23-galaxy/config.sh ] && [ -f "/etc/systemd/system/bc23-galaxy-web.service" ]; then
+  source /usr/local/lib/bc23-galaxy/config.sh
+  for u in "$UNIT_GWEB" "$UNIT_GRELAY" "$UNIT_GSATURN"; do
+    systemctl is-active --quiet "$u" && pass "$u active" || bad "$u not active"
+    pid=$(systemctl show -p MainPID --value "$u")
+    [ "$(ps -o user= -p "$pid" 2>/dev/null)" = "$R" ] && pass "$u runs as $R" || bad "$u user: $(ps -o user= -p "$pid" 2>&1)"
+    [ "$(systemctl show -p Slice --value "$u")" = "$SLICE" ] && pass "$u in $SLICE" || bad "$u slice: $(systemctl show -p Slice --value "$u")"
+    case "$(systemctl show -p InaccessiblePaths --value "$u")" in
+      *"/run/systemd/resolve"*"/run/dbus/system_bus_socket"*) pass "$u: no varlink/D-Bus to systemd-resolved" ;;
+      *) bad "$u: systemd-resolved sockets reachable" ;; esac
+  done
+  [ "$(systemctl is-enabled "$TIMER_GSCHED" 2>/dev/null)" != enabled ] && echo "INFO $TIMER_GSCHED: disabled (autoscrim rounds off; enabling it is the lead's call)" \
+    || echo "INFO $TIMER_GSCHED: enabled (autoscrim rounds follow the episode's autoscrim_schedule)"
+  spid=$(systemctl show -p MainPID --value "$UNIT_GSATURN")
+  if [ "$(systemctl show -p PrivateNetwork --value "$UNIT_GSATURN")" = yes ] && [ "${spid:-0}" != 0 ] \
+     && [ "$(sudo readlink "/proc/$spid/ns/net")" != "$(sudo readlink /proc/1/ns/net)" ]; then
+    pass "$UNIT_GSATURN (compiler and engines) runs in a private network namespace"
+    links=$(sudo nsenter -t "$spid" -n ip -o link show | awk -F': ' '{print $2}' | tr '\n' ' ')
+    [ "$links" = "lo " ] && pass "saturn namespace has only lo" || bad "saturn namespace links: $links"
+    must_fail "inside the saturn namespace (as root): http://1.1.1.1" sudo nsenter -t "$spid" -n curl -sS -m 5 -o /dev/null http://1.1.1.1/
+    must_fail "inside the saturn namespace (as root): siarnaq on 127.0.0.1:$GALAXY_PORT" sudo nsenter -t "$spid" -n curl -sS -m 5 -o /dev/null "http://127.0.0.1:$GALAXY_PORT/"
+    n=$(sudo nsenter -t "$spid" -m ls -A "$GALAXY_HOME/secrets" 2>/dev/null | wc -l)
+    [ "$n" = 0 ] && pass "saturn cannot see $GALAXY_HOME/secrets (token key)" || bad "saturn sees $n file(s) in $GALAXY_HOME/secrets"
+  else bad "$UNIT_GSATURN shares the host network namespace"; fi
+  bound=$(ss -ltnH "sport = :$GALAXY_PORT" | awk '{print $4}' | sort -u | tr '\n' ' ')
+  [ "$bound" = "127.0.0.1:$GALAXY_PORT " ] && pass "port $GALAXY_PORT bound to 127.0.0.1 only" || bad "port $GALAXY_PORT bound to: $bound"
+  must_work "$R: connect 127.0.0.1:$GALAXY_PORT (relay -> siarnaq)" as_r python3 -c "import socket; socket.create_connection(('127.0.0.1', $GALAXY_PORT), 3)"
+  [ -S "$GALAXY_HOME/run/relay.sock" ] && [ "$(sudo stat -c '%a %U' "$GALAXY_HOME/run/relay.sock")" = "600 $R" ] \
+    && pass "relay socket mode 600 $R" || bad "relay socket: $(sudo stat -c '%a %U' "$GALAXY_HOME/run/relay.sock" 2>&1)"
+  [ -z "$(sudo ss -ltnH 'sport = :5432')" ] && pass "PostgreSQL has no TCP listener (unix socket only)" || bad "PostgreSQL listens on TCP 5432"
+  [ "$(sudo runuser -u postgres -- psql -tAc 'SHOW listen_addresses' 2>/dev/null)" = "" ] && pass "postgres listen_addresses is empty" || bad "postgres listen_addresses not empty"
+  g=$(sudo find "$GALAXY_VENV" -path '*site-packages/google*' -maxdepth 6 2>/dev/null | head -3)
+  [ -z "$g" ] && pass "venv holds no Google client library" || bad "google packages in the venv: $g"
+  aud=$(sudo "$GALAXY_CLI" bootstrap audit 2>/dev/null | grep -v '^{')
+  echo "$aud" | grep -E '^(own|link|external) ' | sed 's/^/INFO host in config: /'
+  echo "$aud" | grep -qx 'external hosts: none' && pass "no external host in siarnaq's settings, episode or staff e-mails" \
+    || bad "external hosts in the running configuration: $(echo "$aud" | sed -n 's/^external hosts: //p')"
+  echo "$aud" | grep -q '^stand-ins: True' && pass "siarnaq imports every google.* module from the stand-ins" || bad "stand-ins: $(echo "$aud" | grep stand-ins)"
+  echo "$aud" | grep -qx 'actions: GCLOUD_ENABLE_ACTIONS=True EMAIL_ENABLED=False EMAIL_BACKEND=replica_gcp.mail.DropEmailBackend DEBUG=False' \
+    && pass "GCLOUD_ENABLE_ACTIONS on, e-mail off (drop backend), DEBUG off" || bad "settings: $(echo "$aud" | grep '^actions')"
+fi
+
 # listeners in the host namespace: bcreplica binds loopback only; nothing behind the internet-open RDP port
 uid=$(id -u "$R")
 l=$(sudo ss -ltnupeH | awk -v u=" uid:$uid " 'index($0, u) {print $5}' | grep -vE '^(127\.|\[::1\]|\[::ffff:127\.)' | sort -u | tr '\n' ' ')
@@ -186,7 +229,62 @@ web_checks () {
     if curl -sS -m 5 -o /dev/null "http://$ext:$p/" 2>/dev/null; then bad "port $p reachable from outside"; else pass "port $p closed from outside"; fi
   done
   [ "$(stat -c %a "$PASSWORD_FILE")" = 600 ] && pass "driver password file mode 600" || bad "driver password file mode"
+  if gssh "test -f $ETC_DIR/galaxy.enabled"; then galaxy_web_checks "galaxy.$host"; fi
   [ $fail = 0 ] || rc=1
+}
+
+galaxy_web_checks () {  # $1 galaxy host. Uses pass/bad/fail of web_checks.
+  local g="$1" got cred hdr
+  echo "url: https://$g/"
+  cred () { printf 'user = "%s:%s"\n' "$OWNER_LOGIN" "$(head -1 "$PASSWORD_FILE")"; }
+  code () { curl -sS -m 30 -o /dev/null -w '%{http_code}' "$@" 2>/dev/null || true; }
+  got=$(curl -sS -m 30 -o /dev/null -w '%{http_code} %{ssl_verify_result}' "https://$g/" || true)
+  [ "$got" = "401 0" ] && pass "galaxy: https without credentials: 401 (certificate verified)" || bad "galaxy no creds: $got"
+  local p nbad=0
+  for p in / /api/episode/e/bc23/ /admin/ /static/admin/css/base.css /storage/bc23-replica-secure/ /viewer/visualizer.html /api/token/; do
+    got=$(code "https://$g$p"); [ "$got" = 401 ] || { bad "galaxy: GET $p without credentials: $got"; nbad=1; }
+  done
+  [ $nbad = 1 ] || pass "galaxy: frontend, API, admin, static, storage, viewer, token endpoint without credentials: 401"
+  got=$(cred | code -K - "https://$g/"); [ "$got" = 200 ] && pass "galaxy: frontend with the password: 200" || bad "galaxy frontend: $got"
+  got=$(cred | code -K - "https://$g/scrimmaging/some/deep/link"); [ "$got" = 200 ] && pass "galaxy: SPA fallback for a deep link: 200" || bad "galaxy deep link: $got"
+  got=$(cred | curl -sS -m 30 -K - "https://$g/api/episode/e/bc23/" 2>/dev/null | python3 -c 'import json, sys; d = json.load(sys.stdin); print(d["name_short"], d["release_version_public"])' 2>/dev/null || true)
+  [ "$got" = "bc23 3.0.15" ] && pass "galaxy: GET /api/episode/e/bc23/ with the password: episode bc23 3.0.15" || bad "galaxy episode API: $got"
+  for p in /static/admin/css/base.css /viewer/visualizer.html /viewer/out/app.js /viewer/galaxy-viewer.js /favicon.png; do
+    got=$(cred | code -K - "https://$g$p"); [ "$got" = 200 ] || { bad "galaxy: GET $p with the password: $got"; nbad=1; }
+  done
+  [ $nbad = 1 ] || pass "galaxy: static, viewer page, viewer bundle, frontend asset with the password: 200"
+  got=$(cred | code -K - "https://$g/replay/00000000-0000-0000-0000-000000000000.bc23"); [ "$got" = 404 ] && pass "galaxy: /replay/* is not the SPA: 404" || bad "galaxy /replay: $got"
+  got=$(code "https://$g/manifest.json"); [ "$got" = 200 ] && pass "galaxy: /manifest.json without credentials: 200 (browsers fetch it credential-less)" || bad "galaxy manifest: $got"
+  hdr=$(cred | curl -sS -m 30 -K - -D - -o /dev/null "https://$g/api/user/u/me/" 2>/dev/null | tr -d '\r')
+  case "$hdr" in *" 403"*) echo "$hdr" | grep -qi '^www-authenticate' && bad "galaxy: logged-out /api/user/u/me/ still carries a challenge" \
+      || pass "galaxy: logged-out API call with the site login: 403 without a challenge (keeps the browser's login)" ;;
+    *) bad "galaxy: logged-out /api/user/u/me/ with the site login: $(echo "$hdr" | head -1)" ;; esac
+  hdr=$(cred | curl -sS -m 30 -K - -D - -o /dev/null "https://$g/" 2>/dev/null | tr -d '\r')
+  echo "$hdr" | grep -i '^content-security-policy:' | grep -q "connect-src 'self'" && pass "galaxy: CSP header with connect-src 'self'" || bad "galaxy: no CSP connect-src 'self'"
+  echo "$hdr" | grep -qi '^referrer-policy: same-origin' && pass "galaxy: Referrer-Policy same-origin (Django CSRF origin check)" || bad "galaxy: Referrer-Policy"
+  # Bearer requests skip basic auth and must be judged by siarnaq: a bad token is a 401 everywhere, AllowAny too
+  local jwt='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjo0MTAyNDQ0ODAwLCJ1c2VyX2lkIjoxfQ.c2lnbmF0dXJlLW5vdC12YWxpZA'
+  hdr=$(curl -sS -m 30 -D - -o /dev/null -H "Authorization: Bearer $jwt" "https://$g/api/episode/e/bc23/" 2>/dev/null | tr -d '\r')
+  case "$hdr" in *" 401"*"www-authenticate: Bearer"*|*" 401"*"WWW-Authenticate: Bearer"*) pass "galaxy: forged JWT on an AllowAny endpoint: 401 from siarnaq (Bearer challenge)" ;;
+    *) bad "galaxy: forged JWT on GET /api/episode/e/bc23/: $(echo "$hdr" | head -1)" ;; esac
+  got=$(code -X POST -H "Authorization: Bearer $jwt" -H 'Content-Type: application/json' -d '{}' "https://$g/api/user/u/")
+  [ "$got" = 401 ] && pass "galaxy: forged JWT on registration (AllowAny POST): 401" || bad "galaxy: forged JWT register: $got"
+  got=$(code -X POST -A Galaxy-Saturn -H "Authorization: Bearer $jwt" -H 'Content-Type: application/json' \
+        -d '{"invocation": {"status": "OK!"}, "scores": [1, 0]}' "https://$g/api/compete/bc23/match/1/report/")
+  [ "$got" = 401 ] && pass "galaxy: forged saturn report (User-Agent Galaxy-Saturn, bad ID token): 401" || bad "galaxy: forged report: $got"
+  got=$(code -X POST -A Google-Cloud-Tasks -H "Authorization: Bearer $jwt" "https://$g/api/compete/bc23/match/1/rating_update/")
+  [ "$got" = 401 ] && pass "galaxy: forged Cloud Tasks call: 401" || bad "galaxy: forged task: $got"
+  for p in /api/token/ /admin/ / /storage/bc23-replica-secure/ /viewer/visualizer.html; do
+    got=$(code -H "Authorization: Bearer $jwt" "https://$g$p")
+    [ "$got" = 401 ] || { bad "galaxy: Bearer on $p (not a JWT-authenticated path): $got"; nbad=1; }
+  done
+  [ $nbad = 1 ] || pass "galaxy: a Bearer header does not open the token endpoint, admin, frontend, storage or viewer (401)"
+  got=$(curl -sS -m 20 -H 'Host: 127.0.0.1:8024' -o /dev/null -w '%{http_code} %{size_download}' "https://$g/api/episode/e/bc23/" || true)
+  case "$got" in 401*|*" 0") pass "galaxy: foreign Host header is not proxied ($got)" ;; *) bad "galaxy: foreign Host header: $got" ;; esac
+  got=$(echo | openssl s_client -connect "$g:443" -servername "$g" 2>/dev/null | openssl x509 -noout -issuer 2>/dev/null)
+  case "$got" in *"Let's Encrypt"*) pass "galaxy: certificate $got" ;; *) echo "INFO galaxy certificate: ${got:-none}" ;; esac
+  local ext=${g#galaxy.}; ext=${ext%.sslip.io}; ext=${ext//-/.}
+  if curl -sS -m 5 -o /dev/null "http://$ext:8024/" 2>/dev/null; then bad "port 8024 reachable from outside"; else pass "port 8024 closed from outside"; fi
 }
 
 fw_checks () {  # every enabled INGRESS rule that applies to the VM and admits a non-private source

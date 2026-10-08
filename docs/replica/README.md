@@ -5,6 +5,10 @@ written in standard-library Python and runs only on `battlecode-dev`. Our builds
 ranked scrimmages under galaxy's rules, and the ratings are galaxy's Penalized Elo. The design study is
 `research/prior/GALAXY.md` (sections 2, 6.4, 6.5 and 7). This guide covers how to operate the replica.
 
+Since 2026-10-08 the real galaxy (siarnaq, unmodified, with local stand-ins for Google Cloud, and galaxy's own
+frontend) also runs on battlecode-dev, at `https://galaxy.<external-ip-with-dashes>.sslip.io/`
+(`docs/galaxy/README.md`). galaxy-lite keeps running beside it until the cutover.
+
 On battlecode-dev the replica runs as systemd services under the locked-down user `bcreplica`. The owner reads
 the ladder, the matches and the replays (in the official 2023 viewer) at `https://<external-ip-with-dashes>.sslip.io/`
 (on 2026-10-07: https://136-86-167-127.sslip.io/), as user `owner`. The password is in

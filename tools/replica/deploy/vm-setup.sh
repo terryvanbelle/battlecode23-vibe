@@ -16,7 +16,7 @@
 #   sudo vm-setup.sh teardown-web     remove Caddy (binary, units, certs, logs, user caddy); keep the lockdown
 #   sudo vm-setup.sh teardown-services             stop and remove the replica units and the CLI wrapper
 #   sudo vm-setup.sh teardown-all [--purge-data]   also remove the lockdown and user bcreplica (data kept unless asked)
-#   vm-setup.sh print-nft UID "PORTS" | print-caddyfile HOST HASH | print-units | print-env | print-cli
+#   vm-setup.sh print-nft UID "PORTS" | print-caddyfile HOST HASH [1] | print-units | print-env | print-cli
 #             | print-dbus-policy | print-nft-dropin   (no root; used by test/replica/test_deploy.py)
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -105,8 +105,8 @@ read_only_block () {  # basic_auth runs before respond (Caddy's directive order)
     'respond @write "Read-only web front: run replica commands on the VM (docs/replica/DEPLOY.md)." 405'
 }
 
-print_caddyfile () {  # $1 host, $2 bcrypt hash
-  local host="$1" hash="$2"
+print_caddyfile () {  # $1 host, $2 bcrypt hash, $3 = 1: also the galaxy replica's site (galaxy.$1)
+  local host="$1" hash="$2" galaxy="${3:-0}"
   [[ $host =~ $HOST_RE ]] || die "bad host name '$host'"
   [[ $hash =~ $HASH_RE ]] || die "bad bcrypt hash"
   cat <<EOF
@@ -143,6 +143,10 @@ $(read_only_block)
 	}
 }
 EOF
+  if [ "$galaxy" = 1 ]; then
+    [ -x "${GALAXY_SETUP:-}" ] || die "galaxy site requested but ${GALAXY_SETUP:-<unset>} is missing"
+    "$GALAXY_SETUP" print-site "$host" "$hash" || die "galaxy-setup.sh print-site failed"
+  fi
 }
 
 # ------------------------------------------------------------------------------------------ the replica's own units
@@ -282,7 +286,7 @@ EOF
 
 case "${1:-}" in
   print-nft) print_nft "${2:?uid}" "${3:?ports}"; exit 0 ;;
-  print-caddyfile) print_caddyfile "${2:?host}" "${3:?hash}"; exit 0 ;;
+  print-caddyfile) print_caddyfile "${2:?host}" "${3:?hash}" "${4:-0}"; exit 0 ;;
   print-units) print_units; exit 0 ;;
   print-env) print_env; exit 0 ;;
   print-cli) print_cli; exit 0 ;;
@@ -474,12 +478,13 @@ render_step () {  # [--boot]: called from the hostname unit, which Caddy is orde
   [ -s "$ETC_DIR/owner.bcrypt" ] || die "no $ETC_DIR/owner.bcrypt yet (run set-password.sh)"
   local host hash new="$CADDYFILE.new"
   host=$(head -1 "$ETC_DIR/hostname"); hash=$(head -1 "$ETC_DIR/owner.bcrypt")
-  print_caddyfile "$host" "$hash" > "$new"
+  local galaxy=0; [ -f "${GALAXY_SITE_FLAG:-/nonexistent}" ] && galaxy=1
+  print_caddyfile "$host" "$hash" "$galaxy" > "$new"
   chown root:caddy "$new"; chmod 0640 "$new"
   local out; out=$(as_caddy validate --config "$new" --adapter caddyfile 2>&1) \
     || { rm -f "$new"; die "caddy validate failed: $out"; }
   mv -f "$new" "$CADDYFILE"
-  say "Caddyfile for https://$host/"
+  say "Caddyfile for https://$host/$([ "$galaxy" = 1 ] && echo " and https://galaxy.$host/")"
   if [ "${1:-}" = --boot ]; then
     # A blocking reload here would deadlock: the reload job waits for this unit's start job (Before=$UNIT_CADDY).
     if systemctl is-active --quiet "$UNIT_CADDY"; then systemctl --no-block reload "$UNIT_CADDY"; fi

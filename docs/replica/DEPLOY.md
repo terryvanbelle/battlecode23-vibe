@@ -9,6 +9,12 @@ how the owner reaches it from a browser. Scripts: `tools/replica/deploy/`. Set u
 The address changes whenever the VM is stopped and started (section 6). Until the replica's web server listens on
 `127.0.0.1:8023`, a logged-in request gets `502 Bad Gateway`.
 
+**Second site (2026-10-08):** the galaxy replica (siarnaq + galaxy's frontend) is served by the same Caddy at
+`https://galaxy.<external-ip-with-dashes>.sslip.io/`, with the same `owner` login, from `127.0.0.1:8024` and static
+files under `/srv/bc23-galaxy`. Its routing, access rules and services are in `docs/galaxy/README.md`; this document
+covers the host guards both sites share. The galaxy site is rendered into the same Caddyfile while
+`/etc/bc23-replica/galaxy.enabled` exists.
+
 ```
 browser --https:443, basic auth--> Caddy (user caddy) --http, 127.0.0.1:8023--> replica web server (user bcreplica)
           (http:80 = ACME challenge + 308 redirect)       GET/HEAD only;            DB + replays in /home/bcreplica/replica
@@ -65,7 +71,8 @@ infrastructure.
 | GCP firewall `bc23-replica-web` | tcp/80 | 0.0.0.0/0 | same | Let's Encrypt HTTP-01 challenge; every other request gets a 308 redirect to https |
 | VM listener (Caddy) | tcp `*:80`, `*:443` | | | HTTP/3 (udp/443) is turned off (`protocols h1 h2`) because udp/443 is not opened |
 | VM listener (Caddy admin API) | none | | | A unix socket, `/run/caddy/admin.sock`, in a 0750 `caddy:caddy` directory. Other users, `bcreplica` included, cannot reconfigure Caddy. The default `localhost:2019` is not used. |
-| VM listener (replica web server, to be built) | tcp `127.0.0.1:8023` | loopback only | | Must not bind `0.0.0.0` |
+| VM listener (replica web server) | tcp `127.0.0.1:8023` | loopback only | | Must not bind `0.0.0.0` |
+| VM listener (galaxy replica: siarnaq under gunicorn) | tcp `127.0.0.1:8024` | loopback only | | `docs/galaxy/README.md`; PostgreSQL for it has no TCP listener (unix socket only) |
 
 Nothing else was opened. The rules that already existed are unchanged: `default-allow-ssh` (22),
 `default-allow-rdp` (3389, nothing listens there), `default-allow-icmp` and `default-allow-internal`
@@ -75,7 +82,7 @@ off-limits. So **sshd on tcp/22 is reachable from the whole internet**. It accep
 `default-allow-ssh` would not affect the agents, but it is the owner's call. `systemd-resolved` also answers LLMNR on
 `0.0.0.0:5355`; only the VPC can reach it (`default-allow-internal`), and it was checked as closed from outside. Because of `default-allow-internal`, anything that binds `0.0.0.0` on the VM can be reached from the
 driver. The engine's websocket port 6175 is one example, which is why the runner must pass
-`-Dbc.server.websocket=false`. Ports 8023, 2019 and 6175 are checked as closed from outside.
+`-Dbc.server.websocket=false`. Ports 8023, 8024, 2019 and 6175 are checked as closed from outside.
 
 The public front is **read-only**: Caddy passes only `GET` and `HEAD` and answers any other method with 405, after
 basic auth. Viewing rankings and replays needs nothing more. Submissions, requests and autoscrims are made on the VM,
@@ -96,7 +103,7 @@ table inet bc23_replica_egress {
     ip6 daddr fd20:ce::254 drop       # its IPv6 address
     oifname != "lo" log (6/min) ; oifname != "lo" drop             # nothing leaves the host
     ct state established,related accept                            # replies on loopback (web server -> Caddy)
-    tcp dport { 8023 } accept                                       # new loopback connections: replica port only
+    tcp dport { 8023, 8024 } accept                                 # new loopback connections: the replicas' ports only
     drop                                                            # DNS stub 127.0.0.53, MTA :25, anything else local
   }
 }
@@ -108,7 +115,8 @@ table inet bc23_replica_egress {
   (`Could not resolve host`). That is intended: the replica needs no names.
 - Users other than `bcreplica` are untouched. `terryvanbelle` and root still reach the internet and the metadata
   server (verified).
-- To let `bcreplica` open more loopback ports, edit `REPLICA_LO_PORTS` in `config.sh` and redeploy.
+- To let `bcreplica` open more loopback ports, edit `REPLICA_LO_PORTS` in `config.sh` and redeploy. Since
+  2026-10-08 it is `8023 8024`: the galaxy replica's relay reaches siarnaq on 127.0.0.1:8024.
 - Dropped packets are logged at 6 per minute: `sudo journalctl -k -g bc23-replica-egress-drop`.
 
 - **The table survives `nftables.service`.** Its `ExecStart`/`ExecReload` run `flush ruleset` from
@@ -185,7 +193,7 @@ All from the driver, in the repo root:
 ```
 tools/replica/deploy/deploy.sh            # everything, idempotent (gcloud on the driver makes it take ~6 min)
 tools/replica/deploy/deploy.sh --no-web   # lockdown only (user + egress), no Caddy, no open ports
-tools/replica/deploy/verify.sh            # ~75 PASS/FAIL checks; exit 1 on any FAIL (about 50 s)
+tools/replica/deploy/verify.sh            # ~116 PASS/FAIL checks with the galaxy replica; exit 1 on any FAIL (~2 min)
 tools/replica/deploy/verify.sh vm|web|fw  # one part (web includes fw, the GCP firewall audit)
 python3 test/replica/test_deploy.py       # offline checks of the scripts and rendered configs
 ```
@@ -203,6 +211,13 @@ What `verify.sh` checks:
   The worker must run in a private network namespace that holds only `lo`, and `curl http://1.1.1.1` from inside it
   must fail. In the host namespace `bcreplica` may listen on loopback only, and nothing may listen on tcp/3389. A
   list of all non-loopback listeners is printed for information.
+- **The galaxy replica** (when `/usr/local/lib/bc23-galaxy` is installed): its three units run as `bcreplica` in
+  the slice with the resolved sockets inaccessible; saturn has a private network namespace holding only `lo` (no
+  route out, not even to 127.0.0.1:8024) and cannot see the token key; 8024 is bound to 127.0.0.1 only; PostgreSQL has
+  no TCP listener; the venv holds no Google library; siarnaq imports every `google.*` module from the stand-ins; no
+  external host appears in the running settings (`bc23-galaxy-manage bootstrap audit`). From the driver, the galaxy
+  site's routing and access rules (`docs/galaxy/README.md`, "Caddy"), including forged JWTs and forged saturn/Cloud
+  Tasks tokens (401), and port 8024 closed from outside.
 - **From the driver:** `http://` returns 308 to `https://`. `https://` without credentials returns 401 with a
   verified certificate and `WWW-Authenticate: Basic`. A wrong password returns 401, and the right one returns
   200 or 502. POST returns 401 without credentials and 405 with them. GET, HEAD and OPTIONS on the viewer, the
