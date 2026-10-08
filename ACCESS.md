@@ -27,7 +27,7 @@ The old address, https://136-86-167-127.sslip.io/, belonged to the first replica
   match; it opens the official Battlecode 2023 viewer on that match's games. (`owner` has no team, so these pages
   are empty for it.)
 
-Every 4 hours galaxy's automatic round gives each team 4 ranked best-of-3 matches. In between, our team requests
+Every 8 hours galaxy's automatic round gives each team 4 ranked best-of-3 matches. In between, our team requests
 scrimmages as a contestant, and field teams challenge the teams rated just above them when the VM has spare time.
 
 ## If the address stops working
