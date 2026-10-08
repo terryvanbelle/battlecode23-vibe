@@ -133,3 +133,7 @@ Please report all times using PDT
 ## 29. 2026-10-08 09:50 PDT
 
 The number of benchmark vs. benchmark games seems a bit excessive.  Now that we have a basic ordering, can we maybe restrict the number of those games so that we can fit more candidate vs. benchmark games in?
+
+## 30. 2026-10-08 10:00 PDT
+
+That sounds good to me.  I'm also OK if you want to restrict autoscrim to just the top N bots
