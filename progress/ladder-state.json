@@ -5,7 +5,12 @@
   "since": "2026-10-08T02:35:39.835128+00:00",
   "panel_run": "gauntlet/20261008-011350-panel1-g_iter0"
  },
- "trial": null,
+ "trial": {
+  "submission": 118,
+  "package": "c_line7m",
+  "started": "2026-10-08T16:05:52.570735+00:00",
+  "panel": "test/cells/panel-v1.txt"
+ },
  "history": [
   {
    "at": "2026-10-08T02:35:39.835215+00:00",
@@ -48,6 +53,12 @@
    "event": "reject",
    "submission": 116,
    "package": "c_line6"
+  },
+  {
+   "at": "2026-10-08T16:05:52.570783+00:00",
+   "event": "trial-start",
+   "submission": 118,
+   "package": "c_line7m"
   }
  ]
 }
