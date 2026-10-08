@@ -52,6 +52,16 @@ is placed on the ladder. Then run the first **correctness audit** (§4) and only
 
 ## 2. The loop
 
+**Operating model when ladder games are scarce** (a contest gives about two weeks; spend them, never wait):
+- The main work is local and continuous: build the best candidate with intelligence (replay and telemetry study) and
+  verify it with local bot-vs-bot runs against the incumbent and the archetype roster, many arms in flight at once.
+- Submit to the ladder whenever local evidence says a build is superior; ladder games are asynchronous to the main
+  work: their verdict arrives later and never blocks the next local arm.
+- Every ladder replay, ours and any other we may see, is diagnosis input: reports, telemetry queries, opponent
+  tactics, archetype refinement and the next idea.
+- Optimise for wall-clock time: keep the compute machine full of local arms, decide on the strongest evidence
+  available, and drop arms early when local runs say no.
+
 1. **Pick a target**, rotating among sources so none dries up:
    - *own degeneracies*: a counter that never fires, a unit latched in one state, a resource pinned unspent, a producer
      starved, an overrun. Highest yield; needs no opponent.

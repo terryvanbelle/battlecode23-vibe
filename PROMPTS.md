@@ -141,3 +141,8 @@ That sounds good to me.  I'm also OK if you want to restrict autoscrim to just t
 ## 31. 2026-10-08 10:05 PDT
 
 While a candidate is being evaluated, I'd like you to continue working locally to improve the candidate, rather than pausing to wait for the results.  We can't let ourselves get blocked on waiting for scrimmages
+
+## 32. 2026-10-08 10:45 PDT
+
+Here's how I'd like you to think about the project globally:  a) You should be working constantly on building the best local candidate using intelligence and bot vs. bot local runs for verification b) Whenever you feel you have a superior bot, submit it to the ladder, but treat the scrimmages as asynchronous to the main work c) Use all scrimmage replays as a valuable resource for diagnosing issues and coming up with new ideas for how to beat the benchmark bots.
+Realistically, in a tournament situation we'll only have 2 weeks to build the best bot possible, so you should be optimizing time use.
