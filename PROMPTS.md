@@ -97,3 +97,7 @@ Can you give me a summary of last night?
 ## 20. 2026-10-08 06:20 PDT
 
 Can you tell me more about the panel?  What bots are on it?
+
+## 21. 2026-10-08 06:25 PDT
+
+How do we compare a candidate against g_iter0?  Do we submit the candidate, run the unranked games, and then swap g_iter0 back in?
