@@ -171,3 +171,11 @@ of history. Times are PDT. Grep it; do not read it whole.
   left. To be confirmed on replica games (siege cells are against field bots).
 - Not accepted. The working line now: c_nav1's carrier roles (C.ROLES = 0), c_nav2's navigation, audit fixes, the
   HQ fix. Next evaluations go through the galaxy replica (PROMPTS 11).
+
+## 2026-10-07 17:15 — Arm c_mana2 kept (roles)
+
+- c_mana2 vs c_nav1, 174 calibration cells: identical 159, gained 10, lost 5 (net +5, +1.29 SE, sign p 0.30);
+  island-rounds margin -40 (t -0.49).
+- Delivered as designed: Mn by r100 +62 (t +8.9), Ad by r100 -112, launchers alive r100 +0.85 (t +5.3) and r250
+  +1.3 (t +3.3), carriers built -7.3 and lost -2.2. Game-long Mn slightly lower (-78, t -1.1: fewer carriers).
+- Working line: C.ROLES = 2.
