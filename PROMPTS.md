@@ -117,3 +117,7 @@ I can't seem to find where on the replica I can view matches.  What am I missing
 ## 25. 2026-10-08 06:58 PDT
 
 Got it, thanks!
+
+## 26. 2026-10-08 07:55 PDT
+
+/loop 2h Make sure everything in the progress directory is up to date
