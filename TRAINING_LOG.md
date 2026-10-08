@@ -323,3 +323,17 @@ of history. Times are PDT. Grep it; do not read it whole.
 - c_line7m (parity hold): 16/20 (gained 1, lost 0; 19 identical). Passes, but g_iter0's fights barely exercise the
   change; the archetype roster (swarm style) is the real test. Next replica trial after the 16:00 UTC autoscrim,
   once the full screen with archetypes has run.
+
+## 2026-10-08 11:00 PDT — Local work: anchor gate (c_line8a) 18/20 vs g_iter0; on the ladder now
+
+- Self-play losses of c_line6 against g_iter0 studied with full telemetry (local replays carry dots):
+  - Forest (both sides, r2000): 188 anchors taken, 40 targets chosen, 147 timeouts after 150 turns, 4 placed:
+    HQs built anchors whenever an island was unreported, and carriers took them with no target. Fix: C.ANCHOR_GATE
+    (anchors only for located neutral islands; take one only with a target).
+  - Cat (side B): our launchers lost the early fights (alive 7 vs 9 at r30, 1 vs 5 at r100); then 24 carriers died,
+    most at one contested well cluster, fleeing or on their way; mana income froze at 213 from r100.
+- c_line8a (c_line6 + anchor gate) on the 20 pinned self-play cells: 18/20 vs c_line6's 15/20 (gained 4, lost 1);
+  anchors built 9.95 vs 21.45 (t -2.1), launchers alive r250 +1.4 (t +2.5), carriers lost 15.1 vs 28.5.
+- Submitted as a trial at 11:00 PDT (owner, PROMPTS 32: submit whenever locally superior; ladder asynchronous).
+  c_line7m's trial was ended at 5/10 matches (9/50 vs c_line6's 10/50); its remaining matches still report.
+- In flight locally: c_line8b (8a without spawn safety; early-fight hypothesis), c_line8c (8a + danger-aware wells).

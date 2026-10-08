@@ -187,7 +187,13 @@ def cmd_trial_start(package, panel, tag, force):
     print('trial', new['id'], package, '- running the panel')
     run = contest.block(panel, tag or f'panel-{package}')
     s = load_state()
-    s['trial']['run'] = os.path.relpath(run, REPO)
+    # trials are asynchronous (owner, PROMPTS 32): this trial may have been ended, and another started, while its
+    # panel was still playing; record the run only on this trial, else in the history
+    if s.get('trial') and s['trial'].get('submission') == new['id']:
+        s['trial']['run'] = os.path.relpath(run, REPO)
+    else:
+        s['history'].append({'at': utcnow().isoformat(), 'event': 'panel-done', 'submission': new['id'],
+                             'package': package, 'run': os.path.relpath(run, REPO)})
     save_state(s)
     print('panel done:', run, '- decide with tools/paired.py <this run> <the validated build\'s panel run>, then trial-end')
 
