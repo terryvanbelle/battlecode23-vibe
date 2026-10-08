@@ -43,7 +43,7 @@ public final class HQ {
 
     static void build() throws GameActionException {
         RobotController rc = G.rc;
-        boolean threatened = G.nEnemyFighters > 0;
+        boolean threatened = C.HQ_THREAT == 0 ? G.nEnemyFighters > 0 : inDanger();
         // launchers leave in batches built in the same turn (they share cooldowns, so they travel and arrive together:
         // diag-top4 showed our launchers fighting one at a time); a threatened HQ builds whatever it can
         int mnStart = rc.getResourceAmount(ResourceType.MANA);
@@ -100,6 +100,22 @@ public final class HQ {
     }
 
     /** Build on the free spawn tile nearest the unit's purpose: carriers toward wells, others toward the enemy. */
+    /**
+     * C.HQ_THREAT = 1: the HQ is threatened only under real danger: an enemy fighter within r2 C.HQ_DANGER_R2 of the
+     * HQ, and enemy fighters in vision outnumber our launchers in vision. Replica panel telemetry (100 games, c_line4):
+     * the build loop withheld an affordable carrier "under threat" in 43% of HQ turns, with enemies merely in vision
+     * (r2 34); opponents under the same pressure left funds idle half as often (idle HQ-rounds ~750 vs our ~1,650).
+     */
+    static boolean inDanger() {
+        if (G.nEnemyFighters == 0 || G.nEnemyFighters <= G.nAllyFighters) return false;
+        for (int i = G.enemies.length; --i >= 0; ) {
+            RobotInfo e = G.enemies[i];
+            if ((e.type == RobotType.LAUNCHER || e.type == RobotType.DESTABILIZER)
+                && G.here.distanceSquaredTo(e.location) <= C.HQ_DANGER_R2) return true;
+        }
+        return false;
+    }
+
     static int[] threatCache;
     static int threatRound = -1;
 

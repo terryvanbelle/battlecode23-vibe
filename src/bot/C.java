@@ -21,6 +21,9 @@ public final class C {
     public static final int ANCHOR_TIMEOUT = 150;
     /** Spawn on the tile fewest visible enemy fighters can reach (diag-top4: top bots fire at our spawn tiles). */
     public static final boolean SPAWN_SAFETY = true;
+    /** HQ threat test: 0 = any enemy fighter in vision (g_iter0); 1 = real danger only (HQ.inDanger). */
+    public static final int HQ_THREAT = 0;
+    public static final int HQ_DANGER_R2 = 20;
     /** Launchers are built in batches of this many in one turn (unless the HQ is threatened). 1 = no batching: c_batch1
      *  (3) failed delivery on diag-top4 (launchers alive r100 -3.0, t -4.6; kills -9.5, t -6.2). */
     public static final int LAUNCHER_BATCH = 1;
