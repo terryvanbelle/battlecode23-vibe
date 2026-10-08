@@ -47,7 +47,7 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
   only while the validated build is active (BURST one per 5 min while we have < 30 rated matches or the build is < 24 h
   old, else one per 30 min). Candidates go through `trial-start <package>` (incoming ranked auto-rejected, unranked
   panel) and `trial-end --accept|--reject`. Validated build: submission 113 = g_iter0 (panel run
-  `gauntlet/20261008-011350-panel1-g_iter0`, 31/100). Trials: c_line4 25/100 (rejected), c_line5 28 (rejected), c_line6 32 (even, not accepted; working base). Galaxy's autoscrim fires every 8 hours (00:00, 08:00, 16:00 UTC).
+  `gauntlet/20261008-011350-panel1-g_iter0`, 31/100). Trials: c_line4 25/100 (rejected), c_line5 28 (rejected), c_line6 32 (even, not accepted; working base). Galaxy's autoscrim fires every 8 hours (17:00, 01:00, 09:00 PDT).
 - Every replica game must count (owner, PROMPTS 13): a workflow is adding bot telemetry (indicator strings plus
   indicator dots/lines, which cost 0 bytecodes per call and are uncapped), new ReplayDump extractors (engagements,
   timelines, death causes, opponent tactics) and a per-match report for every downloaded match
@@ -55,14 +55,14 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
 - The field: 87 teams, one per public 2023 bot (`tools/galaxy/field.py`, mapping `tools/galaxy/field-teams.tsv`; one
   name shortened: `remember-to-hydrate.sprint_1`), each its own user (passwords only on the VM,
   `~/.bc23-galaxy-field/accounts.json`), all compiled, auto-accept on. Autoscrims: `bc23-galaxy-scheduler.timer`
-  enabled 2026-10-08 01:19 UTC, every 8 h from 08:00 UTC (176 matches per round, about 4.5-5 h on 5 engines: our
+  enabled 2026-10-07 18:19 PDT, every 8 h from 01:00 PDT (176 matches per round, about 4.5-5 h on 5 engines: our
   requests queue behind a round; `docs/galaxy/README.md` section 8, capacity). Field activity on the VM
   (`field.py activity`, `logs/field-activity.log`): random field teams request ranked scrimmages upward, one a
   minute while fewer than 2 matches wait. saturn has 7 engines (since the experiment queue drained).
 - Each check-in: `python3 tools/galaxy/results.py` (finished matches into `progress/games.csv` as `galaxy-<match>`,
   our rows `us:<package>`; idempotent), `tools/.venv/bin/python tools/galaxy/snapshot.py` (`progress/ladder.{md,png}`
   from the Rankings page), `tools/elo.py`; commit them together.
-- galaxy-lite (the first replica, `tools/replica/`) was retired 2026-10-08 01:01 UTC: units stopped and disabled, data
+- galaxy-lite (the first replica, `tools/replica/`) was retired 2026-10-07 18:01 PDT: units stopped and disabled, data
   archived under `/home/bcreplica/replica/archive/20261008-010127-retired/`, its 159 games already in `games.csv`
   (`replica-*`), its host name redirects to the galaxy site (`docs/replica/README.md`).
 

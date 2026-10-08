@@ -63,5 +63,5 @@ tools/ladder_policy.py ranked                       # the ranked loop (detached 
 ```
 
 The autoscrim schedule is not published by the API: it is staff-only, as in the contest, and a contestant learns it by
-watching when autoscrim matches appear. Ours is every 8 hours on the hour, UTC (`AUTOSCRIM_CRON`,
+watching when autoscrim matches appear. Ours is every 8 hours: 17:00, 01:00 and 09:00 PDT (the cron `AUTOSCRIM_CRON` is in UTC,
 `docs/galaxy/README.md` section 6).
