@@ -65,3 +65,7 @@ I just tried the replica web server.  It looks great, but I'd really like you to
 ## 12. 2026-10-07 16:20 PDT
 
 Remember that none of this should affect the real play.battlecode.org in any way
+
+## 13. 2026-10-07 18:25 PDT
+
+Because you will have access to many fewer ladder replays through the replica, you should make sure that each one counts when coming up with new ideas.  Instrument them to get as much information as possible per game
