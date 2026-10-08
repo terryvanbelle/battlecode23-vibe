@@ -125,3 +125,7 @@ Got it, thanks!
 ## 27. 2026-10-08 08:45 PDT
 
 Can you tell me more about how you encode information in the game replays?
+
+## 28. 2026-10-08 09:15 PDT
+
+Please report all times using PDT
