@@ -101,3 +101,7 @@ Can you tell me more about the panel?  What bots are on it?
 ## 21. 2026-10-08 06:25 PDT
 
 How do we compare a candidate against g_iter0?  Do we submit the candidate, run the unranked games, and then swap g_iter0 back in?
+
+## 22. 2026-10-08 06:30 PDT
+
+How do you select candidates?  Do you do local head-to-head evaluations with g_iter0 first?
