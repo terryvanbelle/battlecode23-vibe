@@ -12,7 +12,10 @@ Absolute bars (our team's rows only):
 Reported (no bar yet; set once the offline bound and the field census exist):
   rounds to finish, anchors placed / built, robots never moving, Mn and Ad collected.
 With --control, relative bars compare medians and fail only beyond 2 standard errors (paired by cell when possible).
-Exit status: 0 when every absolute bar passes, 1 otherwise."""
+Rows without indicator strings (census `tele` = none or bcc: replica games run with indicators off; TELEMETRY.md C.6)
+carry no counters: exceptions come from `tele_exc_turns` (bcc) and are n/a for tele=none, near misses come from the
+replay-side `near`, and both symmetry bars are n/a. Rows without a `tele` column (older runs) are read as before.
+An n/a bar neither passes nor fails. Exit status: 0 when every absolute bar passes or is n/a, 1 otherwise."""
 import argparse, csv, math, statistics as st, sys
 
 SYM_BOUND = 150
@@ -34,21 +37,43 @@ def load(path, team):
     return [r for r in csv.DictReader(open(path)) if r['team'] == team]
 
 
+def has_strings(r):
+    """The row carries the bot's indicator counters: no `tele` column (older runs), or telemetry with strings."""
+    return r.get('tele') not in ('none', 'bcc')
+
+
 def battery(rows):
+    """[(bar, passed True|False|None for n/a, detail)]."""
     res = []
-    n = len(rows)
+    srows = [r for r in rows if has_strings(r)]
+    bare = [r for r in rows if not has_strings(r)]
+    bcc = [r for r in bare if r.get('tele') == 'bcc']
+    blind = len(bare) - len(bcc)
+    note = lambda k, what: f' ({what} in {k} games without strings)' if k else ''
+    n = len(srows)
     over = sum(int(r['over']) for r in rows)
-    ex = sum(counters(r).get('ex', 0) for r in rows)
-    nm = sum(counters(r).get('nm', 0) for r in rows)
-    wrong = sum(int(r['sym_wrong']) for r in rows)
-    dec = [int(r['sym_first_decided']) for r in rows]
-    in_time = sum(1 for d in dec if 0 <= d <= SYM_BOUND)
+    ex = sum(counters(r).get('ex', 0) for r in srows) + sum(int(r.get('tele_exc_turns') or 0) for r in bcc)
+    nm = sum(counters(r).get('nm', 0) for r in srows) + sum(int(r.get('near') or 0) for r in bare)
     res.append(('overruns', over == 0, f'{over} robot-turns at the limit'))
-    res.append(('exceptions', ex == 0, f'{ex} caught'))
-    res.append(('near misses', nm == 0, f'{nm} turns above 90% (work before the fill)'))
-    res.append(('symmetry never wrong', wrong == 0, f'{wrong} robots ended excluding the truth'))
+    if srows or bcc:
+        res.append(('exceptions', ex == 0, f'{ex} caught' + note(len(bcc), 'tele_exc_turns') +
+                    (f'; n/a in {blind} games (tele=none)' if blind else '')))
+    else:
+        res.append(('exceptions', None, f'n/a in {blind} games (tele=none: no counters, no telemetry)'))
+    res.append(('near misses', nm == 0, f'{nm} turns above 90% (work before the fill)' +
+                note(len(bare), 'replay-side near')))
+    if not srows:
+        res.append(('symmetry never wrong', None, '(no strings)'))
+        res.append((f'symmetry decided by r{SYM_BOUND}', None, '(no strings)'))
+        return res
+    wrong = sum(int(r['sym_wrong']) for r in srows)
+    dec = [int(r['sym_first_decided']) for r in srows]
+    in_time = sum(1 for d in dec if 0 <= d <= SYM_BOUND)
+    res.append(('symmetry never wrong', wrong == 0, f'{wrong} robots ended excluding the truth' +
+                (f' (n/a in {len(bare)} games without strings)' if bare else '')))
     res.append((f'symmetry decided by r{SYM_BOUND}', n and in_time >= 0.9 * n,
-                f'{in_time}/{n} games; never decided in {sum(1 for d in dec if d < 0)}'))
+                f'{in_time}/{n} games; never decided in {sum(1 for d in dec if d < 0)}' +
+                (f' (n/a in {len(bare)} games without strings)' if bare else '')))
     return res
 
 
@@ -77,6 +102,9 @@ def main():
         return 1
     ok = True
     for name, passed, detail in battery(rows):
+        if passed is None:
+            print(f"n/a   {name:28s} {detail}")
+            continue
         ok &= bool(passed)
         print(f"{'PASS' if passed else 'FAIL'}  {name:28s} {detail}")
     for line in report(rows):

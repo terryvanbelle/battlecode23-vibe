@@ -21,16 +21,21 @@ public final class Carrier {
     static MapLocation exploreTarget;
     static int searchTurns;
     public static int trips, throwsMade, anchorsPlaced, fled;   // diagnostics
+    // telemetry only (never read by decisions): the previous turn's state, the last well announced and its type
+    static char prevState = '?';
+    static MapLocation lastWell;
+    static int wellType;
 
     static void run() throws GameActionException {
         RobotController rc = G.rc;
-        if (role == 0) role = pickRole();
+        if (role == 0) { role = pickRole(); if (C.TELEMETRY) Telemetry.emitRole(0, role, 0, -1, -1, 0, trips); }
         MapMem.scan();
         if ((G.round + G.id) % 3 == 0) MapMem.scanIslands();
         MapMem.syncSym();
         reportEnemies();
         if (rc.getNumAnchors(null) > 0) { state = 'K'; deliverAnchor(); note(); return; }
-        if (survive()) { state = 'F'; note(); return; }
+        int thrown = throwsMade;
+        if (survive()) { state = throwsMade != thrown ? 'V' : 'F'; note(); return; }
         int w = rc.getWeight();
         if (w >= C.CARRIER_RETURN_LOAD) returning = true;
         if (returning || (w > 0 && rc.getRoundNum() > 1900)) { state = 'R'; deliver(); }
@@ -39,11 +44,19 @@ public final class Carrier {
         note();
     }
 
-    /** State token this turn, first character of the indicator note: G going to a well, C collecting, W waiting at a
-     *  crowded well, R returning, D depositing, F fleeing, X exploring for a well, K carrying an anchor, T took an anchor. */
+    /** State token this turn (TELEMETRY.md 1.1): G going to a well, C at the well collecting, W waiting at a crowded well,
+     *  S switched well (crowd patience ran out), X exploring for a well, R returning, D depositing, F fleeing, V threw
+     *  the load, T took an anchor, K/Q/E carrying an anchor to a known island / a predicted island / no target, Y taking
+     *  it home after the timeout, P placed it. */
     static char state = '?';
 
-    static void note() { G.note = "" + state + role + (anchorTarget != null ? "k" + anchorIsland : ""); }
+    /** End of turn: the telemetry code and the indicator rest (role digit, plus k<island> while an anchor has a target). */
+    static void note() {
+        int st = Telemetry.CARRIER_STATES.indexOf(state);
+        Telemetry.code = Telemetry.carrierCode(st < 0 ? 0 : st, role);
+        G.note = role + (anchorTarget != null ? "k" + anchorIsland : "");
+        prevState = state;
+    }
 
     /** Mana first (launchers, the army, cost mana; strong field bots mine mostly mana: camel_case on Risk collected
      *  1,700 Mn and 27 Ad, awesomelemonade on ReverseFunnel 12,186 Mn and 4,521 Ad). The opening alternates so the HQs can
@@ -82,10 +95,12 @@ public final class Carrier {
         }
         if (threat == null) return false;
         int w = rc.getWeight();
+        boolean threw = false;
         if (w >= 8 && bd <= 9 && rc.getHealth() <= 60 && rc.canAttack(threat.location)) {
             rc.attack(threat.location);   // throws everything: worth it only when the carrier is about to die
             throwsMade++;
             returning = false;
+            threw = true;
         }
         MapLocation home = HQState.nearest(G.here);
         boolean moved = false;
@@ -98,6 +113,9 @@ public final class Carrier {
             else Nav.moveAway(threat.location);
         }
         if (moved) fled++;
+        if (C.TELEMETRY && (moved || bd <= 20) && (threw || (prevState != 'F' && prevState != 'V')))
+            Telemetry.emitFlee(bd, G.nEnemyFighters, rc.getHealth(), threw, moved, Telemetry.loc12(threat.location), w,
+                Telemetry.loc12(home), G.round);
         return moved || bd <= 20;
     }
 
@@ -109,13 +127,15 @@ public final class Carrier {
         if (G.rc.getLocation().distanceSquaredTo(home) <= 2) {
             state = 'D';
             ResourceType[] types = {ResourceType.ADAMANTIUM, ResourceType.MANA, ResourceType.ELIXIR};
+            int load = 0;
             for (int i = 0; i < 3 && rc.isActionReady(); i++) {
                 int a = rc.getResourceAmount(types[i]);
-                if (a > 0 && rc.canTransferResource(home, types[i], a)) rc.transferResource(home, types[i], a);
+                if (a > 0 && rc.canTransferResource(home, types[i], a)) { rc.transferResource(home, types[i], a); load += a; }
             }
             if (rc.getWeight() == 0) {
                 returning = false;
                 trips++;
+                if (C.TELEMETRY) Telemetry.trip(home, load, role, well, wellType);
                 RobotInfo hq = rc.senseRobotAtLocation(home);
                 if (hq != null) {
                     int ad = hq.getResourceAmount(ResourceType.ADAMANTIUM), mn = hq.getResourceAmount(ResourceType.MANA);
@@ -125,7 +145,11 @@ public final class Carrier {
                         case 2: want = ad > C.MANA2_AD_HIGH ? 2 : (ad < C.MANA2_AD_LOW && mn > C.MANA2_MN_HIGH) ? 1 : role; break;
                         default: want = mn + 100 < ad ? 2 : ad + 150 < mn ? 1 : role;   // mine what the HQ is short of
                     }
-                    if (want != role) { role = want; well = null; }
+                    if (want != role) {
+                        if (C.TELEMETRY) Telemetry.emitRole(role, want, 1, ad, mn, Telemetry.loc12(home), trips);
+                        role = want;
+                        well = null;
+                    }
                 }
             }
         }
@@ -137,15 +161,28 @@ public final class Carrier {
         if (rc.getWeight() != 0) return false;
         MapLocation home = HQState.nearest(G.here);
         if (home == null || G.here.distanceSquaredTo(home) > 2) return false;
-        if (rc.canTakeAnchor(home, Anchor.STANDARD)) { rc.takeAnchor(home, Anchor.STANDARD); anchorTarget = null; anchorTurns = 0; return true; }
+        if (rc.canTakeAnchor(home, Anchor.STANDARD)) {
+            rc.takeAnchor(home, Anchor.STANDARD);
+            anchorTarget = null;
+            anchorTurns = 0;
+            if (C.TELEMETRY) Telemetry.emitAnch(7, 0, 0, false, Telemetry.loc12(home), 0, G.here.distanceSquaredTo(home), G.round);
+            return true;
+        }
         return false;
     }
 
     static void gather() throws GameActionException {
         RobotController rc = G.rc;
-        if (well == null) well = nearer(Comms.nearestWell(G.here, role), MapMem.nearestSeenWell(G.here, role));
-        if (well == null && ++searchTurns > C.WELL_SEARCH_TURNS)
-            well = nearer(Comms.nearestWell(G.here, 0), MapMem.nearestSeenWell(G.here, 0));
+        if (well == null) {
+            MapLocation sh = Comms.nearestWell(G.here, role);
+            well = nearer(sh, MapMem.nearestSeenWell(G.here, role));
+            if (C.TELEMETRY && well != null) wellHook(well == sh ? 1 : 2, role);
+        }
+        if (well == null && ++searchTurns > C.WELL_SEARCH_TURNS) {
+            MapLocation sh = Comms.nearestWell(G.here, 0);
+            well = nearer(sh, MapMem.nearestSeenWell(G.here, 0));
+            if (C.TELEMETRY && well != null) wellHook(well == sh ? 3 : 4, well == sh ? Comms.lastWellType : MapMem.lastSeenType);
+        }
         if (well == null) { state = 'X'; explore(); return; }
         searchTurns = 0;
         state = 'G';
@@ -155,7 +192,7 @@ public final class Carrier {
             d = rc.getLocation().distanceSquaredTo(well);
             if (d <= 8 && d > 2) {                          // near the well but not at it: crowded (one tick a turn)
                 state = 'W';
-                if (++crowdTurns > C.WELL_CROWD_PATIENCE) { switchWell(); crowdTurns = 0; }
+                if (++crowdTurns > C.WELL_CROWD_PATIENCE) { switchWell(); crowdTurns = 0; state = 'S'; }
             }
         }
         if (rc.getLocation().distanceSquaredTo(well) <= 2) {
@@ -180,22 +217,32 @@ public final class Carrier {
     /** Another known well (shared or seen by this carrier) of the same type, else any type. */
     static void switchWell() throws GameActionException {
         MapLocation best = null;
-        int bd = Integer.MAX_VALUE;
-        for (int i = Comms.WELLS; i < Comms.WELLS + Comms.NWELLS; i++) {
+        int bd = Integer.MAX_VALUE, bt = 0, i;
+        for (i = Comms.WELLS; i < Comms.WELLS + Comms.NWELLS; i++) {
             int c = Comms.read(i);
             if (c == 0) break;
             MapLocation l = G.dec(c & 0xfff);
             if (l.equals(well)) continue;
             int d = G.here.distanceSquaredTo(l) + ((c >>> 12) == role ? 0 : 400);
-            if (d < bd) { bd = d; best = l; }
+            if (d < bd) { bd = d; best = l; if (C.TELEMETRY) bt = c >>> 12; }
         }
-        for (int i = MapMem.seenWellCount(); --i >= 0; ) {
-            MapLocation l = MapMem.seenWellAt(i);
+        if (C.TELEMETRY) { Comms.lastWellCount = i - Comms.WELLS; Telemetry.crowdSwitches++; }
+        for (int j = MapMem.seenWellCount(); --j >= 0; ) {
+            MapLocation l = MapMem.seenWellAt(j);
             if (l.equals(well)) continue;
-            int d = G.here.distanceSquaredTo(l) + (MapMem.seenWellTypeAt(i) == role ? 0 : 400);
-            if (d < bd) { bd = d; best = l; }
+            int d = G.here.distanceSquaredTo(l) + (MapMem.seenWellTypeAt(j) == role ? 0 : 400);
+            if (d < bd) { bd = d; best = l; if (C.TELEMETRY) bt = MapMem.seenWellTypeAt(j); }
         }
-        if (best != null) well = best;
+        if (best != null) { well = best; if (C.TELEMETRY) wellHook(5, bt); }
+    }
+
+    /** WELL record: `well` was just set to a non-null tile (source 1 shared, 2 seen, 3 any shared, 4 any seen, 5 crowd
+     *  switch). Comms.lastWellCount is from this turn's scan of the shared wells. */
+    static void wellHook(int source, int type) {
+        Telemetry.emitWell(Telemetry.loc12(well), type, source, role, G.here.distanceSquaredTo(well), Comms.lastWellCount,
+            MapMem.seenWellCount(), searchTurns, crowdTurns, Telemetry.loc12(lastWell));
+        lastWell = well;
+        wellType = type;
     }
 
     static void explore() throws GameActionException {
@@ -222,12 +269,21 @@ public final class Carrier {
     static void deliverAnchor() throws GameActionException {
         RobotController rc = G.rc;
         anchorTurns++;
-        if (tryPlace()) return;
+        if (tryPlace()) { state = 'P'; return; }
         if (anchorTurns > C.ANCHOR_TIMEOUT) {                 // give up: return the anchor so it can be reused
+            state = 'Y';
+            if (C.TELEMETRY && anchorTurns == C.ANCHOR_TIMEOUT + 1)
+                Telemetry.emitAnch(4, anchorIsland, 0, false, Telemetry.loc12(anchorTarget), anchorTurns, 0, G.round);
             MapLocation home = HQState.nearest(G.here);
             if (home != null) {
                 if (G.here.distanceSquaredTo(home) > 2) moveTwice(home);
-                if (rc.canReturnAnchor(home)) { rc.returnAnchor(home); anchorsReturned++; anchorTurns = 0; anchorTarget = null; }
+                if (rc.canReturnAnchor(home)) {
+                    rc.returnAnchor(home);
+                    anchorsReturned++;
+                    if (C.TELEMETRY) Telemetry.emitAnch(5, 0, 0, false, Telemetry.loc12(home), anchorTurns, 0, G.round);
+                    anchorTurns = 0;
+                    anchorTarget = null;
+                }
             }
             return;
         }
@@ -236,10 +292,23 @@ public final class Carrier {
         if (anchorTarget != null && anchorIsland < 0 && rc.canSenseLocation(anchorTarget)) {
             int id = rc.senseIsland(anchorTarget);
             if (id > 0) anchorIsland = id;
-            else { rejectPrediction(anchorTarget); anchorTarget = null; }
+            else {
+                if (C.TELEMETRY) Telemetry.emitAnch(2, -1, 3, false, Telemetry.loc12(anchorTarget), anchorTurns,
+                    G.here.distanceSquaredTo(anchorTarget), G.round);
+                rejectPrediction(anchorTarget);
+                anchorTarget = null;
+            }
         }
-        if (anchorTarget == null || (anchorIsland > 0 && ownerOf(anchorIsland) != 0)) chooseIsland();
-        if (anchorTarget == null) { explore(); return; }
+        if (anchorTarget == null || (anchorIsland > 0 && ownerOf(anchorIsland) != 0)) {
+            boolean had = anchorTarget != null;
+            chooseIsland();
+            if (C.TELEMETRY && anchorTarget != null) {
+                int d2 = G.here.distanceSquaredTo(anchorTarget);
+                Telemetry.emitAnch(had ? 3 : 1, anchorIsland, anchorIsland < 0 ? 3 : MapMem.islandTile[anchorIsland] != null ? 1 : 2,
+                    chosenScore != d2, Telemetry.loc12(anchorTarget), anchorTurns, d2, G.round);
+            }
+        }
+        if (anchorTarget == null) { state = 'E'; explore(); return; }
         if (anchorIsland > 0 && G.here.distanceSquaredTo(anchorTarget) <= 20) {
             MapLocation[] tiles = rc.senseNearbyIslandLocations(anchorIsland);
             MapLocation best = null;
@@ -253,7 +322,8 @@ public final class Carrier {
             if (best != null) anchorTarget = best;
         }
         moveTwice(anchorTarget);
-        tryPlace();
+        state = anchorIsland < 0 ? 'Q' : 'K';
+        if (tryPlace()) state = 'P';
     }
 
     static boolean tryPlace() throws GameActionException {
@@ -263,6 +333,7 @@ public final class Carrier {
         if (id <= 0 || rc.senseTeamOccupyingIsland(id) != Team.NEUTRAL || !rc.canPlaceAnchor()) return false;
         rc.placeAnchor();
         anchorsPlaced++;
+        if (C.TELEMETRY) Telemetry.emitAnch(6, id, 0, false, Telemetry.loc12(at), anchorTurns, 0, G.round);
         anchorTarget = null;
         anchorTurns = 0;
         MapMem.islandOwner[id] = 1;
@@ -288,6 +359,9 @@ public final class Carrier {
         return Comms.islandOwner(id);
     }
 
+    /** Telemetry only: chooseIsland's score of its choice (dist2, or 4 x dist2 + 400 on the enemy side). */
+    static int chosenScore;
+
     /** Nearest neutral island, preferring our side of the map; else a predicted island (mirror of a known one). */
     static void chooseIsland() throws GameActionException {
         anchorTarget = null;
@@ -303,6 +377,7 @@ public final class Carrier {
             if (enemySide(t, ehq)) d = d * 4 + 400;           // contested islands only when nothing safer is known
             if (d < bd) { bd = d; anchorTarget = t; anchorIsland = id; }
         }
+        if (C.TELEMETRY) chosenScore = bd;
         if (anchorTarget != null || !MapMem.decided()) return;
         // predicted islands: images of known island tiles that no known island covers yet. Known tiles are read once
         // (shared slot or this robot's own sighting); the pairwise check is bounded by the bytecode left (audit BC-1:
@@ -325,6 +400,7 @@ public final class Carrier {
             if (enemySide(p, ehq)) d = d * 4 + 400;
             if (d < bd) { bd = d; anchorTarget = p; anchorIsland = -1; }
         }
+        if (C.TELEMETRY) chosenScore = bd;
     }
 
     static MapLocation[] rejectedPred = new MapLocation[8];

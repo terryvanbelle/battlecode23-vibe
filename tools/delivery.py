@@ -7,7 +7,8 @@ compared with the control on the SAME cells (opponent, map, side, seed)? Wins ar
 Metrics are census columns (our team's row) or fields of the launcher micro string (micro_L: contact, hit|contact,
 hit|fighter, move|contact, exposed, dmg/contact, hit). For each metric: paired mean difference (candidate - control)
 over cells where both values exist, its SE and t. --fire names counters from the bot's indicator (census `counters`):
-reported as the share of candidate games where the counter is > 0 and its mean.
+reported as the share of candidate games where the counter is > 0 and its mean, or n/a when no candidate row carries
+the counter at all (replica games: no indicator strings).
 Three-way reading, as pre-registered by the caller: PASS when the move is >= 1 SE beyond the bar in the intended
 direction, FAIL when >= 2 SE short, otherwise INCONCLUSIVE (extend the block)."""
 import argparse, csv, math, os, sys
@@ -73,7 +74,11 @@ def main():
         avg = lambda v: sum(v) / len(v) if v else float('nan')
         print(f'{m:14s} candidate {avg(cm):9.3f}  control {avg(km):9.3f}  paired diff {mean:+9.3f} +- {se:.3f} (t {t:+.2f}, n {n})')
     for f in [x for x in a.fire.split(',') if x]:
-        vals = [value(r, f) or 0 for r in c.values()]
+        raw = [value(r, f) for r in c.values()]
+        if raw and all(v is None for v in raw):     # replica rows carry no counters (TELEMETRY.md C.6): not a zero
+            print(f'fires {f:8s} n/a (no counters in {len(raw)} games)')
+            continue
+        vals = [v or 0 for v in raw]
         if vals:
             print(f'fires {f:8s} in {sum(1 for v in vals if v > 0)}/{len(vals)} candidate games, mean {sum(vals) / len(vals):.1f}')
     return 0

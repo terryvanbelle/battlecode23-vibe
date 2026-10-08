@@ -13,6 +13,11 @@ public final class HQ {
     static int lastAnchorRound = -1000;
     static MapLocation[] spawnTiles;
     public static int floatRounds;      // rounds ending with >= 200 of a resource unspent (diagnostic)
+    // telemetry only (never read by decisions): why build() stopped (Telemetry.hqReason; 0 '.', 1 'b', 2 'g' are loop
+    // exits), the last iteration's wantAnchor, whether a tryBuild found no tile this iteration, wells counted by carrierRoom
+    static int reason;
+    static boolean lastWant, tileFail;
+    static int lastWells;
 
     static void run() throws GameActionException {
         RobotController rc = G.rc;
@@ -33,6 +38,7 @@ public final class HQ {
         build();
         if (rc.getResourceAmount(ResourceType.MANA) >= 200 || rc.getResourceAmount(ResourceType.ADAMANTIUM) >= 200) floatRounds++;
         G.note = "C" + carriersBuilt + "L" + launchersBuilt + "A" + ampsBuilt + "K" + anchorsBuilt;
+        Telemetry.code = Telemetry.hqCode(reason, G.nEnemyFighters > 0, lastWant);
     }
 
     static void build() throws GameActionException {
@@ -42,10 +48,15 @@ public final class HQ {
         // diag-top4 showed our launchers fighting one at a time); a threatened HQ builds whatever it can
         int mnStart = rc.getResourceAmount(ResourceType.MANA);
         boolean batchOK = threatened || G.round <= 2 || mnStart >= 45 * C.LAUNCHER_BATCH;
-        for (int guard = 0; guard < 6 && rc.isActionReady() && Clock.getBytecodesLeft() > 4000; guard++) {
+        reason = -1;
+        lastWant = false;
+        int guard;
+        for (guard = 0; guard < 6 && rc.isActionReady() && Clock.getBytecodesLeft() > 4000; guard++) {
             int ad = rc.getResourceAmount(ResourceType.ADAMANTIUM), mn = rc.getResourceAmount(ResourceType.MANA);
             boolean wantAnchor = !threatened && G.round >= C.ANCHOR_START && launchersBuilt >= C.ANCHOR_MIN_LAUNCHERS
                 && rc.getNumAnchors(Anchor.STANDARD) == 0 && G.round - lastAnchorRound >= C.ANCHOR_PERIOD && islandToTake();
+            lastWant = wantAnchor;
+            tileFail = false;
             if (wantAnchor && ad >= 80 && mn >= 80 && rc.canBuildAnchor(Anchor.STANDARD)) {
                 rc.buildAnchor(Anchor.STANDARD);
                 anchorsBuilt++;
@@ -60,8 +71,10 @@ public final class HQ {
             if (!threatened && ad - resAd >= 50 && room && tryBuild(RobotType.CARRIER)) { carriersBuilt++; continue; }
             if (!threatened && launchersBuilt >= C.LAUNCHERS_PER_AMP * (ampsBuilt + 1) && ad - resAd >= 30 && mn - resMn >= 15
                 && tryBuild(RobotType.AMPLIFIER)) { ampsBuilt++; continue; }
+            reason = Telemetry.hqReason(tileFail, wantAnchor, batchOK, threatened, room, ad, mn, resAd, resMn);
             break;
         }
+        if (reason < 0) reason = guard >= 6 ? 2 : !rc.isActionReady() ? 0 : 1;
     }
 
     /**
@@ -73,6 +86,7 @@ public final class HQ {
     static boolean carrierRoom() throws GameActionException {
         int wells = 0;
         for (int i = Comms.WELLS; i < Comms.WELLS + Comms.NWELLS; i++) { if (Comms.read(i) == 0) break; wells++; }
+        if (C.TELEMETRY) lastWells = wells;
         return G.rc.getRobotCount() < C.ROBOTS_BASE + C.ROBOTS_PER_WELL * Math.max(1, wells);
     }
 
@@ -136,7 +150,7 @@ public final class HQ {
             long d = threat[i] * 100_000L + l.distanceSquaredTo(goal);
             if (d < bd) { bd = d; best = l; }
         }
-        if (best == null) return false;
+        if (best == null) { tileFail = true; return false; }
         rc.buildRobot(t, best);
         return true;
     }

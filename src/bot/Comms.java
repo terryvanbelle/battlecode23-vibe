@@ -19,6 +19,9 @@ public final class Comms {
     public static final int HQ_LOC = 0, SYM_ELIM = 4, WELLS = 5, NWELLS = 16, ISLANDS = 20, ENEMY = 57, NENEMY = 4;
 
     public static boolean canWrite;   // refreshed once per turn
+    /** Telemetry only (never read by decisions): shared-array writes made and refused; the age in stamps of the sighting
+     *  nearestEnemy returned last; the type of the well nearestWell returned last and the count of filled well slots. */
+    public static int writes, refusedWrites, lastAge = 15, lastWellType, lastWellCount;
 
     public static void startTurn() throws GameActionException {
         canWrite = G.rc.canWriteSharedArray(0, 0);
@@ -34,8 +37,9 @@ public final class Comms {
     /** The only call site of writeSharedArray: legality is re-checked at write time (10 bytecodes), because a robot
      *  that moved since startTurn may have left the write zone (a failed write throws and costs 500). */
     static boolean put(int i, int v) throws GameActionException {
-        if (!G.rc.canWriteSharedArray(i, v)) { canWrite = false; return false; }
+        if (!G.rc.canWriteSharedArray(i, v)) { canWrite = false; if (C.TELEMETRY) refusedWrites++; return false; }
         G.rc.writeSharedArray(i, v);
+        if (C.TELEMETRY) writes++;
         return true;
     }
 
@@ -83,15 +87,16 @@ public final class Comms {
     /** Nearest registered well of a type (0 = any). */
     public static MapLocation nearestWell(MapLocation from, int t) throws GameActionException {
         MapLocation best = null;
-        int bd = Integer.MAX_VALUE;
-        for (int i = WELLS; i < WELLS + NWELLS; i++) {
+        int bd = Integer.MAX_VALUE, i;
+        for (i = WELLS; i < WELLS + NWELLS; i++) {
             int c = read(i);
             if (c == 0) break;
             if (t != 0 && (c >>> 12) != t) continue;
             MapLocation l = G.dec(c & 0xfff);
             int d = from.distanceSquaredTo(l);
-            if (d < bd) { bd = d; best = l; }
+            if (d < bd) { bd = d; best = l; if (C.TELEMETRY) lastWellType = c >>> 12; }
         }
+        if (C.TELEMETRY) lastWellCount = i - WELLS;
         return best;
     }
 
@@ -131,10 +136,11 @@ public final class Comms {
         for (int i = ENEMY; i < ENEMY + NENEMY; i++) {
             int c = read(i);
             if (c == 0) continue;
-            if (((stamp - (c >>> 12)) & 15) > maxAge) continue;
+            int age = (stamp - (c >>> 12)) & 15;
+            if (age > maxAge) continue;
             MapLocation l = G.dec(c & 0xfff);
             int d = from.distanceSquaredTo(l);
-            if (d < bd) { bd = d; best = l; }
+            if (d < bd) { bd = d; best = l; if (C.TELEMETRY) lastAge = age; }
         }
         return best;
     }

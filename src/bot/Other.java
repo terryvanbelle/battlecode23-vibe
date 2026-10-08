@@ -17,5 +17,6 @@ public final class Other {
         MapLocation e = Comms.nearestEnemy(G.here, 2);
         if (e != null) Nav.moveTo(e);
         else Nav.moveTo(HQState.nearest(G.here));
+        Telemetry.code = 0;                         // 'O': a normal turn (TELEMETRY.md 1.1)
     }
 }

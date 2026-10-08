@@ -43,6 +43,9 @@ public final class MapMem {
     private static MapLocation[] seenWell = new MapLocation[32];
     private static int[] seenWellType = new int[32];
     private static int nSeenWell;
+    // telemetry only (never read by decisions): peaks of the vision backlog after the fill and of unpublished wells;
+    // the type of the well nearestSeenWell returned last
+    public static int maxPending, maxUnreported, lastSeenType;
 
     /** Cheap per-turn sensing: wells (100) and, after a move, queue the vision disk for budgeted processing. */
     public static void scan() throws GameActionException {
@@ -78,7 +81,10 @@ public final class MapMem {
         if (k >= 0) seenWellType[k] = t;
         else if (nSeenWell < seenWell.length) { seenWell[nSeenWell] = l; seenWellType[nSeenWell++] = t; }
         for (int i = nUnreported; --i >= 0; ) if (unreported[i].equals(l)) { unreportedType[i] = t; return; }
-        if (nUnreported < unreported.length && !Wells.known(l)) { unreported[nUnreported] = l; unreportedType[nUnreported++] = t; }
+        if (nUnreported < unreported.length && !Wells.known(l)) {
+            unreported[nUnreported] = l; unreportedType[nUnreported++] = t;
+            if (C.TELEMETRY && nUnreported > maxUnreported) maxUnreported = nUnreported;
+        }
     }
 
     /** Nearest well of type t (0 = any) that this robot has seen itself, or null. */
@@ -88,7 +94,7 @@ public final class MapMem {
         for (int i = nSeenWell; --i >= 0; ) {
             if (t != 0 && seenWellType[i] != t) continue;
             int d = from.distanceSquaredTo(seenWell[i]);
-            if (d < bd) { bd = d; best = seenWell[i]; }
+            if (d < bd) { bd = d; best = seenWell[i]; if (C.TELEMETRY) lastSeenType = seenWellType[i]; }
         }
         return best;
     }
@@ -127,6 +133,7 @@ public final class MapMem {
             tile[idx] = (char) (tile[idx] | c);
             if (undecided) { checkTile(l.x, l.y); undecided = cand != 1 && cand != 2 && cand != 4; }
         }
+        if (C.TELEMETRY && pendingIdx > maxPending) maxPending = pendingIdx;
         if (decidedRound < 0 && !undecided) decidedRound = G.round;
     }
 
@@ -190,7 +197,7 @@ public final class MapMem {
                 if ((cc == 0) != (oc == 0)) bad = true;
                 else if (cc != 0 && imgDir(s, G.DIRS[cc - 1]).ordinal() != oc - 1) bad = true;
             }
-            if (bad) eliminate(s);
+            if (bad) eliminate(s, 1, x, y);
         }
     }
 
@@ -201,14 +208,22 @@ public final class MapMem {
             int o = tile[ix + iy * G.W];
             if ((o & 1) == 0 || !G.rc.canSenseLocation(new MapLocation(ix, iy))) continue;
             // a sensed image tile with no well contradicts s (well types can convert, so only presence is compared)
-            if (((o >> 7) & 3) == 0) eliminate(s);
+            if (((o >> 7) & 3) == 0) eliminate(s, 2, x, y);
         }
     }
 
-    static void eliminate(int s) {
-        if ((cand & ~s) == 0) { symConflicts++; return; }
+    /** Eliminate candidate s on evidence ev (SYM record: 1 tile, 2 well, 3 enemy HQ seen, 4 predicted HQ absent) at (x, y). */
+    static void eliminate(int s, int ev, int x, int y) {
+        if ((cand & ~s) == 0) { symConflicts++; if (C.TELEMETRY) symHook(s, ev, 1, x * 64 + y + 1); return; }
         cand &= ~s;
+        if (C.TELEMETRY) symHook(s, ev, 0, x * 64 + y + 1);
     }
+
+    static void symHook(int s, int ev, int conflict, int at) {
+        Telemetry.emitSym(s, ev, cand, conflict, at, G.round, symConflicts);
+    }
+
+    private static int lastConflictElim = -1;   // telemetry: comms conflicts are recorded once per team mask
 
     /** Enemy HQ evidence: a seen enemy HQ must be an image of one of ours; a predicted image seen empty kills it. */
     static void observeHQs() throws GameActionException {
@@ -228,7 +243,7 @@ public final class MapMem {
                 if ((cand & s) == 0) continue;
                 boolean match = false;
                 for (int k = ours.length; --k >= 0; ) if (img(s, ours[k]).equals(ri.location)) match = true;
-                if (!match) eliminate(s);
+                if (!match) eliminate(s, 3, ri.location.x, ri.location.y);
             }
         }
         if (cand == 1 || cand == 2 || cand == 4) return;
@@ -238,7 +253,7 @@ public final class MapMem {
                 MapLocation p = img(s, ours[k]);
                 if (!rc.canSenseLocation(p)) continue;
                 RobotInfo r = rc.senseRobotAtLocation(p);
-                if (r == null || r.type != RobotType.HEADQUARTERS || r.team != G.them) { eliminate(s); break; }
+                if (r == null || r.type != RobotType.HEADQUARTERS || r.team != G.them) { eliminate(s, 4, p.x, p.y); break; }
             }
         }
     }
@@ -267,7 +282,14 @@ public final class MapMem {
     public static void syncSym() throws GameActionException {
         int teamElim = Comms.symEliminated();
         int merged = cand & ~teamElim;
-        if (merged != 0) cand = merged; else symConflicts++;
+        if (merged != 0) {
+            int was = cand;
+            cand = merged;
+            if (C.TELEMETRY && merged != was) Telemetry.emitSym(was & teamElim, 5, cand, 0, 0, G.round, symConflicts);
+        } else {
+            symConflicts++;
+            if (C.TELEMETRY && teamElim != lastConflictElim) { lastConflictElim = teamElim; Telemetry.emitSym(cand & teamElim, 5, cand, 1, 0, G.round, symConflicts); }
+        }
         int mine = 7 & ~cand;
         if (Comms.canWrite && (mine & ~published) != 0) { Comms.publishSym(mine); published |= mine; }
         if (decidedRound < 0 && decided()) decidedRound = G.round;

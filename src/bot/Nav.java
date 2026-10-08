@@ -40,6 +40,9 @@ public final class Nav {
     // calib-g_iter0, ReverseFunnel, launchers moving 46% of turns for 130+ rounds without crossing the wall)
     static int bugMoves, bugFlips;
     public static int wallHits, edgeFlips, budgetFlips;   // counters (indicator)
+    // telemetry only (BUG record): where and when the current wall-following episode started, and its moves
+    static MapLocation bugStart;
+    static int bugStartRound, bugEpMoves;
 
     public static boolean moveTo(MapLocation t) throws GameActionException {
         RobotController rc = G.rc;
@@ -47,6 +50,7 @@ public final class Nav {
         MapLocation here = rc.getLocation();
         if (here.equals(t)) return false;
         if (target == null || target.distanceSquaredTo(t) > 8) {
+            if (C.TELEMETRY && bugging) bugEnd(2, target == null ? 0 : here.distanceSquaredTo(target));
             bugging = false;
             bugFlips = 0;
             bestDist = Integer.MAX_VALUE;
@@ -54,7 +58,7 @@ public final class Nav {
         }
         target = t;
         int dHere = score(here, t);
-        if (bugging && dHere < bugStartDist) bugging = false;      // past the obstacle: back to greedy
+        if (bugging && dHere < bugStartDist) { if (C.TELEMETRY) bugEnd(1, dHere); bugging = false; }   // past the obstacle: back to greedy
         if (!bugging) {
             Direction dir = here.directionTo(t);
             Direction a = left ? dir.rotateLeft() : dir.rotateRight(), b = left ? dir.rotateRight() : dir.rotateLeft();
@@ -78,6 +82,7 @@ public final class Nav {
             bugStartDist = dHere;
             bugDir = dir;
             bugMoves = 0;
+            if (C.TELEMETRY) { bugStart = here; bugStartRound = G.round; bugEpMoves = 0; }
         }
         // wall-following: from the direction pointing back at the wall, rotate away from it until a step is free
         Direction d = bugDir;
@@ -90,12 +95,13 @@ public final class Nav {
             }
             if (rc.canMove(d) && !pushesBack(n, here)) {
                 step(d, t);
+                if (C.TELEMETRY) bugEpMoves++;
                 bugDir = left ? d.rotateLeft().rotateLeft() : d.rotateRight().rotateRight();
                 if (++bugMoves > 2 * (G.W + G.H)) {       // a full circuit without getting closer: try the other hand
                     left = !left;
                     bugMoves = 0;
                     budgetFlips++;
-                    if (++bugFlips > 2) bugging = false;
+                    if (++bugFlips > 2) { if (C.TELEMETRY) bugEnd(3, G.here.distanceSquaredTo(t)); bugging = false; }
                 }
                 return true;
             }
@@ -104,6 +110,12 @@ public final class Nav {
             d = left ? d.rotateRight() : d.rotateLeft();
         }
         return false;
+    }
+
+    /** BUG record: a wall-following episode ends (reason 1 closer than where it started, 2 new target, 3 flip budget). */
+    static void bugEnd(int reason, int exitD2) {
+        Telemetry.emitBug(bugEpMoves, bugFlips, reason, Telemetry.loc12(target), Telemetry.loc12(bugStart), bugStartRound, G.round,
+            bugStartDist, exitD2);
     }
 
     /** A current on n that would carry a robot straight back to `from` makes the step useless. */

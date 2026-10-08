@@ -19,6 +19,9 @@ the website uses (siarnaq), so that our ladder play is exactly the contest's (ow
     tools/contest.py block <cells> --tag T                  # a block of unranked requests (one line: team map,map,...
                                                             # [order]); waits, downloads, writes a run directory
                                                             # (results.csv, census.csv) for tools/paired.py
+fetch and block write a match report for every downloaded match (tools/match_report.py: research/matches/<id>.md, a line
+in progress/telemetry.jsonl, matches/<id>/extract; NO_MATCH_REPORT=1 skips it); block's census.csv then reads the
+extract's census rows instead of one ReplayDump run per game (docs/TELEMETRY.md C.2).
 
 Site: $CONTEST_SITE (default https://galaxy.136-86-167-127.sslip.io). The site sits behind a basic-auth gate: requests
 without a JWT (login, replay downloads) carry the gate login (user owner, password in ~/.bc23-replica-password); API
@@ -35,7 +38,7 @@ Run directory (`block`): gauntlet/<stamp>-<tag>/ with results.csv (opponent,map,
 bot_result,reason,seed) and census.csv, one row per game. bot_side is our player label in the replay (A = player
 index 0); seed is 'map' for a game on the map's own spawns and 'map-rev' for an alternate-order game (HQ ownership
 flipped), so (opponent, map, bot_side, seed) names the same physical game in any run that used the same request."""
-import argparse, base64, csv, io, json, os, subprocess, sys, time, urllib.error, urllib.parse, urllib.request, uuid, zipfile
+import argparse, base64, csv, hashlib, io, json, os, subprocess, sys, tempfile, time, urllib.error, urllib.parse, urllib.request, uuid, zipfile
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.environ.get('CONTEST_SITE', 'https://galaxy.136-86-167-127.sslip.io').rstrip('/')
@@ -396,6 +399,7 @@ def block(cells_file, tag, poll=60, max_wait=6 * 3600):
                     found[rid] = m['id']
                     rep = download(m, os.path.join(run, 'replays'))
                     if rep:
+                        report_hook(m, rep, tid)
                         rows += run_rows(m, rep, tid)
                         census_rows += census_of(rep, rows[-len(games_of(rep)):])
                     del pending[rid]
@@ -407,14 +411,80 @@ def block(cells_file, tag, poll=60, max_wait=6 * 3600):
     return run
 
 
+# ---------------------------------------------------------------- match reports (docs/TELEMETRY.md C.2)
+def report_hook(match, replay_path, team_id=None):
+    """tools/match_report.py for one downloaded match: research/matches/<id>.md and a progress/telemetry.jsonl line (and
+    matches/<id>/extract, which census_of then reads). Never raises; skipped when NO_MATCH_REPORT=1."""
+    if os.environ.get('NO_MATCH_REPORT') == '1':
+        return False
+    mid = match.get('id', '?') if isinstance(match, dict) else '?'
+    tmp = None
+    try:
+        fd, tmp = tempfile.mkstemp(prefix=f'match-{mid}-', suffix='.json')
+        with os.fdopen(fd, 'w') as fh:
+            json.dump(match, fh)
+        cmd = [sys.executable, os.path.join(REPO, 'tools', 'match_report.py'), 'match', replay_path, '--match-json', tmp]
+        if team_id is not None:
+            cmd += ['--team-id', str(team_id)]
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=1800)
+        if r.returncode != 0:
+            why = ((r.stderr or '') + (r.stdout or '')).strip().splitlines()
+            print(f'report: match {mid} failed: {why[-1][:200] if why else f"exit {r.returncode}"}', flush=True)
+            return False
+        out = (r.stdout or '').strip().splitlines()
+        if out:
+            print(out[-1], flush=True)
+        return True
+    except Exception as e:      # the report is a by-product: it must never stop a fetch or a block
+        print(f'report: match {mid} failed: {e}', flush=True)
+        return False
+    finally:
+        if tmp:
+            try:
+                os.remove(tmp)
+            except OSError:
+                pass
+
+
+def extract_census(replay, game_rows):
+    """{(match, game): [census lines]} from matches/<match>/extract/census.csv (match_report.py's --extract), trusted only
+    when its .stamp names the current ReplayDump source and this replay's size; {} otherwise. ReplayDump guarantees
+    each game's lines equal `--census --no-header --game N` (TELEMETRY.md B.4)."""
+    root = os.environ.get('MATCH_REPORT_ROOT') or REPO
+    out, h = {}, None
+    for mid in sorted({str(g.get('match')) for g in game_rows if g.get('match') is not None}):
+        d = os.path.join(root, 'matches', mid, 'extract')
+        try:
+            with open(os.path.join(d, '.stamp')) as fh:
+                stamp = fh.read().split()
+            if h is None:
+                with open(os.path.join(REPO, 'tools', 'replaydump', 'ReplayDump.java'), 'rb') as fh:
+                    h = hashlib.sha1(fh.read()).hexdigest()[:12]
+            if stamp != [h, str(os.path.getsize(replay))]:
+                continue
+            with open(os.path.join(d, 'census.csv')) as fh:
+                next(fh)
+                for line in fh:
+                    line = line.rstrip('\n')
+                    if line.strip():
+                        m, gi, rest = line.split(',', 2)
+                        out.setdefault((m, gi), []).append(rest)
+        except (OSError, ValueError, StopIteration):
+            continue
+    return out
+
+
 def census_of(replay, game_rows):
     out = []
+    ext = extract_census(replay, game_rows)
     for g in game_rows:
-        txt = subprocess.run(['bash', os.path.join(REPO, 'tools', 'replay-dump.sh'), replay, '--game', str(g['game']),
-                              '--census', '--no-header'], capture_output=True, text=True, timeout=900).stdout
-        for line in txt.splitlines():
-            if line.strip():
-                out.append(f"{g['opponent']},{g['map']},{g['bot_side']},{g['seed']},{line}")
+        lines = ext.get((str(g.get('match')), str(g['game'])))
+        if lines is None:
+            txt = subprocess.run(['bash', os.path.join(REPO, 'tools', 'replay-dump.sh'), replay, '--game', str(g['game']),
+                                  '--census', '--no-header'], capture_output=True, text=True, timeout=900).stdout
+            lines = [line for line in txt.splitlines() if line.strip()]
+        for line in lines:
+            out.append(f"{g['opponent']},{g['map']},{g['bot_side']},{g['seed']},{line}")
     return out
 
 
@@ -507,6 +577,7 @@ def main():
             p = download(m, a.out)
             print(i, p or f'not ready ({m["status"]})')
             if p:
+                report_hook(m, p, tid)
                 for g in games_of(p):
                     print('  game', *g)
     elif a.cmd == 'block':

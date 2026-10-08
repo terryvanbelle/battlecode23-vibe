@@ -728,6 +728,16 @@ class ReplayExtractTest(unittest.TestCase):
     def test_extract_speed(self):
         self.assertLess(self.mirror_secs, 60)
 
+    def test_extract_game_selection_and_match_id(self):
+        d = self.tmp / 'sel'
+        out = extract(FIX_TWO, d, '--games', '1')
+        self.assertEqual(out.strip(), '1 SmallElements 188 A conquest tele_A=none tele_B=none')
+        g = read_csv(d / 'games.csv')
+        self.assertEqual([(r['match'], r['game'], r['map']) for r in g], [('0', '1', 'SmallElements')] * 2)
+        # the same game's rows as in the full extract, apart from the match id
+        full = [line.split(',', 1)[1] for line in (self.tmp / 'two' / 'deaths.csv').read_text().splitlines()[1:] if line.startswith('77,1,')]
+        self.assertEqual([line.split(',', 1)[1] for line in (d / 'deaths.csv').read_text().splitlines()[1:]], full)
+
     def test_contact_columns_are_shares(self):
         for d in (self.m, self.t):
             for c in d['census.csv']:
@@ -844,15 +854,20 @@ class ReplayTelemetryFixturesTest(unittest.TestCase):
         f_on = dump(FIX_TELE, '--fingerprint').split()
         f_off = dump(FIX_TELE_OFF, '--fingerprint').split()
         self.assertEqual(f_on[3], f_off[3])   # state_sha1: indicators change nothing in the game
+        import shutil
         tmp = Path(tempfile.mkdtemp())
-        extract(FIX_TELE, tmp / 'on', '--tele-turns')
-        extract(FIX_TELE_OFF, tmp / 'off', '--tele-turns')
-        on = {(t['round'], t['id']): t for t in read_csv(tmp / 'on' / 'tele_turns.csv')}
-        off = [t for t in read_csv(tmp / 'off' / 'tele_turns.csv') if t['code_bcc']]
-        self.assertGreater(len(off), 1000)
-        same = sum(on.get((t['round'], t['id']), {}).get('code_str') == t['code_bcc'] for t in off)
-        self.assertGreaterEqual(same / len(off), 0.999)
-        self.assertFalse((tmp / 'off' / 'tele_events.jsonl').exists())
+        try:
+            extract(FIX_TELE, tmp / 'on', '--tele-turns')
+            extract(FIX_TELE_OFF, tmp / 'off', '--tele-turns')
+            on = {(t['round'], t['id']): t for t in read_csv(tmp / 'on' / 'tele_turns.csv')}
+            off = [t for t in read_csv(tmp / 'off' / 'tele_turns.csv') if t['code_bcc']]
+            self.assertGreater(len(off), 1000)
+            # the end-to-end proof: a replica-style replay (indicators off) carries the codes the strings recorded
+            same = sum(on.get((t['round'], t['id']), {}).get('code_str') == t['code_bcc'] for t in off)
+            self.assertGreaterEqual(same / len(off), 0.999)
+            self.assertFalse((tmp / 'off' / 'tele_events.jsonl').exists())
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
 
 
 if __name__ == '__main__':

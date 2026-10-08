@@ -14,9 +14,18 @@ import battlecode.common.*;
 public final class Launcher {
     public static int shots, steppedIn, kited;   // diagnostics
     static MapLocation objective;
+    /** Telemetry (TELEMETRY.md 1.1): this turn's mode (0 N nothing, 1 F fight, 2 H hold and shoot, 3 M march, 4 S stand,
+     *  5 G regroup, 6 W follow) and the kind of the last objective pickObjective chose (0 sighting, 1 enemy island,
+     *  2 predicted enemy HQ, 3 centre). Never read by decisions. */
+    static int mode, objKind = 3;
+    // telemetry only: OBJ (effective objective kind 0-7 and its location; the last one emitted) and FIGHT words
+    static int objEff = -1, lastObjKind = -1, shots0, fightShots, firstTarget, fightA, fightB, fightC;
+    static MapLocation objLoc, lastObjLoc;
+    static boolean fought;
 
     static void run() throws GameActionException {
         RobotController rc = G.rc;
+        if (C.TELEMETRY) { shots0 = shots; firstTarget = 0; fought = false; objEff = -1; }
         MapMem.scan();
         if ((G.round + G.id) % 4 == 0) MapMem.scanIslands();
         MapMem.syncSym();
@@ -24,12 +33,27 @@ public final class Launcher {
         track();
         shoot();
         if (rc.isMovementReady()) {
-            if (hasHittableEnemies()) fight();
+            if (hasHittableEnemies()) { mode = 1; fight(); }
             else march();
-        }
+        } else mode = hasHittableEnemies() ? 2 : 0;
         if (rc.isActionReady()) { G.here = rc.getLocation(); refreshEnemies(); shoot(); }
-        G.note = "L";
+        G.note = String.valueOf((char) ('0' + objKind));
         G.extra = ",pn=" + pinnedSeen + ",ua=" + unsafeStepsAvoided + (C.ARMY ? ",rg=" + regroups + ",fo=" + follows : "");
+        Telemetry.code = Telemetry.launcherCode(mode, objKind, G.nEnemyFighters > G.nAllyFighters + 1);
+        if (C.TELEMETRY) {
+            if (fought) Telemetry.dot(Telemetry.FIGHT, fightA | (shots - shots0 - fightShots & 3) << 14, fightB, fightC,
+                Telemetry.fightD(rc.getHealth(), G.enemies.length, firstTarget));
+            if (objEff >= 0) objHook();
+        }
+    }
+
+    /** OBJ record on a change of the effective objective kind, or a move of a kind 0-3 objective by more than dist2 8. */
+    static void objHook() {
+        if (objEff == lastObjKind && (objEff >= 4 || objLoc == null || lastObjLoc == null || objLoc.distanceSquaredTo(lastObjLoc) <= 8)) return;
+        Telemetry.emitObj(objEff, objEff == 0 ? Comms.lastAge : 15, G.nAllyFighters, G.nEnemyFighters, objEff == 1 ? objIsland : 0,
+            Telemetry.loc12(objLoc), Telemetry.loc12(G.here), G.round);
+        lastObjKind = objEff;
+        lastObjLoc = objLoc;
     }
 
     static void report() throws GameActionException {
@@ -75,6 +99,7 @@ public final class Launcher {
             if (best == null) return;
             rc.attack(best.location);
             shots++;
+            if (C.TELEMETRY && firstTarget == 0) firstTarget = best.ID;
             refreshEnemies();
         }
     }
@@ -152,10 +177,14 @@ public final class Launcher {
         Direction best = Direction.CENTER;
         long bestScore = Long.MIN_VALUE;
         boolean anyCanHit = false;
+        // telemetry (FIGHT): tiles scored, guard break, the chosen tile's and the CENTER tile's threat / can-hit / min dist2
+        int nt = 0, bk = 0, bThreat = 0, bMin = Integer.MAX_VALUE, sThreat = 0, sMin = Integer.MAX_VALUE;
+        boolean gb = false, bHit = false, sHit = false;
         for (int k = 0; k < 9; k++) {
-            if (Clock.getBytecodesLeft() < 2000) break;      // keep the turn: the best tile so far (CENTER first)
+            if (Clock.getBytecodesLeft() < 2000) { if (C.TELEMETRY) gb = true; break; }   // keep the turn: the best tile so far (CENTER first)
             Direction d = G.DIRS9[k];
             if (d != Direction.CENTER && !rc.canMove(d)) continue;
+            if (C.TELEMETRY) nt++;
             int tx = here.x + d.dx, ty = here.y + d.dy;
             int threat = 0, minD = Integer.MAX_VALUE;
             boolean canHit = false;
@@ -186,17 +215,35 @@ public final class Launcher {
                 if (d == Direction.CENTER) s += 50;   // moving costs the next turn's move: stay on ties
             }
             s += G.rand(3);
-            if (s > bestScore) { bestScore = s; best = d; }
+            if (s > bestScore) {
+                bestScore = s;
+                best = d;
+                if (C.TELEMETRY) {
+                    bk = k; bThreat = threat; bHit = canHit; bMin = minD;
+                    if (k == 0) { sThreat = threat; sHit = canHit; sMin = minD; }   // CENTER is scored first and always taken first
+                }
+            }
         }
         if (best != Direction.CENTER) {
             rc.move(best);
             G.here = rc.getLocation();
             if (ready && anyCanHit) steppedIn++; else kited++;
         }
+        if (C.TELEMETRY) {
+            if (gb) Telemetry.guardBreaks++;
+            fightShots = shots - shots0;
+            fightA = Telemetry.fightA(ready, superior, outnumbered, anyCanHit, best != Direction.CENTER, bk, gb, C.MICRO,
+                fightShots, 0, G.nEnemyFighters, G.nAllyFighters);
+            fightB = Telemetry.fightTile(bThreat, bHit, bMin, nPinned);
+            fightC = Telemetry.fightTile(sThreat, sHit, sMin, nt);
+            fought = true;
+        }
     }
 
     static void march() throws GameActionException {
         objective = pickObjective();
+        mode = 4;                                   // S, unless a move below is taken
+        if (C.TELEMETRY) { objEff = objKind; objLoc = objective; }
         if (objective == null) return;
         // an enemy island in sight: each launcher takes the nearest free square of it (audit R4: anchor health falls
         // by 100 x (our robots on its squares) / area per round, and every launcher went to the one stored tile)
@@ -219,6 +266,7 @@ public final class Launcher {
         for (int i = ehq.length; --i >= 0; ) {
             if (objective.equals(ehq[i]) && G.here.distanceSquaredTo(ehq[i]) <= 16) return;
         }
+        mode = 3;
         Nav.moveTo(objective);
     }
 
@@ -244,14 +292,22 @@ public final class Launcher {
         }
         if (n < C.GROUP_MIN) {
             MapLocation home = HQState.nearest(G.here);
-            if (home != null && objective.distanceSquaredTo(home) <= C.HOME_DEFENCE_R2) return false;
+            if (home != null && objective.distanceSquaredTo(home) <= C.HOME_DEFENCE_R2) { if (C.TELEMETRY) objEff = 7; return false; }
             regroups++;
-            if (closest != null) { if (cd > 2) Nav.moveTo(closest.location); return true; }
+            mode = 5;
+            if (closest != null) {
+                if (C.TELEMETRY) { objEff = 4; objLoc = closest.location; }
+                if (cd > 2) Nav.moveTo(closest.location);
+                return true;
+            }
+            if (C.TELEMETRY) { objEff = 5; objLoc = home; }
             if (home != null && G.here.distanceSquaredTo(home) > 13) Nav.moveTo(home);
             return true;
         }
         if (leader.ID < G.id && G.here.distanceSquaredTo(leader.location) > C.FOLLOW_R2) {
             follows++;
+            mode = 6;
+            if (C.TELEMETRY) { objEff = 6; objLoc = leader.location; }
             Nav.moveTo(leader.location);
             return true;
         }
@@ -263,7 +319,7 @@ public final class Launcher {
     static MapLocation pickObjective() throws GameActionException {
         objIsland = 0;
         MapLocation e = Comms.nearestEnemy(G.here, 2);
-        if (e != null) return e;
+        if (e != null) { objKind = 0; return e; }
         int n = Math.min(35, G.rc.getIslandCount());
         MapLocation best = null;
         int bd = Integer.MAX_VALUE;
@@ -277,9 +333,10 @@ public final class Launcher {
             int d = G.here.distanceSquaredTo(t);
             if (d < bd) { bd = d; best = t; objIsland = id; }
         }
-        if (best != null) return best;
+        if (best != null) { objKind = 1; return best; }
         MapLocation[] ehq = MapMem.enemyHQs();
-        if (ehq.length > 0) return G.nearest(G.here, ehq);
+        if (ehq.length > 0) { objKind = 2; return G.nearest(G.here, ehq); }
+        objKind = 3;
         return new MapLocation(G.W / 2, G.H / 2);
     }
 }

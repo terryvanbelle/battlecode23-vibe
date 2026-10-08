@@ -65,4 +65,10 @@ public final class C {
     // ---- monitoring
     /** Near-miss bar: 90% of the type's bytecode limit. */
     public static final int NEAR_MISS_PCT = 90;
+    /** Telemetry (docs/TELEMETRY.md): data dots and the bytecode channel. The v2 indicator string is always on. */
+    public static final boolean TELEMETRY = true;
+    /** Bytecode-channel constant, calibrated per A.3; recalibrate whenever Telemetry.pad() or its call site changes. */
+    public static final int PADK = 14;       // calibrated 2026-10-08: residue 14 on 8,561/8,561 turns (JDK 8u504, engine 3.0.15)
+    /** Free 16-bit build tag reported in HDR (0 = working line). */
+    public static final int TELE_BUILD = 0;
 }
