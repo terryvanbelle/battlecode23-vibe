@@ -1,7 +1,7 @@
 # engine jar and maps are downloaded (tools/get-engine.sh), not committed
 engine/
 build/
-matches/
+/matches/
 diag/
 gauntlet/
 *.class
