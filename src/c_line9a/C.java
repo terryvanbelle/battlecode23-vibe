@@ -1,4 +1,4 @@
-package bot;
+package c_line9a;
 
 /**
  * Every tunable constant and every arm switch, each with the measurement or reason that set it.
@@ -29,7 +29,7 @@ public final class C {
     public static final int HQ_DANGER_R2 = 20;
     /** Launcher-first opening: before OPEN_ROUNDS, an HQ builds no carrier until it has OPEN_LAUNCHERS launchers while
      *  mana allows one; opening carriers mine mana 2 to 1 (Carrier.pickRole, ROLES 0). */
-    public static final boolean OPEN_SWARM = false;
+    public static final boolean OPEN_SWARM = true;
     public static final int OPEN_ROUNDS = 20, OPEN_LAUNCHERS = 4;
     /** Launchers are built in batches of this many in one turn (unless the HQ is threatened). 1 = no batching: c_batch1
      *  (3) failed delivery on diag-top4 (launchers alive r100 -3.0, t -4.6; kills -9.5, t -6.2). */
