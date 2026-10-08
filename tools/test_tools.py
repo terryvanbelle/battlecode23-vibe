@@ -206,6 +206,17 @@ class ContestClientTest(unittest.TestCase):
                          [('TeamX', 'm1', 'B', 'win', 'map'), ('TeamX', 'm2', 'B', 'loss', 'map-rev')])
         self.assertEqual({r['submission'] for r in rows}, {24})
 
+    def test_pick_upward(self):
+        import random
+        ladder = [{'id': 1, 'name': 'a', 'rating': 900, 'status': 'R', 'active': True},
+                  {'id': 2, 'name': 'b', 'rating': 700, 'status': 'R', 'active': True},
+                  {'id': 3, 'name': 'c', 'rating': 650, 'status': 'R', 'active': False},
+                  {'id': 4, 'name': 'us', 'rating': 600, 'status': 'R', 'active': True},
+                  {'id': 5, 'name': 'd', 'rating': 500, 'status': 'R', 'active': True}]
+        picks = {self.c.pick_upward(ladder, 4, 1, random.Random(k))['id'] for k in range(20)}
+        self.assertEqual(picks, {2})                       # closest above with a submission; never below
+        self.assertIsNone(self.c.pick_upward(ladder, 1, 3, random.Random(0)))
+
     def test_refuses_real_site(self):
         env = dict(os.environ, CONTEST_SITE='https://play.battlecode.org')
         r = subprocess.run([sys.executable, str(TOOLS / 'contest.py'), 'me'], env=env, capture_output=True, text=True)

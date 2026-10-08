@@ -15,6 +15,7 @@ the website uses (siarnaq), so that our ladder play is exactly the contest's (ow
     tools/contest.py accept <id> | reject <id>
     tools/contest.py matches [--team NAME] [--pages N]      # scrimmages, newest first
     tools/contest.py fetch <match id ...> [--out DIR]       # download replays (one file per match, all its games)
+    tools/contest.py ladder [--every 600] [--band 3]        # ranked challenges upward, one every 10 minutes
     tools/contest.py block <cells> --tag T                  # a block of unranked requests (one line: team map,map,...
                                                             # [order]); waits, downloads, writes a run directory
                                                             # (results.csv, census.csv) for tools/paired.py
@@ -280,6 +281,52 @@ def run_rows(match, replay, team_id):
     return rows
 
 
+# ---------------------------------------------------------------- ranked ladder play
+def rankings():
+    """The Rankings page's data, best first: [{'id', 'name', 'rating', 'active'}]."""
+    out = []
+    for t in pages(f'/api/team/{EPISODE}/t/?ordering=-rating%2Cname', limit=50):
+        prof = t.get('profile') or {}
+        out.append({'id': t['id'], 'name': t['name'], 'rating': prof.get('rating'), 'status': t.get('status'),
+                    'active': str(t.get('has_active_submission')).lower() in ('true', '1')})
+    return out
+
+
+def pick_upward(ladder, my_id, band, rnd):
+    """One of the `band` teams rated closest at or above us (galaxy refuses ranked requests to lower-rated teams)."""
+    me = next((t for t in ladder if t['id'] == my_id), None)
+    if me is None or me['rating'] is None:
+        return None
+    up = [t for t in ladder if t['id'] != my_id and t['active'] and t['status'] == 'R' and t['rating'] is not None
+          and t['rating'] >= me['rating']]
+    rnd.shuffle(up)
+    up.sort(key=lambda t: t['rating'] - me['rating'])
+    return rnd.choice(up[:band]) if up else None
+
+
+def ladder_play(every=600, band=3, once=False):
+    """Our ranked challenges (owner, PROMPTS 1: challenge bots slightly better; slightly worse ones challenge us):
+    one ranked request every `every` seconds to a team rated closest at or above ours; galaxy picks 3 random maps."""
+    import random
+    rnd = random.Random()
+    tid = me()['id']
+    while True:
+        try:
+            opp = pick_upward(rankings(), tid, band, rnd)
+            if opp:
+                r = request(opp['id'], True, [], '?')
+                print(time.strftime('%H:%M:%S'), 'ranked request', r['id'], 'to', opp['name'], 'rated', opp['rating'], flush=True)
+            else:
+                print(time.strftime('%H:%M:%S'), 'nobody rated at or above us', flush=True)
+        except ApiError as e:
+            print(time.strftime('%H:%M:%S'), 'refused:', e.code, e.detail[:120], flush=True)
+        except Exception as e:      # a network hiccup must not end the loop
+            print(time.strftime('%H:%M:%S'), 'error:', e, flush=True)
+        if once:
+            return
+        time.sleep(every)
+
+
 # ---------------------------------------------------------------- blocks
 def read_cells(path):
     """Lines: <team name> <map,map,...> [order]; '#' comments."""
@@ -410,6 +457,8 @@ def main():
     s = sp.add_parser('matches'); s.add_argument('--team'); s.add_argument('--pages', type=int, default=1)
     s = sp.add_parser('fetch'); s.add_argument('ids', nargs='+', type=int); s.add_argument('--out', default='replays')
     s = sp.add_parser('block'); s.add_argument('cells'); s.add_argument('--tag', required=True)
+    s = sp.add_parser('ladder'); s.add_argument('--every', type=int, default=600); s.add_argument('--band', type=int, default=3)
+    s.add_argument('--once', action='store_true')
     a = ap.parse_args()
     E = EPISODE
     if a.cmd == 'register':
@@ -462,6 +511,8 @@ def main():
                     print('  game', *g)
     elif a.cmd == 'block':
         block(a.cells, a.tag)
+    elif a.cmd == 'ladder':
+        ladder_play(a.every, a.band, a.once)
     return 0
 
 
