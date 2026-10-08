@@ -357,3 +357,15 @@ of history. Times are PDT. Grep it; do not read it whole.
   Alias g_iter1 = c_line8a (code 83d878c19411, submission 120). Next candidates are screened against it.
 - Also: c_line9a (launcher-first opening) 14/20 vs g_iter0 locally (c_line8a 18): worse against g_iter0; its runs
   against the swarm archetype are in progress (the opening targets swarm-style bots).
+
+## 2026-10-08 13:45 PDT — Big swing: the swarm archetype as a candidate (c_swarm1)
+
+- Locally the swarm archetype (our code, built from observed field behaviour: docs/ARCHETYPES.md 4.1, v4c, code
+  b646f1e92c6b) beats g_iter0 19-1, c_line6 15-5 and the incumbent g_iter1 (c_line8a) 17-3, with 0 overruns and 0
+  exceptions in 60 games. Its policies differ from our line in economy (mana-first roles, live-carrier census cap),
+  opening (LLLL C, no amplifiers), anchors (none before r250), combat (focus fire, step in only 2+ ahead, killable
+  targets) and siege (a ring at r2 16-34 of the enemy HQ, carrier raids).
+- c_line9a (launcher-first opening on our line) delivered little: launchers alive r100 8.65 vs 8.30 against the swarm
+  (5/20 vs c_line8a's 3/20) and 14/20 vs g_iter0 (c_line8a 18/20). Closed: the gap is the whole economy and fight
+  model, not the build order.
+- c_swarm1 = a frozen copy of arch_swarm v4c, on trial now (owner, PROMPTS 32: submit what is locally superior).
