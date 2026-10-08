@@ -150,3 +150,7 @@ Realistically, in a tournament situation we'll only have 2 weeks to build the be
 ## 33. 2026-10-08 11:25 PDT
 
 I just noticed that we're losing badly to vrangr1.AFinalsBot (10-0 both sides), and yet that bot is ranked near the bottom of the ladder.  This tells me that I was incorrect to ask you to restrict the number of benchmark vs. benchmark games on the ladder.  Clearly the ladder has not yet converged
+
+## 34. 2026-10-08 15:40 PDT
+
+Can you check whether any disk is being taken up by other years?  If so, it can be deleted 
