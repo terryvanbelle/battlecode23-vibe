@@ -197,3 +197,10 @@ of history. Times are PDT. Grep it; do not read it whole.
   and the batch does not fight better.
 - Working line: C.LAUNCHER_BATCH = 1 (g_iter0's behaviour), applied with the telemetry change (the telemetry
   workflow is editing src/bot now). c_line3 still carries batches and micro-off; it will not be submitted.
+
+## 2026-10-07 19:15 — Arm c_spawn1 (spawn on the tile fewest enemy fighters reach): kept, confounded by overruns
+
+- c_spawn1 vs c_batch1, 24 games against four top bots: kills +21.9 (t +4.3), island-rounds +165 (t +2.1), launchers
+  alive r100 +0.4 (t +1.3); launchers lost +18.8 (longer fights); exposure +0.023; outcomes 0-0 (24 losses each).
+- It carried the per-build spawn scoring that overran sieged HQs: 22.6 overruns per game (t +3.4). The working line
+  has the once-per-turn fix; spawn safety stays in and is judged with the line on the replica panel.
