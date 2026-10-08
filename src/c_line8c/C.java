@@ -1,4 +1,4 @@
-package bot;
+package c_line8c;
 
 /**
  * Every tunable constant and every arm switch, each with the measurement or reason that set it.
@@ -73,7 +73,7 @@ public final class C {
     /** Turns a carrier waits at a crowded well before trying another well of its type. */
     public static final int WELL_CROWD_PATIENCE = 6;
     /** Carriers leave a well with a fresh enemy-launcher sighting within r2 WELL_DANGER_R2 for a safe known well. */
-    public static final boolean WELL_DANGER = false;
+    public static final boolean WELL_DANGER = true;
     public static final int WELL_DANGER_R2 = 36;
 
     // ---- launchers
