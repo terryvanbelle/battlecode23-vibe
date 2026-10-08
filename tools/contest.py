@@ -389,7 +389,7 @@ def block(cells_file, tag, poll=60, max_wait=6 * 3600):
     pending = {d['request']: d for d in done}
     found = {}
     while pending and time.time() - t0 < max_wait:
-        ms = matches(tid, limit_pages=5)
+        ms = matches(tid, limit_pages=30)   # our ranked play and autoscrims push panel matches down the list
         for m in ms:
             if m['id'] in found.values() or m['id'] <= floor:
                 continue
