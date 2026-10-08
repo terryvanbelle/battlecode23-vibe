@@ -44,7 +44,7 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
   maps) running from the driver: `logs/panel1-g_iter0.log`, run dir `gauntlet/*-panel1-g_iter0`.
 - Our ranked play: `python3 tools/contest.py ladder` runs detached on the driver (log `logs/ladder-vibe23.log`), one
   ranked challenge every 10 minutes to a team rated closest at or above us (galaxy: ranked only upward; weaker teams
-  challenge us). Galaxy's autoscrim (ranked, every team) fires every 4 hours (04:00, 08:00, ... UTC).
+  challenge us). Galaxy's autoscrim (ranked, every team) fires every 8 hours (00:00, 08:00, 16:00 UTC).
 - Every replica game must count (owner, PROMPTS 13): a workflow is adding bot telemetry (indicator strings plus
   indicator dots/lines, which cost 0 bytecodes per call and are uncapped), new ReplayDump extractors (engagements,
   timelines, death causes, opponent tactics) and a per-match report for every downloaded match
@@ -52,7 +52,7 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
 - The field: 87 teams, one per public 2023 bot (`tools/galaxy/field.py`, mapping `tools/galaxy/field-teams.tsv`; one
   name shortened: `remember-to-hydrate.sprint_1`), each its own user (passwords only on the VM,
   `~/.bc23-galaxy-field/accounts.json`), all compiled, auto-accept on. Autoscrims: `bc23-galaxy-scheduler.timer`
-  enabled 2026-10-08 01:19 UTC, every 4 h from 04:00 UTC (176 matches per round, about 4.5-5 h on 5 engines: our
+  enabled 2026-10-08 01:19 UTC, every 8 h from 08:00 UTC (176 matches per round, about 4.5-5 h on 5 engines: our
   requests queue behind a round; `docs/galaxy/README.md` section 8, capacity). Field activity on the VM
   (`field.py activity`, `logs/field-activity.log`): random field teams request ranked scrimmages upward, one a
   minute while fewer than 2 matches wait. saturn has 5 engines.

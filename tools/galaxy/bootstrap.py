@@ -46,7 +46,9 @@ EPISODE = {
     'game_release': datetime.datetime(2023, 1, 9, 19, 0, tzinfo=UTC),
     'game_archive': datetime.datetime(2099, 12, 31, 0, 0, tzinfo=UTC),   # far future: ranked play stays open
     'submission_frozen': False,
-    'autoscrim_schedule': '0 */4 * * *',   # galaxy's documented example cadence (docs-general/operations.md)
+    # galaxy's documented example is every 4 hours (docs-general/operations.md); one round here is 176 three-game
+    # matches, ~4.5-5 h on 5 engines, so every 4 hours would leave a permanent backlog ahead of our own requests
+    'autoscrim_schedule': '0 */8 * * *',
     'language': Language.JAVA_8,
     'scaffold': 'https://github.com/battlecode/battlecode23-scaffold',
     'artifact_name': 'battlecode23',
