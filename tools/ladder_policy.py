@@ -216,12 +216,19 @@ def cmd_trial_end(accept):
     print(event, t['package'], '- validated build is', s['validated'])
 
 
+def pick_open(ladder, tid, rested, now, rnd):
+    """pick_upward over the teams not resting (409: 3 active ranked matches with them, or they fell below us)."""
+    open_ = [t for t in ladder if t['id'] == tid or rested.get(t['id'], now) <= now]
+    return contest.pick_upward(open_, tid, BAND, rnd)
+
+
 def cmd_ranked(poll=60):
     rnd = random.Random()
     team = contest.me()
     tid = team['id']
     last = None
     note = None
+    rested = {}                     # team id -> time it may be challenged again
     while True:
         try:
             now = utcnow()
@@ -232,9 +239,16 @@ def cmd_ranked(poll=60):
             mode = ranked_mode(n_rated(ms), parse_t(v.get('since')), now)
             ok, why = may_challenge(s, sub and sub['id'], waiting(ms), last, mode, now)
             if ok:
-                opp = contest.pick_upward(contest.rankings(), tid, BAND, rnd)
+                opp = pick_open(contest.rankings(), tid, rested, now, rnd)
                 if opp:
-                    r = contest.request(opp['id'], True, [], '?')
+                    try:
+                        r = contest.request(opp['id'], True, [], '?')
+                    except contest.ApiError as e:
+                        if e.code != 409:
+                            raise
+                        rested[opp['id']] = now + datetime.timedelta(minutes=15)
+                        print(time.strftime('%H:%M:%S'), 'resting', opp['name'], '15 min:', e.detail[:80], flush=True)
+                        continue
                     last = now
                     print(time.strftime('%H:%M:%S'), mode, 'ranked request', r['id'], 'to', opp['name'], 'rated', opp['rating'], flush=True)
                     note = None

@@ -260,6 +260,17 @@ class LadderPolicyTest(unittest.TestCase):
         self.assertFalse(self.p.may_challenge(st, 24, 0, now - datetime.timedelta(minutes=10), 'MAINTAIN', now)[0])
         self.assertTrue(self.p.may_challenge(st, 24, 0, now - datetime.timedelta(minutes=10), 'BURST', now)[0])
 
+    def test_pick_open_skips_resting(self):
+        import random, datetime
+        now = self.t(9)
+        ladder = [{'id': 1, 'name': 'a', 'rating': 900, 'status': 'R', 'active': True},
+                  {'id': 2, 'name': 'b', 'rating': 800, 'status': 'R', 'active': True},
+                  {'id': 4, 'name': 'us', 'rating': 700, 'status': 'R', 'active': True}]
+        rested = {2: now + datetime.timedelta(minutes=5)}
+        self.assertEqual(self.p.pick_open(ladder, 4, rested, now, random.Random(0))['id'], 1)
+        rested[1] = now + datetime.timedelta(minutes=5)
+        self.assertIsNone(self.p.pick_open(ladder, 4, rested, now, random.Random(0)))
+
     def test_trial_window(self):
         self.assertTrue(self.p.trial_window_ok(self.t(16), self.t(9)))
         self.assertFalse(self.p.trial_window_ok(self.t(8), self.t(6)))
@@ -282,6 +293,566 @@ class ProfileTest(unittest.TestCase):
         self.assertEqual([float(v) for v in us[2:]], [0.5, 20.0, 0.2, 5.0])
         self.assertEqual(x[:2], ['X', '2'])
         self.assertEqual([float(v) for v in x[2:]], [0.5, 25.0, 0.3, 8.0])
+
+
+# ---------------------------------------------------------------- TELEMETRY.md part B (ReplayDump extraction)
+FIX_MIRROR = REPO / 'test/fixtures/example-mirror-maptestsmall.bc23'
+FIX_TWO = REPO / 'test/fixtures/two-games.bc23'
+# bot (TELEMETRY.md part A, PADK 14) vs examplefuncsplayer, maptestsmall, GAME_SEED=1, indicators on; A wins r330
+FIX_SELF = REPO / 'test/fixtures/telemetry-selfplay.bc23'
+# part A's fixtures (A.10 item 8): the same cell with indicators on, and with -Dbc.engine.show-indicators=false
+FIX_TELE = REPO / 'test/fixtures/tele-example-maptestsmall.bc23'
+FIX_TELE_OFF = REPO / 'test/fixtures/tele-example-maptestsmall-indoff.bc23'
+
+
+def dump(fix, *args, cache=True, timeout=900):
+    """tools/replay-dump.sh output, cached under build/test-cache by the hash of the reader's source and the fixture."""
+    import hashlib
+    if not cache:
+        return subprocess.run(['bash', str(TOOLS / 'replay-dump.sh'), *([str(fix)] if fix else []), *args],
+                              capture_output=True, text=True, timeout=timeout).stdout
+    h = hashlib.sha1((TOOLS / 'replaydump/ReplayDump.java').read_bytes() + (Path(fix).read_bytes() if fix else b'')).hexdigest()[:12]
+    d = REPO / 'build' / 'test-cache' / h
+    d.mkdir(parents=True, exist_ok=True)
+    f = d / ('b-' + (Path(fix).stem if fix else 'none') + ''.join(args).replace('-', '_').replace('/', '_') + '.txt')
+    if f.exists():
+        return f.read_text()
+    out = dump(fix, *args, cache=False, timeout=timeout)
+    if out.strip():
+        f.write_text(out)
+    return out
+
+
+def read_csv(path):
+    import csv
+    with open(path) as fh:
+        return list(csv.DictReader(fh))
+
+
+def extract(fix, outdir, *args):
+    r = subprocess.run(['bash', str(TOOLS / 'replay-dump.sh'), str(fix), '--extract', str(outdir), *args],
+                       capture_output=True, text=True, timeout=900)
+    if r.returncode != 0:
+        raise AssertionError(r.stderr[-2000:])
+    return r.stdout
+
+
+def events_model(events_text, map_text):
+    """An independent reimplementation of TELEMETRY.md B.2 hit attribution and death causes over `--events` output,
+    with the design's count rule (the last hit is lethal when a dead victim took more hits than damage entries; the
+    others pair with damage entries in order; unpaired entries are end-of-round damage). The Java reader pairs a hit
+    with the damage entry right before it instead. Returns {side: {key: value}}."""
+    import re
+    rows = map_text.splitlines()[1:]
+    hq = {'A': [], 'B': []}
+    for i, line in enumerate(rows):
+        y = len(rows) - 1 - i
+        for x, ch in enumerate(line):
+            if ch == 'H':
+                hq['A'].append((x, y))
+            elif ch == 'h':
+                hq['B'].append((x, y))
+    maxhp = {'CARRIER': 150, 'LAUNCHER': 200, 'AMPLIFIER': 120, 'DESTABILIZER': 300, 'BOOSTER': 400}
+    other = {'A': 'B', 'B': 'A'}
+    rob = {}
+    out = {s: {k: 0 for k in ('launcher', 'throw', 'hq_aura', 'self', 'dmg_hits', 'kills_hits', 'dmg_aura', 'kills_aura')}
+           for s in 'AB'}
+
+    def near_hq(side, p, r2=9):
+        return any((p[0] - h[0]) ** 2 + (p[1] - h[1]) ** 2 <= r2 for h in hq[other[side]])
+
+    def hqs_in_reach2(side, p):
+        return sum(1 for h in hq[other[side]]
+                   if max(abs(p[0] - h[0]) - 2, 0) ** 2 + max(abs(p[1] - h[1]) - 2, 0) ** 2 <= 9)
+
+    pat = re.compile(r'^r(\d+)\s+(\w+) (.*)$')
+    by_round = {}
+    for line in events_text.splitlines():
+        m = pat.match(line)
+        if m:
+            by_round.setdefault(int(m.group(1)), []).append((m.group(2), m.group(3)))
+    for rn in sorted(by_round):
+        hits, negs, died, pre = {}, {}, [], {}
+        for kind, rest in by_round[rn]:
+            f = rest.split()
+            if kind == 'spawn':
+                rid = int(f[1].split('#')[1])
+                x, y = map(int, f[3].split(','))
+                rob[rid] = {'side': f[0], 'type': f[1].split('#')[0], 'pos': (x, y), 'hp': maxhp.get(f[1].split('#')[0], 1)}
+            elif kind == 'act':
+                rid, act, tgt = int(f[1].split('#')[1]), f[2], int(f[3])
+                if act in ('LAUNCH_ATTACK', 'THROW_ATTACK') and tgt >= 0:
+                    hits.setdefault(tgt, []).append((f[0], 'launcher' if act == 'LAUNCH_ATTACK' else 'throw'))
+                elif act == 'CHANGE_HEALTH' and rid in rob:
+                    rob[rid]['hp'] += tgt
+                    if tgt < 0:
+                        negs.setdefault(rid, []).append(-tgt)
+            elif kind == 'move':
+                rid = int(f[1].split('#')[1])
+                if rid in rob:
+                    pre[rid] = rob[rid]['pos']
+                    rob[rid]['pos'] = tuple(map(int, f[4].split(',')))
+            elif kind == 'died':
+                rid = int(f[1].split('#')[1])
+                died.append((rid, f[0], tuple(map(int, f[3].split(','))), int(f[4].split('=')[1])))
+        dead = {d[0] for d in died}
+        for v in set(hits) | set(negs):
+            h, n = hits.get(v, []), negs.get(v, [])
+            if v in dead and len(h) > len(n):
+                paired, eor = n[:len(h) - 1], n[len(h) - 1:]
+            else:
+                paired, eor = n[:len(h)], n[len(h):]
+            for (side, _), amt in zip(h, paired):
+                out[side]['dmg_hits'] += amt
+            if v in rob and v not in dead:
+                side = rob[v]['side']
+                p0, p1 = pre.get(v, rob[v]['pos']), rob[v]['pos']
+                for amt in eor:
+                    if near_hq(side, p0) or near_hq(side, p1):
+                        out[other[side]]['dmg_aura'] += amt
+            elif v in rob:
+                side = rob[v]['side']
+                for amt in eor:
+                    if near_hq(side, rob[v]['pos']):
+                        out[other[side]]['dmg_aura'] += amt
+        for rid, side, pos, hp in died:
+            h, n = hits.get(rid, []), negs.get(rid, [])
+            if len(h) > len(n):
+                cause = h[-1][1]
+                out[h[-1][0]]['dmg_hits'] += hp
+                out[h[-1][0]]['kills_hits'] += 1
+            elif near_hq(side, pos) or (0 < hp <= 4 * hqs_in_reach2(side, pos)):
+                cause = 'hq_aura'
+                out[other[side]]['dmg_aura'] += hp
+                out[other[side]]['kills_aura'] += 1
+            else:
+                cause = 'self'
+            out[side][cause] += 1
+    return out
+
+
+class ReplayExtractLegacyTest(unittest.TestCase):
+    """B.7 item 1: the existing modes are byte-identical to the reader before part B (hashes of its outputs on
+    2026-10-08, source sha1 of tools/replaydump/ReplayDump.java before the change), and the census only grows."""
+    LEGACY = {  # (fixture, args) -> sha1 of the output
+        ('M', ()): '8a3071ba06b5d0ed25db40f9f85effe32a8b8913', ('M', ('--bytecode',)): '5fad107e9327d8ec24dbe64e8af2ed3bfbb4753c',
+        ('M', ('--games',)): 'e2dbbf109d4bdded73b0a21268ef54580e8376dc', ('T', ()): '2d67e8b40261dafce2f5d900b78566599452fa32',
+        ('T', ('--bytecode',)): '31c3b41cb17580f4c8ed2f4dbfa65e22807fb675', ('T', ('--games',)): '3072d677138f2388163ceec03a17b7d9d66f8377',
+        ('T', ('--game', '1')): '099411ff811f2e8d35568dc3dd79a6f92d61d5de',
+        ('T', ('--game', '1', '--bytecode')): '72512430c2e322f595ee792b50761048dd7ad026'}
+    LEGACY_CENSUS = {('M', ()): 'cb654e05ef363fd28b2af7867ced093a9ba23450', ('T', ()): 'c0db421ae17bad6f5ce961d42dadde4e39fcb699',
+                     ('T', ('--game', '1')): '96735b6e87468512adaede88c0ec8528fd03343b'}
+    OLD_HEADER_SHA1, OLD_COLS = '0121035532342219b3864b11dfc397bbc8fa53f5', 73
+    FIX = {'M': FIX_MIRROR, 'T': FIX_TWO}
+
+    def sha(self, text):
+        import hashlib
+        return hashlib.sha1(text.encode()).hexdigest()
+
+    def test_existing_modes_unchanged(self):
+        for (f, args), want in self.LEGACY.items():
+            self.assertEqual(self.sha(dump(self.FIX[f], *args)), want, (f, args))
+
+    def test_census_legacy_columns_unchanged_and_appended(self):
+        for (f, args), want in self.LEGACY_CENSUS.items():
+            lines = dump(self.FIX[f], *args, '--census').splitlines()
+            hdr = lines[0].split(',')
+            self.assertEqual(self.sha(','.join(hdr[:self.OLD_COLS]) + '\n'), self.OLD_HEADER_SHA1)
+            for row in lines[1:]:
+                self.assertEqual(len(row.split(',')), len(hdr), row[:80])
+            legacy = '\n'.join(','.join(line.split(',')[:self.OLD_COLS]) for line in lines) + '\n'
+            self.assertEqual(self.sha(legacy), want, (f, args))
+        full = dump(None, '--census-header').strip()
+        self.assertEqual(full, dump(FIX_MIRROR, '--census').splitlines()[0])
+        self.assertTrue(full.endswith(',' + ReplayExtractTest.T1 + ',' + ReplayExtractTest.T2))
+
+
+class ReplayExtractTest(unittest.TestCase):
+    """B.7 items 2-5 and 7: --extract, identities, golden vectors, fingerprints, speed. Pinned values were
+    cross-checked by independent computations: events_model() (a Python reimplementation over --events), --metrics
+    (the legacy snapshot path) and the engine's verdicts (two-games: conquest r339 and r188; mirror: A 420 Mn vs 17)."""
+    T1 = ('win_reason,tele,tele_offset,tele_agree,tele_exc_turns,tstates_C,tstates_L,tstates_HQ,tstates_A,tele_carrier_mn,'
+          'tele_L_out,deaths_launcher,deaths_throw,deaths_destab,deaths_aura,deaths_self,deaths_resign,value_lost,cargo_lost_Ad,'
+          'cargo_lost_Mn,anchors_lost,spawn_kills,dmg_hits,kills_hits,dmg_aura,kills_aura,eng_n,eng_won,eng_lost,eng_n_par,'
+          'eng_won_par,eng_n_ahead,eng_won_ahead,eng_n_behind,eng_won_behind,exch_ratio,first_hit_rate,turn_round,lock_round,'
+          'onset_L,onset_Mn,onset_value,onset_islands,idle_funds')
+    T2 = ('kite_stand_fire,kite_fire_retreat,kite_stepin_fire,kite_fire_ambiguous,kite_advance,kite_retreat,kite_hold,'
+          'exposed_end,alone20,group_p50,trip_cycle_p50,partial_loads,carriers_per_well,blind_rate,focus,kill_conv,first_builds')
+    HEADERS = {   # TELEMETRY.md B.4, verbatim
+        'games.csv': 'match,game,map,width,height,symmetry,islands,rounds,side,team,won,win_reason,tb_margin,vtb500,vtb1000,'
+                     'vtb1500,tele,tele_offset,tele_sync_n,tele_sync,tele_agree_n,tele_agree,tele_valid,tele_invalid,'
+                     'tele_exc_turns,tele_dots,tele_unknown_kinds',
+        'deaths.csv': 'match,game,round,id,side,type,age,x,y,prog,cause,killer_id,killer_type,hp_before,cargo_Ad,cargo_Mn,'
+                      'cargo_Ex,anchors,spawn_kill,eng,last_code,last_token',
+        'engagements.csv': 'match,game,eng,r0,r1,dur,x0,y0,prog0,nA0,nB0,hpA0,hpB0,peakA,peakB,joinA,joinB,first_hit,dmg_by_A,'
+                           'dmg_by_B,kills_by_A,kills_by_B,val_lost_A,val_lost_B,aura_dmg_A,aura_dmg_B,surv_A,surv_B,held,'
+                           'result,codes_A,codes_B',
+        'timeline.csv': 'match,game,round,side,alive_C,alive_L,alive_A,alive_D,alive_B,built_C,built_L,built_A,coll_Ad,coll_Mn,'
+                        'coll_Ex,bank_Ad,bank_Mn,bank_Ex,carried_Ad,carried_Mn,carried_Ex,army_value,value_lost,dmg_dealt,'
+                        'kills,islands,anchors_placed,in_contact',
+        'hq.csv': 'match,game,round,side,hq_id,x,y,bank_Ad,bank_Mn,bank_Ex,built_C,built_L,built_A,built_K,pressure34,'
+                  'pressure9,idle_funds,codes',
+        'robots.csv': 'match,game,id,side,type,born,died,cause,x_born,y_born,turns,max_still,still_r0,bc_max,bc_over,bc_near,codes',
+        'tele_states.csv': 'match,game,side,type,phase,code,letter,detail,turns,share,src_bcc,src_str',
+        'trips.csv': 'match,game,side,carrier,t0,first_collect,last_collect,t_end,well_x,well_y,well_type,collects,load,'
+                     'wait_rounds,outcome,codes',
+    }
+
+    @classmethod
+    def setUpClass(cls):
+        import time
+        cls.tmp = Path(tempfile.mkdtemp())
+        t0 = time.time()
+        cls.mirror_out = extract(FIX_MIRROR, cls.tmp / 'mirror')
+        cls.mirror_secs = time.time() - t0
+        cls.two_out = extract(FIX_TWO, cls.tmp / 'two', '--match', '77')
+        cls.m = {f: read_csv(cls.tmp / 'mirror' / f) for f in cls.HEADERS}
+        cls.t = {f: read_csv(cls.tmp / 'two' / f) for f in cls.HEADERS}
+        cls.m['census.csv'] = read_csv(cls.tmp / 'mirror' / 'census.csv')
+        cls.t['census.csv'] = read_csv(cls.tmp / 'two' / 'census.csv')
+
+    @classmethod
+    def tearDownClass(cls):
+        import shutil
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    # -- item 2: --extract on two-games.bc23
+    def test_extract_files_and_headers(self):
+        for d in ('two', 'mirror'):
+            for f, h in self.HEADERS.items():
+                self.assertEqual((self.tmp / d / f).read_text().splitlines()[0], h, (d, f))
+            self.assertEqual((self.tmp / d / 'census.csv').read_text().splitlines()[0],
+                             'match,game,' + dump(None, '--census-header').strip())
+            self.assertFalse((self.tmp / d / 'tele_events.jsonl').exists())   # no side has dots
+            self.assertFalse((self.tmp / d / 'tele_turns.csv').exists())
+        self.assertEqual(self.two_out.splitlines(), ['0 maptestsmall 339 A conquest tele_A=none tele_B=none',
+                                                     '1 SmallElements 188 A conquest tele_A=none tele_B=none'])
+        self.assertEqual(self.mirror_out.strip(), '0 maptestsmall 2000 A tb_mn tele_A=none tele_B=none')
+
+    def test_extract_games_and_census_rows(self):
+        g = self.t['games.csv']
+        self.assertEqual(len(g), 4)
+        self.assertEqual([(r['match'], r['game'], r['side'], r['team'], r['won'], r['win_reason'], r['tele']) for r in g],
+                         [('77', '0', 'A', 'g_iter0', '1', 'conquest', 'none'), ('77', '0', 'B', 'examplefuncsplayer', '0', 'conquest', 'none'),
+                          ('77', '1', 'A', 'g_iter0', '1', 'conquest', 'none'), ('77', '1', 'B', 'examplefuncsplayer', '0', 'conquest', 'none')])
+        lines = (self.tmp / 'two' / 'census.csv').read_text().splitlines()[1:]
+        for gi in (0, 1):
+            per_game = [line for line in dump(FIX_TWO, '--game', str(gi), '--census', '--no-header').splitlines() if line]
+            self.assertEqual([line for line in lines if line.startswith(f'77,{gi},')], [f'77,{gi},' + line for line in per_game])
+        mlines = (self.tmp / 'mirror' / 'census.csv').read_text().splitlines()[1:]
+        self.assertEqual(mlines, ['0,0,' + line for line in dump(FIX_MIRROR, '--census', '--no-header').splitlines() if line])
+
+    # -- item 3: identities on the mirror (examplefuncsplayer vs itself, A wins on the mana tiebreak 420 vs 17)
+    def test_deaths_add_up_and_pinned_split(self):
+        summ = dump(FIX_MIRROR)
+        died = {'A': 17 + 26, 'B': 47 + 49}
+        self.assertIn('died:   CARRIER=17 LAUNCHER=26', summ)
+        self.assertIn('died:   CARRIER=47 LAUNCHER=49', summ)
+        by = {}
+        for r in self.m['deaths.csv']:
+            by.setdefault(r['side'], {}).setdefault(r['cause'], 0)
+            by[r['side']][r['cause']] += 1
+        self.assertEqual({s: sum(v.values()) for s, v in by.items()}, died)
+        self.assertEqual(by['B'], {'launcher': 46, 'throw': 40, 'hq_aura': 10})   # 86 hit kills + 10 HQ damage
+        self.assertEqual(by['A'], {'launcher': 27, 'throw': 6, 'hq_aura': 10})
+        for c in self.m['census.csv']:
+            s = c['side']
+            self.assertEqual(sum(int(c['deaths_' + k]) for k in ('launcher', 'throw', 'destab', 'aura', 'self', 'resign')), died[s])
+            self.assertEqual(int(c['kills_hits']), by['B' if s == 'A' else 'A'].get('launcher', 0) + by['B' if s == 'A' else 'A'].get('throw', 0))
+
+    def test_python_reimplementation_agrees(self):
+        """events_model() over --events (count-based pairing) against the Java census (adjacency pairing)."""
+        cases = [(FIX_MIRROR, (), self.m['census.csv']), (FIX_TWO, (), self.t['census.csv'][:2]),
+                 (FIX_TWO, ('--game', '1'), self.t['census.csv'][2:])]
+        for fix, g, census in cases:
+            model = events_model(dump(fix, *g, '--events'), dump(fix, *g, '--map-at', '1'))
+            for c in census:
+                mine = model[c['side']]
+                got = {k: int(c[col]) for k, col in (('launcher', 'deaths_launcher'), ('throw', 'deaths_throw'),
+                                                     ('hq_aura', 'deaths_aura'), ('self', 'deaths_self'),
+                                                     ('dmg_hits', 'dmg_hits'), ('kills_hits', 'kills_hits'),
+                                                     ('dmg_aura', 'dmg_aura'), ('kills_aura', 'kills_aura'))}
+                self.assertEqual(got, mine, (fix.name, g, c['side']))
+        a, b = self.m['census.csv']
+        self.assertEqual((a['dmg_hits'], a['kills_hits'], b['dmg_hits'], b['kills_hits']), ('15653', '86', '9133', '33'))
+
+    def test_engagement_damage_within_census(self):
+        for d in (self.m, self.t):
+            for c in d['census.csv']:
+                engs = [e for e in d['engagements.csv'] if e['game'] == c['game']]
+                s = c['side']
+                self.assertLessEqual(sum(int(e['dmg_by_' + s]) for e in engs), int(c['dmg_hits']))
+                self.assertLessEqual(sum(int(e['kills_by_' + s]) for e in engs), int(c['kills_hits']))
+                self.assertEqual(int(c['eng_n']), len(engs))
+                self.assertEqual(int(c['eng_won']), sum(e['result'] == s for e in engs))
+                for e in engs:
+                    self.assertLessEqual(int(e['r0']), int(e['r1']))
+                    self.assertLessEqual(int(e['surv_' + s]), int(e['join' + s]))
+        # every hit lies in a fight cell: the engagements hold all hit damage
+        for d in (self.m, self.t):
+            for c in d['census.csv']:
+                engs = [e for e in d['engagements.csv'] if e['game'] == c['game']]
+                self.assertEqual(sum(int(e['dmg_by_' + c['side']]) for e in engs), int(c['dmg_hits']))
+
+    def test_model_identities(self):
+        """HP never above the maximum, team totals = HQ banks + cargo every round, every hit attributed."""
+        for fix, g, rounds in ((FIX_MIRROR, (), 2000), (FIX_TWO, (), 339), (FIX_TWO, ('--game', '1'), 188)):
+            self.assertEqual(dump(fix, *g, '--checks').strip(),
+                             f'checks rounds={rounds} hp_over_max=0 hp_nonpos_alive=0 inv_negative=0 team_total_mismatch=0 '
+                             'dead_inv_nonzero=0 unattributed_hits=0')
+        for d in (self.m, self.t):
+            for r in d['deaths.csv']:
+                cap = {'C': 150, 'L': 200, 'A': 120, 'D': 300, 'B': 400, 'H': 1}[r['type']]
+                self.assertLessEqual(int(r['hp_before']), cap)
+                self.assertGreater(int(r['hp_before']), 0)
+
+    def test_trips_add_up_to_collected(self):
+        for d in (self.m, self.t):
+            for c in d['census.csv']:
+                trips = [t for t in d['trips.csv'] if t['game'] == c['game'] and t['side'] == c['side']]
+                self.assertEqual(sum(int(t['collects']) for t in trips), int(c['coll_Ad']) + int(c['coll_Mn']) + int(c['coll_Ex']))
+                dep = [t for t in trips if t['outcome'] == 'deposit']
+                self.assertEqual(sum(int(t['load']) for t in dep), int(c['dep_Ad']) + int(c['dep_Mn']) + int(c['dep_Ex']))
+        # the mirror bot never deposits: its trips end by a throw, a death or the end of the game
+        self.assertEqual({t['outcome'] for t in self.m['trips.csv']} - {'throw', 'death', 'end'}, set())
+
+    def test_timeline_matches_metrics(self):
+        """timeline.csv against the legacy --metrics path (snapshot(): team totals, alive counts, islands, collected)."""
+        import csv, io
+        for fix, g, d, gi in ((FIX_MIRROR, (), self.m, '0'), (FIX_TWO, (), self.t, '0'), (FIX_TWO, ('--game', '1'), self.t, '1')):
+            met = list(csv.DictReader(io.StringIO(dump(fix, *g, '--metrics'))))
+            tl = {(r['round'], r['side']): r for r in d['timeline.csv'] if r['game'] == gi}
+            n = 0
+            for m in met:
+                r = tl.get((m['round'], m['team']))
+                if r is None:
+                    continue
+                n += 1
+                self.assertEqual((int(m['carriers']), int(m['launchers']), int(m['amplifiers']), int(m['others'])),
+                                 (int(r['alive_C']), int(r['alive_L']), int(r['alive_A']), int(r['alive_D']) + int(r['alive_B'])))
+                for res in ('Ad', 'Mn', 'Ex'):
+                    self.assertEqual(int(m[res]), int(r['bank_' + res]) + int(r['carried_' + res]), (m['round'], res))
+                self.assertEqual((m['islands'], m['collected_Mn'], m['collected_Ad']), (r['islands'], r['coll_Mn'], r['coll_Ad']))
+            self.assertGreater(n, 4)
+        # tiebreak leaders at r500/1000/1500 from the metrics' team totals (islands and anchors are 0 in the mirror)
+        met = {(r['round'], r['team']): r for r in csv.DictReader(io.StringIO(dump(FIX_MIRROR, '--metrics')))}
+        for col, rnd in (('vtb500', '500'), ('vtb1000', '1000'), ('vtb1500', '1500')):
+            a, b = met[(rnd, 'A')], met[(rnd, 'B')]
+            want = next((('A' if int(a[k]) > int(b[k]) else 'B') for k in ('islands', 'Ex', 'Mn', 'Ad') if a[k] != b[k]), '-')
+            self.assertEqual({r[col] for r in self.m['games.csv']}, {want}, col)
+        self.assertEqual({(r['win_reason'], r['tb_margin']) for r in self.m['games.csv']}, {('tb_mn', '403')})   # 420 - 17
+
+    def test_robots_and_hq_rows(self):
+        for d in (self.m, self.t):
+            for c in d['census.csv']:
+                rb = [r for r in d['robots.csv'] if r['game'] == c['game'] and r['side'] == c['side']]
+                for ty, col in (('C', 'built_C'), ('L', 'built_L'), ('A', 'built_A')):
+                    self.assertEqual(sum(r['type'] == ty and r['born'] != '0' for r in rb), int(c[col]))
+                self.assertEqual(sum(r['died'] != '' for r in rb if r['type'] != 'H'),
+                                 sum(int(c[k]) for k in ('died_C', 'died_L', 'died_A', 'died_D', 'died_B')))
+                self.assertEqual(max(int(r['bc_max']) for r in rb if r['type'] == 'C') if any(r['type'] == 'C' for r in rb) else 0,
+                                 int(c['bc_max_C']))
+                hq = [h for h in d['hq.csv'] if h['game'] == c['game'] and h['side'] == c['side']]
+                self.assertEqual(sum(int(h['built_C']) for h in hq), int(c['built_C']))
+                self.assertEqual(sum(int(h['built_L']) for h in hq), int(c['built_L']))
+                self.assertEqual(sum(int(h['built_K']) for h in hq), int(c['anchors_built']))
+                self.assertEqual(sum(int(h['idle_funds']) for h in hq), int(c['idle_funds']))
+
+    # -- item 4: golden vectors (A.9), packed here independently from the table's inputs
+    def test_decode_record_golden_vectors(self):
+        import json
+
+        def pack(*fields):   # (value, offset)
+            return sum(v << o for v, o in fields)
+
+        def loc(x, y):
+            return x * 64 + y + 1
+        hdr = (2115895297, pack((1, 0), (37, 8)), pack((loc(12, 7), 0), (2, 12), (1, 16), (3, 17)), pack((16, 0), (42, 8)))
+        role = (pack((2, 0), (1, 4), (1, 8)), 30, 420, pack((loc(5, 5), 0), (4, 12)))
+        well = (pack((loc(20, 33), 0), (2, 12), (2, 14), (2, 17)), 45, pack((5, 0), (7, 8)), 0)
+        trip = (pack((loc(20, 33), 0), (2, 12), (2, 14), (40, 16), (1, 24)), pack((180, 0), (195, 16)),
+                pack((215, 0), (231, 16)), pack((3, 0), (1, 16), (20, 24)))
+        fight = (pack((1, 0), (1, 2), (1, 3), (1, 4), (3, 5), (1, 14), (3, 16), (1, 24)), pack((1, 0), (1, 8), (13, 16)),
+                 pack((2, 0), (1, 8), (9, 16), (9, 24)), pack((140, 0), (4, 8), (10234, 16)))
+        table = {'HDR': (2115895297, 9473, 467720, 10768), 'ROLE': (274, 30, 420, 16710), 'WELL': (304418, 45, 1797, 0),
+                 'TRIP': (19440930, 12779700, 15139031, 335609859), 'FIGHT': (16990333, 852225, 151585026, 670696588)}
+        self.assertEqual({'HDR': hdr, 'ROLE': role, 'WELL': well, 'TRIP': trip, 'FIGHT': fight}, table)
+        want = {
+            'HDR': {'kind': 'HDR', 'version': 1, 'type': 'C', 'spawn_round': 37, 'spawn': [12, 7], 'roles': 2, 'micro': 0, 'army': 0,
+                    'spawn_safety': 1, 'launcher_batch': 3, 'padk': 16, 'sync': 42, 'build': 0},
+            'ROLE': {'kind': 'ROLE', 'old': 2, 'new': 1, 'reason': 'hq_stock', 'hq_ad': 30, 'hq_mn': 420, 'hq': [5, 5], 'trips': 4},
+            'WELL': {'kind': 'WELL', 'well': [20, 33], 'well_type': 2, 'source': 2, 'role': 2, 'd2': 45, 'shared_wells': 5,
+                     'seen_wells': 7, 'search_turns': 0, 'crowd_turns': 0, 'prev_well': None},
+            'TRIP': {'kind': 'TRIP', 'well': [20, 33], 'well_type': 2, 'role': 2, 'load': 40, 'hq': 1, 't_start': 180,
+                     't_first_collect': 195, 't_last_collect': 215, 't_deposit': 231, 'wait': 3, 'explore': 0, 'flee': 1, 'collect': 20},
+            'FIGHT': {'kind': 'FIGHT', 'ready': 1, 'superior': 0, 'outnumbered': 1, 'any_can_hit': 1, 'moved': 1, 'dir': 'EAST',
+                      'guard_break': 0, 'micro': 0, 'shots_before': 0, 'shots_after': 1, 'enemy_fighters': 3, 'ally_fighters': 1,
+                      'threat': 1, 'can_hit': 1, 'min_d2': 13, 'pinned': 0, 'stay_threat': 2, 'stay_can_hit': 1, 'stay_min_d2': 9,
+                      'tiles': 9, 'hp': 140, 'enemies': 4, 'target': 10234}}
+        kinds = {'HDR': 0, 'ROLE': 8, 'WELL': 9, 'TRIP': 10, 'FIGHT': 14}
+        for name, words in table.items():
+            for k in (name, str(kinds[name])):
+                out = dump(None, '--decode-record', k, *map(str, words), '--type', 'C' if name != 'FIGHT' else 'L').strip()
+                self.assertEqual(json.loads(out), want[name], name)
+                self.assertEqual(list(json.loads(out)), list(want[name]), name)   # key order = A.6
+                self.assertEqual(out, json.dumps(want[name], separators=(',', ':')))
+        self.assertEqual(dump(None, '--decode-record', '20', '1', '2', '3', '4').strip(), '{"kind":"K20"}')
+        self.assertEqual(json.loads(dump(None, '--decode-record', '5', str(3 | 5 << 16), '0', '0', '7', '--type', 'L')),
+                         {'kind': 'CNTT', 'shots': 3, 'stepped_in': 5, 'kited': 0, 'pinned_seen': 0, 'unsafe_avoided': 0,
+                          'regroups': 0, 'follows': 7, 'guard_breaks': 0})
+        comms = json.loads(dump(None, '--decode-record', '25', str(1 | 2 << 16), '3', '0', str(65535 << 16)))
+        self.assertEqual(comms['kind'], 'COMMS')
+        self.assertEqual(comms['slots'][8:16], [1, 2, 3, 0, 0, 0, 0, 65535])
+        self.assertEqual(comms['slots'][:8], [None] * 8)
+        exc = json.loads(dump(None, '--decode-record', '1', str(2 | 3 << 4 | 2 << 12 | 7 << 16), '100', '101', '1', '--type', 'L'))
+        self.assertEqual(exc, {'kind': 'EXC', 'site': 2, 'gae_type': 3, 'phase': 2, 'code': 7, 'token': '!', 'r0': 100,
+                               'round_now': 101, 'exc_class': 1})
+        cntm = json.loads(dump(None, '--decode-record', 'CNTM', '0', '0', '0', '0'))
+        self.assertEqual((cntm['decided_round'], cntm['cand']), (-1, 0))
+        anch = json.loads(dump(None, '--decode-record', '12', str(1 | 255 << 4), '0', '0', '0'))
+        self.assertEqual((anch['island'], anch['target']), (-1, None))
+
+    # -- item 5: fingerprints
+    def test_fingerprint(self):
+        a = dump(FIX_TWO, '--fingerprint', cache=False).splitlines()
+        b = dump(FIX_TWO, '--fingerprint', cache=False).splitlines()
+        self.assertEqual(a, b)
+        self.assertEqual(len(a), 2)
+        f0, f1 = a[0].split(), a[1].split()
+        self.assertEqual((f0[:3], f1[:3]), (['0', 'maptestsmall', '339'], ['1', 'SmallElements', '188']))
+        self.assertNotEqual(f0[3], f1[3])
+        self.assertNotEqual(f0[4], f1[4])
+        self.assertTrue(all(len(x) == 40 for x in f0[3:] + f1[3:]))
+
+    # -- item 7: speed
+    def test_extract_speed(self):
+        self.assertLess(self.mirror_secs, 60)
+
+    def test_contact_columns_are_shares(self):
+        for d in (self.m, self.t):
+            for c in d['census.csv']:
+                ks = [float(c['kite_' + k]) for k in ('stand_fire', 'fire_retreat', 'stepin_fire', 'fire_ambiguous',
+                                                       'advance', 'retreat', 'hold') if c['kite_' + k] != '']
+                if ks:
+                    self.assertAlmostEqual(sum(ks), 1.0, delta=0.004)
+                self.assertTrue(len(c['first_builds'].split()) <= 12)
+
+
+class ReplayTelemetryTest(unittest.TestCase):
+    """B.3 on a game with part A's telemetry (dots, v2 strings and the bytecode channel on one side)."""
+
+    @classmethod
+    def setUpClass(cls):
+        if not FIX_SELF.exists():
+            raise unittest.SkipTest(f'no fixture {FIX_SELF}')
+        cls.tmp = Path(tempfile.mkdtemp())
+        extract(FIX_SELF, cls.tmp, '--tele-turns', '--match', '5')
+        cls.tele = dump(FIX_SELF, '--tele')
+
+    @classmethod
+    def tearDownClass(cls):
+        import shutil
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def test_tele_summary(self):
+        import re
+        lines = self.tele.splitlines()
+        self.assertEqual(lines[0], 'game 0 map maptestsmall rounds 330')
+        a = lines[1]
+        m = re.match(r'side A team bot tele=both offset=0 sync=(\d+)/(\d+) \(([\d.]+)\) agree=(\d+)/(\d+) \(([\d.]+)\) '
+                     r'valid=([\d.]+) invalid=0 exc_turns=0 dots=(\d+) unknown_kinds=0 letter_mismatch=0$', a)
+        self.assertIsNotNone(m, a)
+        self.assertGreaterEqual(float(m.group(3)), 0.99)
+        self.assertGreaterEqual(float(m.group(6)), 0.999)
+        self.assertGreater(int(m.group(5)), 1000)
+        self.assertIn('side B team examplefuncsplayer tele=none', lines)
+        self.assertTrue(any(line.startswith('side A records HDR=') for line in lines))
+
+    def test_events_jsonl(self):
+        import json
+        ev = [json.loads(line) for line in (self.tmp / 'tele_events.jsonl').read_text().splitlines()]
+        self.assertTrue(ev)
+        common = ['match', 'game', 'round', 'id', 'side', 'type', 'kind']
+        for e in ev:
+            self.assertEqual(list(e)[:7], common)
+            self.assertEqual((e['match'], e['side']), (5, 'A'))
+            self.assertFalse(e['kind'].startswith('K'), e)
+        robots = read_csv(self.tmp / 'robots.csv')
+        ours = {int(r['id']) for r in robots if r['side'] == 'A' and int(r['turns']) > 0}
+        hdr = [e for e in ev if e['kind'] == 'HDR']
+        self.assertEqual(sorted(e['id'] for e in hdr), sorted(ours))   # one HDR per robot that took a turn
+        self.assertTrue(all(e['version'] == 1 and e['sync'] == 42 for e in hdr))
+        comms = [e for e in ev if e['kind'] == 'COMMS']
+        self.assertTrue(comms and all(len(e['slots']) == 64 for e in comms))
+
+    def test_bot_trips_match_replay_trips(self):
+        """The bot's own TRIP records (what the carrier saw) against trips.csv rebuilt from the replay alone."""
+        import json
+        ev = [json.loads(line) for line in (self.tmp / 'tele_events.jsonl').read_text().splitlines()]
+        rep = {(int(t['carrier']), int(t['t_end'])): t for t in read_csv(self.tmp / 'trips.csv') if t['outcome'] == 'deposit'}
+        bot = [e for e in ev if e['kind'] == 'TRIP']
+        self.assertGreater(len(bot), 20)
+        n = 0
+        for e in bot:
+            t = rep.get((e['id'], e['t_deposit']))
+            if t is None or e['t_first_collect'] == 0:
+                continue
+            n += 1
+            self.assertEqual((int(t['first_collect']), int(t['last_collect']), int(t['load'])),
+                             (e['t_first_collect'], e['t_last_collect'], e['load']), e)
+            self.assertEqual([int(t['well_x']), int(t['well_y'])], e['well'], e)
+        self.assertGreaterEqual(n, 0.9 * len(bot))
+
+    def test_codes_two_channels_agree(self):
+        turns = read_csv(self.tmp / 'tele_turns.csv')
+        both = [t for t in turns if t['code_bcc'] and t['code_str']]
+        self.assertGreater(len(both), 1000)
+        self.assertEqual(sum(t['code_bcc'] != t['code_str'] for t in both), 0)
+        self.assertTrue(all(t['side'] == 'A' for t in turns))
+        self.assertTrue(all(t['code_bcc'] == '' for t in turns if t['sync'] == '1'))
+        c = {r['side']: r for r in read_csv(self.tmp / 'census.csv')}
+        self.assertEqual((c['A']['tele'], c['A']['tele_offset'], c['A']['tele_agree'], c['A']['tele_exc_turns']), ('both', '0', '1.0000', '0'))
+        self.assertEqual((c['B']['tele'], c['B']['tele_offset'], c['B']['tstates_C']), ('none', '', ''))
+        self.assertTrue(c['A']['tstates_C'] and c['A']['tstates_L'] and c['A']['tstates_HQ'])
+        st = read_csv(self.tmp / 'tele_states.csv')
+        for ty in ('C', 'L', 'H'):
+            self.assertAlmostEqual(sum(float(r['share']) for r in st if r['type'] == ty and r['phase'] == 'all'), 1.0, delta=0.01)
+        self.assertTrue(all(int(r['turns']) == int(r['src_bcc']) + int(r['src_str']) for r in st))
+
+
+class ReplayTelemetryFixturesTest(unittest.TestCase):
+    """B.7 item 6 (part A's fixtures; the merge step removes the skip): the same cell with indicators on and off."""
+
+    @classmethod
+    def setUpClass(cls):
+        for f in (FIX_TELE, FIX_TELE_OFF):
+            if not f.exists():
+                raise unittest.SkipTest(f'no fixture {f}')
+
+    def test_status_on_and_off(self):
+        import re
+        on = dump(FIX_TELE, '--tele')
+        m = re.search(r'side A team \S+ tele=both offset=0 sync=\d+/\d+ \(([\d.]+)\) agree=\d+/\d+ \(([\d.]+)\) .* '
+                      r'unknown_kinds=0 letter_mismatch=0', on)
+        self.assertIsNotNone(m, on)
+        self.assertGreaterEqual(float(m.group(1)), 0.99)
+        self.assertGreaterEqual(float(m.group(2)), 0.999)
+        self.assertRegex(on, r'side B team \S+ tele=none')
+        self.assertRegex(dump(FIX_TELE_OFF, '--tele'), r'side A team \S+ tele=bcc offset=0 ')
+
+    def test_same_game_and_codes_survive_indicators_off(self):
+        f_on = dump(FIX_TELE, '--fingerprint').split()
+        f_off = dump(FIX_TELE_OFF, '--fingerprint').split()
+        self.assertEqual(f_on[3], f_off[3])   # state_sha1: indicators change nothing in the game
+        tmp = Path(tempfile.mkdtemp())
+        extract(FIX_TELE, tmp / 'on', '--tele-turns')
+        extract(FIX_TELE_OFF, tmp / 'off', '--tele-turns')
+        on = {(t['round'], t['id']): t for t in read_csv(tmp / 'on' / 'tele_turns.csv')}
+        off = [t for t in read_csv(tmp / 'off' / 'tele_turns.csv') if t['code_bcc']]
+        self.assertGreater(len(off), 1000)
+        same = sum(on.get((t['round'], t['id']), {}).get('code_str') == t['code_bcc'] for t in off)
+        self.assertGreaterEqual(same / len(off), 0.999)
+        self.assertFalse((tmp / 'off' / 'tele_events.jsonl').exists())
 
 
 if __name__ == '__main__':
