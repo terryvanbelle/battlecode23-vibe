@@ -337,3 +337,11 @@ of history. Times are PDT. Grep it; do not read it whole.
 - Submitted as a trial at 11:00 PDT (owner, PROMPTS 32: submit whenever locally superior; ladder asynchronous).
   c_line7m's trial was ended at 5/10 matches (9/50 vs c_line6's 10/50); its remaining matches still report.
 - In flight locally: c_line8b (8a without spawn safety; early-fight hypothesis), c_line8c (8a + danger-aware wells).
+
+## 2026-10-08 11:35 PDT — Field-vs-field volume restored (owner, PROMPTS 33)
+
+- vrangr1.AFinalsBot beats us 10-0 on the panel yet sat 77th on galaxy's displayed ladder: its rating mean is 1,567
+  (13th of 88) but it had 7 rated matches, so the volume penalty (1500 x 0.85^7 = 481) dominates; median n was 15,
+  min 5. Our own Bradley-Terry fit (progress/ELO.md) already ranks it 5th.
+- Restored galaxy's 8-hourly autoscrim over every team and uncapped field activity in idle capacity; challengers are
+  now weighted toward the low end of the displayed ladder (mostly under-played teams) so n grows where it is lowest.

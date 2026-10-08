@@ -46,9 +46,10 @@ EPISODE = {
     'game_release': datetime.datetime(2023, 1, 9, 19, 0, tzinfo=UTC),
     'game_archive': datetime.datetime(2099, 12, 31, 0, 0, tzinfo=UTC),   # far future: ranked play stays open
     'submission_frozen': False,
-    # galaxy's own schedule is disabled (null): a daily top-N autoscrim at 17:00 PDT replaces it
-    # (tools/galaxy/autoscrim_top.py, operator crontab; owner, PROMPTS 29-30: fewer field-vs-field games)
-    'autoscrim_schedule': None,
+    # galaxy's own autoscrim over every team every 8 hours (00:00, 08:00, 16:00 UTC = 17:00, 01:00, 09:00 PDT). A daily
+    # top-24 round replaced it for a few hours on 2026-10-08 (PROMPTS 29-30) and was withdrawn when the displayed
+    # ladder proved unconverged (PROMPTS 33); tools/galaxy/autoscrim_top.py stays available.
+    'autoscrim_schedule': '0 */8 * * *',
     'language': Language.JAVA_8,
     'scaffold': 'https://github.com/battlecode/battlecode23-scaffold',
     'artifact_name': 'battlecode23',

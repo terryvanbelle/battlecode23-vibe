@@ -353,6 +353,14 @@ def pick_opponent(ladder, team_id, band, rnd):
     return rnd.choice(above[:band]) if above else None
 
 
+def challenger_weights(ladder, names, ids):
+    """Weights for picking challengers: the lower a team sits on the displayed ladder, the likelier it challenges.
+    Galaxy's displayed rating is mean - 1500 x 0.85^n, so the low end is mostly teams with few rated matches (owner,
+    PROMPTS 33: vrangr1.AFinalsBot, mean 13th of 88, sat 77th after 7 matches); their n grows fastest this way."""
+    pos = {t['id']: i for i, t in enumerate(ladder)}     # ladder rows best first
+    return [1 + pos.get(ids[n], len(ladder)) for n in names]
+
+
 def under_hourly_cap(times, now, max_per_hour):
     """True if fewer than max_per_hour requests were made in the hour before now (times: request epoch seconds)."""
     return sum(1 for t in times if now - t < 3600) < max_per_hour
@@ -364,11 +372,11 @@ def team_waiting(c, ep, team_id):
     return sum(1 for m in r.get('results', []) if m['status'] in WAITING + ('RUN',))
 
 
-def activity(c, acc, mapping, ep, poll=60, max_backlog=1, band=3, once=False, seed=None, ladder_ttl=300,
-             max_per_hour=4, pause_team='vibe23'):
-    # owner, PROMPTS 29 (2026-10-08): once the field's ordering was known, field-vs-field games were cut back so that
-    # our candidates' games run sooner: at most max_per_hour requests an hour, none while any match waits beyond
-    # max_backlog, and none while pause_team (our team) has a match queued or running
+def activity(c, acc, mapping, ep, poll=60, max_backlog=2, band=3, once=False, seed=None, ladder_ttl=300,
+             max_per_hour=1000, pause_team=''):
+    # owner, PROMPTS 29-33 (2026-10-08): field-vs-field games were cut back (PROMPTS 29), then restored (PROMPTS 33:
+    # the displayed ladder had not converged); the throttles stay available but off by default: max_per_hour,
+    # max_backlog, and pause_team (no requests while that team has a match queued or running)
     rnd = random.Random(seed)
     sess = sessions(c, acc, mapping)
     ids = {r['team']: acc[r['user']]['team_id'] for r in mapping if r['team'] in sess}
@@ -391,14 +399,20 @@ def activity(c, acc, mapping, ep, poll=60, max_backlog=1, band=3, once=False, se
             if ok:
                 if ladder is None or time.time() - ladder_at > ladder_ttl:
                     ladder, ladder_at = rankings(c, ep), time.time()
-                ours = next((t['id'] for t in ladder if t['name'] == pause_team), None)
+                ours = next((t['id'] for t in ladder if pause_team and t['name'] == pause_team), None)
                 if ours is not None and team_waiting(c, ep, ours) > 0:
                     ok = False
             if ok:
                 active = {t['id'] for t in ladder if t['has_active_submission']}
                 pool = [n for n in sess if ids[n] in active and rest.get(n, 0) <= time.time()]
-                rnd.shuffle(pool)
-                for name in pool[:5]:
+                picks = []
+                if pool:
+                    w = challenger_weights(ladder, pool, ids)
+                    while len(picks) < min(5, len(pool)):
+                        n = rnd.choices(pool, weights=w)[0]
+                        if n not in picks:
+                            picks.append(n)
+                for name in picks:
                     opp = pick_opponent(ladder, ids[name], band, rnd)
                     if opp is None:
                         continue
@@ -454,8 +468,8 @@ def main(argv=None):
     s = sp.add_parser('wait'); s.add_argument('--timeout', type=int, default=3600)
     sp.add_parser('status')
     s = sp.add_parser('activity'); s.add_argument('--poll', type=int, default=60)
-    s.add_argument('--max-backlog', type=int, default=1); s.add_argument('--band', type=int, default=3)
-    s.add_argument('--max-per-hour', type=int, default=4); s.add_argument('--pause-team', default='vibe23')
+    s.add_argument('--max-backlog', type=int, default=2); s.add_argument('--band', type=int, default=3)
+    s.add_argument('--max-per-hour', type=int, default=1000); s.add_argument('--pause-team', default='')
     s.add_argument('--once', action='store_true')
     a = ap.parse_args(argv)
     kw = {'connect': a.connect or None}

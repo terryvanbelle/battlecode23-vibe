@@ -30,7 +30,8 @@ play.battlecode.org, no replays: galaxy hides other teams' scrimmage replays fro
 ## What is there (episode bc23, galaxy's own pages)
 
 - **Rankings** (`/bc23/rankings`): every team and its rating. The rating is galaxy's displayed rating (a penalized
-  Elo: every team starts at 0 and climbs over its first ~20 ranked matches). Our team is **vibe23**; the other 87
+  Elo: every team starts at 0 and climbs over its first ~20 ranked matches, so a strong team with few matches still
+  sits low; `progress/ELO.md` rates every team on all recorded games instead). Our team is **vibe23**; the other 87
   teams are public 2023 bots, named `<github owner>.<package>`.
 - **Queue** (`/bc23/queue`): every match, newest first, with status, score and rating change.
 - **Team pages** (click a team name, `/bc23/team/<id>`): profile, members and rating history.
@@ -40,8 +41,8 @@ play.battlecode.org, no replays: galaxy hides other teams' scrimmage replays fro
   match; it opens the official Battlecode 2023 viewer on that match's games. (`owner` has no team, so these pages
   are empty for it.)
 
-Once a day, at 17:00 PDT, galaxy's automatic round gives the 24 top-rated teams and ours 4 ranked best-of-3 matches
-each. In between, our team requests
+Every 8 hours (17:00, 01:00 and 09:00 PDT) galaxy's automatic round gives every team 4 ranked best-of-3 matches.
+In between, our team requests
 scrimmages as a contestant, and field teams challenge the teams rated just above them when the VM has spare time.
 
 ## If the address stops working

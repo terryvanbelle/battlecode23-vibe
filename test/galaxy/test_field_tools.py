@@ -169,6 +169,12 @@ class ActivityTest(unittest.TestCase):
         self.assertEqual(field.team_waiting(Stub(['OK!', 'QUE', 'RUN', 'CAN', 'TRY']), 'bc23', 28), 3)
         self.assertEqual(field.team_waiting(Stub(['OK!', 'ERR']), 'bc23', 28), 0)
 
+    def test_challenger_weights_favour_the_low_end(self):
+        lad = self.ladder()                                  # best first
+        ids = {t['name']: t['id'] for t in lad}
+        w = field.challenger_weights(lad, ['a', 'f', 'c'], ids)
+        self.assertEqual(w, [1, 6, 3])
+
     def test_queue_backlog_from_spool(self):
         d = tempfile.mkdtemp()
         try:

@@ -132,8 +132,8 @@ def waiting(ms):
 
 
 # The episode API does not publish the autoscrim schedule (staff-only, as in the contest): a contestant learns it by
-# watching when autoscrim matches appear. Ours is once a day at 00:00 UTC = 17:00 PDT (docs/galaxy/README.md section 6).
-AUTOSCRIM_CRON = os.environ.get('AUTOSCRIM_CRON', '0 0 * * *')
+# watching when autoscrim matches appear. Ours is every 8 hours: 00:00, 08:00, 16:00 UTC = 17:00, 01:00, 09:00 PDT.
+AUTOSCRIM_CRON = os.environ.get('AUTOSCRIM_CRON', '0 */8 * * *')
 
 
 def next_autoscrim(now):

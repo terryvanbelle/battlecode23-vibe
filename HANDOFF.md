@@ -49,7 +49,7 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
   `tools/ladder_policy.py ranked` runs detached on the driver (`logs/ranked-policy.log`): ranked challenges upward
   only while the validated build is active (BURST one per 5 min while we have < 30 rated matches or the build is < 24 h
   old, else one per 30 min). Candidates go through `trial-start <package>` (incoming ranked auto-rejected, unranked
-  panel) and `trial-end --accept|--reject`. Trials: c_line4 25/100 (rejected), c_line5 28 (rejected), c_line6 32 (even, not accepted; working base). Autoscrim: once a day at 17:00 PDT, top 24 teams by rating mean plus ours (`tools/galaxy/autoscrim_top.py`, VM crontab). Field teams' own ranked challenges: at most 4 an hour, paused while any of our matches waits.
+  panel) and `trial-end --accept|--reject`. Trials: c_line4 25/100 (rejected), c_line5 28 (rejected), c_line6 32 (even, not accepted; working base). Autoscrim: galaxy's own, every 8 hours over all teams (17:00, 01:00, 09:00 PDT). Field teams challenge in idle capacity, weighted toward the low end of the displayed ladder (under-played teams). Field-vs-field replays are pruned after 24 h.
 - Every replica game must count (owner, PROMPTS 13): bot telemetry (docs/TELEMETRY.md; galaxy runs with indicators
   off, so contest replays carry a 6-bit state code per robot-turn in the bytecode count), ReplayDump extractors (engagements,
   timelines, death causes, opponent tactics) and a per-match report for every downloaded match (`research/matches/`,
