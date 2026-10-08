@@ -14,6 +14,19 @@ pages as play.battlecode.org, on our VM `battlecode-dev`. Nothing there touches 
 The old address, https://136-86-167-127.sslip.io/, belonged to the first replica (galaxy-lite, retired in the evening of
 2026-10-07 PDT) and now forwards to the new one.
 
+## To watch our games (replays)
+
+Galaxy shows Replay buttons only on a team's own pages, so watch as our team, not as `owner`:
+
+1. Log out of galaxy if you are logged in as `owner` (top right), then Log In as **`vibe23`** (password:
+   `! sed -n 2p ~/.bc23-galaxy-team`).
+2. In the left sidebar, open **Scrimmaging**. Its scrimmage history lists our matches, newest first; press
+   **Replay** on a match to open the Battlecode 2023 viewer on its games (one file holds all games of the match).
+3. Sidebar **Client** does the same from a match picker.
+
+**Queue** (sidebar) lists every match on the ladder, with teams, scores and rating changes, but, as on
+play.battlecode.org, no replays: galaxy hides other teams' scrimmage replays from contestants.
+
 ## What is there (episode bc23, galaxy's own pages)
 
 - **Rankings** (`/bc23/rankings`): every team and its rating. The rating is galaxy's displayed rating (a penalized
