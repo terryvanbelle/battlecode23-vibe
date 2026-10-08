@@ -304,3 +304,13 @@ of history. Times are PDT. Grep it; do not read it whole.
 
 - VM self-play (our builds only), the 10 panel maps x both sides against g_iter0: c_line6 (cohesion off) 15/20,
   losses Forest x2 (r2000), BatSignal A, Cat B, MassiveL B; c_line6a (cohesion on) 7/20. Working line: C.ARMY = false.
+
+## 2026-10-08 06:45 — c_line6 trial: even with g_iter0 (32 vs 31), not accepted; it becomes the working base
+
+- c_line6 (balanced roles, early carrier cap, lazy spawn scoring, island-slot fill, cohesion off) on panel v1:
+  32/100 vs g_iter0 31 (identical 91, gained 5, lost 4, net +1, +0.33 SE). Basics clean: 0 overruns, 0 exceptions.
+  Delivered: Ad bank r250 back to g_iter0's level (+18), anchors placed +0.33 (t +2.3), launchers alive r100 +0.8
+  (t +4.3) and r250 +1.4 (t +2.9), kills +7.6. Quick wins by r400 21 (g_iter0 24).
+- Not accepted (no stacking on non-inferiority); g_iter0 resubmitted. The working line (src/bot) is c_line6: the
+  next arms (HQ real-danger threat, parity-hold micro) build on it and pass the new pre-trial screen first
+  (head-to-head vs the incumbent and an archetype roster; owner, PROMPTS 22-23; workflow building it now).

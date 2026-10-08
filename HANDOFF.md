@@ -47,7 +47,7 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
   only while the validated build is active (BURST one per 5 min while we have < 30 rated matches or the build is < 24 h
   old, else one per 30 min). Candidates go through `trial-start <package>` (incoming ranked auto-rejected, unranked
   panel) and `trial-end --accept|--reject`. Validated build: submission 113 = g_iter0 (panel run
-  `gauntlet/20261008-011350-panel1-g_iter0`, 31/100). Trial 1: c_line4 rejected (25/100, HQ overruns in sieges). Galaxy's autoscrim fires every 8 hours (00:00, 08:00, 16:00 UTC).
+  `gauntlet/20261008-011350-panel1-g_iter0`, 31/100). Trials: c_line4 25/100 (rejected), c_line5 28 (rejected), c_line6 32 (even, not accepted; working base). Galaxy's autoscrim fires every 8 hours (00:00, 08:00, 16:00 UTC).
 - Every replica game must count (owner, PROMPTS 13): a workflow is adding bot telemetry (indicator strings plus
   indicator dots/lines, which cost 0 bytecodes per call and are uncapped), new ReplayDump extractors (engagements,
   timelines, death causes, opponent tactics) and a per-match report for every downloaded match

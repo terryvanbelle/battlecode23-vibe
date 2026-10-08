@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 113,
+  "submission": 117,
   "package": "g_iter0",
   "since": "2026-10-08T02:35:39.835128+00:00",
   "panel_run": "gauntlet/20261008-011350-panel1-g_iter0"
@@ -24,6 +24,30 @@
    "event": "reject",
    "submission": 112,
    "package": "c_line4"
+  },
+  {
+   "at": "2026-10-08T08:05:28.413688+00:00",
+   "event": "trial-start",
+   "submission": 114,
+   "package": "c_line5"
+  },
+  {
+   "at": "2026-10-08T12:14:29.073945+00:00",
+   "event": "reject",
+   "submission": 114,
+   "package": "c_line5"
+  },
+  {
+   "at": "2026-10-08T12:26:44.876590+00:00",
+   "event": "trial-start",
+   "submission": 116,
+   "package": "c_line6"
+  },
+  {
+   "at": "2026-10-08T13:40:20.228692+00:00",
+   "event": "reject",
+   "submission": 116,
+   "package": "c_line6"
   }
  ]
 }
