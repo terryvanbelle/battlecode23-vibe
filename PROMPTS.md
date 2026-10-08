@@ -93,3 +93,7 @@ OK, from now on I'd like you to use optimal strategy for deciding what kinds of 
 ## 19. 2026-10-08 05:45 PDT
 
 Can you give me a summary of last night?
+
+## 20. 2026-10-08 06:20 PDT
+
+Can you tell me more about the panel?  What bots are on it?
