@@ -1,6 +1,6 @@
 # Evaluation panel v1 (galaxy replica): one unranked request per line = 10 maps, requester first ('+'), alternate
 # order (odd games HQ-flipped). Ten opponents rated near or just above g_iter0 (progress/ELO.md, 2026-10-07).
-# One panel = 10 requests = two hours of galaxy's unranked limit (an accepted request counts twice: request + match);
+# One panel = 10 requests (well inside the replica's hourly limit of 40, which counts a request and its match);
 # paired by (opponent, map, label, orientation).
 vrangr1.AFinalsBot DefaultMap,Maze,Forest,ReverseFunnel,Cat,IslandHopping,Hah,BatSignal,Cornucopia,MassiveL +
 jmerle.camel_case_v30_final DefaultMap,Maze,Forest,ReverseFunnel,Cat,IslandHopping,Hah,BatSignal,Cornucopia,MassiveL +

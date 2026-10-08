@@ -54,6 +54,10 @@ EPISODE = {
     'release_version_public': '3.0.15',
     'release_version_saturn': '3.0.15',
     'is_allowed_ranked_scrimmage': True,
+    # galaxy's default is 10 and 10; an accepted request counts twice (the request and its match), so 10 meant 5
+    # requests an hour. Raised at the owner's request (PROMPTS 15-16, 2026-10-07): the VM, not the rule, is the limit.
+    'ranked_scrimmage_hourly_limit': 20,
+    'unranked_scrimmage_hourly_limit': 40,
 }
 
 

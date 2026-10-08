@@ -37,9 +37,9 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
 - Our team: **vibe23** (user vibe23, credentials `~/.bc23-galaxy-team`, mode 600), auto-accepts ranked and unranked.
   Everything goes through `tools/contest.py`: `submit <package> --wait`, `request <team> --maps a,b --order +`,
   `matches`, `fetch <id>`, `block <cells> --tag T` (a block of unranked requests, downloaded into a run directory
-  for `tools/paired.py`). Galaxy's limits: 10 unranked and 10 ranked per hour, counting requests AND the matches they
-  create, so 5 auto-accepted unranked requests (up to 10 maps each, 50 games) an hour; ranked: 3 random maps,
-  upward only.
+  for `tools/paired.py`). Hourly limits count requests AND the matches they create (an accepted request counts
+  twice); galaxy's default 10/10 was raised to 40 unranked and 20 ranked (owner, PROMPTS 15-16), so about 20 panel
+  requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
 - Active submission: 24 = g_iter0 (2026-10-07 17:45 PDT). Baseline panel (test/cells/panel-v1.txt, 10 opponents x 10
   maps) running from the driver: `logs/panel1-g_iter0.log`, run dir `gauntlet/*-panel1-g_iter0`.
 - Every replica game must count (owner, PROMPTS 13): a workflow is adding bot telemetry (indicator strings plus
