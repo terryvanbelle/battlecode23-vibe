@@ -263,3 +263,13 @@ of history. Times are PDT. Grep it; do not read it whole.
   worth more on the panel than the larger army mana2 buys against the top bots.
 - c_line5 = the working line with the HQ siege bounds and g_iter0's balanced roles (C.ROLES = 0); src/bot keeps
   ROLES = 2 until the panel decides. Trial at 08:05 UTC, after the 08:00 autoscrim (a trial must end before the next).
+
+## 2026-10-08 02:15 — Fight telemetry (c_line4 trial, 100 games, 62 engagements per game)
+
+- Engagement win share 0.35 vs theirs 0.61; exchange ratio 1.20 vs 1.75; first hit 0.42 vs 0.58.
+- By launcher difference at contact (dN = ours - theirs): dN=0 we win 0.31, they win 0.61; dN=+1 0.69 vs 0.78;
+  dN=+2 0.73 vs 0.79; dN=-1 0.18 vs 0.22. The gap is micro, largest at parity.
+- Move/fire classes: we step in and fire 0.155 of launcher-turns (them 0.107), stand and fire 0.198 (them 0.259),
+  fire-and-retreat 0.096 (0.084). We walk into range and they shoot first.
+- Next micro arm (after the role decision): at parity, hold just outside the enemy's reach and let them step in
+  (stand-and-fire); step in only to finish a target or when ahead. Judged on the panel by win@dN=0 and first-hit rate.
