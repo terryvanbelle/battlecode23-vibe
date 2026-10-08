@@ -188,3 +188,12 @@ of history. Times are PDT. Grep it; do not read it whole.
 - Working line: switch C.MICRO = false restores g_iter0's fight scoring (with the audit's bytecode-safe structure).
 - Candidate for the replica panel: c_line3 = working line (mana2 roles, nav2, audit fixes, HQ fix, spawn safety,
   launcher batches, MICRO off, ARMY off). c_line2 (micro on) was never run and is removed.
+
+## 2026-10-07 18:50 — Arm c_batch1 failed delivery (diag-top4)
+
+- c_batch1 (launchers only in batches of 3 unless threatened) vs c_micro1, 24 games against four top bots: launchers
+  alive r100 -3.0 (t -4.6) and r250 -1.9 (t -2.7), kills -9.5 (t -6.2), exposure +0.021 (t +3.8), damage per
+  contact +1.5 (t +3.3), island-rounds -117 (t -2.6); outcomes 0-1. Holding mana for a batch delays every launcher
+  and the batch does not fight better.
+- Working line: C.LAUNCHER_BATCH = 1 (g_iter0's behaviour), applied with the telemetry change (the telemetry
+  workflow is editing src/bot now). c_line3 still carries batches and micro-off; it will not be submitted.
