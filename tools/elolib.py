@@ -91,9 +91,13 @@ def field_score(R, player, field):
     """Expected score of `player` against every bot of `field`, one game each."""
     return sum(expected(R[player], R[b]) for b in field) / len(field) if field else 0.0
 def current_build(rows):
-    """The incumbent: the build of our most recent game among the submitted line (g_iterN), else of our most recent game.
+    """The incumbent: the validated build of progress/ladder-state.json when it has games, else the build of our most
+    recent game among the submitted line (g_iterN), else of our most recent game.
     (2026-09-26: an unrated candidate's first block was centred on the build of our latest game -- the enclosure
     archetype's 48-game probe at 1406 -- and drew a pool 400 points weak: arm81's first block went 45-3.)"""
+    v = validated_build()
+    if v and any(build_of(t) == v for r in rows for t in (r['teamA'], r['teamB']) if is_ours(t)):
+        return v
     last = None
     for r in reversed(rows):
         for t in (r['teamA'], r['teamB']):
@@ -111,6 +115,17 @@ def append(rows):
         w = csv.DictWriter(fh, fieldnames=HDR)
         if new: w.writeheader()
         for r in rows: w.writerow(r)
+
+
+def validated_build():
+    """The validated build (a package name) recorded by tools/ladder_policy.py in progress/ladder-state.json, or None.
+    Since the replica cutover (2026-10-07) accepted builds keep their package names (c_nav5, ...), not g_iterN."""
+    import json
+    try:
+        with open(os.path.join(REPO, 'progress', 'ladder-state.json')) as fh:
+            return ((json.load(fh).get('validated') or {}).get('package')) or None
+    except (OSError, ValueError):
+        return None
 
 
 def accepted_builds(players):

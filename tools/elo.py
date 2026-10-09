@@ -8,7 +8,7 @@ A bot that has played no recorded game is unrated.
    tools/elo.py --pool 6 --explore 2   # old pool: the 6 rated bots just above us + 2 bots with the fewest games
    tools/elo.py --build g_iter4        # one build: record (Wilson 95%), rating, expected score vs the field
 --as names the build whose rating centres the pool; unset, or a build with no games yet (a candidate,
-'bot'), it is the incumbent: our most recent submitted build (g_iterN)."""
+'bot'), it is the incumbent: the validated build of progress/ladder-state.json, else our latest g_iterN."""
 import argparse, math, os, sys, collections
 # the chart needs matplotlib, which lives in tools/.venv: re-exec there when it exists
 _venv = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.venv', 'bin', 'python')
@@ -78,7 +78,9 @@ for r in elolib.dedupe(rows):
     vs[us_, opp][1] += 1; vs[us_, opp][0] += (r['winner'] == 'A') == (opp == ta)
 # The INCUMBENT's record against the bot whatever the count (fewer than RUN_MIN games marked *), else the most recent of
 # our builds that played it (a record by an old build against a bot later builds met only a few times misleads).
-incumbent = (elolib.accepted_builds(ours) or [None])[-1]
+# the incumbent: the validated build (progress/ladder-state.json) when it has games, else the last g_iterN snapshot
+_v = elolib.validated_build()
+incumbent = ('us:' + _v) if _v and games['us:' + _v] > 0 else (elolib.accepted_builds(ours) or [None])[-1]
 def recent_run(bot):
     order = ([incumbent] if incumbent else []) + [p for p in recent if p != incumbent]
     for p in order:

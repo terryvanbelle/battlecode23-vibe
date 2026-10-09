@@ -17,51 +17,51 @@ Our builds (rating +- 95%; field score = expected score against every ladder bot
 | c_line4 | 1688 +- 94 | 38 of 97 | 100 | 25-75 | 65.2% | 19.7% (vs 29) |
 | examplefuncsplayer | 1263 +- 380 | 65 of 97 | 6 | 0-6 | 37.7% | 13.6% (vs 55) |
 
-Our record = OUR win rate (our W-L) against the bot by the incumbent (g_iter0), whatever the count; * marks fewer than 30 games (+- 18 points at 95% for 30 games, +- 20 for 24); a bot the incumbent never met shows the most recent of our builds that did; blank if none has.
+Our record = OUR win rate (our W-L) against the bot by the incumbent (c_nav5), whatever the count; * marks fewer than 30 games (+- 18 points at 95% for 30 games, +- 20 for 24); a bot the incumbent never met shows the most recent of our builds that did; blank if none has.
 
 | rank | player | rating | +- 95% | games | W-L | our record |
 |---|---|---|---|---|---|---|
 | 1 | IvanGeffner.fortytwo | 2403 | 90 | 114 | 94-20 | 0% (g_iter0 0-36) |
 | 2 | maxwelljones14.MPWorking | 2374 | 97 | 92 | 73-19 | 0% (g_iter0 0-5*) |
-| 3 | vrangr1.AFinalsBot | 2339 | 94 | 181 | 164-17 | 7% (g_iter0 1-14*) |
-| 4 | awesomelemonade.finalBot | 2332 | 83 | 185 | 159-26 | 0% (g_iter0 0-15*) |
-| 5 | carlguo866.submit26_final | 2294 | 94 | 97 | 73-24 | 0% (g_iter0 0-2*) |
-| 6 | AnOvercookedFork.quals | 2268 | 100 | 92 | 71-21 | 20% (g_iter0 1-4*) |
+| 3 | vrangr1.AFinalsBot | 2339 | 94 | 181 | 164-17 | 0% (c_nav5 0-10*) |
+| 4 | awesomelemonade.finalBot | 2332 | 83 | 185 | 159-26 | 10% (c_nav5 1-9*) |
+| 5 | carlguo866.submit26_final | 2294 | 94 | 97 | 73-24 | 67% (c_nav4 2-1*) |
+| 6 | AnOvercookedFork.quals | 2268 | 100 | 92 | 71-21 | 17% (c_swarm1 1-5*) |
 | 7 | pranayagra.finalbotfinaltwo | 2236 | 85 | 115 | 83-32 | 7% (g_iter0 1-13*) |
-| 8 | pranayagra.finalbotfinal | 2180 | 61 | 235 | 176-59 | 13% (g_iter0 6-39) |
-| 9 | georgezhang02.FB_ZZZ | 2161 | 84 | 107 | 74-33 | 0% (g_iter0 0-2*) |
-| 10 | battlecode-archive.sprintBot | 2149 | 92 | 109 | 78-31 | 0% (g_iter0 0-2*) |
-| 11 | jmerle.camel_case_v30_final | 2106 | 61 | 218 | 162-56 | 14% (g_iter0 3-18*) |
-| 12 | CyrilSharma.finalBot | 2042 | 79 | 125 | 82-43 | 0% (g_iter0 0-2*) |
-| 13 | ethanlabelle.dev | 2001 | 74 | 116 | 76-40 | 0% (g_iter0 0-2*) |
-| 14 | NotLLeon.v7 | 1976 | 58 | 196 | 129-67 | 17% (g_iter0 2-10*) |
+| 8 | pranayagra.finalbotfinal | 2180 | 61 | 235 | 176-59 | 30% (c_nav5 3-7*) |
+| 9 | georgezhang02.FB_ZZZ | 2161 | 84 | 107 | 74-33 | 0% (c_nav4 0-3*) |
+| 10 | battlecode-archive.sprintBot | 2149 | 92 | 109 | 78-31 | 17% (c_nav4 2-10*) |
+| 11 | jmerle.camel_case_v30_final | 2106 | 61 | 218 | 162-56 | 30% (c_nav5 3-7*) |
+| 12 | CyrilSharma.finalBot | 2042 | 79 | 125 | 82-43 | 44% (c_nav4 4-5*) |
+| 13 | ethanlabelle.dev | 2001 | 74 | 116 | 76-40 | 67% (c_nav4 2-1*) |
+| 14 | NotLLeon.v7 | 1976 | 58 | 196 | 129-67 | 50% (c_nav5 5-5*) |
 | 15 | **us:c_nav5** | 1949 | 79 | 106 | 52-54 |  |
-| 16 | georgezhang02.CB_tuning2 | 1940 | 54 | 207 | 131-76 | 7% (g_iter0 1-14*) |
+| 16 | georgezhang02.CB_tuning2 | 1940 | 54 | 207 | 131-76 | 60% (c_nav5 6-4*) |
 | 17 | **us:c_nav4** | 1934 | 52 | 221 | 108-113 |  |
-| 18 | ethanlabelle.v19 | 1901 | 77 | 108 | 68-40 | 50% (g_iter0 1-1*) |
-| 19 | britacatalin.FinalBot | 1881 | 52 | 214 | 128-86 | 42% (g_iter0 5-7*) |
-| 20 | GabeG888.v8o1 | 1879 | 80 | 103 | 66-37 | 0% (g_iter0 0-2*) |
+| 18 | ethanlabelle.v19 | 1901 | 77 | 108 | 68-40 | 56% (c_nav4 5-4*) |
+| 19 | britacatalin.FinalBot | 1881 | 52 | 214 | 128-86 | 62% (c_nav5 8-5*) |
+| 20 | GabeG888.v8o1 | 1879 | 80 | 103 | 66-37 | 100% (c_nav5 3-0*) |
 | 21 | **us:c_swarm1** | 1856 | 48 | 271 | 128-143 |  |
-| 22 | GabeG888.v8 | 1847 | 68 | 124 | 71-53 | 50% (g_iter0 1-1*) |
-| 23 | programjames.fourthbot | 1839 | 78 | 116 | 68-48 | 100% (g_iter0 2-0*) |
-| 24 | NicholasKelly15.gopher10 | 1832 | 85 | 98 | 62-36 | 100% (g_iter0 2-0*) |
-| 25 | VarunVejalla.karel | 1822 | 67 | 146 | 81-65 | 50% (g_iter0 4-4*) |
-| 26 | DannyZhang686.pqual2 | 1816 | 74 | 128 | 72-56 | 29% (g_iter0 4-10*) |
+| 22 | GabeG888.v8 | 1847 | 68 | 124 | 71-53 | 67% (c_nav4 4-2*) |
+| 23 | programjames.fourthbot | 1839 | 78 | 116 | 68-48 | 17% (c_nav4 1-5*) |
+| 24 | NicholasKelly15.gopher10 | 1832 | 85 | 98 | 62-36 | 78% (c_nav4 7-2*) |
+| 25 | VarunVejalla.karel | 1822 | 67 | 146 | 81-65 | 67% (c_nav4 6-3*) |
+| 26 | DannyZhang686.pqual2 | 1816 | 74 | 128 | 72-56 | 67% (c_nav4 2-1*) |
 | 27 | **us:g_iter0** | 1811 | 48 | 456 | 230-226 |  |
 | 28 | **us:c_line8a** | 1807 | 71 | 139 | 47-92 |  |
-| 29 | louishu17.wouisv8 | 1794 | 75 | 134 | 80-54 | 50% (g_iter0 5-5*) |
-| 30 | VarunVejalla.ali8 | 1789 | 83 | 104 | 63-41 | 50% (g_iter0 1-1*) |
+| 29 | louishu17.wouisv8 | 1794 | 75 | 134 | 80-54 | 33% (c_nav4 2-4*) |
+| 30 | VarunVejalla.ali8 | 1789 | 83 | 104 | 63-41 | 67% (c_swarm1 6-3*) |
 | 31 | **us:c_line6** | 1774 | 88 | 100 | 32-68 |  |
-| 32 | louishu17.louisv10 | 1773 | 75 | 121 | 69-52 | 100% (g_iter0 2-0*) |
+| 32 | louishu17.louisv10 | 1773 | 75 | 121 | 69-52 | 100% (c_nav4 6-0*) |
 | 33 | **us:c_line7m** | 1762 | 88 | 100 | 31-69 |  |
-| 34 | reeceyang.v5anaconda | 1748 | 52 | 219 | 106-113 | 58% (g_iter0 7-5*) |
-| 35 | battlecode-archive.Sprint1 | 1733 | 53 | 202 | 99-103 | 58% (g_iter0 7-5*) |
+| 34 | reeceyang.v5anaconda | 1748 | 52 | 219 | 106-113 | 70% (c_nav5 7-3*) |
+| 35 | battlecode-archive.Sprint1 | 1733 | 53 | 202 | 99-103 | 70% (c_nav5 7-3*) |
 | 36 | **us:c_line5** | 1726 | 91 | 100 | 28-72 |  |
 | 37 | SampleProvider.SPAARK | 1717 | 74 | 118 | 68-50 | 100% (g_iter0 2-0*) |
 | 38 | **us:c_line4** | 1688 | 94 | 100 | 25-75 |  |
-| 39 | ipince.bobby | 1657 | 79 | 113 | 64-49 | 100% (g_iter0 2-0*) |
+| 39 | ipince.bobby | 1657 | 79 | 113 | 64-49 | 67% (c_swarm1 2-1*) |
 | 40 | legobridge.tacoplayer | 1633 | 71 | 146 | 79-67 | 85% (g_iter0 11-2*) |
-| 41 | TheK098.qp1_7_sprint_1 | 1610 | 75 | 125 | 72-53 | 100% (g_iter0 2-0*) |
+| 41 | TheK098.qp1_7_sprint_1 | 1610 | 75 | 125 | 72-53 | 100% (c_swarm1 6-0*) |
 | 42 | polyllc.poly | 1609 | 85 | 112 | 58-54 | 100% (g_iter0 2-0*) |
 | 43 | SteamBlizzard.newVnewME | 1596 | 68 | 141 | 71-70 | 80% (g_iter0 4-1*) |
 | 44 | elgoldie.head_v5 | 1578 | 73 | 113 | 56-57 | 100% (g_iter0 2-0*) |
@@ -74,17 +74,17 @@ Our record = OUR win rate (our W-L) against the bot by the incumbent (g_iter0), 
 | 51 | Nawlej.PoonPoon | 1497 | 82 | 110 | 57-53 | 100% (g_iter0 2-0*) |
 | 52 | nail-e.Barry | 1455 | 72 | 118 | 62-56 | 100% (g_iter0 2-0*) |
 | 53 | kevinli405.maggi3 | 1450 | 74 | 134 | 70-64 | 100% (g_iter0 5-0*) |
-| 54 | yaonam.PoonPoonv4 | 1427 | 58 | 241 | 87-154 | 87% (g_iter0 13-2*) |
+| 54 | yaonam.PoonPoonv4 | 1427 | 58 | 241 | 87-154 | 90% (c_nav5 9-1*) |
 | 55 | aj-chau.attempt1 | 1411 | 80 | 113 | 57-56 | 100% (g_iter0 5-0*) |
 | 56 | prisms-cs-club.prisms10 | 1400 | 69 | 137 | 65-72 | 100% (g_iter0 2-0*) |
-| 57 | ipince.bobby_v2 | 1381 | 75 | 122 | 58-64 | 100% (g_iter0 5-0*) |
+| 57 | ipince.bobby_v2 | 1381 | 75 | 122 | 58-64 | 67% (c_swarm1 2-1*) |
 | 58 | mama4294.currentPlayer | 1364 | 69 | 137 | 66-71 | 100% (g_iter0 2-0*) |
-| 59 | BrysonJGalapon.aloha | 1329 | 70 | 125 | 62-63 | 100% (g_iter0 2-0*) |
+| 59 | BrysonJGalapon.aloha | 1329 | 70 | 125 | 62-63 | 100% (c_swarm1 3-0*) |
 | 60 | andrewgopher.gopherbot | 1325 | 63 | 161 | 76-85 | 100% (g_iter0 2-0*) |
 | 61 | bewuwy.deathbot4 | 1298 | 60 | 174 | 77-97 | 100% (g_iter0 2-0*) |
 | 62 | JfeMak.realplayer2 | 1285 | 70 | 124 | 59-65 | 100% (g_iter0 2-0*) |
 | 63 | SDainard-PDX.Team_Player | 1263 | 79 | 112 | 53-59 | 100% (g_iter0 2-0*) |
-| 64 | SampleProvider.SPAARK_1_12_2023 | 1263 | 64 | 148 | 69-79 | 100% (g_iter0 2-0*) |
+| 64 | SampleProvider.SPAARK_1_12_2023 | 1263 | 64 | 148 | 69-79 | 100% (c_swarm1 3-0*) |
 | 65 | **us:examplefuncsplayer** | 1263 | 380 | 6 | 0-6 |  |
 | 66 | NolanChai.nolan_1 | 1236 | 67 | 140 | 66-74 | 100% (g_iter0 2-0*) |
 | 67 | PSUtblock.sprint_four_player | 1235 | 77 | 125 | 60-65 | 100% (g_iter0 2-0*) |
@@ -94,7 +94,7 @@ Our record = OUR win rate (our W-L) against the bot by the incumbent (g_iter0), 
 | 71 | andrewgopher.gopherbot1 | 1208 | 69 | 142 | 60-82 | 100% (g_iter0 2-0*) |
 | 72 | JackLee9355.jackPlayer | 1183 | 66 | 155 | 65-90 | 100% (g_iter0 2-0*) |
 | 73 | vontell.regressiongames | 1178 | 61 | 153 | 72-81 | 100% (g_iter0 5-0*) |
-| 74 | ax-95174.MPAction | 1163 | 69 | 130 | 60-70 | 100% (g_iter0 2-0*) |
+| 74 | ax-95174.MPAction | 1163 | 69 | 130 | 60-70 | 100% (c_swarm1 3-0*) |
 | 75 | SteamBlizzard.Block | 1148 | 66 | 159 | 61-98 | 100% (g_iter0 5-0*) |
 | 76 | legobridge.kushalplayer | 1084 | 83 | 113 | 44-69 | 100% (g_iter0 2-0*) |
 | 77 | Patela171.Battlecode2023_Robot | 1067 | 69 | 143 | 59-84 | 100% (g_iter0 2-0*) |
