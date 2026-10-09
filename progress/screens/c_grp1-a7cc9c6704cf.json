@@ -1,0 +1,73 @@
+{
+ "v": 1,
+ "candidate": "c_grp1",
+ "candidate_hash": "a7cc9c6704cf",
+ "incumbent": "c_nav4",
+ "incumbent_hash": "9f333d33cf78",
+ "created": "2026-10-09T11:14:37+00:00",
+ "finished": "2026-10-09T11:44:01+00:00",
+ "job": "20261009-111443-scr-c_grp1-a7cc9c6704cf",
+ "seed_mode": "map",
+ "maps": {
+  "basics": [
+   "SmallElements",
+   "Contraction",
+   "FourNations",
+   "Tightrope"
+  ],
+  "panel": [
+   "DefaultMap",
+   "Maze",
+   "Forest",
+   "ReverseFunnel",
+   "Cat",
+   "IslandHopping",
+   "Hah",
+   "BatSignal",
+   "Cornucopia",
+   "MassiveL"
+  ]
+ },
+ "reduced": false,
+ "roster_source": "tools/archetypes.txt",
+ "no_stop": false,
+ "stages": {
+  "a": {
+   "verdict": "PASS",
+   "games": 8,
+   "wins": 8,
+   "unknown": 0,
+   "over": 0,
+   "exceptions": 0,
+   "deaths_self": 0,
+   "sym_wrong": 0,
+   "near": 0,
+   "run": "gauntlet/20261009-111508-scr-a7cc9c6704cf-c60d-a"
+  },
+  "b": {
+   "verdict": "FAIL",
+   "games": 20,
+   "wins": 7,
+   "losses": 13,
+   "coin": 0,
+   "unknown": 0,
+   "score": 7.0,
+   "pass_at": 11.0,
+   "borderline_at": 9.0,
+   "run": "gauntlet/20261009-111638-scr-a7cc9c6704cf-c60d-b"
+  },
+  "d": {
+   "verdict": "PASS",
+   "games": 28,
+   "over": 0,
+   "exceptions": 0,
+   "deaths_self": 0,
+   "sym_wrong": 0,
+   "near": 5
+  }
+ },
+ "verdict": "FAIL",
+ "reasons": [
+  "(b) head-to-head FAIL: score 7.0 of 20 < 9.0"
+ ]
+}

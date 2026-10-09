@@ -504,3 +504,8 @@ of history. Times are PDT. Grep it; do not read it whole.
 - trial-end --accept at 04:14 PDT: g_iter3 = c_nav4 (submission 122, hash 9f333d33cf78); ranked loop back in BURST.
   Navigation (owner, PROMPTS 35) was worth more on the panel than any economy or fight arm tried since g_iter2.
 - Next: c_hq1 and c_grp1 (both on c_nav4, locally neutral to slightly positive) go through the screen against g_iter3.
+
+## 2026-10-09 04:45 PDT — c_grp1 fails the screen against g_iter3 (h2h 7-13)
+- c_grp1 (formations of 6, wait up to 25 turns) vs c_nav4 on the screen's seat-neutral cells (identity 10/20): 7-13,
+  stage (b) FAIL, screen stopped. Bigger home formations cost more than they buy in self-play; closed. The group-size
+  gap to awesomelemonade (19 vs 6) needs a different mechanism than waiting longer at home.
