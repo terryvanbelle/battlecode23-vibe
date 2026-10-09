@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-09 04:20 PDT.
+Updated 2026-10-09 07:35 PDT.
 
 ## Standing
 
@@ -28,6 +28,7 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 |---|---|---|---|
 | c_hq1 | HQs build carriers under threat on spawn tiles no visible enemy fighter reaches | screen vs g_iter3 FAIL (h2h 8-12) | closed |
 | c_role2 | adamantium role rotates over trips (id + trips), not ids | screen vs g_iter3 FAIL (h2h 10-10, roster Net -5) | closed |
+| c_nav5 | Field.level bounded (search from the cached wave, guard 3,000 bytecodes): g_iter3 overran 3 launcher turns on the replica panel | Target r812 win, 0 overruns | screen queued 07:34 PDT; trial after the 09:00 PDT autoscrim if it passes |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
 Closed or superseded since g_iter2 (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9, c_nav3a 8, c_swarm4b 8,
