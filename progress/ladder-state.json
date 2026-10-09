@@ -1,16 +1,11 @@
 {
  "validated": {
-  "submission": 124,
-  "package": "c_nav6",
-  "since": "2026-10-09T20:14:03.641803+00:00",
-  "panel_run": "gauntlet/20261009-191411-panel-c_nav6"
- },
- "trial": {
   "submission": 125,
   "package": "c_anc3",
-  "started": "2026-10-09T21:14:19.725143+00:00",
-  "panel": "test/cells/panel-v1.txt"
+  "since": "2026-10-09T22:13:51.544245+00:00",
+  "panel_run": "gauntlet/20261009-211419-panel-c_anc3"
  },
+ "trial": null,
  "history": [
   {
    "at": "2026-10-08T02:35:39.835215+00:00",
@@ -135,6 +130,12 @@
    "submission": 125,
    "package": "c_anc3",
    "screen_skipped": "screen PASS against g_iter4 c_nav5 (progress/screens/c_anc3-d251ef6fb78c.json: h2h 12-8, roster Net +16, 0 overruns); g_iter5 c_nav6 was accepted during it and plays 98/100 panel cells identically to c_nav5"
+  },
+  {
+   "at": "2026-10-09T22:13:51.854927+00:00",
+   "event": "accept",
+   "submission": 125,
+   "package": "c_anc3"
   }
  ]
 }

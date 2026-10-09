@@ -603,3 +603,13 @@ of history. Times are PDT. Grep it; do not read it whole.
   plays 98/100 panel cells identically). Started 14:14 PDT, 2 h 46 before the 17:00 autoscrim; replica queue 2 + 7.
   Judge against gauntlet/20261009-191411-panel-c_nav6 and the judge's mechanism metrics (anchors built/lost in
   losses, 'a' share, launchers built r251-600, ReverseFunnel).
+
+## 2026-10-09 15:15 PDT — c_anc3 accepted (g_iter6): panel 57/100, net +11 over g_iter5 (p 0.003)
+- Panel (gauntlet/20261009-211419-panel-c_anc3) vs g_iter5's: 87 identical, 12 gained, 1 lost: net +11 (+3.05 SE),
+  sign test p 0.0034; island-rounds +84. Per match: vrangr1 1-9 (0-10), jmerle 4-6 (3-7), georgezhang 5-5 (6-4),
+  awesomelemonade 2-8 (1-9), pranayagra 4-6 (3-7), NotLLeon 5-5 (5-5), Sprint1 10-0 (6-4), reeceyang 9-1 (7-3),
+  yaonam 9-1 (9-1), britacatalin 8-2 (6-4). 0 overruns, 0 exceptions.
+- Mechanism (census, per game, c_anc3 vs c_nav6 panels): anchors lost in losses 1.2 vs 10.7, in wins 0.9 vs 4.5;
+  anchors placed in wins 5.0 vs 5.5 (kept); carriers built in losses 62.5 vs 49.3; launchers built in wins 151 vs 108.
+  The diagnosis' anchor-waste finding (research/diagnosis/2026-10-09-g_iter3.md) held on the replica.
+- trial-end --accept 15:14 PDT: g_iter6 = c_anc3 (submission 125). Next: c_def2 and c_cloud1 rebased onto c_anc3.

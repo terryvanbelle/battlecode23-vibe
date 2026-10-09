@@ -1,13 +1,14 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-09 14:15 PDT.
+Updated 2026-10-09 15:15 PDT.
 
 ## Standing
 
-- **Validated build g_iter5 = c_nav6** (submission 124, accepted 2026-10-09 13:15 PDT): g_iter4 (c_nav5) with the fight
-  path bounded in crowds (all fighters but at most 10 non-fighters scored, guarded second shot and track()). Panel
-  46/100 (98 of 100 cells identical to g_iter4's, 2 lost, noise) and 0 overruns, where g_iter3/4 overran 3 times in
-  the georgezhang Cornucopia cell. Navigation (distance fields) came with g_iter3 = c_nav4 (panel 48 vs g_iter2's 40).
+- **Validated build g_iter6 = c_anc3** (submission 125, accepted 2026-10-09 15:14 PDT): g_iter5 (c_nav6) plus anchor
+  discipline from the diagnosis (`research/diagnosis/2026-10-09-g_iter3.md`): no anchor while an HQ is pressed or the
+  enemy holds more islands, located targets, an island scout, couriers that flee, an Ad bank cap. Panel 57/100 vs
+  g_iter5's 46 (net +11, p 0.003); anchors lost in losses 1.2 per game vs 10.7. Lineage: g_iter3 = c_nav4 (distance
+  fields, 48/100), g_iter4 = c_nav5, g_iter5 = c_nav6 (crowd bytecode bounds, 0 overruns).
 - **Why we lose** (g_iter2's 10 panel matches, 1017-1026, `research/matches/`): not the opening fights. Before r400 we
   land the first hit in 55-72% of launcher duels and win 59-64% of engagements against vrangr1, jmerle, georgezhang and
   NotLLeon (awesomelemonade: 20%, they meet us with twice the launchers, group size 19 vs our 6). We lose the middle
@@ -31,7 +32,7 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_role2 | adamantium role rotates over trips (id + trips), not ids | screen vs g_iter3 FAIL (h2h 10-10, roster Net -5) | closed |
 | c_nav5 | Field.level bounded (search from the cached wave, guard 3,000 bytecodes) | panel identical to g_iter3 (100/100), same 3 overruns | accepted 09:28 PDT as g_iter4 |
 | c_nav6 | g_iter4 + bounded fight scoring, second shot and track() in crowds | panel 98/100 identical, -2 (noise), 0 overruns | accepted 13:15 PDT as g_iter5 |
-| c_anc3 | c_nav6 + anchor discipline (HQ-pressure / island-deficit gate, located targets, island scout, couriers flee, Ad bank cap) | screen PASS: h2h 12-8, roster Net +16 (every archetype +2..+5) | replica trial (submission 125) since 14:14 PDT |
+| c_anc3 | c_nav6 + anchor discipline | screen PASS (roster Net +16); panel 57/100, net +11 (p 0.003) | accepted 15:14 PDT as g_iter6 |
 | c_def2 | c_nav6 + HQ raid alarm (slot 56) and recall of nearby launchers before r600 | compiled, reviewed | screen queued |
 | c_cloud1 | c_nav6 + hold on recent contact, cloud-aware regroup, blind shot at a vanished fighter's unsensable tile | compiled, reviewed | screen queued |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
@@ -52,8 +53,9 @@ rotation is worth carrying into a later arm.
   for `tools/paired.py`). Hourly limits count requests AND the matches they create (an accepted request counts
   twice); galaxy's default 10/10 was raised to 40 unranked and 20 ranked (owner, PROMPTS 15-16), so about 20 panel
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
-- Validated build: **g_iter5 = c_nav6** (submission 124, accepted 2026-10-09 13:15 PDT; baseline panel run
-  `gauntlet/20261009-191411-panel-c_nav6`). Before it g_iter4 = c_nav5 (submission 123; panel identical to g_iter3's,
+- Validated build: **g_iter6 = c_anc3** (submission 125, accepted 2026-10-09 15:14 PDT; baseline panel run
+  `gauntlet/20261009-211419-panel-c_anc3`, 57/100). Before it g_iter5 = c_nav6 (submission 124,
+  `gauntlet/20261009-191411-panel-c_nav6`, 46/100). Before it g_iter4 = c_nav5 (submission 123; panel identical to g_iter3's,
   `gauntlet/20261009-155042-panel-c_nav5`). Before it, **g_iter3 = c_nav4** (submission 122, accepted 2026-10-09 04:14 PDT: panel 48/100 vs g_iter2's 40,
   paired net +8, +2.31 SE; screen PASS `progress/screens/c_nav4-9f333d33cf78.json`). It is g_iter2 plus per-robot
   distance-field navigation and a capped forming wait (owner, PROMPTS 35). Baseline panel run for the next trials:
