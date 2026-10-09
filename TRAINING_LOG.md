@@ -573,3 +573,12 @@ of history. Times are PDT. Grep it; do not read it whole.
   (HQ raid alarm, recall our-half launchers before r600), 3 c_cloud1 (hold on recent contact, blind shot at a
   vanished enemy's tile). The judge also confirmed the overrun cause as the fight path (c_nav6). All three are being
   implemented on c_nav6 by an implement/review workflow; screens and replica trials follow.
+
+## 2026-10-09 10:50 PDT — c_anc3, c_def2, c_cloud1 implemented and reviewed (on c_nav6)
+- Implement/review workflow (wf_1e0fbff5-a9e, 6 agents, compile-only): c_anc3 (anchor gate on HQ pressure / island
+  deficit via slot-61 bits 4-7, located targets, island scout id % 16 == 1, couriers flee/return, Ad bank cap 150);
+  reviewer fixed a missed ANCH timeout record and stale anchor state after a throw. c_def2 (HQ raid alarm in slot 56,
+  recall of launchers within r2 225 nearer the HQ than the siege target before r600): ready as written. c_cloud1
+  (hold on recent contact, cloud-aware regroup, blind shot at a vanished fighter's unsensable tile); reviewer fixed the
+  ghost choice (nearest qualifying tile) and kept the hold out of enemy HQ auras. Build tag of c_anc3 set to 101 (102
+  is arch_adecon's). Unit tests PASS. Specs: research/diagnosis/2026-10-09-g_iter3.md.
