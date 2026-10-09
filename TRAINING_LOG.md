@@ -380,3 +380,8 @@ of history. Times are PDT. Grep it; do not read it whole.
   late by island conquest. Next: islands (c_swarm2 = c_swarm1 + anchor gate, queued locally).
 - Tooling found on the way: the block collector compared match maps in request order (the API lists them
   alphabetically) and scanned only 5 pages; both fixed.
+
+## 2026-10-08 17:15 PDT — c_swarm2 (swarm + anchor gate) closed
+
+- c_swarm2 vs g_iter2 (c_swarm1) head-to-head: 8/20; vs g_iter1: 15/20 (c_swarm1 17/20). The gate does not help the
+  swarm, whose anchors start late anyway. Next: c_swarm3 (anchors from r150 at 8 launchers) on the same cells.
