@@ -594,3 +594,12 @@ of history. Times are PDT. Grep it; do not read it whole.
   britacatalin; net -2, -1.41 SE, sign test p 0.5); 46/100. Overruns 0 in all 100 games, including the georgezhang
   Cornucopia cell (2332 g2) that overran 3 times under g_iter3/4. Accepted on the basics bar (zero overruns), the
   cost inside noise. c_anc3, c_def2 and c_cloud1 are built on c_nav6.
+
+## 2026-10-09 14:15 PDT — c_anc3 screen PASS (roster Net +16); replica trial started (submission 125)
+- Screen vs g_iter4 (c_nav5): basics 8/8, h2h 12-8, roster information Net +16 (gained 18, lost 2: adecon 16->20,
+  ampmid 13->15, blob 14->17, horde 9->14, swarm 12->14), 128 games with 0 overruns, 0 exceptions (near misses 32,
+  carriers' island loops; watch). The largest local gain of any arm against the roster.
+- Trial: trial-start --skip-screen (the record is against c_nav5; g_iter5 c_nav6 was accepted during the screen and
+  plays 98/100 panel cells identically). Started 14:14 PDT, 2 h 46 before the 17:00 autoscrim; replica queue 2 + 7.
+  Judge against gauntlet/20261009-191411-panel-c_nav6 and the judge's mechanism metrics (anchors built/lost in
+  losses, 'a' share, launchers built r251-600, ReverseFunnel).

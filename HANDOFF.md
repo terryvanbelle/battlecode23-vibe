@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-09 13:15 PDT.
+Updated 2026-10-09 14:15 PDT.
 
 ## Standing
 
@@ -31,7 +31,7 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_role2 | adamantium role rotates over trips (id + trips), not ids | screen vs g_iter3 FAIL (h2h 10-10, roster Net -5) | closed |
 | c_nav5 | Field.level bounded (search from the cached wave, guard 3,000 bytecodes) | panel identical to g_iter3 (100/100), same 3 overruns | accepted 09:28 PDT as g_iter4 |
 | c_nav6 | g_iter4 + bounded fight scoring, second shot and track() in crowds | panel 98/100 identical, -2 (noise), 0 overruns | accepted 13:15 PDT as g_iter5 |
-| c_anc3 | c_nav6 + anchor discipline (HQ-pressure / island-deficit gate, located targets, island scout, couriers flee, Ad bank cap) | ReverseFunnel vs c_nav5 win r526 (75% islands) | screen queued 10:50 PDT |
+| c_anc3 | c_nav6 + anchor discipline (HQ-pressure / island-deficit gate, located targets, island scout, couriers flee, Ad bank cap) | screen PASS: h2h 12-8, roster Net +16 (every archetype +2..+5) | replica trial (submission 125) since 14:14 PDT |
 | c_def2 | c_nav6 + HQ raid alarm (slot 56) and recall of nearby launchers before r600 | compiled, reviewed | screen queued |
 | c_cloud1 | c_nav6 + hold on recent contact, cloud-aware regroup, blind shot at a vanished fighter's unsensable tile | compiled, reviewed | screen queued |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
