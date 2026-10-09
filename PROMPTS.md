@@ -162,3 +162,7 @@ You've still got navigation issues.  Take a look at the recent scrimmage game ag
 ## 36. 2026-10-09 08:27 PDT
 
 Feel free to temporarily pause scrimmages to give the VM more time to do your archetype games
+
+## 37. 2026-10-09 08:31 PDT
+
+Hopefully this gives you a chance to get c_nav5 in before the autoscrim starts
