@@ -1,11 +1,12 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-09 01:20 PDT.
+Updated 2026-10-09 04:20 PDT.
 
 ## Standing
 
-- **Validated build g_iter2 = c_swarm1** (submission 121, code hash b646f1e92c6b; details in the replica section):
-  panel 40/100, replica ladder #18 of 88 (rating 1484, 18 rated matches) on 2026-10-08 17:38 PDT.
+- **Validated build g_iter3 = c_nav4** (submission 122, code hash 9f333d33cf78, accepted 2026-10-09 04:14 PDT; details
+  in the replica section): panel 48/100 against g_iter2's 40 (paired net +8, +2.31 SE, p 0.039); g_iter2 (c_swarm1)
+  had reached #17-22 of 88 on the replica ladder.
 - **Why we lose** (g_iter2's 10 panel matches, 1017-1026, `research/matches/`): not the opening fights. Before r400 we
   land the first hit in 55-72% of launcher duels and win 59-64% of engagements against vrangr1, jmerle, georgezhang and
   NotLLeon (awesomelemonade: 20%, they meet us with twice the launchers, group size 19 vs our 6). We lose the middle
@@ -21,17 +22,16 @@ Updated 2026-10-09 01:20 PDT.
 
 **Read head-to-heads against the identity control, never against 10/20**: on `test/cells/self-swarm1-panel.txt`
 g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); on the screen's map-seed cells it scores
-10/20 (seat-neutral, 2026-10-09 01:30). Compare cell by cell.
+10/20 (seat-neutral, 2026-10-09 01:30). Compare cell by cell, and arms built on g_iter3 against c_nav4's own runs.
 
-| job | candidate | change | state |
+| arm | change (from c_nav4 = g_iter3) | local result | next |
 |---|---|---|---|
-| trial (replica) | c_nav4 (submission 122) | distance fields after a wall hit; forming wait capped | screen PASS; panel v1 requested 01:20 PDT 2026-10-09, behind the 01:00 autoscrim; judge with `tools/paired.py` against `gauntlet/20261008-210429-panel1-c_swarm1`, then `trial-end --accept/--reject` before 09:00 PDT |
-| h2h-hq1 | c_hq1 | c_nav4 + carriers built under threat on spawn tiles no visible enemy fighter reaches | queued 01:31 PDT; read paired against c_nav4's own h2h run (gauntlet/20261009-*-h2h-nav4) |
+| c_hq1 | HQs build carriers under threat on spawn tiles no visible enemy fighter reaches | 8/20 vs g_iter2, paired vs c_nav4 net +1 | screen, then a replica trial (targets sieges self-play rarely produces) |
+| c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2, paired vs c_nav4 net +2 | screen, then a replica trial |
 
-Results today (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9 (paired vs identity +5), c_nav3a 8,
-c_nav4 7 (+3), c_swarm4b 8, c_eco2 7, c_swarm3 6, c_swarm4a 6, c_role1 6, c_eco1 5. Plan: replica trial of c_nav4
-after the 01:00 PDT autoscrim if the screen does not show a regression (`--skip-screen` with the reason if only the
-uncalibrated stage-(b) bar fails).
+Closed or superseded since g_iter2 (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9, c_nav3a 8, c_swarm4b 8,
+c_eco2 7, c_swarm3 6, c_swarm4a 6, c_role1 6, c_eco1 5. None is a measured regression; c_role1's per-trip adamantium
+rotation is worth carrying into a later arm.
 
 ## The galaxy replica (owner, PROMPTS 11-12)
 
@@ -45,11 +45,13 @@ uncalibrated stage-(b) bar fails).
   for `tools/paired.py`). Hourly limits count requests AND the matches they create (an accepted request counts
   twice); galaxy's default 10/10 was raised to 40 unranked and 20 ranked (owner, PROMPTS 15-16), so about 20 panel
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
-- Validated build: **g_iter2 = c_swarm1** (submission 121, accepted 2026-10-08 17:00 PDT: panel 40/100 vs g_iter1's 33
-  and g_iter0's 31; locally 17-3 vs g_iter1). It is the swarm archetype (docs/ARCHETYPES.md 4.1) frozen as a candidate.
-  Baseline panel run for the next trials: `gauntlet/20261008-210429-panel1-c_swarm1`. Earlier: g_iter1 = c_line8a
-  (`...-180016-panel1-c_line8a`, 33/100), g_iter0 (`...-011350-panel1-g_iter0`, 31/100). Local screen cells vs the
-  incumbent: `test/cells/self-swarm1-panel.txt` (and vs g_iter1, g_iter0, the archetypes).
+- Validated build: **g_iter3 = c_nav4** (submission 122, accepted 2026-10-09 04:14 PDT: panel 48/100 vs g_iter2's 40,
+  paired net +8, +2.31 SE; screen PASS `progress/screens/c_nav4-9f333d33cf78.json`). It is g_iter2 plus per-robot
+  distance-field navigation and a capped forming wait (owner, PROMPTS 35). Baseline panel run for the next trials:
+  `gauntlet/20261009-082005-panel-c_nav4`. Earlier: g_iter2 = c_swarm1 (`...-210429-panel1-c_swarm1`, 40/100), g_iter1 =
+  c_line8a (`...-180016-panel1-c_line8a`, 33/100), g_iter0 (`...-011350-panel1-g_iter0`, 31/100). Local cells vs the
+  previous incumbent: `test/cells/self-swarm1-panel.txt`; the pre-trial screen (`tools/screen.py`) now plays against
+  g_iter3.
 - Ranked vs unranked follows `docs/LADDER_STRATEGY.md` (owner, PROMPTS 17-18), state in `progress/ladder-state.json`:
   `tools/ladder_policy.py ranked` runs detached on the driver (`logs/ranked-policy.log`): ranked challenges upward
   only while the validated build is active (BURST one per 5 min while we have < 30 rated matches or the build is < 24 h

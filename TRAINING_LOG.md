@@ -495,3 +495,12 @@ of history. Times are PDT. Grep it; do not read it whole.
   the HQs are rarely threatened early enough for the change to matter; it targets sieges by stronger field bots, so it
   is a candidate for a later replica trial rather than a local verdict.
 - c_nav4 trial: the 10 panel matches wait behind the 01:00 PDT autoscrim round (none started at 02:13 PDT).
+
+## 2026-10-09 04:15 PDT — c_nav4 accepted: g_iter3 (panel 48/100, net +8 over g_iter2)
+- Panel v1 (gauntlet/20261009-082005-panel-c_nav4) vs g_iter2's (20261008-210429-panel1-c_swarm1): 100 cells matched,
+  88 identical, 10 gained, 2 lost: net +8 (+2.31 SE), sign test p 0.039; island-rounds +233 (t +1.6). Per match:
+  vrangr1 0-10 (g_iter2 1-9), jmerle 3-7 (2-8), georgezhang 6-4 (3-7), awesomelemonade 1-9 (0-10), pranayagra 3-7
+  (2-8), NotLLeon 5-5 (4-6), Sprint1 7-3 (5-5), reeceyang 7-3 (8-2), yaonam 9-1 (9-1), britacatalin 7-3 (6-4).
+- trial-end --accept at 04:14 PDT: g_iter3 = c_nav4 (submission 122, hash 9f333d33cf78); ranked loop back in BURST.
+  Navigation (owner, PROMPTS 35) was worth more on the panel than any economy or fight arm tried since g_iter2.
+- Next: c_hq1 and c_grp1 (both on c_nav4, locally neutral to slightly positive) go through the screen against g_iter3.

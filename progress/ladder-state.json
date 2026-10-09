@@ -1,16 +1,11 @@
 {
  "validated": {
-  "submission": 121,
-  "package": "c_swarm1",
-  "since": "2026-10-09T00:00:22.596723+00:00",
-  "panel_run": "gauntlet/20261008-210429-panel1-c_swarm1"
- },
- "trial": {
   "submission": 122,
   "package": "c_nav4",
-  "started": "2026-10-09T08:20:04.981506+00:00",
-  "panel": "test/cells/panel-v1.txt"
+  "since": "2026-10-09T11:13:47.927636+00:00",
+  "panel_run": "gauntlet/20261009-082005-panel-c_nav4"
  },
+ "trial": null,
  "history": [
   {
    "at": "2026-10-08T02:35:39.835215+00:00",
@@ -96,6 +91,12 @@
    "submission": 122,
    "package": "c_nav4",
    "screen": "progress/screens/c_nav4-9f333d33cf78.json"
+  },
+  {
+   "at": "2026-10-09T11:13:48.054861+00:00",
+   "event": "accept",
+   "submission": 122,
+   "package": "c_nav4"
   }
  ]
 }
