@@ -448,3 +448,13 @@ of history. Times are PDT. Grep it; do not read it whole.
   (first version); final version wins by 75% islands at r640-797 (the v1 game went to r2000; self-play c_swarm1 r816);
   remaining: late-born launchers can still reach the pocket before their field covers it (about 25 turns lost), and
   carrier queues at the HQ. 0 overruns; launcher mean bytecodes 7,200 (field work) vs 2,500.
+
+## 2026-10-08 21:15 PDT — c_nav3 borderline locally; c_nav3a isolates the forming cap
+- c_nav3: 9/20 vs g_iter2 (screen BORDERLINE), 16/20 vs g_iter1 (g_iter2: 17). Wins BatSignal, Cat, Forest on both
+  sides; loses both sides of Maze (r402-420), Hah, IslandHopping, DefaultMap. In those losses c_nav3 has fewer
+  launchers at r100 (13/18, 7/9, 12/16, 6/12) and loses the launcher war (IslandHopping: 17 of its carriers killed by
+  r300 against 0); Maze A also had no adamantium carrier after r200 (roles go by id % 4: with ~10-17 carriers a team
+  can draw none, a flaw the incumbent shares).
+- c_nav3a = c_nav3 with the forming wait uncapped (as g_iter2): on Target it still wins by 75% islands at r760, one
+  launcher held 45 rounds in march mode (incumbent: two for 840), forming idle 10 launchers / 518 rounds (incumbent
+  12 / 972). h2h queued.
