@@ -394,7 +394,9 @@ def block(cells_file, tag, poll=60, max_wait=6 * 3600):
             if m['id'] in found.values() or m['id'] <= floor:
                 continue
             for rid, d in list(pending.items()):
-                if opponent_name(m, tid) == d['opponent'] and list(m.get('maps') or []) == d['maps'] \
+                # maps compared as sets: the API does not keep the requested order (the detail view lists them
+                # alphabetically); the opponent, the block's match floor and the map set identify the match
+                if opponent_name(m, tid) == d['opponent'] and sorted(m.get('maps') or []) == sorted(d['maps']) \
                         and m['status'] in ('OK!', 'ERR', 'CAN') and rid not in found:
                     found[rid] = m['id']
                     rep = download(m, os.path.join(run, 'replays'))
