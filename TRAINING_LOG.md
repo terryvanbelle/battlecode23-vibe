@@ -385,3 +385,12 @@ of history. Times are PDT. Grep it; do not read it whole.
 
 - c_swarm2 vs g_iter2 (c_swarm1) head-to-head: 8/20; vs g_iter1: 15/20 (c_swarm1 17/20). The gate does not help the
   swarm, whose anchors start late anyway. Next: c_swarm3 (anchors from r150 at 8 launchers) on the same cells.
+
+## 2026-10-08 18:30 PDT — c_swarm3 closed; commit-margin arms c_swarm4a/b
+
+- c_swarm3 (anchors from r150 at 8 launchers): 6/20 vs g_iter2, 14/20 vs g_iter1 (g_iter2: 17). Earlier anchors
+  hurt the swarm. Closed.
+- Replica vs awesomelemonade (g_iter2, 0-10): even economy and launcher counts at r100, but engagements won 18% vs
+  76%, first hit 22% vs 78%, exchange 0.49 vs 2.2. Their launchers stand and fire 37% of turns (ours 17%); ours hold
+  (no move, no fire) 41% (theirs 27%): the parity hold keeps ours out of the fight unless 2+ ahead.
+- c_swarm4a (commit when 1 ahead) and c_swarm4b (commit at parity), on the local cells vs g_iter2 and g_iter1.
