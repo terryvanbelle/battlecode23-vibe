@@ -488,3 +488,10 @@ of history. Times are PDT. Grep it; do not read it whole.
 - c_nav4 vs identity on the same cells, paired: gained 6, lost 4 (net +2, inside noise). Locally neutral to slightly
   positive; the replica panel decides.
 - Queued: c_hq1 = c_nav4 + carriers built under threat on spawn tiles no visible enemy fighter reaches (h2h-hq1).
+
+## 2026-10-09 02:15 PDT — c_hq1 locally neutral
+- c_hq1 (c_nav4 + carriers under threat on safe spawn tiles): 8/20 vs g_iter2 on the h2h cells; paired against c_nav4's
+  run on the same cells only 3 cells differ (Cornucopia A -1, Cornucopia B +1, DefaultMap A +1): net +1. In self-play
+  the HQs are rarely threatened early enough for the change to matter; it targets sieges by stronger field bots, so it
+  is a candidate for a later replica trial rather than a local verdict.
+- c_nav4 trial: the 10 panel matches wait behind the 01:00 PDT autoscrim round (none started at 02:13 PDT).
