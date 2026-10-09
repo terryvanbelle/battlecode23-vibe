@@ -509,3 +509,8 @@ of history. Times are PDT. Grep it; do not read it whole.
 - c_grp1 (formations of 6, wait up to 25 turns) vs c_nav4 on the screen's seat-neutral cells (identity 10/20): 7-13,
   stage (b) FAIL, screen stopped. Bigger home formations cost more than they buy in self-play; closed. The group-size
   gap to awesomelemonade (19 vs 6) needs a different mechanism than waiting longer at home.
+
+## 2026-10-09 05:15 PDT — c_hq1 fails the screen (h2h 8-12); c_role2 queued
+- c_hq1 (carriers under threat on safe spawn tiles) vs g_iter3 on the screen cells: 8-12, stage (b) FAIL; closed.
+- c_role2 = g_iter3 + the per-trip adamantium rotation of c_role1 (no team without adamantium carriers): screen queued.
+- Ranked loop at the hourly limit (429) in BURST for g_iter3; it retries.
