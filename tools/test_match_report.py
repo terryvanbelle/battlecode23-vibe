@@ -85,7 +85,7 @@ class MatchReportTwoGamesTest(unittest.TestCase):
         self.assertEqual(self.rc, 0)
         txt = self.report.read_text()
         self.assertLessEqual(len(txt.encode()), 8192)
-        self.assertTrue(txt.startswith('# Match 77: vibe23 (sub 24) vs teamX - 0-2   (unranked, 2026-10-08 01:02 UTC)'))
+        self.assertTrue(txt.startswith('# Match 77: vibe23 (sub 24) vs teamX - 0-2   (unranked, 2026-10-07 18:02 PDT)'))
         self.assertIn('\nTelemetry: us none (this build carries no telemetry: replay-only sections)  |  replay ', txt)
         self.assertIn('| game | map | side | result | rounds | reason | turn/lock | Mn@100 us/them |', txt)
         for gi in (0, 1):

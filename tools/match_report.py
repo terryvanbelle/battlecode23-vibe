@@ -70,6 +70,18 @@ NA = 'not available'
 
 
 # ---------------------------------------------------------------- paths and small helpers
+def pacific(created):
+    """Galaxy's UTC ISO timestamp as '2026-10-08 10:04 PDT' (owner, PROMPTS 28: every time in PDT); '?' if unparsable."""
+    try:
+        from zoneinfo import ZoneInfo
+        t = datetime.datetime.fromisoformat(str(created).replace('Z', '+00:00'))
+        if t.tzinfo is None:
+            t = t.replace(tzinfo=datetime.timezone.utc)
+        return t.astimezone(ZoneInfo('America/Los_Angeles')).strftime('%Y-%m-%d %H:%M %Z')
+    except (ValueError, TypeError, KeyError):
+        return '?'
+
+
 def p_matches():
     return os.path.join(ROOT, 'matches')
 
@@ -1062,9 +1074,8 @@ def cmd_match(replay, match, team_id=None, shadow=None, force=False):
                 'maps': match.get('maps'), 'dump': dump_hash(), 'extract_note': note}
         if last:
             line['supersedes'] = True
-        created = (match.get('created') or '')[:16].replace('T', ' ')
         title = (f"# Match {mid}: {line['us']} (sub {fmt(line['submission'])}) vs {line['opponent']} - "
-                 f"{score[0]}-{score[1]}   ({'ranked' if line['ranked'] else 'unranked'}, {created or '?'} UTC)")
+                 f"{score[0]}-{score[1]}   ({'ranked' if line['ranked'] else 'unranked'}, {pacific(match.get('created'))})")
         extra = [f'Extraction: {note}.'] if note else []
         if shadow_info:
             extra.append(f"Shadow: {shadow_info['replay']}: verified games {shadow_info['verified_games']}, mismatched "
