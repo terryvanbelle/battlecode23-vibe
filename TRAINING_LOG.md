@@ -425,3 +425,26 @@ of history. Times are PDT. Grep it; do not read it whole.
 - Arms (from c_swarm1): c_eco1 = carrier cap 10 per known Mn well, 8 per HQ growing one per 30 rounds, max 60 (was 8,
   6 per 50, 30). c_eco2 = c_eco1 plus more adamantium: AD_NEED 100, one carrier in 4 early, one in 3 from r150 (was 50,
   8, 4 from r200).
+
+## 2026-10-08 20:45 PDT — c_eco1/2 closed; c_nav3 (distance fields) for the owner's navigation report
+- c_eco1 (carrier cap x2): 5/20 vs g_iter2, 16/20 vs g_iter1. c_eco2 (cap + more Ad): 7/20 vs g_iter2, 13/20 vs
+  g_iter1. Closed: the cap bound only 8% of HQ turns (threat 24%, poor 38%); more carriers bought fewer anchors and,
+  with more Ad carriers, fewer launchers, and self-play is decided on islands (14 of 20 h2h-swarm4a games by 75%).
+- Owner (PROMPTS 35): launchers pooled doing nothing in the lower-left of Target (match 1208 vs BrysonJGalapon.aloha,
+  game 1). Replay: 8 of our launchers marched into the dead end of the west-edge corridor (0,13)-(0,18) toward the
+  predicted enemy HQ due north and stood 50-317 rounds in march mode; 20+ others idled 40-150 rounds forming up at
+  home (GROUP_MIN 4 with few launchers built); carriers stood 60-100 rounds. Reproduced in local self-play on Target.
+  Cause, from the local game's BUG/OBJ records: greedy steps lead into any pocket that points at the target; cohesion
+  (regroup/follow) switched targets and reset the wall-following state, so a launcher that had wall-followed out came
+  back; in a crowded pocket two edge flips stopped wall-following for good; followers trailed a stuck leader.
+- c_nav3 (from c_swarm1): src/c_nav3/Field.java, a breadth-first distance field per robot toward one target over 64-bit
+  wall rows (sensed walls plus their symmetric images; unknown open; HQ squares blocked), built a row at a time in the
+  bytecodes left at the end of each turn; a marching launcher plans its team target from its first turn; Nav descends
+  the field (downhill, else wait 2 turns, sidestep, then step back every other turn), falls back to greedy and
+  wall-following while no field covers it; a field is rebuilt only when a downhill square proves to be a wall; a
+  wall-hit request never replaces a young, in-use or nearby field; no permanent stall at the map edge; forming at home
+  waits at most 15 move-ready turns.
+- Local, Target, c_nav3 vs c_swarm1 (seed 1): launchers still >= 40 rounds 9 of 199 vs the incumbent's 57 of 148
+  (first version); final version wins by 75% islands at r640-797 (the v1 game went to r2000; self-play c_swarm1 r816);
+  remaining: late-born launchers can still reach the pocket before their field covers it (about 25 turns lost), and
+  carrier queues at the HQ. 0 overruns; launcher mean bytecodes 7,200 (field work) vs 2,500.
