@@ -514,3 +514,9 @@ of history. Times are PDT. Grep it; do not read it whole.
 - c_hq1 (carriers under threat on safe spawn tiles) vs g_iter3 on the screen cells: 8-12, stage (b) FAIL; closed.
 - c_role2 = g_iter3 + the per-trip adamantium rotation of c_role1 (no team without adamantium carriers): screen queued.
 - Ranked loop at the hourly limit (429) in BURST for g_iter3; it retries.
+
+## 2026-10-09 07:15 PDT — c_role2 fails the screen (h2h 10-10, roster Net -5)
+- c_role2 (g_iter3 + per-trip adamantium rotation) vs g_iter3: basics 8/8, h2h 10/20 BORDERLINE, roster information
+  Net -5 (arch_ampmid 13 -> 9, -4 regression flag), 128 games clean. FAIL (BORDERLINE without a roster gain); closed.
+- Three arms on g_iter3 failed the screen (c_grp1 7-13, c_hq1 8-12, c_role2 10-10 / -5). Next: mine g_iter3's
+  replica games for remaining basics failures (stalls, idle funds, symmetry) before more economy or grouping arms.

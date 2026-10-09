@@ -27,7 +27,7 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | arm | change (from c_nav4 = g_iter3) | local result | next |
 |---|---|---|---|
 | c_hq1 | HQs build carriers under threat on spawn tiles no visible enemy fighter reaches | screen vs g_iter3 FAIL (h2h 8-12) | closed |
-| c_role2 | adamantium role rotates over trips (id + trips), not ids | - | screen queued 05:15 PDT |
+| c_role2 | adamantium role rotates over trips (id + trips), not ids | screen vs g_iter3 FAIL (h2h 10-10, roster Net -5) | closed |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
 Closed or superseded since g_iter2 (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9, c_nav3a 8, c_swarm4b 8,
