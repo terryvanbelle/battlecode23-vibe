@@ -582,3 +582,9 @@ of history. Times are PDT. Grep it; do not read it whole.
   (hold on recent contact, cloud-aware regroup, blind shot at a vanished fighter's unsensable tile); reviewer fixed the
   ghost choice (nearest qualifying tile) and kept the hold out of enemy HQ auras. Build tag of c_anc3 set to 101 (102
   is arch_adecon's). Unit tests PASS. Specs: research/diagnosis/2026-10-09-g_iter3.md.
+
+## 2026-10-09 12:15 PDT — c_nav6 screen PASS; replica trial started (submission 124)
+- Screen vs g_iter4: basics 8/8, h2h 11-9, roster 99 of 100 cells identical (adecon -1, swarm +1/-1), 128 games with
+  0 overruns and 0 near misses (c_nav4's screen: near 5, c_role2's: 41). Trial started 12:14 PDT; judge against
+  gauntlet/20261009-155042-panel-c_nav5; the georgezhang Cornucopia cell (2124 g2) must show 0 overruns.
+- Screens queued behind it: c_anc3 (running), c_def2, c_cloud1.
