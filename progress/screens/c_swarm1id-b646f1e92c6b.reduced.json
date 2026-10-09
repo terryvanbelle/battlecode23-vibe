@@ -1,0 +1,97 @@
+{
+ "v": 1,
+ "candidate": "c_swarm1id",
+ "candidate_hash": "b646f1e92c6b",
+ "incumbent": "c_swarm1",
+ "incumbent_hash": "b646f1e92c6b",
+ "created": "2026-10-09T05:33:07+00:00",
+ "finished": "2026-10-09T08:31:23+00:00",
+ "job": "20261009-053313-scr-c_swarm1id-b646f1e92c6b",
+ "seed_mode": "map",
+ "maps": {
+  "basics": [
+   "SmallElements",
+   "Contraction",
+   "FourNations",
+   "Tightrope"
+  ],
+  "panel": [
+   "DefaultMap",
+   "Maze",
+   "Forest",
+   "ReverseFunnel",
+   "Cat",
+   "IslandHopping",
+   "Hah",
+   "BatSignal",
+   "Cornucopia",
+   "MassiveL"
+  ]
+ },
+ "reduced": true,
+ "roster_source": "--roster",
+ "no_stop": false,
+ "stages": {
+  "a": {
+   "verdict": "PASS",
+   "games": 8,
+   "wins": 8,
+   "unknown": 0,
+   "over": 0,
+   "exceptions": 0,
+   "deaths_self": 0,
+   "sym_wrong": 0,
+   "near": 0,
+   "run": "gauntlet/20261009-080553-scr-b646f1e92c6b-7d45-a"
+  },
+  "b": {
+   "verdict": "BORDERLINE",
+   "games": 20,
+   "wins": 10,
+   "losses": 10,
+   "coin": 0,
+   "unknown": 0,
+   "score": 10.0,
+   "pass_at": 11.0,
+   "borderline_at": 9.0,
+   "run": "gauntlet/20261009-080712-scr-b646f1e92c6b-7d45-b"
+  },
+  "c": {
+   "verdict": "PASS",
+   "pooled": {
+    "g": 0,
+    "l": 0,
+    "net": 0,
+    "se": 0.0,
+    "missing": 0,
+    "verdict": "ok"
+   },
+   "info_pooled": {
+    "g": 0,
+    "l": 0,
+    "net": 0,
+    "se": 0.0
+   },
+   "archetypes": [],
+   "note": "no gating archetype (no VALID record for a current hash): stage (c) passes by default",
+   "excluded": [],
+   "runs": [],
+   "incumbent_runs": []
+  },
+  "d": {
+   "verdict": "PASS",
+   "games": 28,
+   "over": 0,
+   "exceptions": 0,
+   "deaths_self": 0,
+   "sym_wrong": 0,
+   "near": 0
+  }
+ },
+ "verdict": "FAIL",
+ "reasons": [
+  "(b) BORDERLINE (10.0 of 20) without a pooled roster gain (Net +0 < +2)"
+ ],
+ "identity": true,
+ "identity_control": "ok"
+}

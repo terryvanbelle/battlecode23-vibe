@@ -480,3 +480,11 @@ of history. Times are PDT. Grep it; do not read it whole.
   0 exceptions, 0 self-deaths. The identity screen on the same cells (c_swarm1id) runs next for the stage-(b) baseline.
 - Trial: tools/ladder_policy.py trial-start c_nav4 at 01:20 PDT, panel v1 requested (10 x 10); it queues behind the
   01:00 autoscrim round; next autoscrim 09:00 PDT. Baseline: g_iter2 40/100 (gauntlet/20261008-210429-panel1-c_swarm1).
+
+## 2026-10-09 01:30 PDT — Identity screen: the screen's own cells are seat-neutral (10/20)
+- c_swarm1id on the screen's map-seed cells: basics 8/8, h2h 10/20 (record progress/screens/c_swarm1id-b646f1e92c6b.
+  reduced.json, identity control ok). So the screen's stage-(b) bar (PASS at 11) is centred; the 16-4 seat bias is a
+  property of `test/cells/self-swarm1-panel.txt`'s pinned seeds only.
+- c_nav4 vs identity on the same cells, paired: gained 6, lost 4 (net +2, inside noise). Locally neutral to slightly
+  positive; the replica panel decides.
+- Queued: c_hq1 = c_nav4 + carriers built under threat on spawn tiles no visible enemy fighter reaches (h2h-hq1).
