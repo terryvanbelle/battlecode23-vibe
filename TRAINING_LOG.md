@@ -613,3 +613,9 @@ of history. Times are PDT. Grep it; do not read it whole.
   anchors placed in wins 5.0 vs 5.5 (kept); carriers built in losses 62.5 vs 49.3; launchers built in wins 151 vs 108.
   The diagnosis' anchor-waste finding (research/diagnosis/2026-10-09-g_iter3.md) held on the replica.
 - trial-end --accept 15:14 PDT: g_iter6 = c_anc3 (submission 125). Next: c_def2 and c_cloud1 rebased onto c_anc3.
+
+## 2026-10-09 15:30 PDT — c_cld2, c_def3: the cloud and raid-recall arms rebased onto g_iter6
+- c_cld2 = c_anc3 + c_cloud1's Launcher.java and its two constants (c_anc3 did not touch Launcher). c_def3 = c_anc3 +
+  the c_nav6 -> c_def2 patch (C, Comms, HQ, Launcher); one hunk (the Comms constants line) merged by hand (ALARM = 56
+  beside c_anc3's PRESS_SHIFT); every island loop stops at id 35, so slot 56 stays the alarm's. Unit tests PASS.
+  c_cloud1's standalone screen against c_nav5 was cancelled; c_def2's finishes for information. Screens queued.
