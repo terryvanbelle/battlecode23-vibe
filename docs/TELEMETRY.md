@@ -646,7 +646,7 @@ match,game,round,id,side,type,age,x,y,prog,cause,killer_id,killer_type,hp_before
 **`engagements.csv`** (E1).
 
 ```
-match,game,eng,r0,r1,dur,x0,y0,prog0,nA0,nB0,hpA0,hpB0,peakA,peakB,joinA,joinB,first_hit,dmg_by_A,dmg_by_B,kills_by_A,kills_by_B,val_lost_A,val_lost_B,aura_dmg_A,aura_dmg_B,surv_A,surv_B,held,result,codes_A,codes_B
+match,game,eng,r0,r1,dur,x0,y0,prog0,nA0,nB0,hpA0,hpB0,peakA,peakB,joinA,joinB,first_hit,dmg_by_A,dmg_by_B,kills_by_A,kills_by_B,val_lost_A,val_lost_B,aura_dmg_A,aura_dmg_B,surv_A,surv_B,held,result,codes_A,codes_B,fh_att_type,fh_how,fh_vic_type,fh_vic_moved,fh_att_moved_prev,fh_in_start,fh_in_prev,fh_cloud,fh_round,fh_att,fh_vic
 ```
 
 How engagements are built:
@@ -666,6 +666,18 @@ Column meanings:
 - `peakA`: the most of side A's launchers in the engagement's cells in any one round.
 - `joinA`: distinct side-A launchers that were ever in one of its cells.
 - `first_hit`: the side of the first launcher or throw hit.
+- `fh_att_type`, `fh_vic_type`: the first hit's attacker and victim types (H C L A D B).
+- `fh_how`: how the first hit was fired. `throw` for a carrier, `stand` when the attacker did not move this round,
+  `stepin` when only its new tile reaches the target, `out` when only its old tile does (fire, then step away), `move`
+  when both do.
+- `fh_vic_moved`: 1 when the victim moved by its own step in the previous round, or earlier this round before the hit,
+  so a launcher victim could not step away on its next turn (move cooldown 20). The test of "who walks into contact
+  is shot first" (2026-10-08).
+- `fh_att_moved_prev`: 1 when the attacker moved in the previous round. `fh_in_start`, `fh_in_prev`: 1 when the
+  pair stood within r² 16 at the start of this round, and at the start of the previous one. `fh_cloud`: a cloud under the
+  attacker's firing square (`a`), under the victim (`v`), both (`av`) or neither (`-`); a robot on a cloud is sensed only
+  within r² 4, though attacks need no vision.
+- `fh_round`, `fh_att`, `fh_vic`: the first hit's round and the attacker's and victim's robot ids.
 - `dmg_by_A`: HP removed from B's robots by A's hits, with lethal hits counted at the victim's remaining HP.
 - `kills_by_A`: B robots killed by A's hits.
 - `val_lost_A`: §1 value of A's robots that died in the engagement's cells, any cause.

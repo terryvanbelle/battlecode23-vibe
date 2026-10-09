@@ -154,3 +154,7 @@ I just noticed that we're losing badly to vrangr1.AFinalsBot (10-0 both sides), 
 ## 34. 2026-10-08 15:40 PDT
 
 Can you check whether any disk is being taken up by other years?  If so, it can be deleted 
+
+## 35. 2026-10-08 19:04 PDT
+
+You've still got navigation issues.  Take a look at the recent scrimmage game against BrysonJGalapon.aloha on the Target map.  On the lower left you've got bots pooled in a corner doing nothing

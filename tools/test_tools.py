@@ -920,7 +920,8 @@ class ReplayExtractTest(unittest.TestCase):
                       'cargo_Ex,anchors,spawn_kill,eng,last_code,last_token',
         'engagements.csv': 'match,game,eng,r0,r1,dur,x0,y0,prog0,nA0,nB0,hpA0,hpB0,peakA,peakB,joinA,joinB,first_hit,dmg_by_A,'
                            'dmg_by_B,kills_by_A,kills_by_B,val_lost_A,val_lost_B,aura_dmg_A,aura_dmg_B,surv_A,surv_B,held,'
-                           'result,codes_A,codes_B',
+                           'result,codes_A,codes_B,fh_att_type,fh_how,fh_vic_type,fh_vic_moved,'
+                           'fh_att_moved_prev,fh_in_start,fh_in_prev,fh_cloud,fh_round,fh_att,fh_vic',
         'timeline.csv': 'match,game,round,side,alive_C,alive_L,alive_A,alive_D,alive_B,built_C,built_L,built_A,coll_Ad,coll_Mn,'
                         'coll_Ex,bank_Ad,bank_Mn,bank_Ex,carried_Ad,carried_Mn,carried_Ex,army_value,value_lost,dmg_dealt,'
                         'kills,islands,anchors_placed,in_contact',

@@ -75,6 +75,8 @@ public class ReplayDump {
         int[] hqB;                             // HQ bucket: built C, L, A, K, pressure34, pressure9, idle_funds
         TreeMap<Character, Integer> hqCodes;
         int hitStamp = -1, hitCount;           // hits taken this round (focus)
+        int movedRound = -1000;                // the last round it moved by its own step (a launcher cannot move the next)
+        int prevPreX = -1, prevPreY = -1;      // its position at the start of the previous round
     }
 
     GameWrapper gw;
@@ -695,7 +697,8 @@ public class ReplayDump {
     static final String DEATHS_HDR = "match,game,round,id,side,type,age,x,y,prog,cause,killer_id,killer_type,hp_before,cargo_Ad,"
         + "cargo_Mn,cargo_Ex,anchors,spawn_kill,eng,last_code,last_token";
     static final String ENG_HDR = "match,game,eng,r0,r1,dur,x0,y0,prog0,nA0,nB0,hpA0,hpB0,peakA,peakB,joinA,joinB,first_hit,"
-        + "dmg_by_A,dmg_by_B,kills_by_A,kills_by_B,val_lost_A,val_lost_B,aura_dmg_A,aura_dmg_B,surv_A,surv_B,held,result,codes_A,codes_B";
+        + "dmg_by_A,dmg_by_B,kills_by_A,kills_by_B,val_lost_A,val_lost_B,aura_dmg_A,aura_dmg_B,surv_A,surv_B,held,result,codes_A,codes_B,"
+        + "fh_att_type,fh_how,fh_vic_type,fh_vic_moved,fh_att_moved_prev,fh_in_start,fh_in_prev,fh_cloud,fh_round,fh_att,fh_vic";
     static final String TIMELINE_HDR = "match,game,round,side,alive_C,alive_L,alive_A,alive_D,alive_B,built_C,built_L,built_A,coll_Ad,"
         + "coll_Mn,coll_Ex,bank_Ad,bank_Mn,bank_Ex,carried_Ad,carried_Mn,carried_Ex,army_value,value_lost,dmg_dealt,kills,islands,"
         + "anchors_placed,in_contact";
@@ -842,6 +845,7 @@ public class ReplayDump {
 
     static final class Eng {
         int id, parent, r0, r1, x0, y0, touchRound = -1, cn, fhRound = -1, fhIdx, fhSide;
+        String fhCtx = "-,-,-,-,-,-,-,-,-,-,-"; // the first hit's context (fhContext)
         String prog0 = "", held = "-";
         double cx, cy, lcx, lcy;
         boolean done;
@@ -1085,7 +1089,7 @@ public class ReplayDump {
     }
 
     void deepBegin(Round r) {
-        for (Robot rb : alive) { rb.preX = rb.x; rb.preY = rb.y; rb.hpStart = rb.hp2; }
+        for (Robot rb : alive) { rb.prevPreX = rb.preX; rb.prevPreY = rb.preY; rb.preX = rb.x; rb.preY = rb.y; rb.hpStart = rb.hp2; }
     }
 
     void deepRound(Round r) {
@@ -1299,6 +1303,7 @@ public class ReplayDump {
         }
         // ---- engagements (B.4 engagements.csv) and the contact statistics
         engagements(rn, deaths0);
+        for (Robot rb : alive) if ((rb.x != rb.preX || rb.y != rb.preY) && !cur(rb)) rb.movedRound = rn;
         // ---- trips: deposits close a trip at the end of the round; rounds near a well without collecting
         for (Robot rb : alive) {
             if (rb.type != 1 || rb.died >= 0) continue;
@@ -1421,6 +1426,35 @@ public class ReplayDump {
         nodes.add(rb);
     }
 
+    /** The first hit's context (engagements.csv fh_*): attacker type; how it fired, from its own move this round:
+     *  stand (did not move), stepin (only its new tile reaches the target), out (only its old tile does), move (both);
+     *  victim type; victim moved (1: it moved last round, or earlier this round, so a launcher could not step away);
+     *  attacker moved last round; the pair within r2 16 at the start of this round, and at the start of the previous
+     *  round; clouds under the attacker's firing tile and the victim (a, v, av or -); its round, attacker and victim ids. */
+    boolean onMap(int x, int y) { return x >= 0 && y >= 0 && x < W && y < H; }
+
+    String fhContext(Hit h, int rn) {
+        Robot a = h.att, v = h.vic;
+        String how = h.thr ? "throw" : "stand";
+        boolean aMoved = (a.x != a.preX || a.y != a.preY) && !cur(a);
+        if (!h.thr && aMoved) {
+            boolean vEarlier = v.turnRound == rn && v.turnIdx < a.turnIdx;
+            int tx = vEarlier ? v.x : v.preX, ty = vEarlier ? v.y : v.preY;
+            boolean fromPre = G2(a.preX, a.preY, tx, ty) <= 16, fromPost = G2(a.x, a.y, tx, ty) <= 16;
+            how = fromPre && !fromPost ? "out" : !fromPre && fromPost ? "stepin" : "move";
+        }
+        boolean vMovedNow = v.turnRound == rn && v.turnIdx < a.turnIdx && (v.x != v.preX || v.y != v.preY) && !cur(v);
+        boolean vEarlier = v.turnRound == rn && v.turnIdx < a.turnIdx;
+        int vx = vEarlier ? v.x : v.preX, vy = vEarlier ? v.y : v.preY;
+        boolean inStart = G2(a.preX, a.preY, v.preX, v.preY) <= 16;
+        boolean inPrev = a.prevPreX >= 0 && v.prevPreX >= 0 && G2(a.prevPreX, a.prevPreY, v.prevPreX, v.prevPreY) <= 16;
+        int fx = how.equals("stepin") ? a.x : a.preX, fy = how.equals("stepin") ? a.y : a.preY;
+        boolean ca = onMap(fx, fy) && cloud[fx + fy * W], cv = onMap(vx, vy) && cloud[vx + vy * W];
+        return TC[a.type] + "," + how + "," + TC[v.type] + "," + (v.movedRound == rn - 1 || vMovedNow ? 1 : 0) + ","
+            + (a.movedRound == rn - 1 ? 1 : 0) + "," + (inStart ? 1 : 0) + "," + (inPrev ? 1 : 0) + "," + (ca ? cv ? "av" : "a" : cv ? "v" : "-")
+            + "," + rn + "," + a.id + "," + v.id;
+    }
+
     void engagements(int rn, int deaths0) {
         inContactR[1] = inContactR[2] = 0;
         nodes.clear();
@@ -1475,7 +1509,7 @@ public class ReplayDump {
             if (t < 1 || t > 2) continue;
             e.dmgBy[t] += h.dmg;
             if (h.lethal) e.killsBy[t]++;
-            if (e.fhRound < 0) { e.fhRound = rn; e.fhIdx = h.idx; e.fhSide = t; }
+            if (e.fhRound < 0) { e.fhRound = rn; e.fhIdx = h.idx; e.fhSide = t; e.fhCtx = fhContext(h, rn); }
         }
         for (int k = deaths0; k < deaths.size(); k++) {
             Robot v = deaths.get(k);
@@ -1586,7 +1620,7 @@ public class ReplayDump {
             for (Map.Entry<String, Integer> c : e.codes.get(t).entrySet()) root.codes.get(t).merge(c.getKey(), c.getValue(), Integer::sum);
         }
         if (e.fhRound >= 0 && (root.fhRound < 0 || e.fhRound < root.fhRound || (e.fhRound == root.fhRound && e.fhIdx < root.fhIdx))) {
-            root.fhRound = e.fhRound; root.fhIdx = e.fhIdx; root.fhSide = e.fhSide;
+            root.fhRound = e.fhRound; root.fhIdx = e.fhIdx; root.fhSide = e.fhSide; root.fhCtx = e.fhCtx;
         }
         root.r1 = Math.max(root.r1, e.r1);
         if (e.touchRound == rn) {   // e already took cells this round: carry them over
@@ -1831,7 +1865,7 @@ public class ReplayDump {
                 "" + e.joined.get(1).size(), "" + e.joined.get(2).size(), e.fhRound < 0 ? "-" : side(e.fhSide),
                 "" + e.dmgBy[1], "" + e.dmgBy[2], "" + e.killsBy[1], "" + e.killsBy[2], "" + e.valLost[1], "" + e.valLost[2],
                 "" + e.aura[1], "" + e.aura[2], "" + e.surv[1], "" + e.surv[2], e.held, engResult(e),
-                teleSide(1) ? codesStr(e.codes.get(1)) : "", teleSide(2) ? codesStr(e.codes.get(2)) : ""));
+                teleSide(1) ? codesStr(e.codes.get(1)) : "", teleSide(2) ? codesStr(e.codes.get(2)) : "", e.fhCtx));
         }
         return rows;
     }

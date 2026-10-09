@@ -408,3 +408,20 @@ of history. Times are PDT. Grep it; do not read it whole.
   games once per incumbent hash, about 1.5 h.
 - Open: tools/archsig.py (VALID records; needs an epsilon), lineage-aware own-style flag, a faster swarm archetype
   (S1 = 149 of our 284 panel losses, slot empty since arch_swarm became g_iter2), identity control and backtest.
+
+## 2026-10-08 19:00 PDT — c_swarm4a/b closed; the panel says economy, not the first hit; arms c_eco1/2
+- c_swarm4a (commit at +1): 6/20 vs g_iter2, 17/20 vs g_iter1 (g_iter2 17). c_swarm4b (commit at parity): 8/20 vs
+  g_iter2. Committing earlier loses in self-play. Closed.
+- New extractor columns (engagements.csv fh_*: how the first hit was fired, whether the victim had just moved, the
+  pair's range history, clouds, ids). On g_iter2's panel (matches 1017-1026), launcher-vs-launcher engagements before
+  r400 without spawn kills: we land the first hit in 0.55-0.72 against every opponent (awesomelemonade 0.55). The
+  earlier "first hit 22%" counted spawn kills under late sieges. Before r400 we win 0.59-0.64 of engagements against
+  vrangr1, jmerle, georgezhang and NotLLeon, 0.50 against pranayagra, 0.20 against awesomelemonade (n0 2.3 vs 4.6:
+  they meet us with twice the launchers; their group_p50 19 vs our 6, focus 0.62 vs 0.33, kill_conv 1.00 vs 0.60).
+- The losses are economic. Per 100 rounds, over games alive at the segment end (all 10 matches): carriers built ours
+  7, 5, 3, 4 (r100-500) against 8, 10, 10, 12; live carriers r300 19/23, r500 14/42, r700 11/65; Mn collected r400-500
+  304 vs 935; Ad r0-100 70 vs 184 (our Ad is 14% of our Mn; theirs 46%). HQ build-loop exits: mid game poor 38%,
+  carrier withheld under threat 24%, anchor reserve 18%, cap 8%; late game threat 58%.
+- Arms (from c_swarm1): c_eco1 = carrier cap 10 per known Mn well, 8 per HQ growing one per 30 rounds, max 60 (was 8,
+  6 per 50, 30). c_eco2 = c_eco1 plus more adamantium: AD_NEED 100, one carrier in 4 early, one in 3 from r150 (was 50,
+  8, 4 from r200).
