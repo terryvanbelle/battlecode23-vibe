@@ -473,3 +473,10 @@ of history. Times are PDT. Grep it; do not read it whole.
   immediate sidesteps: Target r739 win, few stalls. c_role1 = adamantium role by (id + trips) % k: 6/20.
 - The pre-trial screen's stage (b) bar (PASS at 11/20) assumed 10 neutral. Queued: the full screen for c_nav4 and an
   identity screen (c_swarm1id, --allow-identity, --roster none) to measure the baseline on the screen's own cells.
+
+## 2026-10-09 01:20 PDT — c_nav4 screen PASS; replica trial started (submission 122)
+- Screen (progress/screens/c_nav4-9f333d33cf78.json): basics 8/8, h2h 12-8 on the screen's map-seed cells, roster
+  information only (no VALID archetype): adecon +0, ampmid +2, blob -1, horde +0 (Net +1), 108 games with 0 overruns,
+  0 exceptions, 0 self-deaths. The identity screen on the same cells (c_swarm1id) runs next for the stage-(b) baseline.
+- Trial: tools/ladder_policy.py trial-start c_nav4 at 01:20 PDT, panel v1 requested (10 x 10); it queues behind the
+  01:00 autoscrim round; next autoscrim 09:00 PDT. Baseline: g_iter2 40/100 (gauntlet/20261008-210429-panel1-c_swarm1).

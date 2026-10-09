@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-08 22:35 PDT.
+Updated 2026-10-09 01:20 PDT.
 
 ## Standing
 
@@ -24,8 +24,8 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:45). C
 
 | job | candidate | change | state |
 |---|---|---|---|
-| scr-c_nav4 | c_nav4 | distance fields after a wall hit; forming wait capped | pre-trial screen queued 22:33 PDT (108 + 80 games) |
-| scr-c_swarm1id | identity | g_iter2's code under another package | screen stages a-b queued after it: the baseline on the screen's cells |
+| trial (replica) | c_nav4 (submission 122) | distance fields after a wall hit; forming wait capped | screen PASS; panel v1 requested 01:20 PDT 2026-10-09, behind the 01:00 autoscrim; judge with `tools/paired.py` against `gauntlet/20261008-210429-panel1-c_swarm1`, then `trial-end --accept/--reject` before 09:00 PDT |
+| scr-c_swarm1id | identity | g_iter2's code under another package | screen stages a-b on the screen's cells: the stage-(b) baseline |
 
 Results today (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9 (paired vs identity +5), c_nav3a 8,
 c_nav4 7 (+3), c_swarm4b 8, c_eco2 7, c_swarm3 6, c_swarm4a 6, c_role1 6, c_eco1 5. Plan: replica trial of c_nav4
