@@ -369,3 +369,14 @@ of history. Times are PDT. Grep it; do not read it whole.
   (5/20 vs c_line8a's 3/20) and 14/20 vs g_iter0 (c_line8a 18/20). Closed: the gap is the whole economy and fight
   model, not the build order.
 - c_swarm1 = a frozen copy of arch_swarm v4c, on trial now (owner, PROMPTS 32: submit what is locally superior).
+
+## 2026-10-08 17:00 PDT — ACCEPT: c_swarm1 becomes the validated build (g_iter2)
+
+- Panel v1: c_swarm1 40/100 vs g_iter1 (c_line8a) 33: identical 79, gained 14, lost 7 (net +7, +1.53 SE); vs g_iter0
+  net +9 (+2.32 SE, sign p 0.035). Delivered: Mn r100 +192 (t +14.8), launchers alive r100 +5.8 (t +17.1) and r250
+  +15.9 (t +13.7), kills +19 (t +2.3); 0 overruns, 0 exceptions. Weakness: island-rounds -396 (t -2.8).
+- Local: 17-3 vs g_iter1, 19-1 vs g_iter0; 13/20 vs arch_blob, 14/20 vs arch_adecon.
+- Against vrangr1 it is now 1-9 (every earlier build 0-10): mana at r100 close to theirs on most maps, games decided
+  late by island conquest. Next: islands (c_swarm2 = c_swarm1 + anchor gate, queued locally).
+- Tooling found on the way: the block collector compared match maps in request order (the API lists them
+  alphabetically) and scanned only 5 pages; both fixed.

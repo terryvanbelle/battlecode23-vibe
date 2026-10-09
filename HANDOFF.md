@@ -40,9 +40,11 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
   for `tools/paired.py`). Hourly limits count requests AND the matches they create (an accepted request counts
   twice); galaxy's default 10/10 was raised to 40 unranked and 20 ranked (owner, PROMPTS 15-16), so about 20 panel
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
-- Validated build: **g_iter1 = c_line8a** (submission 120, accepted 2026-10-08 12:45 PDT: panel 33/100 vs g_iter0's 31,
-  18/20 vs g_iter0 locally). Its panel run `gauntlet/20261008-180016-panel1-c_line8a` is the baseline for the next trials
-  (test/cells/panel-v1.txt: 10 opponents x 10 maps). g_iter0's panel run: `gauntlet/20261008-011350-panel1-g_iter0`.
+- Validated build: **g_iter2 = c_swarm1** (submission 121, accepted 2026-10-08 17:00 PDT: panel 40/100 vs g_iter1's 33
+  and g_iter0's 31; locally 17-3 vs g_iter1). It is the swarm archetype (docs/ARCHETYPES.md 4.1) frozen as a candidate.
+  Baseline panel run for the next trials: `gauntlet/20261008-210429-panel1-c_swarm1`. Earlier: g_iter1 = c_line8a
+  (`...-180016-panel1-c_line8a`, 33/100), g_iter0 (`...-011350-panel1-g_iter0`, 31/100). Local screen cells vs the
+  incumbent: `test/cells/self-swarm1-panel.txt` (and vs g_iter1, g_iter0, the archetypes).
 - Ranked vs unranked follows `docs/LADDER_STRATEGY.md` (owner, PROMPTS 17-18), state in `progress/ladder-state.json`:
   `tools/ladder_policy.py ranked` runs detached on the driver (`logs/ranked-policy.log`): ranked challenges upward
   only while the validated build is active (BURST one per 5 min while we have < 30 rated matches or the build is < 24 h
