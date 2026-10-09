@@ -560,3 +560,16 @@ of history. Times are PDT. Grep it; do not read it whole.
 - c_nav6 = g_iter4 + fight() scores every fighter and HQ but at most 10 non-fighters, guard 2,500; shoot() takes its
   best target so far under 1,500 left; track() at most 12 fighters and only with 6,000 left. Local: Target win r1490
   vs c_nav5, Forest stress game (2,000 rounds) 0 overruns both sides (self-play crowds stay smaller). Screen queued.
+
+## 2026-10-09 10:20 PDT — Diagnosis workflow on g_iter3; three arms being built
+- research/diagnosis/2026-10-09-g_iter3.md (4 lenses + judge, read-only on the replica panel and ranked games). Key:
+  the r200+ stall is where resources go, not how much we gather. In losses we build 12.4 anchors, place 2.2 and lose
+  9.5 (77%, 39% with no target, couriers never flee); anchors take 27% of mid-game Mn spend and 53% of Ad; Ad banks
+  at besieged HQs (passive income they cannot spend). A gate "no anchor while any HQ is pressed (pressure34 >= 100 in
+  this or the previous 25-round bucket) or the enemy holds more islands" blocks 53% of anchors in losses vs 7% in
+  wins. Home raids before r300 are lost 1 vs 3-4 while 8-22 launchers are elsewhere. Cloud maps: launchers regroup
+  mid-fight (cannot see allies in clouds) and never fire blind.
+- Judge's ranking: 1 c_anc3 (anchor gate + located targets + island scout + couriers that flee + Ad bank cap), 2 c_def2
+  (HQ raid alarm, recall our-half launchers before r600), 3 c_cloud1 (hold on recent contact, blind shot at a
+  vanished enemy's tile). The judge also confirmed the overrun cause as the fight path (c_nav6). All three are being
+  implemented on c_nav6 by an implement/review workflow; screens and replica trials follow.
