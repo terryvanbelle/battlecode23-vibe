@@ -528,3 +528,8 @@ of history. Times are PDT. Grep it; do not read it whole.
 - c_nav5 = g_iter3 with Field.level searching outward from the cached wave and stopping under C.FIELD_LEVEL_GUARD
   (3,000) bytecodes left, and the field descent skipped below the same guard. Target locally: win r812, 0 overruns.
   Screen queued; trial after the 09:00 PDT autoscrim if it passes (decisions otherwise unchanged).
+
+## 2026-10-09 08:28 PDT — Scrimmages paused for local games (owner, PROMPTS 36)
+- VM load average was 14 on 8 vCPU (saturn's 7 engines plus the screen). Stopped the field activity, disabled the
+  autoscrim timer (the 09:00 PDT round will not fire) and stopped our ranked loop. saturn keeps running (7 matches in
+  flight, none queued), so a trial can still play its panel. Resume commands in HANDOFF.md (Standing).

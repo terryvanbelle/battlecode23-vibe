@@ -1,8 +1,14 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-09 07:35 PDT.
+Updated 2026-10-09 08:30 PDT.
 
 ## Standing
+
+- **Scrimmages paused since 2026-10-09 08:28 PDT** (owner, PROMPTS 36: give the VM to the archetype/screen games): field
+  activity stopped (VM), autoscrim timer disabled (`sudo systemctl disable --now bc23-galaxy-scheduler.timer`; the
+  09:00 PDT round did not fire), ranked loop stopped (driver). saturn stays up, so trials still play. Resume: on the VM
+  `sudo systemctl enable --now bc23-galaxy-scheduler.timer` and the field activity (`docs/galaxy/README.md`, field
+  activity); on the driver `setsid nohup python3 tools/ladder_policy.py ranked >> logs/ranked-policy.log 2>&1 &`.
 
 - **Validated build g_iter3 = c_nav4** (submission 122, code hash 9f333d33cf78, accepted 2026-10-09 04:14 PDT; details
   in the replica section): panel 48/100 against g_iter2's 40 (paired net +8, +2.31 SE, p 0.039); g_iter2 (c_swarm1)

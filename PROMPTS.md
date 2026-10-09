@@ -158,3 +158,7 @@ Can you check whether any disk is being taken up by other years?  If so, it can 
 ## 35. 2026-10-08 19:04 PDT
 
 You've still got navigation issues.  Take a look at the recent scrimmage game against BrysonJGalapon.aloha on the Target map.  On the lower left you've got bots pooled in a corner doing nothing
+
+## 36. 2026-10-09 08:27 PDT
+
+Feel free to temporarily pause scrimmages to give the VM more time to do your archetype games
