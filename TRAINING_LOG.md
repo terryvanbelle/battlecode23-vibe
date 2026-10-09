@@ -533,3 +533,12 @@ of history. Times are PDT. Grep it; do not read it whole.
 - VM load average was 14 on 8 vCPU (saturn's 7 engines plus the screen). Stopped the field activity, disabled the
   autoscrim timer (the 09:00 PDT round will not fire) and stopped our ranked loop. saturn keeps running (7 matches in
   flight, none queued), so a trial can still play its panel. Resume commands in HANDOFF.md (Standing).
+
+## 2026-10-09 08:50 PDT — c_nav5 trial started (submission 123) with logged overrides
+- Screen c_nav5 vs g_iter3: basics 8/8, h2h 10-10, roster 99 of 100 cells identical (blob +1), 128 games with 0
+  overruns and 0 exceptions: no regression; formally BORDERLINE without a +2 roster gain, as expected for a guard-only
+  change. trial-start --skip-screen (reason in the history) --force (autoscrim timer paused by the owner, PROMPTS 36-37).
+- Plan (owner, PROMPTS 37: c_nav5 in before the autoscrim): judge the panel against g_iter3's
+  (gauntlet/20261009-082005-panel-c_nav4), accept if no regression, then fire the missed 09:00 PDT autoscrim round by
+  hand (the relay fires only on the cron minute, no catch-up), re-enable the timer, restart field activity and the
+  ranked loop.
