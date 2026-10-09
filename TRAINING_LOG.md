@@ -520,3 +520,11 @@ of history. Times are PDT. Grep it; do not read it whole.
   Net -5 (arch_ampmid 13 -> 9, -4 regression flag), 128 games clean. FAIL (BORDERLINE without a roster gain); closed.
 - Three arms on g_iter3 failed the screen (c_grp1 7-13, c_hq1 8-12, c_role2 10-10 / -5). Next: mine g_iter3's
   replica games for remaining basics failures (stalls, idle funds, symmetry) before more economy or grouping arms.
+
+## 2026-10-09 07:40 PDT — Basics: g_iter3 overran 3 launcher turns; c_nav5 bounds the field lookup
+- g_iter3's replica panel: 3 overruns in match 1811 game 2 (Cornucopia vs georgezhang, launchers aged 10-50,
+  r1801-1979, 10,000-10,010 bytecodes); g_iter2's panel had none. The only unguarded addition in the turn's own work
+  is Field.level: on a cache miss it scanned up to 400 waves (~10 bytecodes each).
+- c_nav5 = g_iter3 with Field.level searching outward from the cached wave and stopping under C.FIELD_LEVEL_GUARD
+  (3,000) bytecodes left, and the field descent skipped below the same guard. Target locally: win r812, 0 overruns.
+  Screen queued; trial after the 09:00 PDT autoscrim if it passes (decisions otherwise unchanged).
