@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-09 15:15 PDT.
+Updated 2026-10-09 15:30 PDT.
 
 ## Standing
 
@@ -33,8 +33,10 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_nav5 | Field.level bounded (search from the cached wave, guard 3,000 bytecodes) | panel identical to g_iter3 (100/100), same 3 overruns | accepted 09:28 PDT as g_iter4 |
 | c_nav6 | g_iter4 + bounded fight scoring, second shot and track() in crowds | panel 98/100 identical, -2 (noise), 0 overruns | accepted 13:15 PDT as g_iter5 |
 | c_anc3 | c_nav6 + anchor discipline | screen PASS (roster Net +16); panel 57/100, net +11 (p 0.003) | accepted 15:14 PDT as g_iter6 |
-| c_def2 | c_nav6 + HQ raid alarm (slot 56) and recall of nearby launchers before r600 | compiled, reviewed | screen queued |
-| c_cloud1 | c_nav6 + hold on recent contact, cloud-aware regroup, blind shot at a vanished fighter's unsensable tile | compiled, reviewed | screen queued |
+| c_def2 | c_nav6 + HQ raid alarm (slot 56) and recall of nearby launchers before r600 | standalone screen vs c_nav5 finishing (h2h 11-9) | superseded by c_def3 |
+| c_cloud1 | c_nav6 + hold on recent contact, cloud-aware regroup, blind shot | standalone screen cancelled | superseded by c_cld2 |
+| c_cld2 | g_iter6 (c_anc3) + c_cloud1's launcher changes | compiled, unit tests PASS | screen vs g_iter6 queued 15:25 PDT |
+| c_def3 | g_iter6 (c_anc3) + c_def2's raid alarm and recall | compiled (one hunk merged by hand), unit tests PASS | screen vs g_iter6 queued 15:25 PDT |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
 Closed or superseded since g_iter2 (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9, c_nav3a 8, c_swarm4b 8,
