@@ -550,3 +550,13 @@ of history. Times are PDT. Grep it; do not read it whole.
   Accepted anyway (no regression, a strictly safer lookup) so the autoscrim plays it (owner, PROMPTS 37). Cause open.
 - Resumed at 09:28 PDT: the missed 09:00 autoscrim round fired by hand (relay fire-jobs --force -> 204; 169 queued),
   timer re-enabled, field activity and the ranked loop restarted.
+
+## 2026-10-09 10:12 PDT — Overrun cause found: fight() in a crowd of 48 enemy carriers; c_nav6
+- Match 2124 game 2 (identical to 1811): launcher 11274 in fight mode every turn at 8,600-9,900 bytecodes from r1792,
+  overran at r1801 and r1811; launcher 12789 at ~8,830 a turn for 50 rounds, then 9,100-10,010. Within r2 20 of
+  11274 at r1800: 48 enemy carriers (georgezhang's carrier swarm), 1 own launcher, 1 own carrier. fight() scores 9
+  tiles against every visible enemy (~6,500 bytecodes for 48), its 2,000 guard left too little for the second shot
+  (shoot scans all enemies again) and the end of the turn. track() (32 x 32 matching, telemetry only) is bounded too.
+- c_nav6 = g_iter4 + fight() scores every fighter and HQ but at most 10 non-fighters, guard 2,500; shoot() takes its
+  best target so far under 1,500 left; track() at most 12 fighters and only with 6,000 left. Local: Target win r1490
+  vs c_nav5, Forest stress game (2,000 rounds) 0 overruns both sides (self-play crowds stay smaller). Screen queued.
