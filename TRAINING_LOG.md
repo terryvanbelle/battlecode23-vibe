@@ -588,3 +588,9 @@ of history. Times are PDT. Grep it; do not read it whole.
   0 overruns and 0 near misses (c_nav4's screen: near 5, c_role2's: 41). Trial started 12:14 PDT; judge against
   gauntlet/20261009-155042-panel-c_nav5; the georgezhang Cornucopia cell (2124 g2) must show 0 overruns.
 - Screens queued behind it: c_anc3 (running), c_def2, c_cloud1.
+
+## 2026-10-09 13:15 PDT — c_nav6 accepted (g_iter5): overruns gone on the replica, panel net -2 (noise)
+- Panel (gauntlet/20261009-191411-panel-c_nav6) vs g_iter4's: 98 of 100 cells identical, 0 gained, 2 lost (Sprint1,
+  britacatalin; net -2, -1.41 SE, sign test p 0.5); 46/100. Overruns 0 in all 100 games, including the georgezhang
+  Cornucopia cell (2332 g2) that overran 3 times under g_iter3/4. Accepted on the basics bar (zero overruns), the
+  cost inside noise. c_anc3, c_def2 and c_cloud1 are built on c_nav6.
