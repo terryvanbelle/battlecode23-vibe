@@ -1,32 +1,31 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-08 09:20 PDT.
+Updated 2026-10-08 21:00 PDT.
 
 ## Standing
 
-- **Incumbent g_iter0** (code hash e6f2fc5356c6): the foundation bot. Field calibration (174 games, 2 per entrant):
-  131-43 (75.3%), BT 1732 +- 66, rank 17 of 88 (`progress/ELO.md`). Beats examplefuncsplayer 206/206 on every map.
-  Basics battery PASS (0 overruns, 0 exceptions, 0 near misses, symmetry never wrong, decided by r150 in 204/206).
-- **Why we lose** (43 calibration losses and a 24-game block against four top bots): the opponents' carriers mine mana
-  from the start (by r100: 470-866 Mn and 0-179 Ad against our 204-350 Mn and 308-440 Ad), so they field 2-6x our
-  launchers by r250; our launchers fight one at a time and stay inside enemy reach (14-28% of launcher-rounds against
-  their 0.3-3%), taking 9-26 damage per contact round against their 3.5-7.7; by about r150 they hold our half.
+- **Validated build g_iter2 = c_swarm1** (submission 121, code hash b646f1e92c6b; details in the replica section):
+  panel 40/100, replica ladder #18 of 88 (rating 1484, 18 rated matches) on 2026-10-08 17:38 PDT.
+- **Why we lose** (g_iter2's 10 panel matches, 1017-1026, `research/matches/`): not the opening fights. Before r400 we
+  land the first hit in 55-72% of launcher duels and win 59-64% of engagements against vrangr1, jmerle, georgezhang and
+  NotLLeon (awesomelemonade: 20%, they meet us with twice the launchers, group size 19 vs our 6). We lose the middle
+  game: from r200 we build 3-5 carriers per 100 rounds against their 10-12, live carriers r500 14 vs 42, Mn r400-500
+  304 vs 935; our HQs withhold carriers under threat (24% of mid-game HQ turns, 58% late) and are Mn-poor 38%.
+  Raising the carrier cap or the Ad share lost in self-play (c_eco1 5/20, c_eco2 7/20).
+- **Navigation** (owner, PROMPTS 35): on Target the incumbent strands launchers in dead-end corridors (march mode, up to
+  317 rounds) and idles them forming up at home (40-150 rounds). c_nav3 adds per-robot distance fields
+  (`src/c_nav3/Field.java`, TRAINING_LOG 2026-10-08 20:45): locally on Target it wins by 75% islands at r640-797 with
+  no launcher still 40+ rounds; 0 overruns.
 
-## In flight (VM queue, each paired on identical cells)
+## In flight (VM queue; self-play cells pinned by seed)
 
 | job | candidate | change | control | state |
 |---|---|---|---|---|
-| cand-nav1 | c_nav1 | bug navigation keeps its hand per obstacle | c_econ1 | done: net 0, more stalls, -7% collection |
-| cand-mana1 | c_mana1 | mana-first roles, adaptive at delivery | c_nav1 | done: rejected, net -7; mined MORE Ad |
-| cand-mana2 | c_mana2 | 1 in 5 carriers on adamantium, overrides by HQ stock | c_nav1 | done: kept (net +5, Mn r100 +62, launchers up); working line C.ROLES = 2 |
-| deliv-mana1/micro1/batch1 | c_micro1, c_batch1 | pinned-enemy micro, safe step-in; launcher batches of 3 | c_mana1, c_micro1 | queued |
-| deliv-spawn1 | c_spawn1 | spawn on the tile fewest enemy fighters reach | c_batch1 | queued |
-| deliv-army1 | c_army1 | launcher cohesion (`C.ARMY`): regroup, follow the lowest id | c_spawn1 | queued |
-| cand-nav2 | c_nav2 | c_nav1 without the 3-turn wait for robots on the wall path | c_nav1 | queued |
-| cand-audit1 | c_audit1 | the whole line since g_iter0 + audit fixes; carries c_mana1's roles | g_iter0 calibration | done: net -6 (-1.7 SE), Ad-heavy economy, 111 HQ overruns (fixed in src/bot) |
+| h2h-nav3, inc1-nav3 | c_nav3 | distance-field navigation, forming wait capped at 15 turns | g_iter2 (`test/cells/self-swarm1-panel.txt`), g_iter1 (`self-g_iter1-panel.txt`) | queued 20:43 PDT |
 
-Cells: `test/cells/calib-g_iter0.txt` (174, every entrant twice) and `test/cells/diag-top4.txt` (24, four top bots).
-Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <cand run> <control run>`.
+Closed today (local, 20 games each vs g_iter2): c_swarm2 8, c_swarm3 6, c_swarm4a 6 (commit at +1), c_swarm4b 8
+(commit at parity), c_eco1 5, c_eco2 7. A build goes to a replica trial only after `tools/screen.py <package>` passes
+(docs/LADDER_STRATEGY.md, pre-trial screen).
 
 ## The galaxy replica (owner, PROMPTS 11-12)
 
