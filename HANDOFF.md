@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-08 21:00 PDT.
+Updated 2026-10-08 22:45 PDT.
 
 ## Standing
 
@@ -19,13 +19,18 @@ Updated 2026-10-08 21:00 PDT.
 
 ## In flight (VM queue; self-play cells pinned by seed)
 
-| job | candidate | change | control | state |
-|---|---|---|---|---|
-| h2h-nav3, inc1-nav3 | c_nav3 | distance-field navigation, forming wait capped at 15 turns | g_iter2 (`test/cells/self-swarm1-panel.txt`), g_iter1 (`self-g_iter1-panel.txt`) | queued 20:43 PDT |
+**Read head-to-heads against the identity control, never against 10/20**: on `test/cells/self-swarm1-panel.txt`
+g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:45). Compare cell by cell.
 
-Closed today (local, 20 games each vs g_iter2): c_swarm2 8, c_swarm3 6, c_swarm4a 6 (commit at +1), c_swarm4b 8
-(commit at parity), c_eco1 5, c_eco2 7. A build goes to a replica trial only after `tools/screen.py <package>` passes
-(docs/LADDER_STRATEGY.md, pre-trial screen).
+| job | candidate | change | state |
+|---|---|---|---|
+| scr-c_nav4 | c_nav4 | distance fields after a wall hit; forming wait capped | pre-trial screen queued 22:33 PDT (108 + 80 games) |
+| scr-c_swarm1id | identity | g_iter2's code under another package | screen stages a-b queued after it: the baseline on the screen's cells |
+
+Results today (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9 (paired vs identity +5), c_nav3a 8,
+c_nav4 7 (+3), c_swarm4b 8, c_eco2 7, c_swarm3 6, c_swarm4a 6, c_role1 6, c_eco1 5. Plan: replica trial of c_nav4
+after the 01:00 PDT autoscrim if the screen does not show a regression (`--skip-screen` with the reason if only the
+uncalibrated stage-(b) bar fails).
 
 ## The galaxy replica (owner, PROMPTS 11-12)
 

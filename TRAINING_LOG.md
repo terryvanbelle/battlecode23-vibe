@@ -458,3 +458,18 @@ of history. Times are PDT. Grep it; do not read it whole.
 - c_nav3a = c_nav3 with the forming wait uncapped (as g_iter2): on Target it still wins by 75% islands at r760, one
   launcher held 45 rounds in march mode (incumbent: two for 840), forming idle 10 launchers / 518 rounds (incumbent
   12 / 972). h2h queued.
+
+## 2026-10-08 22:45 PDT — Identity control: the self-play head-to-head cells favour the incumbent's seat 16-4
+- c_swarm1id (g_iter2's code under another package, same code hash) vs c_swarm1 on `test/cells/self-swarm1-panel.txt`:
+  4/20 (2/10 as A, 2/10 as B). Our randomness is seeded by robot id only, so these mirror games are fixed by the seed:
+  the 20 pinned seeds give the opponent seat 16 wins (p = 0.006 for fair coins). 10/20 is not the neutral mark on
+  these cells; every arm today must be read paired, cell by cell, against the identity run.
+- Re-read: c_swarm2 8, c_swarm3 6, c_swarm4a 6, c_swarm4b 8, c_eco1 5, c_eco2 7, c_nav3 9, c_nav3a 8, c_nav4 7,
+  c_role1 6, against identity 4. Paired vs identity: c_nav3 gains 7 cells, loses 2 (net +5, 1.7 SE); c_nav4 gains 5,
+  loses 2 (net +3). Earlier closures today were decided on a bar that was wrong; none of them is a measured
+  regression either (20 games resolve about +-4).
+- vs g_iter1 (`self-g_iter1-panel.txt`, no identity yet): c_nav4 17/20, c_nav3 16, g_iter2 17.
+- c_nav4 = c_nav3 with fields descended only after greedy hits a wall toward their target (sticky per target) and
+  immediate sidesteps: Target r739 win, few stalls. c_role1 = adamantium role by (id + trips) % k: 6/20.
+- The pre-trial screen's stage (b) bar (PASS at 11/20) assumed 10 neutral. Queued: the full screen for c_nav4 and an
+  identity screen (c_swarm1id, --allow-identity, --roster none) to measure the baseline on the screen's own cells.
