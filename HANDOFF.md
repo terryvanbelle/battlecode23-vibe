@@ -20,12 +20,13 @@ Updated 2026-10-09 01:20 PDT.
 ## In flight (VM queue; self-play cells pinned by seed)
 
 **Read head-to-heads against the identity control, never against 10/20**: on `test/cells/self-swarm1-panel.txt`
-g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:45). Compare cell by cell.
+g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); on the screen's map-seed cells it scores
+10/20 (seat-neutral, 2026-10-09 01:30). Compare cell by cell.
 
 | job | candidate | change | state |
 |---|---|---|---|
 | trial (replica) | c_nav4 (submission 122) | distance fields after a wall hit; forming wait capped | screen PASS; panel v1 requested 01:20 PDT 2026-10-09, behind the 01:00 autoscrim; judge with `tools/paired.py` against `gauntlet/20261008-210429-panel1-c_swarm1`, then `trial-end --accept/--reject` before 09:00 PDT |
-| scr-c_swarm1id | identity | g_iter2's code under another package | screen stages a-b on the screen's cells: the stage-(b) baseline |
+| h2h-hq1 | c_hq1 | c_nav4 + carriers built under threat on spawn tiles no visible enemy fighter reaches | queued 01:31 PDT; read paired against c_nav4's own h2h run (gauntlet/20261009-*-h2h-nav4) |
 
 Results today (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9 (paired vs identity +5), c_nav3a 8,
 c_nav4 7 (+3), c_swarm4b 8, c_eco2 7, c_swarm3 6, c_swarm4a 6, c_role1 6, c_eco1 5. Plan: replica trial of c_nav4
