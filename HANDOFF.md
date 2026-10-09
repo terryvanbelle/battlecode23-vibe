@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-08 22:45 PDT.
+Updated 2026-10-08 22:35 PDT.
 
 ## Standing
 

@@ -459,7 +459,7 @@ of history. Times are PDT. Grep it; do not read it whole.
   launcher held 45 rounds in march mode (incumbent: two for 840), forming idle 10 launchers / 518 rounds (incumbent
   12 / 972). h2h queued.
 
-## 2026-10-08 22:45 PDT — Identity control: the self-play head-to-head cells favour the incumbent's seat 16-4
+## 2026-10-08 22:35 PDT — Identity control: the self-play head-to-head cells favour the incumbent's seat 16-4
 - c_swarm1id (g_iter2's code under another package, same code hash) vs c_swarm1 on `test/cells/self-swarm1-panel.txt`:
   4/20 (2/10 as A, 2/10 as B). Our randomness is seeded by robot id only, so these mirror games are fixed by the seed:
   the 20 pinned seeds give the opponent seat 16 wins (p = 0.006 for fair coins). 10/20 is not the neutral mark on
