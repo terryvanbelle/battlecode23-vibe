@@ -1,0 +1,9 @@
+# The pre-trial screen's archetype roster (tools/screen.py stage c; docs/ARCHETYPES.md section 5).
+# One line per package: <package> [auto|gate|info|off]; '*' stands for every src/arch_* package not named here.
+#   auto  gates when progress/archetypes/<name>-<hash>.json is VALID for the package's current code hash, else it is
+#         played and reported for information only (the default)
+#   gate  always gates (a logged coordinator decision: an unvalidated partner can mislead)
+#   info  played and reported, never gates
+#   off   not played
+# The roster can block a candidate, never accept one. Without this file the roster is '* auto'.
+* auto

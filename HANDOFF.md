@@ -50,6 +50,13 @@ Read with `tools/paired.py <cand run> <control run>` and `tools/delivery.py <can
   only while the validated build is active (BURST one per 5 min while we have < 30 rated matches or the build is < 24 h
   old, else one per 30 min). Candidates go through `trial-start <package>` (incoming ranked auto-rejected, unranked
   panel) and `trial-end --accept|--reject`. Trials: c_line4 25/100 (rejected), c_line5 28 (rejected), c_line6 32 (even, not accepted; working base). Autoscrim: galaxy's own, every 8 hours over all teams (17:00, 01:00, 09:00 PDT). Field teams challenge in idle capacity, weighted toward the low end of the displayed ladder (under-played teams). Field-vs-field replays are pruned after 6 h.
+- Pre-trial screen (owner, PROMPTS 22-23; `docs/ARCHETYPES.md` section 5, `docs/LADDER_STRATEGY.md`): `trial-start`
+  refuses a candidate without a PASS record in `progress/screens/` (`tools/screen.py <package>`: basics vs
+  examplefuncsplayer, 20 head-to-head vs the validated build, 20 per archetype paired with the validated build's
+  games; about 1.5 h on the VM). Archetypes `src/arch_{swarm,blob,adecon,horde,ampmid}` (notes `research/archetypes/`)
+  are built from replica replays only. None gates yet: no VALID record exists (`tools/archsig.py` not built; the
+  2026-10-08 verifier found 4 of 5 just outside their tolerances), so the roster is information only and a BORDERLINE
+  head-to-head fails. arch_swarm has g_iter2's code hash, so the S1 slot is empty until a stronger swarm archetype is built.
 - Every replica game must count (owner, PROMPTS 13): bot telemetry (docs/TELEMETRY.md; galaxy runs with indicators
   off, so contest replays carry a 6-bit state code per robot-turn in the bytecode count), ReplayDump extractors (engagements,
   timelines, death causes, opponent tactics) and a per-match report for every downloaded match (`research/matches/`,

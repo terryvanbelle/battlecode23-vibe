@@ -42,6 +42,9 @@ means making it active, and while it is active, autoscrims and every accepted in
 - Never while 2 or more of our matches already wait in the queue, so that our panels are not slowed down.
 
 **4. Trials: keep the exposure window short.** `trial-start <package>`:
+0. Refuses unless the candidate passed the pre-trial screen (below): a PASS record in `progress/screens/` for the
+   candidate's code hash against the current validated build's code hash. The check runs before any replica call;
+   `--skip-screen "<reason>"` overrides it and the reason is kept in the trial-start history event.
 1. Refuses unless the validated build is active and the trial can end before the next autoscrim (2.5 hours; start a
    trial right after an autoscrim fires).
 2. Sets incoming ranked requests to auto-reject. Autoscrims still play, which is why trials avoid them.
@@ -53,11 +56,38 @@ resubmits the validated build at once. Both restore auto-accept, and the ranked 
 **5. Endgame.** Before a submission freeze or tournament seeding, run no trials. Keep the best validated build active,
 and spend the ranked budget early enough for the rating to converge.
 
+## Pre-trial screen
+
+Owner, PROMPTS 22-23: a candidate is screened locally before it uses replica games (design: `docs/ARCHETYPES.md`
+section 5). `tools/screen.py <package>` queues one job on the VM (standing queue, `MAXJOBS=2`; every game on the map's
+own seed, both sides) and judges it on the driver:
+
+| stage | games | bar |
+|---|---|---|
+| (a) basics | 8: candidate vs examplefuncsplayer on SmallElements, Contraction, FourNations, Tightrope | 8/8 wins; candidate over = exceptions = deaths_self = sym_wrong = 0. A failure stops the screen. |
+| (b) head-to-head | 20: candidate vs the validated build on the 10 panel maps | s = wins + 0.5 coin: PASS at s >= 11, BORDERLINE at 9-10.5, FAIL below 9 (stops the screen) |
+| (c) roster | 20 per archetype, paired cell by cell with the validated build's games (cached by code hash) | per archetype: REGRESSION when net <= -3 and net <= -2 sqrt(g + l); pooled over the gating archetypes: Net <= -4 and Net <= -2 sqrt(G + L) |
+| (d) basics | every candidate game | over = exceptions = deaths_self = 0 |
+
+**PASS** when (a), (c) and (d) pass and (b) is PASS, or (b) is BORDERLINE with a pooled roster Net >= +2. Otherwise
+FAIL; INCOMPLETE when unknown games (timeouts) could change a verdict, or when a run's recorded code hash is not the
+expected one. The roster (`tools/archetypes.txt`, default every `src/arch_*`) can block a candidate, never accept one:
+an archetype gates only with a VALID validation record for its current code hash (`progress/archetypes/`); the others
+are played and reported for information. An archetype at the candidate's hash is dropped; one at the incumbent's hash
+is the incumbent's own style and is not played (its games would repeat stage (b)). The record (`progress/screens/<package>-<hash>.json`) carries each stage's
+counts and, per archetype, both builds' wins, gained, lost, both-won, both-lost and a censoring flag (the incumbent
+won none or all of its cells). The validated build's roster games are cached in `progress/screens/cache.csv` by
+(code hashes, map, side, seed), so each is played once per pair of hashes. A `--maps` subset or a `--roster` override
+writes a `.reduced` record that never admits a trial. Exit codes: 0 PASS, 1 FAIL, 2 INCOMPLETE, 3 refused. After each trial,
+`tools/screen.py calibrate <record> <panel run>` compares the screen's paired counts per style with the trial panel's.
+
 ## Operation
 
 ```
 tools/ladder_policy.py status                       # state, active and validated submissions, mode, next autoscrim
+tools/screen.py <package> [--no-wait]               # the pre-trial screen (VM job; collect with tools/screen.py collect)
 tools/ladder_policy.py trial-start <package>        # submit a candidate and run the panel (long: run it detached)
+                                                    # refuses without a passing screen; --skip-screen "<reason>"
 tools/ladder_policy.py trial-end --accept|--reject  # decided by tools/paired.py on the two panel runs
 tools/ladder_policy.py ranked                       # the ranked loop (detached on the driver, logs/ranked-policy.log)
 ```

@@ -394,3 +394,17 @@ of history. Times are PDT. Grep it; do not read it whole.
   76%, first hit 22% vs 78%, exchange 0.49 vs 2.2. Their launchers stand and fire 37% of turns (ours 17%); ours hold
   (no move, no fire) 41% (theirs 27%): the parity hold keeps ours out of the fight unless 2+ ahead.
 - c_swarm4a (commit when 1 ahead) and c_swarm4b (commit at parity), on the local cells vs g_iter2 and g_iter1.
+
+## 2026-10-08 18:40 PDT — archetype roster and pre-trial screen landed
+- Workflow (10 agents): five archetypes from replica replays only (arch_swarm, arch_blob, arch_adecon, arch_horde,
+  arch_ampmid), the screen `tools/screen.py`, the trial-start gate in `tools/ladder_policy.py`, build provenance
+  (`HASHES=1` code hashes, `seed_mode`, `opp_hash.*` in provenance.txt).
+- Verifier: no rule breach (no field code, sources are replays and match reports, local opponents only ours).
+  Fidelity: swarm INVALID (fights at prog 0.44 vs members 0.27-0.35; Mn@100 396 vs 492-618), adecon 8/11 core
+  metrics, blob 8/11 plus 2 overruns (wins from an early lead where its member wins from behind), horde throws half
+  the member's, ampmid passes only on a float boundary and descends from our code. Strength vs g_iter0 is close to
+  the members' for all five. Fixed in screen.py: a --roster override now writes a reduced record; calibrate's share.
+- Dry run: c_line6 vs c_line8a, 2 maps, PASS (reduced). A full screen is about 108 candidate games + 80 incumbent
+  games once per incumbent hash, about 1.5 h.
+- Open: tools/archsig.py (VALID records; needs an epsilon), lineage-aware own-style flag, a faster swarm archetype
+  (S1 = 149 of our 284 panel losses, slot empty since arch_swarm became g_iter2), identity control and backtest.

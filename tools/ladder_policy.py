@@ -12,18 +12,24 @@ States (progress/ladder-state.json):
              MAINTAIN (one per 30 min) otherwise. Never while 2 or more of our matches wait in the queue.
   TRIAL      a candidate is active: no ranked challenges, incoming ranked requests auto-rejected, the candidate plays
              the unranked panel; then trial-end --accept (it becomes the validated build) or --reject (the
-             validated build is resubmitted at once). A trial starts only if it can end before the next autoscrim.
+             validated build is resubmitted at once). A trial starts only if it can end before the next autoscrim,
+             and only for a candidate that passed the pre-trial screen (tools/screen.py; docs/ARCHETYPES.md
+             section 5): a PASS record in progress/screens/ for the candidate's code hash against the validated
+             build's code hash. --skip-screen "<reason>" overrides (the reason is kept in the history); --force
+             overrides only the autoscrim window.
 
     tools/ladder_policy.py status
     tools/ladder_policy.py init <submission id> <package>      # declare the validated build (once)
     tools/ladder_policy.py trial-start <package> [--panel test/cells/panel-v1.txt] [--tag T] [--force]
+                                            [--skip-screen "<reason>"]
     tools/ladder_policy.py trial-end --accept | --reject
     tools/ladder_policy.py ranked                               # the ranked loop (run detached)
 """
-import argparse, datetime, importlib.util, json, os, random, sys, time
+import argparse, datetime, glob, importlib.util, json, os, random, subprocess, sys, time
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATE = os.path.join(REPO, 'progress', 'ladder-state.json')
+SCREENS = os.path.join(REPO, 'progress', 'screens')
 _spec = importlib.util.spec_from_file_location('contest', os.path.join(REPO, 'tools', 'contest.py'))
 contest = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(contest)
@@ -87,6 +93,40 @@ def may_challenge(state, active_submission, waiting, last_request, mode, now):
 
 def trial_window_ok(next_autoscrim, now, hours=TRIAL_HOURS):
     return next_autoscrim is None or next_autoscrim - now >= datetime.timedelta(hours=hours)
+
+
+def screen_check(screens_dir, cand_hash, inc_hash):
+    """(ok, path, reason): progress/screens/ holds a pre-trial screen record (tools/screen.py) for this candidate code
+    hash, against this incumbent code hash, with verdict PASS and the full map set. Found by hash, never by name."""
+    if not cand_hash or not inc_hash:
+        return False, None, f'unknown code hash (candidate {cand_hash}, incumbent {inc_hash})'
+    why = f'no screen record for code hash {cand_hash}'
+    for p in sorted(glob.glob(os.path.join(screens_dir, f'*-{cand_hash}.json'))):
+        try:
+            with open(p) as fh:
+                rec = json.load(fh)
+        except (OSError, ValueError):
+            why = f'{os.path.basename(p)} is unreadable'
+            continue
+        if rec.get('candidate_hash') != cand_hash:
+            continue
+        if rec.get('incumbent_hash') != inc_hash:
+            why = f'{os.path.basename(p)} screened against incumbent {rec.get("incumbent_hash")}, not {inc_hash}'
+        elif rec.get('reduced'):
+            why = f'{os.path.basename(p)} is a reduced screen'
+        elif rec.get('verdict') != 'PASS':
+            why = f'{os.path.basename(p)} verdict {rec.get("verdict")}: ' + '; '.join(rec.get('reasons') or [])
+        else:
+            return True, p, 'PASS'
+    return False, None, why
+
+
+def bot_hash(package):
+    """tools/bot-hash.sh <package>, or None when src/<package> does not exist."""
+    if not package or not os.path.isdir(os.path.join(REPO, 'src', package)):
+        return None
+    r = subprocess.run(['bash', os.path.join(REPO, 'tools', 'bot-hash.sh'), package], capture_output=True, text=True)
+    return r.stdout.strip() if r.returncode == 0 else None
 
 
 # ---------------------------------------------------------------- state and galaxy facts
@@ -163,10 +203,28 @@ def cmd_init(sub_id, package):
     print('validated build', sub_id, package)
 
 
-def cmd_trial_start(package, panel, tag, force):
+def screen_gate(s, package, skip_screen):
+    """The pre-trial screen check, before any replica call: the history fields for the trial-start event, or
+    SystemExit naming the command to run."""
+    v = s.get('validated') or {}
+    if skip_screen is not None:
+        if not skip_screen.strip():
+            raise SystemExit('--skip-screen needs a reason')
+        return {'screen_skipped': skip_screen.strip()}
+    ch, ih = bot_hash(package), bot_hash(v.get('package'))
+    ok, path, why = screen_check(SCREENS, ch, ih)
+    if not ok:
+        raise SystemExit(f'no passing pre-trial screen for {package} ({ch}) against the validated build '
+                         f'{v.get("package")} ({ih}): {why}\nrun: tools/screen.py {package}   '
+                         f'(docs/ARCHETYPES.md section 5; override: --skip-screen "<reason>")')
+    return {'screen': os.path.relpath(path, REPO)}
+
+
+def cmd_trial_start(package, panel, tag, force, skip_screen=None):
     s = load_state()
     if s.get('trial'):
         raise SystemExit(f'a trial is already in progress: {s["trial"]}')
+    screen = screen_gate(s, package, skip_screen)          # before any replica call
     sub = active_submission()
     v = s.get('validated') or {}
     if not sub or sub['id'] != v.get('submission'):
@@ -182,7 +240,8 @@ def cmd_trial_start(package, panel, tag, force):
         contest.set_auto_accept(ranked='A', unranked='A')
         raise SystemExit(f'candidate {package} did not compile: {done["status"]}\n{done.get("logs", "")[-1500:]}')
     s['trial'] = {'submission': new['id'], 'package': package, 'started': utcnow().isoformat(), 'panel': panel}
-    s['history'].append({'at': utcnow().isoformat(), 'event': 'trial-start', 'submission': new['id'], 'package': package})
+    s['history'].append(dict({'at': utcnow().isoformat(), 'event': 'trial-start', 'submission': new['id'],
+                              'package': package}, **screen))
     save_state(s)
     print('trial', new['id'], package, '- running the panel')
     run = contest.block(panel, tag or f'panel-{package}')
@@ -279,7 +338,8 @@ def main():
     sp.add_parser('status')
     s = sp.add_parser('init'); s.add_argument('submission', type=int); s.add_argument('package')
     s = sp.add_parser('trial-start'); s.add_argument('package'); s.add_argument('--panel', default='test/cells/panel-v1.txt')
-    s.add_argument('--tag'); s.add_argument('--force', action='store_true')
+    s.add_argument('--tag'); s.add_argument('--force', action='store_true', help='ignore the autoscrim window only')
+    s.add_argument('--skip-screen', metavar='REASON', help='start without a passing pre-trial screen (logged)')
     s = sp.add_parser('trial-end'); g = s.add_mutually_exclusive_group(required=True)
     g.add_argument('--accept', action='store_true'); g.add_argument('--reject', action='store_true')
     sp.add_parser('ranked')
@@ -289,7 +349,7 @@ def main():
     elif a.cmd == 'init':
         cmd_init(a.submission, a.package)
     elif a.cmd == 'trial-start':
-        cmd_trial_start(a.package, a.panel, a.tag, a.force)
+        cmd_trial_start(a.package, a.panel, a.tag, a.force, a.skip_screen)
     elif a.cmd == 'trial-end':
         cmd_trial_end(a.accept)
     elif a.cmd == 'ranked':

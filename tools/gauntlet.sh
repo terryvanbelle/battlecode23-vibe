@@ -40,7 +40,7 @@ if [ "${SKIP_COMPILE:-0}" != 1 ] && ps -eo args | grep -q "[j]ava .*-Dbc.game.te
   echo "!! $CLASSES is in use by running games; use CLASSES=<private tree> or SKIP_COMPILE=1" >&2; exit 3
 fi
 if [ "${SKIP_COMPILE:-0}" = 1 ] && [ -d "$CLASSES" ]; then echo "reusing $CLASSES (SKIP_COMPILE=1)" >&2
-else rm -rf "$CLASSES" && CLASSES="$CLASSES" bash "$REPO/tools/build.sh" >/dev/null || { echo "!! compile failed" >&2; exit 1; }; fi
+else rm -rf "$CLASSES" && CLASSES="$CLASSES" HASHES=1 bash "$REPO/tools/build.sh" >/dev/null || { echo "!! compile failed" >&2; exit 1; }; fi
 
 RUN_ID="$(date +%Y%m%d-%H%M%S)${TAG:+-$TAG}"
 mkdir -p "$REPO/gauntlet"
@@ -54,9 +54,23 @@ if [ "${SCRIM:-0}" != 1 ]; then
   for o in $(awk '{print $1}' "$OUT/cells.txt" | sort -u); do [ -d "$CLASSES/$o" ] || { echo "!! $o is external: SCRIM=1 needed" >&2; exit 1; }; done
 fi
 # provenance: the content hash of the code that plays (results are keyed by code, never by a package or dir name;
-# identity run 2 of 2026-10-07 compiled a src/bot that had changed under it and was misread as an identity control)
-if [ -d "$REPO/src/$BOT" ]; then BOT_HASH=$(bash "$REPO/tools/bot-hash.sh" "$BOT"); else BOT_HASH=$(awk -F'\t' -v n="$BOT" '$1==n{print $2}' "$BENCH_ROOT/hashes.tsv"); fi
-printf 'bot=%s\nbot_hash=%s\ncells=%s\n' "$BOT" "${BOT_HASH:-?}" "$(sha1sum "$OUT/cells.txt" | cut -c1-12)" > "$OUT/provenance.txt"
+# identity run 2 of 2026-10-07 compiled a src/bot that had changed under it and was misread as an identity control).
+# Our packages: the hash recorded when $CLASSES was compiled ($CLASSES/.hashes, tools/build.sh HASHES=1), else src/.
+code_hash () {
+  local p="$1" h=""
+  [ -f "$CLASSES/.hashes" ] && h=$(awk -v p="$p" '$1 == p {print $2; exit}' "$CLASSES/.hashes")
+  if [ -z "$h" ] && [ -d "$REPO/src/$p" ]; then h=$(bash "$REPO/tools/bot-hash.sh" "$p"); fi
+  echo "$h"
+}
+if [ -d "$REPO/src/$BOT" ]; then BOT_HASH=$(code_hash "$BOT"); else BOT_HASH=$(awk -F'\t' -v n="$BOT" '$1==n{print $2}' "$BENCH_ROOT/hashes.tsv"); fi
+# seed_mode: map when every game is on the map's own seed, random when any seed is drawn per game, else cells (fixed
+# seeds from the cells file); results are cacheable by (code hashes, map, side, seed) only when it is not random
+SEED_KIND=$(awk -v d="$SEED_MODE" '{s = (NF >= 4) ? $4 : (d == "map" ? "map" : "random"); if (s == "random") r = 1; else if (s != "map") c = 1}
+  END {print r ? "random" : (c ? "cells" : "map")}' "$OUT/cells.txt")
+{ printf 'bot=%s\nbot_hash=%s\ncells=%s\nseed_mode=%s\n' "$BOT" "${BOT_HASH:-?}" "$(sha1sum "$OUT/cells.txt" | cut -c1-12)" "$SEED_KIND"
+  for o in $(awk '{print $1}' "$OUT/cells.txt" | sort -u); do
+    [ -d "$REPO/src/$o" ] && [ -d "$CLASSES/$o" ] && printf 'opp_hash.%s=%s\n' "$o" "$(code_hash "$o")"
+  done; true; } > "$OUT/provenance.txt"
 echo "gauntlet $RUN_ID bot=$BOT hash=${BOT_HASH:-?} games=$NG jobs=$MAXJOBS seeds=$SEED_MODE"
 : > "$OUT/results.raw"
 

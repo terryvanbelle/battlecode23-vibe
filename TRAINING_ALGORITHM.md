@@ -57,6 +57,9 @@ is placed on the ladder. Then run the first **correctness audit** (§4) and only
   verify it with local bot-vs-bot runs against the incumbent and the archetype roster, many arms in flight at once.
 - Submit to the ladder whenever local evidence says a build is superior; ladder games are asynchronous to the main
   work: their verdict arrives later and never blocks the next local arm.
+- Before a candidate uses scarce ladder games it passes a local screen, enforced by the tool that starts a trial:
+  basics against the starter bot, head-to-head against the incumbent, and the archetype roster paired cell by cell
+  with the incumbent's games. The roster can block a candidate, never accept one; only validated archetypes gate.
 - Every ladder replay, ours and any other we may see, is diagnosis input: reports, telemetry queries, opponent
   tactics, archetype refinement and the next idea.
 - Optimise for wall-clock time: keep the compute machine full of local arms, decide on the strongest evidence

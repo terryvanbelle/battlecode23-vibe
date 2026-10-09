@@ -276,6 +276,440 @@ class LadderPolicyTest(unittest.TestCase):
         self.assertFalse(self.p.trial_window_ok(self.t(8), self.t(6)))
         self.assertTrue(self.p.trial_window_ok(None, self.t(6)))
 
+    @staticmethod
+    def screen_record(d, name, ch, ih, verdict='PASS', reduced=False):
+        import json
+        p = Path(d, f'{name}-{ch}' + ('.reduced' if reduced else '') + '.json')
+        p.write_text(json.dumps({'v': 1, 'candidate': name, 'candidate_hash': ch, 'incumbent': 'inc',
+                                 'incumbent_hash': ih, 'reduced': reduced, 'verdict': verdict, 'reasons': []}))
+        return p
+
+    def test_screen_check(self):
+        """A PASS record for the candidate's code hash against the incumbent's hash admits a trial; nothing else does."""
+        d = tempfile.mkdtemp()
+        ch, ih = 'a' * 12, 'b' * 12
+        self.assertFalse(self.p.screen_check(d, ch, ih)[0])                          # no record
+        self.screen_record(d, 'x', ch, 'c' * 12)
+        ok, _, why = self.p.screen_check(d, ch, ih)
+        self.assertFalse(ok)
+        self.assertIn('not ' + ih, why)                                               # other incumbent
+        self.screen_record(d, 'x', ch, ih, verdict='FAIL')
+        self.assertFalse(self.p.screen_check(d, ch, ih)[0])
+        self.screen_record(d, 'x', ch, ih, reduced=True)                              # reduced map set: never
+        self.assertFalse(self.p.screen_check(d, ch, ih)[0])
+        p = self.screen_record(d, 'renamed', ch, ih)                                  # found by hash, not name
+        self.assertEqual(self.p.screen_check(d, ch, ih), (True, str(p), 'PASS'))
+        self.assertFalse(self.p.screen_check(d, None, ih)[0])
+
+    def trial_env(self, records=()):
+        """ladder_policy with a temporary state and screens dir, stub hashes, and a contest stub that records calls."""
+        import json, types
+        d = tempfile.mkdtemp()
+        st = Path(d, 'state.json')
+        st.write_text(json.dumps({'validated': {'submission': 24, 'package': 'inc'}, 'trial': None, 'history': []}))
+        for ch in records:
+            self.screen_record(d, 'cand', ch, 'b' * 12)
+        calls = []
+
+        def stub(name, ret=None):
+            def f(*a, **k):
+                calls.append(name)
+                return ret
+            return f
+        fake = types.SimpleNamespace(
+            pages=stub('pages', [{'id': 24, 'accepted': True}]), set_auto_accept=stub('set_auto_accept'),
+            submit=stub('submit', {'id': 30}), wait_submission=stub('wait', {'status': 'OK!', 'accepted': True}),
+            block=stub('block', os.path.join(d, 'run')))
+        saved = (self.p.contest, self.p.STATE, self.p.SCREENS, self.p.bot_hash, self.p.next_autoscrim)
+        self.p.contest, self.p.STATE, self.p.SCREENS = fake, str(st), d
+        self.p.bot_hash = lambda pkg: {'cand': 'a' * 12, 'inc': 'b' * 12}.get(pkg)
+        self.p.next_autoscrim = lambda now: None
+        self.addCleanup(lambda: setattr(self.p, 'contest', saved[0]) or setattr(self.p, 'STATE', saved[1]) or
+                        setattr(self.p, 'SCREENS', saved[2]) or setattr(self.p, 'bot_hash', saved[3]) or
+                        setattr(self.p, 'next_autoscrim', saved[4]))
+        return st, calls
+
+    def test_trial_start_refuses_without_screen(self):
+        import io, contextlib
+        st, calls = self.trial_env()
+        with self.assertRaises(SystemExit) as cm, contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_start('cand', 'panel.txt', None, True)                  # --force: the window only
+        self.assertIn('tools/screen.py cand', str(cm.exception))
+        self.assertEqual(calls, [])                                                   # refused before any replica call
+        with self.assertRaises(SystemExit), contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_start('cand', 'panel.txt', None, False, skip_screen='  ')  # a reason is required
+        self.assertEqual(calls, [])
+
+    def test_trial_start_with_screen_or_skip(self):
+        import io, json, contextlib
+        st, calls = self.trial_env(records=['a' * 12])
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_start('cand', 'panel.txt', None, False)
+        ev = json.loads(st.read_text())['history'][-1]
+        self.assertEqual((ev['event'], ev['screen']), ('trial-start', os.path.relpath(
+            os.path.join(self.p.SCREENS, f'cand-{"a" * 12}.json'), self.p.REPO)))
+        self.assertIn('submit', calls)
+        st, calls = self.trial_env()
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_start('cand', 'panel.txt', None, False, skip_screen='owner asked')
+        ev = json.loads(st.read_text())['history'][-1]
+        self.assertEqual(ev['screen_skipped'], 'owner asked')
+        self.assertNotIn('screen', ev)
+
+
+class ScreenTest(unittest.TestCase):
+    """tools/screen.py (docs/ARCHETYPES.md section 5): the bars, the paired roster judgement, the cache, the record,
+    the job script and the refusals. Offline: synthetic run directories, no VM."""
+    @classmethod
+    def setUpClass(cls):
+        cls.s = load('screen', TOOLS / 'screen.py')
+
+    CEN_HDR = 'cell_opponent,cell_map,cell_side,cell_seed,map,team,side,won,over,exceptions,deaths_self,sym_wrong,tele,' \
+              'tele_exc_turns,counters'
+
+    def mkrun(self, root, name, bot, bh, opp_h, games, seed_mode='map', bad=None):
+        """A gauntlet run dir. games: [(opponent, map, bot_side, result)], result win|loss|coin|unknown; bad: {cell
+        index: (column, value)} for the bot's census row."""
+        d = Path(root, name)
+        d.mkdir(parents=True)
+        prov = f'bot={bot}\nbot_hash={bh}\ncells=0\n' + (f'seed_mode={seed_mode}\n' if seed_mode else '')
+        prov += ''.join(f'opp_hash.{o}={h}\n' for o, h in opp_h.items())
+        (d / 'provenance.txt').write_text(prov)
+        res = ['opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed']
+        cen = [self.CEN_HDR]
+        for i, (o, m, side, r) in enumerate(games):
+            other = 'B' if side == 'A' else 'A'
+            win_side = side if r == 'win' else other if r == 'loss' else ('A' if r == 'coin' else '?')
+            reason = 'The winning team won on tiebreakers (coin flip).' if r == 'coin' else 'capturing 75%'
+            res.append(f'{o},{m},{side},{win_side},500,{"win" if r == "coin" else r},{reason},map')
+            if r == 'unknown':
+                continue
+            row = {'over': 0, 'exceptions': 0, 'deaths_self': 0, 'sym_wrong': 0}
+            if bad and i in bad:
+                row[bad[i][0]] = bad[i][1]
+            cen.append(f'{o},{m},{side},map,{m},{bot},{side},{int(r == "win")},{row["over"]},{row["exceptions"]},'
+                       f'{row["deaths_self"]},{row["sym_wrong"]},both,0,ex=0;nm=0;')
+            cen.append(f'{o},{m},{side},map,{m},{o},{other},{int(r != "win")},0,0,0,0,both,0,ex=0;nm=0;')
+        (d / 'results.csv').write_text('\n'.join(res) + '\n')
+        (d / 'census.csv').write_text('\n'.join(cen) + '\n')
+        (d / 'summary.txt').write_text('done\n')
+        return str(d)
+
+    # ---------------------------------------------------------------- bars
+    def test_h2h_bars(self):
+        j = self.s.judge_h2h
+        self.assertEqual(self.s.h2h_bars(20), (11, 9))
+        self.assertEqual(j(['win'] * 11 + ['loss'] * 9, 20)['verdict'], 'PASS')
+        self.assertEqual(j(['win'] * 10 + ['loss'] * 10, 20)['verdict'], 'BORDERLINE')
+        self.assertEqual(j(['win'] * 9 + ['loss'] * 11, 20)['verdict'], 'BORDERLINE')
+        self.assertEqual(j(['win'] * 8 + ['loss'] * 12, 20)['verdict'], 'FAIL')
+        d = j(['win'] * 10 + ['coin'] * 2 + ['loss'] * 8, 20)                     # a coin game scores 0.5
+        self.assertEqual((d['score'], d['verdict']), (11.0, 'PASS'))
+        self.assertEqual(j(['win'] * 10 + ['unknown'] + ['loss'] * 9, 20)['verdict'], 'INCOMPLETE')
+        self.assertEqual(j(['win'] * 5 + ['unknown'] * 2 + ['loss'] * 13, 20)['verdict'], 'FAIL')  # holds either way
+        self.assertEqual(j(['win'] * 12 + ['missing'] + ['loss'] * 7, 20)['verdict'], 'PASS')
+
+    def test_basics_bars(self):
+        jb = self.s.judge_basics
+        zero = {'over': 0, 'exceptions': 0, 'deaths_self': 0, 'sym_wrong': 0, 'near': 3}
+        self.assertEqual(jb(['win'] * 8, zero, 8)['verdict'], 'PASS')
+        self.assertEqual(jb(['win'] * 7 + ['unknown'], zero, 8)['verdict'], 'INCOMPLETE')
+        d = jb(['win'] * 7 + ['loss'], zero, 8)
+        self.assertEqual(d['verdict'], 'FAIL')
+        self.assertIn('1 of 8 games not won', d['failed'])
+        for k in ('over', 'exceptions', 'deaths_self', 'sym_wrong'):
+            self.assertEqual(jb(['win'] * 8, dict(zero, **{k: 1}), 8)['verdict'], 'FAIL', k)
+        self.assertEqual(jb(['win'] * 8, dict(zero, near=50), 8)['verdict'], 'PASS')   # near misses never gate
+
+    def test_game_basics(self):
+        gb = self.s.game_basics
+        b = gb({'over': '2', 'exceptions': '1', 'deaths_self': '1', 'sym_wrong': '0', 'tele': 'both',
+                'counters': 'ex=3;nm=4;'})
+        self.assertEqual((b['over'], b['exceptions'], b['near'], b['strings']), (2, 4, 4, True))  # uncaught + caught
+        b = gb({'over': '0', 'exceptions': '0', 'tele': 'bcc', 'tele_exc_turns': '5', 'counters': '', 'sym_wrong': '9'})
+        self.assertEqual((b['exceptions'], b['sym_wrong']), (5, 0))     # bytecode channel; symmetry n/a without strings
+
+    def test_regression_rule(self):
+        r = self.s.regression_verdict
+        self.assertEqual(r(0, 3, 0, -3), 'ok')            # net -3 but within 2 SE (2 sqrt 3 = 3.46)
+        self.assertEqual(r(0, 4, 0, -3), 'REGRESSION')    # net -4 = -2 sqrt 4
+        self.assertEqual(r(1, 5, 0, -3), 'ok')            # net -4 > -2 sqrt 6
+        self.assertEqual(r(0, 2, 0, -3), 'ok')            # 2 SE but under 3 games
+        self.assertEqual(r(0, 3, 1, -3), 'incomplete')    # the missing pair, lost, would make it a regression
+        self.assertEqual(r(5, 0, 1, -3), 'ok')
+        self.assertEqual(r(0, 4, 0, -4), 'REGRESSION')    # pooled bar
+        self.assertEqual(r(0, 3, 0, -4), 'ok')
+
+    def test_pairs_and_censoring(self):
+        c = self.s.pair_counts([('win', 'loss'), ('loss', 'win'), ('win', 'win'), ('loss', 'loss'), ('coin', 'win'),
+                                ('win', 'unknown'), ('win', 'missing')])
+        self.assertEqual((c['g'], c['l'], c['both_won'], c['both_lost'], c['coin'], c['missing']), (1, 1, 1, 1, 1, 2))
+        self.assertEqual((c['candidate_wins'], c['incumbent_wins']), (4, 3))
+        # calibrate's local share is candidate_wins / candidate_decided (4/6), not / (cells - coin - missing) (4/4)
+        self.assertEqual(c['candidate_decided'], 6)
+        self.assertEqual(self.s.censoring(self.s.pair_counts([('win', 'loss'), ('loss', 'loss')])), 'censored-low')
+        self.assertEqual(self.s.censoring(self.s.pair_counts([('win', 'win'), ('loss', 'win')])), 'censored-high')
+        self.assertIsNone(self.s.censoring(self.s.pair_counts([('win', 'win'), ('loss', 'loss')])))
+
+    def roster_stage(self, *archs):
+        return self.s.judge_roster([{'name': n, 'gating': g, 'pairs': p} for n, g, p in archs])
+
+    def test_roster_and_overall(self):
+        W, L_ = ('win', 'loss'), ('loss', 'win')
+        same = [('win', 'win')] * 10 + [('loss', 'loss')] * 10
+        ok_a = {'verdict': 'PASS'}
+        h2h = lambda v, s=11.0: {'verdict': v, 'score': s, 'games': 20, 'borderline_at': 9}
+        d_ok = {'verdict': 'PASS'}
+        c = self.roster_stage(('x', True, [L_] * 4 + same[:16]))
+        self.assertEqual((c['verdict'], c['archetypes'][0]['verdict']), ('FAIL', 'REGRESSION'))
+        c = self.roster_stage(('x', False, [L_] * 4 + same[:16]))           # information only: never fails
+        self.assertEqual((c['verdict'], c['archetypes'][0]['verdict']), ('PASS', 'REGRESSION'))
+        self.assertEqual(c['info_pooled']['net'], -4)
+        c = self.roster_stage(('x', True, [L_] * 2 + same[:18]), ('y', True, [L_] * 2 + same[:18]))
+        self.assertEqual((c['verdict'], c['pooled']['net']), ('FAIL', -4))  # pooled: -4 = -2 sqrt 4
+        self.assertEqual([e['verdict'] for e in c['archetypes']], ['ok', 'ok'])
+        gain = self.roster_stage(('x', True, [W] * 2 + same[:18]))
+        self.assertEqual(self.s.overall({'a': ok_a, 'b': h2h('PASS'), 'c': gain, 'd': d_ok})[0], 'PASS')
+        self.assertEqual(self.s.overall({'a': ok_a, 'b': h2h('BORDERLINE', 10.0), 'c': gain, 'd': d_ok})[0], 'PASS')
+        one = self.roster_stage(('x', True, [W] + same[:19]))
+        v, why = self.s.overall({'a': ok_a, 'b': h2h('BORDERLINE', 10.0), 'c': one, 'd': d_ok})
+        self.assertEqual(v, 'FAIL')
+        self.assertIn('without a pooled roster gain', why[0])
+        empty = self.roster_stage()
+        self.assertEqual(empty['verdict'], 'PASS')
+        self.assertIn('note', empty)
+        self.assertEqual(self.s.overall({'a': ok_a, 'b': h2h('BORDERLINE', 10.0), 'c': empty, 'd': d_ok})[0], 'FAIL')
+        self.assertEqual(self.s.overall({'a': ok_a, 'b': h2h('PASS'), 'c': empty, 'd': d_ok})[0], 'PASS')
+        self.assertEqual(self.s.overall({'a': {'verdict': 'FAIL', 'failed': ['over = 1']}})[0], 'FAIL')
+        self.assertEqual(self.s.overall({'a': ok_a, 'b': h2h('INCOMPLETE'), 'c': gain, 'd': d_ok})[0], 'INCOMPLETE')
+        self.assertEqual(self.s.overall({'a': ok_a, 'b': h2h('PASS'), 'c': gain, 'd': {'verdict': 'FAIL'}})[0], 'FAIL')
+
+    # ---------------------------------------------------------------- cache
+    def test_cache_rows_and_keys(self):
+        root = tempfile.mkdtemp()
+        ch, ah = '1' * 12, '2' * 12
+        run = self.mkrun(root, 'r1', 'cand', ch, {'arch_x': ah},
+                         [('arch_x', 'Maze', 'A', 'win'), ('arch_x', 'Maze', 'B', 'loss'), ('arch_x', 'Cat', 'A', 'coin'),
+                          ('arch_x', 'Cat', 'B', 'unknown')])
+        rows, why = self.s.run_cache_rows(run)
+        self.assertIsNone(why)
+        self.assertEqual(len(rows), 4)                         # 2 decided games x both teams; coin, unknown never
+        self.assertEqual(rows[0]['seed'], 'map')
+        keys = {self.s.cache_key(r): r['result'] for r in rows}
+        self.assertEqual(keys[(ch, ah, 'Maze', 'A', 'map')], 'win')
+        self.assertEqual(keys[(ah, ch, 'Maze', 'B', 'map')], 'loss')   # the same game from the archetype's side
+        self.assertEqual(keys[(ch, ah, 'Maze', 'B', 'map')], 'loss')
+        self.assertEqual(list(rows[0]), self.s.CACHE_HDR)
+        self.assertNotIn('cand', {k[0] for k in keys})          # keyed by code hash, never by package name
+        for sm in (None, 'random'):
+            r = self.mkrun(root, f'r-{sm}', 'cand', ch, {'arch_x': ah}, [('arch_x', 'Maze', 'A', 'win')], seed_mode=sm)
+            self.assertEqual(self.s.run_cache_rows(r)[0], [])
+        r = self.mkrun(root, 'r-nohash', 'cand', ch, {}, [('arch_x', 'Maze', 'A', 'win')])
+        self.assertEqual(self.s.run_cache_rows(r)[0], [])       # the opponent's code is unknown
+
+    def test_cache_ingest_and_determinism(self):
+        import io, contextlib
+        root = tempfile.mkdtemp()
+        cache = os.path.join(root, 'cache.csv')
+        ch, ah = '1' * 12, '2' * 12
+        r1 = self.mkrun(root, 'r1', 'cand', ch, {'arch_x': ah}, [('arch_x', 'Maze', 'A', 'win')])
+        r2 = self.mkrun(root, 'r2', 'renamed', ch, {'arch_x': ah}, [('arch_x', 'Maze', 'A', 'win')])
+        new, _, conf = self.s.ingest([r1, r2], path=cache)
+        self.assertEqual((len(new), conf), (4, {}))
+        self.assertEqual(len(self.s.ingest([r1], path=cache)[0]), 0)                   # idempotent per run
+        idx, _ = self.s.load_cache(cache)
+        self.assertEqual(idx[(ch, ah, 'Maze', 'A', 'map')]['result'], 'win')
+        r3 = self.mkrun(root, 'r3', 'cand', ch, {'arch_x': ah}, [('arch_x', 'Maze', 'A', 'loss')])
+        with contextlib.redirect_stderr(io.StringIO()) as err:
+            _, _, conf = self.s.ingest([r3], path=cache)
+        self.assertIn((ch, ah, 'Maze', 'A', 'map'), conf)                              # a determinism failure
+        self.assertIn('determinism failure', err.getvalue())
+        idx, _ = self.s.load_cache(cache)
+        self.assertNotIn((ch, ah, 'Maze', 'A', 'map'), idx)                            # never used
+
+    # ---------------------------------------------------------------- roster, job, judge, record
+    def test_roster_file(self):
+        p = self.s.parse_roster_file
+        pk = ['arch_a', 'arch_b', 'arch_c']
+        self.assertEqual(p(None, pk), [('arch_a', 'auto'), ('arch_b', 'auto'), ('arch_c', 'auto')])  # absent = '*'
+        self.assertEqual(p('# c\narch_b gate\n* info\narch_c off\nc_line6\n', pk),
+                         [('arch_b', 'gate'), ('c_line6', 'auto'), ('arch_a', 'info')])
+        self.assertEqual(p('arch_a\n', pk), [('arch_a', 'auto')])                   # no '*': only the named
+        with self.assertRaises(ValueError):
+            p('arch_a sometimes\n', pk)
+        g = self.s.gating_of
+        self.assertEqual([g('auto', True, None)[0], g('auto', False, None)[0], g('gate', False, None)[0],
+                          g('info', True, None)[0], g('auto', True, False)[0]], [True, False, True, False, False])
+
+    def state(self, roster, maps=('Maze', 'Cat')):
+        return {'candidate': 'cand', 'candidate_hash': '1' * 12, 'incumbent': 'inc', 'incumbent_hash': '3' * 12,
+                'example_hash': '4' * 12, 'identity': False, 'maps': list(maps), 'basics_maps': ['SmallElements'],
+                'reduced': True, 'roster': roster, 'roster_source': 'test', 'excluded': [], 'tag': 'scr-111-abcd',
+                'created': '2026-10-08T00:00:00+00:00', 'job': 'j'}
+
+    def test_job_script(self):
+        st = self.state([{'name': 'arch_x', 'hash': '2' * 12, 'mode': 'auto', 'gating': False, 'why': '',
+                          'inc_cached': [['arch_x', 'Maze', 'A', 'map']]}])
+        js = self.s.build_job(st)
+        self.assertIn('MAXJOBS=2 CENSUS=1 SEED_MODE=map', js)
+        self.assertIn('examplefuncsplayer SmallElements B map\n', js)
+        self.assertIn('inc Cat B map\n', js)
+        self.assertIn('|| end stop-a', js)
+        self.assertIn('|| end stop-b', js)
+        self.assertIn('HASHES=1 bash tools/build.sh arch_x || {', js)     # an archetype that fails is excluded
+        self.assertIn('SKIP_COMPILE=1', js)
+        self.assertRegex(js, r"cached-arch_x.txt\" <<'EOF_CELLS'\narch_x Maze A map\nEOF_CELLS")
+        self.assertIn('BOT=inc TAG=scr-111-abcd-inc', js)
+        self.assertLess(js.index('-inc CELLS'), js.index('-c CELLS'))      # the incumbent's cells first
+        self.assertIn('rm -rf "$1/replays"', js)
+        self.assertNotIn('end stop-a', self.s.build_job(dict(st, no_stop=True)))
+        r = subprocess.run(['bash', '-n'], input=js, capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stderr)
+
+    def judge_fixture(self, inc_results, cand_results, h2h, identity=False):
+        """Runs a, b, inc, c for maps Maze and Cat, one archetype arch_x (gating), and a cache with the inc run."""
+        root = tempfile.mkdtemp()
+        ch, ah, ih, eh = '1' * 12, '2' * 12, ('1' * 12 if identity else '3' * 12), '4' * 12
+        cells = [('Maze', 'A'), ('Maze', 'B'), ('Cat', 'A'), ('Cat', 'B')]
+        runs = {
+            'a': self.mkrun(root, 'a', 'cand', ch, {'examplefuncsplayer': eh},
+                            [('examplefuncsplayer', 'SmallElements', s, 'win') for s in 'AB']),
+            'b': self.mkrun(root, 'b', 'cand', ch, {'inc': ih}, [('inc', m, s, r) for (m, s), r in zip(cells, h2h)]),
+            'inc': self.mkrun(root, 'inc', 'inc', ih, {'arch_x': ah},
+                              [('arch_x', m, s, r) for (m, s), r in zip(cells, inc_results)]),
+            'c': self.mkrun(root, 'c', 'cand', ch, {'arch_x': ah},
+                            [('arch_x', m, s, r) for (m, s), r in zip(cells, cand_results)])}
+        cache = os.path.join(root, 'cache.csv')
+        self.s.ingest(list(runs.values()), path=cache)
+        st = self.state([{'name': 'arch_x', 'hash': ah, 'mode': 'gate', 'gating': True, 'why': 'test'}])
+        st.update({'incumbent_hash': ih, 'identity': identity})
+        stages, verdict, reasons = self.s.judge(st, runs, {'end': 'done', 'excluded': {}, 'changed': {}}, cache)
+        return st, stages, verdict, reasons
+
+    def test_judge_end_to_end(self):
+        st, stages, verdict, reasons = self.judge_fixture(['win', 'win', 'loss', 'win'], ['loss', 'win', 'win', 'win'],
+                                                          ['win', 'win', 'win', 'loss'])
+        self.assertEqual(stages['a']['verdict'], 'PASS')
+        self.assertEqual((stages['b']['score'], stages['b']['verdict']), (3.0, 'PASS'))     # n = 4: PASS at 3
+        e = stages['c']['archetypes'][0]
+        self.assertEqual((e['g'], e['l'], e['both_won'], e['incumbent_wins'], e['candidate_wins']), (1, 1, 2, 3, 3))
+        self.assertEqual(stages['d']['games'], 2 + 4 + 4)
+        self.assertEqual(verdict, 'PASS')
+        rec = self.s.make_record(st, stages, verdict, reasons)
+        for k in ('v', 'candidate', 'candidate_hash', 'incumbent', 'incumbent_hash', 'created', 'finished', 'job',
+                  'seed_mode', 'maps', 'stages', 'verdict', 'reasons', 'reduced'):
+            self.assertIn(k, rec)
+        self.assertEqual(set(rec['stages']), {'a', 'b', 'c', 'd'})
+        for k in ('name', 'hash', 'incumbent_wins', 'candidate_wins', 'g', 'l', 'both_won', 'both_lost', 'coin',
+                  'censored', 'verdict', 'gating'):
+            self.assertIn(k, e)
+        lp = load('ladder_policy', TOOLS / 'ladder_policy.py')               # the reader agrees with the writer
+        d = tempfile.mkdtemp()
+        import json
+        Path(d, 'cand-' + '1' * 12 + '.json').write_text(json.dumps(dict(rec, reduced=False)))
+        self.assertTrue(lp.screen_check(d, '1' * 12, '3' * 12)[0])
+        Path(d, 'cand-' + '1' * 12 + '.json').write_text(json.dumps(rec))  # this one is reduced
+        self.assertFalse(lp.screen_check(d, '1' * 12, '3' * 12)[0])
+
+    def test_judge_regression_and_provenance(self):
+        _, stages, verdict, _ = self.judge_fixture(['win'] * 4, ['loss'] * 4, ['win'] * 4)
+        self.assertEqual((stages['c']['archetypes'][0]['verdict'], verdict), ('REGRESSION', 'FAIL'))
+        self.assertEqual(stages['c']['archetypes'][0]['censored'], 'censored-high')
+        st, stages, verdict, _ = self.judge_fixture(['win'] * 4, ['win'] * 4, ['win'] * 4)
+        st['candidate_hash'] = '9' * 12                                           # the VM played other code
+        root = tempfile.mkdtemp()
+        a = self.mkrun(root, 'a', 'cand', '1' * 12, {'examplefuncsplayer': '4' * 12},
+                       [('examplefuncsplayer', 'SmallElements', s, 'win') for s in 'AB'])
+        stages, verdict, reasons = self.s.judge(st, {'a': a}, {'end': 'stop-a', 'excluded': {}, 'changed': {}},
+                                                os.path.join(root, 'c.csv'))
+        self.assertEqual((stages['a']['verdict'], verdict), ('INCOMPLETE', 'INCOMPLETE'))
+        self.assertIn('provenance', stages['a']['why'])
+
+    def test_identity_control(self):
+        """A byte-identical incumbent: every map a side split (s = n/2) and 0 discordant pairs -> BORDERLINE, Net 0,
+        FAIL, and the record says the control holds."""
+        st, stages, verdict, reasons = self.judge_fixture(['win', 'loss', 'win', 'loss'], ['win', 'loss', 'win', 'loss'],
+                                                          ['win', 'loss', 'loss', 'win'], identity=True)
+        self.assertEqual((stages['b']['verdict'], stages['c']['pooled']['net'], verdict), ('BORDERLINE', 0, 'FAIL'))
+        self.assertEqual(self.s.make_record(st, stages, verdict, reasons)['identity_control'], 'ok')
+
+    def test_refusals(self):
+        import argparse, io, contextlib
+        ns = lambda **k: argparse.Namespace(**dict(dict(incumbent='g_iter0', maps=None, roster='none', rerun=False,
+                                                         allow_identity=False, keep_replays=False, min_disk_gb=0,
+                                                         print_job=True), **k))
+        for bad in ('collect', 'gate', 'no_such_package_x', 'Bad-Name'):
+            with self.assertRaises(self.s.Refused):
+                self.s.prepare(ns(candidate=bad))
+        with self.assertRaises(self.s.Refused):
+            self.s.prepare(ns(candidate='g_iter0'))                                   # the incumbent itself
+        with self.assertRaises(self.s.Refused):
+            self.s.prepare(ns(candidate='c_line6', maps='Maze,NoSuchMap'))
+        with contextlib.redirect_stderr(io.StringIO()):
+            self.assertEqual(self.s.main(['collect', 'no_such_package_x']), 2)
+        # a finished record for the same candidate and incumbent hashes is printed instead of a new screen
+        import json
+        saved = self.s.SCREENS
+        self.s.SCREENS = tempfile.mkdtemp()
+        try:
+            ch, ih = self.s.bot_hash('c_line6'), self.s.bot_hash('g_iter0')
+            st = self.state([])
+            st.update({'candidate': 'c_line6', 'candidate_hash': ch, 'incumbent': 'g_iter0', 'incumbent_hash': ih,
+                       'reduced': False})
+            rec = self.s.make_record(st, {}, 'FAIL', ['x'])
+            Path(self.s.SCREENS, f'c_line6-{ch}.json').write_text(json.dumps(rec))
+            with self.assertRaises(self.s.Refused) as cm:
+                self.s.prepare(ns(candidate='c_line6', roster=None))        # the full roster: a full record
+            self.assertIn('a finished record exists', str(cm.exception))
+        finally:
+            self.s.SCREENS = saved
+        # a map subset or a roster override (which could drop a gating archetype) never writes an admitting record
+        P = list(self.s.PANEL_MAPS)
+        self.assertFalse(self.s.is_reduced(P, None))
+        self.assertTrue(self.s.is_reduced(P[:2], None))
+        self.assertTrue(self.s.is_reduced(P, 'none'))
+        self.assertTrue(self.s.is_reduced(P, 'arch_blob'))
+
+    def test_calibration_pieces(self):
+        root = tempfile.mkdtemp()
+        hdr = 'opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed\n'
+        Path(root, 'c').mkdir()
+        Path(root, 'i').mkdir()
+        Path(root, 'c', 'results.csv').write_text(hdr + 'm1,Cat,A,A,9,win,x,map\nm1,Cat,B,A,9,loss,x,map-rev\n'
+                                                  'm2,Cat,A,A,9,win,x,map\nother,Cat,A,A,9,win,x,map\n')
+        Path(root, 'i', 'results.csv').write_text(hdr + 'm1,Cat,A,B,9,loss,x,map\nm1,Cat,B,A,9,loss,x,map-rev\n'
+                                                  'm2,Cat,A,A,9,win,x,map\nother,Cat,A,B,9,loss,x,map\n')
+        g, l, wins, dec = self.s.panel_pairs(str(Path(root, 'c')), str(Path(root, 'i')), {'m1', 'm2'})
+        self.assertEqual((g, l, wins, dec), (1, 0, 2, 3))
+        row = lambda lg, ll, ls, rg, rl, rs: {'local_g': str(lg), 'local_l': str(ll), 'local_share': ls,
+                                              'replica_g': str(rg), 'replica_l': str(rl), 'replica_share': rs}
+        opp = row(3, 0, '0.5', 0, 2, '0.4')
+        self.assertFalse(self.s.suspect(None, opp))                    # one trial with opposite signs: not yet
+        self.assertTrue(self.s.suspect(opp, opp))                      # two consecutive
+        self.assertTrue(self.s.suspect(None, row(0, 0, '0.9', 0, 0, '0.5')))   # share gap > 0.30
+        self.assertFalse(self.s.suspect(opp, row(1, 0, '0.5', 0, 1, '0.45')))  # |net| < 2
+
+    def test_reserved_and_markers(self):
+        self.assertEqual(set(self.s.VERBS), {'collect', 'show', 'roster', 'gate', 'ingest', 'calibrate'})
+        m = self.s.job_markers('x\nSCREEN-EXCLUDE arch_b compile-failed\nSCREEN-CHANGED arch_c expected 1 compiled 2\n'
+                               'SCREEN-END done\n')
+        self.assertEqual((m['end'], m['excluded'], m['changed']), ('done', {'arch_b': 'compile-failed'}, {'arch_c': '2'}))
+
+    def test_gate_cli(self):
+        root = tempfile.mkdtemp()
+        ok = self.mkrun(root, 'ok', 'cand', '1' * 12, {}, [('examplefuncsplayer', 'Cat', s, 'win') for s in 'AB'])
+        over = self.mkrun(root, 'over', 'cand', '1' * 12, {}, [('examplefuncsplayer', 'Cat', s, 'win') for s in 'AB'],
+                          bad={1: ('over', 3)})
+        b = self.mkrun(root, 'b', 'cand', '1' * 12, {}, [('inc', m, s, 'loss') for m in ('Cat', 'Maze') for s in 'AB'])
+        bl = self.mkrun(root, 'bl', 'cand', '1' * 12, {}, [('inc', m, s, r) for m, r in (('Cat', 'win'), ('Maze', 'loss'))
+                                                         for s in 'AB'])
+        run = lambda *a: subprocess.run([sys.executable, str(TOOLS / 'screen.py'), 'gate', *a], capture_output=True,
+                                        text=True).returncode
+        self.assertEqual(run('a', '--run', ok), 0)
+        self.assertEqual(run('a', '--run', over), 1)
+        self.assertEqual(run('b', '--run', b), 1)                    # s = 0 of 4 < n/2 - 1: stop
+        self.assertEqual(run('b', '--run', bl), 0)                   # BORDERLINE goes on to the roster
+
 
 class ProfileTest(unittest.TestCase):
     """profile.py: our rows are those whose side equals the cell side; means per team; micro_L fields are columns."""

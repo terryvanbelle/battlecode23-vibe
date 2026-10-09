@@ -1,0 +1,191 @@
+{
+ "v": 1,
+ "candidate": "c_line6",
+ "candidate_hash": "5bc8e7e545ac",
+ "incumbent": "c_line8a",
+ "incumbent_hash": "83d878c19411",
+ "created": "2026-10-08T23:21:08+00:00",
+ "finished": "2026-10-09T00:37:29+00:00",
+ "job": "20261008-232203-scr-c_line6-5bc8e7e545ac",
+ "seed_mode": "map",
+ "maps": {
+  "basics": [
+   "SmallElements",
+   "Contraction",
+   "FourNations",
+   "Tightrope"
+  ],
+  "panel": [
+   "BatSignal",
+   "ReverseFunnel"
+  ]
+ },
+ "reduced": true,
+ "roster_source": "src/arch_* (no tools/archetypes.txt)",
+ "no_stop": true,
+ "stages": {
+  "a": {
+   "verdict": "PASS",
+   "games": 8,
+   "wins": 8,
+   "unknown": 0,
+   "over": 0,
+   "exceptions": 0,
+   "deaths_self": 0,
+   "sym_wrong": 0,
+   "near": 0,
+   "run": "gauntlet/20261009-001113-scr-5bc8e7e545ac-658c-a"
+  },
+  "b": {
+   "verdict": "PASS",
+   "games": 4,
+   "wins": 3,
+   "losses": 1,
+   "coin": 0,
+   "unknown": 0,
+   "score": 3.0,
+   "pass_at": 3.0,
+   "borderline_at": 1.0,
+   "run": "gauntlet/20261009-001232-scr-5bc8e7e545ac-658c-b"
+  },
+  "c": {
+   "verdict": "PASS",
+   "pooled": {
+    "g": 0,
+    "l": 0,
+    "net": 0,
+    "se": 0.0,
+    "missing": 0,
+    "verdict": "ok"
+   },
+   "info_pooled": {
+    "g": 4,
+    "l": 0,
+    "net": 4,
+    "se": 2.0
+   },
+   "archetypes": [
+    {
+     "name": "arch_adecon",
+     "hash": "b774bf16efe4",
+     "mode": "auto",
+     "gating": false,
+     "why": "no VALID record for this hash: information only",
+     "record": null,
+     "cells": 4,
+     "incumbent_wins": 1,
+     "candidate_wins": 3,
+     "g": 2,
+     "l": 0,
+     "both_won": 1,
+     "both_lost": 1,
+     "coin": 0,
+     "missing": 0,
+     "net": 2,
+     "censored": null,
+     "verdict": "ok"
+    },
+    {
+     "name": "arch_ampmid",
+     "hash": "9b1099e4e1cf",
+     "mode": "auto",
+     "gating": false,
+     "why": "no VALID record for this hash: information only",
+     "record": null,
+     "note": "code changed after the screen was queued: expected f4a9ebe6852e, played 9b1099e4e1cf",
+     "cells": 4,
+     "incumbent_wins": 0,
+     "candidate_wins": 0,
+     "g": 0,
+     "l": 0,
+     "both_won": 0,
+     "both_lost": 4,
+     "coin": 0,
+     "missing": 0,
+     "net": 0,
+     "censored": "censored-low",
+     "verdict": "ok"
+    },
+    {
+     "name": "arch_blob",
+     "hash": "3c54b97e654b",
+     "mode": "auto",
+     "gating": false,
+     "why": "no VALID record for this hash: information only",
+     "record": null,
+     "cells": 4,
+     "incumbent_wins": 2,
+     "candidate_wins": 2,
+     "g": 0,
+     "l": 0,
+     "both_won": 2,
+     "both_lost": 2,
+     "coin": 0,
+     "missing": 0,
+     "net": 0,
+     "censored": null,
+     "verdict": "ok"
+    },
+    {
+     "name": "arch_horde",
+     "hash": "82311f9b016d",
+     "mode": "auto",
+     "gating": false,
+     "why": "no VALID record for this hash: information only",
+     "record": null,
+     "cells": 4,
+     "incumbent_wins": 1,
+     "candidate_wins": 2,
+     "g": 1,
+     "l": 0,
+     "both_won": 1,
+     "both_lost": 2,
+     "coin": 0,
+     "missing": 0,
+     "net": 1,
+     "censored": null,
+     "verdict": "ok"
+    },
+    {
+     "name": "arch_swarm",
+     "hash": "b646f1e92c6b",
+     "mode": "auto",
+     "gating": false,
+     "why": "no VALID record for this hash: information only",
+     "record": null,
+     "cells": 4,
+     "incumbent_wins": 1,
+     "candidate_wins": 2,
+     "g": 1,
+     "l": 0,
+     "both_won": 1,
+     "both_lost": 2,
+     "coin": 0,
+     "missing": 0,
+     "net": 1,
+     "censored": null,
+     "verdict": "ok"
+    }
+   ],
+   "note": "no gating archetype (no VALID record for a current hash): stage (c) passes by default",
+   "excluded": [],
+   "runs": [
+    "gauntlet/20261009-002603-scr-5bc8e7e545ac-658c-c"
+   ],
+   "incumbent_runs": [
+    "gauntlet/20261009-001340-scr-5bc8e7e545ac-658c-inc"
+   ]
+  },
+  "d": {
+   "verdict": "PASS",
+   "games": 32,
+   "over": 0,
+   "exceptions": 0,
+   "deaths_self": 0,
+   "sym_wrong": 0,
+   "near": 0
+  }
+ },
+ "verdict": "PASS",
+ "reasons": []
+}
