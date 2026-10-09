@@ -26,8 +26,8 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 
 | arm | change (from c_nav4 = g_iter3) | local result | next |
 |---|---|---|---|
-| c_hq1 | HQs build carriers under threat on spawn tiles no visible enemy fighter reaches | 8/20 vs g_iter2, paired vs c_nav4 net +1 | screen, then a replica trial (targets sieges self-play rarely produces) |
-| c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2, paired vs c_nav4 net +2 | screen, then a replica trial |
+| c_hq1 | HQs build carriers under threat on spawn tiles no visible enemy fighter reaches | 8/20 vs g_iter2, paired vs c_nav4 net +1 | screen running (queued 04:14 PDT), then a replica trial after the 09:00 PDT autoscrim if it passes |
+| c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
 Closed or superseded since g_iter2 (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9, c_nav3a 8, c_swarm4b 8,
 c_eco2 7, c_swarm3 6, c_swarm4a 6, c_role1 6, c_eco1 5. None is a measured regression; c_role1's per-trip adamantium
