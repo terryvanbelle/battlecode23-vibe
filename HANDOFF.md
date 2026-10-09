@@ -1,18 +1,14 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-09 08:30 PDT.
+Updated 2026-10-09 09:30 PDT.
 
 ## Standing
 
-- **Scrimmages paused since 2026-10-09 08:28 PDT** (owner, PROMPTS 36: give the VM to the archetype/screen games): field
-  activity stopped (VM), autoscrim timer disabled (`sudo systemctl disable --now bc23-galaxy-scheduler.timer`; the
-  09:00 PDT round did not fire), ranked loop stopped (driver). saturn stays up, so trials still play. Resume: on the VM
-  `sudo systemctl enable --now bc23-galaxy-scheduler.timer` and the field activity (`docs/galaxy/README.md`, field
-  activity); on the driver `setsid nohup python3 tools/ladder_policy.py ranked >> logs/ranked-policy.log 2>&1 &`.
-
-- **Validated build g_iter3 = c_nav4** (submission 122, code hash 9f333d33cf78, accepted 2026-10-09 04:14 PDT; details
-  in the replica section): panel 48/100 against g_iter2's 40 (paired net +8, +2.31 SE, p 0.039); g_iter2 (c_swarm1)
-  had reached #17-22 of 88 on the replica ladder.
+- **Validated build g_iter4 = c_nav5** (submission 123, code hash df75a78f7af4, accepted 2026-10-09 09:28 PDT): g_iter3
+  (c_nav4: distance-field navigation, panel 48/100 vs g_iter2's 40) plus a bounded field lookup; its panel is identical
+  to g_iter3's in all 100 games. **Open basics failure:** 3 launcher overruns in Cornucopia vs georgezhang02.CB_tuning2
+  (panel game 2, r1801/1811/1979, launchers aged 10/20/50) recur identically in both builds, so the field lookup was
+  not the cause; replica games carry no OVR phase, so the next step is phase telemetry or a local stress test.
 - **Why we lose** (g_iter2's 10 panel matches, 1017-1026, `research/matches/`): not the opening fights. Before r400 we
   land the first hit in 55-72% of launcher duels and win 59-64% of engagements against vrangr1, jmerle, georgezhang and
   NotLLeon (awesomelemonade: 20%, they meet us with twice the launchers, group size 19 vs our 6). We lose the middle
@@ -34,7 +30,7 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 |---|---|---|---|
 | c_hq1 | HQs build carriers under threat on spawn tiles no visible enemy fighter reaches | screen vs g_iter3 FAIL (h2h 8-12) | closed |
 | c_role2 | adamantium role rotates over trips (id + trips), not ids | screen vs g_iter3 FAIL (h2h 10-10, roster Net -5) | closed |
-| c_nav5 | Field.level bounded (search from the cached wave, guard 3,000 bytecodes): g_iter3 overran 3 launcher turns on the replica panel | screen: h2h 10-10, roster 99/100 identical, 0 overruns | replica trial (submission 123) since 08:50 PDT; then fire the missed autoscrim by hand and resume scrimmages |
+| c_nav5 | Field.level bounded (search from the cached wave, guard 3,000 bytecodes) | panel identical to g_iter3 (100/100), same 3 overruns | accepted 09:28 PDT as g_iter4 |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
 Closed or superseded since g_iter2 (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9, c_nav3a 8, c_swarm4b 8,
@@ -53,7 +49,8 @@ rotation is worth carrying into a later arm.
   for `tools/paired.py`). Hourly limits count requests AND the matches they create (an accepted request counts
   twice); galaxy's default 10/10 was raised to 40 unranked and 20 ranked (owner, PROMPTS 15-16), so about 20 panel
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
-- Validated build: **g_iter3 = c_nav4** (submission 122, accepted 2026-10-09 04:14 PDT: panel 48/100 vs g_iter2's 40,
+- Validated build: **g_iter4 = c_nav5** (submission 123, accepted 2026-10-09 09:28 PDT; panel identical to g_iter3's,
+  `gauntlet/20261009-155042-panel-c_nav5`). Before it, **g_iter3 = c_nav4** (submission 122, accepted 2026-10-09 04:14 PDT: panel 48/100 vs g_iter2's 40,
   paired net +8, +2.31 SE; screen PASS `progress/screens/c_nav4-9f333d33cf78.json`). It is g_iter2 plus per-robot
   distance-field navigation and a capped forming wait (owner, PROMPTS 35). Baseline panel run for the next trials:
   `gauntlet/20261009-082005-panel-c_nav4`. Earlier: g_iter2 = c_swarm1 (`...-210429-panel1-c_swarm1`, 40/100), g_iter1 =

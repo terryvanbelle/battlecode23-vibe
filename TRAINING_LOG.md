@@ -542,3 +542,11 @@ of history. Times are PDT. Grep it; do not read it whole.
   (gauntlet/20261009-082005-panel-c_nav4), accept if no regression, then fire the missed 09:00 PDT autoscrim round by
   hand (the relay fires only on the cron minute, no catch-up), re-enable the timer, restart field activity and the
   ranked loop.
+
+## 2026-10-09 09:28 PDT — c_nav5 accepted (g_iter4); overruns NOT fixed; scrimmages resumed
+- Panel (gauntlet/20261009-155042-panel-c_nav5) vs g_iter3's: 100 of 100 cells identical (48/100), net 0.
+- The 3 overruns recur identically (match 2124 game 2, Cornucopia vs georgezhang, r1801 launcher 11274 age 10, r1811
+  same launcher age 20, r1979 launcher 12789 age 50; 10,000-10,010 bytecodes): Field.level was not the cause.
+  Accepted anyway (no regression, a strictly safer lookup) so the autoscrim plays it (owner, PROMPTS 37). Cause open.
+- Resumed at 09:28 PDT: the missed 09:00 autoscrim round fired by hand (relay fire-jobs --force -> 204; 169 queued),
+  timer re-enabled, field activity and the ranked loop restarted.

@@ -1,16 +1,11 @@
 {
  "validated": {
-  "submission": 122,
-  "package": "c_nav4",
-  "since": "2026-10-09T11:13:47.927636+00:00",
-  "panel_run": "gauntlet/20261009-082005-panel-c_nav4"
- },
- "trial": {
   "submission": 123,
   "package": "c_nav5",
-  "started": "2026-10-09T15:50:42.195849+00:00",
-  "panel": "test/cells/panel-v1.txt"
+  "since": "2026-10-09T16:28:21.466471+00:00",
+  "panel_run": "gauntlet/20261009-155042-panel-c_nav5"
  },
+ "trial": null,
  "history": [
   {
    "at": "2026-10-08T02:35:39.835215+00:00",
@@ -109,6 +104,12 @@
    "submission": 123,
    "package": "c_nav5",
    "screen_skipped": "bytecode-guard fix for g_iter3's replica overruns; screen h2h 10-10 vs c_nav4 and 99/100 roster cells identical (Net +1), 0 overruns in 128 games; autoscrim timer paused by the owner (PROMPTS 36-37)"
+  },
+  {
+   "at": "2026-10-09T16:28:21.747685+00:00",
+   "event": "accept",
+   "submission": 123,
+   "package": "c_nav5"
   }
  ]
 }
