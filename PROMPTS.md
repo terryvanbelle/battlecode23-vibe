@@ -170,3 +170,7 @@ Hopefully this gives you a chance to get c_nav5 in before the autoscrim starts
 ## 38. 2026-10-09 11:11 PDT
 
 Can you update the "our record" column in ELO.md?  I'd also like to know whether the auto scrimmages would continue if you ran out of tokens
+
+## 39. 2026-10-10 06:25 PDT
+
+Can you generate field-score graphs like in the previous year?

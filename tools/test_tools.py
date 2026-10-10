@@ -1305,6 +1305,32 @@ class ReplayTelemetryFixturesTest(unittest.TestCase):
             shutil.rmtree(tmp, ignore_errors=True)
 
 
+class FieldScoreTest(unittest.TestCase):
+    """tools/field_score.py: the submissions' fit R0 + a ln(1 + t) and its projection (owner, PROMPTS 39)."""
+
+    def setUp(self):
+        self.fs = load('field_score', 'field_score.py')
+
+    def test_fit_recovers_the_curve(self):
+        import math
+        ts = [0.0, 0.5, 1.0, 2.0, 3.0]
+        rs = [1800 + 100 * math.log(1 + t) for t in ts]
+        r0, a, cov = self.fs.fit_log(ts, rs, [30.0] * len(ts))
+        self.assertAlmostEqual(r0, 1800, places=6)
+        self.assertAlmostEqual(a, 100, places=6)
+        mid, half = self.fs.predict((r0, a, cov), 7.0)
+        self.assertAlmostEqual(mid, 1800 + 100 * math.log(8), places=6)
+        self.assertGreater(half, 0)
+
+    def test_too_few_submissions(self):
+        self.assertIsNone(self.fs.fit_log([0.0, 1.0], [1800.0, 1850.0], [30.0, 30.0]))
+
+    def test_metrics_rank_and_scores(self):
+        fs, vh, nup, rank = self.fs.metrics(1500.0, [1400.0, 1500.0, 1600.0, 1700.0])
+        self.assertEqual((nup, rank), (2, 3))
+        self.assertTrue(0.0 < vh < 0.5 < fs + 0.25)
+
+
 if __name__ == '__main__':
     r = unittest.main(exit=False, verbosity=0).result
     print(f"test_tools: {r.testsRun} tests, {len(r.failures)} failures, {len(r.errors)} errors")
