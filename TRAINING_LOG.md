@@ -619,3 +619,9 @@ of history. Times are PDT. Grep it; do not read it whole.
   the c_nav6 -> c_def2 patch (C, Comms, HQ, Launcher); one hunk (the Comms constants line) merged by hand (ALARM = 56
   beside c_anc3's PRESS_SHIFT); every island loop stops at id 35, so slot 56 stays the alarm's. Unit tests PASS.
   c_cloud1's standalone screen against c_nav5 was cancelled; c_def2's finishes for information. Screens queued.
+
+## 2026-10-09 17:50 PDT — c_cld2 fails the screen against g_iter6; c_def2 standalone roster -6
+- c_cld2 (g_iter6 + cloud fighting) vs c_anc3: h2h 9-11 BORDERLINE, roster information Net +1 (horde +3, adecon -2),
+  128 games clean. FAIL; closed for now (its expected effect was small and local to cloud maps).
+- c_def2 standalone (vs c_nav5, recorded for information): h2h 11-9 but roster Net -6 (2 gained, 8 lost; four of five
+  styles worse). c_def3 (the same on g_iter6) is being screened now; a repeat of that pattern closes the recall idea.
