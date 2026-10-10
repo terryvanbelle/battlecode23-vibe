@@ -625,3 +625,14 @@ of history. Times are PDT. Grep it; do not read it whole.
   128 games clean. FAIL; closed for now (its expected effect was small and local to cloud maps).
 - c_def2 standalone (vs c_nav5, recorded for information): h2h 11-9 but roster Net -6 (2 gained, 8 lost; four of five
   styles worse). c_def3 (the same on g_iter6) is being screened now; a repeat of that pattern closes the recall idea.
+
+## 2026-10-09 19:40 PDT — c_def3 screen PASS, trial started (submission 126); g_iter6 diagnosis; arms being built
+- c_def3 (g_iter6 + raid recall) vs c_anc3: basics 8/8, h2h 11-9, roster Net 0 (the standalone c_def2 had -6), 128
+  games clean. Replica trial started 19:38 PDT; judge against gauntlet/20261009-211419-panel-c_anc3.
+- research/diagnosis/2026-10-09-g_iter6.md (4 lenses + judge on panel 2430-2439 and ranked). Anchor drain fixed; left:
+  the carrier fleet stops growing at ~r150 (r400 gap 23 = 14.8 not built + 8.2 extra killed); a carrier that fled
+  walks back to the same well and dies on 46-72% of those trips (no-flee trips 2-4%); 34% of carriers are born
+  during a fight near their HQ; MassiveL/Forest home mana wells never found or re-picked; 931 launcher deaths to
+  enemy HQ auras on the panel (followers walk in, none can walk out). Judge's ranking: 1 c_flee2 (carriers remember
+  the raid they fled), 2 c_well3 (home mana-well probe + re-pick at deposit), 3 c_aura1 (aura-safe movement).
+  Implement/review workflow running on c_anc3.
