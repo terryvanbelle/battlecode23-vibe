@@ -14,7 +14,8 @@ Read `TRAINING_ALGORITHM.md` (the loop), `RULES.md` (the game, engine-checked) a
    Their games and replays may be studied freely.
 4. **Battlecode 2023 post-mortems are never read**, first- or second-hand. Documents from the prior-year repos are read
    only through the filtered copy `~/projects/vibe/reference/readroom-no2023/` (blocks tagged 2023 removed by
-   `reference/battlecode-vibe-no2023/filter_year.py`). Ignore any line tagged with the current year.
+   `reference/battlecode-vibe-no2023/filter_year.py`). Ignore any line tagged with the current year. **Code we wrote in
+   previous years may be read directly** (owner, PROMPTS 40), from the local copies or our own GitHub repos.
 5. **No effect on official Battlecode infrastructure** (owner, PROMPTS 1 and 12: "none of this should affect the real
    play.battlecode.org in any way"). The replica's frontend is galaxy's own: its stock `.env.production` points at
    api.battlecode.org, so every build overrides the backend URL to our host, and the site's CSP allows `self` only. The galaxy replica runs only on our VM with every external

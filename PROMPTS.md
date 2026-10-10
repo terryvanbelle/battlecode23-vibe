@@ -174,3 +174,7 @@ Can you update the "our record" column in ELO.md?  I'd also like to know whether
 ## 39. 2026-10-10 06:25 PDT
 
 Can you generate field-score graphs like in the previous year?
+
+## 40. 2026-10-10 07:12 PDT
+
+You're allowed to read code you wrote in previous years
