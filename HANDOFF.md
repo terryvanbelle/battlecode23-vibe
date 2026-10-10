@@ -1,14 +1,13 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-09 20:05 PDT.
+Updated 2026-10-09 21:40 PDT.
 
 ## Standing
 
-- **Validated build g_iter6 = c_anc3** (submission 125, accepted 2026-10-09 15:14 PDT): g_iter5 (c_nav6) plus anchor
-  discipline from the diagnosis (`research/diagnosis/2026-10-09-g_iter3.md`): no anchor while an HQ is pressed or the
-  enemy holds more islands, located targets, an island scout, couriers that flee, an Ad bank cap. Panel 57/100 vs
-  g_iter5's 46 (net +11, p 0.003); anchors lost in losses 1.2 per game vs 10.7. Lineage: g_iter3 = c_nav4 (distance
-  fields, 48/100), g_iter4 = c_nav5, g_iter5 = c_nav6 (crowd bytecode bounds, 0 overruns).
+- **Validated build g_iter7 = c_def3** (submission 126, accepted 2026-10-09 21:40 PDT): g_iter6 (c_anc3, anchor
+  discipline, panel 57/100, net +11) plus an HQ raid alarm (slot 56) that recalls launchers within r2 225 nearer the
+  raided HQ than the siege target, before r600. Panel 60/100 (net +3 over g_iter6, gains on vrangr1). Lineage: g_iter3
+  = c_nav4 (distance fields, 48), g_iter5 = c_nav6 (crowd bytecode bounds, 0 overruns), g_iter6 = c_anc3.
 - **Why we lose** (g_iter2's 10 panel matches, 1017-1026, `research/matches/`): not the opening fights. Before r400 we
   land the first hit in 55-72% of launcher duels and win 59-64% of engagements against vrangr1, jmerle, georgezhang and
   NotLLeon (awesomelemonade: 20%, they meet us with twice the launchers, group size 19 vs our 6). We lose the middle
@@ -36,7 +35,7 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_def2 | c_nav6 + HQ raid alarm (slot 56) and recall of nearby launchers before r600 | standalone screen vs c_nav5 finishing (h2h 11-9) | superseded by c_def3 |
 | c_cloud1 | c_nav6 + hold on recent contact, cloud-aware regroup, blind shot | standalone screen cancelled | superseded by c_cld2 |
 | c_cld2 | g_iter6 (c_anc3) + c_cloud1's launcher changes | screen vs g_iter6 FAIL (h2h 9-11, roster +1) | closed |
-| c_def3 | g_iter6 (c_anc3) + c_def2's raid alarm and recall | screen PASS (h2h 11-9, roster Net 0) | replica trial (submission 126) since 19:38 PDT |
+| c_def3 | g_iter6 (c_anc3) + c_def2's raid alarm and recall | screen PASS; panel 60/100, net +3 (vrangr1 +3) | accepted 21:40 PDT as g_iter7 |
 | c_flee2 | g_iter6 + carriers remember the raid they fled (hold near home, drop the raided well, avoid wells near fresh sightings, flee to a safe HQ) | compiled, reviewed, unit tests PASS | screen queued 20:05 PDT |
 | c_well3 | g_iter6 + one carrier per HQ probes for a home mana well; nearer well re-picked at deposit | compiled, reviewed, unit tests PASS | screen queued |
 | c_aura1 | g_iter6 + launchers inside an enemy HQ aura only step outward; regroup avoids auras (test/bot/AuraStepTest.java) | compiled, reviewed, unit tests PASS | screen queued |
@@ -58,7 +57,8 @@ rotation is worth carrying into a later arm.
   for `tools/paired.py`). Hourly limits count requests AND the matches they create (an accepted request counts
   twice); galaxy's default 10/10 was raised to 40 unranked and 20 ranked (owner, PROMPTS 15-16), so about 20 panel
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
-- Validated build: **g_iter6 = c_anc3** (submission 125, accepted 2026-10-09 15:14 PDT; baseline panel run
+- Validated build: **g_iter7 = c_def3** (submission 126, accepted 2026-10-09 21:40 PDT; baseline panel run
+  `gauntlet/20261010-023758-panel-c_def3`, 60/100). Before it g_iter6 = c_anc3 (submission 125,
   `gauntlet/20261009-211419-panel-c_anc3`, 57/100). Before it g_iter5 = c_nav6 (submission 124,
   `gauntlet/20261009-191411-panel-c_nav6`, 46/100). Before it g_iter4 = c_nav5 (submission 123; panel identical to g_iter3's,
   `gauntlet/20261009-155042-panel-c_nav5`). Before it, **g_iter3 = c_nav4** (submission 122, accepted 2026-10-09 04:14 PDT: panel 48/100 vs g_iter2's 40,

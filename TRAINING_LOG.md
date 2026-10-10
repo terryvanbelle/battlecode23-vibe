@@ -646,3 +646,11 @@ of history. Times are PDT. Grep it; do not read it whole.
   HQ aura may only step outward; regroup moves avoid auras; fight() prefers the outermost aura tile): reviewer raised
   the outward weight (C.AURA_OUT_W 2,000,000) so a deeper tile can never tie with standing still.
 - test/bot/AuraStepTest.java: the 7 aura-step cases. Unit tests PASS. Screens queued.
+
+## 2026-10-09 21:40 PDT — c_def3 accepted (g_iter7): panel 60/100, net +3 over g_iter6, gains on vrangr1
+- Panel (gauntlet/20261010-023758-panel-c_def3) vs g_iter6's: 95 identical, 4 gained, 1 lost: net +3 (+1.34 SE, sign
+  test p 0.375); island-rounds +191 (t +1.66). Gains vrangr1 +3 (4-6 vs 1-9, the raiding team the recall targets),
+  georgezhang +1; loss jmerle -1. 0 overruns, 0 exceptions. Accepted at the judge's bar (net >= +2): weaker evidence
+  than c_anc3's, but mechanism-consistent and nearly free (95 cells identical).
+- g_iter7 = c_def3 (submission 126). c_flee2, c_well3 and c_aura1 are built on c_anc3: rebase onto c_def3 before
+  their trials (their screens compare against c_anc3, 95/100 identical on the panel).
