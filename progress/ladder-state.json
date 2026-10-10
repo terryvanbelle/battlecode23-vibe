@@ -5,7 +5,12 @@
   "since": "2026-10-09T22:13:51.544245+00:00",
   "panel_run": "gauntlet/20261009-211419-panel-c_anc3"
  },
- "trial": null,
+ "trial": {
+  "submission": 126,
+  "package": "c_def3",
+  "started": "2026-10-10T02:37:58.033899+00:00",
+  "panel": "test/cells/panel-v1.txt"
+ },
  "history": [
   {
    "at": "2026-10-08T02:35:39.835215+00:00",
@@ -136,6 +141,13 @@
    "event": "accept",
    "submission": 125,
    "package": "c_anc3"
+  },
+  {
+   "at": "2026-10-10T02:37:58.033936+00:00",
+   "event": "trial-start",
+   "submission": 126,
+   "package": "c_def3",
+   "screen": "progress/screens/c_def3-ee55ecf61f38.json"
   }
  ]
 }
