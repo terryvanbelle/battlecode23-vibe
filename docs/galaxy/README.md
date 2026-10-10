@@ -167,6 +167,9 @@ sudo journalctl -u bc23-galaxy-web -u bc23-galaxy-relay -u bc23-galaxy-saturn -n
 - **Autoscrims.** Episode bc23 has `autoscrim_schedule = "0 */8 * * *"` (UTC: 17:00, 01:00, 09:00 PDT), galaxy's
   own round over every team; field teams also challenge in idle capacity, weighted toward the low end of the displayed
   ladder (mostly teams with few rated matches) so the volume penalty fades sooner (section 6 for the history).
+- **System journal.** saturn logs every slot event, and the journal had reached 2 GB of the 20 GB disk by
+  2026-10-10; it is capped at 300 MB (`/etc/systemd/journald.conf.d/bc23-size.conf`, `SystemMaxUse=300M`, set
+  2026-10-10 10:55 PDT after `journalctl --vacuum-size=300M` freed 1.8 GB).
 - **Replay retention.** The VM's disk is 20 GB. `tools/galaxy/prune_replays.py` (operator crontab, every 6 hours
   at :30) deletes the replay files of finished matches our team did not play once they are 6 hours old: their
   results are already in `progress/games.csv`, and contestants cannot watch other teams' scrimmages anyway. Our own
