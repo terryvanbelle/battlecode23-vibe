@@ -186,3 +186,7 @@ How can the VM be idle if the ranked loop is in burst mode?  Aren't all games be
 ## 42. 2026-10-10 08:43 PDT
 
 I'm inclined to believe your Bradley-Terry ratings more than the algorithm employed by the replica, but it might be worth double-checking your ELO code and ensuring it's all tested properly
+
+## 43. 2026-10-10 12:36 PDT
+
+Looks like all the c_well5 trial games are now in

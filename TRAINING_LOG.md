@@ -755,3 +755,39 @@ of history. Times are PDT. Grep it; do not read it whole.
 - trial-start c_well5 at 11:39 PDT, 5 h 21 before the 17:00 autoscrim (logs/trial-c_well5.log). Judge with
   tools/paired.py against gauntlet/20261010-121416-panel-c_aura2 (62/100), plus the MassiveL/Forest mana census.
   c_spread2's screen is running (h2h 13/20 played); c_scout1's is queued behind it.
+
+## 2026-10-10 12:45 PDT — c_well5 rejected (panel 64/100, net +2): its front probe feeds carriers on Forest; c_well6
+- Panel (gauntlet/20261010-183910-panel-c_well5) vs g_iter8's: 94 identical, 4 gained, 2 lost: net +2 (+0.82 SE,
+  p 0.69); 64/100. Gains: reeceyang Forest, jmerle MassiveL, pranayagra MassiveL, vrangr1 Cornucopia (tb_anchors,
+  same mana: noise); losses britacatalin MassiveL, vrangr1 MassiveL. 0 overruns, 0 exceptions.
+- Mechanism (census, paired by cell): mana collected by r250 +71 (t +2.6); MassiveL +460 (890 -> 1,351, t +5.4: the
+  probe now fires); Forest +295. But on Forest carriers alive at r250 fell from 38-45 to 13-21 in 7 of 10 cells, and
+  matches/<id>/extract/deaths.csv shows why: our carriers dead by r250 on Forest 19 (awesomelemonade), 25 (jmerle),
+  20 (vrangr1) against 3, 1 and 2 under c_aura2, killed by launchers at prog 0.4-0.5 from r29: the front probe finds
+  the midline mana well (29,48) and every mana carrier of that HQ walks to it into the enemy's opening launchers. In
+  the other 3 cells (georgezhang, reeceyang, yaonam) the same well doubled mana at r250 (1,055-1,113 -> 2,289-2,354).
+- Rejected: net +2 at p 0.69 is no evidence, and the build adds a visible basics failure (carriers fed to the enemy).
+  trial-end --reject: c_aura2 resubmitted (submission 131). Keeping c_aura2 also keeps c_spread2's and c_scout1's screens
+  (both against c_aura2) valid for the next trial.
+- c_well6 = c_well5 + hot wells (C.HOT): a carrier that sees an enemy fighter within r2 100 of its well (a well farther
+  than r2 64 from our nearest HQ) drops it and marks it hot in its shared well slot (bits 14-15, level 3) at its next
+  write turn; HQ 0 lowers every hot level by 1 each 32 rounds; every carrier skips a hot well (nearestCool). With no
+  hot well the choice is c_well5's. test/bot/HotWellTest.java. Judge on the Forest carrier deaths by r250 and the
+  MassiveL mana, then the panel.
+
+## 2026-10-10 13:20 PDT — c_spread2 screen PASS; trial started (submission 132)
+- Screen (progress/screens/c_spread2-82d101cf0b6a.json) vs c_aura2: (a) 8/8; (b) h2h 12-8 PASS (8-8 after 16, then
+  4 straight wins); (c) no gating archetype, information-only Net +5 (horde +3, blob +1, swarm +1); (d) 128 games,
+  0 overruns, 0 exceptions, 0 deaths_self. Near misses (main work above 90% of the limit) 826 against c_well5's 95 on
+  the same cells, census near doubled on Cornucopia (41,279 vs 20,660), where launchers now press the other enemy HQs;
+  bc_max_L 9,750 vs 9,683. The hop itself runs only with 6,000 bytecodes left, so the likely source is heavier fight
+  turns at more HQs: trace it in the trial's replays (robots.csv bc_near, NM records) before any acceptance.
+- trial-start c_spread2 at 13:20 PDT, 3 h 40 before the 17:00 autoscrim (logs/trial-c_spread2.log). Judge with
+  tools/paired.py against gauntlet/20261010-121416-panel-c_aura2 (62/100), plus Cornucopia and the overruns.
+- c_well6 reworked after a three-lens review (workflow wf_ecf0f79b-8c2): a hot spot (the fighter's tile) instead of a
+  hot well, so Forest's side-by-side midline wells (29,48) and (30,48) are both hot (one at a time made carriers
+  ping-pong); only front wells turn hot (farther than r2 64 from our HQ and at least 60% of the enemy distance: a raid
+  near Pillars' (7,10), r2 100 from both our HQs, would have sent carriers to the enemy's (27,10)); the replacement is
+  the cool well nearest our HQ, not nearest the carrier; with every well of the role hot, a carrier takes any cool well
+  at once instead of exploring toward the centre (and the fight); no RNG draws (HQState.nearest draws on ties); the
+  probe never adopts a hot well. The review found no encoding or bytecode defect (worst realistic case about +1,500).
