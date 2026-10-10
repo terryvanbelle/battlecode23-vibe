@@ -724,3 +724,14 @@ of history. Times are PDT. Grep it; do not read it whole.
   build 42-82 launchers in r200-500 while 15-29 of ours camp one HQ), 3 c_scout1 (a claimed, replaceable island
   scout: first anchor r400-450 on BatSignal/ReverseFunnel). Rejected: carriers sharing raids (c_rep1; c_flee3 family),
   guards/recall variants, wounded retreat, island guards. Implement/review workflow running on c_aura2.
+
+## 2026-10-10 09:20 PDT — c_well5, c_spread2, c_scout1 implemented and reviewed (on c_aura2)
+- Workflow wf_fe3d6b50-d8c (6 agents, compile-only); specs in research/diagnosis/2026-10-10-g_iter8.md.
+  c_well5: c_well4's probe made reliable (front probe when no mana well is known before r30, diagonal order kept);
+  reviewer made probeFront deterministic (a distance tie drew from the robot RNG and would have shifted Cornucopia and
+  Maze). Risk: the front probe can fire on ~18 of 103 pool maps, not only Forest. c_spread2: surplus launchers at a
+  saturated siege ring hop to the other enemy HQs (id bit splits the ring); reviewer stopped ring holders from following
+  a departing spreader (the whole ring would have left) and added a 6,000-bytecode floor on the hop turn. c_scout1: a
+  claimed, replaceable island scout; reviewer raised the draw guard to 3,000 bytecodes.
+- Bot unit tests added: test/bot/ProbeFrontTest.java (8 cases), test/bot/SpreadTest.java. Unit tests PASS. Screens
+  queued vs g_iter8.
