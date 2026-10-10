@@ -825,3 +825,15 @@ of history. Times are PDT. Grep it; do not read it whole.
   (island duty from r1700: attackers and defenders), 3 c_mend1 (wounded launchers heal on a nearby island we own; no
   change before our first anchor). Rejected: c_lane2 (needs c_lane1 and c_well6 first), c_amp1, c_ws1, c_raid1, c_ward1.
   Build workflow wf_cc9fc191-79f running on c_aura2.
+
+## 2026-10-10 16:05 PDT — c_lane1, c_end1, c_mend1 built and reviewed; screens queued
+- Build workflow wf_cc9fc191-79f (implement + adversarial review per arm, compile and unit test only). Each reviewer
+  fixed something: c_lane1 (doc of objKind now read by the cloud march; Lane1Test 29 cases incl. siegeTarget's
+  short-turn and rank paths; the implementer added LANE_GUARD 4,000 bytecodes for the recompute), c_end1 (a
+  non-keeper finding no island re-ran the 35-id loop every march turn, about 2,700 bytecodes: a complete pass is now
+  cached END_RECHECK rounds; End1Test), c_mend1 (mendDue gate: nothing before r250 and only with MEND_MIN_LEFT 6,000
+  bytecodes left; Mend1Test 24 cases). docs/TELEMETRY.md 1.1 notes the arms' objKind variants. unit-tests PASS
+  (65 packages).
+- Screens queued behind c_well6's (running since 15:30): c_lane1, c_mend1, c_end1. c_end1 changes only games past
+  r1700, so its h2h will sit near the identity 10/20; judge it on the late-game cells.
+- Next: c_scout1's trial right after the 17:00 autoscrim fires.
