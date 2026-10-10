@@ -636,3 +636,13 @@ of history. Times are PDT. Grep it; do not read it whole.
   enemy HQ auras on the panel (followers walk in, none can walk out). Judge's ranking: 1 c_flee2 (carriers remember
   the raid they fled), 2 c_well3 (home mana-well probe + re-pick at deposit), 3 c_aura1 (aura-safe movement).
   Implement/review workflow running on c_anc3.
+
+## 2026-10-09 20:05 PDT — c_flee2, c_well3, c_aura1 implemented and reviewed (on c_anc3)
+- Workflow wf_682bf1fd-0d0 (6 agents, compile-only), specs in research/diagnosis/2026-10-09-g_iter6.md.
+  c_flee2 (carriers hold near home after a flee, drop the raided well, avoid wells near fresh sightings, flee to a
+  safe HQ): reviewer cut the worst hold-turn scan from ~12k to ~7.7k bytecodes (avoided() only on nearer candidates,
+  pickWell(-role)) and reset offRole. c_well3 (one carrier per HQ probes 5 points for a home mana well, re-pick a
+  nearer well at deposit; slot 61 bits 8-11 as probe claims): ready as written. c_aura1 (launchers inside an enemy
+  HQ aura may only step outward; regroup moves avoid auras; fight() prefers the outermost aura tile): reviewer raised
+  the outward weight (C.AURA_OUT_W 2,000,000) so a deeper tile can never tie with standing still.
+- test/bot/AuraStepTest.java: the 7 aura-step cases. Unit tests PASS. Screens queued.
