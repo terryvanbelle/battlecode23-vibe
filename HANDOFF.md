@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-10 06:15 PDT.
+Updated 2026-10-10 09:30 PDT.
 
 ## Standing
 
@@ -43,6 +43,9 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_aura1 | g_iter6 + aura-safe launcher movement (test/bot/AuraStepTest.java) | compiled, reviewed | rebased as c_aura2 |
 | c_well4 | g_iter7 (c_def3) + c_well3 | screen FAIL (h2h 10-10, roster +1); MassiveL: probe never got carriers onto (2,0) | closed; debug the probe before retrying |
 | c_aura2 | g_iter7 (c_def3) + c_aura1 | screen PASS (13-7, +2); panel 62/100, net +2; aura deaths 1,227 -> 35 | accepted 06:15 PDT as g_iter8 |
+| c_well5 | g_iter8 + home mana-well probe made reliable, re-pick at deposit (`research/diagnosis/2026-10-10-g_iter8.md` rank 1) | unit tests PASS (test/bot/ProbeFrontTest.java) | screen queued 09:25 PDT |
+| c_spread2 | g_iter8 + surplus launchers at a saturated siege ring press the other enemy HQs (rank 2) | unit tests PASS (test/bot/SpreadTest.java) | screen queued |
+| c_scout1 | g_iter8 + a claimed, replaceable island scout (rank 3) | unit tests PASS | screen queued |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
 Closed or superseded since g_iter2 (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9, c_nav3a 8, c_swarm4b 8,
