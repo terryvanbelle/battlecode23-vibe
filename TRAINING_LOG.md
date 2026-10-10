@@ -684,3 +684,8 @@ of history. Times are PDT. Grep it; do not read it whole.
 - c_well4 vs c_def3: h2h 10-10 BORDERLINE, roster +1, 128 games clean: FAIL. Local MassiveL game (seed 786634174,
   c_well4 as A with HQs (7,5) and (2,37)): all 331 of A's mana deposits at (0,39), none at (7,5)'s well (2,0). The
   probe/re-pick did not take; debug before any re-screen (the judge's verify: (2,0) collected by ~r150).
+
+## 2026-10-10 01:03 PDT — c_flee3 trial started (submission 127)
+- trial-start --skip-screen: screened as c_flee2 against c_anc3 (h2h 12-8, roster +3, 0 overruns; near misses 83, so
+  watch carrier bytecodes); c_flee3 = the same patch on g_iter7. Started after the 01:00 autoscrim fired (176 matches,
+  bound to c_def3); the panel queues behind them. Judge against gauntlet/20261010-023758-panel-c_def3 (60/100).

@@ -5,7 +5,12 @@
   "since": "2026-10-10T04:38:56.664351+00:00",
   "panel_run": "gauntlet/20261010-023758-panel-c_def3"
  },
- "trial": null,
+ "trial": {
+  "submission": 127,
+  "package": "c_flee3",
+  "started": "2026-10-10T08:02:42.876188+00:00",
+  "panel": "test/cells/panel-v1.txt"
+ },
  "history": [
   {
    "at": "2026-10-08T02:35:39.835215+00:00",
@@ -149,6 +154,13 @@
    "event": "accept",
    "submission": 126,
    "package": "c_def3"
+  },
+  {
+   "at": "2026-10-10T08:02:42.876224+00:00",
+   "event": "trial-start",
+   "submission": 127,
+   "package": "c_flee3",
+   "screen_skipped": "screened as c_flee2 against g_iter6 c_anc3 (progress/screens/c_flee2-3235f73da213.json: h2h 12-8, roster Net +3, 0 overruns, near misses 83); c_flee3 is the same patch on g_iter7 c_def3, which plays 95/100 panel cells as c_anc3; its own screen is queued behind c_aura2"
   }
  ]
 }
