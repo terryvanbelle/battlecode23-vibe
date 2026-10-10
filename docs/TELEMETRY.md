@@ -119,6 +119,10 @@ below. Codes 32..63 are invalid.
   | 2 | Predicted enemy HQ |
   | 3 | Map centre, or none |
 
+  Arm variants: in c_end1, from `C.END_FROM` (r1700), kind 1 also covers island duty on our own islands (defenders);
+  in c_mend1, kind 3 (with OBJ objEff 3) marks a wounded launcher walking to, or healing on, an island we own (the
+  centre objective is otherwise used on about 0.03% of panel launcher turns).
+
 - `outnumbered` = `G.nEnemyFighters > G.nAllyFighters + 1`.
 
 **HQ**: `code = reason | threatened << 4 | wantAnchor << 5`. Reasons 10 to 14 are invalid.
