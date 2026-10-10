@@ -190,3 +190,7 @@ I'm inclined to believe your Bradley-Terry ratings more than the algorithm emplo
 ## 43. 2026-10-10 12:36 PDT
 
 Looks like all the c_well5 trial games are now in
+
+## 44. 2026-10-10 16:43 PDT
+
+Can you create a version of the replica's Rating History graph from the Team Settings page?  On it please also mark the first time that each submission was used in a rated scrimmage game
