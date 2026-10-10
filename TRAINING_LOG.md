@@ -679,3 +679,8 @@ of history. Times are PDT. Grep it; do not read it whole.
   (in-flight matches redelivered). Documented in docs/galaxy/README.md (deviations).
 - Our launchers now spend most of their bytecodes every turn (distance fields, end-of-turn fill), so big games are
   slower to simulate; harmless in the real contest (no wall-clock limit), but it lengthens replica matches.
+
+## 2026-10-10 01:00 PDT — c_well4 closed: screen FAIL and the probe did not fire on MassiveL
+- c_well4 vs c_def3: h2h 10-10 BORDERLINE, roster +1, 128 games clean: FAIL. Local MassiveL game (seed 786634174,
+  c_well4 as A with HQs (7,5) and (2,37)): all 331 of A's mana deposits at (0,39), none at (7,5)'s well (2,0). The
+  probe/re-pick did not take; debug before any re-screen (the judge's verify: (2,0) collected by ~r150).

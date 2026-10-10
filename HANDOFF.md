@@ -40,7 +40,7 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_flee3 | g_iter7 (c_def3) + c_flee2 | unit tests PASS | screen queued 23:10 PDT; trial candidate after 01:00 PDT |
 | c_well3 | g_iter6 + home mana-well probe and re-pick at deposit | compiled, reviewed | rebased as c_well4 |
 | c_aura1 | g_iter6 + aura-safe launcher movement (test/bot/AuraStepTest.java) | compiled, reviewed | rebased as c_aura2 |
-| c_well4 | g_iter7 (c_def3) + c_well3 | unit tests PASS | screen vs g_iter7 queued 22:00 PDT |
+| c_well4 | g_iter7 (c_def3) + c_well3 | screen FAIL (h2h 10-10, roster +1); MassiveL: probe never got carriers onto (2,0) | closed; debug the probe before retrying |
 | c_aura2 | g_iter7 (c_def3) + c_aura1 (one hunk merged by hand) | unit tests PASS | screen vs g_iter7 queued 22:00 PDT |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
