@@ -748,3 +748,10 @@ of history. Times are PDT. Grep it; do not read it whole.
   pair cap, dedupe, load, the incumbent and 'our record') wired into tools/unit-tests.sh.
 - Effect: field SD 531 -> 601; our builds +68..+93 vs the field, order unchanged; field scores +0.7..+2.0 points
   (c_aura2 84.1%, c_def3 84.9%); intervals wider (c_aura2 +-67). The field-score charts and ELO.md are regenerated.
+
+## 2026-10-10 11:40 PDT — c_well5 screen PASS; trial started (submission 130)
+- Screen (progress/screens/c_well5-7fd593bc5ec7.json) vs c_aura2: (a) 8/8; (b) h2h 12-8 PASS; (c) no gating archetype,
+  information-only Net -1 (ampmid -2, blob +1); (d) 128 games, 0 overruns, 0 exceptions, 0 deaths_self (near misses 95).
+- trial-start c_well5 at 11:39 PDT, 5 h 21 before the 17:00 autoscrim (logs/trial-c_well5.log). Judge with
+  tools/paired.py against gauntlet/20261010-121416-panel-c_aura2 (62/100), plus the MassiveL/Forest mana census.
+  c_spread2's screen is running (h2h 13/20 played); c_scout1's is queued behind it.
