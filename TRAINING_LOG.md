@@ -715,3 +715,12 @@ of history. Times are PDT. Grep it; do not read it whole.
   over the 100 games: 35 vs 1,227. 0 overruns, 0 exceptions. Accepted: a movement-basics fix with a measured
   mechanism, at the judge's bar (net >= +2).
 - g_iter8 = c_aura2 (submission 129). c_flee3 rejected earlier tonight; c_well4 closed.
+
+## 2026-10-10 08:30 PDT — g_iter8 diagnosis; building c_well5, c_spread2, c_scout1
+- research/diagnosis/2026-10-10-g_iter8.md. Judge's ranking: 1 c_well5 (the home mana-well probe made reliable plus
+  the re-pick at deposit: c_well4's own screen census shows MassiveL Mn@250 1,406-1,553 vs 739-771 in the 6 of 10 cells
+  where the probe fired, Forest 5 of 10; I closed c_well4 on one local game where it happened not to fire), 2 c_spread2
+  (surplus launchers at a saturated siege ring press the other enemy HQs: Cornucopia 3/10 in every build, the free HQs
+  build 42-82 launchers in r200-500 while 15-29 of ours camp one HQ), 3 c_scout1 (a claimed, replaceable island
+  scout: first anchor r400-450 on BatSignal/ReverseFunnel). Rejected: carriers sharing raids (c_rep1; c_flee3 family),
+  guards/recall variants, wounded retreat, island guards. Implement/review workflow running on c_aura2.
