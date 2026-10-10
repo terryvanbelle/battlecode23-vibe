@@ -9,7 +9,8 @@
   "submission": 126,
   "package": "c_def3",
   "started": "2026-10-10T02:37:58.033899+00:00",
-  "panel": "test/cells/panel-v1.txt"
+  "panel": "test/cells/panel-v1.txt",
+  "run": "gauntlet/20261010-023758-panel-c_def3"
  },
  "history": [
   {
