@@ -659,3 +659,10 @@ of history. Times are PDT. Grep it; do not read it whole.
 - Patches c_anc3 -> c_well3 and c_anc3 -> c_aura1 applied to copies of c_def3; one hunk (c_aura1's march() step-out,
   anchored on the telemetry line c_def3 changed) inserted by hand; launcher additions complete (21 lines each).
   Unit tests PASS. Their pending screens against c_anc3 cancelled; c_flee2's running screen finishes, then rebases.
+
+## 2026-10-09 23:10 PDT — c_flee2 screen PASS (vs c_anc3); rebased as c_flee3 on g_iter7
+- c_flee2 vs c_anc3: basics 8/8, h2h 12-8, roster information Net +3 (horde +2, ampmid +1, blob +1, adecon -1),
+  128 games with 0 overruns, 0 exceptions, but 83 near misses (carrier well scans): watch carrier bc_max on the replica.
+- c_flee3 = c_def3 + the c_anc3 -> c_flee2 patch (C, Carrier, Comms, HQState), applied cleanly; added-line counts equal
+  per file. Unit tests PASS. Screen queued after c_well4 and c_aura2. Next trial window: after the 01:00 PDT
+  autoscrim (until 06:30); the strongest of c_flee3 / c_well4 / c_aura2 goes first.

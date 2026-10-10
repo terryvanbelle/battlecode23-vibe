@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-09 22:00 PDT.
+Updated 2026-10-09 23:10 PDT.
 
 ## Standing
 
@@ -36,7 +36,8 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_cloud1 | c_nav6 + hold on recent contact, cloud-aware regroup, blind shot | standalone screen cancelled | superseded by c_cld2 |
 | c_cld2 | g_iter6 (c_anc3) + c_cloud1's launcher changes | screen vs g_iter6 FAIL (h2h 9-11, roster +1) | closed |
 | c_def3 | g_iter6 (c_anc3) + c_def2's raid alarm and recall | screen PASS; panel 60/100, net +3 (vrangr1 +3) | accepted 21:40 PDT as g_iter7 |
-| c_flee2 | g_iter6 + carriers remember the raid they fled | h2h 12-8 vs c_anc3 | screen vs c_anc3 running; rebase onto g_iter7 after |
+| c_flee2 | g_iter6 + carriers remember the raid they fled | screen vs c_anc3 PASS: h2h 12-8, roster +3, near misses 83 | rebased as c_flee3 |
+| c_flee3 | g_iter7 (c_def3) + c_flee2 | unit tests PASS | screen queued 23:10 PDT; trial candidate after 01:00 PDT |
 | c_well3 | g_iter6 + home mana-well probe and re-pick at deposit | compiled, reviewed | rebased as c_well4 |
 | c_aura1 | g_iter6 + aura-safe launcher movement (test/bot/AuraStepTest.java) | compiled, reviewed | rebased as c_aura2 |
 | c_well4 | g_iter7 (c_def3) + c_well3 | unit tests PASS | screen vs g_iter7 queued 22:00 PDT |
