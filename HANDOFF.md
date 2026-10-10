@@ -1,13 +1,14 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-10 05:15 PDT.
+Updated 2026-10-10 06:15 PDT.
 
 ## Standing
 
-- **Validated build g_iter7 = c_def3** (submission 126, accepted 2026-10-09 21:40 PDT): g_iter6 (c_anc3, anchor
-  discipline, panel 57/100, net +11) plus an HQ raid alarm (slot 56) that recalls launchers within r2 225 nearer the
-  raided HQ than the siege target, before r600. Panel 60/100 (net +3 over g_iter6, gains on vrangr1). Lineage: g_iter3
-  = c_nav4 (distance fields, 48), g_iter5 = c_nav6 (crowd bytecode bounds, 0 overruns), g_iter6 = c_anc3.
+- **Validated build g_iter8 = c_aura2** (submission 129, accepted 2026-10-10 06:15 PDT): g_iter7 (c_def3: anchor
+  discipline + raid recall, panel 60/100) plus aura-safe launcher movement (inside an enemy HQ aura only outward steps;
+  regroup moves avoid auras). Panel 62/100 (net +2); our launchers killed by enemy HQ auras 35 vs 1,227 per 100 games.
+  Lineage: g_iter3 = c_nav4 (distance fields, 48), g_iter5 = c_nav6 (0 overruns), g_iter6 = c_anc3 (anchor discipline,
+  57), g_iter7 = c_def3 (raid recall, 60).
 - **Why we lose** (g_iter2's 10 panel matches, 1017-1026, `research/matches/`): not the opening fights. Before r400 we
   land the first hit in 55-72% of launcher duels and win 59-64% of engagements against vrangr1, jmerle, georgezhang and
   NotLLeon (awesomelemonade: 20%, they meet us with twice the launchers, group size 19 vs our 6). We lose the middle
@@ -41,7 +42,7 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_well3 | g_iter6 + home mana-well probe and re-pick at deposit | compiled, reviewed | rebased as c_well4 |
 | c_aura1 | g_iter6 + aura-safe launcher movement (test/bot/AuraStepTest.java) | compiled, reviewed | rebased as c_aura2 |
 | c_well4 | g_iter7 (c_def3) + c_well3 | screen FAIL (h2h 10-10, roster +1); MassiveL: probe never got carriers onto (2,0) | closed; debug the probe before retrying |
-| c_aura2 | g_iter7 (c_def3) + c_aura1 | screen PASS: h2h 13-7, roster +2 | replica trial (submission 129) since 05:14 PDT |
+| c_aura2 | g_iter7 (c_def3) + c_aura1 | screen PASS (13-7, +2); panel 62/100, net +2; aura deaths 1,227 -> 35 | accepted 06:15 PDT as g_iter8 |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
 Closed or superseded since g_iter2 (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9, c_nav3a 8, c_swarm4b 8,
@@ -60,7 +61,8 @@ rotation is worth carrying into a later arm.
   for `tools/paired.py`). Hourly limits count requests AND the matches they create (an accepted request counts
   twice); galaxy's default 10/10 was raised to 40 unranked and 20 ranked (owner, PROMPTS 15-16), so about 20 panel
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
-- Validated build: **g_iter7 = c_def3** (submission 126; resubmitted as 128 after c_flee3's rejection, accepted 2026-10-09 21:40 PDT; baseline panel run
+- Validated build: **g_iter8 = c_aura2** (submission 129, accepted 2026-10-10 06:15 PDT; baseline panel run
+  `gauntlet/20261010-121416-panel-c_aura2`, 62/100). Before it **g_iter7 = c_def3** (submission 126; resubmitted as 128 after c_flee3's rejection, accepted 2026-10-09 21:40 PDT; baseline panel run
   `gauntlet/20261010-023758-panel-c_def3`, 60/100). Before it g_iter6 = c_anc3 (submission 125,
   `gauntlet/20261009-211419-panel-c_anc3`, 57/100). Before it g_iter5 = c_nav6 (submission 124,
   `gauntlet/20261009-191411-panel-c_nav6`, 46/100). Before it g_iter4 = c_nav5 (submission 123; panel identical to g_iter3's,

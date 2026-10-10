@@ -708,3 +708,10 @@ of history. Times are PDT. Grep it; do not read it whole.
   against strong teams than the trips they saved. trial-end --reject: c_def3 resubmitted (submission 128).
 - c_aura2 (aura-safe movement; screen h2h 13-7, roster +2) trial started 05:14 PDT, 3 h 46 before the 09:00 autoscrim;
   judge against gauntlet/20261010-023758-panel-c_def3 and the aura deaths per game.
+
+## 2026-10-10 06:15 PDT — c_aura2 accepted (g_iter8): panel 62/100, net +2; aura deaths 1,227 -> 35
+- Panel (gauntlet/20261010-121416-panel-c_aura2) vs g_iter7's: 96 identical, 3 gained (NotLLeon, georgezhang, jmerle),
+  1 lost (reeceyang): net +2 (+1.00 SE, p 0.63); island-rounds +205 (t +2.05). Our launchers killed by enemy HQ auras
+  over the 100 games: 35 vs 1,227. 0 overruns, 0 exceptions. Accepted: a movement-basics fix with a measured
+  mechanism, at the judge's bar (net >= +2).
+- g_iter8 = c_aura2 (submission 129). c_flee3 rejected earlier tonight; c_well4 closed.
