@@ -694,3 +694,9 @@ of history. Times are PDT. Grep it; do not read it whole.
 - c_aura2 (g_iter7 + aura-safe launcher movement) vs c_def3: basics 8/8, h2h 13-7, roster information Net +2 (ampmid
   +3, horde -1), 128 games with 0 overruns, 0 exceptions (near misses 58). Next trial after c_flee3's: on c_def3 if
   c_flee3 is rejected, rebased onto c_flee3 if it is accepted.
+
+## 2026-10-10 03:45 PDT — Replica: second slow sprintBot match cancelled; our rating 1594 -> 1639
+- Match 2593 (autoscrim, pranayagra.finalbotfinaltwo vs battlecode-archive.sprintBot, 17:00 PDT) was the only
+  non-final match left blocking the rating chain (ours waited at 2832 behind it); re-run from scratch after the
+  saturn restart and ~3.75 h into its attempt. Staff Cancel + Recalculate ratings: our backlog of c_anc3/c_def3 ranked
+  results finalized, rating 1594.1 -> 1639.0. sprintBot's games are the slow ones (~540 robots); watch for more.
