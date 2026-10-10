@@ -182,3 +182,7 @@ You're allowed to read code you wrote in previous years
 ## 41. 2026-10-10 07:32 PDT
 
 How can the VM be idle if the ranked loop is in burst mode?  Aren't all games being played on the VM?
+
+## 42. 2026-10-10 08:43 PDT
+
+I'm inclined to believe your Bradley-Terry ratings more than the algorithm employed by the replica, but it might be worth double-checking your ELO code and ensuring it's all tested properly
