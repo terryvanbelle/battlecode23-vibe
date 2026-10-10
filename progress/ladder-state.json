@@ -5,7 +5,12 @@
   "since": "2026-10-10T13:13:57.057027+00:00",
   "panel_run": "gauntlet/20261010-121416-panel-c_aura2"
  },
- "trial": null,
+ "trial": {
+  "submission": 130,
+  "package": "c_well5",
+  "started": "2026-10-10T18:39:10.009873+00:00",
+  "panel": "test/cells/panel-v1.txt"
+ },
  "history": [
   {
    "at": "2026-10-08T02:35:39.835215+00:00",
@@ -175,6 +180,13 @@
    "event": "accept",
    "submission": 129,
    "package": "c_aura2"
+  },
+  {
+   "at": "2026-10-10T18:39:10.009909+00:00",
+   "event": "trial-start",
+   "submission": 130,
+   "package": "c_well5",
+   "screen": "progress/screens/c_well5-7fd593bc5ec7.json"
   }
  ]
 }
