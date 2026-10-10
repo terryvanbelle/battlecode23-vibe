@@ -791,3 +791,14 @@ of history. Times are PDT. Grep it; do not read it whole.
   the cool well nearest our HQ, not nearest the carrier; with every well of the role hot, a carrier takes any cool well
   at once instead of exploring toward the centre (and the fight); no RNG draws (HQState.nearest draws on ties); the
   probe never adopts a hot well. The review found no encoding or bytecode defect (worst realistic case about +1,500).
+
+## 2026-10-10 14:15 PDT — c_spread2 rejected (panel 61/100, net -1)
+- Panel (gauntlet/20261010-202004-panel-c_spread2) vs g_iter8's: 93 identical, 3 gained, 4 lost: net -1 (p 1.0);
+  61/100. Cornucopia, the target map, went 3 -> 5 (conquests of vrangr1 r856 and reeceyang r804), but Forest
+  (georgezhang, tiebreak), DefaultMap (jmerle) and ReverseFunnel (pranayagra, vrangr1) were lost. Paired census: kills
+  -23.2 a game (t -3.1), island-rounds -241 (t -2.2): shedding half a saturated ring weakens the main front on maps
+  where the ring was not idle. 0 overruns, 0 exceptions (bc_max_L 9,801 vs 9,747); the screen's near-miss rise was
+  not traced further.
+- trial-end --reject: c_aura2 resubmitted (submission 133). Re-open condition: a spread gated on evidence that the free
+  HQs are producing (their launcher count or sightings near the other HQs), not on ring size alone.
+- Next: c_scout1 screen (h2h 11-9, roster running), then c_well6; the next trial window opens after the 17:00 autoscrim.
