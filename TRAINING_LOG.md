@@ -700,3 +700,11 @@ of history. Times are PDT. Grep it; do not read it whole.
   non-final match left blocking the rating chain (ours waited at 2832 behind it); re-run from scratch after the
   saturn restart and ~3.75 h into its attempt. Staff Cancel + Recalculate ratings: our backlog of c_anc3/c_def3 ranked
   results finalized, rating 1594.1 -> 1639.0. sprintBot's games are the slow ones (~540 robots); watch for more.
+
+## 2026-10-10 05:15 PDT — c_flee3 rejected (panel 56/100, net -4); c_aura2 trial started (submission 129)
+- c_flee3 panel (gauntlet/20261010-080243-panel-c_flee3) vs g_iter7's: 94 identical, 1 gained, 5 lost: net -4
+  (-1.63 SE, p 0.22); 56/100. Losses britacatalin -2, awesomelemonade, pranayagra, reeceyang; gain jmerle. 0 overruns.
+  Its screens (h2h 12-8, roster +3/+4) did not carry to the field: carriers holding near home after a raid cost more
+  against strong teams than the trips they saved. trial-end --reject: c_def3 resubmitted (submission 128).
+- c_aura2 (aura-safe movement; screen h2h 13-7, roster +2) trial started 05:14 PDT, 3 h 46 before the 09:00 autoscrim;
+  judge against gauntlet/20261010-023758-panel-c_def3 and the aura deaths per game.

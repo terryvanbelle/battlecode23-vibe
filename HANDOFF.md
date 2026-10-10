@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-10 02:45 PDT.
+Updated 2026-10-10 05:15 PDT.
 
 ## Standing
 
@@ -37,11 +37,11 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_cld2 | g_iter6 (c_anc3) + c_cloud1's launcher changes | screen vs g_iter6 FAIL (h2h 9-11, roster +1) | closed |
 | c_def3 | g_iter6 (c_anc3) + c_def2's raid alarm and recall | screen PASS; panel 60/100, net +3 (vrangr1 +3) | accepted 21:40 PDT as g_iter7 |
 | c_flee2 | g_iter6 + carriers remember the raid they fled | screen vs c_anc3 PASS: h2h 12-8, roster +3, near misses 83 | rebased as c_flee3 |
-| c_flee3 | g_iter7 (c_def3) + c_flee2 | screened as c_flee2 (h2h 12-8, roster +3); own screen queued | replica trial (submission 127) since 01:03 PDT |
+| c_flee3 | g_iter7 (c_def3) + c_flee2 | screen PASS (12-8, +4); panel 56/100, net -4 | rejected 05:13 PDT |
 | c_well3 | g_iter6 + home mana-well probe and re-pick at deposit | compiled, reviewed | rebased as c_well4 |
 | c_aura1 | g_iter6 + aura-safe launcher movement (test/bot/AuraStepTest.java) | compiled, reviewed | rebased as c_aura2 |
 | c_well4 | g_iter7 (c_def3) + c_well3 | screen FAIL (h2h 10-10, roster +1); MassiveL: probe never got carriers onto (2,0) | closed; debug the probe before retrying |
-| c_aura2 | g_iter7 (c_def3) + c_aura1 (one hunk merged by hand) | screen PASS: h2h 13-7, roster +2 | next replica trial after c_flee3's |
+| c_aura2 | g_iter7 (c_def3) + c_aura1 | screen PASS: h2h 13-7, roster +2 | replica trial (submission 129) since 05:14 PDT |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
 Closed or superseded since g_iter2 (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9, c_nav3a 8, c_swarm4b 8,
@@ -60,7 +60,7 @@ rotation is worth carrying into a later arm.
   for `tools/paired.py`). Hourly limits count requests AND the matches they create (an accepted request counts
   twice); galaxy's default 10/10 was raised to 40 unranked and 20 ranked (owner, PROMPTS 15-16), so about 20 panel
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
-- Validated build: **g_iter7 = c_def3** (submission 126, accepted 2026-10-09 21:40 PDT; baseline panel run
+- Validated build: **g_iter7 = c_def3** (submission 126; resubmitted as 128 after c_flee3's rejection, accepted 2026-10-09 21:40 PDT; baseline panel run
   `gauntlet/20261010-023758-panel-c_def3`, 60/100). Before it g_iter6 = c_anc3 (submission 125,
   `gauntlet/20261009-211419-panel-c_anc3`, 57/100). Before it g_iter5 = c_nav6 (submission 124,
   `gauntlet/20261009-191411-panel-c_nav6`, 46/100). Before it g_iter4 = c_nav5 (submission 123; panel identical to g_iter3's,
