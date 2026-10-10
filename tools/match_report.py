@@ -61,7 +61,7 @@ TIER2 = ('exposed_end', 'group_p50', 'trip_cycle_p50', 'partial_loads', 'carrier
          'kill_conv')
 TYPE_KEY = {'H': 'HQ', 'C': 'C', 'L': 'L', 'A': 'A', 'D': 'D', 'B': 'B'}
 PHASES = ('open', 'mid', 'late')
-WELL_SRC = {1: 'shared', 2: 'seen', 3: 'any_shared', 4: 'any_seen', 5: 'crowd_switch'}
+WELL_SRC = {1: 'shared', 2: 'seen', 3: 'any_shared', 4: 'any_seen', 5: 'crowd_switch', 6: 'cool', 7: 'any_cool'}
 OBJ_KIND = {0: 'sighting', 1: 'enemy_island', 2: 'enemy_hq', 3: 'centre', 4: 'regroup_ally', 5: 'regroup_home',
             6: 'follow', 7: 'home_defence'}
 ANCH_EV = {1: 'target', 2: 'rejected', 3: 'retarget', 4: 'timeout', 5: 'returned', 6: 'placed', 7: 'took'}
