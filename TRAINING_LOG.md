@@ -809,3 +809,19 @@ of history. Times are PDT. Grep it; do not read it whole.
   to copy the decisive behaviours), three-panel cell analysis (c_aura2, c_well5, c_spread2 played identical cells:
   won 3/3, lost 0/3, mixed), unused mechanics and API sweep, combat exchange; a judge ranks the arms (one structural
   at least) and specs the top 3 for a build on c_aura2.
+
+## 2026-10-10 15:30 PDT — c_scout1 screen PASS (at the bar); second g_iter8 diagnosis: c_lane1, c_end1, c_mend1
+- c_scout1 (progress/screens/c_scout1-dad053d52c92.json) vs c_aura2: (a) 8/8; (b) h2h 11-9 PASS (at the bar);
+  (c) information-only Net -2 (horde -2); (d) 128 games, 0 overruns, 0 exceptions (near misses 60). Trial after the
+  17:00 autoscrim.
+- Diagnosis research/diagnosis/2026-10-10-g_iter8b.md (wf_bb0064f5-9d8). Key findings: on Forest every early striker
+  (vrangr1, awesomelemonade, jmerle, NotLLeon) walks the cloud-covered top band to our (11,48) and presses it from
+  r75-100 while our army goes south: siegeTarget's centroid rule picks (48,11) or (52,30), never the lane HQ (48,48);
+  Forest's 6 strikers' cells were lost in all 10 builds since c_swarm1 (60/60 reads). The strong teams heal 2.7-4.3 HP
+  per island-round against our 1.1-1.6 at equal island time (no launcher decision reads its health). Late tiebreaks
+  are lost on island swings from r1700 (3233 g2: islands 4-2 at r1700 with 268 v 9 launchers, lost by 5).
+- Judge's ranks: 1 c_lane1 (lane siege target: the enemy HQ nearest any of ours, with 3+ own HQs or a decided
+  symmetry, which changes Forest only of the 103 engine maps; launchers keep marching through clouds), 2 c_end1
+  (island duty from r1700: attackers and defenders), 3 c_mend1 (wounded launchers heal on a nearby island we own; no
+  change before our first anchor). Rejected: c_lane2 (needs c_lane1 and c_well6 first), c_amp1, c_ws1, c_raid1, c_ward1.
+  Build workflow wf_cc9fc191-79f running on c_aura2.

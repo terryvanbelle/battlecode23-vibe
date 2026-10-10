@@ -45,8 +45,11 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_aura2 | g_iter7 (c_def3) + c_aura1 | screen PASS (13-7, +2); panel 62/100, net +2; aura deaths 1,227 -> 35 | accepted 06:15 PDT as g_iter8 |
 | c_well5 | g_iter8 + home mana-well probe made reliable, re-pick at deposit (`research/diagnosis/2026-10-10-g_iter8.md` rank 1) | screen PASS (12-8); panel 64/100, net +2 (p 0.69); Forest: 19-25 carriers dead by r250 vs 1-3 | rejected 12:45 PDT; fixed as c_well6 |
 | c_spread2 | g_iter8 + surplus launchers at a saturated siege ring press the other enemy HQs (rank 2) | screen PASS (12-8, roster +5); panel 61/100, net -1: Cornucopia 3 -> 5, lost Forest, DefaultMap, ReverseFunnel x2; kills -23/game | rejected 14:15 PDT; re-open with a spread gated on the free HQs producing |
-| c_scout1 | g_iter8 + a claimed, replaceable island scout (rank 3) | screen h2h 11-9 PASS, roster running | trial after the 17:00 autoscrim if it passes |
-| c_well6 | c_well5 + hot wells: a carrier that sees an enemy fighter near its front well drops it and marks the front wells around the fighter hot (Comms well bits 14-15, decayed by HQ 0); carriers take the cool well nearest our HQ (test/bot/HotWellTest.java) | reviewed (3 lenses), reworked; unit tests PASS | screen queued 13:37 PDT (after c_scout1) |
+| c_scout1 | g_iter8 + a claimed, replaceable island scout (rank 3) | screen PASS (11-9 at the bar, roster -2 info, 0 overruns) | trial after the 17:00 autoscrim |
+| c_well6 | c_well5 + hot wells: a carrier that sees an enemy fighter near its front well drops it and marks the front wells around the fighter hot (Comms well bits 14-15, decayed by HQ 0); carriers take the cool well nearest our HQ (test/bot/HotWellTest.java) | reviewed (3 lenses), reworked; unit tests PASS | screen running (started 15:30 PDT) |
+| c_lane1 | g_iter8 + lane siege target (the enemy HQ nearest any of ours; Forest only) + cloud march (`research/diagnosis/2026-10-10-g_iter8b.md` rank 1) | building (wf_cc9fc191-79f) | screen |
+| c_end1 | g_iter8 + island duty from r1700 for the r2000 tiebreak (rank 2) | building | screen |
+| c_mend1 | g_iter8 + wounded launchers heal on a nearby island we own (rank 3) | building | screen |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
 Closed or superseded since g_iter2 (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9, c_nav3a 8, c_swarm4b 8,
