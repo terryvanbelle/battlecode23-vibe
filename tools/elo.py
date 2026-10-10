@@ -4,11 +4,12 @@ Bradley-Terry fit on the Elo scale (tools/elolib.py) over every recorded game: o
 autoscrims among field bots (owner PROMPTS 1: in spare VM cycles random ladder bots scrimmage each other).
 A bot that has played no recorded game is unrated.
    tools/elo.py                        # ranking table; also writes progress/ELO.md and progress/elo.png
-   tools/elo.py --band 8 --as g_iter5  # graded pool: the 8 rated bots nearest to g_iter5's rating, either side
+   tools/elo.py --band 8 --as c_nav5   # graded pool: the 8 rated bots nearest to c_nav5's rating, either side
    tools/elo.py --pool 6 --explore 2   # old pool: the 6 rated bots just above us + 2 bots with the fewest games
-   tools/elo.py --build g_iter4        # one build: record (Wilson 95%), rating, expected score vs the field
+   tools/elo.py --build c_aura2        # one build: record (Wilson 95%), rating, expected score vs the field
 --as names the build whose rating centres the pool; unset, or a build with no games yet (a candidate,
-'bot'), it is the incumbent: the validated build of progress/ladder-state.json, else our latest g_iterN."""
+'bot'; a note on stderr), it is the incumbent (elolib.incumbent): the validated build of progress/ladder-state.json,
+else the latest accepted build with games. --build of a build with no rated games exits non-zero."""
 import argparse, math, os, sys, collections
 # the chart needs matplotlib, which lives in tools/.venv: re-exec there when it exists
 _venv = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.venv', 'bin', 'python')
@@ -27,7 +28,11 @@ rows = elolib.load(); R, SE, games, wins = elolib.fit(rows)
 bots = elolib.ladder_bots()
 rated = [b for b in bots if games[b] > 0]; unrated = [b for b in bots if games[b] == 0]
 ours = sorted({t for r in rows for t in (r['teamA'], r['teamB']) if elolib.is_ours(t)}, key=lambda p: -R[p])
-me = 'us:' + a.as_build if a.as_build and games['us:' + a.as_build] > 0 else 'us:' + (elolib.current_build(rows) or '')
+inc = elolib.incumbent(rows)
+if a.as_build and games['us:' + a.as_build] == 0:   # a candidate with no games yet, or a typo (audit C3)
+    typo = '' if os.path.isdir(os.path.join(elolib.REPO, 'src', a.as_build)) else f' (src/{a.as_build} does not exist: a typo?)'
+    print(f"elo.py: --as {a.as_build} has no rated games{typo}; centring on the incumbent {inc or '-'}", file=sys.stderr)
+me = 'us:' + (a.as_build if a.as_build and games['us:' + a.as_build] > 0 else (inc or ''))
 table = sorted([(R[p], p) for p in rated + ours], key=lambda x: -x[0])
 rank = {p: i + 1 for i, (_, p) in enumerate(table)}
 opp_games = collections.Counter(); opp_wins = collections.Counter()   # per bot, against all our builds
@@ -58,9 +63,12 @@ def wilson(w, n, z=1.96):
     p = w / n; d = 1 + z * z / n; c = p + z * z / (2 * n); m = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))
     return (p, (c - m) / d, (c + m) / d)
 if a.build:
-    p_ = 'us:' + a.build; p, lo, hi = wilson(wins[p_], games[p_])
+    p_ = 'us:' + a.build
+    if games[p_] == 0: sys.exit(f"elo.py: build {a.build} has no rated games in progress/games.csv")   # not 1500 +- inf (C3)
+    p, lo, hi = wilson(wins[p_], games[p_])
     print(f"{a.build}: {wins[p_]}/{games[p_]} = {p:.1%} [{lo:.1%}, {hi:.1%}]; rating {R[p_]:.0f} +- {1.96 * SE[p_]:.0f}, "
-          f"rank {rank.get(p_, '-')} of {len(table)}; expected score vs the {len(bots)}-bot field {elolib.field_score(R, p_, bots):.1%}")
+          f"rank {rank.get(p_, '-')} of {len(table)}; expected score vs the {len(rated)}-rated-bot field "
+          f"{elolib.field_score(R, p_, rated):.1%}")
     raise SystemExit
 ndist = len(elolib.dedupe(rows))
 # Each opponent's record. RUN_MIN marks a thin record: 30 games pin a win rate to about +-18 points at 95%.
@@ -78,9 +86,9 @@ for r in elolib.dedupe(rows):
     vs[us_, opp][1] += 1; vs[us_, opp][0] += (r['winner'] == 'A') == (opp == ta)
 # The INCUMBENT's record against the bot whatever the count (fewer than RUN_MIN games marked *), else the most recent of
 # our builds that played it (a record by an old build against a bot later builds met only a few times misleads).
-# the incumbent: the validated build (progress/ladder-state.json) when it has games, else the last g_iterN snapshot
-_v = elolib.validated_build()
-incumbent = ('us:' + _v) if _v and games['us:' + _v] > 0 else (elolib.accepted_builds(ours) or [None])[-1]
+# the incumbent: the validated build (progress/ladder-state.json) when it has games, else the latest accepted build with
+# games (elolib.incumbent)
+incumbent = 'us:' + inc if inc else None
 def recent_run(bot):
     order = ([incumbent] if incumbent else []) + [p for p in recent if p != incumbent]
     for p in order:
@@ -91,18 +99,23 @@ def higher_field(p):   # expected score against only the ladder bots rated above
     up = [b for b in rated if R[b] > R[p]]
     return f"{elolib.field_score(R, p, up):.1%} (vs {len(up)})" if up else '-'
 n_ours = sum(1 for r in rows if elolib.is_ours(r['teamA']) or elolib.is_ours(r['teamB']))
+n_base = sum(1 for r in rows if not (elolib.is_ours(r['teamA']) or elolib.is_ours(r['teamB']))
+             and {r['teamA'], r['teamB']} & {'us:' + b for b in elolib.BASELINES})
+base = f", {n_base} of the stock {'/'.join(sorted(elolib.BASELINES))}" if n_base else ''
 lines = ["# Ladder", "",
-         f"{len(rows)} games ({n_ours} ours, {len(rows) - n_ours} between field bots on the ladder replica), {ndist} distinct "
+         f"{len(rows)} games ({n_ours} ours{base}, {len(rows) - n_ours - n_base} between field bots on the ladder replica), "
+         f"{ndist} distinct "
          f"(a repeated pairing on the same map, orientation and seed replays the same game and counts once), "
          f"rated by a batch Bradley-Terry fit on the Elo scale (`tools/elolib.py`), each pair of players counting at most "
          f"{elolib.PAIR_CAP} games (so one heavily repeated pairing cannot pull the fit); "
          f"each of our builds is its own player. {len(rated)} of {len(bots)} ladder bots met.", "",
-         "Our builds (rating +- 95%; field score = expected score against every ladder bot, one game each; "
+         f"Our builds (rating +- 95%, relative to the mean rating of all {len(games)} players; field score = expected score "
+         f"against every rated ladder bot ({len(rated)} of {len(bots)}), one game each; "
          "vs higher = the same against only the ladder bots rated above the build, with their count):", "",
          "| build | rating | rank | games | record | field score | vs higher |", "|---|---|---|---|---|---|---|"]
 for p in ours:
     lines.append(f"| {elolib.build_of(p)} | {R[p]:.0f} +- {1.96 * SE[p]:.0f} | {rank[p]} of {len(table)} | {games[p]} | "
-                 f"{wins[p]}-{games[p] - wins[p]} | {elolib.field_score(R, p, bots):.1%} | {higher_field(p)} |")
+                 f"{wins[p]}-{games[p] - wins[p]} | {elolib.field_score(R, p, rated):.1%} | {higher_field(p)} |")
 lines += ["", f"Our record = OUR win rate (our W-L) against the bot by the incumbent "
           f"({elolib.build_of(incumbent) if incumbent else '-'}), whatever the count; * marks fewer than {RUN_MIN} games "
           f"(+- 18 points at 95% for 30 games, +- 20 for 24); a bot the incumbent never met shows the most recent of our "
@@ -125,7 +138,7 @@ try:
     ax.set_yticks(ys); ax.set_yticklabels([p for _, p in table], fontsize=5.5)
     for t, (_, p) in zip(ax.get_yticklabels(), table):
         if elolib.is_ours(p): t.set_color('#d62728'); t.set_fontweight('bold')
-    ax.set_xlabel('rating (Bradley-Terry, Elo scale), 95% interval'); ax.grid(axis='x', alpha=.3)
+    ax.set_xlabel('rating (Bradley-Terry, Elo scale), 95% interval relative to the mean rating'); ax.grid(axis='x', alpha=.3)
     ax.set_title(f"Ladder: {len(rows)} scrimmages; our builds in red"); ax.set_ylim(-1, len(table))
     fig.tight_layout(); fig.savefig(os.path.join(elolib.REPO, 'progress', 'elo.png'), dpi=120)
 except Exception as e: print('plot skipped:', e)

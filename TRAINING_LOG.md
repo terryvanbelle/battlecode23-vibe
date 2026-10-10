@@ -735,3 +735,16 @@ of history. Times are PDT. Grep it; do not read it whole.
   claimed, replaceable island scout; reviewer raised the draw guard to 3,000 bytecodes.
 - Bot unit tests added: test/bot/ProbeFrontTest.java (8 cases), test/bot/SpreadTest.java. Unit tests PASS. Screens
   queued vs g_iter8.
+
+## 2026-10-10 11:00 PDT — Rating code audited (owner, PROMPTS 42): prior and SE fixed, Newton fit, 58 tests
+- research/audits/2026-10-10-elo.md. An independent Newton fit reproduced elolib.fit to 9e-6 Elo: the code computed
+  its formula. But the "weak" prior (1 virtual win + 1 loss vs 1500 per player) compressed the whole scale by ~13%
+  (simulated slope 0.81-0.89), so the published +-95% covered the truth only ~40-55% of the time; the diagonal SE
+  also understated field bots. Now: prior 0.1 (simulated slope 0.997), SE relative to the mean rating (full inverse),
+  Newton solve (0.2 s instead of 65 s). Data path: swapped-label replays (map-rev) were counted twice (85 merged),
+  non-A/B winners were counted as B wins, seed '' vs 'map' keyed apart, examplefuncsplayer was listed as one of our
+  builds; consumers: the incumbent fallback only knew g_iterN names, --build printed made-up numbers for unknown
+  builds. All fixed; tools/test_elo.py (58 tests: synthetic recovery, SE calibration, side/order invariance, prior,
+  pair cap, dedupe, load, the incumbent and 'our record') wired into tools/unit-tests.sh.
+- Effect: field SD 531 -> 601; our builds +68..+93 vs the field, order unchanged; field scores +0.7..+2.0 points
+  (c_aura2 84.1%, c_def3 84.9%); intervals wider (c_aura2 +-67). The field-score charts and ELO.md are regenerated.

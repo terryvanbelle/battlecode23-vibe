@@ -24,7 +24,7 @@ PDT = ZoneInfo('America/Los_Angeles'); UTC = dt.timezone.utc
 START = dt.datetime(2026, 10, 7)                                   # naive PDT
 HORIZONS = [(f'week {k}', START + dt.timedelta(days=7 * k)) for k in (1, 2, 3, 4)]
 MIN_GAMES = 30
-EXCLUDE = {'examplefuncsplayer'}
+EXCLUDE = elolib.BASELINES   # stock bots submitted as 'us:' (smoke tests), not builds of ours
 
 
 def fit_log(ts, rs, ses, tau=1.0):
@@ -62,7 +62,7 @@ def metrics(r, bots_r):
 
 def submissions():
     """package -> (naive PDT submission time, accepted?) from tools/ladder_policy.py's history."""
-    with open(os.path.join(elolib.REPO, 'progress', 'ladder-state.json')) as fh:
+    with open(elolib.STATE) as fh:
         hist = json.load(fh).get('history', [])
     out = {}
     for h in hist:
@@ -162,7 +162,7 @@ def main():
                          textcoords='offset points', xytext=(-8, 8), fontsize=8, ha='right', color='tab:red')
         ax2.axvline(now, color='0.6', lw=0.8, ls=':')
         ax2.annotate('now', (now, ax2.get_ylim()[0]), textcoords='offset points', xytext=(3, 3), fontsize=7, color='0.4')
-        ax2.set_ylabel('field score (%): expected score vs every ladder bot'); ax2.grid(alpha=.3)
+        ax2.set_ylabel('field score (%): expected score vs every rated ladder bot'); ax2.grid(alpha=.3)
         ax2.legend(fontsize=8, loc='lower right')
         # vs higher: only the ladder bots rated above the build (the set shrinks as the rating rises, so the curve steps
         # where a bot is passed)
