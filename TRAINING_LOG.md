@@ -689,3 +689,8 @@ of history. Times are PDT. Grep it; do not read it whole.
 - trial-start --skip-screen: screened as c_flee2 against c_anc3 (h2h 12-8, roster +3, 0 overruns; near misses 83, so
   watch carrier bytecodes); c_flee3 = the same patch on g_iter7. Started after the 01:00 autoscrim fired (176 matches,
   bound to c_def3); the panel queues behind them. Judge against gauntlet/20261010-023758-panel-c_def3 (60/100).
+
+## 2026-10-10 02:45 PDT — c_aura2 screen PASS (h2h 13-7)
+- c_aura2 (g_iter7 + aura-safe launcher movement) vs c_def3: basics 8/8, h2h 13-7, roster information Net +2 (ampmid
+  +3, horde -1), 128 games with 0 overruns, 0 exceptions (near misses 58). Next trial after c_flee3's: on c_def3 if
+  c_flee3 is rejected, rebased onto c_flee3 if it is accepted.
