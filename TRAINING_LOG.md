@@ -666,3 +666,16 @@ of history. Times are PDT. Grep it; do not read it whole.
 - c_flee3 = c_def3 + the c_anc3 -> c_flee2 patch (C, Carrier, Comms, HQState), applied cleanly; added-line counts equal
   per file. Unit tests PASS. Screen queued after c_well4 and c_aura2. Next trial window: after the 01:00 PDT
   autoscrim (until 06:30); the strongest of c_flee3 / c_well4 / c_aura2 goes first.
+
+## 2026-10-09 23:55 PDT — Replica: a stuck ranked match blocked our rating chain for 7 hours; fixed
+- Our displayed rating sat at 1582.1 from 17:48 PDT. Match 2565 (ranked, c_anc3 vs battlecode-archive.sprintBot,
+  Buggy/Crossword/Spots, created 16:45 PDT) timed out at the replica's 1800 s per-game limit on each of 4 attempts
+  (~540 robot threads, engine at ~45% CPU on the shared VM); saturn nacks errored tasks, so it was redelivered for
+  ever and, still RUN, blocked every later rating (siarnaq rates a team's matches in creation order): 20+ finished
+  ranked matches were unrated.
+- Staff actions (galaxy's own admin actions): Cancel tasks + Recalculate ratings on 2565 (a finalized non-completed
+  match counts as unranked); the chain resumed at once (rating 1594.1, catching up). GALAXY_GAME_TIMEOUT raised to
+  7200 s (live env and tools/galaxy/deploy/galaxy-setup.sh; real saturn has no per-game limit); saturn restarted
+  (in-flight matches redelivered). Documented in docs/galaxy/README.md (deviations).
+- Our launchers now spend most of their bytecodes every turn (distance fields, end-of-turn fill), so big games are
+  slower to simulate; harmless in the real contest (no wall-clock limit), but it lengthens replica matches.

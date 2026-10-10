@@ -31,7 +31,7 @@ alternate order as requested; tools/replica/worker.py match_command: the pinned 
 Deviations (docs/galaxy/README.md): no Gradle scaffold or git clone (the engine and JDK are pinned on the VM); a
 nack is redelivered after GALAXY_NACK_DELAY seconds (default 10) instead of at once; scores that do not add up to
 the number of maps, or a malformed binary archive, are an error (TRY) rather than an OK! siarnaq cannot rate; each
-game has a time limit (GALAXY_GAME_TIMEOUT, default 1800 s).
+game has a time limit (GALAXY_GAME_TIMEOUT: 1800 s if unset; the deployed env sets 7200 s, docs/galaxy/README.md).
 """
 import argparse
 import base64
