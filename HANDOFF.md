@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-09 19:40 PDT.
+Updated 2026-10-09 20:05 PDT.
 
 ## Standing
 
@@ -37,7 +37,9 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_cloud1 | c_nav6 + hold on recent contact, cloud-aware regroup, blind shot | standalone screen cancelled | superseded by c_cld2 |
 | c_cld2 | g_iter6 (c_anc3) + c_cloud1's launcher changes | screen vs g_iter6 FAIL (h2h 9-11, roster +1) | closed |
 | c_def3 | g_iter6 (c_anc3) + c_def2's raid alarm and recall | screen PASS (h2h 11-9, roster Net 0) | replica trial (submission 126) since 19:38 PDT |
-| c_flee2, c_well3, c_aura1 | g_iter6 + the next diagnosis' arms (`research/diagnosis/2026-10-09-g_iter6.md`): carriers remember raids, home mana-well probe and re-pick, aura-safe launcher movement | being implemented and reviewed | unit tests, screens |
+| c_flee2 | g_iter6 + carriers remember the raid they fled (hold near home, drop the raided well, avoid wells near fresh sightings, flee to a safe HQ) | compiled, reviewed, unit tests PASS | screen queued 20:05 PDT |
+| c_well3 | g_iter6 + one carrier per HQ probes for a home mana well; nearer well re-picked at deposit | compiled, reviewed, unit tests PASS | screen queued |
+| c_aura1 | g_iter6 + launchers inside an enemy HQ aura only step outward; regroup avoids auras (test/bot/AuraStepTest.java) | compiled, reviewed, unit tests PASS | screen queued |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
 Closed or superseded since g_iter2 (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9, c_nav3a 8, c_swarm4b 8,
