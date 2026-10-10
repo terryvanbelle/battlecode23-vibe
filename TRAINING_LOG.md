@@ -736,7 +736,7 @@ of history. Times are PDT. Grep it; do not read it whole.
 - Bot unit tests added: test/bot/ProbeFrontTest.java (8 cases), test/bot/SpreadTest.java. Unit tests PASS. Screens
   queued vs g_iter8.
 
-## 2026-10-10 11:00 PDT — Rating code audited (owner, PROMPTS 42): prior and SE fixed, Newton fit, 58 tests
+## 2026-10-10 10:45 PDT — Rating code audited (owner, PROMPTS 42): prior and SE fixed, Newton fit, 58 tests
 - research/audits/2026-10-10-elo.md. An independent Newton fit reproduced elolib.fit to 9e-6 Elo: the code computed
   its formula. But the "weak" prior (1 virtual win + 1 loss vs 1500 per player) compressed the whole scale by ~13%
   (simulated slope 0.81-0.89), so the published +-95% covered the truth only ~40-55% of the time; the diagonal SE
