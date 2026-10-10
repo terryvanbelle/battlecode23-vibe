@@ -178,3 +178,7 @@ Can you generate field-score graphs like in the previous year?
 ## 40. 2026-10-10 07:12 PDT
 
 You're allowed to read code you wrote in previous years
+
+## 41. 2026-10-10 07:32 PDT
+
+How can the VM be idle if the ranked loop is in burst mode?  Aren't all games being played on the VM?
