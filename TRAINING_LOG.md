@@ -803,7 +803,7 @@ of history. Times are PDT. Grep it; do not read it whole.
   HQs are producing (their launcher count or sightings near the other HQs), not on ring size alone.
 - Next: c_scout1 screen (h2h 11-9, roster running), then c_well6; the next trial window opens after the 17:00 autoscrim.
 
-## 2026-10-10 14:25 PDT — second g_iter8 diagnosis launched (wf_bb0064f5-9d8)
+## 2026-10-10 14:15 PDT — second g_iter8 diagnosis launched (wf_bb0064f5-9d8)
 - The g_iter8 judge's ranks 1-3 are spent (c_well5 rejected -> c_well6 screening, c_spread2 rejected, c_scout1
   screening). Four read-only lenses: opponent study (what awesomelemonade, vrangr1, jmerle, pranayagra, georgezhang do,
   to copy the decisive behaviours), three-panel cell analysis (c_aura2, c_well5, c_spread2 played identical cells:
