@@ -992,7 +992,7 @@ of history. Times are PDT. Grep it; do not read it whole.
 - c_well7 and c_end2 (built on c_bc1) are judged against c_bc1's panel; a positive one is then stacked on c_mend2.
   c_amp2, c_ward2, c_bc2 (screens running vs c_bc1) are rebased onto c_mend2 for their trials.
 
-## 2026-10-11 06:15 PDT — c_well7 rejected (panel 60/100: +2 vs c_bc1, -2 vs c_aura2); the front probe is the feeder
+## 2026-10-11 06:05 PDT — c_well7 rejected (panel 60/100: +2 vs c_bc1, -2 vs c_aura2); the front probe is the feeder
 - Panel gauntlet/20261011-080209-panel-c_well7 (matches 4571-4580): vs c_bc1 90 identical, 6 gained, 4 lost, net +2
   (p 0.75), island-rounds +21; vs c_aura2 net -2, island-rounds -177. 0 overruns. Mana by r250: MassiveL 831 -> 1,313
   (t +5.97), Forest 1,098 -> 1,430 (t +1.65); Forest carriers alive at r250 40.1 -> 31.3 (t -2.44).
