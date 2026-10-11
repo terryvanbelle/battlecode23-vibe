@@ -1,6 +1,7 @@
 # battlecode23-vibe: session rules
 
-Read `TRAINING_ALGORITHM.md` (the loop), `RULES.md` (the game, engine-checked) and `HANDOFF.md` (state). The training log
+Read `TRAINING_ALGORITHM.md` (the loop), `RULES.md` (the game, engine-checked), `HANDOFF.md` (state) and `LEARNINGS.md`
+(lessons and cross-year principles; add to it the day a lesson is confirmed). The training log
 (`TRAINING_LOG.md`) is append-only and grep-only: do not read it whole.
 
 1. **Games in volume run only on the VM `battlecode-dev`** (us-west1-b, internal IP, `tools/vm.sh`). The driver

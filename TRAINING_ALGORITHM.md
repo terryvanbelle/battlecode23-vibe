@@ -176,17 +176,9 @@ reads current on every accept: the ladder view, the charts, the handoff.
 | structural attempts | at least 1 in every 4 |
 | concurrency on the compute machine | measured knee (cores minus one by default); 1 diagnostic game on the session machine |
 
-## 8. Cross-year principles added this year (owner, PROMPTS 49)
+## 8. Cross-year principles and how ideas migrate
 
-From the blind-fire example (the teams that beat us fire at tiles they cannot see 43-70% of their shots; we never
-do; RULES 5.2: an attack needs no vision; RULES 6.1: a cloud cuts vision to r2 4):
-1. **Look for actions that cost nothing, and give them something to do at all times**, even at low odds. An unused
-   cooldown is lost forever; a 5% chance of 20 damage every idle turn is free value.
-2. **Look for patterns in enemy combat actions that capture what they do and we don't, beyond raw counts.** Classify
-   each action by its context and compare the distributions with ours; contrast the teams that beat us with the
-   teams we beat.
-3. **In a live contest, lurk on the contest's discussion channels (e.g. Discord) for ideas.** Strategies are
-   discussed there while the contest runs. Not applicable in this replay of 2023: its discussions are second-hand
-   2023 strategy content, which CLAUDE.md rule 4 excludes like the post-mortems.
-These belong in the cross-year guides of terryvanbelle/battlecode-vibe (ADVICE.md); this repo may not read that
-repo's unfiltered documents (rule 4), so the owner merges them there.
+LEARNINGS.md holds the transferable lessons of this year: the owner's cross-year principles (PROMPTS 49: free actions
+always get a job; compare action patterns, not counts; in a live contest, lurk on its discussion channels) and how ideas
+migrate from practice year to practice year to the tournament (PROMPTS 50). The loop reads them through the "pick a
+target" sources above and step 5 of the plateau protocol; add a lesson there the day it is confirmed.

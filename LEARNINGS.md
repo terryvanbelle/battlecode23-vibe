@@ -1,0 +1,79 @@
+# LEARNINGS
+
+What training a Battlecode 2023 bot teaches (battlecode23-vibe, from 2026-10-07), kept as a living document and
+finished at shutdown. Readers: the owner, and the agent that runs the next practice year or the real tournament.
+
+How to read it. Each lesson is one or two sentences, then its evidence and a reference. "PROMPTS n" is an entry in
+PROMPTS.md; TRAINING_LOG entries are cited by date (PDT). Lessons are year-agnostic unless marked **[2023]** (facts of
+this game: a filter that replays 2023 drops them, every other year may use them). Times are PDT.
+
+## 1. Cross-year principles (owner, PROMPTS 49)
+
+From the blind-fire example: the teams that beat us fire at tiles they cannot see on 43-70% of their launcher shots, the
+teams we beat and our own bot never do (census blind_rate, panel gauntlet/20261011-080046-panel-c_mend2; TRAINING_LOG
+2026-10-11 07:25).
+
+1. **Look for actions that cost nothing, and give them something to do at all times, even at low odds.** An unused
+   cooldown is lost for good; a small chance of damage on every idle turn is free value. Audit every per-turn action
+   (attack, build, write, sense) for the turns it sits idle. **[2023]** A launcher's attack needs no vision (RULES 5.2)
+   and a cloud cuts vision to r2 4 (RULES 6.1), so an idle launcher can shoot cloud tiles that may hide an enemy.
+2. **Look for patterns in enemy combat actions that capture what they do and we don't, beyond raw counts.** Classify
+   each action by its context (what the actor could see, where it aimed, terrain, timing, target) and compare the
+   distributions: the teams that beat us, the teams we beat, us. The blind-fire gap was invisible in shot, damage and
+   kill totals and obvious per shot.
+3. **In a live contest, lurk on the contest's discussion channels (e.g. Discord) for ideas.** Strategies are discussed
+   while the contest runs. In a practice replay of a past year this is excluded: the old discussions are second-hand
+   strategy content for that year, like its post-mortems (CLAUDE.md rule 4).
+
+## 2. How ideas migrate from practice year to practice year to the tournament (owner, PROMPTS 50)
+
+1. **One file per year carries the transferable ideas: LEARNINGS.md.** The next project's reading room
+   (tools/build_readroom.py) copies every .md of the prior repos, filtered of the replayed year's tagged blocks; adding
+   this repo to its SRC list is the whole migration step. Write lessons year-neutral, tag game facts with the year so
+   the filter drops them only where they would be spoilers, and give each one its evidence and effect size so a later
+   reader can weigh it.
+2. **Ideas must be pulled, not just stored.** TRAINING_ALGORITHM.md names them as sources in "pick a target" and in the
+   plateau protocol, and the diagnosis workflow gets a lens per principle ("free actions", "action patterns"); a
+   principle no step reads is lost.
+3. **Tools carry ideas better than prose.** A per-shot visibility classifier in the replay dumper, paired panels with
+   two reference draws, parked trials, the pre-trial screen, the rating-history chart: each embodies a lesson and
+   transfers by porting the code. Keep a list of them with the problem each solved (section 4).
+4. **Distil at milestones, not only at shutdown.** When a lesson is confirmed (an accept, a rejected class, a broken
+   instrument), move it here the same day, while the evidence is at hand.
+5. **The tournament starter kit is the union**: every year's LEARNINGS, TRAINING_ALGORITHM and tools, the diagnosis and
+   build workflow scripts, and the live-contest-only principles (discussion channels, scrimmage etiquette) that no
+   practice year can exercise.
+6. **The owner merges the durable principles into the cross-year guides** (terryvanbelle/battlecode-vibe): a practice
+   repo may not read that repo's unfiltered documents (rule 4), so the merge is the owner's.
+
+## 3. Lessons so far
+
+### Measurement
+
+- **One reference panel is one draw; judge against two.** Games are deterministic, so a build's panel is a single
+  realisation of its bytecode-timing-dependent outcomes, and any change re-draws the borderline cells. Every candidate
+  after c_aura2 lost island-rounds against its panel (-77 to -198) and the flips ran 15 lost to 10 gained; c_bc1, with
+  identical decisions, scored 58 to c_aura2's 62. Judge against the base and the previous build (TRAINING_LOG
+  2026-10-10 22:45).
+- **A local screen cannot judge a narrow arm.** An arm that acts only past round 1700 (c_end2) or on one map (c_lane1)
+  sits at the identity score on the head-to-head; read the cells it can change, or go to the panel (TRAINING_LOG
+  2026-10-11 01:45).
+- **Measure the mechanism, not only the score.** c_mend2 was accepted on healed HP x2.2 (t +4.8) with a net of +3;
+  c_well7's MassiveL mana gain (t +6) came with 11-21 carriers fed on Forest that the score hid (TRAINING_LOG
+  2026-10-11 05:14 and 06:05).
+
+### Process and gates
+
+- **Overlap trials.** A replica match plays the submission active when it is created, so a candidate needs to be active
+  only while its panel's matches are created (about a minute); park it and run the next. Serial trials gave one per
+  8-hour window behind the autoscrim backlog (TRAINING_LOG 2026-10-11 01:03).
+- **Zero overruns needs headroom, not luck.** Launchers in big blobs ran within a few hundred bytecodes of the limit;
+  every arm that added launcher work overran (c_lane1: 21). A decision-preserving cut (c_bc1: median calm-march turn
+  6,856 -> 3,664) was the prerequisite for the launcher arms (TRAINING_LOG 2026-10-10 21:20).
+
+### Tooling
+
+- **Parallel processes need per-process temp files and a lock.** The trial state and the API token were both written
+  through one shared temp file; overlapping panels crashed a collector (TRAINING_LOG 2026-10-11 07:25).
+- **Reference caches are per incumbent.** The first screen against a new incumbent replays its 100 roster games; queue
+  the second screen only after the first fills the cache (TRAINING_LOG 2026-10-11 06:50).
