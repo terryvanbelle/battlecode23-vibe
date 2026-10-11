@@ -1001,3 +1001,12 @@ of history. Times are PDT. Grep it; do not read it whole.
   (home well (2,0)); the Forest feeding from the front point (the midline well (29,48)). trial-decide 139 --reject.
 - Next: c_well9 = c_mend2 + the diagonal probe only (no front-only probe, no front point in the regular probe).
 - c_amp2's screen is slower: the first screen against c_bc1 also plays c_bc1's 100 roster games (cached by hash).
+
+## 2026-10-11 06:50 PDT — arms rebased onto c_mend2; c_well9 (diagonal probe only); screens
+- Rebase workflow wf_2b9c2cc2-d32 (its reviews re-run after the spend-limit stop, owner PROMPTS 46-47): c_amp3, c_ward3,
+  c_bc3, c_well8, c_end3 on c_mend2, all reviewed ready (c_amp3 note: while our amplifier lives its stricter write
+  zone stops a mender waiting beside its island from reporting enemies there, which weakens mend's contested-island
+  filter; a follow-up to measure). c_well9 = c_well8 with C.PROBE_FRONT false (no front-only probe and no midpoint in
+  the regular probe; the diagonals that find MassiveL's (2,0) stay). unit-tests PASS.
+- Screens vs c_mend2: c_well9 queued; c_ward3 and c_bc3 held back until c_well9's collect caches c_mend2's 100 roster
+  games (each queued job would otherwise replay them). c_amp2's screen (vs c_bc1) finishes and stands in for c_amp3.
