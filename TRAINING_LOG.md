@@ -961,7 +961,7 @@ of history. Times are PDT. Grep it; do not read it whole.
   limit (two panels just used 40), and a background job parks it as soon as all 10 matches exist. Ranked incoming is on
   auto-reject and no autoscrim is due before 09:00, so the longer exposure plays no rated game.
 
-## 2026-10-11 02:20 PDT — c_lane2 closed (Forest 0-4 locally); next batch c_amp2, c_ward2, c_bc2
+## 2026-10-11 02:15 PDT — c_lane2 closed (Forest 0-4 locally); next batch c_amp2, c_ward2, c_bc2
 - c_lane2 screen (progress/screens/c_lane2-e701d86b88df.json): h2h FAIL 7-13. Forest, the only map the lane rule
   changes, 0-2 again (c_lane1: 0-2): 0-4 against our own build's southern push; the other maps are c_bc1 self-play
   noise. Closed; re-open with a lane that does not leave home exposed (e.g. the lane only once (11,48) is pressed).
