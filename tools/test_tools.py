@@ -217,6 +217,172 @@ class ContestClientTest(unittest.TestCase):
         self.assertEqual(picks, {2})                       # closest above with a submission; never below
         self.assertIsNone(self.c.pick_upward(ladder, 1, 3, random.Random(0)))
 
+    @staticmethod
+    def match(mid, opp, maps, sub, status='OK!'):
+        return {'id': mid, 'status': status, 'maps': maps, 'participants': [
+            {'team': 1, 'teamname': 'us', 'player_index': 0, 'submission': sub},
+            {'team': 2, 'teamname': opp, 'player_index': 1, 'submission': 9}]}
+
+    def block_env(self, active_ids, match_lists):
+        """contest.block with every replica call stubbed. Successive active-submission reads return active_ids, and
+        successive match-list reads return match_lists (the first sets the floor); the last element repeats. Returns
+        (the opponents requested, {'rows': the rows written})."""
+        c, made, written = self.c, [], {}
+        act, ml = list(active_ids), list(match_lists)
+
+        def active():
+            return {'id': act.pop(0) if len(act) > 1 else act[0], 'package': 'p'}
+
+        def matches(tid, limit_pages=1):
+            return ml.pop(0) if len(ml) > 1 else ml[0]
+
+        def request(opp, ranked, maps, order):
+            made.append(opp)
+            return {'id': 500 + len(made)}
+        stubs = dict(me=lambda: {'id': 1, 'name': 'us'}, active_submission=active, matches=matches, request=request,
+                     download=lambda m, d: f'rep-{m["id"]}', report_hook=lambda *a: None,
+                     run_rows=lambda m, rep, tid: [{'match': m['id'], 'submission': c.our_submission(m, tid)}],
+                     games_of=lambda rep: [(0, 'm1', 'A', 100)], census_of=lambda rep, rows: [],
+                     write_run=lambda run, rows, census: written.update(rows=rows))
+        for k, f in stubs.items():
+            self.addCleanup(setattr, c, k, getattr(c, k))
+            setattr(c, k, f)
+        return made, written
+
+    def cells_file(self):
+        d = tempfile.mkdtemp()
+        Path(d, 'cells.txt').write_text('TeamX m1,m2 +\nTeamY m3 +\n')
+        return str(Path(d, 'cells.txt')), d
+
+    def test_block_pairs_by_submission_with_overlapping_panels(self):
+        """Two panels of identical cells overlap (a parked trial's, submission 140, and the next one's, 142), with the
+        same match floor: each block takes only the matches its own submission plays, even when the other panel's
+        finish first and come first in the list (the opponent, map set and floor alone would take them)."""
+        import io, json, contextlib
+        cells, d = self.cells_file()
+        floor = [self.match(100, 'TeamZ', ['m9'], 130)]
+        a = [self.match(101, 'TeamX', ['m2', 'm1'], 140), self.match(102, 'TeamY', ['m3'], 140)]
+        b = [self.match(103, 'TeamX', ['m1', 'm2'], 142), self.match(104, 'TeamY', ['m3'], 142)]
+        for sub, mine in ((140, a), (142, b)):
+            run = os.path.join(d, f'run{sub}')
+            made, written = self.block_env([sub], [floor, b[::-1] + a[::-1] + floor])
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.c.block(cells, 't', poll=0, max_wait=1, run=run)
+            self.assertEqual(made, ['TeamX', 'TeamY'])
+            self.assertEqual(sorted(r['match'] for r in written['rows']), [m['id'] for m in mine])
+            self.assertEqual({r['submission'] for r in written['rows']}, {sub})
+            log = [json.loads(l) for l in open(os.path.join(run, 'requests.jsonl'))]
+            self.assertEqual([e['submission'] for e in log], [sub, sub])
+        # the parked panel's matches still wait while the next panel's are done: none of those is taken
+        run = os.path.join(d, 'run140-waiting')
+        made, written = self.block_env([140], [floor, b[::-1] + [dict(m, status='RUN') for m in a[::-1]] + floor])
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.c.block(cells, 't', poll=0.01, max_wait=0.1, run=run)
+        self.assertEqual(written['rows'], [])
+
+    def test_block_stops_when_the_active_submission_changes(self):
+        import io, json, contextlib
+        cells, d = self.cells_file()
+        run = os.path.join(d, 'run')
+        made, _ = self.block_env([140, 140, 141], [[self.match(100, 'TeamZ', ['m9'], 130)]])
+        with self.assertRaises(SystemExit) as cm, contextlib.redirect_stdout(io.StringIO()):
+            self.c.block(cells, 't', poll=0, max_wait=1, run=run)
+        self.assertIn('141, not 140', str(cm.exception))
+        self.assertEqual(made, ['TeamX'])                                           # the second request was not made
+        self.assertEqual([json.loads(l)['submission'] for l in open(os.path.join(run, 'requests.jsonl'))], [140])
+
+    def test_block_resume_keeps_the_old_rule_for_old_entries(self):
+        """RESUME: an entry written before the submission field pairs by opponent, map set and floor; the new request
+        records the active submission and pairs with it only. A resumed block whose entries name another submission
+        than the active one makes no new request."""
+        import io, json, contextlib
+        from unittest import mock
+        cells, d = self.cells_file()
+        run = Path(d, 'run')
+        run.mkdir()
+        old = {'cell': 0, 'opponent': 'TeamX', 'maps': ['m1', 'm2'], 'order': '+', 'request': 7, 'at': 0}
+        (run / 'requests.jsonl').write_text(json.dumps(old) + '\n')
+        (run / 'match_floor.txt').write_text('100')
+        ms = [self.match(108, 'TeamY', ['m3'], 140), self.match(107, 'TeamY', ['m3'], 142),
+              self.match(105, 'TeamX', ['m1', 'm2'], 140), self.match(99, 'TeamX', ['m1', 'm2'], 142)]
+        made, written = self.block_env([142], [ms])
+        with mock.patch.dict(os.environ, {'RESUME': str(run)}), contextlib.redirect_stdout(io.StringIO()):
+            self.c.block(cells, 't', poll=0, max_wait=1)
+        self.assertEqual(made, ['TeamY'])
+        self.assertEqual(sorted(r['match'] for r in written['rows']), [105, 107])
+        self.assertEqual([json.loads(l).get('submission') for l in open(run / 'requests.jsonl')], [None, 142])
+        run2 = Path(d, 'run2')
+        run2.mkdir()
+        (run2 / 'requests.jsonl').write_text(json.dumps(dict(old, submission=140)) + '\n')
+        (run2 / 'match_floor.txt').write_text('100')
+        made, _ = self.block_env([142], [ms])
+        with mock.patch.dict(os.environ, {'RESUME': str(run2)}), self.assertRaises(SystemExit), \
+                contextlib.redirect_stdout(io.StringIO()):
+            self.c.block(cells, 't', poll=0, max_wait=1)
+        self.assertEqual(made, [])
+
+    def test_answers_submission_rule(self):
+        M = self.match
+        req = {'opponent': 'TeamX', 'maps': ['m1'], 'submission': 140}
+        self.assertTrue(self.c.answers(M(101, 'TeamX', ['m1'], 140), req, 1, 100))
+        self.assertFalse(self.c.answers(M(101, 'TeamX', ['m1'], 142), req, 1, 100))      # the other panel's
+        self.assertFalse(self.c.answers(M(101, 'TeamX', ['m1'], None), req, 1, 100))     # a null submission
+        self.assertFalse(self.c.answers(M(100, 'TeamX', ['m1'], 140), req, 1, 100))      # at the floor
+        old = {k: v for k, v in req.items() if k != 'submission'}                        # an entry from before
+        self.assertTrue(self.c.answers(M(101, 'TeamX', ['m1'], 142), old, 1, 100))
+        bare = M(101, 'TeamX', ['m1'], 140)
+        del bare['participants'][0]['submission']                                        # an API without the field
+        self.assertTrue(self.c.answers(bare, req, 1, 100))
+        self.assertIsNone(self.c.our_submission(bare, 1))
+
+    def test_block_plays_only_the_given_submission(self):
+        """trial-start passes its candidate's submission: a block that finds another one active makes no request, and
+        a resumed run whose requests name another submission is not resumed."""
+        import io, json, contextlib
+        cells, d = self.cells_file()
+        made, _ = self.block_env([140], [[self.match(100, 'TeamZ', ['m9'], 130)]])
+        with self.assertRaises(SystemExit) as cm, contextlib.redirect_stdout(io.StringIO()):
+            self.c.block(cells, 't', poll=0, max_wait=1, run=os.path.join(d, 'run'), submission=141)
+        self.assertIn('140, not 141', str(cm.exception))
+        self.assertEqual(made, [])
+        run = Path(d, 'run2')
+        run.mkdir()
+        (run / 'requests.jsonl').write_text(json.dumps({'cell': 0, 'opponent': 'TeamX', 'maps': ['m1', 'm2'],
+                                                        'order': '+', 'request': 7, 'submission': 140, 'at': 0}) + '\n')
+        made, _ = self.block_env([141], [[self.match(100, 'TeamZ', ['m9'], 130)]])
+        with self.assertRaises(SystemExit) as cm, contextlib.redirect_stdout(io.StringIO()):
+            self.c.block(cells, 't', poll=0, max_wait=1, run=str(run), submission=141)
+        self.assertIn('made by submission 140, not 141', str(cm.exception))
+        self.assertEqual(made, [])
+
+    def test_block_resume_of_an_old_run_keeps_its_first_build(self):
+        """A run from before the submission field, resumed after the active submission changed: its first provenance
+        line names the build its requests played, so no new request plays another build; resumed while that build is
+        still active, the new request records it."""
+        import io, json, contextlib
+        from unittest import mock
+        cells, d = self.cells_file()
+        run = Path(d, 'run')
+        run.mkdir()
+        old = {'cell': 0, 'opponent': 'TeamX', 'maps': ['m1', 'm2'], 'order': '+', 'request': 7, 'at': 0}
+        (run / 'requests.jsonl').write_text(json.dumps(old) + '\n')
+        (run / 'match_floor.txt').write_text('100')
+        (run / 'provenance.txt').write_text('team=us team_id=1 site=x cells=c match_floor=100 '
+                                            'latest_accepted_submission=140 package=p\n')
+        ms = [self.match(108, 'TeamY', ['m3'], 140), self.match(105, 'TeamX', ['m1', 'm2'], 140)]
+        made, _ = self.block_env([142], [ms])
+        with mock.patch.dict(os.environ, {'RESUME': str(run)}), self.assertRaises(SystemExit) as cm, \
+                contextlib.redirect_stdout(io.StringIO()):
+            self.c.block(cells, 't', poll=0, max_wait=1)
+        self.assertIn('142, not 140', str(cm.exception))
+        self.assertEqual(made, [])
+        made, written = self.block_env([140], [ms])
+        with mock.patch.dict(os.environ, {'RESUME': str(run)}), contextlib.redirect_stdout(io.StringIO()):
+            self.c.block(cells, 't', poll=0, max_wait=1)
+        self.assertEqual(made, ['TeamY'])
+        self.assertEqual(sorted(r['match'] for r in written['rows']), [105, 108])
+        self.assertEqual([json.loads(l).get('submission') for l in open(run / 'requests.jsonl')], [None, 140])
+
     def test_refuses_real_site(self):
         env = dict(os.environ, CONTEST_SITE='https://play.battlecode.org')
         r = subprocess.run([sys.executable, str(TOOLS / 'contest.py'), 'me'], env=env, capture_output=True, text=True)
@@ -232,6 +398,7 @@ class LadderPolicyTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.p = load('ladder_policy', TOOLS / 'ladder_policy.py')
+        cls.real = cls.p.contest
 
     def t(self, h, m=0, day=8):
         import datetime
@@ -301,12 +468,14 @@ class LadderPolicyTest(unittest.TestCase):
         self.assertEqual(self.p.screen_check(d, ch, ih), (True, str(p), 'PASS'))
         self.assertFalse(self.p.screen_check(d, None, ih)[0])
 
-    def trial_env(self, records=()):
-        """ladder_policy with a temporary state and screens dir, stub hashes, and a contest stub that records calls."""
+    def trial_env(self, records=(), state=None, **over):
+        """ladder_policy with a temporary state and screens dir, stub hashes, and a contest stub that records calls
+        (`over`: replacement stubs, given the call list and the temporary dir: name -> f(calls, d))."""
         import json, types
         d = tempfile.mkdtemp()
         st = Path(d, 'state.json')
-        st.write_text(json.dumps({'validated': {'submission': 24, 'package': 'inc'}, 'trial': None, 'history': []}))
+        st.write_text(json.dumps(state or {'validated': {'submission': 24, 'package': 'inc'}, 'trial': None,
+                                           'history': []}))
         for ch in records:
             self.screen_record(d, 'cand', ch, 'b' * 12)
         calls = []
@@ -316,17 +485,22 @@ class LadderPolicyTest(unittest.TestCase):
                 calls.append(name)
                 return ret
             return f
+        real = self.real
         fake = types.SimpleNamespace(
             pages=stub('pages', [{'id': 24, 'accepted': True}]), set_auto_accept=stub('set_auto_accept'),
             submit=stub('submit', {'id': 30}), wait_submission=stub('wait', {'status': 'OK!', 'accepted': True}),
-            block=stub('block', os.path.join(d, 'run')))
-        saved = (self.p.contest, self.p.STATE, self.p.SCREENS, self.p.bot_hash, self.p.next_autoscrim)
-        self.p.contest, self.p.STATE, self.p.SCREENS = fake, str(st), d
+            block=stub('block', os.path.join(d, 'run')), me=stub('me', {'id': 1, 'name': 'us'}),
+            matches=stub('matches', []), read_cells=real.read_cells, answers=real.answers,
+            our_submission=real.our_submission)
+        for k, mk in over.items():
+            setattr(fake, k, mk(calls, d))
+        saved = (self.p.contest, self.p.STATE, self.p.SCREENS, self.p.bot_hash, self.p.next_autoscrim, self.p.LOCK)
+        self.p.contest, self.p.STATE, self.p.SCREENS, self.p.LOCK = fake, str(st), d, str(Path(d, 'state.lock'))
         self.p.bot_hash = lambda pkg: {'cand': 'a' * 12, 'inc': 'b' * 12}.get(pkg)
         self.p.next_autoscrim = lambda now: None
         self.addCleanup(lambda: setattr(self.p, 'contest', saved[0]) or setattr(self.p, 'STATE', saved[1]) or
                         setattr(self.p, 'SCREENS', saved[2]) or setattr(self.p, 'bot_hash', saved[3]) or
-                        setattr(self.p, 'next_autoscrim', saved[4]))
+                        setattr(self.p, 'next_autoscrim', saved[4]) or setattr(self.p, 'LOCK', saved[5]))
         return st, calls
 
     def test_trial_start_refuses_without_screen(self):
@@ -355,6 +529,298 @@ class LadderPolicyTest(unittest.TestCase):
         ev = json.loads(st.read_text())['history'][-1]
         self.assertEqual(ev['screen_skipped'], 'owner asked')
         self.assertNotIn('screen', ev)
+
+    # ------------------------------------------------ parked trials (the queue backlog after an autoscrim)
+    @staticmethod
+    def panel_file():
+        p = Path(tempfile.mkdtemp(), 'panel.txt')
+        p.write_text('TeamX m1,m2 +\nTeamY m3 +\n')
+        return str(p)
+
+    @staticmethod
+    def open_trial(panel, **extra):
+        return {'validated': {'submission': 24, 'package': 'inc'}, 'history': [], 'parked': [],
+                'trial': dict({'submission': 30, 'package': 'cand', 'panel': panel, 'run_dir': 'gauntlet/x-panel-cand',
+                               'pid': 4242, 'hash': 'a' * 12}, **extra)}
+
+    @staticmethod
+    def parked(**extra):
+        return dict({'submission': 30, 'package': 'cand', 'panel': 'p.txt', 'run_dir': 'gauntlet/x-panel-cand',
+                     'pid': 4242, 'hash': 'a' * 12, 'parked': '2026-10-11T03:00:00+00:00', 'run': 'gauntlet/x-panel-cand'},
+                    **extra)
+
+    def parked_state(self, *ps, trial=None):
+        return {'validated': {'submission': 31, 'package': 'inc', 'panel_run': 'gauntlet/v'}, 'trial': trial,
+                'history': [], 'parked': list(ps) or [self.parked()]}
+
+    @staticmethod
+    def recorder(name, ret):
+        """A trial_env override: a stub that records (name, first argument) and returns ret."""
+        def mk(calls, d):
+            def f(*a, **k):
+                calls.append((name, a[0] if a else k))
+                return ret
+            return f
+        return mk
+
+    def test_panel_created(self):
+        M = ContestClientTest.match
+        cells = [('TeamX', ['m1'], '+'), ('TeamX', ['m1'], '+'), ('TeamY', ['m3'], '+')]
+        ms = [M(5, 'TeamX', ['m1'], 30, 'QUE'), M(4, 'TeamY', ['m3'], 24), M(3, 'TeamX', ['m1'], 30, 'NEW')]
+        self.assertEqual(self.p.panel_created(cells, ms, 1, 30), [5, 3, None])   # one match per cell; not 24's
+
+    def test_trial_park_waits_for_every_match_then_resubmits(self):
+        import io, json, contextlib
+        M = ContestClientTest.match
+        phases = [[M(41, 'TeamX', ['m1', 'm2'], 30, 'QUE'), M(40, 'TeamY', ['m3'], 24)],   # the validated build's
+                  [M(42, 'TeamY', ['m3'], 30, 'NEW'), M(41, 'TeamX', ['m2', 'm1'], 30, 'QUE'), M(40, 'TeamY', ['m3'], 24)]]
+
+        def matches(calls, d):
+            def f(tid, limit_pages=1):
+                calls.append('matches')
+                return phases.pop(0) if len(phases) > 1 else phases[0]
+            return f
+        st, calls = self.trial_env(state=self.open_trial(self.panel_file()), matches=matches,
+                                   submit=self.recorder('submit', {'id': 31}),
+                                   set_auto_accept=self.recorder('auto', None))
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_park(poll=0, timeout=60)
+        self.assertEqual(calls, ['me', 'matches', 'matches', ('submit', 'inc'), 'wait',
+                                 ('auto', {'ranked': 'A', 'unranked': 'A'})])
+        s = json.loads(st.read_text())
+        self.assertIsNone(s['trial'])
+        self.assertEqual(s['validated']['submission'], 31)                      # the resubmitted validated build
+        p, = s['parked']
+        self.assertEqual((p['submission'], p['package'], p['run_dir'], p['pid'], p['panel_matches']),
+                         (30, 'cand', 'gauntlet/x-panel-cand', 4242, [41, 42]))
+        self.assertEqual((s['history'][-1]['event'], s['history'][-1]['submission']), ('park', 30))
+
+    def test_trial_park_refusals(self):
+        import io, json, contextlib
+        M = ContestClientTest.match
+        st, calls = self.trial_env()
+        with self.assertRaises(SystemExit):
+            self.p.cmd_trial_park(poll=0, timeout=0)                           # no trial
+        one = self.recorder('matches', [M(41, 'TeamX', ['m1', 'm2'], 30, 'QUE'), M(40, 'TeamY', ['m3'], 24)])
+        st, calls = self.trial_env(state=self.open_trial(self.panel_file()), matches=one)
+        with self.assertRaises(SystemExit) as cm, contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_park(poll=0, timeout=0)                           # timed out: the trial stays open
+        self.assertIn('1 of 2 panel matches', str(cm.exception))
+        s = json.loads(st.read_text())
+        self.assertEqual((s['trial']['submission'], s['parked'], s['validated']['submission']), (30, [], 24))
+        self.assertNotIn('submit', [c if isinstance(c, str) else c[0] for c in calls])
+
+    def test_trial_start_with_parked_trials_records_the_run_on_the_parked_entry(self):
+        """trial-start refuses while a trial is open but not while trials are parked; when its panel ends after the
+        trial was parked, the run goes on the parked entry (matched by submission) and in the history."""
+        import io, json, contextlib
+        st, calls = self.trial_env(records=['a' * 12], state=self.open_trial('p.txt'))
+        with self.assertRaises(SystemExit), contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_start('cand', 'panel.txt', None, False)
+        self.assertEqual(calls, [])
+        seen = {}
+
+        def block(calls, d):
+            def f(panel, tag, run=None, submission=None):   # trial-park runs while the panel plays
+                st = Path(d, 'state.json')
+                s = json.loads(st.read_text())
+                seen.update(trial=dict(s['trial']), run=run, submission=submission)
+                s['parked'].append(dict(s['trial'], parked='2026-10-11T03:00:00+00:00'))
+                s['trial'] = None
+                st.write_text(json.dumps(s))
+                return run
+            return f
+        st, calls = self.trial_env(records=['a' * 12], state=self.parked_state(self.parked(submission=28, run=None)),
+                                   block=block, pages=self.recorder('pages', [{'id': 31, 'accepted': True}]))
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_start('cand', 'panel.txt', None, False)
+        rel = os.path.relpath(seen['run'], self.p.REPO)
+        self.assertEqual((seen['trial']['run_dir'], seen['trial']['pid'], seen['trial']['hash']),
+                         (rel, os.getpid(), 'a' * 12))
+        self.assertEqual(seen['submission'], 30)                   # the block plays the candidate only
+        s = json.loads(st.read_text())
+        old, new = s['parked']
+        self.assertEqual((old['submission'], old['run']), (28, None))
+        self.assertEqual((new['submission'], new['run']), (30, rel))
+        self.assertIn('panel_done', new)
+        self.assertEqual((s['history'][-1]['event'], s['history'][-1]['run']), ('panel-done', rel))
+
+    def test_trial_decide_reject(self):
+        import io, json, contextlib
+        st, calls = self.trial_env(state=self.parked_state())
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_decide('cand', False)
+        s = json.loads(st.read_text())
+        self.assertEqual((s['parked'], s['validated']['submission'], calls), ([], 31, []))
+        ev = s['history'][-1]
+        self.assertEqual((ev['event'], ev['submission'], ev['parked'], ev['run']), ('reject', 30, True,
+                                                                                  'gauntlet/x-panel-cand'))
+
+    def test_trial_decide_accept(self):
+        import io, json, contextlib
+        other = self.parked(submission=32, package='cand2', run=None)
+        st, calls = self.trial_env(state=self.parked_state(self.parked(), other),
+                                   submit=self.recorder('submit', {'id': 33}))
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_decide('30', True)                                 # by trial submission id
+        s = json.loads(st.read_text())
+        self.assertEqual(calls, [('submit', 'cand'), 'wait'])
+        v = s['validated']
+        self.assertEqual((v['submission'], v['package'], v['panel_run']), (33, 'cand', 'gauntlet/x-panel-cand'))
+        self.assertIn('since', v)
+        self.assertEqual([p['submission'] for p in s['parked']], [32])         # the other parked trial stays
+        ev = s['history'][-1]
+        self.assertEqual((ev['event'], ev['submission'], ev['trial_submission']), ('accept', 33, 30))
+
+    def test_trial_decide_refusals(self):
+        import io, json, contextlib
+        playing = tempfile.mkdtemp()
+        cases = [  # (state, key, accept, message)
+            (self.parked_state(self.parked(run=None, run_dir=playing)), 'cand', False, 'still playing'),
+            (self.parked_state(self.parked(run=None, run_dir=playing)), 'cand', True, 'still playing'),
+            (self.parked_state(trial=self.open_trial('p.txt')['trial'] | {'package': 'cand3', 'submission': 34}),
+             'cand', True, 'trial is in progress'),
+            (self.parked_state(self.parked(hash='c' * 12)), 'cand', True, 'not the code'),
+            (self.parked_state(), 'nope', False, 'no parked trial nope'),
+            (self.parked_state(self.parked(), self.parked(submission=32)), 'cand', False, '2 parked trials'),
+        ]
+        for state, key, accept, msg in cases:
+            st, calls = self.trial_env(state=state)
+            before = st.read_text()
+            with self.assertRaises(SystemExit) as cm, contextlib.redirect_stdout(io.StringIO()):
+                self.p.cmd_trial_decide(key, accept)
+            self.assertIn(msg, str(cm.exception))
+            self.assertEqual((calls, st.read_text()), ([], before))
+        # a compile failure keeps the trial parked and the validated build
+        st, calls = self.trial_env(state=self.parked_state(),
+                                   wait_submission=self.recorder('wait', {'status': 'ERR', 'accepted': False}))
+        before = st.read_text()
+        with self.assertRaises(SystemExit), contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_decide('cand', True)
+        self.assertEqual(st.read_text(), before)
+        # a panel resumed by hand (RESUME=<run dir>) is done once results.csv exists in its run directory
+        Path(playing, 'results.csv').write_text('opponent\n')
+        st, calls = self.trial_env(state=self.parked_state(self.parked(run=None, run_dir=playing)))
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_decide('cand', False)
+        self.assertEqual(json.loads(st.read_text())['history'][-1]['run'], playing)
+
+    def test_status_shows_parked(self):
+        import io, contextlib
+        st, calls = self.trial_env(
+            state=self.parked_state(self.parked(), self.parked(submission=32, package='cand2', run=None)),
+            me=self.recorder('me', {'id': 1, 'name': 'us', 'profile': {'rating': 1500}}),
+            pages=self.recorder('pages', [{'id': 31, 'accepted': True, 'package': 'inc'}]))
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            self.p.cmd_status()
+        self.assertIn('parked: cand (submission 30) since 2026-10-10 20:00 PDT: panel done (gauntlet/x-panel-cand)',
+                      out.getvalue())
+        self.assertIn('parked: cand2 (submission 32) since 2026-10-10 20:00 PDT: panel playing', out.getvalue())
+
+    def test_panel_created_needs_the_submission_field(self):
+        """trial-park never parks on a guess: a row without a submission does not count (block's fallback aside)."""
+        bare = ContestClientTest.match(5, 'TeamX', ['m1'], 30, 'QUE')
+        del bare['participants'][0]['submission']
+        self.assertEqual(self.p.panel_created([('TeamX', ['m1'], '+')], [bare], 1, 30), [None])
+
+    def test_trial_park_keeps_the_trial_open_when_the_resubmission_fails(self):
+        """The validated build's resubmission does not compile: the candidate stays active, so the trial stays open
+        and incoming ranked challenges stay rejected (auto-accept is restored only after the resubmission)."""
+        import io, json, contextlib
+        M = ContestClientTest.match
+        full = self.recorder('matches', [M(42, 'TeamY', ['m3'], 30, 'NEW'), M(41, 'TeamX', ['m1', 'm2'], 30, 'QUE')])
+        st, calls = self.trial_env(state=self.open_trial(self.panel_file()), matches=full,
+                                   wait_submission=self.recorder('wait', {'status': 'ERR', 'accepted': False}),
+                                   set_auto_accept=self.recorder('auto', None))
+        before = st.read_text()
+        with self.assertRaises(SystemExit) as cm, contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_park(poll=0, timeout=60)
+        self.assertIn('the trial stays open', str(cm.exception))
+        self.assertNotIn('auto', [c[0] for c in calls if isinstance(c, tuple)])
+        self.assertEqual(st.read_text(), before)
+
+    def test_trial_park_refuses_when_the_trial_ended_meanwhile(self):
+        import io, json, contextlib
+        M = ContestClientTest.match
+        full = [M(42, 'TeamY', ['m3'], 30, 'NEW'), M(41, 'TeamX', ['m1', 'm2'], 30, 'QUE')]
+
+        def matches(calls, d):
+            def f(tid, limit_pages=1):                      # trial-end runs while trial-park polls
+                st = Path(d, 'state.json')
+                s = json.loads(st.read_text())
+                s['trial'] = None
+                st.write_text(json.dumps(s))
+                return full
+            return f
+        st, calls = self.trial_env(state=self.open_trial(self.panel_file()), matches=matches)
+        with self.assertRaises(SystemExit) as cm, contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_park(poll=0, timeout=60)
+        self.assertIn('was ended', str(cm.exception))
+        self.assertNotIn('submit', calls)
+        self.assertEqual(json.loads(st.read_text())['parked'], [])
+
+    def test_trial_start_records_a_compile_timeout(self):
+        """The candidate has not compiled when wait_submission gives up: it may still become active, so the trial is
+        recorded (without a panel) for trial-end --reject, and no panel runs."""
+        import io, json, contextlib
+
+        def timeout(calls, d):
+            def f(sid):
+                calls.append('wait')
+                raise SystemExit(f'submission {sid} not compiled after 1800s')
+            return f
+        st, calls = self.trial_env(records=['a' * 12], wait_submission=timeout)
+        with self.assertRaises(SystemExit) as cm, contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_start('cand', 'panel.txt', None, False)
+        self.assertIn('trial-end --reject', str(cm.exception))
+        self.assertNotIn('block', calls)
+        s = json.loads(st.read_text())
+        self.assertEqual((s['trial']['submission'], s['trial']['compile'], s['history'][-1]['compile']),
+                         (30, 'timeout', 'timeout'))
+
+    def test_trial_start_refuses_to_resume_a_block(self):
+        """RESUME=<run> with recorded requests: trial-start would submit a new candidate the old requests did not
+        play; the block is resumed by hand instead (tools/contest.py block keeps their submission)."""
+        import io, contextlib
+        from unittest import mock
+        st, calls = self.trial_env(records=['a' * 12])
+        run = Path(tempfile.mkdtemp())
+        (run / 'requests.jsonl').write_text('{}\n')
+        with mock.patch.dict(os.environ, {'RESUME': str(run)}), self.assertRaises(SystemExit) as cm, \
+                contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_start('cand', 'panel.txt', None, False)
+        self.assertIn('tools/contest.py block', str(cm.exception))
+        self.assertEqual(calls, [])
+
+    def test_state_writers_wait_for_the_lock(self):
+        """A state writer (here trial-decide) waits while another command holds the state lock, so that neither of two
+        overlapping writes is lost."""
+        import io, json, contextlib, threading
+        st, calls = self.trial_env(state=self.parked_state())
+        errs = []
+
+        def decide():
+            try:
+                self.p.cmd_trial_decide('cand', False)
+            except BaseException as e:
+                errs.append(e)
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            with self.p.state_lock():
+                th = threading.Thread(target=decide)
+                th.start()
+                th.join(0.3)
+                self.assertTrue(th.is_alive())                                  # waiting for the lock
+                s = json.loads(st.read_text())                                  # the holder's write
+                s['history'].append({'event': 'panel-done', 'submission': 28})
+                self.p.save_state(s)
+            th.join(10)
+        self.assertFalse(th.is_alive())
+        self.assertEqual(errs, [])
+        s = json.loads(st.read_text())
+        self.assertEqual((s['parked'], [e['event'] for e in s['history']]), ([], ['panel-done', 'reject']))
+        self.assertIn('waiting for the ladder-state lock', out.getvalue())
 
 
 class ScreenTest(unittest.TestCase):

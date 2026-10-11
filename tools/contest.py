@@ -37,7 +37,10 @@ high, at most 3 active ranked scrimmages against one team.
 Run directory (`block`): gauntlet/<stamp>-<tag>/ with results.csv (opponent,map,bot_side,winner_side,rounds,
 bot_result,reason,seed) and census.csv, one row per game. bot_side is our player label in the replay (A = player
 index 0); seed is 'map' for a game on the map's own spawns and 'map-rev' for an alternate-order game (HQ ownership
-flipped), so (opponent, map, bot_side, seed) names the same physical game in any run that used the same request."""
+flipped), so (opponent, map, bot_side, seed) names the same physical game in any run that used the same request.
+requests.jsonl holds one line per request, with the submission that was active when it was made. A match pairs with a
+request only if our participant row carries that submission, so two overlapping panels of identical cells (a parked
+trial's and the next one's, docs/LADDER_STRATEGY.md) never take each other's matches."""
 import argparse, base64, csv, hashlib, io, json, os, subprocess, sys, tempfile, time, urllib.error, urllib.parse, urllib.request, uuid, zipfile
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -204,6 +207,12 @@ def submit(package, description='', src=None):
     return api('POST', f'/api/compete/{EPISODE}/submission/', body, ctype=ct)
 
 
+def active_submission():
+    """Galaxy's active submission: our most recent accepted one ({} when there is none)."""
+    acc = [x for x in pages(f'/api/compete/{EPISODE}/submission/', limit=2) if x.get('accepted')]
+    return max(acc, key=lambda x: x['id']) if acc else {}
+
+
 def wait_submission(sid, timeout=1800):
     t0 = time.time()
     while time.time() - t0 < timeout:
@@ -267,6 +276,26 @@ def opponent_name(match, team_id):
         if p['team'] != team_id:
             return p['teamname']
     return '?'
+
+
+def our_submission(match, team_id):
+    """Our participant row's submission: the build that plays the match (fixed when galaxy creates the match)."""
+    return next((p.get('submission') for p in match['participants'] if p['team'] == team_id), None)
+
+
+def answers(match, req, team_id, floor):
+    """Whether the match answers the block request `req` (a requests.jsonl entry): created after the block's match
+    floor, against the same opponent and on the same map set (compared as sets: the API does not keep the requested
+    order, and the detail view lists maps alphabetically). When the entry records the block's submission, our
+    participant row must also carry it: two overlapping panels of identical cells (a parked trial's and the next
+    trial's) differ only there. Entries written before the field existed, and match rows without a submission key (an
+    API that does not expose it; the replica's does), keep the old rule. A row whose submission is null never answers
+    a recorded submission. trial-park does not use this fallback (ladder_policy.panel_created)."""
+    if not (match['id'] > floor and opponent_name(match, team_id) == req['opponent']
+            and sorted(match.get('maps') or []) == sorted(req['maps'])):
+        return False
+    row = next((p for p in match['participants'] if p['team'] == team_id), {})
+    return req.get('submission') is None or 'submission' not in row or row['submission'] == req['submission']
 
 
 def run_rows(match, replay, team_id):
@@ -343,32 +372,58 @@ def read_cells(path):
     return cells
 
 
-def block(cells_file, tag, poll=60, max_wait=6 * 3600):
+def first_provenance_submission(run):
+    """The submission the run's first provenance.txt line names (latest_accepted_submission: the active one when the
+    block first started), or None."""
+    try:
+        with open(os.path.join(run, 'provenance.txt')) as fh:
+            first = fh.readline()
+    except OSError:
+        return None
+    v = next((w.split('=', 1)[1] for w in first.split() if w.startswith('latest_accepted_submission=')), '')
+    return int(v) if v.isdigit() else None
+
+
+def block(cells_file, tag, poll=60, max_wait=6 * 3600, run=None, submission=None):
     """Issue every request of the block (waiting out galaxy's hourly limit), wait for the matches, download them and
-    write a run directory. Requests are recorded in the run directory as they are made, so a crash can be resumed by
-    re-running with RESUME=<dir>."""
+    write a run directory (`run`, else $RESUME, else a new gauntlet/<stamp>-<tag>). Requests are recorded in the run
+    directory as they are made, so a crash can be resumed by re-running with RESUME=<dir>.
+    A match plays the submission active when galaxy creates it (on acceptance: at once for an auto-accepted request),
+    so each request records the block's submission, and the block stops before a request if the active submission is
+    no longer the block's. The block's submission is the one its recorded requests name (a RESUME; for entries from
+    before the field, the one its first provenance line names), else `submission` (trial-start passes its candidate's),
+    else the one active at its start. A resumed run whose requests name another submission than `submission` stops."""
     cells = read_cells(cells_file)
     team = me()
     tid = team['id']
-    run = os.environ.get('RESUME') or os.path.join(REPO, 'gauntlet', time.strftime('%Y%m%d-%H%M%S') + '-' + tag)
+    run = run or os.environ.get('RESUME') or os.path.join(REPO, 'gauntlet', time.strftime('%Y%m%d-%H%M%S') + '-' + tag)
     os.makedirs(run, exist_ok=True)
     log_p = os.path.join(run, 'requests.jsonl')
     done = [json.loads(l) for l in open(log_p)] if os.path.exists(log_p) else []
+    recorded = next((d['submission'] for d in done if d.get('submission') is not None), None)
+    if recorded is None and done:
+        recorded = first_provenance_submission(run)
+    if submission is not None and recorded is not None and recorded != submission:
+        raise SystemExit(f'{run}: its requests were made by submission {recorded}, not {submission}: not resumed')
     # matches that existed before this block (an earlier panel's identical requests) are never taken as ours
     floor_p = os.path.join(run, 'match_floor.txt')
     if not os.path.exists(floor_p):
         ids = [m['id'] for m in matches(tid, limit_pages=1)]
         open(floor_p, 'w').write(str(max(ids) if ids else 0))
     floor = int(open(floor_p).read().strip() or 0)
-    subs = pages(f'/api/compete/{EPISODE}/submission/', limit=1)
-    active = next((x for x in subs if x.get('accepted')), {})
+    active = active_submission()
     with open(os.path.join(run, 'provenance.txt'), 'a') as fh:
         fh.write(f'team={team["name"]} team_id={tid} site={SITE} cells={cells_file} match_floor={floor} '
                  f'latest_accepted_submission={active.get("id")} package={active.get("package")}\n')
+    want = recorded if recorded is not None else submission if submission is not None else active.get('id')
     for k, (opp, maps, order) in enumerate(cells):
         if any(d['cell'] == k for d in done):
             continue
         while True:
+            now_sub = active_submission().get('id')
+            if now_sub != want:
+                raise SystemExit(f'{run}: the active submission is {now_sub}, not {want} (this block\'s build): stopped '
+                                 f'before cell {k} ({opp}), whose matches would play {now_sub}')
             try:
                 r = request(opp, False, maps, order)
                 break
@@ -378,12 +433,14 @@ def block(cells_file, tag, poll=60, max_wait=6 * 3600):
                     time.sleep(300)
                     continue
                 raise
-        d = {'cell': k, 'opponent': opp, 'maps': maps, 'order': order, 'request': r['id'], 'at': time.time()}
+        d = {'cell': k, 'opponent': opp, 'maps': maps, 'order': order, 'request': r['id'], 'submission': want,
+             'at': time.time()}
         with open(log_p, 'a') as fh:
             fh.write(json.dumps(d) + '\n')
         done.append(d)
         print(time.strftime('%H:%M:%S'), 'requested', opp, len(maps), 'maps, request', r['id'], flush=True)
-    # match each request to its match: same opponent, same maps in order, created after the request
+    # match each request to its match (answers): same opponent and map set, created after the block's match floor,
+    # played by the request's submission
     t0 = time.time()
     rows, census_rows, hdr = [], [], None
     pending = {d['request']: d for d in done}
@@ -394,10 +451,7 @@ def block(cells_file, tag, poll=60, max_wait=6 * 3600):
             if m['id'] in found.values() or m['id'] <= floor:
                 continue
             for rid, d in list(pending.items()):
-                # maps compared as sets: the API does not keep the requested order (the detail view lists them
-                # alphabetically); the opponent, the block's match floor and the map set identify the match
-                if opponent_name(m, tid) == d['opponent'] and sorted(m.get('maps') or []) == sorted(d['maps']) \
-                        and m['status'] in ('OK!', 'ERR', 'CAN') and rid not in found:
+                if answers(m, d, tid, floor) and m['status'] in ('OK!', 'ERR', 'CAN') and rid not in found:
                     found[rid] = m['id']
                     rep = download(m, os.path.join(run, 'replays'))
                     if rep:

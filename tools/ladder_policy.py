@@ -17,19 +17,28 @@ States (progress/ladder-state.json):
              section 5): a PASS record in progress/screens/ for the candidate's code hash against the validated
              build's code hash. --skip-screen "<reason>" overrides (the reason is kept in the history); --force
              overrides only the autoscrim window.
+  PARKED     (s['parked'], a list) a trial whose panel matches all exist. Galaxy fixed their submission when it
+             created them, so trial-park puts the validated build back at once while the panel waits in the shared
+             queue (after an autoscrim, for hours): incoming ranked is accepted again and another trial may start
+             (the ranked loop still waits while the panel's matches fill the queue). The trial-start process keeps
+             running and records the panel run on the parked entry; then trial-decide <package> --reject drops it, or
+             --accept resubmits the package (unchanged code) and makes that new submission the validated build.
 
     tools/ladder_policy.py status
     tools/ladder_policy.py init <submission id> <package>      # declare the validated build (once)
     tools/ladder_policy.py trial-start <package> [--panel test/cells/panel-v1.txt] [--tag T] [--force]
                                             [--skip-screen "<reason>"]
     tools/ladder_policy.py trial-end --accept | --reject
+    tools/ladder_policy.py trial-park                           # once every panel match exists (waits up to 20 min)
+    tools/ladder_policy.py trial-decide <package | trial submission id> --accept | --reject
     tools/ladder_policy.py ranked                               # the ranked loop (run detached)
 """
-import argparse, datetime, glob, importlib.util, json, os, random, subprocess, sys, time
+import argparse, contextlib, datetime, fcntl, glob, importlib.util, json, os, random, subprocess, sys, time
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATE = os.path.join(REPO, 'progress', 'ladder-state.json')
 SCREENS = os.path.join(REPO, 'progress', 'screens')
+LOCK = os.path.join(REPO, 'build', 'ladder-state.lock')     # state_lock (build/ is not tracked)
 _spec = importlib.util.spec_from_file_location('contest', os.path.join(REPO, 'tools', 'contest.py'))
 contest = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(contest)
@@ -41,6 +50,8 @@ FRESH_HOURS = 24                                # a newly validated build is lik
 MAX_WAITING = 2                                 # our matches waiting in the queue: above this, no new ranked request
 TRIAL_HOURS = 2.5                               # a panel trial must fit before the next autoscrim
 BAND = 3                                        # challenge one of the BAND teams rated closest at or above us
+PARK_TIMEOUT, PARK_POLL = 20 * 60, 30           # trial-park: wait this long (s) for the panel's matches, polling
+PARK_PAGES = 10                                 # pages of our match list trial-park reads (newest first)
 
 
 # ---------------------------------------------------------------- pure policy (tested)
@@ -129,6 +140,52 @@ def bot_hash(package):
     return r.stdout.strip() if r.returncode == 0 else None
 
 
+def panel_created(cells, ms, tid, sub):
+    """For each panel cell (opponent, maps, order), the id of a distinct match of ours that answers it and is played by
+    submission `sub` (any status: created is enough, as the submission is fixed then), or None while none exists. Our
+    participant row must name `sub` (no fallback when the row has no submission: parking on a guess would let the
+    validated build replace the candidate before the panel's matches are fixed)."""
+    used, out = set(), []
+    for opp, maps, _ in cells:
+        req = {'opponent': opp, 'maps': maps, 'submission': sub}
+        m = next((m for m in ms if m['id'] not in used and contest.our_submission(m, tid) == sub
+                  and contest.answers(m, req, tid, 0)), None)
+        if m is not None:
+            used.add(m['id'])
+        out.append(m and m['id'])
+    return out
+
+
+def find_parked(s, key):
+    """The parked trial named by its package or its trial submission id; SystemExit when none or several match."""
+    ps = [p for p in s.get('parked') or [] if p.get('package') == key or str(p.get('submission')) == str(key)]
+    if not ps:
+        have = ', '.join(f'{p.get("package")} ({p.get("submission")})' for p in s.get('parked') or []) or 'none'
+        raise SystemExit(f'no parked trial {key} (parked: {have})')
+    if len(ps) > 1:
+        raise SystemExit(f'{len(ps)} parked trials of {key} (submissions {[p.get("submission") for p in ps]}): '
+                         f'name one by its submission id')
+    return ps[0]
+
+
+def panel_run(p):
+    """A parked trial's finished panel run (relative to REPO): the run its trial-start process recorded, else its run
+    directory once results.csv exists there (block writes it last, e.g. after a RESUME); None while it plays."""
+    if p.get('run'):
+        return p['run']
+    rd = p.get('run_dir')
+    if rd and os.path.exists(os.path.join(REPO, rd, 'results.csv')):
+        return rd
+    return None
+
+
+def pdt(iso):
+    """An ISO time as PDT for the owner (owner, PROMPTS 28)."""
+    from zoneinfo import ZoneInfo
+    t = parse_t(iso)
+    return t.astimezone(ZoneInfo('America/Los_Angeles')).strftime('%Y-%m-%d %H:%M %Z') if t else '?'
+
+
 # ---------------------------------------------------------------- state and galaxy facts
 def load_state():
     if os.path.exists(STATE):
@@ -137,11 +194,32 @@ def load_state():
 
 
 def save_state(s):
-    tmp = STATE + '.tmp'
+    tmp = f'{STATE}.{os.getpid()}.tmp'          # one per process: two writers never share a temporary file
     with open(tmp, 'w') as fh:
         json.dump(s, fh, indent=1)
         fh.write('\n')
     os.replace(tmp, STATE)
+
+
+@contextlib.contextmanager
+def state_lock():
+    """Hold the state's lock (flock on build/ladder-state.lock) through one read-modify-write. Several processes
+    write the state: each trial-start process (when its trial starts, and hours later when its panel ends), trial-park,
+    trial-decide, trial-end and init; without the lock, the later of two overlapping writes drops the other's. The
+    commands that change the active submission hold it from their checks to their state write, compile wait included,
+    so that what they checked (no open trial, the validated build active) still holds when they write. Not reentrant."""
+    os.makedirs(os.path.dirname(LOCK), exist_ok=True)
+    fd = os.open(LOCK, os.O_RDWR | os.O_CREAT, 0o644)
+    try:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            print(time.strftime('%H:%M:%S'), 'waiting for the ladder-state lock (another ladder_policy command)',
+                  flush=True)
+            fcntl.flock(fd, fcntl.LOCK_EX)
+        yield
+    finally:
+        os.close(fd)
 
 
 def utcnow():
@@ -192,14 +270,22 @@ def cmd_status():
     print(f'team {team["name"]} rating {(team.get("profile") or {}).get("rating")}  rated matches {n_rated(ms)}  waiting {waiting(ms)}')
     print(f'active submission {sub and sub["id"]} ({sub and sub["package"]}); validated {v.get("submission")} ({v.get("package")})')
     print(f'trial: {s.get("trial")}')
+    for p in s.get('parked') or []:
+        run = panel_run(p)
+        # compared with the panel run of the build validated NOW (another parked trial may have been accepted since)
+        print(f'parked: {p.get("package")} (submission {p.get("submission")}) since {pdt(p.get("parked"))}: ' +
+              (f'panel done ({run}); tools/paired.py {run} {v.get("panel_run")}, then trial-decide '
+               f'{p.get("submission")} --accept|--reject' if run else
+               f'panel playing (run {p.get("run_dir")}, trial-start pid {p.get("pid")})'))
     print(f'mode {ranked_mode(n_rated(ms), parse_t(v.get("since")), now)}; next autoscrim {nxt}')
 
 
 def cmd_init(sub_id, package):
-    s = load_state()
-    s['validated'] = {'submission': sub_id, 'package': package, 'since': utcnow().isoformat()}
-    s['history'].append({'at': utcnow().isoformat(), 'event': 'init', 'submission': sub_id, 'package': package})
-    save_state(s)
+    with state_lock():
+        s = load_state()
+        s['validated'] = {'submission': sub_id, 'package': package, 'since': utcnow().isoformat()}
+        s['history'].append({'at': utcnow().isoformat(), 'event': 'init', 'submission': sub_id, 'package': package})
+        save_state(s)
     print('validated build', sub_id, package)
 
 
@@ -221,64 +307,193 @@ def screen_gate(s, package, skip_screen):
 
 
 def cmd_trial_start(package, panel, tag, force, skip_screen=None):
-    s = load_state()
-    if s.get('trial'):
-        raise SystemExit(f'a trial is already in progress: {s["trial"]}')
-    screen = screen_gate(s, package, skip_screen)          # before any replica call
-    sub = active_submission()
-    v = s.get('validated') or {}
-    if not sub or sub['id'] != v.get('submission'):
-        raise SystemExit(f'the active submission is not the validated build ({sub and sub["id"]} vs {v.get("submission")})')
-    now = utcnow()
-    nxt = next_autoscrim(now)
-    if not force and not trial_window_ok(nxt, now):
-        raise SystemExit(f'next autoscrim at {nxt}: a trial needs {TRIAL_HOURS} h; start after it fires (or --force)')
-    contest.set_auto_accept(ranked='R', unranked='A')          # incoming ranked challenges would play the candidate
-    new = contest.submit(package, f'{package} (trial)')
-    done = contest.wait_submission(new['id'])
-    if done['status'] != 'OK!' or not done['accepted']:
-        contest.set_auto_accept(ranked='A', unranked='A')
-        raise SystemExit(f'candidate {package} did not compile: {done["status"]}\n{done.get("logs", "")[-1500:]}')
-    s['trial'] = {'submission': new['id'], 'package': package, 'started': utcnow().isoformat(), 'panel': panel}
-    s['history'].append(dict({'at': utcnow().isoformat(), 'event': 'trial-start', 'submission': new['id'],
-                              'package': package}, **screen))
-    save_state(s)
+    resume = os.environ.get('RESUME')
+    if resume and os.path.exists(os.path.join(resume, 'requests.jsonl')):
+        # a resumed panel keeps the build its requests were made with; this command would submit a new one
+        raise SystemExit(f'RESUME={resume} holds requests of an earlier block: resume it with RESUME={resume} '
+                         f'tools/contest.py block <cells> --tag <tag> (it keeps their submission), not with trial-start')
+    with state_lock():                  # held until the trial is recorded: no other command changes the active build
+        s = load_state()
+        if s.get('trial'):                                      # parked trials do not count: their matches exist
+            raise SystemExit(f'a trial is already in progress: {s["trial"]}')
+        screen = screen_gate(s, package, skip_screen)          # before any replica call
+        sub = active_submission()
+        v = s.get('validated') or {}
+        if not sub or sub['id'] != v.get('submission'):
+            raise SystemExit(f'the active submission is not the validated build ({sub and sub["id"]} vs '
+                             f'{v.get("submission")})')
+        now = utcnow()
+        nxt = next_autoscrim(now)
+        if not force and not trial_window_ok(nxt, now):
+            raise SystemExit(f'next autoscrim at {nxt}: a trial needs {TRIAL_HOURS} h; start after it fires (or --force)')
+        contest.set_auto_accept(ranked='R', unranked='A')          # incoming ranked challenges would play the candidate
+        code = bot_hash(package)                                    # the code submitted now
+        new = contest.submit(package, f'{package} (trial)')
+        trial = {'submission': new['id'], 'package': package, 'started': utcnow().isoformat(), 'panel': panel,
+                 'run_dir': None, 'pid': os.getpid(), 'hash': code}
+        try:
+            done = contest.wait_submission(new['id'])
+        except SystemExit as e:
+            # not compiled yet, but it may still compile and become active: recorded as an open trial without a
+            # panel, so that status shows it and trial-end --reject puts the validated build back
+            s['trial'] = dict(trial, pid=None, compile='timeout')
+            s['history'].append(dict({'at': utcnow().isoformat(), 'event': 'trial-start', 'submission': new['id'],
+                                      'package': package, 'compile': 'timeout'}, **screen))
+            save_state(s)
+            raise SystemExit(f'{e}: recorded as an open trial without a panel; end it with trial-end --reject')
+        if done['status'] != 'OK!' or not done['accepted']:
+            contest.set_auto_accept(ranked='A', unranked='A')
+            raise SystemExit(f'candidate {package} did not compile: {done["status"]}\n{done.get("logs", "")[-1500:]}')
+        tag = tag or f'panel-{package}'
+        run_dir = resume or os.path.join(REPO, 'gauntlet', time.strftime('%Y%m%d-%H%M%S') + '-' + tag)
+        # the run directory, this process and the code hash go on the trial so that a parked trial keeps them (the
+        # hash: trial-decide --accept resubmits the package and refuses if its code changed since)
+        s['trial'] = dict(trial, run_dir=os.path.relpath(run_dir, REPO))
+        s['history'].append(dict({'at': utcnow().isoformat(), 'event': 'trial-start', 'submission': new['id'],
+                                  'package': package}, **screen))
+        save_state(s)
     print('trial', new['id'], package, '- running the panel')
-    run = contest.block(panel, tag or f'panel-{package}')
-    s = load_state()
-    # trials are asynchronous (owner, PROMPTS 32): this trial may have been ended, and another started, while its
-    # panel was still playing; record the run only on this trial, else in the history
-    if s.get('trial') and s['trial'].get('submission') == new['id']:
-        s['trial']['run'] = os.path.relpath(run, REPO)
-    else:
-        s['history'].append({'at': utcnow().isoformat(), 'event': 'panel-done', 'submission': new['id'],
-                             'package': package, 'run': os.path.relpath(run, REPO)})
-    save_state(s)
-    print('panel done:', run, '- decide with tools/paired.py <this run> <the validated build\'s panel run>, then trial-end')
+    # the block plays the candidate only: it stops before a request if another submission is active
+    run = contest.block(panel, tag, run=run_dir, submission=new['id'])
+    rel = os.path.relpath(run, REPO)
+    with state_lock():
+        s = load_state()
+        # trials are asynchronous (owner, PROMPTS 32): this trial may have been parked or ended, and another started,
+        # while its panel was still playing; record the run on this trial, open or parked (matched by submission); a
+        # parked or ended trial's run also goes in the history
+        parked = next((p for p in s.get('parked') or [] if p.get('submission') == new['id']), None)
+        if s.get('trial') and s['trial'].get('submission') == new['id']:
+            s['trial']['run'] = rel
+            then = 'trial-end'
+        else:
+            if parked is not None:
+                parked['run'] = rel
+                parked['panel_done'] = utcnow().isoformat()
+            s['history'].append({'at': utcnow().isoformat(), 'event': 'panel-done', 'submission': new['id'],
+                                 'package': package, 'run': rel})
+            then = (f'trial-decide {new["id"]}' if parked is not None else      # the id: unambiguous
+                    'nothing to decide (the trial was ended)')
+        save_state(s)
+    print('panel done:', run,
+          f'- decide with tools/paired.py <this run> <the validated build\'s panel run>, then {then}')
 
 
 def cmd_trial_end(accept):
+    with state_lock():                  # the reject's compile wait included: parked entries written meanwhile survive
+        s = load_state()
+        t = s.get('trial')
+        if not t:
+            raise SystemExit('no trial in progress')
+        if accept:
+            s['validated'] = {'submission': t['submission'], 'package': t['package'], 'since': utcnow().isoformat(),
+                              'panel_run': t.get('run')}
+            event = 'accept'
+        else:
+            v = s['validated']
+            back = contest.submit(v['package'], f'{v["package"]} (validated, resubmitted after a rejected trial)')
+            done = contest.wait_submission(back['id'])
+            if done['status'] != 'OK!' or not done['accepted']:
+                raise SystemExit(f'resubmitting {v["package"]} failed: {done["status"]}')
+            v['submission'] = back['id']
+            event = 'reject'
+        contest.set_auto_accept(ranked='A', unranked='A')
+        s['history'].append({'at': utcnow().isoformat(), 'event': event, 'submission': t['submission'],
+                             'package': t['package']})
+        s['trial'] = None
+        save_state(s)
+    print(event, t['package'], '- validated build is', s['validated'])
+
+
+def panel_cells(t):
+    """The trial's panel cells (its --panel path, as given to trial-start: relative to the caller's directory or the
+    repository)."""
+    p = t.get('panel') or ''
+    if not os.path.isabs(p) and not os.path.exists(p):
+        p = os.path.join(REPO, p)
+    return contest.read_cells(p)
+
+
+def cmd_trial_park(poll=PARK_POLL, timeout=PARK_TIMEOUT):
+    """Park the open trial once every panel request has a created match played by the candidate: resubmit the validated
+    build (as trial-end --reject does), restore auto-accept, and move the trial to s['parked'], so that the validated
+    build plays while the panel waits in the queue and another trial can start."""
     s = load_state()
     t = s.get('trial')
     if not t:
         raise SystemExit('no trial in progress')
-    if accept:
-        s['validated'] = {'submission': t['submission'], 'package': t['package'], 'since': utcnow().isoformat(),
-                          'panel_run': t.get('run')}
-        event = 'accept'
-    else:
+    cells = panel_cells(t)
+    tid = contest.me()['id']
+    t0 = time.time()
+    while True:
+        got = panel_created(cells, our_matches(tid, PARK_PAGES), tid, t['submission'])
+        n = sum(1 for g in got if g is not None)
+        if n == len(cells):
+            break
+        if time.time() - t0 >= timeout:
+            raise SystemExit(f'trial {t["package"]} (submission {t["submission"]}): {n} of {len(cells)} panel matches '
+                             f'exist after {timeout / 60:g} min; the trial stays open (run trial-park again later, or '
+                             f'trial-end)')
+        print(time.strftime('%H:%M:%S'), f'{n} of {len(cells)} panel matches exist; waiting', flush=True)
+        time.sleep(poll)
+    # under the lock from here to the write: the state read now (the trial, the validated build, the trial-start
+    # process's run if its panel already ended) is the one written back
+    with state_lock():
+        s = load_state()
+        if (s.get('trial') or {}).get('submission') != t['submission']:
+            raise SystemExit(f'trial {t["package"]} (submission {t["submission"]}) was ended while trial-park waited')
         v = s['validated']
-        back = contest.submit(v['package'], f'{v["package"]} (validated, resubmitted after a rejected trial)')
+        back = contest.submit(v['package'], f'{v["package"]} (validated, resubmitted: trial {t["package"]} parked)')
         done = contest.wait_submission(back['id'])
         if done['status'] != 'OK!' or not done['accepted']:
-            raise SystemExit(f'resubmitting {v["package"]} failed: {done["status"]}')
+            raise SystemExit(f'resubmitting {v["package"]} failed: {done["status"]}; the trial stays open')
+        contest.set_auto_accept(ranked='A', unranked='A')
         v['submission'] = back['id']
-        event = 'reject'
-    contest.set_auto_accept(ranked='A', unranked='A')
-    s['history'].append({'at': utcnow().isoformat(), 'event': event, 'submission': t['submission'], 'package': t['package']})
-    s['trial'] = None
-    save_state(s)
-    print(event, t['package'], '- validated build is', s['validated'])
+        entry = dict({'run_dir': None, 'pid': None}, **s['trial'])
+        entry.update(parked=utcnow().isoformat(), panel_matches=got)
+        s.setdefault('parked', []).append(entry)
+        s['trial'] = None
+        s['history'].append({'at': utcnow().isoformat(), 'event': 'park', 'submission': entry['submission'],
+                             'package': entry['package'], 'validated_resubmitted': back['id']})
+        save_state(s)
+    print('parked', entry['package'], f'(submission {entry["submission"]}, panel matches {got}); validated build',
+          v['package'], 'is active again as', back['id'])
+
+
+def cmd_trial_decide(key, accept):
+    """Decide a parked trial whose panel is done. --reject drops it; --accept resubmits its package (the code the panel
+    played: same code hash) and makes that new submission the validated build. --accept is refused while a trial is
+    open, since the resubmission would replace the candidate under test as the active submission. Under the state lock
+    throughout: a trial-start waits until the accept is recorded (and then screens against the new validated build)."""
+    with state_lock():
+        s = load_state()
+        p = find_parked(s, key)
+        run = panel_run(p)
+        if not run:
+            raise SystemExit(f'the panel of {p["package"]} (submission {p["submission"]}) is still playing '
+                             f'(run {p.get("run_dir")}, trial-start pid {p.get("pid")})')
+        if accept:
+            if s.get('trial'):
+                raise SystemExit(f'a trial is in progress ({s["trial"].get("package")}, submission '
+                                 f'{s["trial"].get("submission")}): park or end it before accepting {p["package"]}')
+            h = bot_hash(p['package'])
+            if p.get('hash') and h != p['hash']:
+                raise SystemExit(f'src/{p["package"]} is not the code its trial played (code hash {h}, trial '
+                                 f'{p["hash"]})')
+            new = contest.submit(p['package'], f'{p["package"]} (validated: parked trial {p["submission"]} accepted)')
+            done = contest.wait_submission(new['id'])
+            if done['status'] != 'OK!' or not done['accepted']:
+                raise SystemExit(f'resubmitting {p["package"]} failed: {done["status"]}; it stays parked')
+            s['validated'] = {'submission': new['id'], 'package': p['package'], 'since': utcnow().isoformat(),
+                              'panel_run': run}
+            # an accept event names the submission that became the validated build (tools/rating_history.py kind_of)
+            ev = {'event': 'accept', 'submission': new['id'], 'package': p['package'],
+                  'trial_submission': p['submission']}
+        else:
+            ev = {'event': 'reject', 'submission': p['submission'], 'package': p['package']}
+        s['parked'] = [q for q in s['parked'] if q is not p]
+        s['history'].append(dict({'at': utcnow().isoformat()}, **ev, parked=True, run=run))
+        save_state(s)
+    print(ev['event'], p['package'], '- validated build is', s['validated'])
 
 
 def pick_open(ladder, tid, rested, now, rnd):
@@ -342,6 +557,10 @@ def main():
     s.add_argument('--skip-screen', metavar='REASON', help='start without a passing pre-trial screen (logged)')
     s = sp.add_parser('trial-end'); g = s.add_mutually_exclusive_group(required=True)
     g.add_argument('--accept', action='store_true'); g.add_argument('--reject', action='store_true')
+    sp.add_parser('trial-park')
+    s = sp.add_parser('trial-decide'); s.add_argument('package', help='the parked trial: its package or submission id')
+    g = s.add_mutually_exclusive_group(required=True)
+    g.add_argument('--accept', action='store_true'); g.add_argument('--reject', action='store_true')
     sp.add_parser('ranked')
     a = ap.parse_args()
     if a.cmd == 'status':
@@ -352,6 +571,10 @@ def main():
         cmd_trial_start(a.package, a.panel, a.tag, a.force, a.skip_screen)
     elif a.cmd == 'trial-end':
         cmd_trial_end(a.accept)
+    elif a.cmd == 'trial-park':
+        cmd_trial_park()
+    elif a.cmd == 'trial-decide':
+        cmd_trial_decide(a.package, a.accept)
     elif a.cmd == 'ranked':
         cmd_ranked()
     return 0

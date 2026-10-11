@@ -37,4 +37,4 @@ Read `TRAINING_ALGORITHM.md` (the loop), `RULES.md` (the game, engine-checked) a
    examplefuncsplayer, smoke tests), as a contestant has no other team's code. Until the replica cutover, only the
    gauntlet jobs already queued on 2026-10-07 finish; no new gauntlet against field bots is queued.
    **Ranked vs unranked follows `docs/LADDER_STRATEGY.md`** (owner, PROMPTS 17-18): candidates only through
-   `tools/ladder_policy.py trial-start/trial-end` (unranked panel); ranked play only by `tools/ladder_policy.py ranked`.
+   `tools/ladder_policy.py trial-start/trial-end` (unranked panel; `trial-park`/`trial-decide` let panels overlap); ranked play only by `tools/ladder_policy.py ranked`.

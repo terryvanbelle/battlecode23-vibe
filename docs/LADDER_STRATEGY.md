@@ -48,10 +48,47 @@ means making it active, and while it is active, autoscrims and every accepted in
 1. Refuses unless the validated build is active and the trial can end before the next autoscrim (2.5 hours; start a
    trial right after an autoscrim fires).
 2. Sets incoming ranked requests to auto-reject. Autoscrims still play, which is why trials avoid them.
-3. Submits the candidate and runs the panel.
+3. Submits the candidate and runs the panel. If the candidate has not compiled after 30 minutes, the trial is recorded
+   without a panel, because the candidate may still become active: end it with `trial-end --reject`.
 
 Then `trial-end --accept` makes the candidate the validated build (a fresh build: BURST), and `trial-end --reject`
 resubmits the validated build at once. Both restore auto-accept, and the ranked loop pauses throughout the trial.
+
+**Parked trials.** The replica plays every match from one shared queue. After each autoscrim (17:00, 01:00 and 09:00
+PDT), the backlog delays a panel by about 3 hours: c_scout1's trial started at 17:10, and its first panel match played
+at 20:00. Holding the candidate active until the panel finishes blocks the next trial for hours, keeps the ranked loop
+paused and incoming ranked challenges rejected, and leaves the candidate exposed to autoscrims. Trials therefore ran
+one per 8-hour window. Parking removes the wait. A match's submission is fixed when the match is created (the trap
+above), and the unranked panel requests are auto-accepted, so their matches are created within minutes. Once they all
+exist, the candidate need not stay active.
+- `trial-park` waits until every panel cell has a created match whose submission (our participant row's) is the
+  candidate's. Then it resubmits the validated build (as `trial-end --reject` does), restores auto-accept and moves
+  the trial to the parked list (`parked` in `progress/ladder-state.json`, with its run directory and the trial-start
+  process id). Another trial may start, and autoscrims and incoming ranked challenges play the validated build. The
+  ranked loop may challenge again, but only once fewer than 2 of our matches wait in the queue, the parked panel's
+  included (section 3). If the matches do not all exist within 20 minutes, `trial-park` stops with an error and the
+  trial stays open.
+- The trial-start process keeps waiting for the panel. When the panel ends, it records the run on the parked entry.
+- `trial-decide <package> --accept|--reject` then decides a parked trial whose panel is done. `--reject` drops it.
+  `--accept` resubmits the package, refusing if its code hash differs from the trial's, and makes that new submission
+  the validated build (a fresh build: BURST). `--accept` is refused while a trial is open, because the resubmission
+  would replace the candidate as the active submission. A trial submission id can stand in for the package name.
+  Compare the run with the panel run of the build validated at decision time, since another parked trial may have
+  been accepted in the meantime. `status` prints the `tools/paired.py` command.
+- Overlapping panels have identical cells. `tools/contest.py block` therefore records the block's submission in each
+  request of `requests.jsonl`, and it pairs a match with a request only if our participant row carries it. For
+  `trial-start`, the block's submission is the candidate's; otherwise it is the one active when the block starts. The
+  block stops before a request if another submission is active. A resumed run keeps the submission its requests name;
+  for a run from before the field, the first line of its `provenance.txt` names it, and its old entries keep the old
+  rule (opponent, map set and match floor). The old rule also applies when a match row carries no submission key at all
+  (the replica's rows do carry one), but `trial-park` never parks on it.
+- `trial-start` refuses `RESUME=<dir>` when the directory already holds requests, because it would submit a new build.
+  Resume a crashed panel with `RESUME=<dir> tools/contest.py block <cells> --tag <tag>`. For a parked trial,
+  `trial-decide` finds the run once its `results.csv` exists.
+- Every command that writes `progress/ladder-state.json` holds its lock (`build/ladder-state.lock`) for the whole
+  read-modify-write. `trial-start`, `trial-park`, `trial-end` and `trial-decide` hold it from their checks
+  through the compile wait to the write. Another command therefore waits (and says so) instead of acting on a state
+  that is about to change. The trial-start process takes the lock again when its panel ends.
 
 **5. Endgame.** Before a submission freeze or tournament seeding, run no trials. Keep the best validated build active,
 and spend the ranked budget early enough for the rating to converge.
@@ -89,8 +126,15 @@ tools/screen.py <package> [--no-wait]               # the pre-trial screen (VM j
 tools/ladder_policy.py trial-start <package>        # submit a candidate and run the panel (long: run it detached)
                                                     # refuses without a passing screen; --skip-screen "<reason>"
 tools/ladder_policy.py trial-end --accept|--reject  # decided by tools/paired.py on the two panel runs
+tools/ladder_policy.py trial-park                   # once every panel match exists (waits up to 20 min): the
+                                                    # validated build is back, the panel keeps playing; then
+tools/ladder_policy.py trial-decide <package> --accept|--reject   # once the parked panel is done (tools/paired.py)
 tools/ladder_policy.py ranked                       # the ranked loop (detached on the driver, logs/ranked-policy.log)
 ```
+
+The usual cycle is `trial-start` (detached), then `trial-park` a few minutes later. The next `trial-start` may follow at
+once: the screen and the autoscrim window still apply, and `block` waits out the hourly unranked limit (a 10-request
+panel counts 20 of the 40). `status` lists the parked trials and shows whether each one's panel is playing or done.
 
 The autoscrim schedule is not published by the API: it is staff-only, as in the contest, and a contestant learns it by
 watching when autoscrim matches appear. Ours is every 8 hours: 17:00, 01:00 and 09:00 PDT (the cron `AUTOSCRIM_CRON` is in UTC,
