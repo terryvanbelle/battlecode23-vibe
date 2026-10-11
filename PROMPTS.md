@@ -198,3 +198,11 @@ Can you create a version of the replica's Rating History graph from the Team Set
 ## 45. 2026-10-10 17:37 PDT
 
 Can you clip the new graph y-axis at >= 1400?  I don't think the lower ELO ranges are all that meaningful.  I'd also like to see the Bradley-Terry ELO values on the same graph
+
+## 46. 2026-10-11 06:07 PDT
+
+Try again
+
+## 47. 2026-10-11 06:07 PDT
+
+keep going
