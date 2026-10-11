@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 136,
+  "submission": 140,
   "package": "c_bc1",
   "since": "2026-10-11T05:44:15.881175+00:00",
   "panel_run": "gauntlet/20261011-042052-panel-c_bc1"
@@ -227,6 +227,80 @@
    "event": "accept",
    "submission": 136,
    "package": "c_bc1"
+  },
+  {
+   "at": "2026-10-11T08:00:46.864261+00:00",
+   "event": "trial-start",
+   "submission": 137,
+   "package": "c_mend2",
+   "screen_skipped": "screened as c_mend1 vs c_aura2 (h2h 12-8, roster +3, 0 overruns); c_mend2 is the same arm rebased on c_bc1, which is decision-identical to c_aura2 (reviewed)"
+  },
+  {
+   "at": "2026-10-11T08:01:52.401211+00:00",
+   "event": "park",
+   "submission": 137,
+   "package": "c_mend2",
+   "validated_resubmitted": 138
+  },
+  {
+   "at": "2026-10-11T08:02:09.568518+00:00",
+   "event": "trial-start",
+   "submission": 139,
+   "package": "c_well7",
+   "screen_skipped": "screened vs c_aura2 (h2h 11-9, roster -1 info, 0 overruns, 0 near misses); c_aura2 is decision-identical to the validated c_bc1"
+  },
+  {
+   "at": "2026-10-11T08:03:14.703563+00:00",
+   "event": "park",
+   "submission": 139,
+   "package": "c_well7",
+   "validated_resubmitted": 140
+  }
+ ],
+ "parked": [
+  {
+   "run_dir": "gauntlet/20261011-080046-panel-c_mend2",
+   "pid": 2908469,
+   "submission": 137,
+   "package": "c_mend2",
+   "started": "2026-10-11T08:00:36.650689+00:00",
+   "panel": "test/cells/panel-v1.txt",
+   "hash": "d62033781fbd",
+   "parked": "2026-10-11T08:01:52.401143+00:00",
+   "panel_matches": [
+    4561,
+    4562,
+    4563,
+    4564,
+    4565,
+    4566,
+    4567,
+    4568,
+    4569,
+    4570
+   ]
+  },
+  {
+   "run_dir": "gauntlet/20261011-080209-panel-c_well7",
+   "pid": 2908557,
+   "submission": 139,
+   "package": "c_well7",
+   "started": "2026-10-11T08:01:59.308426+00:00",
+   "panel": "test/cells/panel-v1.txt",
+   "hash": "56a91347aa7b",
+   "parked": "2026-10-11T08:03:14.703464+00:00",
+   "panel_matches": [
+    4571,
+    4572,
+    4573,
+    4574,
+    4575,
+    4576,
+    4577,
+    4578,
+    4579,
+    4580
+   ]
   }
  ]
 }

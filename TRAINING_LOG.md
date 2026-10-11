@@ -942,3 +942,12 @@ of history. Times are PDT. Grep it; do not read it whole.
   trial-park (once every panel match is created, resubmit the validated build and free the trial slot while the panel
   plays) and trial-decide (accept or reject a parked trial from its finished panel). A match plays the submission
   active at its creation, so a candidate is exposed for minutes, not hours.
+
+## 2026-10-11 01:03 PDT — first overlapping trials: c_mend2 and c_well7 parked
+- The 01:00 autoscrim was created on c_bc1 (matches 4426-4486 at 01:00:00). trial-start c_mend2 (--skip-screen:
+  screened as c_mend1) at 01:00:48, all 10 panel matches created (4561-4570), trial-park at 01:01: c_bc1 active again
+  as submission 138. trial-start c_well7 (--skip-screen: screened vs c_aura2) at 01:02:11, matches 4571-4580, parked
+  at 01:03: c_bc1 active as 140. Each candidate was the active submission for about one minute.
+- Both panels play behind the autoscrim backlog. Judge each with tools/paired.py against both reference panels
+  (c_bc1 gauntlet/20261011-042052-panel-c_bc1 and c_aura2 gauntlet/20261010-121416-panel-c_aura2), then
+  trial-decide <package> --accept|--reject.
