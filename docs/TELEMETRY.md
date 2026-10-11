@@ -220,7 +220,8 @@ while (true) {
     try { if (rc.getRoundNum() == r0) { Telemetry.phase = 4; /* fill + flushIslands as today */ } }
     catch (Exception e) { G.exceptions++; Telemetry.exc(3, e, r0); ... }
     if (rc.getRoundNum() != r0) { G.overruns++; Telemetry.overrun(r0, work); }
-    Telemetry.indicator();                                     // replaces the inline setIndicatorString
+    Telemetry.indicator();                                     // replaces the inline setIndicatorString;
+                                                               // from c_bc1 only with C.IND_GUARD (400) left
     Telemetry.pad();                                           // must be the last statement before yield
     Clock.yield();
 }
@@ -230,6 +231,9 @@ The reasons for this order:
 
 - The near-miss measure (`work`) still excludes telemetry's end-of-turn records and the fill. So the bot's `nm`
   counter keeps its meaning.
+- From c_bc1 the indicator string is skipped on a turn with fewer than `C.IND_GUARD` (400) bytecodes left: a launcher
+  whose main work reached 9,758 overran by 1 inside the string (c_well6 screen). That robot-turn's string is empty
+  (code_str -1, the counters keep their previous values); the bytecode channel still carries the code.
 - Records are written before the fill, and the fill still stops at a 12% reserve. A filled turn therefore still ends
   near 88% of the limit, plus the string and the pad (at most about 1.5%). Replay-side near misses (at least 90%)
   keep their meaning.
