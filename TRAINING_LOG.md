@@ -930,3 +930,15 @@ of history. Times are PDT. Grep it; do not read it whole.
   c_bc1's and c_aura2's panels (two draws of one policy, 58 and 62) and report both nets.
 - Next: c_mend2 trial after the 01:00 autoscrim (--skip-screen: screened as c_mend1 vs c_aura2, decision-identical
   base). Screens of c_well7, c_end2, c_lane2 run against c_aura2's hash (decision-identical to c_bc1).
+
+## 2026-10-11 00:20 PDT — c_well7 screen PASS (0 near misses); parallel trial panels under way
+- c_well7 (c_well6's hot wells on c_bc1; progress/screens/c_well7-56a91347aa7b.json) vs c_aura2's hash
+  (decision-identical to c_bc1): (a) 8/8; (b) h2h 11-9 PASS; (c) information-only Net -1; (d) 128 games, 0 overruns,
+  0 exceptions, 0 near misses (c_well6 on c_aura2's launcher code: 1 overrun, 86 near misses). Candidates for the
+  window after the 01:00 autoscrim: c_mend2 (screened as c_mend1), c_well7.
+- The replica's post-autoscrim backlog delays a trial panel about 3 hours (c_scout1: first panel match 20:00 for a
+  17:10 start), so trials serialize to about one per 8-hour window. Workflow wf_4befd2d5-a5f: contest.block pairs a
+  panel match by our participant's submission (overlapping panels share opponents and maps), and ladder_policy gets
+  trial-park (once every panel match is created, resubmit the validated build and free the trial slot while the panel
+  plays) and trial-decide (accept or reject a parked trial from its finished panel). A match plays the submission
+  active at its creation, so a candidate is exposed for minutes, not hours.
