@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 143,
+  "submission": 145,
   "package": "c_mend2",
   "since": "2026-10-11T12:14:09.832137+00:00",
   "panel_run": "gauntlet/20261011-080046-panel-c_mend2"
@@ -308,7 +308,44 @@
    "package": "c_end2",
    "parked": true,
    "run": "gauntlet/20261011-084600-panel-c_end2"
+  },
+  {
+   "at": "2026-10-11T16:14:13.207453+00:00",
+   "event": "trial-start",
+   "submission": 144,
+   "package": "c_bc3",
+   "screen_skipped": "decision-preserving computePredWells cut on c_mend2 (Bc3Test 1,899,878 equivalence cases vs a verbatim copy of c_bc1's function, reviewed twice); basics margin, an identity build the h2h cannot resolve"
+  },
+  {
+   "at": "2026-10-11T16:15:22.453527+00:00",
+   "event": "park",
+   "submission": 144,
+   "package": "c_bc3",
+   "validated_resubmitted": 145
   }
  ],
- "parked": []
+ "parked": [
+  {
+   "run_dir": "gauntlet/20261011-161413-panel-c_bc3",
+   "pid": 2971680,
+   "submission": 144,
+   "package": "c_bc3",
+   "started": "2026-10-11T16:14:01.954638+00:00",
+   "panel": "test/cells/panel-v1.txt",
+   "hash": "ed3aceb26a90",
+   "parked": "2026-10-11T16:15:22.453443+00:00",
+   "panel_matches": [
+    4943,
+    4944,
+    4945,
+    4946,
+    4947,
+    4948,
+    4949,
+    4950,
+    4951,
+    4952
+   ]
+  }
+ ]
 }

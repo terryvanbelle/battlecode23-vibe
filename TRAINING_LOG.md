@@ -1032,3 +1032,8 @@ of history. Times are PDT. Grep it; do not read it whole.
   telemetry showing hits on islands we never saw).
 - The unit-test run for the token fix hit its 40-minute limit with the driver busy (blind-fire replay dumps, refresh);
   rerun when the driver is quiet, before committing tools/contest.py.
+
+## 2026-10-11 09:15 PDT — c_bc3 trial parked (after the 09:00 autoscrim)
+- The 09:00 autoscrim was created on c_mend2 (matches 4849-4938 at 09:00:00). trial-start c_bc3 (--skip-screen:
+  decision-preserving computePredWells cut, Bc3Test 1,899,878 cases) at 09:14; panel matches 4943-4952; parked at
+  09:15 with c_mend2 active again as 145. Judge against c_mend2's panel and c_bc1's.
