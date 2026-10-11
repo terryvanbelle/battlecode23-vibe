@@ -49,7 +49,9 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_well6 | c_well5 + hot wells: a carrier that sees an enemy fighter near its front well drops it and marks the front wells around the fighter hot (Comms well bits 14-15, decayed by HQ 0); carriers take the cool well nearest our HQ (test/bot/HotWellTest.java) | screen FAIL (d): 1 launcher overrun (shared c_aura2 launcher path: big-blob march 9,758 + unguarded indicator); h2h 10-10 | fix the launcher tail in the base, then re-screen |
 | c_lane1 | g_iter8 + lane siege target (the enemy HQ nearest any of ours; Forest only) + cloud march (`research/diagnosis/2026-10-10-g_iter8b.md` rank 1) | screen FAIL (d): 21 launcher overruns on Cornucopia B; h2h 10-10 (Forest 0-2); arch_swarm -4 | rebase on c_bc1, re-screen |
 | c_end1 | g_iter8 + island duty from r1700 for the r2000 tiebreak (rank 2) | reviewed; unit tests PASS | screen queued 16:04 PDT |
-| c_mend1 | g_iter8 + wounded launchers heal on a nearby island we own (rank 3) | reviewed; unit tests PASS | screen queued 16:04 PDT |
+| c_mend1 | g_iter8 + wounded launchers heal on a nearby island we own (rank 3) | screen PASS (12-8, roster +3, 0 overruns) | rebased as c_mend2: trial after c_bc1 |
+| c_bc1 | c_aura2 + decision-preserving launcher bytecode cuts (indicator guard, regroup via G's ally pass, island loop skip, enemyHQs/siegeTarget/raidWell caches; test/bot/Bc1Test.java) | 6 VM games: launcher near misses 44 -> 0, median calm-march turn 6,856 -> 3,664 | trial (submission 136) started 21:21 PDT, --skip-screen (identity build) |
+| c_lane2, c_mend2, c_end2, c_well7 | c_lane1, c_mend1, c_end1, c_well6 rebased onto c_bc1 (reviewed) | unit tests PASS | screens queued for c_well7, c_end2, c_lane2; c_mend2 uses c_mend1's screen |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
 Closed or superseded since g_iter2 (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9, c_nav3a 8, c_swarm4b 8,

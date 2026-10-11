@@ -902,3 +902,15 @@ of history. Times are PDT. Grep it; do not read it whole.
   Accept on a non-worse panel with 0 overruns: it is the basics base for every launcher arm.
 - Rebase workflow wf_3649d981-a9f: c_lane1 -> c_lane2, c_mend1 -> c_mend2, c_end1 -> c_end2, c_well6 -> c_well7 on
   c_bc1 (caches must include each arm's inputs). c_end1's pending screen cancelled; c_mend1's finishes for information.
+
+## 2026-10-10 21:55 PDT — c_mend1 screen PASS; arms rebased onto c_bc1; screens queued
+- c_mend1 (progress/screens/c_mend1-52217dc460cb.json) vs c_aura2: (a) 8/8; (b) h2h 12-8 PASS; (c) information-only Net
+  +3 (horde +3, blob +1, ampmid -1); (d) 128 games, 0 overruns, 0 exceptions (near misses 49). The best screen of the
+  evening, and its mending adds launcher work only for wounded launchers after our first anchor.
+- Rebase workflow wf_3649d981-a9f: c_lane2, c_mend2, c_end2, c_well7 on c_bc1, each reviewed (arm hunks identical
+  to the c_aura2 versions, c_bc1 caches keyed on inputs the arms never write or returning before them; c_lane2's lane
+  branch runs before the siegeTarget cache, checked by a 236,326-call differential test against c_lane1). unit-tests
+  PASS. Screens queued vs c_aura2 (decision-identical to c_bc1): c_well7, c_end2, c_lane2. c_mend2 rests on c_mend1's
+  screen (same arm, decision-identical base).
+- Order once c_bc1's trial ends: if accepted, trial c_mend2 next (--skip-screen: screened as c_mend1); if rejected,
+  trial c_mend1.
