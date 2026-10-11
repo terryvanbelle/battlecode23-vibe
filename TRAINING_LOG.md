@@ -914,3 +914,19 @@ of history. Times are PDT. Grep it; do not read it whole.
   screen (same arm, decision-identical base).
 - Order once c_bc1's trial ends: if accepted, trial c_mend2 next (--skip-screen: screened as c_mend1); if rejected,
   trial c_mend1.
+
+## 2026-10-10 22:45 PDT — c_bc1 accepted as g_iter9 (basics); the single-reference-panel bias
+- c_bc1 panel (gauntlet/20261011-042052-panel-c_bc1, matches 4180-4189) vs g_iter8's: 92 identical, 2 gained, 6 lost:
+  net -4 (-1.41 SE, p 0.29); 58/100; island-rounds margin -198 (t -2.05); 0 overruns, 0 exceptions; bc_max_L 9,352
+  (c_aura2 9,747); census near-miss sum 17,730 vs 25,835. Decisions are c_aura2's for the same inputs, but more
+  bytecodes left change the fill (map processing, distance fields) and let computePredWells finish more often (raid
+  targets), so games diverge.
+- Accepted as a basics fix (precedent: c_nav6 accepted at -2 as noise): every launcher arm needs its headroom (c_lane1
+  overran 21 times on c_aura2's code).
+- Methodology finding: every candidate panel since c_aura2 lost island-rounds against c_aura2's panel (c_well5 -84,
+  c_spread2 -77, c_scout1 -145, c_bc1 -198) and the flips total 15 lost vs 10 gained. Games are deterministic, so one
+  build's panel is a single draw of its bytecode-timing-dependent outcomes; any change re-draws the borderline cells,
+  and a lucky reference draw makes every candidate regress against it. From now on judge a candidate against both
+  c_bc1's and c_aura2's panels (two draws of one policy, 58 and 62) and report both nets.
+- Next: c_mend2 trial after the 01:00 autoscrim (--skip-screen: screened as c_mend1 vs c_aura2, decision-identical
+  base). Screens of c_well7, c_end2, c_lane2 run against c_aura2's hash (decision-identical to c_bc1).

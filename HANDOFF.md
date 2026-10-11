@@ -4,7 +4,12 @@ Updated 2026-10-10 09:30 PDT.
 
 ## Standing
 
-- **Validated build g_iter8 = c_aura2** (submission 129, accepted 2026-10-10 06:15 PDT): g_iter7 (c_def3: anchor
+- **Validated build g_iter9 = c_bc1** (submission 136, accepted 2026-10-10 22:44 PDT): g_iter8 (c_aura2) plus
+  decision-preserving launcher bytecode cuts (launcher near misses 44 -> 0 in 6 VM games; median calm-march turn
+  6,856 -> 3,664). Panel 58/100 (net -4 vs c_aura2's, p 0.29; accepted as a basics fix, like c_nav6 at -2). Judge
+  candidates against BOTH c_bc1's and c_aura2's panels: the same policy drawn twice (62 and 58); every candidate since
+  c_aura2 lost island-rounds against its panel (-77 to -198), so a single reference draw biases toward rejection.
+- Before it **g_iter8 = c_aura2** (submission 129, accepted 2026-10-10 06:15 PDT): g_iter7 (c_def3: anchor
   discipline + raid recall, panel 60/100) plus aura-safe launcher movement (inside an enemy HQ aura only outward steps;
   regroup moves avoid auras). Panel 62/100 (net +2); our launchers killed by enemy HQ auras 35 vs 1,227 per 100 games.
   Lineage: g_iter3 = c_nav4 (distance fields, 48), g_iter5 = c_nav6 (0 overruns), g_iter6 = c_anc3 (anchor discipline,
@@ -50,7 +55,7 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_lane1 | g_iter8 + lane siege target (the enemy HQ nearest any of ours; Forest only) + cloud march (`research/diagnosis/2026-10-10-g_iter8b.md` rank 1) | screen FAIL (d): 21 launcher overruns on Cornucopia B; h2h 10-10 (Forest 0-2); arch_swarm -4 | rebase on c_bc1, re-screen |
 | c_end1 | g_iter8 + island duty from r1700 for the r2000 tiebreak (rank 2) | reviewed; unit tests PASS | screen queued 16:04 PDT |
 | c_mend1 | g_iter8 + wounded launchers heal on a nearby island we own (rank 3) | screen PASS (12-8, roster +3, 0 overruns) | rebased as c_mend2: trial after c_bc1 |
-| c_bc1 | c_aura2 + decision-preserving launcher bytecode cuts (indicator guard, regroup via G's ally pass, island loop skip, enemyHQs/siegeTarget/raidWell caches; test/bot/Bc1Test.java) | 6 VM games: launcher near misses 44 -> 0, median calm-march turn 6,856 -> 3,664 | trial (submission 136) started 21:21 PDT, --skip-screen (identity build) |
+| c_bc1 | c_aura2 + decision-preserving launcher bytecode cuts (indicator guard, regroup via G's ally pass, island loop skip, enemyHQs/siegeTarget/raidWell caches; test/bot/Bc1Test.java) | 6 VM games: launcher near misses 44 -> 0; panel 58/100, net -4 (p 0.29), 0 overruns | accepted 22:44 PDT as g_iter9 |
 | c_lane2, c_mend2, c_end2, c_well7 | c_lane1, c_mend1, c_end1, c_well6 rebased onto c_bc1 (reviewed) | unit tests PASS | screens queued for c_well7, c_end2, c_lane2; c_mend2 uses c_mend1's screen |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
@@ -70,8 +75,9 @@ rotation is worth carrying into a later arm.
   for `tools/paired.py`). Hourly limits count requests AND the matches they create (an accepted request counts
   twice); galaxy's default 10/10 was raised to 40 unranked and 20 ranked (owner, PROMPTS 15-16), so about 20 panel
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
-- Validated build: **g_iter8 = c_aura2** (submission 129, accepted 2026-10-10 06:15 PDT; baseline panel run
-  `gauntlet/20261010-121416-panel-c_aura2`, 62/100). Before it **g_iter7 = c_def3** (submission 126; resubmitted as 128 after c_flee3's rejection, accepted 2026-10-09 21:40 PDT; baseline panel run
+- Validated build: **g_iter9 = c_bc1** (submission 136, accepted 2026-10-10 22:44 PDT; baseline panel run
+  `gauntlet/20261011-042052-panel-c_bc1`, 58/100). Before it **g_iter8 = c_aura2** (submission 129, accepted
+  2026-10-10 06:15 PDT; baseline panel run `gauntlet/20261010-121416-panel-c_aura2`, 62/100). Before it **g_iter7 = c_def3** (submission 126; resubmitted as 128 after c_flee3's rejection, accepted 2026-10-09 21:40 PDT; baseline panel run
   `gauntlet/20261010-023758-panel-c_def3`, 60/100). Before it g_iter6 = c_anc3 (submission 125,
   `gauntlet/20261009-211419-panel-c_anc3`, 57/100). Before it g_iter5 = c_nav6 (submission 124,
   `gauntlet/20261009-191411-panel-c_nav6`, 46/100). Before it g_iter4 = c_nav5 (submission 123; panel identical to g_iter3's,

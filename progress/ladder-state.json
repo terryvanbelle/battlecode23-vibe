@@ -1,16 +1,11 @@
 {
  "validated": {
-  "submission": 135,
-  "package": "c_aura2",
-  "since": "2026-10-10T13:13:57.057027+00:00",
-  "panel_run": "gauntlet/20261010-121416-panel-c_aura2"
- },
- "trial": {
   "submission": 136,
   "package": "c_bc1",
-  "started": "2026-10-11T04:20:52.681441+00:00",
-  "panel": "test/cells/panel-v1.txt"
+  "since": "2026-10-11T05:44:15.881175+00:00",
+  "panel_run": "gauntlet/20261011-042052-panel-c_bc1"
  },
+ "trial": null,
  "history": [
   {
    "at": "2026-10-08T02:35:39.835215+00:00",
@@ -226,6 +221,12 @@
    "submission": 136,
    "package": "c_bc1",
    "screen_skipped": "basics fix: decision-preserving launcher bytecode cuts on c_aura2 (Bc1Test 217,142 equivalence cases); 6 VM games 0 near misses / 0 overruns vs c_aura2's 44 near misses; the screen's h2h cannot resolve an identity build"
+  },
+  {
+   "at": "2026-10-11T05:44:16.040096+00:00",
+   "event": "accept",
+   "submission": 136,
+   "package": "c_bc1"
   }
  ]
 }
