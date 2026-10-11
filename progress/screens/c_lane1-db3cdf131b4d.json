@@ -1,0 +1,203 @@
+{
+ "v": 1,
+ "candidate": "c_lane1",
+ "candidate_hash": "db3cdf131b4d",
+ "incumbent": "c_aura2",
+ "incumbent_hash": "c6d6ce63d858",
+ "created": "2026-10-10T23:02:59+00:00",
+ "finished": "2026-10-11T02:37:22+00:00",
+ "job": "20261010-230313-scr-c_lane1-db3cdf131b4d",
+ "seed_mode": "map",
+ "maps": {
+  "basics": [
+   "SmallElements",
+   "Contraction",
+   "FourNations",
+   "Tightrope"
+  ],
+  "panel": [
+   "DefaultMap",
+   "Maze",
+   "Forest",
+   "ReverseFunnel",
+   "Cat",
+   "IslandHopping",
+   "Hah",
+   "BatSignal",
+   "Cornucopia",
+   "MassiveL"
+  ]
+ },
+ "reduced": false,
+ "roster_source": "tools/archetypes.txt",
+ "no_stop": false,
+ "stages": {
+  "a": {
+   "verdict": "PASS",
+   "games": 8,
+   "wins": 8,
+   "unknown": 0,
+   "over": 0,
+   "exceptions": 0,
+   "deaths_self": 0,
+   "sym_wrong": 0,
+   "near": 0,
+   "run": "gauntlet/20261011-000928-scr-db3cdf131b4d-4a15-a"
+  },
+  "b": {
+   "verdict": "BORDERLINE",
+   "games": 20,
+   "wins": 10,
+   "losses": 10,
+   "coin": 0,
+   "unknown": 0,
+   "score": 10.0,
+   "pass_at": 11.0,
+   "borderline_at": 9.0,
+   "run": "gauntlet/20261011-001111-scr-db3cdf131b4d-4a15-b"
+  },
+  "c": {
+   "verdict": "PASS",
+   "pooled": {
+    "g": 0,
+    "l": 0,
+    "net": 0,
+    "se": 0.0,
+    "missing": 0,
+    "verdict": "ok"
+   },
+   "info_pooled": {
+    "g": 5,
+    "l": 9,
+    "net": -4,
+    "se": 3.74
+   },
+   "archetypes": [
+    {
+     "name": "arch_adecon",
+     "hash": "b774bf16efe4",
+     "mode": "auto",
+     "gating": false,
+     "why": "no VALID record for this hash: information only",
+     "record": null,
+     "cells": 20,
+     "incumbent_wins": 20,
+     "candidate_wins": 20,
+     "candidate_decided": 20,
+     "g": 0,
+     "l": 0,
+     "both_won": 20,
+     "both_lost": 0,
+     "coin": 0,
+     "missing": 0,
+     "net": 0,
+     "censored": "censored-high",
+     "verdict": "ok"
+    },
+    {
+     "name": "arch_ampmid",
+     "hash": "9b1099e4e1cf",
+     "mode": "auto",
+     "gating": false,
+     "why": "no VALID record for this hash: information only",
+     "record": null,
+     "cells": 20,
+     "incumbent_wins": 17,
+     "candidate_wins": 15,
+     "candidate_decided": 20,
+     "g": 2,
+     "l": 4,
+     "both_won": 13,
+     "both_lost": 1,
+     "coin": 0,
+     "missing": 0,
+     "net": -2,
+     "censored": null,
+     "verdict": "ok"
+    },
+    {
+     "name": "arch_blob",
+     "hash": "3c54b97e654b",
+     "mode": "auto",
+     "gating": false,
+     "why": "no VALID record for this hash: information only",
+     "record": null,
+     "cells": 20,
+     "incumbent_wins": 17,
+     "candidate_wins": 17,
+     "candidate_decided": 20,
+     "g": 1,
+     "l": 1,
+     "both_won": 16,
+     "both_lost": 2,
+     "coin": 0,
+     "missing": 0,
+     "net": 0,
+     "censored": null,
+     "verdict": "ok"
+    },
+    {
+     "name": "arch_horde",
+     "hash": "82311f9b016d",
+     "mode": "auto",
+     "gating": false,
+     "why": "no VALID record for this hash: information only",
+     "record": null,
+     "cells": 20,
+     "incumbent_wins": 13,
+     "candidate_wins": 15,
+     "candidate_decided": 20,
+     "g": 2,
+     "l": 0,
+     "both_won": 13,
+     "both_lost": 5,
+     "coin": 0,
+     "missing": 0,
+     "net": 2,
+     "censored": null,
+     "verdict": "ok"
+    },
+    {
+     "name": "arch_swarm",
+     "hash": "b646f1e92c6b",
+     "mode": "auto",
+     "gating": false,
+     "why": "no VALID record for this hash: information only",
+     "record": null,
+     "cells": 20,
+     "incumbent_wins": 15,
+     "candidate_wins": 11,
+     "candidate_decided": 20,
+     "g": 0,
+     "l": 4,
+     "both_won": 11,
+     "both_lost": 5,
+     "coin": 0,
+     "missing": 0,
+     "net": -4,
+     "censored": null,
+     "verdict": "REGRESSION"
+    }
+   ],
+   "note": "no gating archetype (no VALID record for a current hash): stage (c) passes by default",
+   "excluded": [],
+   "runs": [
+    "gauntlet/20261011-003712-scr-db3cdf131b4d-4a15-c"
+   ],
+   "incumbent_runs": []
+  },
+  "d": {
+   "verdict": "FAIL",
+   "games": 128,
+   "over": 21,
+   "exceptions": 0,
+   "deaths_self": 0,
+   "sym_wrong": 0,
+   "near": 145
+  }
+ },
+ "verdict": "FAIL",
+ "reasons": [
+  "(d) basics over the screen FAIL"
+ ]
+}

@@ -867,3 +867,14 @@ of history. Times are PDT. Grep it; do not read it whole.
   the indicator string only with C.IND_GUARD 400 bytecodes left (end-of-turn telemetry measured at most 309 for
   launchers), and regroup finds the closest ally in a second pass only below GROUP_MIN (same results, about 650 fewer
   bytecodes in a 65 blob). It goes on whichever build c_scout1's trial leaves validated, trialled as a basics fix.
+
+## 2026-10-10 19:25 PDT — c_lane1 screen FAIL (21 overruns); launcher bytecode base c_bc1 under way
+- c_lane1 (progress/screens/c_lane1-db3cdf131b4d.json) vs c_aura2: (a) 8/8; (b) BORDERLINE 10-10 (Forest 0-2, every
+  other map 1-1); (c) information-only Net -4 (arch_swarm -4 flagged REGRESSION, ampmid -2, horde +2); (d) FAIL: 21
+  launcher overruns, all on Cornucopia side B (vs c_aura2 5, vs arch_ampmid 16; bc_max_L up to 10,094). Launchers in
+  big Cornucopia blobs already run within a few hundred bytecodes of the limit (c_well6's single overrun), so every
+  arm that adds launcher work tips over: c_mend1 and c_end1 (screens queued) likely too.
+- Basics first: workflow wf_467d580f-1a9 builds c_bc1 = c_aura2 + a decision-preserving launcher bytecode cut (the
+  indicator guard and regroup second pass from bcfix.py, plus pickObjective's island loop / enemyHQs allocation / the
+  pre-run sensing; goal at least 2,000 more off the worst calm-march turn), verified by an equivalence review and a
+  checkpoint measurement on VM games against c_aura2. The launcher arms are then rebased on it.
