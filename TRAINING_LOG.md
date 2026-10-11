@@ -970,3 +970,13 @@ of history. Times are PDT. Grep it; do not read it whole.
   wells; carriers bring the raid home), c_bc2 (decision-preserving computePredWells cut: skip unchanged passes, box
   rejection, integer duplicate check). The judge deferred c_amp1/c_ward1 for unmeasured payoff; overlapping panels make
   measuring cheap.
+
+## 2026-10-11 03:40 PDT — c_amp2, c_ward2, c_bc2 built and reviewed; screens queued (vs c_bc1)
+- Workflow wf_5fc712aa-9ea. c_amp2 (one team amplifier: island scout, then relay with the army so field robots write
+  islands, wells and symmetry; census bits 10-15): the review moved its field well flush into the bounded end-of-turn
+  phase (up to ~700 unguarded bytecodes on launcher fight turns) and cached the legacy write-zone test. c_ward2 (the
+  forming pool answers raids on home wells; carriers report the raid with its sighting stamp): clean. c_bc2
+  (computePredWells: skip a pass whose inputs are unchanged, box rejection, integer duplicate check): the review found
+  the box test cost more than c_bc1's near test when enemy HQs are spread (passes cut where c_bc1's finished: the
+  forbidden direction), fixed with c_bc1's near test inside the box and an entry guard; Bc2Test 1,899,878 checks vs a
+  verbatim copy of c_bc1. unit-tests PASS. Screens queued against c_bc1: c_amp2, c_ward2, c_bc2.
