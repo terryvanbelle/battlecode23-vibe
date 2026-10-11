@@ -210,3 +210,7 @@ keep going
 ## 48. 2026-10-11 07:24 PDT
 
 On looking at the replays, I notice that opponents often fire blindly into the cloud.  Can you think of a reason why they would do that?  Is this something that you can detect with your replay dumper tool?
+
+## 49. 2026-10-11 07:35 PDT
+
+I can think of three cross-year principles that I think are worth preserving from the blind-fire example.  The first is to look for actions that cost nothing, and figure out something for them to do at all times, even if those actions are low-percentage.  The second is to look for patterns in enemy combat actions that capture things they do that we don't, and that go beyond raw counts.  The third:  In the actual 2023 contest, players would discuss strategies on Discord forums, and it's possible that this one was discussed at the time.  If we were playing a real contest, we'd have access to those forums too (hopefully) and we should lurk there for ideas.
