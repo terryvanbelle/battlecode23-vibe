@@ -951,3 +951,12 @@ of history. Times are PDT. Grep it; do not read it whole.
 - Both panels play behind the autoscrim backlog. Judge each with tools/paired.py against both reference panels
   (c_bc1 gauntlet/20261011-042052-panel-c_bc1 and c_aura2 gauntlet/20261010-121416-panel-c_aura2), then
   trial-decide <package> --accept|--reject.
+
+## 2026-10-11 01:45 PDT — c_end2 screen FAIL on the h2h rule only; trial started anyway (third overlapping panel)
+- c_end2 (progress/screens/c_end2-ebd40b4d39ad.json): (a) 8/8; (b) BORDERLINE 9-11; (c) information-only Net -1 (swarm
+  -2, horde +1); (d) 128 games, 0 overruns, 0 exceptions, near misses 2. The arm acts only past r1700: 6 of the 20 h2h
+  games got there and split 3-3; the other 14 are c_bc1 self-play noise. The screen cannot see the cells it targets
+  (replica tiebreak losses by island swings from r1700).
+- trial-start c_end2 --skip-screen (reason recorded) at 01:45 PDT; its panel waits for galaxy's hourly unranked
+  limit (two panels just used 40), and a background job parks it as soon as all 10 matches exist. Ranked incoming is on
+  auto-reject and no autoscrim is due before 09:00, so the longer exposure plays no rated game.
