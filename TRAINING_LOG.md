@@ -889,7 +889,7 @@ of history. Times are PDT. Grep it; do not read it whole.
 - All three g_iter8 judge arms are now closed (c_well5 -> c_well6 pending a fix, c_spread2, c_scout1). Next: c_bc1,
   the launcher bytecode base (basics), then the launcher arms rebased on it.
 
-## 2026-10-10 21:25 PDT — c_bc1 (launcher bytecode base) verified; trial started (submission 136); arms rebasing
+## 2026-10-10 21:20 PDT — c_bc1 (launcher bytecode base) verified; trial started (submission 136); arms rebasing
 - c_bc1 (workflow wf_467d580f-1a9): c_aura2 + decision-preserving launcher cuts. Measured with identical checkpoint
   builds on 6 VM games each (Cornucopia vs arch_ampmid both sides, vs c_aura2 both sides, vs arch_horde; MassiveL vs
   c_aura2): launcher near misses 44 (c_aura2) -> 0, overruns 0 -> 0; median calm-march turn with 50+ allies
