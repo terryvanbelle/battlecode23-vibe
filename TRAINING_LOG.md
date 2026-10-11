@@ -1023,3 +1023,12 @@ of history. Times are PDT. Grep it; do not read it whole.
   0.52, reeceyang 0.45, georgezhang 0.43; Sprint1, britacatalin, yaonam 0.00; us 0.00. The teams that beat us fire blind,
   the ones we beat do not. Workflow wf_109a1464-007 extends ReplayDump to classify every shot by the shooter's
   visibility of the target tile, cloud and hit, and measures blind-fire damage and our deaths from it on the panels.
+
+## 2026-10-11 07:45 PDT — c_amp2 screen FAIL; c_amp2/c_amp3 closed
+- c_amp2 (progress/screens/c_amp2-ea369b77633e.json) vs c_bc1: (a) 8/8; (b) BORDERLINE 9-11; (c) information-only Net
+  -6 (adecon -3, ampmid -2, horde -1); (d) 128 games, 0 overruns (near misses 1). The amplifier costs a launcher's
+  worth of resources and shows no payoff locally; the judge's objection (a long, unmeasured payoff chain) stands.
+  Closed with c_amp3; re-open only with a measured information gap the relay would fill (e.g. the blind-fire
+  telemetry showing hits on islands we never saw).
+- The unit-test run for the token fix hit its 40-minute limit with the driver busy (blind-fire replay dumps, refresh);
+  rerun when the driver is quiet, before committing tools/contest.py.
