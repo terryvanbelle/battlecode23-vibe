@@ -194,3 +194,7 @@ Looks like all the c_well5 trial games are now in
 ## 44. 2026-10-10 16:43 PDT
 
 Can you create a version of the replica's Rating History graph from the Team Settings page?  On it please also mark the first time that each submission was used in a rated scrimmage game
+
+## 45. 2026-10-10 17:37 PDT
+
+Can you clip the new graph y-axis at >= 1400?  I don't think the lower ELO ranges are all that meaningful.  I'd also like to see the Bradley-Terry ELO values on the same graph
