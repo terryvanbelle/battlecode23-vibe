@@ -980,3 +980,14 @@ of history. Times are PDT. Grep it; do not read it whole.
   the box test cost more than c_bc1's near test when enemy HQs are spread (passes cut where c_bc1's finished: the
   forbidden direction), fixed with c_bc1's near test inside the box and an entry guard; Bc2Test 1,899,878 checks vs a
   verbatim copy of c_bc1. unit-tests PASS. Screens queued against c_bc1: c_amp2, c_ward2, c_bc2.
+
+## 2026-10-11 05:14 PDT — c_mend2 accepted as g_iter10 (wounded launchers heal on our islands)
+- Panel (gauntlet/20261011-080046-panel-c_mend2, matches 4561-4570): 61/100. vs c_bc1 (its base): 95 identical, 4
+  gained (NotLLeon, georgezhang, pranayagra, vrangr1), 1 lost: net +3 (p 0.38), island-rounds margin +183 (t +2.30).
+  vs c_aura2: 91 identical, 4 gained, 5 lost: net -1, island-rounds -14. Mechanism: healed HP a game 1,561 -> 3,430
+  (t +4.79 vs c_bc1; +3.75 vs c_aura2), launcher deaths 89.3 -> 81.8 (t -2.37), kills +7 (t +1.3). 0 overruns.
+- Accepted (trial-decide 137 --accept; resubmitted as 143): a measured mechanism the opponent study named (the strong
+  teams heal 2.7-4.3 HP per island-round) and positive against its own base; the c_aura2 reference is the lucky draw
+  (every candidate regressed against it).
+- c_well7 and c_end2 (built on c_bc1) are judged against c_bc1's panel; a positive one is then stacked on c_mend2.
+  c_amp2, c_ward2, c_bc2 (screens running vs c_bc1) are rebased onto c_mend2 for their trials.

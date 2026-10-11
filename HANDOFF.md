@@ -4,7 +4,11 @@ Updated 2026-10-10 09:30 PDT.
 
 ## Standing
 
-- **Validated build g_iter9 = c_bc1** (submission 136, accepted 2026-10-10 22:44 PDT): g_iter8 (c_aura2) plus
+- **Validated build g_iter10 = c_mend2** (submission 143, accepted 2026-10-11 05:14 PDT): g_iter9 (c_bc1) plus
+  wounded launchers (80 HP or less) heal on a nearby island we own (none before our first anchor). Panel 61/100: net +3
+  vs c_bc1's panel (island-rounds +183, t +2.3), -1 vs c_aura2's; healed HP a game 1,561 -> 3,430 (t +4.8), launcher
+  deaths -7.5 (t -2.4); 0 overruns. Panel run `gauntlet/20261011-080046-panel-c_mend2`.
+- Before it **g_iter9 = c_bc1** (submission 136, accepted 2026-10-10 22:44 PDT): g_iter8 (c_aura2) plus
   decision-preserving launcher bytecode cuts (launcher near misses 44 -> 0 in 6 VM games; median calm-march turn
   6,856 -> 3,664). Panel 58/100 (net -4 vs c_aura2's, p 0.29; accepted as a basics fix, like c_nav6 at -2). Judge
   candidates against BOTH c_bc1's and c_aura2's panels: the same policy drawn twice (62 and 58); every candidate since
@@ -56,7 +60,7 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_end1 | g_iter8 + island duty from r1700 for the r2000 tiebreak (rank 2) | reviewed; unit tests PASS | screen queued 16:04 PDT |
 | c_mend1 | g_iter8 + wounded launchers heal on a nearby island we own (rank 3) | screen PASS (12-8, roster +3, 0 overruns) | rebased as c_mend2: trial after c_bc1 |
 | c_bc1 | c_aura2 + decision-preserving launcher bytecode cuts (indicator guard, regroup via G's ally pass, island loop skip, enemyHQs/siegeTarget/raidWell caches; test/bot/Bc1Test.java) | 6 VM games: launcher near misses 44 -> 0; panel 58/100, net -4 (p 0.29), 0 overruns | accepted 22:44 PDT as g_iter9 |
-| c_lane2, c_mend2, c_end2, c_well7 | c_lane1, c_mend1, c_end1, c_well6 rebased onto c_bc1 (reviewed) | unit tests PASS | screens queued for c_well7, c_end2, c_lane2; c_mend2 uses c_mend1's screen |
+| c_lane2, c_mend2, c_end2, c_well7 | c_lane1, c_mend1, c_end1, c_well6 rebased onto c_bc1 (reviewed) | c_mend2 panel 61/100: +3 vs c_bc1, -1 vs c_aura2, healed x2.2 | c_mend2 accepted 05:14 PDT as g_iter10; c_lane2 closed; c_well7, c_end2 panels playing |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
 Closed or superseded since g_iter2 (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9, c_nav3a 8, c_swarm4b 8,
@@ -75,7 +79,8 @@ rotation is worth carrying into a later arm.
   for `tools/paired.py`). Hourly limits count requests AND the matches they create (an accepted request counts
   twice); galaxy's default 10/10 was raised to 40 unranked and 20 ranked (owner, PROMPTS 15-16), so about 20 panel
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
-- Validated build: **g_iter9 = c_bc1** (submission 136, accepted 2026-10-10 22:44 PDT; baseline panel run
+- Validated build: **g_iter10 = c_mend2** (submission 143, accepted 2026-10-11 05:14 PDT; baseline panel run
+  `gauntlet/20261011-080046-panel-c_mend2`, 61/100). Before it **g_iter9 = c_bc1** (submission 136, accepted 2026-10-10 22:44 PDT; baseline panel run
   `gauntlet/20261011-042052-panel-c_bc1`, 58/100). Before it **g_iter8 = c_aura2** (submission 129, accepted
   2026-10-10 06:15 PDT; baseline panel run `gauntlet/20261010-121416-panel-c_aura2`, 62/100). Before it **g_iter7 = c_def3** (submission 126; resubmitted as 128 after c_flee3's rejection, accepted 2026-10-09 21:40 PDT; baseline panel run
   `gauntlet/20261010-023758-panel-c_def3`, 60/100). Before it g_iter6 = c_anc3 (submission 125,
