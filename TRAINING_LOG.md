@@ -888,3 +888,17 @@ of history. Times are PDT. Grep it; do not read it whole.
   autoscrim backlog (trial started 17:10, first match 20:00).
 - All three g_iter8 judge arms are now closed (c_well5 -> c_well6 pending a fix, c_spread2, c_scout1). Next: c_bc1,
   the launcher bytecode base (basics), then the launcher arms rebased on it.
+
+## 2026-10-10 21:25 PDT — c_bc1 (launcher bytecode base) verified; trial started (submission 136); arms rebasing
+- c_bc1 (workflow wf_467d580f-1a9): c_aura2 + decision-preserving launcher cuts. Measured with identical checkpoint
+  builds on 6 VM games each (Cornucopia vs arch_ampmid both sides, vs c_aura2 both sides, vs arch_horde; MassiveL vs
+  c_aura2): launcher near misses 44 (c_aura2) -> 0, overruns 0 -> 0; median calm-march turn with 50+ allies
+  6,856 -> 3,664 (regroup 2,086 -> 137, pickObjective 1,794 -> 1,022, pre-run 1,681 -> 1,447); worst launcher turn
+  9,111 -> 8,417. The equivalence review found one divergence (the end-of-turn re-sense skipped after an overrun),
+  fixed (enemiesStale); Bc1Test compares the cut code with c_aura2's on 217,142 cases. Not met: the 2,000 goal on the
+  computePredWells turns (the pass runs to its 4,500-left guard, so earlier savings are spent there); a follow-up
+  (skip passes whose inputs are unchanged) can cut those without changing decisions.
+- trial-start c_bc1 --skip-screen (reason recorded: basics fix, identity build the h2h cannot resolve) at 21:21 PDT.
+  Accept on a non-worse panel with 0 overruns: it is the basics base for every launcher arm.
+- Rebase workflow wf_3649d981-a9f: c_lane1 -> c_lane2, c_mend1 -> c_mend2, c_end1 -> c_end2, c_well6 -> c_well7 on
+  c_bc1 (caches must include each arm's inputs). c_end1's pending screen cancelled; c_mend1's finishes for information.
