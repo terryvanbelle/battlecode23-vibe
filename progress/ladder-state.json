@@ -285,31 +285,24 @@
    "trial_submission": 137,
    "parked": true,
    "run": "gauntlet/20261011-080046-panel-c_mend2"
+  },
+  {
+   "at": "2026-10-11T12:43:06.677580+00:00",
+   "event": "panel-done",
+   "submission": 139,
+   "package": "c_well7",
+   "run": "gauntlet/20261011-080209-panel-c_well7"
+  },
+  {
+   "at": "2026-10-11T13:09:03.031906+00:00",
+   "event": "reject",
+   "submission": 139,
+   "package": "c_well7",
+   "parked": true,
+   "run": "gauntlet/20261011-080209-panel-c_well7"
   }
  ],
  "parked": [
-  {
-   "run_dir": "gauntlet/20261011-080209-panel-c_well7",
-   "pid": 2908557,
-   "submission": 139,
-   "package": "c_well7",
-   "started": "2026-10-11T08:01:59.308426+00:00",
-   "panel": "test/cells/panel-v1.txt",
-   "hash": "56a91347aa7b",
-   "parked": "2026-10-11T08:03:14.703464+00:00",
-   "panel_matches": [
-    4571,
-    4572,
-    4573,
-    4574,
-    4575,
-    4576,
-    4577,
-    4578,
-    4579,
-    4580
-   ]
-  },
   {
    "run_dir": "gauntlet/20261011-084600-panel-c_end2",
    "pid": 2912252,

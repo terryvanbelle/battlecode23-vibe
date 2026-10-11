@@ -991,3 +991,13 @@ of history. Times are PDT. Grep it; do not read it whole.
   (every candidate regressed against it).
 - c_well7 and c_end2 (built on c_bc1) are judged against c_bc1's panel; a positive one is then stacked on c_mend2.
   c_amp2, c_ward2, c_bc2 (screens running vs c_bc1) are rebased onto c_mend2 for their trials.
+
+## 2026-10-11 06:15 PDT — c_well7 rejected (panel 60/100: +2 vs c_bc1, -2 vs c_aura2); the front probe is the feeder
+- Panel gauntlet/20261011-080209-panel-c_well7 (matches 4571-4580): vs c_bc1 90 identical, 6 gained, 4 lost, net +2
+  (p 0.75), island-rounds +21; vs c_aura2 net -2, island-rounds -177. 0 overruns. Mana by r250: MassiveL 831 -> 1,313
+  (t +5.97), Forest 1,098 -> 1,430 (t +1.65); Forest carriers alive at r250 40.1 -> 31.3 (t -2.44).
+- Hot wells barely cut the Forest feeding: our carriers dead by r250 on Forest, per panel opponent: c_well7 11-21
+  against 7 teams (c_well5 19-25; c_bc1 0-2; c_aura2 0-2). The MassiveL gain comes from the diagonal near-well probe
+  (home well (2,0)); the Forest feeding from the front point (the midline well (29,48)). trial-decide 139 --reject.
+- Next: c_well9 = c_mend2 + the diagonal probe only (no front-only probe, no front point in the regular probe).
+- c_amp2's screen is slower: the first screen against c_bc1 also plays c_bc1's 100 roster games (cached by hash).
