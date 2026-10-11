@@ -1331,6 +1331,124 @@ class FieldScoreTest(unittest.TestCase):
         self.assertTrue(0.0 < vh < 0.5 < fs + 0.25)
 
 
+class RatingHistoryTest(unittest.TestCase):
+    """tools/rating_history.py: the Team page's rating curve and each submission's first rated match (PROMPTS 44)."""
+
+    US = 28
+
+    def setUp(self):
+        self.rh = load('rating_history', 'rating_history.py')
+
+    def m(self, mid, created, sub, rating=1500.0, ranked=True, tour=None, status='OK!', other_sub=None, old=None):
+        return {'id': mid, 'status': status, 'created': created, 'is_ranked': ranked, 'tournament_round': tour,
+                'participants': [{'team': 9, 'submission': other_sub, 'rating': 1400.0, 'old_rating': 1400.0},
+                                 {'team': self.US, 'submission': sub, 'rating': rating, 'old_rating': old}]}
+
+    def test_points_from_history_in_time_order(self):
+        js = {'team_id': self.US, 'team_rating': {'rating_history': [
+            {'timestamp': '2026-10-08T03:00:00-04:00', 'rating': 300.0},
+            {'timestamp': '2026-10-08T06:30:00Z', 'rating': 400.0},    # 02:30 -04:00: earlier than the first entry
+            {'timestamp': '2026-10-08T04:00:00-04:00', 'rating': None}]}}
+        pts = self.rh.points_from_history(js)
+        self.assertEqual([r for _, r in pts], [400.0, 300.0])
+        self.assertEqual(pts[0][0].utcoffset(), self.rh.dt.timedelta(0))
+        self.assertEqual(self.rh.points_from_history(None), [])          # HTTP 204: no ranked matches
+        self.assertEqual(self.rh.points_from_history({'team_id': 1, 'team_rating': None}), [])
+
+    def test_first_use_is_earliest_by_created_not_by_list_order(self):
+        ms = [self.m(30, '2026-10-09T12:00:00-04:00', 7, 1600.0),       # newest first, as the API lists them
+              self.m(20, '2026-10-09T10:00:00-04:00', 7, 1580.0, old=1570.0),
+              self.m(25, '2026-10-09T11:00:00-04:00', 7, 1590.0)]
+        f = self.rh.first_rated_use(ms, self.US)
+        self.assertEqual(list(f), [7])
+        self.assertEqual((f[7]['match'], f[7]['rating'], f[7]['old_rating'], f[7]['matches']), (20, 1580.0, 1570.0, 3))
+
+    def test_population_skips_unranked_tournament_null_rating_and_cancelled(self):
+        ms = [self.m(1, '2026-10-09T01:00:00-04:00', 5, ranked=False),
+              self.m(2, '2026-10-09T02:00:00-04:00', 5, tour={'id': 3}),
+              self.m(3, '2026-10-09T03:00:00-04:00', 5, rating=None),      # not rated yet
+              self.m(4, '2026-10-09T04:00:00-04:00', 5, status='CAN'),     # a chart point, but no game was played
+              self.m(5, '2026-10-09T05:00:00-04:00', 5),
+              self.m(6, '2026-10-09T06:00:00-04:00', 6, ranked=False)]     # 6 played only unranked: absent
+        f = self.rh.first_rated_use(ms, self.US)
+        self.assertEqual(sorted(f), [5])
+        self.assertEqual((f[5]['match'], f[5]['matches'], f[5]['cancelled']), (5, 2, 1))
+        self.assertEqual([m['id'] for _, m, _ in self.rh.rated(ms, self.US)], [4, 5])
+
+    def test_duplicate_match_ids_count_once(self):
+        # the newest-first page crawl can repeat a match when one is created mid-crawl; the later copy is kept
+        ms = [self.m(2, '2026-10-09T02:00:00-04:00', 5, 1510.0),
+              self.m(1, '2026-10-09T01:00:00-04:00', 5, 1500.0, status='CAN'),
+              self.m(1, '2026-10-09T01:00:00-04:00', 5, 1500.0, status='CAN'),
+              self.m(2, '2026-10-09T02:00:00-04:00', 5, 1510.0)]
+        self.assertEqual([m['id'] for _, m, _ in self.rh.rated(ms, self.US)], [1, 2])
+        f = self.rh.first_rated_use(ms, self.US)
+        self.assertEqual((f[5]['match'], f[5]['matches'], f[5]['cancelled']), (2, 2, 1))
+
+    def test_other_teams_submissions_ignored(self):
+        ms = [self.m(1, '2026-10-09T01:00:00-04:00', None, other_sub=99),   # the opponent's submission id
+              self.m(2, '2026-10-09T02:00:00-04:00', 8, other_sub=99)]
+        ms.append({'id': 3, 'status': 'OK!', 'created': '2026-10-09T03:00:00-04:00', 'is_ranked': True,
+                   'tournament_round': None, 'participants': [{'team': 9, 'submission': 98, 'rating': 1.0},
+                                                              {'team': 10, 'submission': 97, 'rating': 2.0}]})
+        self.assertEqual(sorted(self.rh.first_rated_use(ms, self.US)), [8])
+
+    def test_pdt_conversion(self):
+        t = self.rh.parse_ts('2026-10-10T19:40:46.376414-04:00')
+        self.assertEqual(self.rh.to_pdt(t), self.rh.dt.datetime(2026, 10, 10, 16, 40, 46, 376414))
+        self.assertEqual(self.rh.to_pdt(self.rh.parse_ts('2026-10-08T02:35:39Z')), self.rh.dt.datetime(2026, 10, 7, 19, 35, 39))
+        self.assertEqual(self.rh.to_pdt(self.rh.parse_ts('2026-11-02T20:00:00Z')).hour, 12)   # PST after Nov 1
+        oct_, nov = self.rh.parse_ts('2026-10-10T23:40:00Z'), self.rh.parse_ts('2026-11-02T20:00:00Z')
+        self.assertEqual([self.rh.zone_label([oct_]), self.rh.zone_label([nov]), self.rh.zone_label([nov, oct_])],
+                         ['PDT', 'PST', 'PDT/PST'])
+        self.assertEqual((self.rh.utc_lead(oct_), self.rh.utc_lead(nov)), (7, 8))   # galaxy's UTC chart reads later
+
+    def test_md_curve_only_and_names_from_the_response(self):
+        hist = {'team_id': self.US, 'team_rating': {'team': {'name': 'teamX', 'episode': 'bcXX'}, 'rating_history': [
+            {'timestamp': '2026-10-08T03:00:00-04:00', 'rating': 300.0}]}}
+        pts = self.rh.points_from_history(hist)
+        self.assertEqual(self.rh.team_info({'historical_rating': hist}), ('teamX', 'bcXX'))
+        self.assertEqual(self.rh.team_info({'historical_rating': None, 'episode': 'bc23'}), ('our team', 'bc23'))
+        with tempfile.TemporaryDirectory() as d:
+            md = os.path.join(d, 'r.md')
+            self.rh.write_md(pts, [], [], {'historical_rating': hist, 'team_id': self.US}, md, 'r.png')   # raw response
+            text = Path(md).read_text()
+            self.assertIn('/api/compete/bcXX/match/historical_rating/', text)
+            self.assertIn('No submission markers', text)
+            self.assertNotIn('| Submission |', text)
+            self.assertNotIn('Kind:', text)
+            self.assertIn('7 h later', text)
+
+    def test_names_kinds_rows_and_label_spread(self):
+        hist = [{'event': 'init', 'submission': 24, 'package': 'g_iter0'},
+                {'event': 'trial-start', 'submission': 120, 'package': 'c_a'},
+                {'event': 'accept', 'submission': 120, 'package': 'c_a'},
+                {'event': 'trial-start', 'submission': 121, 'package': 'c_b'},
+                {'event': 'reject', 'submission': 121, 'package': 'c_b'}]
+        subs = [{'id': 113, 'package': 'g_iter0'}, {'id': 121, 'package': None, 'description': 'c_b (trial)'},
+                {'id': 130, 'package': '', 'description': ''}]
+        names = self.rh.package_names(subs, hist)
+        self.assertEqual([self.rh.name_of(names, s) for s in (24, 113, 120, 121, 130)],
+                         ['g_iter0', 'g_iter0', 'c_a', 'c_b', 'sub 130'])
+        self.assertEqual([self.rh.kind_of(s, names.get(s), hist) for s in (24, 113, 120, 121, 130)],
+                         ['validated', 'reupload', 'validated', 'trial', 'trial'])
+        ms = [self.m(1, '2026-10-09T01:00:00-04:00', 24, 200.0, old=0.0),
+              self.m(2, '2026-10-09T02:00:00-04:00', 24, 300.0),
+              self.m(3, '2026-10-09T03:00:00-04:00', 113, 280.0, old=300.0)]
+        pts = [(self.rh.parse_ts(m['created']), m['participants'][1]['rating']) for m in ms]
+        rows = self.rh.rows(pts, self.rh.first_rated_use(ms, self.US), names, hist)
+        self.assertEqual([(r['sub'], r['kind'], r['before'], r['after']) for r in rows],
+                         [(24, 'validated', 0.0, 200.0), (113, 'reupload', 300.0, 280.0)])   # the first: old_rating
+        pos = self.rh.spread([0.5, 0.0, 0.51, 1.0, 0.505], 0.02)
+        self.assertTrue(all(0.0 <= p <= 1.0 for p in pos))
+        self.assertGreaterEqual(min(abs(a - b) for i, a in enumerate(pos) for b in pos[i + 1:]), 0.02 - 1e-9)
+        self.assertEqual(sorted(range(5), key=lambda i: pos[i]), [1, 0, 4, 2, 3])          # order kept
+        for got, want in zip(self.rh.spread([0.99, 1.0, 0.98], 0.02), [0.98, 1.0, 0.96]):   # pushed back under hi
+            self.assertAlmostEqual(got, want)
+        for got, want in zip(self.rh.spread([0.5, 0.5, 0.5], 0.6), [0.0, 0.6, 1.2]):       # too wide: spaced from lo
+            self.assertAlmostEqual(got, want)
+
+
 if __name__ == '__main__':
     r = unittest.main(exit=False, verbosity=0).result
     print(f"test_tools: {r.testsRun} tests, {len(r.failures)} failures, {len(r.errors)} errors")

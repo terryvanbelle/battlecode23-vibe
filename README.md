@@ -18,3 +18,9 @@ and rank for every submitted build and rejected candidate, with the submissions 
 projected with a 95% band to the ends of weeks 1-4. `progress/progress.png`: accepted builds only, in accept order.
 
 ![field score](progress/field-score-4w.png)
+
+`progress/rating-history.png` / `progress/rating-history.md` (`tools/rating_history.py`, owner PROMPTS 44): the
+replica's Team Settings "Rating History" chart (siarnaq's displayed rating after each ranked, non-tournament
+scrimmage), redrawn in PDT with each submission's first rated match marked.
+
+![rating history](progress/rating-history.png)
