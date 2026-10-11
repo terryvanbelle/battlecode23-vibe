@@ -837,3 +837,18 @@ of history. Times are PDT. Grep it; do not read it whole.
 - Screens queued behind c_well6's (running since 15:30): c_lane1, c_mend1, c_end1. c_end1 changes only games past
   r1700, so its h2h will sit near the identity 10/20; judge it on the late-game cells.
 - Next: c_scout1's trial right after the 17:00 autoscrim fires.
+
+## 2026-10-10 17:40 PDT — rating history chart (PROMPTS 44); c_scout1 trial; c_well6 screen FAIL on one overrun
+- tools/rating_history.py (workflow wf_b9c56eda-f87: implement, two adversarial verifiers, fix): the replica's Team
+  Settings "Rating History" curve (GET .../match/historical_rating/, siarnaq's displayed rating after each ranked,
+  non-tournament match: 316 points) in PDT, with each submission's first completed rated match marked (15
+  submissions; trial candidates never play rated games). Outputs progress/rating-history.png and .md; in the progress
+  refresh and README. Galaxy's own chart draws UTC under "Local Date & Time" (Highcharts useUTC). test_tools 79 tests.
+- c_scout1 trial started 17:10 PDT (submission 134) after the 17:00 autoscrim was created on c_aura2.
+- c_well6 screen: (a) PASS, (b) BORDERLINE 10-10 (both Forest games won), (c) info Net +1, (d) FAIL: 1 overrun in 128
+  games: a launcher at 10,001 on Cornucopia vs arch_ampmid (B side). Replayed deterministically on the VM
+  (matches/ov-well6.bc23): r1108 launcher #10196, main work 9,758 on a calm march (code M, objective switched from an
+  island to the enemy HQ, 17 allies in vision, 0 enemies), then the unguarded indicator string pushed the turn past
+  10,000. All 4 near misses in that game are calm marches or follows with 15-65 allies: a big-blob march path costs
+  9,000-9,800 bytecodes. The launcher code is c_aura2's (c_well6 changes only carriers and Comms micro-costs), so the
+  incumbent carries the same tail. Diagnosing with a checkpoint build (src/x_bcp, not committed) on 6 VM games.
