@@ -852,3 +852,18 @@ of history. Times are PDT. Grep it; do not read it whole.
   10,000. All 4 near misses in that game are calm marches or follows with 15-65 allies: a big-blob march path costs
   9,000-9,800 bytecodes. The launcher code is c_aura2's (c_well6 changes only carriers and Comms micro-costs), so the
   incumbent carries the same tail. Diagnosing with a checkpoint build (src/x_bcp, not committed) on 6 VM games.
+
+## 2026-10-10 18:20 PDT — rating history: clipped at 1,400 with our BT ratings (PROMPTS 45); launcher overrun traced
+- tools/rating_history.py (workflow wf_7ef84c72-0ba: implement, two verifiers, fix): left axis from 1,400 (28 early
+  points off the chart, noted); a right axis in Bradley-Terry points tied to the left by BT = -7,305 + 5.75 x galaxy
+  (least squares over the 72 Rankings teams rated >= 1,400 with >= 30 BT games, r 0.98; residual +-31 galaxy points at
+  95%, stated in the footer): one replica point is about 5.8 BT points, so raw BT numbers cannot share the left axis.
+  Each build's BT over its rated tenure (re-uploads merged) with the fit's 95% band; trial candidates as diamonds at
+  their trial start. Our galaxy rating ends every tenure below the build's converted BT, within the conversion scatter
+  for c_def3, 8-38 points for c_swarm1-c_aura2 (field teams at our level sit about 12 below the line too).
+- Overrun diagnosis (checkpoint build src/x_bcp, 6 VM games, deleted after): on the 10 near-miss launcher turns, all
+  calm marches in 65-launcher blobs: pre-run sensing 2,050, pickObjective 3,237 (island loop, enemy HQs, raid wells),
+  regroup's ally loop 2,328, Nav 464-2,429. Fix prepared (scratchpad bcfix.py; src/c_bc1 = c_aura2 + fix, compiled):
+  the indicator string only with C.IND_GUARD 400 bytecodes left (end-of-turn telemetry measured at most 309 for
+  launchers), and regroup finds the closest ally in a second pass only below GROUP_MIN (same results, about 650 fewer
+  bytecodes in a 65 blob). It goes on whichever build c_scout1's trial leaves validated, trialled as a basics fix.
