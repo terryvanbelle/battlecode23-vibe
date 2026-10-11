@@ -931,7 +931,7 @@ of history. Times are PDT. Grep it; do not read it whole.
 - Next: c_mend2 trial after the 01:00 autoscrim (--skip-screen: screened as c_mend1 vs c_aura2, decision-identical
   base). Screens of c_well7, c_end2, c_lane2 run against c_aura2's hash (decision-identical to c_bc1).
 
-## 2026-10-11 00:20 PDT — c_well7 screen PASS (0 near misses); parallel trial panels under way
+## 2026-10-11 00:10 PDT — c_well7 screen PASS (0 near misses); parallel trial panels under way
 - c_well7 (c_well6's hot wells on c_bc1; progress/screens/c_well7-56a91347aa7b.json) vs c_aura2's hash
   (decision-identical to c_bc1): (a) 8/8; (b) h2h 11-9 PASS; (c) information-only Net -1; (d) 128 games, 0 overruns,
   0 exceptions, 0 near misses (c_well6 on c_aura2's launcher code: 1 overrun, 86 near misses). Candidates for the
