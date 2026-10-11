@@ -838,7 +838,7 @@ of history. Times are PDT. Grep it; do not read it whole.
   r1700, so its h2h will sit near the identity 10/20; judge it on the late-game cells.
 - Next: c_scout1's trial right after the 17:00 autoscrim fires.
 
-## 2026-10-10 17:40 PDT — rating history chart (PROMPTS 44); c_scout1 trial; c_well6 screen FAIL on one overrun
+## 2026-10-10 17:25 PDT — rating history chart (PROMPTS 44); c_scout1 trial; c_well6 screen FAIL on one overrun
 - tools/rating_history.py (workflow wf_b9c56eda-f87: implement, two adversarial verifiers, fix): the replica's Team
   Settings "Rating History" curve (GET .../match/historical_rating/, siarnaq's displayed rating after each ranked,
   non-tournament match: 316 points) in PDT, with each submission's first completed rated match marked (15
