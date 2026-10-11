@@ -960,3 +960,13 @@ of history. Times are PDT. Grep it; do not read it whole.
 - trial-start c_end2 --skip-screen (reason recorded) at 01:45 PDT; its panel waits for galaxy's hourly unranked
   limit (two panels just used 40), and a background job parks it as soon as all 10 matches exist. Ranked incoming is on
   auto-reject and no autoscrim is due before 09:00, so the longer exposure plays no rated game.
+
+## 2026-10-11 02:20 PDT — c_lane2 closed (Forest 0-4 locally); next batch c_amp2, c_ward2, c_bc2
+- c_lane2 screen (progress/screens/c_lane2-e701d86b88df.json): h2h FAIL 7-13. Forest, the only map the lane rule
+  changes, 0-2 again (c_lane1: 0-2): 0-4 against our own build's southern push; the other maps are c_bc1 self-play
+  noise. Closed; re-open with a lane that does not leave home exposed (e.g. the lane only once (11,48) is pressed).
+- Build workflow wf_5fc712aa-9ea on c_bc1: c_amp2 (the second diagnosis's amplifier scout/relay: 3 of 5 top teams field
+  amplifiers with their army; ours never write comms in the field), c_ward2 (the forming pool answers raids on home
+  wells; carriers bring the raid home), c_bc2 (decision-preserving computePredWells cut: skip unchanged passes, box
+  rejection, integer duplicate check). The judge deferred c_amp1/c_ward1 for unmeasured payoff; overlapping panels make
+  measuring cheap.
