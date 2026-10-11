@@ -1448,6 +1448,90 @@ class RatingHistoryTest(unittest.TestCase):
         for got, want in zip(self.rh.spread([0.5, 0.5, 0.5], 0.6), [0.0, 0.6, 1.2]):       # too wide: spaced from lo
             self.assertAlmostEqual(got, want)
 
+    def test_calibrate_recovers_a_line_and_filters_the_field(self):
+        # BT = -7000 + 5 * galaxy exactly, then with symmetric noise that keeps the slope and the intercept
+        exact = [(g, -7000.0 + 5.0 * g) for g in (1400.0, 1500.0, 1550.0, 1650.0, 1700.0)]
+        a, b, r, n, sd = self.rh.calibrate(exact)
+        self.assertAlmostEqual(a, -7000.0, places=6); self.assertAlmostEqual(b, 5.0, places=9)
+        self.assertAlmostEqual(r, 1.0, places=9); self.assertEqual(n, 5); self.assertAlmostEqual(sd, 0.0, places=4)
+        noisy = [(g, -7000.0 + 5.0 * g + e) for g in (1400.0, 1600.0) for e in (-40.0, 40.0)]   # +-40 at each x
+        a, b, r, n, sd = self.rh.calibrate(noisy)
+        self.assertAlmostEqual(b, 5.0); self.assertAlmostEqual(a, -7000.0); self.assertTrue(0.99 < r < 1.0)
+        self.assertEqual(n, 4)
+        self.assertAlmostEqual(sd, (4 * 40.0 ** 2 / (4 - 2)) ** 0.5)       # residual SD on n - 2 degrees of freedom
+        # the line's local misfit: teams within the band of a galaxy rating, galaxy minus the converted BT
+        pairs = [(1500.0, -7000.0 + 5.0 * 1510.0), (1530.0, -7000.0 + 5.0 * 1520.0), (1700.0, 0.0)]
+        self.assertEqual(self.rh.peer_offset(pairs, (-7000.0, 5.0), 1520.0, band=40), (2, 0.0))   # -10 and +10
+        self.assertEqual(self.rh.peer_offset(pairs, (-7000.0, 5.0), 1505.0, band=10), (1, -10.0))
+        self.assertIsNone(self.rh.peer_offset(pairs, (-7000.0, 5.0), 1600.0, band=40))
+        self.assertIsNone(self.rh.calibrate(exact[:2]))                     # too few
+        self.assertIsNone(self.rh.calibrate([(1500.0, 1.0), (1500.0, 2.0), (1500.0, 3.0)]))   # no galaxy spread
+        ranks = [{'id': 1, 'name': 'a.bot', 'rating': 1600.0}, {'id': 2, 'name': 'b.bot', 'rating': 1399.0},   # < floor
+                 {'id': 3, 'name': 'c.bot', 'rating': 1500.0},                                              # 29 games
+                 {'id': self.US, 'name': 'vibe23', 'rating': 1610.0},                                       # our team
+                 {'id': 5, 'name': 'examplefuncsplayer', 'rating': 1450.0},                                 # a baseline
+                 {'id': 6, 'name': 'd.bot', 'rating': None}, {'id': 7, 'name': 'e.bot', 'rating': 1450.0}]  # e: no BT
+        R = {'a.bot': 2100.0, 'b.bot': 900.0, 'c.bot': 1500.0, 'vibe23': 2000.0, 'examplefuncsplayer': 800.0,
+             'd.bot': 1700.0}
+        games = {'a.bot': 30, 'b.bot': 200, 'c.bot': 29, 'vibe23': 300, 'examplefuncsplayer': 300, 'd.bot': 99}
+        self.assertEqual(self.rh.calibration_pairs(ranks, R, games, self.US), [(1600.0, 2100.0)])
+
+    def test_tenures_merge_reuploads_and_trials_never_rated(self):
+        t = lambda h: self.rh.parse_ts(f'2026-10-09T{h:02d}:00:00Z')
+        marks = [('c_b', t(5)), ('g0', t(1)), ('g0', t(2)), ('c_a', t(3)), ('c_a', t(4)), ('c_a', t(6))]   # any order
+        self.assertEqual(self.rh.tenures(marks),
+                         [('g0', t(1), t(3)), ('c_a', t(3), t(5)), ('c_b', t(5), t(6)), ('c_a', t(6), None)])
+        self.assertEqual(self.rh.tenures([('g0', t(1))], end=t(9)), [('g0', t(1), t(9))])
+        self.assertEqual(self.rh.tenures([]), [])
+        hist = [{'event': 'init', 'package': 'g0', 'at': '2026-10-09T00:00:00Z'},
+                {'event': 'trial-start', 'package': 'c_x', 'at': '2026-10-09T04:00:00Z'},
+                {'event': 'trial-start', 'package': 'c_a', 'at': '2026-10-09T02:30:00Z'},   # rated later: no diamond
+                {'event': 'trial-start', 'package': 'c_y', 'at': '2026-10-09T03:00:00Z'},
+                {'event': 'trial-start', 'package': 'c_x', 'at': '2026-10-09T08:00:00Z'}]   # re-trial: the first counts
+        self.assertEqual(self.rh.trial_candidates(hist, {'g0', 'c_a', 'c_b'}), [('c_y', t(3)), ('c_x', t(4))])
+        # the layer: a build without recorded games has bt None; galaxy_end is the last point before the next build
+        pts = [(t(1), 1300.0), (t(2), 1450.0), (t(3), 1500.0), (t(7), 1520.0)]
+        table = [{'package': 'g0', 'created': t(1)}, {'package': 'c_a', 'created': t(3)}]
+        ranks = [{'id': i, 'name': f'f{i}', 'rating': 1400.0 + 100 * i} for i in range(4)]
+        R = {f'f{i}': 700.0 + 500 * i for i in range(4)}; R.update({'us:g0': 1800.0, 'us:c_y': 1900.0})
+        SE = {'us:g0': 20.0, 'us:c_y': 40.0}
+        games = {**{f'f{i}': 50 for i in range(4)}, 'us:g0': 300, 'us:c_y': 100}
+        lay = self.rh.bt_layer(ranks, (R, SE, games), table, hist, pts, team_id=self.US)
+        a, b, r, n, sd = lay['cal']
+        self.assertAlmostEqual(b, 5.0); self.assertAlmostEqual(a, -6300.0); self.assertEqual(n, 4)
+        self.assertEqual(lay['peers'][0], 1); self.assertAlmostEqual(lay['peers'][1], 0.0)   # f1 (1,500) near 1,520
+        self.assertEqual([(s['package'], s['end'], s['bt'], s['galaxy_end']) for s in lay['steps']],
+                         [('g0', t(3), (1800.0, 20.0, 300), 1450.0), ('c_a', None, None, 1520.0)])
+        self.assertEqual([(x['package'], x['bt']) for x in lay['trials']], [('c_y', (1900.0, 40.0, 100)), ('c_x', None)])
+
+    def test_floor_clip_count_and_footer(self):
+        t = lambda h: self.rh.parse_ts(f'2026-10-09T{h:02d}:00:00Z')
+        pts = [(t(1), 0.0), (t(2), 900.0), (t(3), 1399.9), (t(4), 1400.0), (t(5), 1500.0)]
+        self.assertEqual(self.rh.below_floor(pts), (3, t(3)))                # 1,400 itself is on the chart
+        self.assertEqual(self.rh.below_floor(pts[3:]), (0, None))
+        self.assertEqual(self.rh.below_floor(pts + [(t(6), 1390.0)]), (4, t(6)))   # a later dip counts too
+        bundle = {'matches': [], 'team_id': self.US}
+        note = '\n'.join(self.rh.footer(pts, [{'after': 300.0, 'kind': 'validated'}], bundle, None))
+        self.assertIn('3 points below it (the climb from 0, the last at Oct 08 20:00 PDT)', note)
+        self.assertIn('; ▼ on the floor: a first rated match below it', note)
+        note = '\n'.join(self.rh.footer(pts, [{'after': 300.0, 'kind': 'validated'}, {'after': 1300.0, 'kind': 'reupload'},
+                                              {'after': 1500.0, 'kind': 'trial'}], bundle, None))
+        self.assertIn('; ▼ ▽ on the floor', note)                            # a hollow one is named too
+        note = '\n'.join(self.rh.footer(pts + [(t(6), 1390.0)], [], bundle, {'cal': (-7000.0, 5.0, 0.98, 70, 80.0)}))
+        self.assertIn('4 points below it (the last at', note)               # not a prefix: no "climb" wording
+        self.assertNotIn('on the floor', note)
+        self.assertIn('BT = -7,000 + 5.00 x galaxy rating', note)
+        self.assertIn('70 field teams', note)
+        self.assertIn("the BT fit's 95% only. Field teams scatter ±31 galaxy points (95%)", note)   # 1.96 x 80 / 5
+
+    def test_leader_crossings(self):
+        zig = [(0.0, 0.0), (10.0, 10.0), (20.0, 0.0), (30.0, 10.0)]
+        self.assertEqual(self.rh.crossings((0.0, 5.0), (30.0, 5.0), zig), 3)       # across every segment
+        self.assertEqual(self.rh.crossings((5.0, 5.0), (5.0, 20.0), zig), 0)       # from on the curve: not across
+        self.assertEqual(self.rh.crossings((5.0, -1.0), (5.0, 20.0), zig), 1)
+        self.assertEqual(self.rh.crossings((40.0, 0.0), (50.0, 10.0), zig), 0)     # beside it
+        self.assertEqual(self.rh.crossings((0.0, 1.0), (1.0, 0.0), [(0.0, 0.0), (1.0, 1.0)]), 1)   # two leaders
+
 
 if __name__ == '__main__':
     r = unittest.main(exit=False, verbosity=0).result

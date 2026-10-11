@@ -19,8 +19,10 @@ projected with a 95% band to the ends of weeks 1-4. `progress/progress.png`: acc
 
 ![field score](progress/field-score-4w.png)
 
-`progress/rating-history.png` / `progress/rating-history.md` (`tools/rating_history.py`, owner PROMPTS 44): the
+`progress/rating-history.png` / `progress/rating-history.md` (`tools/rating_history.py`, owner PROMPTS 44-45): the
 replica's Team Settings "Rating History" chart (siarnaq's displayed rating after each ranked, non-tournament
-scrimmage), redrawn in PDT with each submission's first rated match marked.
+scrimmage), redrawn in PDT with each submission's first rated match marked. The left axis starts at 1,400; a right axis
+shows our Bradley-Terry ratings (each build over its rated tenure, trial candidates at their trial start), tied to the
+left one by a least-squares fit over the field teams (one replica point is about 5.8 BT points).
 
 ![rating history](progress/rating-history.png)
