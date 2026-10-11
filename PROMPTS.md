@@ -206,3 +206,7 @@ Try again
 ## 47. 2026-10-11 06:07 PDT
 
 keep going
+
+## 48. 2026-10-11 07:24 PDT
+
+On looking at the replays, I notice that opponents often fire blindly into the cloud.  Can you think of a reason why they would do that?  Is this something that you can detect with your replay dumper tool?

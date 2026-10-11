@@ -300,30 +300,15 @@
    "package": "c_well7",
    "parked": true,
    "run": "gauntlet/20261011-080209-panel-c_well7"
-  }
- ],
- "parked": [
+  },
   {
-   "run_dir": "gauntlet/20261011-084600-panel-c_end2",
-   "pid": 2912252,
+   "at": "2026-10-11T14:24:05.640220+00:00",
+   "event": "reject",
    "submission": 141,
    "package": "c_end2",
-   "started": "2026-10-11T08:45:48.991882+00:00",
-   "panel": "test/cells/panel-v1.txt",
-   "hash": "ebd40b4d39ad",
-   "parked": "2026-10-11T09:01:51.601391+00:00",
-   "panel_matches": [
-    4581,
-    4582,
-    4583,
-    4584,
-    4585,
-    4586,
-    4587,
-    4588,
-    4589,
-    4590
-   ]
+   "parked": true,
+   "run": "gauntlet/20261011-084600-panel-c_end2"
   }
- ]
+ ],
+ "parked": []
 }

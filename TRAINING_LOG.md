@@ -1010,3 +1010,16 @@ of history. Times are PDT. Grep it; do not read it whole.
   the regular probe; the diagonals that find MassiveL's (2,0) stay). unit-tests PASS.
 - Screens vs c_mend2: c_well9 queued; c_ward3 and c_bc3 held back until c_well9's collect caches c_mend2's 100 roster
   games (each queued job would otherwise replay them). c_amp2's screen (vs c_bc1) finishes and stands in for c_amp3.
+
+## 2026-10-11 07:25 PDT — c_end2 rejected; token race fixed; blind fire (owner, PROMPTS 48)
+- c_end2's block crashed when parallel panels refreshed the login token through one shared temp file
+  (FileNotFoundError on token.json.tmp); contest._save_token now writes a per-process temp file (test added), and the
+  panel was collected with RESUME. Panel gauntlet/20261011-084600-panel-c_end2 (4581-4590): vs c_bc1 99 identical, 1
+  lost (reeceyang Forest tiebreak): net -1; vs c_aura2 net -5. Of 17 cells past r1700 no tiebreak loss flipped
+  (britacatalin, georgezhang, NotLLeon unchanged); three wins ended earlier by conquest. trial-decide 141 --reject.
+- Blind fire: a launcher may attack any tile within r2 16 without seeing it (RULES 5.2), and vision drops to r2 4 when
+  the target or the viewer stands on a cloud (RULES 6.1); a shot costs only the action cooldown. Census blind_rate
+  (shots that hit nothing) on c_mend2's panel: awesomelemonade 0.70, pranayagra 0.60, vrangr1 and jmerle 0.56, NotLLeon
+  0.52, reeceyang 0.45, georgezhang 0.43; Sprint1, britacatalin, yaonam 0.00; us 0.00. The teams that beat us fire blind,
+  the ones we beat do not. Workflow wf_109a1464-007 extends ReplayDump to classify every shot by the shooter's
+  visibility of the target tile, cloud and hit, and measures blind-fire damage and our deaths from it on the panels.
