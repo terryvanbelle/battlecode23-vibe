@@ -878,3 +878,13 @@ of history. Times are PDT. Grep it; do not read it whole.
   indicator guard and regroup second pass from bcfix.py, plus pickObjective's island loop / enemyHQs allocation / the
   pre-run sensing; goal at least 2,000 more off the worst calm-march turn), verified by an equivalence review and a
   checkpoint measurement on VM games against c_aura2. The launcher arms are then rebased on it.
+
+## 2026-10-10 21:15 PDT — c_scout1 rejected (panel 60/100, net -2)
+- Panel (gauntlet/20261011-001032-panel-c_scout1, matches 4124-4133) vs g_iter8's: 96 identical, 1 gained (yaonam),
+  3 lost (NotLLeon, Sprint1, vrangr1): net -2 (p 0.63); 60/100; 0 overruns, 0 exceptions. Mechanism measured: first
+  anchor 24 rounds earlier (t -3.8), BatSignal 332-492 -> 275-299 in all 10 cells, ReverseFunnel earlier in 6; but
+  anchors placed unchanged (3.7) and the island-rounds margin -145 (t -2.1): locating islands earlier did not turn into
+  holding them. trial-end --reject: c_aura2 resubmitted (submission 135). The panel waited 2 h behind the 17:00
+  autoscrim backlog (trial started 17:10, first match 20:00).
+- All three g_iter8 judge arms are now closed (c_well5 -> c_well6 pending a fix, c_spread2, c_scout1). Next: c_bc1,
+  the launcher bytecode base (basics), then the launcher arms rebased on it.
