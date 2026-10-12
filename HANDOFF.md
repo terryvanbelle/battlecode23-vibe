@@ -1,7 +1,8 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
 Updated 2026-10-12 PDT from the committed state through 2026-10-11 09:15 PDT. Live VM state has not yet been checked
-by the new Codex session. Read `docs/CONTINUATION.md` before syncing or restarting jobs.
+by this web session. The owner requires ongoing interaction through the web interface (PROMPTS 58); use the VMs as
+remote compute workers, not a CLI handoff. Read `docs/CONTINUATION.md` before connecting, syncing or restarting jobs.
 
 ## Standing
 

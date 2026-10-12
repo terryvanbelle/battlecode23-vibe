@@ -247,3 +247,7 @@ OK, do whatever you need to do to get this to work.  You know better than I do, 
 
 Not sure if you have this, but here's the command I use to access claude-driver:
 gcloud compute ssh claude-driver --zone=us-west1-b --project=tvanbelle-vibecode
+
+## 58. 2026-10-12 PDT (message time unavailable)
+
+Is this going to hand off all work to the instance in claude-driver, so that I have to interact with its CLI from now on?  That's a non-starter for me.  I want to continue to interact via the web interface, not the CLI

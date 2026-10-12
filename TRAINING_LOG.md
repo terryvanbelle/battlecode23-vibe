@@ -1069,3 +1069,14 @@ of history. Times are PDT. Grep it; do not read it whole.
   The full unit entrypoint was run: release-backed replica/Galaxy compile integration refuses this jar's checksum,
   as intended. Full release-backed verification remains required on claude-driver before adoption. The frontend
   suite has four existing skips; the analysis suite has one missing-optional-fixture skip.
+
+## 2026-10-12 PDT — preserve web interaction; CLI handoff withdrawn (owner, PROMPTS 58)
+
+- The owner rejects ongoing CLI interaction. Keep this web session as project controller and use the existing VMs as
+  remote compute workers. Corrected the continuation documentation; do not follow the earlier CLI handoff prompt.
+- Rechecked environment readiness: no outbound identity or secret binding, VPN disabled, no private TCP grants.
+  Plugin discovery found no suitable GCP/SSH execution integration. The documented remote path is configured VPN,
+  private TCP grants and protected SSH authentication; IAP WebSocket compatibility is unverified. These access
+  settings require environment configuration; starting a separate Codex CLI does not establish them.
+- No VM connection has yet succeeded. Repository fixes remain on codex/continue-bc23 / draft PR 1, and no live
+  submission, queue, credentials or services were changed. Ongoing interaction must remain through the web UI.

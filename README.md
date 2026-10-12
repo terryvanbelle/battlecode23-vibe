@@ -7,7 +7,7 @@ private replica of the official judging stack (galaxy) that never contacts battl
 Start with `TRAINING_ALGORITHM.md` (the loop), `RULES.md` (the game, engine-checked) and `HANDOFF.md` (current state).
 All owner prompts are in `PROMPTS.md` (PDT).
 
-For the Codex continuation on the original driver, read `docs/CONTINUATION.md` before syncing files or restarting jobs.
+For continuing from the web interface using the original VMs, read `docs/CONTINUATION.md` before connecting or syncing.
 
 The ladder replica runs galaxy's own backend and frontend behind a password-protected site with rankings and replays:
 see `ACCESS.md`. Its code is in `tools/galaxy/` and its documentation in `docs/galaxy/` (the first, retired replica is in

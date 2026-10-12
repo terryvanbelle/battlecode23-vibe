@@ -1,8 +1,25 @@
-# Continuing on claude-driver with Codex
+# Continuing from the web interface with the existing VMs
 
-Prepared 2026-10-12 PDT. The owner has started Codex in tmux on `claude-driver`, the original driver. This cloud chat
-has no GCP identity or SSH credentials and has not inspected or changed either VM. The authoritative live files,
-credentials, replays and running jobs remain on the driver and `battlecode-dev`.
+Updated 2026-10-12 PDT. **All ongoing owner interaction remains in the web interface** (PROMPTS 58). The original
+driver and `battlecode-dev` are compute workers; do not transfer project control to a CLI session or require ongoing
+CLI interaction. The owner has started a separate Codex instance in tmux on `claude-driver`, but that does not connect
+this web chat to it. This web environment has no GCP identity, SSH credentials or VM route and has not inspected or
+changed either VM. The authoritative live files, credentials, replays and running jobs remain on the original VMs.
+
+## Establish remote access from the web environment
+
+The runtime's documented SSH transport is a configured VPN route plus authorized private TCP forwarding. Current
+observations show no VPN, no TCP grants, and no credential bindings. The environment configuration must provide a
+working route to the existing VPC, a grant for `battlecode-dev` (`10.138.0.3/32`) and the driver's verified private IP,
+and protected SSH authentication with verified host keys. Follow the cloud-environment-runtime networking and VPN
+references; do not disable host-key checks or try to bypass the proxy. This setup cannot be supplied by editing the
+executor's network-policy snapshot.
+
+Once connected, the agent in this web session executes the recovery steps below remotely. A CLI agent may assist
+with one-time connection setup only if the owner chooses; it is not the ongoing interaction model. GCP IAP over
+HTTPS is another possible route, but proxy support for its WebSocket tunnel has not been verified here. No SSH/GCP
+execution plugin was found by plugin discovery. A self-hosted job worker would require a separate initial setup and
+has not been installed. Do not claim any route is operational until an authenticated read-only VM check succeeds.
 
 The owner's SSH command for the driver is:
 
@@ -16,7 +33,7 @@ Read `CLAUDE.md`, `PROMPTS.md`, `HANDOFF.md`, `LEARNINGS.md`, `TRAINING_ALGORITH
 sections of `TRAINING_LOG.md` (grep-only, append-only). Preserve the no-opponent-source/no-2023-post-mortem rules,
 replica-only field evaluation, PDT reporting and VM-only volume games. Never touch `battlecode-dev2`.
 
-1. Work from the existing `~/projects/vibe/2023` checkout on `claude-driver`. Inspect its git status, recent commits,
+1. Remotely operate the existing `~/projects/vibe/2023` checkout on `claude-driver`. Inspect its git status, recent commits,
    changed-file names and local diffs before pulling, switching branches or applying patches. The old session reported
    a token-cache fix that was not committed: reconcile that local work with this branch rather than replacing it.
 2. Identify the existing ranked policy, collectors, screens and queue runner. Keep one authoritative checkout and one
