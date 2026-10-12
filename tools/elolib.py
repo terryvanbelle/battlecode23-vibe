@@ -46,10 +46,11 @@ def reason_code(text):
     return 'OTHER'
 HDR = ['run', 'seq', 'teamA', 'teamB', 'map', 'winner', 'rounds', 'reason', 'seed']
 def dedupe(rows):
-    """One game per (A-spawn owner, B-spawn owner, map, seed): the engine replays the same pairing identically unless
-    the seed differs (a predecessor project found 491 of 2825 ladder games were exact repeats). 'map-rev' with X as
-    team A puts X on the B spawns: the same game as (Y, X) on 'map' (audit 2026-10-10 D1: 79 such twins counted twice,
-    every decisive one with the same winner and round count); seed '' is 'map' (D3). Keeps the first occurrence.
+    """One game per (labelled team A, labelled team B, map, seed/orientation). Seed '' is 'map' (D3); keeps first.
+    Do not merge (X, Y, map-rev) with (Y, X, map): they have the same physical spawn owners but different observable
+    team labels (RobotController.getTeam). The earlier D1 audit found agreeing examples, not a universal equivalence;
+    galaxy-3357/2 and galaxy-4694/3 on PairedProgramming later ended at 1631 and 1421 with the same named winner.
+    Exact-input reproducibility still depends on unchanged code/JDK/config and the residual randomness in RULES 9.8.
     Coin-flip results (reason COIN: the engine's unseeded Math.random tiebreak) carry no information and are dropped;
     so are rows whose winner is not A or B, with a count on stderr (D2: they were counted as B wins)."""
     seen = set(); out = []; bad = 0
@@ -57,7 +58,6 @@ def dedupe(rows):
         if r.get('reason') == 'COIN': continue
         if r.get('winner') not in ('A', 'B'): bad += 1; continue
         a, b, s = r['teamA'], r['teamB'], (r.get('seed') or 'map')
-        if s == 'map-rev': a, b, s = b, a, 'map'   # X as team A on the B spawns = (Y, X) on the map's own orientation
         k = (a, b, r['map'], s)
         if k in seen: continue
         seen.add(k); out.append(r)

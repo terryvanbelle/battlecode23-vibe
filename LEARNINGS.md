@@ -55,9 +55,10 @@ outside vision. Re-extract the panels with the shot visibility classifier before
 - **Check what a metric measures before naming the mechanism.** A miss fraction called `blind_rate` was mistaken for
   attacks outside vision. Replay endpoints also follow current pushes and do not timestamp movement; preserve unknown
   shot geometries and rate bounds instead of guessing attack positions (TRAINING_LOG 2026-10-12).
-- **One reference panel is one draw; judge against two.** Games are deterministic, so a build's panel is a single
-  realisation of its bytecode-timing-dependent outcomes, and any change re-draws the borderline cells. Every candidate
-  after c_aura2 lost island-rounds against its panel (-77 to -198) and the flips ran 15 lost to 10 gained; c_bc1, with
+- **One reference panel is one draw; judge against two.** A build's panel is a single
+  realisation of its bytecode-timing-dependent outcomes on reproducible cells, and a change can re-draw borderline
+  cells. Every candidate after c_aura2 lost island-rounds against its panel (-77 to -198) and the flips ran 15 lost to
+  10 gained; c_bc1, with
   identical decisions, scored 58 to c_aura2's 62. Judge against the base and the previous build (TRAINING_LOG
   2026-10-10 22:45).
 - **A local screen cannot judge a narrow arm.** An arm that acts only past round 1700 (c_end2) or on one map (c_lane1)
@@ -66,6 +67,14 @@ outside vision. Re-extract the panels with the shot visibility classifier before
 - **Measure the mechanism, not only the score.** c_mend2 was accepted on healed HP x2.2 (t +4.8) with a net of +3;
   c_well7's MassiveL mana gain (t +6) came with 11-21 carriers fed on Forest that the score hid (TRAINING_LOG
   2026-10-11 05:14 and 06:05).
+- **Measure cost before spare compute is consumed elsewhere; a missing counter is not a zero.** c_bc3's 100-cell
+  panel kept all c_mend2 win/loss outcomes, but end-turn launcher maxima (medians 9,175/9,174) include background
+  work and cannot establish its method savings. All indicator counter fields were blank; use surviving telemetry
+  with coverage checks, and keep the optimization pending until cost delivery is measured (TRAINING_LOG 2026-10-12 13:05).
+- **Simulation identity includes every observable input, not just starting positions.** [2023] `rc.getTeam()` exposes
+  A/B labels: galaxy-3357/2 and galaxy-4694/3 give NolanChai the same physical spawns and named win, yet end at
+  r1631/r1421 with opposite labels. Keep both raw rows and labelled pair/orientation keys; retain the strict invariant
+  for exact labelled repeats (TRAINING_LOG 2026-10-12 13:05).
 
 ### Process and gates
 

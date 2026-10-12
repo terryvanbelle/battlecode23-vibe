@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-12 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
+Updated 2026-10-12 13:05 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
 requires ongoing interaction through the web interface (PROMPTS 58); use the VMs as
 remote compute workers, not a CLI handoff. Read `docs/CONTINUATION.md` before connecting, syncing or restarting jobs.
 VPN/TCP configuration is unavailable in this cloud instance. The private `battlecode23-control` repository is now
@@ -39,13 +39,23 @@ Driver HEAD was 079541c with 37 dirty files; recovery archive and tracked patch 
 
 ## In flight (VM queue; self-play cells pinned by seed)
 
-**First recovery task:** reconcile live state, then assess the completed **c_bc3** parked panel (submission 144,
-`gauntlet/20261011-161413-panel-c_bc3`, matches **4943-4952**). It cuts `computePredWells` bytecodes while preserving
-decisions (Bc3Test: 1,899,878 equivalence checks). Compare against BOTH `gauntlet/20261011-080046-panel-c_mend2` and
-`gauntlet/20261011-042052-panel-c_bc1`, check all 100 cells and the basics, then decide. Do not create a duplicate panel.
-The live ladder state marks it done since 2026-10-11 13:32 PDT; completion alone is not a completeness check.
-`c_well9` has a queued screen against c_mend2; `c_ward3` awaits that incumbent's reference cache. Their live results
-are not yet known here.
+**Recovered candidates:** c_mend2/145 remains validated. **c_bc3/144 is held for measured cost delivery**, not another
+panel: `gauntlet/20261011-161413-panel-c_bc3`, matches **4943-4952**, all terminal OK!, 100 unique matched cells and
+200 census rows, source hash `ed3aceb26a90`. It scores 61/100, with all win/loss outcomes unchanged against c_mend2;
+island-round margin -136.8 (t -1.79). Against c_bc1: net +3, island-round margin +46.58 (t +0.48). Full win reasons
+confirm no coin cells in the three panels. Replay overruns/self deaths and decoded exception turns are zero;
+indicator counters are blank, so their apparent zeros do not establish main-work near misses or exception counts.
+Launcher end-turn maxima (median 9,175 vs c_mend2's 9,174; worst 9,363 each) include background work and telemetry;
+they do not measure `computePredWells` savings. Recover the method benchmark or measure work before the fill.
+**c_well9 screen FAIL:** h2h 9-11, roster Net 0; no VALID archetype records rescue the borderline h2h. No trial.
+**c_ward3:** its queued job is missing; requeue its screen on battlecode-dev after checking the current source/cache.
+
+**Verification pending:** the official-engine driver suite ran 2026-10-12 12:25:55-12:46:26 PDT and failed on the
+Python 3.9 bootstrap tar fixture and a false cross-label replay invariant. Repairs are prepared; the official rerun
+must pass before closing the tooling recovery. Preserve raw `progress/games.csv`: galaxy-3357/2 and galaxy-4694/3
+have the same physical spawn owners and named winner, but different A/B labels and endings (r1631/r1421).
+`rc.getTeam()` makes the labels observable; dedupe now preserves labelled pairs and orientation, while exact labelled
+repeats still face the winner/round invariant. Regenerate rating views after adopting that correction.
 
 **Read head-to-heads against the identity control, never against 10/20**: on `test/cells/self-swarm1-panel.txt`
 g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); on the screen's map-seed cells it scores
@@ -77,9 +87,9 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_mend1 | g_iter8 + wounded launchers heal on a nearby island we own (rank 3) | screen PASS (12-8, roster +3, 0 overruns) | rebased as c_mend2: trial after c_bc1 |
 | c_bc1 | c_aura2 + decision-preserving launcher bytecode cuts (indicator guard, regroup via G's ally pass, island loop skip, enemyHQs/siegeTarget/raidWell caches; test/bot/Bc1Test.java) | 6 VM games: launcher near misses 44 -> 0; panel 58/100, net -4 (p 0.29), 0 overruns | accepted 22:44 PDT as g_iter9 |
 | c_lane2, c_mend2, c_end2, c_well7 | c_lane1, c_mend1, c_end1, c_well6 rebased onto c_bc1 (reviewed) | c_mend2 panel 61/100: +3 vs c_bc1, -1 vs c_aura2, healed x2.2 | c_mend2 accepted as g_iter10; c_lane2 closed (Forest 0-4 locally); c_well7 rejected (Forest carrier feeding); c_end2 rejected (net -1 vs c_bc1) |
-| c_bc3 | c_mend2 + decision-preserving computePredWells cut | 1,899,878 equivalence checks; trial 144 parked 2026-10-11 09:15 PDT | collect matches 4943-4952; compare both reference panels |
-| c_well9 | c_mend2 + diagonal-only well probe; removes the front probe that fed Forest carriers | built/reviewed, screen queued | collect existing screen, then judge delivery on MassiveL and deaths on Forest |
-| c_ward3 | c_mend2 + forming launchers defend home wells reported by carriers | built/reviewed, screen held for reference cache | screen once c_mend2 cache exists |
+| c_bc3 | c_mend2 + decision-preserving computePredWells cut | completed 61/100; outcomes unchanged vs c_mend2; 1,899,878 equivalence checks | held: demonstrate actual method cost savings before promotion |
+| c_well9 | c_mend2 + diagonal-only well probe; removes the front probe that fed Forest carriers | collected screen FAIL: h2h 9-11, roster Net 0 | no trial; diagnose delivery before a revised arm |
+| c_ward3 | c_mend2 + forming launchers defend home wells reported by carriers | built/reviewed; queued job missing | requeue full screen against current validated hash on the VM |
 | c_amp2, c_amp3 | amplifier scout/relay | c_amp2 h2h 9-11, roster -6, 0 overruns | closed; reopen only with a measured information gap |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
@@ -155,8 +165,9 @@ rotation is worth carrying into a later arm.
 ## Gotchas a fresh reader will hit
 
 - The engine seeds robot ids and sandboxed randomness from the map file; our `-Dbc.game.seed` patch varies spawned
-  robots only. Identical code on an identical cell replays identically, even against external bots (30/30 checked).
-  The final tiebreak is an unseeded coin flip: such games are recorded as COIN and ignored.
+  robots only. Repeat claims require matching code, map orientation, A/B labels, configuration and JDK (30/30 selected
+  field checks agreed; RULES 9.8 lists residual nondeterminism). The final tiebreak is an unseeded coin flip: identify
+  it from full replay-derived win_reason before pairing; galaxy result rows often have blank reason fields.
 - Runs record the code hash of the bot that played (`provenance.txt`). A package name is not provenance: one
   "identity" run compiled a src/bot that had changed under it.
 - An uncaught exception destroys the robot (HQs included). Every shared-array write is re-checked at write time.

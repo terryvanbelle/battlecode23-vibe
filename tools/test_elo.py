@@ -33,6 +33,17 @@ def row(a, b, w, m='M', seed='map', reason='', run='t', seq=0, rounds=100):
     return dict(run=run, seq=seq, teamA=a, teamB=b, map=m, winner=w, rounds=rounds, reason=reason, seed=seed)
 
 
+def replay_disagreements(rows):
+    """The strict real-data invariant over labelled inputs, independently of dedupe's keep-first behavior."""
+    groups = collections.defaultdict(set)
+    for r in rows:
+        if r['reason'] == 'COIN':
+            continue
+        key = (r['teamA'], r['teamB'], r['map'], r.get('seed') or 'map')
+        groups[key].add((r['teamA'] if r['winner'] == 'A' else r['teamB'], r['rounds']))
+    return {k: v for k, v in groups.items() if len(v) > 1 and any(int(x[1]) < 2000 for x in v)}
+
+
 def series(a, b, wins_a, n, tag='m'):
     """n games of a (team A) against b on distinct maps, a winning the first wins_a."""
     return [row(a, b, 'A' if i < wins_a else 'B', m=f'{tag}{i}') for i in range(n)]
@@ -391,13 +402,36 @@ class DedupeTest(unittest.TestCase):
     def test_both_orientations_kept(self):
         self.assertEqual(len(el.dedupe([row('X', 'Y', 'A'), row('X', 'Y', 'A', seed='map-rev')])), 2)
 
-    def test_swapped_label_twin_merged(self):
-        """D1: (X, Y, M, map-rev) puts X on the B spawns: the same game as (Y, X, M, map); it was counted twice."""
+    def test_swapped_label_same_spawn_owners_kept(self):
+        """Physical spawn owners agree, but rc.getTeam() changes: these are two distinct simulations."""
         twin = [row('X', 'Y', 'A', seed='map-rev'), row('Y', 'X', 'B', seed='map')]
-        self.assertEqual(len(el.dedupe(twin)), 1)
+        self.assertEqual(el.dedupe(twin), twin)
         _, _, g, W = el.fit(twin)
-        self.assertEqual((g['X'], W['X'], g['Y'], W['Y']), (1, 1, 1, 0))
-        self.assertEqual(len(el.dedupe([row('Y', 'X', 'B'), row('X', 'Y', 'A', seed='map-rev')])), 1)
+        self.assertEqual((g['X'], W['X'], g['Y'], W['Y']), (2, 2, 2, 0))
+        self.assertEqual(el.dedupe(list(reversed(twin))), list(reversed(twin)))
+
+    def test_live_cross_label_counterexample_preserved(self):
+        """Both API participant order and alternate-order parity confirm these unmodified live rows."""
+        rows = [row('legobridge.kushalplayer', 'NolanChai.nolan_1', 'B', m='PairedProgramming', seed='map-rev',
+                    run='galaxy-3357', seq='2', rounds='1631'),
+                row('NolanChai.nolan_1', 'legobridge.kushalplayer', 'A', m='PairedProgramming', seed='map',
+                    run='galaxy-4694', seq='3', rounds='1421')]
+        self.assertEqual(el.dedupe(rows), rows)
+        self.assertEqual(replay_disagreements(rows), {})
+        _, _, games, wins = el.fit(rows)
+        self.assertEqual((games['NolanChai.nolan_1'], wins['NolanChai.nolan_1']), (2, 2))
+
+    def test_same_labelled_replay_disagreement_still_detected(self):
+        first = row('X', 'Y', 'A', seed='map-rev', rounds='1631')
+        changed_round = dict(first, rounds='1421', run='rerun')
+        changed_winner = dict(first, winner='B', run='rerun')
+        key = ('X', 'Y', 'M', 'map-rev')
+        self.assertEqual(replay_disagreements([first, changed_round]), {key: {('X', '1631'), ('X', '1421')}})
+        self.assertEqual(replay_disagreements([first, changed_winner]), {key: {('X', '1631'), ('Y', '1631')}})
+        self.assertEqual(replay_disagreements([first, dict(first, run='rerun')]), {})
+        normal = row('X', 'Y', 'A', rounds='1631')
+        self.assertEqual(replay_disagreements([normal, dict(normal, seed='', rounds='1421')]),
+                         {('X', 'Y', 'M', 'map'): {('X', '1631'), ('X', '1421')}})
 
     def test_swapped_labels_same_orientation_are_different_games(self):
         self.assertEqual(len(el.dedupe([row('X', 'Y', 'A'), row('Y', 'X', 'A')])), 2)
@@ -604,12 +638,11 @@ class EloScriptTest(unittest.TestCase):
         self.assertIn('skipped 1 rows with winner not A|B', self.out.stderr)
 
     def test_header_counts(self):
-        """D1 and D5 in the header: 152 rows read (the blank one skipped), 6 + 3 baseline games apart from ours, 150
-        distinct (the repeat and the twin count once)."""
+        """152 rows read (the blank one skipped), 151 distinct: the exact repeat counts once and changed labels stay."""
         n = len(self.rows); ours = 3 + 30 + 3 + 29 + 30 + 2
-        self.assertEqual((n, len(el.dedupe(self.rows))), (152, 150))
+        self.assertEqual((n, len(el.dedupe(self.rows))), (152, 151))
         self.assertIn(f'{n} games ({ours} ours, 3 of the stock examplefuncsplayer, {n - ours - 3} between field bots on '
-                      f'the ladder replica), 150 distinct', self.md)
+                      f'the ladder replica), 151 distinct', self.md)
         self.assertIn('5 of 6 ladder bots met', self.md)
         self.assertIn(f'relative to the mean rating of all {len(self.g)} players', self.md)
         self.assertIn('against every rated ladder bot (5 of 6)', self.md)
@@ -769,19 +802,9 @@ class RealDataTest(unittest.TestCase):
                                  if not t.startswith('us:') and t not in field}), [])
 
     def test_replays_agree(self):
-        """dedupe keeps one row per physical game: when any copy of a game (a repeat or a swapped-label twin) was decided
-        before round 2000, every copy has the same winner and round count (only round-2000 games may end on the unseeded
-        coin flip)."""
-        grp = collections.defaultdict(set)
-        for r in self.rows:
-            if r['reason'] == 'COIN':
-                continue
-            a, b, s = r['teamA'], r['teamB'], r['seed'] or 'map'
-            if s == 'map-rev':
-                a, b, s = b, a, 'map'
-            grp[a, b, r['map'], s].add((r['teamA'] if r['winner'] == 'A' else r['teamB'], r['rounds']))
-        bad = {k: v for k, v in grp.items() if len(v) > 1 and any(int(x[1]) < 2000 for x in v)}
-        self.assertEqual(bad, {})
+        """Exact labelled pairing/map/orientation repeats decided before r2000 agree on both winner and rounds.
+        Swapped labels remain distinct observable inputs; only r2000 games may use the unseeded final coin flip."""
+        self.assertEqual(replay_disagreements(self.rows), {})
 
 
 if __name__ == '__main__':

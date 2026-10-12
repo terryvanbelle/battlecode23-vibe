@@ -1140,3 +1140,26 @@ of history. Times are PDT. Grep it; do not read it whole.
 - Validated build remains c_mend2/145. Parked c_bc3/144 panel is marked done at 2026-10-11 13:32 PDT, pending
   explicit 100-cell, terminal-status, source-hash and basics checks before decision. Existing queue/screens inspected
   next. A first read-only training export exceeded the worker's bounded-output budget; retry with bounded summaries.
+
+## 2026-10-12 13:05 PDT — recovered candidate evidence; c_bc3 held, c_well9 failed; official check repairs pending
+- c_mend2/145 remains validated. c_bc3/144 panel gauntlet/20261011-161413-panel-c_bc3 is complete: matches
+  4943-4952 all terminal OK!, 100 unique matching cells, 200 paired census rows, current source hash ed3aceb26a90.
+  Its 61/100 win/loss outcomes equal c_mend2's on every cell; 37 game durations differ. Paired island-round margin
+  -136.8 (t -1.79) vs gauntlet/20261011-080046-panel-c_mend2; vs gauntlet/20261011-042052-panel-c_bc1, net +3,
+  margin +46.58 (t +0.48). Full win_reason data confirm no coin cells in all three panels.
+- Replay overruns/self deaths and decoded exception turns are zero. Indicator counters are blank throughout:
+  counter-based ex/nm zeros are unobserved defaults. Raw near counts are 17,509 vs c_mend2's 17,923; median launcher
+  maxima 9,175 vs 9,174, worst 9,363 each. Those end-turn measures include background fill and telemetry, not the
+  cost of computePredWells. Hold c_bc3 until its method benchmark is recovered or pre-fill work savings are measured;
+  do not duplicate the completed panel or promote on equal win outcomes alone.
+- c_well9's existing screen collected FAIL (h2h 9-11, roster Net 0); no VALID archetype records rescue the borderline
+  h2h. No ladder trial. c_ward3's queued job is missing: requeue its full VM screen after source/cache checks.
+- Official-engine driver unit-tests ran 12:25:55-12:46:26 PDT, failing only the Python 3.9 bootstrap tar fixture and
+  RealDataTest.test_replays_agree's false cross-label equivalence. Repairs are prepared; official rerun pending.
+- Live rows/API parity agree: galaxy-3357/2 is legobridge A / NolanChai B, PairedProgramming, map-rev, B wins r1631;
+  galaxy-4694/3 is NolanChai A / legobridge B, map, A wins r1421. Same physical spawn owners, different observable
+  rc.getTeam() labels: these are distinct simulations. Preserve both raw rows; elolib.dedupe now retains labelled
+  pair/map/seed-orientation keys, normalizes blank seed to map, and still drops exact repeats. The strict same-labelled
+  winner/round invariant remains, with a live counterexample and disagreement fixtures. Local repair checks: ELO 60,
+  tools 111 (1 skipped), match reports 36 (2 skipped), field tools 21; all passed. Regenerate live ratings/views after
+  adopting the correction; no raw games were deleted or rewritten.

@@ -3,7 +3,7 @@
 over the public HTTPS site; read-only on the replica). Resumable and idempotent: a (run, seq) already in the file is
 never written again, so an interrupted or repeated run loses or duplicates nothing.
 
-  python3 tools/galaxy/results.py [--games F] [--ours vibe23] [--keep DIR] [--max N] [--full] [--dry-run]
+  python3 tools/galaxy/results.py [--games F] [--gaps F] [--ours vibe23] [--keep DIR] [--max N] [--full] [--dry-run]
 
 For each match in the site's match list (GET /api/compete/<ep>/match/, newest first, as the Queue page lists it;
 read with the staff login `owner`, which sees every match's replay link and participants' submissions) that finished
@@ -19,15 +19,22 @@ tools/elo.py. A game without a winner is skipped (tools/elolib.py would count it
 
 Progress: ~/.cache/bc23-galaxy-results/state.json keeps the oldest match id that was not finished at the last run, so
 a run reads only the pages above it (--full reads every page). Replays are deleted after parsing unless --keep DIR.
+An unavailable old field-only replay is recorded in field-replay-gaps.jsonl beside games.csv, without inventing
+game results. Only HTTP 404/410 matching the replica's six-hour retention eligibility can be skipped.
+Incremental runs acknowledge unchanged audited gaps before applying --max. --full retries them in case replay
+files have been restored; repeated --full --max runs can revisit the same gaps, so use incremental batches to advance.
 """
 import argparse
 import csv
+import datetime
 import fcntl
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
+import urllib.parse
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(HERE))
@@ -41,6 +48,9 @@ MAPPING = os.path.join(HERE, 'field-teams.tsv')
 TEAM_FILE = os.path.expanduser('~/.bc23-galaxy-team')
 STATE = os.path.expanduser('~/.cache/bc23-galaxy-results/state.json')
 TERMINAL = ('OK!', 'ERR', 'CAN')
+FIELD_REPLAY_KEEP_HOURS = 6  # tools/galaxy/prune_replays.py; age is measured from match creation
+FIELD_REPLAY_EPISODE = 'bc23'
+FIELD_REPLAY_OURS = 'vibe23'  # The retention job protects this literal team even when --ours is overridden.
 
 
 def run_id(match_id):
@@ -140,6 +150,80 @@ def save_state(state, path=STATE):
     os.replace(path + '.tmp', path)
 
 
+def retention_gap(match, ours, client, have, now=None):
+    """Current identity/eligibility metadata for a field replay gap, or None when it cannot be acknowledged.
+
+    Eligibility does not prove pruning caused the missing file. Never infer individual game winners from scores.
+    """
+    if match.get('status') != 'OK!' or client.episode != FIELD_REPLAY_EPISODE:
+        return None
+    ps = match.get('participants')
+    if (not isinstance(ps, list) or len(ps) != 2 or any(not isinstance(p, dict) for p in ps)
+            or any(not isinstance(p.get('teamname'), str) or not p['teamname'] or p['teamname'] in (ours, FIELD_REPLAY_OURS) for p in ps)
+            or any(type(p.get('player_index')) is not int for p in ps)
+            or {p.get('player_index') for p in ps} != {0, 1}):
+        return None
+    if ('tournament_round' not in match or match['tournament_round'] is not None
+            or match.get('episode') != client.episode):
+        return None
+    try:
+        created = datetime.datetime.fromisoformat(match['created'].replace('Z', '+00:00'))
+    except (KeyError, ValueError, TypeError, AttributeError):
+        return None
+    now = now or datetime.datetime.now(datetime.timezone.utc)
+    if created.tzinfo is None or created >= now - datetime.timedelta(hours=FIELD_REPLAY_KEEP_HOURS):
+        return None
+    url = match.get('replay_url')
+    if not isinstance(url, str) or not url:
+        return None
+    parsed = urllib.parse.urlsplit(url)
+    if parsed.query or parsed.fragment:
+        return None
+    path = client.path_of(url)  # Preserve the existing same-origin/official-host guard.
+    episode = re.escape(client.episode)
+    uuid = r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+    if not re.fullmatch(r'/storage/bc23-replica-secure/episode/' + episode + r'/replays/' + uuid + r'\.' + episode, path):
+        return None
+    maps = match.get('maps')
+    if not isinstance(maps, list) or not maps or any(not isinstance(m, str) or not m for m in maps):
+        return None
+    missing = [i + 1 for i in range(len(maps)) if (run_id(match['id']), str(i + 1)) not in have]
+    return {'site': f'https://{client.host}:{client.port}', 'episode': client.episode, 'match': match['id'],
+            'created': match['created'], 'teams': [p['teamname'] for p in sorted(ps, key=lambda p: p['player_index'])],
+            'maps': maps, 'missing_sequences': missing, 'replay_path': path,
+            'reason': 'retention_eligible_replay_unavailable', 'observed_at': now.isoformat()}
+
+
+def replay_gap(match, error, ours, client, have, now=None):
+    """An actual replay 404/410 plus current retention eligibility; never infer winner rows."""
+    if error.code not in (404, 410):
+        return None
+    gap = retention_gap(match, ours, client, have, now)
+    if gap is not None:
+        gap['http_status'] = error.code
+    return gap
+
+
+def gap_key(gap):
+    return gap['site'], gap['episode'], gap['match'], gap['replay_path'], tuple(gap['missing_sequences'])
+
+
+def recorded_gaps(path):
+    """Previously audited missing replay identities. An unreadable audit must not silently discard evidence."""
+    if not os.path.exists(path):
+        return set()
+    with open(path) as fh:
+        return {gap_key(json.loads(line)) for line in fh if line.strip()}
+
+
+def append_gap(path, gap):
+    os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
+    with open(path, 'a') as fh:
+        fh.write(json.dumps(gap, sort_keys=True) + '\n')
+        fh.flush()
+        os.fsync(fh.fileno())
+
+
 def scan(read_page, low_water):
     """Matches newest first, page by page, down to the oldest unfinished match of the last run (low_water; 0 = all).
     read_page(n) -> {'results': [...], 'next': url|None}. Returns (matches, new low water)."""
@@ -173,6 +257,7 @@ def main(argv=None):
     ap.add_argument('--site', default=None)
     ap.add_argument('--connect', default=os.environ.get('GALAXY_CONNECT') or None)
     ap.add_argument('--games', default=GAMES)
+    ap.add_argument('--gaps', help='missing field-replay audit JSONL (default: field-replay-gaps.jsonl beside --games)')
     ap.add_argument('--ours', default='vibe23', help='our team name on the replica')
     ap.add_argument('--staff-user', default='owner', help='the superuser that lists every match (password: the gate '
                     'password file, as set by bootstrap owner)')
@@ -190,20 +275,45 @@ def main(argv=None):
     try:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except OSError:
+        lock.close()
         raise SystemExit('results: another run is in progress')
+    try:
+        return _collect(a, c, ep)
+    finally:
+        lock.close()
+
+
+def _collect(a, c, ep):
     with open(GATE_FILE) as fh:
         staff = Session(c, a.staff_user, fh.readline().strip())
     state = {} if a.full else load_state()
     low = int(state.get('low_water', 0))
     ms, new_low = scan(lambda n: staff.api('GET', f'/api/compete/{ep}/match/?page={n}'), low)
     have = recorded(a.games)
+    gap_path = a.gaps or os.path.join(os.path.dirname(os.path.abspath(a.games)), 'field-replay-gaps.jsonl')
+    if os.path.realpath(gap_path) == os.path.realpath(a.games):
+        raise ValueError('the missing-replay audit must be separate from games.csv')
+    gaps_seen = recorded_gaps(gap_path)
     names = entrant_names()
     packages, ours_session = {}, None
     todo = [m for m in sorted(ms, key=lambda m: m['id']) if m['status'] == 'OK!' and m.get('participants')
             and not all((run_id(m['id']), str(i + 1)) in have for i in range(len(m.get('maps') or [1])))]
+    acknowledged = 0
+    if not a.full:
+        pending = []
+        for match in todo:
+            gap = retention_gap(match, a.ours, c, have)
+            if gap is not None and gap_key(gap) in gaps_seen:
+                acknowledged += 1
+            else:
+                pending.append(match)
+        todo = pending
+        if acknowledged:
+            print(f'results: {acknowledged} unchanged audited field replay gaps acknowledged before batching; '
+                  '--full retries them')
     if a.max:
         todo = todo[:a.max]
-    added, matches, problems = 0, 0, 0
+    added, matches, problems, gaps = 0, 0, 0, 0
     workdir = a.keep or tempfile.mkdtemp(prefix='bc23-galaxy-replays-')
     os.makedirs(workdir, exist_ok=True)
     try:
@@ -217,11 +327,25 @@ def main(argv=None):
                         packages[s['id']] = s['package']
             url = m.get('replay_url')
             if not url:
-                print(f'match {m["id"]}: no replay_url; skipped')
-                continue
+                raise RuntimeError(f'match {m["id"]}: finished match has no replay_url; checkpoint retained')
             path = os.path.join(workdir, f'{m["id"]}.bc23')
             if not os.path.exists(path):
-                data = c.request('GET', url, raw=True, timeout=600)
+                try:
+                    data = c.request('GET', url, raw=True, timeout=600)
+                except ApiError as error:
+                    gap = replay_gap(m, error, a.ours, c, have)
+                    if gap is None:
+                        raise
+                    key = gap_key(gap)
+                    if key not in gaps_seen:
+                        if not a.dry_run:
+                            append_gap(gap_path, gap)
+                        gaps_seen.add(key)
+                    gaps += 1
+                    print(f'match {m["id"]}: HTTP {error.code}, retention-eligible field replay unavailable; '
+                          f'missing sequences {gap["missing_sequences"]}; '
+                          f'{"would audit" if a.dry_run else "audited"} in {gap_path}')
+                    continue
                 with open(path + '.tmp', 'wb') as fh:
                     fh.write(data)
                 os.replace(path + '.tmp', path)
@@ -254,6 +378,7 @@ def main(argv=None):
     unfinished = sum(1 for m in ms if m['status'] not in TERMINAL)
     print(f'results: {added} games from {matches} matches appended to {a.games}'
           f'{" (dry run)" if a.dry_run else ""}; {unfinished} matches not finished yet; {problems} with warnings')
+    print(f'results: {gaps} retention-eligible field replay gaps; audit {gap_path}')
     return 0
 
 

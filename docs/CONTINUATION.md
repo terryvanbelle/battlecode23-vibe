@@ -64,8 +64,9 @@ replica-only field evaluation, PDT reporting and VM-only volume games. Never tou
 4. Run `python3 tools/ladder_policy.py status` on the driver and reconcile the current submission and trial state with
    live API results. Preserve uncommitted state and run directories; do not overwrite them with GitHub snapshots.
 5. Check results collection immediately. Field-only replay pruning deletes by creation age after six hours and
-   assumes the driver keeps exporting results. Our-team replays are exempt. The current results collector stops on
-   a replay 404; diagnose missing field replays before repeatedly restarting it. Check for orphaned queue jobs before
+   assumes the driver keeps exporting results. Our-team replays are exempt. The repaired collector records eligible
+   old field-only HTTP 404/410 gaps separately in `progress/field-replay-gaps.jsonl`, without inventing game results.
+   Our-team, recent and tournament replay failures still stop collection. Check for orphaned queue jobs before
    requeueing them, and do not start duplicate panels or ranked loops.
 
 ## Resume the existing experiments
@@ -79,16 +80,19 @@ The last committed state (2026-10-11 09:15 PDT, not a live observation) is:
 | Trial run | gauntlet/20261011-161413-panel-c_bc3 |
 | Existing matches | 4943–4952 |
 | Reference panels | gauntlet/20261011-080046-panel-c_mend2 and gauntlet/20261011-042052-panel-c_bc1 |
-| Other work | c_well9 screen queued; c_ward3 held until c_mend2's reference cache exists |
+| Other work | c_well9 collected: FAIL (9–11 head-to-head, roster Net 0); c_ward3's recorded queue job is missing |
 
-Collect/resume the existing c_bc3 panel instead of `trial-start` again. The collector supports
+Recovery verified the existing c_bc3 panel's 100 unique cells and all ten terminal matches. It won 61/100, with
+identical cell outcomes to c_mend2 and no coin flips; it remains parked until actual `computePredWells` cost savings
+are established. End-of-turn bytecode counts include other work and do not establish that mechanism. If re-collection
+is needed, use the existing panel instead of `trial-start` again. The collector supports
 `RESUME=<existing run directory> python3 tools/contest.py block test/cells/panel-v1.txt --tag panel-c_bc3`.
 Confirm the submission recorded in `requests.jsonl` and that all requested matches belong to this panel first.
 The current collector can write `results.csv` after a timeout, and the policy treats its existence as completion:
 **check all 100 cells and terminal match statuses explicitly before any accept**. Then compare against both references
 with `tools/paired.py`, inspect bytecode savings, overruns and exceptions, and use `trial-decide` for the parked trial.
 
-Collect the existing c_well9 screen next; queue c_ward3 once its incumbent cache exists. c_well7, c_end2, c_lane2 and
+Reconcile the reference cache and c_ward3's missing queue job before enqueueing its screen. c_well7, c_end2, c_lane2 and
 c_amp2/c_amp3 are closed for the reasons in the log. Continue local candidate work while replica trials play.
 
 ## Changes prepared by this session
@@ -105,11 +109,24 @@ c_amp2/c_amp3 are closed for the reasons in the log. Continue local candidate wo
 - HANDOFF is reconciled with the latest committed state, and LEARNINGS retracts the unsupported claim that the old
   43–70% miss rates measured shots outside vision. Re-extract the available panels before designing a blind-fire arm
   or claiming blind-fire damage/deaths. Unknown geometries must remain unknown.
+- Rating deduplication preserves team A/B labels as observable simulation inputs. Swapped labels with reversed
+  spawns are distinct games, even when the same named team owns the same HQ locations; original CSV rows stay intact.
+- The worker's bootstrap test fixture reads its two named files explicitly, supporting the driver's Python 3.9.
+
+## Browser-visible connection proof
+
+On 2026-10-12 at 13:05 PDT the worker changed team `vibe23` (ID 28)'s profile quote through the contestant API to
+`Codex web connection verified - Oct 12, 2026, 01:05 PM PDT`, read it back, and verified the active submission stayed
+unchanged. The owner confirmed seeing it on `/bc23/my_team` (PROMPTS 67). The previous quote is preserved on the driver
+in `build/codex-recovery/team-quote-before-20261012.json`; only the quote was changed.
 
 ## Verification and adoption
 
-Run `tools/unit-tests.sh` on the driver with the existing **checksum-pinned official 3.0.15 jar** before adopting these
-changes. This cloud session installed JDK 8 and built the official tag's source for local unit/fixture checks only;
+Run `tools/unit-tests.sh` on the driver with the existing **checksum-pinned official 3.0.15 jar** for these
+changes. The initial driver run compiled all 79 bot packages and passed the bot, analysis, ranked/token, report,
+replica and Galaxy checks; it failed the Python 3.9 bootstrap fixture and the incorrect cross-label replay invariant.
+Those failures are repaired here and require the driver rerun. This cloud session installed JDK 8 and built the
+official tag's source for local unit/fixture checks only;
 that temporary jar is gitignored, has a different checksum, and is never for deployment or trial judgments.
 The instrument and concurrency regressions pass locally (111 analysis tests, one skip, plus 3 ranked and 2 token
 regressions); release-backed compile integration requires the official jar.

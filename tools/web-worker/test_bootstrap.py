@@ -99,7 +99,12 @@ else:
     def registered_runner(self, url=CONTROL, bom=False):
         self.runner.mkdir()
         with tarfile.open(self.archive) as archive:
-            archive.extractall(self.runner, filter="data")
+            # This fixture contains only our two generated helpers. Explicit
+            # reads work on the driver's Python 3.9 without tar extraction.
+            for name in ("config.sh", "svc.sh"):
+                with archive.extractfile(name) as source:
+                    (self.runner / name).write_bytes(source.read())
+                (self.runner / name).chmod(0o755)
         (self.runner / ".runner").write_text(json.dumps(dict(gitHubUrl=url, agentName="claude-driver-bc23", workFolder="_work")),
                                               encoding="utf-8-sig" if bom else "utf-8")
         (self.runner / ".credentials").write_text("test-only placeholder")

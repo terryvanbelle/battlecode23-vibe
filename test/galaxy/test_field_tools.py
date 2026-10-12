@@ -4,6 +4,9 @@ tools/galaxy/client.py (site guard, URL scope, multipart), field.py (names, blin
 opponent choice, queue count, accounts file), results.py (replay rows, paging, idempotent append) and snapshot.py
 (records, markdown, chart). Run: python3 test/galaxy/test_field_tools.py (tools/unit-tests.sh runs it)."""
 import csv
+import contextlib
+import copy
+import datetime
 import io
 import json
 import os
@@ -13,6 +16,7 @@ import stat
 import sys
 import tempfile
 import unittest
+from unittest import mock
 import zipfile
 
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -271,6 +275,257 @@ class ResultsTest(unittest.TestCase):
             self.assertEqual(results.HDR, elolib.HDR)
         finally:
             shutil.rmtree(d)
+
+    def collector_matches(self):
+        now = datetime.datetime.now(datetime.timezone.utc)
+        ours = self.match()
+        ours.update(id=101, maps=['Cee', 'Maze'], episode='bc23', tournament_round=None,
+                    created=(now - datetime.timedelta(hours=1)).isoformat(),
+                    replay_url='/storage/bc23-replica-secure/episode/bc23/replays/00000000-0000-0000-0000-000000000101.bc23')
+        ours['participants'][1]['score'] = 2
+        ours['participants'][0]['score'] = 0
+        field_match = copy.deepcopy(ours)
+        field_match.update(id=100, created=(now - datetime.timedelta(hours=10)).isoformat(),
+                           replay_url='/storage/bc23-replica-secure/episode/bc23/replays/00000000-0000-0000-0000-000000000100.bc23')
+        field_match['participants'][1]['teamname'] = 'field-a'
+        return field_match, ours
+
+    @contextlib.contextmanager
+    def collector_fixture(self, matches, errors):
+        """Run main against local files and mocked API/replay decoding only."""
+        with tempfile.TemporaryDirectory(prefix='bc23-results-test-') as directory, contextlib.ExitStack() as stack:
+            games = os.path.join(directory, 'games.csv')
+            state = os.path.join(directory, 'state.json')
+            gate = os.path.join(directory, 'test-gate')
+            keep = os.path.join(directory, 'replays')
+            touch(gate, 'test-only-placeholder\n')
+            existing = {'run': 'galaxy-90', 'seq': '1', 'teamA': 'a', 'teamB': 'b', 'map': 'Cee', 'winner': 'A',
+                        'rounds': '55', 'reason': '', 'seed': 'map'}
+            partial = dict(existing, run='galaxy-100')
+            results.append_rows(games, [existing, partial])
+            results.save_state({'low_water': 100}, state)
+            with open(games, 'rb') as source:
+                original_games = source.read()
+            with open(state, 'rb') as source:
+                original_state = source.read()
+            c = client.Client(site='https://replica.example.invalid', gate='Basic test-only-placeholder', episode='bc23')
+
+            def request(method, url, **kwargs):
+                c.path_of(url)  # Exercise the real same-origin guard without opening a connection.
+                if url in errors:
+                    raise client.ApiError(errors[url], 'test-only unavailable replay')
+                return b'test-only replay placeholder'
+
+            c.request = mock.Mock(side_effect=request)
+            staff = mock.Mock()
+            staff.api.return_value = {'results': sorted(matches, key=lambda m: -m['id']), 'next': None}
+            ours = mock.Mock()
+            ours.pages.return_value = [{'id': 24, 'package': 'g_iter0'}]
+            real_load, real_save = results.load_state, results.save_state
+            stack.enter_context(mock.patch.object(results, 'Client', return_value=c))
+            stack.enter_context(mock.patch.object(results, 'GATE_FILE', gate))
+            stack.enter_context(mock.patch.object(results, 'Session', side_effect=lambda _c, user, _pw: ours if user == 'our-user' else staff))
+            stack.enter_context(mock.patch.object(results, 'team_credentials', return_value=('our-user', 'test-only-placeholder')))
+            stack.enter_context(mock.patch.object(results, 'entrant_names', return_value={}))
+            stack.enter_context(mock.patch.object(results, 'games_of', return_value=[(0, 'Cee', 'A', 101), (1, 'Maze', 'A', 102)]))
+            stack.enter_context(mock.patch.object(results, 'load_state', side_effect=lambda: real_load(state)))
+            save = stack.enter_context(mock.patch.object(results, 'save_state', side_effect=lambda value: real_save(value, state)))
+            output = stack.enter_context(contextlib.redirect_stdout(io.StringIO()))
+            yield {'args': ['--games', games, '--keep', keep], 'games': games, 'state': state, 'original_games': original_games,
+                   'original_state': original_state, 'gaps': os.path.join(directory, 'field-replay-gaps.jsonl'),
+                   'save': save, 'request': c.request, 'output': output}
+
+    def test_collector_audits_missing_old_field_replay_then_collects_ours(self):
+        for status in (404, 410):
+            with self.subTest(status=status):
+                field_match, ours = self.collector_matches()
+                with self.collector_fixture([field_match, ours], {field_match['replay_url']: status}) as fixture:
+                    self.assertEqual(results.main(fixture['args']), 0)
+                    with open(fixture['games'], 'rb') as source:
+                        collected = source.read()
+                    self.assertTrue(collected.startswith(fixture['original_games']))
+                    rows = list(csv.DictReader(io.StringIO(collected.decode())))
+                    self.assertEqual(len(rows), 4)
+                    self.assertNotIn(('galaxy-100', '2'), {(r['run'], r['seq']) for r in rows})
+                    self.assertEqual([(r['run'], r['winner']) for r in rows[-2:]], [('galaxy-101', 'A')] * 2)
+                    with open(fixture['gaps']) as source:
+                        gaps = [json.loads(line) for line in source]
+                    self.assertEqual(len(gaps), 1)
+                    self.assertEqual(gaps[0]['missing_sequences'], [2])
+                    self.assertEqual(gaps[0]['http_status'], status)
+                    self.assertEqual(gaps[0]['reason'], 'retention_eligible_replay_unavailable')
+                    self.assertNotIn('winner', gaps[0])
+                    with open(fixture['state']) as source:
+                        self.assertEqual(json.load(source), {'low_water': 102})
+                    self.assertIn('retention-eligible field replay unavailable', fixture['output'].getvalue())
+                    self.assertEqual(results.main(fixture['args'] + ['--full']), 0)
+                    with open(fixture['games'], 'rb') as source:
+                        self.assertEqual(source.read(), collected)
+                    with open(fixture['gaps']) as source:
+                        self.assertEqual(len(source.readlines()), 1)
+
+    def test_collector_does_not_skip_other_replay_failures_or_advance_checkpoint(self):
+        base, _ = self.collector_matches()
+        cases = []
+        for code in (401, 403, 500, 502):
+            cases.append(('HTTP ' + str(code), copy.deepcopy(base), code))
+        for key, value in (('created', datetime.datetime.now(datetime.timezone.utc).isoformat()),
+                           ('created', '2026-10-01T00:00:00'), ('created', 'bad date'),
+                           ('tournament_round', 7), ('episode', 'bc24'),
+                           ('replay_url', '/replay/obsolete'),
+                           ('replay_url', base['replay_url'].replace('/bc23/', '/bc24/'))):
+            match = copy.deepcopy(base)
+            match[key] = value
+            cases.append((key + '=' + str(value), match, 404))
+        match = copy.deepcopy(base)
+        del match['tournament_round']
+        cases.append(('unknown tournament scope', match, 404))
+        for code in (404, 410):
+            match = copy.deepcopy(base)
+            match['participants'][1]['teamname'] = 'vibe23'
+            cases.append(('our replay ' + str(code), match, code))
+        for name, match, code in cases:
+            with self.subTest(case=name), self.collector_fixture([match], {match['replay_url']: code}) as fixture:
+                with self.assertRaises(client.ApiError):
+                    results.main(fixture['args'])
+                fixture['save'].assert_not_called()
+                with open(fixture['state'], 'rb') as source:
+                    self.assertEqual(source.read(), fixture['original_state'])
+                with open(fixture['games'], 'rb') as source:
+                    self.assertEqual(source.read(), fixture['original_games'])
+                self.assertFalse(os.path.exists(fixture['gaps']))
+
+    def test_collector_missing_replay_url_is_fatal_for_field_and_ours(self):
+        field_match, ours = self.collector_matches()
+        for match in (field_match, ours):
+            match['replay_url'] = None
+            with self.subTest(match=match['id']), self.collector_fixture([match], {}) as fixture:
+                with self.assertRaisesRegex(RuntimeError, 'no replay_url'):
+                    results.main(fixture['args'])
+                fixture['save'].assert_not_called()
+                fixture['request'].assert_not_called()
+                with open(fixture['state'], 'rb') as source:
+                    self.assertEqual(source.read(), fixture['original_state'])
+
+    def test_collector_audits_a_gap_before_later_failure_without_advancing(self):
+        field_match, ours = self.collector_matches()
+        errors = {field_match['replay_url']: 404, ours['replay_url']: 404}
+        with self.collector_fixture([field_match, ours], errors) as fixture:
+            with self.assertRaises(client.ApiError):
+                results.main(fixture['args'])
+            fixture['save'].assert_not_called()
+            with open(fixture['state'], 'rb') as source:
+                self.assertEqual(source.read(), fixture['original_state'])
+            with open(fixture['games'], 'rb') as source:
+                self.assertEqual(source.read(), fixture['original_games'])
+            with open(fixture['gaps']) as source:
+                self.assertEqual([json.loads(line)['match'] for line in source], [100])
+
+    def test_incremental_max_batches_move_past_an_audited_gap(self):
+        field_match, ours = self.collector_matches()
+        with self.collector_fixture([field_match, ours], {field_match['replay_url']: 404}) as fixture:
+            args = fixture['args'] + ['--max', '1']
+            self.assertEqual(results.main(args), 0)
+            fixture['save'].assert_not_called()
+            self.assertEqual(fixture['request'].call_count, 1)
+            self.assertEqual(results.main(args), 0)
+            self.assertEqual(fixture['request'].call_count, 2)
+            self.assertEqual(fixture['request'].call_args.args[1], ours['replay_url'])
+            with open(fixture['games']) as source:
+                rows = list(csv.DictReader(source))
+            self.assertEqual([(r['run'], r['seq']) for r in rows[-2:]], [('galaxy-101', '1'), ('galaxy-101', '2')])
+            with open(fixture['gaps']) as source:
+                self.assertEqual(len(source.readlines()), 1)
+            self.assertIn('acknowledged before batching', fixture['output'].getvalue())
+            self.assertEqual(results.main(args), 0)
+            with open(fixture['state']) as source:
+                self.assertEqual(json.load(source), {'low_water': 102})
+
+    def test_audited_gap_suppression_revalidates_identity_and_eligibility(self):
+        field_match, _ = self.collector_matches()
+        with self.collector_fixture([field_match], {field_match['replay_url']: 404}) as fixture:
+            self.assertEqual(results.main(fixture['args'] + ['--max', '1']), 0)
+            field_match['participants'][1]['teamname'] = 'vibe23'
+            with self.assertRaises(client.ApiError):
+                results.main(fixture['args'] + ['--max', '1'])
+            self.assertEqual(fixture['request'].call_count, 2)
+            fixture['save'].assert_not_called()
+        field_match, _ = self.collector_matches()
+        with self.collector_fixture([field_match], {field_match['replay_url']: 404}) as fixture:
+            self.assertEqual(results.main(fixture['args'] + ['--max', '1']), 0)
+            partial = {'run': 'galaxy-100', 'seq': '2', 'teamA': 'a', 'teamB': 'b', 'map': 'Maze', 'winner': 'A',
+                       'rounds': '55', 'reason': '', 'seed': 'map'}
+            # A changed set of missing sequences must not inherit an older audit.
+            with open(fixture['games']) as source:
+                rows = list(csv.DictReader(source))
+            rows = [row for row in rows if row['run'] != 'galaxy-100']
+            os.remove(fixture['games'])
+            results.append_rows(fixture['games'], rows + [partial])
+            self.assertEqual(results.main(fixture['args'] + ['--max', '1']), 0)
+            self.assertEqual(fixture['request'].call_count, 2)
+            with open(fixture['gaps']) as source:
+                self.assertEqual([json.loads(line)['missing_sequences'] for line in source], [[2], [1]])
+
+    def test_full_scan_retries_audited_gap_and_collects_restored_replay(self):
+        field_match, _ = self.collector_matches()
+        errors = {field_match['replay_url']: 404}
+        with self.collector_fixture([field_match], errors) as fixture:
+            self.assertEqual(results.main(fixture['args'] + ['--max', '1']), 0)
+            errors.clear()  # The same replay URL is now available again.
+            self.assertEqual(results.main(fixture['args'] + ['--full']), 0)
+            self.assertEqual(fixture['request'].call_count, 2)
+            with open(fixture['games']) as source:
+                rows = list(csv.DictReader(source))
+            self.assertIn(('galaxy-100', '2'), {(r['run'], r['seq']) for r in rows})
+            with open(fixture['gaps']) as source:
+                self.assertEqual(len(source.readlines()), 1)
+
+    def test_collector_dry_run_does_not_write_gap_rows_or_checkpoint(self):
+        field_match, ours = self.collector_matches()
+        with self.collector_fixture([field_match, ours], {field_match['replay_url']: 404}) as fixture:
+            self.assertEqual(results.main(fixture['args'] + ['--dry-run']), 0)
+            fixture['save'].assert_not_called()
+            self.assertFalse(os.path.exists(fixture['gaps']))
+            with open(fixture['games'], 'rb') as source:
+                self.assertEqual(source.read(), fixture['original_games'])
+            with open(fixture['state'], 'rb') as source:
+                self.assertEqual(source.read(), fixture['original_state'])
+            self.assertIn('would audit', fixture['output'].getvalue())
+
+    def test_retention_gap_checks_exact_age_participants_and_url_scope(self):
+        match, _ = self.collector_matches()
+        c = client.Client(site='https://replica.example.invalid', gate='Basic test', episode='bc23')
+        now = datetime.datetime.now(datetime.timezone.utc)
+        match['created'] = (now - datetime.timedelta(hours=6)).isoformat()
+        self.assertIsNone(results.replay_gap(match, client.ApiError(404, ''), 'vibe23', c, set(), now=now))
+        match['created'] = (now - datetime.timedelta(hours=6, seconds=1)).isoformat()
+        self.assertIsNotNone(results.replay_gap(match, client.ApiError(404, ''), 'vibe23', c, set(), now=now))
+        unicode_match = copy.deepcopy(match)
+        unicode_match['created'] = (now - datetime.timedelta(hours=10)).isoformat().replace('+00:00', 'Z')
+        unicode_match['participants'][0]['teamname'] = 'field-雪\nname'
+        unicode_match['maps'] = ['迷宮\nmap']
+        gap = results.replay_gap(unicode_match, client.ApiError(404, ''), 'vibe23', c, set(), now=now)
+        self.assertIsNotNone(gap)
+        with tempfile.TemporaryDirectory() as directory:
+            path = os.path.join(directory, 'gaps.jsonl')
+            results.append_gap(path, gap)
+            with open(path) as source:
+                lines = source.readlines()
+            self.assertEqual(len(lines), 1)
+            self.assertEqual(json.loads(lines[0]), gap)
+            self.assertEqual(results.recorded_gaps(path), {results.gap_key(gap)})
+        protected = copy.deepcopy(match)
+        protected['participants'][0]['teamname'] = 'vibe23'
+        self.assertIsNone(results.replay_gap(protected, client.ApiError(404, ''), 'another-ours-name', c, set(), now=now))
+        another_episode = client.Client(site=c.site, gate='Basic test', episode='bc24')
+        other = dict(match, episode='bc24', replay_url=match['replay_url'].replace('bc23', 'bc24'))
+        self.assertIsNone(results.replay_gap(other, client.ApiError(404, ''), 'vibe23', another_episode, set(), now=now))
+        for participants in ([], match['participants'][:1], [dict(match['participants'][0], teamname=''), match['participants'][1]]):
+            bad = dict(match, participants=participants)
+            self.assertIsNone(results.replay_gap(bad, client.ApiError(404, ''), 'vibe23', c, set(), now=now))
+        for url in ('https://elsewhere.invalid' + match['replay_url'], 'https://api.' + 'battlecode' + '.org' + match['replay_url']):
+            with self.assertRaises(SystemExit):
+                results.replay_gap(dict(match, replay_url=url), client.ApiError(404, ''), 'vibe23', c, set(), now=now)
 
 
 class SnapshotTest(unittest.TestCase):
