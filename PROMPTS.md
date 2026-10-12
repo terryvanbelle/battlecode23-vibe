@@ -342,3 +342,7 @@ I don't see RECOVERY.md yet.  Make sure you've pushed all the way to main
 ## 70. 2026-10-12 PDT (message time unavailable)
 
 From now on, push all the way to main.  You're the only one changing the repository
+
+## 71. 2026-10-12 PDT (message time unavailable)
+
+Yep, I see it now

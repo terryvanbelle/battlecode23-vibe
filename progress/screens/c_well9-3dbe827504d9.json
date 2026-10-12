@@ -1,0 +1,205 @@
+{
+ "v": 1,
+ "candidate": "c_well9",
+ "candidate_hash": "3dbe827504d9",
+ "incumbent": "c_mend2",
+ "incumbent_hash": "d62033781fbd",
+ "created": "2026-10-11T13:49:07+00:00",
+ "finished": "2026-10-12T20:16:34+00:00",
+ "job": "20261011-134919-scr-c_well9-3dbe827504d9",
+ "seed_mode": "map",
+ "maps": {
+  "basics": [
+   "SmallElements",
+   "Contraction",
+   "FourNations",
+   "Tightrope"
+  ],
+  "panel": [
+   "DefaultMap",
+   "Maze",
+   "Forest",
+   "ReverseFunnel",
+   "Cat",
+   "IslandHopping",
+   "Hah",
+   "BatSignal",
+   "Cornucopia",
+   "MassiveL"
+  ]
+ },
+ "reduced": false,
+ "roster_source": "tools/archetypes.txt",
+ "no_stop": false,
+ "stages": {
+  "a": {
+   "verdict": "PASS",
+   "games": 8,
+   "wins": 8,
+   "unknown": 0,
+   "over": 0,
+   "exceptions": 0,
+   "deaths_self": 0,
+   "sym_wrong": 0,
+   "near": 0,
+   "run": "gauntlet/20261011-143143-scr-3dbe827504d9-e55d-a"
+  },
+  "b": {
+   "verdict": "BORDERLINE",
+   "games": 20,
+   "wins": 9,
+   "losses": 11,
+   "coin": 0,
+   "unknown": 0,
+   "score": 9.0,
+   "pass_at": 11.0,
+   "borderline_at": 9.0,
+   "run": "gauntlet/20261011-143331-scr-3dbe827504d9-e55d-b"
+  },
+  "c": {
+   "verdict": "PASS",
+   "pooled": {
+    "g": 0,
+    "l": 0,
+    "net": 0,
+    "se": 0.0,
+    "missing": 0,
+    "verdict": "ok"
+   },
+   "info_pooled": {
+    "g": 5,
+    "l": 4,
+    "net": 1,
+    "se": 3.0
+   },
+   "archetypes": [
+    {
+     "name": "arch_adecon",
+     "hash": "b774bf16efe4",
+     "mode": "auto",
+     "gating": false,
+     "why": "no VALID record for this hash: information only",
+     "record": null,
+     "cells": 20,
+     "incumbent_wins": 20,
+     "candidate_wins": 20,
+     "candidate_decided": 20,
+     "g": 0,
+     "l": 0,
+     "both_won": 20,
+     "both_lost": 0,
+     "coin": 0,
+     "missing": 0,
+     "net": 0,
+     "censored": "censored-high",
+     "verdict": "ok"
+    },
+    {
+     "name": "arch_ampmid",
+     "hash": "9b1099e4e1cf",
+     "mode": "auto",
+     "gating": false,
+     "why": "no VALID record for this hash: information only",
+     "record": null,
+     "cells": 20,
+     "incumbent_wins": 16,
+     "candidate_wins": 15,
+     "candidate_decided": 20,
+     "g": 2,
+     "l": 3,
+     "both_won": 13,
+     "both_lost": 2,
+     "coin": 0,
+     "missing": 0,
+     "net": -1,
+     "censored": null,
+     "verdict": "ok"
+    },
+    {
+     "name": "arch_blob",
+     "hash": "3c54b97e654b",
+     "mode": "auto",
+     "gating": false,
+     "why": "no VALID record for this hash: information only",
+     "record": null,
+     "cells": 20,
+     "incumbent_wins": 17,
+     "candidate_wins": 18,
+     "candidate_decided": 20,
+     "g": 1,
+     "l": 0,
+     "both_won": 17,
+     "both_lost": 2,
+     "coin": 0,
+     "missing": 0,
+     "net": 1,
+     "censored": null,
+     "verdict": "ok"
+    },
+    {
+     "name": "arch_horde",
+     "hash": "82311f9b016d",
+     "mode": "auto",
+     "gating": false,
+     "why": "no VALID record for this hash: information only",
+     "record": null,
+     "cells": 20,
+     "incumbent_wins": 15,
+     "candidate_wins": 14,
+     "candidate_decided": 20,
+     "g": 0,
+     "l": 1,
+     "both_won": 14,
+     "both_lost": 5,
+     "coin": 0,
+     "missing": 0,
+     "net": -1,
+     "censored": null,
+     "verdict": "ok"
+    },
+    {
+     "name": "arch_swarm",
+     "hash": "b646f1e92c6b",
+     "mode": "auto",
+     "gating": false,
+     "why": "no VALID record for this hash: information only",
+     "record": null,
+     "cells": 20,
+     "incumbent_wins": 14,
+     "candidate_wins": 16,
+     "candidate_decided": 20,
+     "g": 2,
+     "l": 0,
+     "both_won": 14,
+     "both_lost": 4,
+     "coin": 0,
+     "missing": 0,
+     "net": 2,
+     "censored": null,
+     "verdict": "ok"
+    }
+   ],
+   "note": "no gating archetype (no VALID record for a current hash): stage (c) passes by default",
+   "excluded": [],
+   "runs": [
+    "gauntlet/20261011-163142-scr-3dbe827504d9-e55d-c"
+   ],
+   "incumbent_runs": [
+    "gauntlet/20261011-145530-scr-3dbe827504d9-e55d-inc"
+   ]
+  },
+  "d": {
+   "verdict": "PASS",
+   "games": 128,
+   "over": 0,
+   "exceptions": 0,
+   "deaths_self": 0,
+   "sym_wrong": 0,
+   "near": 1
+  }
+ },
+ "verdict": "FAIL",
+ "reasons": [
+  "(b) BORDERLINE (9.0 of 20) without a pooled roster gain (Net +0 < +2)"
+ ]
+}

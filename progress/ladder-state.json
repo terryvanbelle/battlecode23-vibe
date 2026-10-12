@@ -322,6 +322,13 @@
    "submission": 144,
    "package": "c_bc3",
    "validated_resubmitted": 145
+  },
+  {
+   "at": "2026-10-11T20:32:40.230671+00:00",
+   "event": "panel-done",
+   "submission": 144,
+   "package": "c_bc3",
+   "run": "gauntlet/20261011-161413-panel-c_bc3"
   }
  ],
  "parked": [
@@ -345,7 +352,9 @@
     4950,
     4951,
     4952
-   ]
+   ],
+   "run": "gauntlet/20261011-161413-panel-c_bc3",
+   "panel_done": "2026-10-11T20:32:40.230563+00:00"
   }
  ]
 }
