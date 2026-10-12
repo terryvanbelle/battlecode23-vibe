@@ -48,8 +48,10 @@ indicator counters are blank, so their apparent zeros do not establish main-work
 Launcher end-turn maxima (median 9,175 vs c_mend2's 9,174; worst 9,363 each) include background work and telemetry;
 they do not measure `computePredWells` savings. Recover the method benchmark or measure work before the fill.
 **c_well9 screen FAIL:** h2h 9-11, roster Net 0; no VALID archetype records rescue the borderline h2h. No trial.
-**c_ward3:** its old job is in `queue/cancelled/`, with no run or log markers. Preserve that entry and requeue a fresh
-screen; all 100 c_mend2 reference cells are now cached, with zero conflicts. c_well9's information-only roster Net is
+**c_ward3:** fresh full screen queued at 13:44 PDT as `20261012-204410-scr-c_ward3-3d2ef1dd0da7`, tag
+`scr-3d2ef1dd0da7-0b3c`: up to 128 candidate games, zero missing incumbent reference cells. The existing queue runner
+PID 254430 was reused. Its old job remains in `queue/cancelled/`, with no run or log markers. All 100 c_mend2 reference
+cells are cached, with zero conflicts. c_well9's information-only roster Net is
 +1 after recovering the missing `summary.txt` files; gating Net remains 0 and its verdict remains FAIL.
 
 **Verification passed:** the corrected official-engine driver suite ran 2026-10-12 13:11:10–13:33:38 PDT,
@@ -130,7 +132,8 @@ rotation is worth carrying into a later arm.
   previous incumbent: `test/cells/self-swarm1-panel.txt`; the pre-trial screen (`tools/screen.py`) reads the current
   validated package from `progress/ladder-state.json` (last recorded: c_mend2).
 - Ranked vs unranked follows `docs/LADDER_STRATEGY.md` (owner, PROMPTS 17-18), state in `progress/ladder-state.json`:
-  `tools/ladder_policy.py ranked` runs detached on the driver (`logs/ranked-policy.log`): ranked challenges upward
+  `tools/ladder_policy.py ranked` runs detached on the driver (current PID 3037528; logs under
+  `build/codex-recovery/ranked-20261012T204100Z/`): ranked challenges upward
   only while the validated build is active (BURST one per 5 min while we have < 30 rated matches or the build is < 24 h
   old, else one per 30 min). Candidates go through `trial-start <package>` (incoming ranked auto-rejected, unranked
   panel) and `trial-end --accept|--reject`; or `trial-park` (once the panel's matches exist the validated build

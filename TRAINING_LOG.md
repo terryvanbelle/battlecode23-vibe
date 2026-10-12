@@ -1182,3 +1182,16 @@ of history. Times are PDT. Grep it; do not read it whole.
   retention-eligible field replay files, preserving the prior CSV byte prefix. It continues under a 20-minute budget.
 - Owner requires continuous independent diagnosis/idea generation/testing until told to stop (PROMPTS 75). Model
   budget discussion: 92% remaining, next reset 6d20h; setup-period usage is not a steady-state diagnosis forecast.
+
+## 2026-10-12 13:44 PDT — ranked controller adopted; Ward3 screen resumed
+
+- Safely replaced exact old ranked PID 2657389 after the official pass with one controller, PID 3037528. The old
+  process's UID/cwd/argv/start ticks/sleep state and singleton were checked; pidfd TERM and existing state lock covered
+  replacement. Validated submission 145 was preserved. New logs: build/codex-recovery/ranked-20261012T204100Z/.
+- Fresh full c_ward3 screen queued as 20261012-204410-scr-c_ward3-3d2ef1dd0da7, tag scr-3d2ef1dd0da7-0b3c. Candidate
+  hash 3d2ef1dd0da7, incumbent c_mend2 d62033781fbd. All eight own source hashes and screen/helper hashes agreed with
+  the VM; disk >2 GiB, no pending/running jobs, no STOP/filler. Preserved the known cancelled predecessor unchanged.
+  Reused queue runner PID 254430/flock; did not start another runner or sync/delete source directories. Volume is
+  up to 128 candidate games, 0 incumbent repeats (all 100 reference cells cached).
+- Continue independently while it plays: instrumented c_bc3/c_mend2 method cost/guard comparison and replay-based
+  economy/combat/healing diagnosis. No candidate promoted and no new field panel requested.
