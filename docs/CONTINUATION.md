@@ -2,9 +2,9 @@
 
 Updated 2026-10-12 PDT. **All ongoing owner interaction remains in the web interface** (PROMPTS 58). The original
 driver and `battlecode-dev` are compute workers; do not transfer project control to a CLI session or require ongoing
-CLI interaction. The owner has started a separate Codex instance in tmux on `claude-driver`, but that does not connect
-this web chat to it. This web environment has no GCP identity, SSH credentials or VM route and has not inspected or
-changed either VM. The authoritative live files, credentials, replays and running jobs remain on the original VMs.
+CLI interaction. The private GitHub worker now connects this web session to the original driver account and checkout.
+Authenticated driver inspection and strict host-key-checked internal SSH to battlecode-dev succeeded on 2026-10-12.
+GCP credentials remain on the driver. The authoritative live files, replays and running jobs remain on the original VMs.
 
 ## Establish remote access from the web environment
 
@@ -23,9 +23,10 @@ the installer and workflow template only; never register this credential-bearing
 The private repo's writers have command access as the driver account, so keep access limited to the owner and intended
 GitHub connection. This transport executes trusted jobs; it is not a sandbox.
 
-No worker is installed and no driver connection has been tested by this web session. Claim the route operational only
-after the initial hashed read-only inspection returns through the response channel. The current cloud policy still
-has no VPN/TCP route; the GitHub worker does not change it.
+The runner is installed as a service and the initial inspection returned successfully through the private response
+channel with the expected request ID and job hash. A follow-up preserved all 37 dirty driver files in
+`build/codex-recovery/20261012T191037Z` and verified internal SSH plus active replica services. The current cloud policy
+still has no VPN/TCP route; the GitHub worker does not change it.
 
 The owner's SSH command for the driver is:
 

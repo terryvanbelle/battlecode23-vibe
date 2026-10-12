@@ -307,3 +307,14 @@ Enter the name of the runner group to add this runner to: [press Enter for Defau
 √ Settings Saved.
 
 Existing runner metadata does not match the private control repository; refusing to change it.
+
+## 64. 2026-10-12 PDT (message time unavailable)
+
+Seems to have finished successfully.  It says:
+Oct 12 19:06:36 claude-driver systemd[1]: Started actions.runner.terryvanbelle-battlecode23-control.claude-driver-bc23.service - GitHub Actions Runner (…river-bc23).
+Oct 12 19:06:36 claude-driver runsvc.sh[3015039]: .path=/home/terryvanbelle/.local/bin:/home/terryvanbelle/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/l…:/usr/games
+Oct 12 19:06:36 claude-driver runsvc.sh[3015043]: Starting Runner listener with startup type: service
+Oct 12 19:06:36 claude-driver runsvc.sh[3015043]: Started listener process, pid: 3015054
+Oct 12 19:06:36 claude-driver runsvc.sh[3015043]: Started running service
+Hint: Some lines were ellipsized, use -l to show in full.
+Setup complete. Report the runner status in the web chat; ongoing commands will come from there.

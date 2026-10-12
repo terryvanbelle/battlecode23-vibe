@@ -1,12 +1,13 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-12 PDT from the committed state through 2026-10-11 09:15 PDT. Live VM state has not yet been checked
-by this web session. The owner requires ongoing interaction through the web interface (PROMPTS 58); use the VMs as
+Updated 2026-10-12 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
+requires ongoing interaction through the web interface (PROMPTS 58); use the VMs as
 remote compute workers, not a CLI handoff. Read `docs/CONTINUATION.md` before connecting, syncing or restarting jobs.
 VPN/TCP configuration is unavailable in this cloud instance. The private `battlecode23-control` repository is now
-connected; owner reports its driver runner registered, but a metadata-reader bug stopped service installation.
-The corrected installer accepts GitHub's UTF-8 BOM and reuses that registration; live access is still unverified.
-See `docs/WEB_WORKER_SETUP.md`.
+connected and the corrected driver worker is running. Its first hashed inspection passed; strict host-key-checked
+internal SSH to battlecode-dev also passed. See `docs/WEB_WORKER_SETUP.md` and `docs/CONTINUATION.md`.
+Driver HEAD was 079541c with 37 dirty files; recovery archive and tracked patch are in
+`build/codex-recovery/20261012T191037Z` on the driver. Preserve generated progress and reports when adopting tools.
 
 ## Standing
 
@@ -38,10 +39,11 @@ See `docs/WEB_WORKER_SETUP.md`.
 
 ## In flight (VM queue; self-play cells pinned by seed)
 
-**First recovery task:** reconcile live state, then collect the existing **c_bc3** parked panel (submission 144,
+**First recovery task:** reconcile live state, then assess the completed **c_bc3** parked panel (submission 144,
 `gauntlet/20261011-161413-panel-c_bc3`, matches **4943-4952**). It cuts `computePredWells` bytecodes while preserving
 decisions (Bc3Test: 1,899,878 equivalence checks). Compare against BOTH `gauntlet/20261011-080046-panel-c_mend2` and
 `gauntlet/20261011-042052-panel-c_bc1`, check all 100 cells and the basics, then decide. Do not create a duplicate panel.
+The live ladder state marks it done since 2026-10-11 13:32 PDT; completion alone is not a completeness check.
 `c_well9` has a queued screen against c_mend2; `c_ward3` awaits that incumbent's reference cache. Their live results
 are not yet known here.
 

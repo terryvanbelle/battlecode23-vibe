@@ -2,7 +2,8 @@
 
 The web chat remains the controller. GitHub delivers jobs to a worker service on `claude-driver`, which already has
 access to `battlecode-dev`. This setup uses outbound HTTPS and does not require Tailscale, cloud VPN settings, new SSH
-keys, or a CLI agent. It has been tested with local fixtures; the real VM connection is not yet verified.
+keys, or a CLI agent. Local fixture tests and the real driver response channel passed; strict host-key-checked
+internal access from the driver to battlecode-dev also passed on 2026-10-12.
 
 ## 1. Create and connect the private control repository
 

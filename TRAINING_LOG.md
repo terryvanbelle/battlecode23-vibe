@@ -1124,3 +1124,19 @@ of history. Times are PDT. Grep it; do not read it whole.
 - The read-only inspection Actions run is still queued; this web session has not accessed either VM yet.
 - All 36 worker tests pass (14 installer/workflow and 22 supervisor/publisher). New cases reproduce actual BOM
   encoding, resume service installation with registration preserved, and reject wrong/malformed metadata unchanged.
+
+## 2026-10-12 12:06–12:17 PDT — web worker live; existing VMs recovered
+
+- PROMPTS 64 reports the service started. Actions run 38294065532 succeeded; response ID/hash/exit/log integrity
+  verified. Driver is claude-driver, terryvanbelle, original checkout /home/terryvanbelle/projects/vibe/2023,
+  HEAD 079541c; official engine SHA matches the required 3.0.15 pin. JDK8 is present at the established path.
+- Follow-up inventory preserves all 37 dirty files in build/codex-recovery/20261012T191037Z/dirty-work.tar.gz,
+  with tracked.patch, status.json and head.txt. The 28,551-byte own-code patch was independently reviewed: its
+  old shot inference is superseded by the audited classifier, and its token fix by unique mkstemp+cleanup tests.
+  Preserve the archive; no independent old fix is lost by adopting the prepared branch.
+- Strict host-key-checked internal gcloud SSH to battlecode-dev succeeded. Replica web/relay/saturn and scheduler
+  timer are active. The deployed project tree is a mirror, not a Git checkout. Driver has about 9 GB free and game VM
+  about 3.5 GB. Existing ranked process PID 2657389 remains running; do not launch a duplicate.
+- Validated build remains c_mend2/145. Parked c_bc3/144 panel is marked done at 2026-10-11 13:32 PDT, pending
+  explicit 100-cell, terminal-status, source-hash and basics checks before decision. Existing queue/screens inspected
+  next. A first read-only training export exceeded the worker's bounded-output budget; retry with bounded summaries.
