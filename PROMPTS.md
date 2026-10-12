@@ -287,3 +287,23 @@ Review and save the prepared draft in environment settings, then publish. VPN/TC
 ## 62. 2026-10-12 PDT (message time unavailable)
 
 OK, I created the repository and added it to the environment, and I've published the environment
+
+## 63. 2026-10-12 PDT (message time unavailable)
+
+Here's what I got back from the script:
+√ Connected to GitHub
+
+# Runner Registration
+
+Enter the name of the runner group to add this runner to: [press Enter for Default] 
+
+
+
+√ Runner successfully added
+
+# Runner settings
+
+
+√ Settings Saved.
+
+Existing runner metadata does not match the private control repository; refusing to change it.

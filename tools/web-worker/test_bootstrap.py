@@ -39,7 +39,7 @@ printf 'register\\n' >> "$TEST_EVENTS"
 python3 - <<'PY'
 import json
 from pathlib import Path
-Path('.runner').write_text(json.dumps({'gitHubUrl': 'https://github.com/terryvanbelle/battlecode23-control', 'agentName': 'claude-driver-bc23', 'workFolder': '_work'}))
+Path('.runner').write_text(json.dumps({'gitHubUrl': 'https://github.com/terryvanbelle/battlecode23-control', 'agentName': 'claude-driver-bc23', 'workFolder': '_work'}), encoding='utf-8-sig')
 Path('.credentials').write_text('test-only placeholder')
 PY
 """
@@ -96,11 +96,12 @@ else:
     def operations(self):
         return self.events.read_text().splitlines() if self.events.exists() else []
 
-    def registered_runner(self, url=CONTROL):
+    def registered_runner(self, url=CONTROL, bom=False):
         self.runner.mkdir()
         with tarfile.open(self.archive) as archive:
             archive.extractall(self.runner, filter="data")
-        (self.runner / ".runner").write_text(json.dumps(dict(gitHubUrl=url, agentName="claude-driver-bc23", workFolder="_work")))
+        (self.runner / ".runner").write_text(json.dumps(dict(gitHubUrl=url, agentName="claude-driver-bc23", workFolder="_work")),
+                                              encoding="utf-8-sig" if bom else "utf-8")
         (self.runner / ".credentials").write_text("test-only placeholder")
         (self.runner / ".service").write_text(SERVICE + "\n")
 
@@ -187,6 +188,7 @@ else:
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(self.operations(), ["download", "register", "install driver", "start", "status"])
         metadata = (self.runner / ".runner").read_bytes()
+        self.assertTrue(metadata.startswith(b"\xef\xbb\xbf"))
         credentials = (self.runner / ".credentials").read_bytes()
         result = self.run_setup()
         self.assertEqual(result.returncode, 0, result.stderr)
@@ -194,6 +196,44 @@ else:
         self.assertEqual((self.runner / ".runner").read_bytes(), metadata)
         self.assertEqual((self.runner / ".credentials").read_bytes(), credentials)
         self.assertEqual(dirty.read_text(), "keep this")
+
+    def test_bom_registration_resumes_service_setup_without_reregistering(self):
+        # The pinned .NET runner writes UTF-8 metadata with a byte order mark.
+        # Reproduce a completed registration stopped before service install.
+        self.registered_runner(bom=True)
+        (self.runner / ".service").unlink()
+        metadata = (self.runner / ".runner").read_bytes()
+        credentials = (self.runner / ".credentials").read_bytes()
+        self.assertTrue(metadata.startswith(b"\xef\xbb\xbf"))
+        result = self.run_setup()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.operations(), ["install driver", "start", "status"])
+        result = self.run_setup()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.operations(), ["install driver", "start", "status", "start", "status"])
+        self.assertEqual((self.runner / ".runner").read_bytes(), metadata)
+        self.assertEqual((self.runner / ".credentials").read_bytes(), credentials)
+
+    def test_bom_wrong_identity_and_malformed_metadata_are_preserved(self):
+        self.registered_runner(bom=True)
+        valid = dict(gitHubUrl=CONTROL, agentName="claude-driver-bc23", workFolder="_work")
+        invalid = [
+            json.dumps(dict(valid, gitHubUrl="https://github.com/someone/other")),
+            json.dumps(dict(valid, agentName="another-runner")),
+            json.dumps(dict(valid, workFolder="another-work-directory")),
+            "{malformed json",
+            "[]",
+            "null",
+        ]
+        for metadata in invalid:
+            with self.subTest(metadata=metadata):
+                (self.runner / ".runner").write_text(metadata, encoding="utf-8-sig")
+                before = (self.runner / ".runner").read_bytes()
+                result = self.run_setup()
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("metadata does not match", result.stderr)
+                self.assertEqual(self.operations(), [])
+                self.assertEqual((self.runner / ".runner").read_bytes(), before)
 
     def test_registered_other_repository_is_preserved_and_rejected(self):
         self.registered_runner("https://github.com/someone/other")

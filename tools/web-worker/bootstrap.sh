@@ -110,7 +110,9 @@ fi
 python3 - "$runner_dir/.runner" "$CONTROL_URL" "$RUNNER_NAME" <<'PY'
 import json, sys
 try:
-    with open(sys.argv[1], encoding="utf-8") as source:
+    # GitHub runner's IOUtil.SaveObject uses Encoding.UTF8 with a BOM.
+    # utf-8-sig accepts both that format and older plain UTF-8 metadata.
+    with open(sys.argv[1], encoding="utf-8-sig") as source:
         config = json.load(source)
     valid = (config.get("gitHubUrl", "").rstrip("/") == sys.argv[2]
              and config.get("agentName") == sys.argv[3]

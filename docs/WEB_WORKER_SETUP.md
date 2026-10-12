@@ -39,7 +39,7 @@ curl --fail --location --proto '=https' --tlsv1.2 \
   'https://raw.githubusercontent.com/terryvanbelle/battlecode23-vibe/codex/continue-bc23/tools/web-worker/bootstrap.sh' \
   --output "$setup_file"
 printf '%s  %s\n' \
-  'a8e92fe0f62affa2b07250503b2ffa16113fb9ff6f9bbc175324fbf382ea3b83' \
+  '4d23e2bb616cd601f6deafb02a3595bc7116f483e123490da06c940b127e24c2' \
   "$setup_file" | sha256sum --check && bash "$setup_file"
 ```
 
@@ -66,6 +66,11 @@ password in the terminal; do not send it to chat.
 
 If GitHub reports missing system dependencies, the installer prints the exact dependency installation command.
 Run that command, then repeat the setup block. The installer preserves a completed registration on a retry.
+
+If an older installer reported **Settings Saved** followed by **Existing runner metadata does not match**, download
+and rerun the corrected setup block above. GitHub writes a UTF-8 byte-order marker in `.runner`; the original reader
+mistakenly rejected that format. The corrected reader accepts it while keeping the same repo/name/work-directory
+checks. A successful existing registration is reused, so no new token or runner removal is needed.
 
 When the service reports running, open the repository's **Settings > Actions > Runners**. The runner
 **claude-driver-bc23** should appear **Idle** or **Active** with label **bc23-driver**. Report that status here. All
