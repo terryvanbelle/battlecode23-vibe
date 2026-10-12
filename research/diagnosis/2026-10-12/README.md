@@ -15,6 +15,11 @@ the provenance records. No opponent source or field-bot reruns were used.
   unknown when indicator dots were absent. Geometry comes from the initial map; equal post-current endpoints
   do not identify in-turn moves or the carrier's chosen goal. The movement reader compiles alongside this
   repository's `tools/replaydump/ReplayDump.java` (SHA-256 recorded in `movement-result.json`).
+- `carrier/` also preserves the official header geometry and12-case/366-check native cancellation fixture;
+  read [the routing diagnosis](../2026-10-12-forest-carrier-routing.md). The tested second-return veto does not
+  deliver collection under persistent blockers, and is not a bot arm.
+- `ranked/`: bounded metadata snapshot at15:07 PDT, latest ranked match6490 (3–0 win), current rank26/rating1581.1.
+  No pending matches were seen. Request-to-match associations without API foreign keys remain unknown.
 
 The bot/tool suite passed for source commit `644abde7564c09e3d19b0471ae28f429a8bac9fd` from 14:31:26 to
 14:53:59 PDT: all 80 bot packages, Mend3's 852 checks and the complete tool/replica checks. Standalone probe

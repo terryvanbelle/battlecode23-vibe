@@ -1,0 +1,556 @@
+{
+  "transport": {
+    "id": "carrier-native-fixture-20261012T221614Z",
+    "sha256": "79af6d007a3f93f1fb9fb6e647f963097eab3a3e8a9ea0d3b623d588500b3fc3",
+    "workflow_run_id": "38315686490",
+    "started_at": "2026-10-12T22:16:24.658254+00:00",
+    "duration_seconds": 16.794
+  },
+  "provenance": {
+    "registered_games_run": 0,
+    "native_fixture_cases": 12,
+    "instruction_metered": false,
+    "driver_artifacts": "/home/terryvanbelle/projects/vibe/2023/build/codex-recovery/carrier-native-20261012T221624Z",
+    "vm_artifacts": "~/projects/vibe/2023/build/codex-recovery/carrier-native-20261012T221624Z",
+    "source_sha256": "33077a92b79224526e3fd912e61fe028856027b97c8beb255787486cbfda3f05",
+    "frozen_source_sha256": {
+      "Launcher.java": "b45f8f95f15e8abebd34c5d3232bfbf4e33dd80bc21213a0440c02d8b9cc12f6",
+      "Telemetry.java": "d5eef32727109f6b2430cf14b81bd42e987282e731a8759f8bc535329ec7a267",
+      "Wells.java": "3ba9ddd0095bc9bd5568eafe2b9c7e232bfec5f4252eb45e7e69eea20dd4efd1",
+      "C.java": "4b0d33597287f693bf9b764fc8a2c97e7a836b7afb2d0c70d9bb85dc012e1179",
+      "MapMem.java": "3bc6dd141c843944d9edf6324e93622b81929e6edd050ce54abccbcbeaa7c3f2",
+      "RobotPlayer.java": "025e8bc574b1368062a6995c02440d65928cb2f526b527566eadd6deb30a4540",
+      "HQState.java": "4fafe2165f8aa5d257b1fc2ca33a1e5f43918e4a99088ba463fe16b2e3ea98e4",
+      "Other.java": "35d50758d2ce621f44474d7f8233827b63bc3d8222a04a3ae9250bfaad041246",
+      "Field.java": "de0f0ae8da5973e91d992f94003b68ca89965f539910e07edba22486a110aa05",
+      "Amplifier.java": "81206994af4afcd0b435842ad4aebd1f8caf931af638d9e085c93432b0ce3025",
+      "G.java": "0848fde563cc7447cff3f22431ad40ea70a9cf05b82fb72508a63a9308f1cd16",
+      "Carrier.java": "508a62e6e8d1c9aac6675e5a8146bfd40953433bf64b9a09a187efb30b3fa303",
+      "Nav.java": "18fcae8192a7607a638d9e5c34a1c61889ad790a882c1ed6095da87b0a7ca8a6",
+      "Comms.java": "3aa9be2612f4059c1606f495d0af3bfa1be2c8dba0dda86224e1262f8ddf200e",
+      "HQ.java": "faeefc9b162e611159286248fad5b17d653b59bf79a449c43aeb946586e57296"
+    },
+    "official_engine_sha256": "5d4e42a51946cc1c2149426485bda8096ff1c088c77e3ed075c06ce5968ed72a",
+    "result_sha256": "e79d4c9f1a1194a9d0b6b34b1300ab3640f9d652c0ce729b54a0de9fb4f2a207",
+    "result_bytes": 92058
+  },
+  "assertions": 366,
+  "summary": [
+    {
+      "goal": [
+        9,
+        21
+      ],
+      "blocker_mode": "none",
+      "initial_field_waits": 0,
+      "avoid_second_return_to_start": false,
+      "first_native_collection_round": 8,
+      "turns": 7,
+      "unjam_moves": 0,
+      "return_vetoes": 0,
+      "first_in_turn_moves": [
+        [
+          "moveTwice",
+          [
+            5,
+            20
+          ],
+          [
+            5,
+            21
+          ],
+          0,
+          5,
+          0
+        ],
+        [
+          "moveTwice",
+          [
+            5,
+            21
+          ],
+          [
+            5,
+            22
+          ],
+          5,
+          10,
+          0
+        ]
+      ]
+    },
+    {
+      "goal": [
+        9,
+        21
+      ],
+      "blocker_mode": "none",
+      "initial_field_waits": 0,
+      "avoid_second_return_to_start": true,
+      "first_native_collection_round": 8,
+      "turns": 7,
+      "unjam_moves": 0,
+      "return_vetoes": 6,
+      "first_in_turn_moves": [
+        [
+          "moveTwice",
+          [
+            5,
+            20
+          ],
+          [
+            5,
+            21
+          ],
+          0,
+          5,
+          0
+        ],
+        [
+          "moveTwice",
+          [
+            5,
+            21
+          ],
+          [
+            5,
+            22
+          ],
+          5,
+          10,
+          0
+        ]
+      ]
+    },
+    {
+      "goal": [
+        9,
+        21
+      ],
+      "blocker_mode": "down",
+      "initial_field_waits": 0,
+      "avoid_second_return_to_start": false,
+      "first_native_collection_round": 8,
+      "turns": 7,
+      "unjam_moves": 0,
+      "return_vetoes": 0,
+      "first_in_turn_moves": [
+        [
+          "moveTwice",
+          [
+            5,
+            20
+          ],
+          [
+            4,
+            20
+          ],
+          0,
+          5,
+          1
+        ],
+        [
+          "moveTwice",
+          [
+            4,
+            20
+          ],
+          [
+            3,
+            21
+          ],
+          5,
+          10,
+          0
+        ]
+      ]
+    },
+    {
+      "goal": [
+        9,
+        21
+      ],
+      "blocker_mode": "down",
+      "initial_field_waits": 0,
+      "avoid_second_return_to_start": true,
+      "first_native_collection_round": 8,
+      "turns": 7,
+      "unjam_moves": 0,
+      "return_vetoes": 7,
+      "first_in_turn_moves": [
+        [
+          "moveTwice",
+          [
+            5,
+            20
+          ],
+          [
+            4,
+            20
+          ],
+          0,
+          5,
+          1
+        ],
+        [
+          "moveTwice",
+          [
+            4,
+            20
+          ],
+          [
+            3,
+            21
+          ],
+          5,
+          10,
+          0
+        ]
+      ]
+    },
+    {
+      "goal": [
+        9,
+        21
+      ],
+      "blocker_mode": "down_same",
+      "initial_field_waits": 2,
+      "avoid_second_return_to_start": false,
+      "first_native_collection_round": null,
+      "turns": 64,
+      "unjam_moves": 1,
+      "return_vetoes": 0,
+      "first_in_turn_moves": [
+        [
+          "moveTwice",
+          [
+            5,
+            20
+          ],
+          [
+            5,
+            19
+          ],
+          0,
+          5,
+          3
+        ],
+        [
+          "moveTwice",
+          [
+            5,
+            19
+          ],
+          [
+            5,
+            20
+          ],
+          5,
+          10,
+          0
+        ]
+      ]
+    },
+    {
+      "goal": [
+        9,
+        21
+      ],
+      "blocker_mode": "down_same",
+      "initial_field_waits": 2,
+      "avoid_second_return_to_start": true,
+      "first_native_collection_round": null,
+      "turns": 64,
+      "unjam_moves": 0,
+      "return_vetoes": 33,
+      "first_in_turn_moves": [
+        [
+          "moveTwice",
+          [
+            5,
+            20
+          ],
+          [
+            5,
+            19
+          ],
+          0,
+          5,
+          3
+        ],
+        [
+          "moveTwice",
+          [
+            5,
+            19
+          ],
+          [
+            4,
+            19
+          ],
+          5,
+          10,
+          4
+        ]
+      ]
+    },
+    {
+      "goal": [
+        8,
+        12
+      ],
+      "blocker_mode": "none",
+      "initial_field_waits": 0,
+      "avoid_second_return_to_start": false,
+      "first_native_collection_round": 8,
+      "turns": 7,
+      "unjam_moves": 0,
+      "return_vetoes": 0,
+      "first_in_turn_moves": [
+        [
+          "moveTwice",
+          [
+            5,
+            20
+          ],
+          [
+            5,
+            19
+          ],
+          0,
+          5,
+          0
+        ],
+        [
+          "moveTwice",
+          [
+            5,
+            19
+          ],
+          [
+            5,
+            18
+          ],
+          5,
+          10,
+          0
+        ]
+      ]
+    },
+    {
+      "goal": [
+        8,
+        12
+      ],
+      "blocker_mode": "none",
+      "initial_field_waits": 0,
+      "avoid_second_return_to_start": true,
+      "first_native_collection_round": 8,
+      "turns": 7,
+      "unjam_moves": 0,
+      "return_vetoes": 6,
+      "first_in_turn_moves": [
+        [
+          "moveTwice",
+          [
+            5,
+            20
+          ],
+          [
+            5,
+            19
+          ],
+          0,
+          5,
+          0
+        ],
+        [
+          "moveTwice",
+          [
+            5,
+            19
+          ],
+          [
+            5,
+            18
+          ],
+          5,
+          10,
+          0
+        ]
+      ]
+    },
+    {
+      "goal": [
+        8,
+        12
+      ],
+      "blocker_mode": "down",
+      "initial_field_waits": 0,
+      "avoid_second_return_to_start": false,
+      "first_native_collection_round": 8,
+      "turns": 7,
+      "unjam_moves": 0,
+      "return_vetoes": 0,
+      "first_in_turn_moves": [
+        [
+          "moveTwice",
+          [
+            5,
+            20
+          ],
+          [
+            4,
+            20
+          ],
+          0,
+          5,
+          1
+        ],
+        [
+          "moveTwice",
+          [
+            4,
+            20
+          ],
+          [
+            3,
+            19
+          ],
+          5,
+          10,
+          0
+        ]
+      ]
+    },
+    {
+      "goal": [
+        8,
+        12
+      ],
+      "blocker_mode": "down",
+      "initial_field_waits": 0,
+      "avoid_second_return_to_start": true,
+      "first_native_collection_round": 8,
+      "turns": 7,
+      "unjam_moves": 0,
+      "return_vetoes": 7,
+      "first_in_turn_moves": [
+        [
+          "moveTwice",
+          [
+            5,
+            20
+          ],
+          [
+            4,
+            20
+          ],
+          0,
+          5,
+          1
+        ],
+        [
+          "moveTwice",
+          [
+            4,
+            20
+          ],
+          [
+            3,
+            19
+          ],
+          5,
+          10,
+          0
+        ]
+      ]
+    },
+    {
+      "goal": [
+        8,
+        12
+      ],
+      "blocker_mode": "down_same",
+      "initial_field_waits": 2,
+      "avoid_second_return_to_start": false,
+      "first_native_collection_round": null,
+      "turns": 64,
+      "unjam_moves": 1,
+      "return_vetoes": 0,
+      "first_in_turn_moves": [
+        [
+          "moveTwice",
+          [
+            5,
+            20
+          ],
+          [
+            5,
+            21
+          ],
+          0,
+          5,
+          3
+        ],
+        [
+          "moveTwice",
+          [
+            5,
+            21
+          ],
+          [
+            5,
+            20
+          ],
+          5,
+          10,
+          0
+        ]
+      ]
+    },
+    {
+      "goal": [
+        8,
+        12
+      ],
+      "blocker_mode": "down_same",
+      "initial_field_waits": 2,
+      "avoid_second_return_to_start": true,
+      "first_native_collection_round": null,
+      "turns": 64,
+      "unjam_moves": 0,
+      "return_vetoes": 33,
+      "first_in_turn_moves": [
+        [
+          "moveTwice",
+          [
+            5,
+            20
+          ],
+          [
+            5,
+            21
+          ],
+          0,
+          5,
+          3
+        ],
+        [
+          "moveTwice",
+          [
+            5,
+            21
+          ],
+          [
+            4,
+            21
+          ],
+          5,
+          10,
+          4
+        ]
+      ]
+    }
+  ]
+}

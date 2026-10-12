@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-12 15:05 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
+Updated 2026-10-12 15:20 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
 requires ongoing interaction through the web interface (PROMPTS 58); use the VMs as
 remote compute workers, not a CLI handoff. Read `docs/CONTINUATION.md` before connecting, syncing or restarting jobs.
 VPN/TCP configuration is unavailable in this cloud instance. The private `battlecode23-control` repository is now
@@ -71,10 +71,14 @@ recovered reports and kept the screen-cache lock inode. Preserve this authoritat
 
 **Progress published:** `920aea3` contains17,701 games,1,006 unavailable field replay audit records,21 recovered
 match reports and a consistent full chart set captured14:42 PDT. Existing rows remain. Rankings now show
-**vibe23 #28 of88, rating1568.6**; history fetched14:44 has501rated matches and latest actual rating14:11Oct12.
+**vibe23 #28 of88, rating1568.6** at that capture; history fetched14:44 has501rated matches and latest actual rating14:11Oct12.
 The earlier #5/1682.8 snapshot is historical, not current standing. Active/validated remains c_mend2/145.
 The larger data set gives Mend2305–218/523 recorded unique games, BT2027±44 (rank19 of109 including builds).
 Diagnose the recent ranked opponent mix and actual productivity; do not change challenge policy to manufacture Elo.
+The newer read-only API inspection at15:07 PDT shows **#26/rating1581.1**, active145, latest match6490 a3–0 win
+against DukeBas._main at14:43. No pending own matches; the replica is processing games. Recent opponent mix is
+preserved in `research/diagnosis/2026-10-12/ranked/20261012-1507-PDT.json`; this is a bounded window, not a causal
+decomposition of the full rank change. Requests3970/3999 have no definite exposed match foreign keys.
 
 **New measured evidence:** `research/diagnosis/2026-10-12/` preserves official results, owned probes and SHA manifests.
 Mend3's117 repeated cases match the prototype: safe-nearest331/331; blocked-nearest+safe-second332/619; visible
@@ -86,10 +90,19 @@ strict cd+cost<=10 preserves next-own-start CD0. Host fixtures have no instructi
 95/96 at r1000, late carrier G72–78%; the productivity gap already appears with equal-or-more carriers early.
 Raw replay measurements found ABA on19.1%/14.8% of moving-G turns and repeated long equal-endpoint episodes.
 At(5,20), IDs12004/11476/11128 remain hundreds of rounds with empty cargo and free neighbours; do not infer
-their target or in-turn movement from endpoints. These IDs may be AD carriers. Inspect static wall geometry,
-actual roles and Carrier.moveTwice/Nav field detours before implementing. Shared knowledge remains unknown in
-field replays; no opponent shadow reruns. Native CBC workload and Mend3 followon helpers are prepared but not
-yet launched; they use only our own archetypes and reuse controls rather than replaying panels.
+their target or in-turn movement from endpoints. All three IDs have the AD birth assignment; the first two
+eventually collect AD at(9,21). Official replay headers match the built-in Forest geometry; a wall atx6,y18–22
+separates the hotspot from that well. A12-case/366-check official native host fixture confirms possible legal
+first-detour/second-return cancellation, but a return veto still fails to collect for64 turns. Do not adopt it.
+See `research/diagnosis/2026-10-12-forest-carrier-routing.md`; test route recovery and actual resource delivery.
+Shared knowledge remains unknown in field replays; no opponent shadow reruns.
+
+Native CBC workload launched15:15:35 PDT on battlecode-dev: supervisor291639,
+`build/codex-recovery/cbc-native-20261012T221535Z/output` (status/log siblings). Up to4 own-archetype games,
+MAX_JOBS2,600-second game limits,45-minute supervisor limit; official frozen sources and engine. Each profiler
+off/on pair must match state and bytecode fingerprints. Exception-positive or missing final-turn ex coverage
+censors costs/caller/budget attribution. Mend3 followon reuses this first control pair and adds only2 games once
+its identity is available; it has not launched yet. c_mend2/145 remains active.
 
 **Read head-to-heads against the identity control, never against 10/20**: on `test/cells/self-swarm1-panel.txt`
 g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); on the screen's map-seed cells it scores

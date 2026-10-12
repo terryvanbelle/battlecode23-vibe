@@ -1,0 +1,2755 @@
+{
+  "transport": {
+    "id": "inspect-forest-geometry-20261012T220825Z",
+    "sha256": "27c713e74fe0afabe05b811ab37c3ded96b76fd43817b5015a2323cb6365d2c2",
+    "started_at": "2026-10-12T22:08:34.806315+00:00",
+    "duration_seconds": 13.673,
+    "workflow_run_id": "38314907894"
+  },
+  "provenance": {
+    "games_run": 0,
+    "rounds_walked": 0,
+    "driver_artifacts": "/home/terryvanbelle/projects/vibe/2023/build/codex-recovery/carrier-headers-20261012T220834Z",
+    "vm_artifacts": "~/projects/vibe/2023/build/codex-recovery/carrier-headers-20261012T220834Z",
+    "source_sha256": "d3d3058cb398a5d63950569623fa09d827afe3219434f6801ce907c2fb67e3e4",
+    "official_engine_sha256": "5d4e42a51946cc1c2149426485bda8096ff1c088c77e3ed075c06ce5968ed72a",
+    "compared_existing_replay_sha256": {
+      "build/codex-recovery/carrier-read-20261012T215342Z/4566.bc23": "d9f784890f47d32663293bcf13f328649b0090129341a683173f6f02a269164a",
+      "build/codex-recovery/carrier-read-20261012T215342Z/4570.bc23": "3c95d556ba3d627398c59f0745c7d19dc392c1dea249ae18f32015a67ca1bf09"
+    },
+    "result_sha256": "e066e69bcb4d5931c6436415422be6fdbbb7ff2113ccff50babd39b6b5cd6454"
+  },
+  "result": {
+    "games_run": 0,
+    "rounds_walked": 0,
+    "checks": 4,
+    "semantics": [
+      "Initial map geometry and resource types, never bot knowledge or reconstructed current well upgrades/conversions.",
+      "Resident rate1 staffing benchmark sums 10/collectCooldown over passable collecting cells, assuming uninterrupted resident collectors, no boosts or accelerating anchors, and standard rate1 wells.",
+      "Footprint reference upper rates assume no same-round vacancy reuse: our gather leaves a collector in place until its next turn; mid-round deaths can permit additional collectors. Currents can reduce attainable staffing.",
+      "These are conditional geometric benchmarks, not unconditional resource throughput limits; upgrades, aura effects, actor order, duty turnover and vacancy reuse require separate verification.",
+      "Terrain SHA includes width/height/origin and wall/cloud/current/initial-resource fields; excludes bodies, seed and island IDs."
+    ],
+    "maps": [
+      {
+        "source": "official_engine_builtin_Forest",
+        "name": "Forest",
+        "size": [
+          60,
+          60
+        ],
+        "origin": [
+          0,
+          0
+        ],
+        "terrain_geometry_sha256": "6480cebb8fce2fc5b7133a799eec232f86643f56741cf02164c5be6a8abf7868",
+        "equals_official_builtin_terrain_geometry": true,
+        "initial_mana_wells": [
+          {
+            "initial_mana_well": [
+              8,
+              12
+            ],
+            "passable_adjacency_cells_including_well_square": 6,
+            "cloud_cells": 0,
+            "normal_cells": 6,
+            "cells_columns": [
+              "x",
+              "y",
+              "cloud",
+              "raw_current_code",
+              "baseline_collect_cooldown"
+            ],
+            "cells": [
+              [
+                8,
+                11,
+                false,
+                0,
+                10
+              ],
+              [
+                8,
+                12,
+                false,
+                0,
+                10
+              ],
+              [
+                8,
+                13,
+                false,
+                0,
+                10
+              ],
+              [
+                9,
+                11,
+                false,
+                0,
+                10
+              ],
+              [
+                9,
+                12,
+                false,
+                0,
+                10
+              ],
+              [
+                9,
+                13,
+                false,
+                0,
+                10
+              ]
+            ],
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round_num_over6": 36,
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round": 6,
+            "rate1_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 6,
+            "rate3_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 18
+          },
+          {
+            "initial_mana_well": [
+              51,
+              12
+            ],
+            "passable_adjacency_cells_including_well_square": 6,
+            "cloud_cells": 0,
+            "normal_cells": 6,
+            "cells_columns": [
+              "x",
+              "y",
+              "cloud",
+              "raw_current_code",
+              "baseline_collect_cooldown"
+            ],
+            "cells": [
+              [
+                50,
+                11,
+                false,
+                0,
+                10
+              ],
+              [
+                50,
+                12,
+                false,
+                0,
+                10
+              ],
+              [
+                50,
+                13,
+                false,
+                0,
+                10
+              ],
+              [
+                51,
+                11,
+                false,
+                0,
+                10
+              ],
+              [
+                51,
+                12,
+                false,
+                0,
+                10
+              ],
+              [
+                51,
+                13,
+                false,
+                0,
+                10
+              ]
+            ],
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round_num_over6": 36,
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round": 6,
+            "rate1_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 6,
+            "rate3_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 18
+          },
+          {
+            "initial_mana_well": [
+              29,
+              48
+            ],
+            "passable_adjacency_cells_including_well_square": 9,
+            "cloud_cells": 1,
+            "normal_cells": 8,
+            "cells_columns": [
+              "x",
+              "y",
+              "cloud",
+              "raw_current_code",
+              "baseline_collect_cooldown"
+            ],
+            "cells": [
+              [
+                28,
+                47,
+                false,
+                1,
+                10
+              ],
+              [
+                28,
+                48,
+                true,
+                0,
+                12
+              ],
+              [
+                28,
+                49,
+                false,
+                5,
+                10
+              ],
+              [
+                29,
+                47,
+                false,
+                0,
+                10
+              ],
+              [
+                29,
+                48,
+                false,
+                0,
+                10
+              ],
+              [
+                29,
+                49,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                47,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                48,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                49,
+                false,
+                0,
+                10
+              ]
+            ],
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round_num_over6": 53,
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round": 8.833333333333334,
+            "rate1_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 9,
+            "rate3_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 27
+          },
+          {
+            "initial_mana_well": [
+              30,
+              48
+            ],
+            "passable_adjacency_cells_including_well_square": 9,
+            "cloud_cells": 1,
+            "normal_cells": 8,
+            "cells_columns": [
+              "x",
+              "y",
+              "cloud",
+              "raw_current_code",
+              "baseline_collect_cooldown"
+            ],
+            "cells": [
+              [
+                29,
+                47,
+                false,
+                0,
+                10
+              ],
+              [
+                29,
+                48,
+                false,
+                0,
+                10
+              ],
+              [
+                29,
+                49,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                47,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                48,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                49,
+                false,
+                0,
+                10
+              ],
+              [
+                31,
+                47,
+                false,
+                5,
+                10
+              ],
+              [
+                31,
+                48,
+                true,
+                0,
+                12
+              ],
+              [
+                31,
+                49,
+                false,
+                1,
+                10
+              ]
+            ],
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round_num_over6": 53,
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round": 8.833333333333334,
+            "rate1_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 9,
+            "rate3_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 27
+          }
+        ],
+        "stall_neighbourhood_columns": [
+          "x",
+          "y",
+          "wall",
+          "cloud",
+          "raw_current_code",
+          "initial_resource"
+        ],
+        "stall_neighbourhood": [
+          [
+            3,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            17,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            17,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            9,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            10,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            3,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            18,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            18,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            9,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            10,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            3,
+            19,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            19,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            19,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            19,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            19,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            8,
+            19,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            9,
+            19,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            10,
+            19,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            3,
+            20,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            20,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            20,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            20,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            20,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            20,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            9,
+            20,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            10,
+            20,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            3,
+            21,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            21,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            21,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            21,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            21,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            21,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            9,
+            21,
+            false,
+            true,
+            0,
+            1
+          ],
+          [
+            10,
+            21,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            3,
+            22,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            22,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            22,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            22,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            22,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            22,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            9,
+            22,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            10,
+            22,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            3,
+            23,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            23,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            23,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            23,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            23,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            23,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            9,
+            23,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            10,
+            23,
+            false,
+            true,
+            0,
+            0
+          ]
+        ],
+        "centre_pair_distinct_collection_cells": [
+          [
+            28,
+            47,
+            false,
+            1
+          ],
+          [
+            28,
+            48,
+            true,
+            0
+          ],
+          [
+            28,
+            49,
+            false,
+            5
+          ],
+          [
+            29,
+            47,
+            false,
+            0
+          ],
+          [
+            29,
+            48,
+            false,
+            0
+          ],
+          [
+            29,
+            49,
+            false,
+            0
+          ],
+          [
+            30,
+            47,
+            false,
+            0
+          ],
+          [
+            30,
+            48,
+            false,
+            0
+          ],
+          [
+            30,
+            49,
+            false,
+            0
+          ],
+          [
+            31,
+            47,
+            false,
+            5
+          ],
+          [
+            31,
+            48,
+            true,
+            0
+          ],
+          [
+            31,
+            49,
+            false,
+            1
+          ]
+        ],
+        "centre_pair_resident_rate1_stationary_staffing_benchmark_kg_per_round": 11.666666666666666
+      },
+      {
+        "source": "build/codex-recovery/carrier-read-20261012T215342Z/4566.bc23:game4_MatchHeader",
+        "name": "Forest",
+        "size": [
+          60,
+          60
+        ],
+        "origin": [
+          0,
+          0
+        ],
+        "terrain_geometry_sha256": "6480cebb8fce2fc5b7133a799eec232f86643f56741cf02164c5be6a8abf7868",
+        "equals_official_builtin_terrain_geometry": true,
+        "initial_mana_wells": [
+          {
+            "initial_mana_well": [
+              8,
+              12
+            ],
+            "passable_adjacency_cells_including_well_square": 6,
+            "cloud_cells": 0,
+            "normal_cells": 6,
+            "cells_columns": [
+              "x",
+              "y",
+              "cloud",
+              "raw_current_code",
+              "baseline_collect_cooldown"
+            ],
+            "cells": [
+              [
+                8,
+                11,
+                false,
+                0,
+                10
+              ],
+              [
+                8,
+                12,
+                false,
+                0,
+                10
+              ],
+              [
+                8,
+                13,
+                false,
+                0,
+                10
+              ],
+              [
+                9,
+                11,
+                false,
+                0,
+                10
+              ],
+              [
+                9,
+                12,
+                false,
+                0,
+                10
+              ],
+              [
+                9,
+                13,
+                false,
+                0,
+                10
+              ]
+            ],
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round_num_over6": 36,
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round": 6,
+            "rate1_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 6,
+            "rate3_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 18
+          },
+          {
+            "initial_mana_well": [
+              51,
+              12
+            ],
+            "passable_adjacency_cells_including_well_square": 6,
+            "cloud_cells": 0,
+            "normal_cells": 6,
+            "cells_columns": [
+              "x",
+              "y",
+              "cloud",
+              "raw_current_code",
+              "baseline_collect_cooldown"
+            ],
+            "cells": [
+              [
+                50,
+                11,
+                false,
+                0,
+                10
+              ],
+              [
+                50,
+                12,
+                false,
+                0,
+                10
+              ],
+              [
+                50,
+                13,
+                false,
+                0,
+                10
+              ],
+              [
+                51,
+                11,
+                false,
+                0,
+                10
+              ],
+              [
+                51,
+                12,
+                false,
+                0,
+                10
+              ],
+              [
+                51,
+                13,
+                false,
+                0,
+                10
+              ]
+            ],
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round_num_over6": 36,
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round": 6,
+            "rate1_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 6,
+            "rate3_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 18
+          },
+          {
+            "initial_mana_well": [
+              29,
+              48
+            ],
+            "passable_adjacency_cells_including_well_square": 9,
+            "cloud_cells": 1,
+            "normal_cells": 8,
+            "cells_columns": [
+              "x",
+              "y",
+              "cloud",
+              "raw_current_code",
+              "baseline_collect_cooldown"
+            ],
+            "cells": [
+              [
+                28,
+                47,
+                false,
+                1,
+                10
+              ],
+              [
+                28,
+                48,
+                true,
+                0,
+                12
+              ],
+              [
+                28,
+                49,
+                false,
+                5,
+                10
+              ],
+              [
+                29,
+                47,
+                false,
+                0,
+                10
+              ],
+              [
+                29,
+                48,
+                false,
+                0,
+                10
+              ],
+              [
+                29,
+                49,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                47,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                48,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                49,
+                false,
+                0,
+                10
+              ]
+            ],
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round_num_over6": 53,
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round": 8.833333333333334,
+            "rate1_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 9,
+            "rate3_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 27
+          },
+          {
+            "initial_mana_well": [
+              30,
+              48
+            ],
+            "passable_adjacency_cells_including_well_square": 9,
+            "cloud_cells": 1,
+            "normal_cells": 8,
+            "cells_columns": [
+              "x",
+              "y",
+              "cloud",
+              "raw_current_code",
+              "baseline_collect_cooldown"
+            ],
+            "cells": [
+              [
+                29,
+                47,
+                false,
+                0,
+                10
+              ],
+              [
+                29,
+                48,
+                false,
+                0,
+                10
+              ],
+              [
+                29,
+                49,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                47,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                48,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                49,
+                false,
+                0,
+                10
+              ],
+              [
+                31,
+                47,
+                false,
+                5,
+                10
+              ],
+              [
+                31,
+                48,
+                true,
+                0,
+                12
+              ],
+              [
+                31,
+                49,
+                false,
+                1,
+                10
+              ]
+            ],
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round_num_over6": 53,
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round": 8.833333333333334,
+            "rate1_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 9,
+            "rate3_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 27
+          }
+        ],
+        "stall_neighbourhood_columns": [
+          "x",
+          "y",
+          "wall",
+          "cloud",
+          "raw_current_code",
+          "initial_resource"
+        ],
+        "stall_neighbourhood": [
+          [
+            3,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            17,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            17,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            9,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            10,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            3,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            18,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            18,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            9,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            10,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            3,
+            19,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            19,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            19,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            19,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            19,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            8,
+            19,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            9,
+            19,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            10,
+            19,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            3,
+            20,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            20,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            20,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            20,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            20,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            20,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            9,
+            20,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            10,
+            20,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            3,
+            21,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            21,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            21,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            21,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            21,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            21,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            9,
+            21,
+            false,
+            true,
+            0,
+            1
+          ],
+          [
+            10,
+            21,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            3,
+            22,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            22,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            22,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            22,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            22,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            22,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            9,
+            22,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            10,
+            22,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            3,
+            23,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            23,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            23,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            23,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            23,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            23,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            9,
+            23,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            10,
+            23,
+            false,
+            true,
+            0,
+            0
+          ]
+        ],
+        "centre_pair_distinct_collection_cells": [
+          [
+            28,
+            47,
+            false,
+            1
+          ],
+          [
+            28,
+            48,
+            true,
+            0
+          ],
+          [
+            28,
+            49,
+            false,
+            5
+          ],
+          [
+            29,
+            47,
+            false,
+            0
+          ],
+          [
+            29,
+            48,
+            false,
+            0
+          ],
+          [
+            29,
+            49,
+            false,
+            0
+          ],
+          [
+            30,
+            47,
+            false,
+            0
+          ],
+          [
+            30,
+            48,
+            false,
+            0
+          ],
+          [
+            30,
+            49,
+            false,
+            0
+          ],
+          [
+            31,
+            47,
+            false,
+            5
+          ],
+          [
+            31,
+            48,
+            true,
+            0
+          ],
+          [
+            31,
+            49,
+            false,
+            1
+          ]
+        ],
+        "centre_pair_resident_rate1_stationary_staffing_benchmark_kg_per_round": 11.666666666666666
+      },
+      {
+        "source": "build/codex-recovery/carrier-read-20261012T215342Z/4570.bc23:game4_MatchHeader",
+        "name": "Forest",
+        "size": [
+          60,
+          60
+        ],
+        "origin": [
+          0,
+          0
+        ],
+        "terrain_geometry_sha256": "6480cebb8fce2fc5b7133a799eec232f86643f56741cf02164c5be6a8abf7868",
+        "equals_official_builtin_terrain_geometry": true,
+        "initial_mana_wells": [
+          {
+            "initial_mana_well": [
+              8,
+              12
+            ],
+            "passable_adjacency_cells_including_well_square": 6,
+            "cloud_cells": 0,
+            "normal_cells": 6,
+            "cells_columns": [
+              "x",
+              "y",
+              "cloud",
+              "raw_current_code",
+              "baseline_collect_cooldown"
+            ],
+            "cells": [
+              [
+                8,
+                11,
+                false,
+                0,
+                10
+              ],
+              [
+                8,
+                12,
+                false,
+                0,
+                10
+              ],
+              [
+                8,
+                13,
+                false,
+                0,
+                10
+              ],
+              [
+                9,
+                11,
+                false,
+                0,
+                10
+              ],
+              [
+                9,
+                12,
+                false,
+                0,
+                10
+              ],
+              [
+                9,
+                13,
+                false,
+                0,
+                10
+              ]
+            ],
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round_num_over6": 36,
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round": 6,
+            "rate1_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 6,
+            "rate3_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 18
+          },
+          {
+            "initial_mana_well": [
+              51,
+              12
+            ],
+            "passable_adjacency_cells_including_well_square": 6,
+            "cloud_cells": 0,
+            "normal_cells": 6,
+            "cells_columns": [
+              "x",
+              "y",
+              "cloud",
+              "raw_current_code",
+              "baseline_collect_cooldown"
+            ],
+            "cells": [
+              [
+                50,
+                11,
+                false,
+                0,
+                10
+              ],
+              [
+                50,
+                12,
+                false,
+                0,
+                10
+              ],
+              [
+                50,
+                13,
+                false,
+                0,
+                10
+              ],
+              [
+                51,
+                11,
+                false,
+                0,
+                10
+              ],
+              [
+                51,
+                12,
+                false,
+                0,
+                10
+              ],
+              [
+                51,
+                13,
+                false,
+                0,
+                10
+              ]
+            ],
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round_num_over6": 36,
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round": 6,
+            "rate1_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 6,
+            "rate3_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 18
+          },
+          {
+            "initial_mana_well": [
+              29,
+              48
+            ],
+            "passable_adjacency_cells_including_well_square": 9,
+            "cloud_cells": 1,
+            "normal_cells": 8,
+            "cells_columns": [
+              "x",
+              "y",
+              "cloud",
+              "raw_current_code",
+              "baseline_collect_cooldown"
+            ],
+            "cells": [
+              [
+                28,
+                47,
+                false,
+                1,
+                10
+              ],
+              [
+                28,
+                48,
+                true,
+                0,
+                12
+              ],
+              [
+                28,
+                49,
+                false,
+                5,
+                10
+              ],
+              [
+                29,
+                47,
+                false,
+                0,
+                10
+              ],
+              [
+                29,
+                48,
+                false,
+                0,
+                10
+              ],
+              [
+                29,
+                49,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                47,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                48,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                49,
+                false,
+                0,
+                10
+              ]
+            ],
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round_num_over6": 53,
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round": 8.833333333333334,
+            "rate1_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 9,
+            "rate3_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 27
+          },
+          {
+            "initial_mana_well": [
+              30,
+              48
+            ],
+            "passable_adjacency_cells_including_well_square": 9,
+            "cloud_cells": 1,
+            "normal_cells": 8,
+            "cells_columns": [
+              "x",
+              "y",
+              "cloud",
+              "raw_current_code",
+              "baseline_collect_cooldown"
+            ],
+            "cells": [
+              [
+                29,
+                47,
+                false,
+                0,
+                10
+              ],
+              [
+                29,
+                48,
+                false,
+                0,
+                10
+              ],
+              [
+                29,
+                49,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                47,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                48,
+                false,
+                0,
+                10
+              ],
+              [
+                30,
+                49,
+                false,
+                0,
+                10
+              ],
+              [
+                31,
+                47,
+                false,
+                5,
+                10
+              ],
+              [
+                31,
+                48,
+                true,
+                0,
+                12
+              ],
+              [
+                31,
+                49,
+                false,
+                1,
+                10
+              ]
+            ],
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round_num_over6": 53,
+            "resident_rate1_stationary_staffing_benchmark_kg_per_round": 8.833333333333334,
+            "rate1_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 9,
+            "rate3_no_boost_no_midturn_vacancy_footprint_reference_upper_kg_per_round": 27
+          }
+        ],
+        "stall_neighbourhood_columns": [
+          "x",
+          "y",
+          "wall",
+          "cloud",
+          "raw_current_code",
+          "initial_resource"
+        ],
+        "stall_neighbourhood": [
+          [
+            3,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            17,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            17,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            9,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            10,
+            17,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            3,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            18,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            18,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            9,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            10,
+            18,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            3,
+            19,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            19,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            19,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            19,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            19,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            8,
+            19,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            9,
+            19,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            10,
+            19,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            3,
+            20,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            20,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            20,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            20,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            20,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            20,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            9,
+            20,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            10,
+            20,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            3,
+            21,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            21,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            21,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            21,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            21,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            21,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            9,
+            21,
+            false,
+            true,
+            0,
+            1
+          ],
+          [
+            10,
+            21,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            3,
+            22,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            22,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            22,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            22,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            22,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            22,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            9,
+            22,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            10,
+            22,
+            false,
+            true,
+            0,
+            0
+          ],
+          [
+            3,
+            23,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            4,
+            23,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            5,
+            23,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            6,
+            23,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            7,
+            23,
+            true,
+            false,
+            0,
+            0
+          ],
+          [
+            8,
+            23,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            9,
+            23,
+            false,
+            false,
+            0,
+            0
+          ],
+          [
+            10,
+            23,
+            false,
+            true,
+            0,
+            0
+          ]
+        ],
+        "centre_pair_distinct_collection_cells": [
+          [
+            28,
+            47,
+            false,
+            1
+          ],
+          [
+            28,
+            48,
+            true,
+            0
+          ],
+          [
+            28,
+            49,
+            false,
+            5
+          ],
+          [
+            29,
+            47,
+            false,
+            0
+          ],
+          [
+            29,
+            48,
+            false,
+            0
+          ],
+          [
+            29,
+            49,
+            false,
+            0
+          ],
+          [
+            30,
+            47,
+            false,
+            0
+          ],
+          [
+            30,
+            48,
+            false,
+            0
+          ],
+          [
+            30,
+            49,
+            false,
+            0
+          ],
+          [
+            31,
+            47,
+            false,
+            5
+          ],
+          [
+            31,
+            48,
+            true,
+            0
+          ],
+          [
+            31,
+            49,
+            false,
+            1
+          ]
+        ],
+        "centre_pair_resident_rate1_stationary_staffing_benchmark_kg_per_round": 11.666666666666666
+      }
+    ]
+  },
+  "carrier_birth_first_collection_lookup": [
+    {
+      "match": 4566,
+      "robot": {
+        "match": "4566",
+        "game": "4",
+        "id": "12569",
+        "side": "A",
+        "type": "C",
+        "born": "288",
+        "died": "1431",
+        "cause": "launcher",
+        "x_born": "9",
+        "y_born": "28",
+        "turns": "1143",
+        "max_still": "13",
+        "still_r0": "1044",
+        "bc_max": "11203",
+        "bc_over": "0",
+        "bc_near": "0",
+        "codes": "G=944;W=136;S=22;F=18"
+      },
+      "first_collected_trip": null,
+      "collection_trips": 0,
+      "inferred_birth_role_if_after200": 2
+    },
+    {
+      "match": 4566,
+      "robot": {
+        "match": "4566",
+        "game": "4",
+        "id": "12004",
+        "side": "A",
+        "type": "C",
+        "born": "992",
+        "died": "",
+        "cause": "",
+        "x_born": "5",
+        "y_born": "31",
+        "turns": "1008",
+        "max_still": "342",
+        "still_r0": "1009",
+        "bc_max": "11202",
+        "bc_over": "0",
+        "bc_near": "0",
+        "codes": "G=822;W=69;C=55;R=29"
+      },
+      "first_collected_trip": {
+        "match": "4566",
+        "game": "4",
+        "side": "A",
+        "carrier": "12004",
+        "t0": "992",
+        "first_collect": "1358",
+        "last_collect": "1387",
+        "t_end": "1397",
+        "well_x": "9",
+        "well_y": "21",
+        "well_type": "1",
+        "collects": "30",
+        "load": "30",
+        "wait_rounds": "0",
+        "outcome": "deposit",
+        "codes": "C=29;D=1;G=358;R=9"
+      },
+      "collection_trips": 2,
+      "inferred_birth_role_if_after200": 1
+    },
+    {
+      "match": 4570,
+      "robot": {
+        "match": "4570",
+        "game": "4",
+        "id": "11861",
+        "side": "A",
+        "type": "C",
+        "born": "352",
+        "died": "1988",
+        "cause": "launcher",
+        "x_born": "3",
+        "y_born": "0",
+        "turns": "1636",
+        "max_still": "30",
+        "still_r0": "1244",
+        "bc_max": "11089",
+        "bc_over": "0",
+        "bc_near": "0",
+        "codes": "G=1496;W=33;C=30;R=22"
+      },
+      "first_collected_trip": {
+        "match": "4570",
+        "game": "4",
+        "side": "A",
+        "carrier": "11861",
+        "t0": "352",
+        "first_collect": "1243",
+        "last_collect": "1272",
+        "t_end": "1296",
+        "well_x": "8",
+        "well_y": "12",
+        "well_type": "2",
+        "collects": "30",
+        "load": "30",
+        "wait_rounds": "37",
+        "outcome": "deposit",
+        "codes": "C=30;D=1;F=11;G=825;R=22;S=5;W=31"
+      },
+      "collection_trips": 1,
+      "inferred_birth_role_if_after200": 2
+    },
+    {
+      "match": 4570,
+      "robot": {
+        "match": "4570",
+        "game": "4",
+        "id": "11476",
+        "side": "A",
+        "type": "C",
+        "born": "928",
+        "died": "1978",
+        "cause": "launcher",
+        "x_born": "7",
+        "y_born": "27",
+        "turns": "1050",
+        "max_still": "417",
+        "still_r0": "933",
+        "bc_max": "11202",
+        "bc_over": "0",
+        "bc_near": "0",
+        "codes": "G=980;C=29;F=11;R=8"
+      },
+      "first_collected_trip": {
+        "match": "4570",
+        "game": "4",
+        "side": "A",
+        "carrier": "11476",
+        "t0": "928",
+        "first_collect": "1359",
+        "last_collect": "1388",
+        "t_end": "1398",
+        "well_x": "9",
+        "well_y": "21",
+        "well_type": "1",
+        "collects": "30",
+        "load": "30",
+        "wait_rounds": "0",
+        "outcome": "deposit",
+        "codes": "C=29;D=1;F=1;G=422;R=8"
+      },
+      "collection_trips": 1,
+      "inferred_birth_role_if_after200": 1
+    },
+    {
+      "match": 4570,
+      "robot": {
+        "match": "4570",
+        "game": "4",
+        "id": "11128",
+        "side": "A",
+        "type": "C",
+        "born": "1696",
+        "died": "",
+        "cause": "",
+        "x_born": "7",
+        "y_born": "27",
+        "turns": "304",
+        "max_still": "297",
+        "still_r0": "1701",
+        "bc_max": "11202",
+        "bc_over": "0",
+        "bc_near": "0",
+        "codes": "G=296;F=2"
+      },
+      "first_collected_trip": null,
+      "collection_trips": 0,
+      "inferred_birth_role_if_after200": 1
+    }
+  ]
+}

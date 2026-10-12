@@ -87,6 +87,10 @@ outside vision. Re-extract the panels with the shot visibility classifier before
   equal or greater early while resource collection lagged; the later95/96-carrier fleets did not close the gap.
   Counts of builds, movement and state labels alone do not identify usable capacity or progress. Preserve
   unknown goals and in-turn motion when measuring endpoint stalls (`research/diagnosis/2026-10-12/carrier/`).
+- **Repair the route, then count the removed stalls.** A second-return veto removes an immediate carrier
+  cancellation but still fails to collect for64 native fixture turns, replacing it with a longer cycle and
+  suppressing an unjam. A lower oscillation count does not establish delivery. Validate first collection and
+  resource return as well as common action paths (`research/diagnosis/2026-10-12-forest-carrier-routing.md`).
 
 ### Process and gates
 

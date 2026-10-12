@@ -1228,3 +1228,12 @@ of history. Times are PDT. Grep it; do not read it whole.
   last342/417/297rounds with observedG335/409/291 and freeendroundneighbours. Roles/goals andin-turnmovesunknown;
   IDsdivisibleby4 may beAD carriers. InspectField/Carrier.moveTwice cancellation andstaticwalls; do not attribute
   these to currents or a mana target without evidence. Physical well footprint andnativeown-only route fixture next.
+
+## 2026-10-12 15:20 PDT — Forest routing falsifier and native workload launch
+
+- Official headers: both existing Forest game4 terrain hashes equal built-in;4 checks,zero rounds walked. HomeMn6clear cells; centralpair12distinct cells, not18. Conditional standard resident benchmarks6/11.667kg/r; upgrades/current/turnover remain separate.
+- Actual12004/11476 pickup atAD(9,21),11128none; allthreehaveADbirthassignment. Do not call(5,20)stall a directMn-route diagnosis.
+- Official owned native fixture12cases366assertions confirms firstdetour/secondreturn cd0→5→10, but simpleveto fails firstcollection through64turns underpersistentblockers and suppressesunjam. Noarm/promote; nextvariant mustdeliver actualcollection/return. HostClock syntheticample, notinstruction-metered. Exactsource/result/manifest androutingreport published.
+- Read-only API15:07: rank26/rating1581.1,latest6490 3–0 vsDukeBas at14:43; active145/noownpending. Recentmixedhigher-ratedopponents give lossrates butboundedwindow doesnotcausallydecompose fullrankdrop. No evidence ofVMoutage.
+- CBCnative4own-archetype games launched15:15:35,supervisor291639,privateoutputcbc-native-20261012T221535Z/output,2jobs,600s games/45minsupervisor. NumericextractIDs fixed; exception/finalturncoverage censorcosts/callers/budgets. Firstarchivevalidationfailedpre-games; exactroot-directory+6fileverificationfixed,newrequestsuccessful. Mend3followonwillreusefirstMend2controlpair.
+- Schema reminder: trips.collects iskg summed overtrip, coordinate/type isdominant only; action-level capacity attribution required for mixed/spanningtrips.
