@@ -8,25 +8,24 @@ changed either VM. The authoritative live files, credentials, replays and runnin
 
 ## Establish remote access from the web environment
 
-The owner can perform one-time setup commands but will not use the CLI for ongoing work (PROMPTS 59). The visible
-environment Edit flow is a setup conversation (PROMPTS 60). Use that conversation to request configuration changes
-and protected credential inputs rather than assuming an Advanced panel is visible. Confirm that VPN plus raw private
-TCP grants can be configured before installing anything on the driver; an HTTP domain allowlist is not a TCP grant.
-Prefer driver-only Tailscale access: the web agent connects to its tailnet IPv4, then reuses the driver's existing
-internal SSH connection to battlecode-dev. No subnet router or game-VM Tailscale installation is needed.
+The owner authorizes one-time setup commands while requiring ongoing web interaction (PROMPTS 58–59). The environment
+Edit assistant confirmed that this instance has VPN disabled and no TCP grants, and that its available tools cannot
+configure either (PROMPTS 61). Its SSH helper does not establish a route. Do not request more guesses about settings,
+enroll a VPN that this web instance cannot use, or treat an HTTP allowlist as raw TCP authorization.
 
-The runtime's documented SSH transport is a configured VPN route plus authorized private TCP forwarding. Current
-observations show no VPN, no TCP grants, and no credential bindings. The environment configuration must provide a
-working route to the existing VPC, a grant for `battlecode-dev` (`10.138.0.3/32`) and the driver's verified private IP,
-and protected SSH authentication with verified host keys. Follow the cloud-environment-runtime networking and VPN
-references; do not disable host-key checks or try to bypass the proxy. This setup cannot be supplied by editing the
-executor's network-policy snapshot.
+The selected route is a **private GitHub control repository with a repository-scoped Actions runner on claude-driver**.
+The runner picks up jobs through outbound HTTPS. This web session writes the trusted job and request, and reads a
+bounded JSON response from that private repository. Existing GCP/SSH credentials remain on the driver. The driver
+then reuses its existing access to battlecode-dev; no new incoming VM port is needed.
 
-Once connected, the agent in this web session executes the recovery steps below remotely. A CLI agent may assist
-with one-time connection setup only if the owner chooses; it is not the ongoing interaction model. GCP IAP over
-HTTPS is another possible route, but proxy support for its WebSocket tunnel has not been verified here. No SSH/GCP
-execution plugin was found by plugin discovery. A self-hosted job worker would require a separate initial setup and
-has not been installed. Do not claim any route is operational until an authenticated read-only VM check succeeds.
+Follow [WEB_WORKER_SETUP.md](WEB_WORKER_SETUP.md) for the concrete one-time setup. The public bot repository contains
+the installer and workflow template only; never register this credential-bearing runner to the public repository.
+The private repo's writers have command access as the driver account, so keep access limited to the owner and intended
+GitHub connection. This transport executes trusted jobs; it is not a sandbox.
+
+No worker is installed and no driver connection has been tested by this web session. Claim the route operational only
+after the initial hashed read-only inspection returns through the response channel. The current cloud policy still
+has no VPN/TCP route; the GitHub worker does not change it.
 
 The owner's SSH command for the driver is:
 

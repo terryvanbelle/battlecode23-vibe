@@ -8,6 +8,7 @@ Start with `TRAINING_ALGORITHM.md` (the loop), `RULES.md` (the game, engine-chec
 All owner prompts are in `PROMPTS.md` (PDT).
 
 For continuing from the web interface using the original VMs, read `docs/CONTINUATION.md` before connecting or syncing.
+The one-time private GitHub worker installation is in [docs/WEB_WORKER_SETUP.md](docs/WEB_WORKER_SETUP.md).
 
 The ladder replica runs galaxy's own backend and frontend behind a password-protected site with rankings and replays:
 see `ACCESS.md`. Its code is in `tools/galaxy/` and its documentation in `docs/galaxy/` (the first, retired replica is in

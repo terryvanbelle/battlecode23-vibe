@@ -1,0 +1,70 @@
+# TEMPLATE: install as .github/workflows/worker.yml ONLY in the PRIVATE
+# terryvanbelle/battlecode23-control repository. Never put this in the public bot repo.
+name: Battlecode driver worker
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - jobs/request.json
+
+permissions:
+  contents: write # Publish bounded job responses in this private control repository only.
+
+jobs:
+  driver:
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.repository == 'terryvanbelle/battlecode23-control' &&
+      github.event.repository.private == true &&
+      github.repository_owner == 'terryvanbelle' &&
+      (github.actor == 'terryvanbelle' ||
+       (vars.BC23_CONTROLLER_ACTOR != '' && github.actor == vars.BC23_CONTROLLER_ACTOR))
+    runs-on: bc23-driver
+    timeout-minutes: 40 # Requests are capped at 30 minutes; leave time for result publication.
+    steps:
+      - name: Check out private control files
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: control
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Execute the requested driver job
+        id: execute
+        working-directory: control
+        env:
+          BC23_WORKER_REPO: ${{ vars.BC23_WORKER_REPO }}
+          BC23_WORKER_OUTPUT: ${{ runner.temp }}/bc23-worker-results-${{ github.run_id }}-${{ github.run_attempt }}
+          BC23_WORKER_STATE: ${{ runner.workspace }}/.bc23-worker-state
+        run: |
+          export BC23_WORKER_REPO="${BC23_WORKER_REPO:-$HOME/projects/vibe/2023}"
+          python3 bridge/run_job.py --request jobs/request.json --job jobs/job.py
+
+      - name: Upload only the requested results
+        if: always() && steps.execute.outputs.export_ready == 'true'
+        id: upload
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: driver-results-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/bc23-worker-results-${{ github.run_id }}-${{ github.run_attempt }}/result.json
+            ${{ runner.temp }}/bc23-worker-results-${{ github.run_id }}-${{ github.run_attempt }}/stdout.txt
+            ${{ runner.temp }}/bc23-worker-results-${{ github.run_id }}-${{ github.run_attempt }}/stderr.txt
+          if-no-files-found: warn
+          retention-days: 7
+          include-hidden-files: false
+
+      - name: Publish the bounded private job response
+        if: always()
+        working-directory: control
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BC23_WORKER_OUTPUT: ${{ runner.temp }}/bc23-worker-results-${{ github.run_id }}-${{ github.run_attempt }}
+          BC23_WORKER_ARTIFACT_ID: ${{ steps.upload.outputs.artifact-id }}
+          BC23_WORKER_EXPORT_READY: ${{ steps.execute.outputs.export_ready }}
+        run: |
+          if [[ -f bridge/publish_result.py && -f jobs/request.json ]]; then
+            python3 bridge/publish_result.py --request jobs/request.json
+          fi

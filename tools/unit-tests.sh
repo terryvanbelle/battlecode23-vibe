@@ -28,6 +28,7 @@ tt=$(python3 "$REPO/tools/test_tools.py" 2>&1) || fail=1
 printf '%s\n' "$tt" | tail -1
 pt=$(python3 "$REPO/tools/test_ranked_policy.py" 2>&1) && echo "ranked policy: $(printf '%s\n' "$pt" | grep -E '^(Ran|OK)' | tr '\n' ' ')" || { printf '%s\n' "$pt" | tail -40; fail=1; }
 ct=$(python3 "$REPO/tools/test_contest_token.py" 2>&1) && echo "contest token: $(printf '%s\n' "$ct" | grep -E '^(Ran|OK)' | tr '\n' ' ')" || { printf '%s\n' "$ct" | tail -40; fail=1; }
+wt=$(python3 -m unittest discover -s "$REPO/tools/web-worker" -p 'test_*.py' 2>&1) && echo "web worker: $(printf '%s\n' "$wt" | grep -E '^(Ran|OK)' | tr '\n' ' ')" || { printf '%s\n' "$wt" | tail -40; fail=1; }
 et=$(python3 "$REPO/tools/test_elo.py" 2>&1) && printf '%s\n' "$et" | tail -1 || { printf '%s\n' "$et" | tail -40; fail=1; }
 mt=$(python3 "$REPO/tools/test_match_report.py" 2>&1) && echo "match reports: $(printf '%s\n' "$mt" | grep -E '^(Ran|OK)' | tr '\n' ' ')" || { printf '%s\n' "$mt" | tail -40; fail=1; }
 rt=$(python3 "$REPO/test/replica/test_replica.py" 2>&1) && echo "replica: $(printf '%s\n' "$rt" | grep -E '^(Ran|OK)' | tr '\n' ' ')" || { printf '%s\n' "$rt" | tail -40; fail=1; }

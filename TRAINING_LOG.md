@@ -1090,3 +1090,22 @@ of history. Times are PDT. Grep it; do not read it whole.
   authenticated SSH with pinned host keys, then existing internal access to battlecode-dev. Native SSH remains the
   straightforward option; Tailscale SSH may avoid a separate private-key binding, subject to explicit tailnet rules
   and a successful actual connection check. No VM installation or configuration has happened yet.
+
+## 2026-10-12 PDT — private driver worker prepared for web control
+
+- PROMPTS 61 reports the environment editor cannot configure VPN/TCP. The prepared SSH helper is not a connection.
+  Switch to outbound GitHub Actions job transport on claude-driver; no cloud VPN or new SSH credentials are needed.
+- PROMPTS 62: owner created battlecode23-control, added it to the connection, and published the environment.
+  Verified repo ID 1415998276, visibility private, connector reads and authenticated git clone. It was empty.
+- Prepared checksum-pinned non-root installer for the existing driver account, isolated repo-scoped runner, exact
+  private-repo/main/actor guards, job hash/deadline validation, permanent single-use request IDs, filtered job
+  environment, bounded/redacted logs, and private response publication with a live repository privacy check.
+  Public bot repo contains only the template; actual executable workflow belongs to the private control repo.
+- First job is read-only driver inspection. No live VM was accessed, no bot was promoted, and no games were requested.
+  One-time VM registration remains necessary; ongoing interaction stays in this web chat.
+- Published private control commit abeb44ec5aff729b4ca6574035aebf2623105652. Verified connector reads the request and
+  lists Actions run 38294065532, queued with the expected actor terryvanbelle. No actor override is needed.
+  Request inspect-driver-20261012T185336Z pins job a4f1a84f0e87be734f723fe140d6f48336859f4bdf167c1234de59c50f6ff61d.
+- Local mocked installer and real local supervisor/publisher regressions cover credential boundaries, origin/cwd
+  preservation, output bounds, timeout process groups, and response integrity: 34 tests pass. Official-jar integration remains a
+  driver check because this cloud's temporary source-built jar has a different checksum; do not weaken the pin.

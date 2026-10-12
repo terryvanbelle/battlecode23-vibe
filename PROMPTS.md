@@ -259,3 +259,31 @@ OK, if you can figure out how to do that one-time authenticated remote connectio
 ## 60. 2026-10-12 PDT (message time unavailable)
 
 I can get to Settings -> Code Cloud -> Environments -> Edit, but there's no Advanced from there.  It's just another chat inteface
+
+## 61. 2026-10-12 PDT (message time unavailable)
+
+Here's what they said:
+
+**The platform supports Tailscale VPN and private raw TCP for SSH, but my current tools cannot configure either.** This instance has VPN disabled and no TCP grants. An HTTP allowlist is insufficient.
+
+Prepared and saved:
+
+- An [SSH helper](/workspace/claude-driver-access/ssh-driver.sh) using raw TCP through `proxy:8088`, with strict host-key verification.
+- A checksum-verified forwarding tool; installation and script syntax checks passed.
+- Startup instructions and empty non-secret variable requirements in the configuration draft.
+
+Existing repositories and network settings were preserved. No direct access to `battlecode-dev` was added.
+
+When the driver is ready, I need:
+
+- **Non-secret:** actual Tailscale IPv4, SSH username, SSH port, and independently verified SSH host public key.
+- **Protected inputs only:** sidecar Tailscale enrollment credential and SSH authentication credential. SSH needs a protected raw key-file mechanism; HTTPS-injected secrets cannot authenticate SSH.
+- **Platform configuration:** VPN enrollment and a TCP grant limited to the driver’s actual IP `/32`. TCP grants cover all ports; tailnet ACLs can restrict access to SSH.
+
+Review and save the prepared draft in environment settings, then publish. VPN/TCP controls and protected credential inputs still need to be made available through supported settings or an operator.
+
+**No driver connection has been tested, and no IP was invented.**
+
+## 62. 2026-10-12 PDT (message time unavailable)
+
+OK, I created the repository and added it to the environment, and I've published the environment
