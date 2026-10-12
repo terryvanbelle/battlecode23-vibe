@@ -1163,3 +1163,22 @@ of history. Times are PDT. Grep it; do not read it whole.
   winner/round invariant remains, with a live counterexample and disagreement fixtures. Local repair checks: ELO 60,
   tools 111 (1 skipped), match reports 36 (2 skipped), field tools 21; all passed. Regenerate live ratings/views after
   adopting the correction; no raw games were deleted or rewritten.
+
+## 2026-10-12 13:41 PDT — official checks pass; progress published to main
+
+- Corrected official-engine suite on claude-driver: 13:11:10–13:33:38 PDT, exit 0, no timeout, start/finish HEAD
+  83ae37a. All 79 bot packages and bot mains passed; analysis 111, ranked 3, token 2, worker 36, ratings 60,
+  reports 36 (2 skipped), replica 83, frontend 13, backend 46, operator 30 passed.
+- Owner verified the profile quote at 13:05 PDT and repository note, then explicitly required every update reach
+  main (PROMPTS 69–70). Snapshot 9e8d180 is on main: 15,708 raw games (all prior published rows preserved), refreshed
+  Rankings/rating history/BT/field-score/progress charts, telemetry, c_well9 FAIL record and screen cache. Rankings
+  snapshot 13:19 PDT: vibe23 #5/88, rating 1682.8; rating history fetched at 13:21 PDT.
+- Recovering summary.txt filled all 100 incumbent reference cells: cache 6,572 cells, no conflicts. c_well9 remains
+  FAIL, h2h 9–11, gating Net 0; information-only roster Net +1 with complete comparisons, basics 0 over/ex/self deaths.
+- The recursive Ward check found the recorded job under queue/cancelled/, with no run/log markers. Preserve the
+  cancelled entry; schedule a fresh current-hash screen rather than interpreting standard status's missing as proof
+  there was no job. No candidate promoted. c_bc3 remains held for actual computePredWells cost/guard evidence.
+- Bounded incremental collector started 13:34 PDT. By 13:38 it had appended 229 games and audited 427 unavailable
+  retention-eligible field replay files, preserving the prior CSV byte prefix. It continues under a 20-minute budget.
+- Owner requires continuous independent diagnosis/idea generation/testing until told to stop (PROMPTS 75). Model
+  budget discussion: 92% remaining, next reset 6d20h; setup-period usage is not a steady-state diagnosis forecast.

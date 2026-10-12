@@ -346,3 +346,19 @@ From now on, push all the way to main.  You're the only one changing the reposit
 ## 71. 2026-10-12 PDT (message time unavailable)
 
 Yep, I see it now
+
+## 72. 2026-10-12 PDT (message time unavailable)
+
+I'm thinking of switching from Sol to Astra.  Given your current rate of token usage, can you tell me whether I'm likely to last until the next weekly refresh?
+
+## 73. 2026-10-12 PDT (message time unavailable)
+
+92% left, resets in 6d 20h
+
+## 74. 2026-10-12 PDT (message time unavailable)
+
+Once you've gotten back up to speed, you'll be expending a lot of intelligence diagnosing games and coming up with good ideas to proceed
+
+## 75. 2026-10-12 PDT (message time unavailable)
+
+Incidentally, just so we're clear:  I expect you to work continuously until I tell you to stop.  Under no circumstances are you to stop working to ask me for new ideas for how to proceed

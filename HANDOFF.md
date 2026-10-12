@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-12 13:05 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
+Updated 2026-10-12 13:41 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
 requires ongoing interaction through the web interface (PROMPTS 58); use the VMs as
 remote compute workers, not a CLI handoff. Read `docs/CONTINUATION.md` before connecting, syncing or restarting jobs.
 VPN/TCP configuration is unavailable in this cloud instance. The private `battlecode23-control` repository is now
@@ -48,14 +48,20 @@ indicator counters are blank, so their apparent zeros do not establish main-work
 Launcher end-turn maxima (median 9,175 vs c_mend2's 9,174; worst 9,363 each) include background work and telemetry;
 they do not measure `computePredWells` savings. Recover the method benchmark or measure work before the fill.
 **c_well9 screen FAIL:** h2h 9-11, roster Net 0; no VALID archetype records rescue the borderline h2h. No trial.
-**c_ward3:** its queued job is missing; requeue its screen on battlecode-dev after checking the current source/cache.
+**c_ward3:** its old job is in `queue/cancelled/`, with no run or log markers. Preserve that entry and requeue a fresh
+screen; all 100 c_mend2 reference cells are now cached, with zero conflicts. c_well9's information-only roster Net is
++1 after recovering the missing `summary.txt` files; gating Net remains 0 and its verdict remains FAIL.
 
-**Verification pending:** the official-engine driver suite ran 2026-10-12 12:25:55-12:46:26 PDT and failed on the
-Python 3.9 bootstrap tar fixture and a false cross-label replay invariant. Repairs are prepared; the official rerun
-must pass before closing the tooling recovery. Preserve raw `progress/games.csv`: galaxy-3357/2 and galaxy-4694/3
+**Verification passed:** the corrected official-engine driver suite ran 2026-10-12 13:11:10–13:33:38 PDT,
+exit 0, no timeout, tied to code commit `83ae37a` at both start and finish. All 79 packages and bot tests passed;
+111 analysis, 3 ranked, 2 token, 36 worker, 60 rating, 36 report (2 skipped), 83 replica, 13 frontend, 46 backend and
+30 operator checks passed. The initial run's Python 3.9 fixture and cross-label invariant failures are repaired.
+Preserve raw `progress/games.csv`: galaxy-3357/2 and galaxy-4694/3
 have the same physical spawn owners and named winner, but different A/B labels and endings (r1631/r1421).
 `rc.getTeam()` makes the labels observable; dedupe now preserves labelled pairs and orientation, while exact labelled
-repeats still face the winner/round invariant. Regenerate rating views after adopting that correction.
+repeats still face the winner/round invariant. Refreshed views and the recovered data are on `main` (`9e8d180`).
+Live Rankings at 13:19 PDT: vibe23 #5 of 88, rating 1682.8. The snapshot has 15,708 recorded games; the bounded
+collector subsequently reached 15,937 games and 427 audited unavailable field replays by 13:38 PDT, and continues.
 
 **Read head-to-heads against the identity control, never against 10/20**: on `test/cells/self-swarm1-panel.txt`
 g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); on the screen's map-seed cells it scores

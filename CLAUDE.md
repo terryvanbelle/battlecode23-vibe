@@ -25,7 +25,8 @@ Read `TRAINING_ALGORITHM.md` (the loop), `RULES.md` (the game, engine-checked), 
    egress to those hosts blocked. The only contact with battlecode.org is the read-only, checksum-pinned engine jar
    download in `tools/get-engine.sh`.
 6. **Unit tests after every change** to the bot or any tool: `tools/unit-tests.sh`.
-7. Bot changes need no approval. **Never block on scrimmages** (owner, PROMPTS 31-32): the main work is the best
+7. **Work continuously until the owner says to stop; never stop to ask for new ideas** (owner, PROMPTS 75).
+   Bot changes need no approval. **Never block on scrimmages** (owner, PROMPTS 31-32): the main work is the best
    LOCAL candidate, built with intelligence and verified by local bot-vs-bot runs (incumbent, archetypes); submit to
    the ladder whenever a build is locally superior and treat ladder games as asynchronous; mine every ladder replay
    for diagnosis and ideas; optimise wall-clock time (a contest gives about two weeks). **Never stop to wait for ideas**; when stuck, re-read the principles of other years

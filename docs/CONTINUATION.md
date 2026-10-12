@@ -127,7 +127,9 @@ in `build/codex-recovery/team-quote-before-20261012.json`; only the quote was ch
 Run `tools/unit-tests.sh` on the driver with the existing **checksum-pinned official 3.0.15 jar** for these
 changes. The initial driver run compiled all 79 bot packages and passed the bot, analysis, ranked/token, report,
 replica and Galaxy checks; it failed the Python 3.9 bootstrap fixture and the incorrect cross-label replay invariant.
-Those failures are repaired here and require the driver rerun. This cloud session installed JDK 8 and built the
+The corrected driver rerun passed at code commit `83ae37a`, 13:11:10–13:33:38 PDT on 2026-10-12, with exit 0 and no
+timeout. All 79 packages and the bot/tool/replica checks passed; the report suite had two existing skips.
+This cloud session installed JDK 8 and built the
 official tag's source for local unit/fixture checks only;
 that temporary jar is gitignored, has a different checksum, and is never for deployment or trial judgments.
 The instrument and concurrency regressions pass locally (111 analysis tests, one skip, plus 3 ranked and 2 token

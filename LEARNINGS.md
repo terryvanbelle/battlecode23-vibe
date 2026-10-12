@@ -87,6 +87,11 @@ outside vision. Re-extract the panels with the shot visibility classifier before
 
 ### Tooling
 
+- **Inspect cancelled queue entries as well as pending, running and done.** The standard status helper called a
+  cancelled c_ward3 job "missing"; the recursive enqueue check found its preserved entry before any duplicate job ran.
+  Recover full run summaries too: copying only results/census/provenance left a completed reference run uncached
+  because ingestion requires `summary.txt` (TRAINING_LOG 2026-10-12 13:41).
+
 - **A state check and the action it authorizes must share the transition lock.** The ranked loop checked the validated
   submission, then a trial could activate its candidate before the ranked POST. Serialize fresh checks through match
   creation; both concurrent orderings are regression-tested. Local file locks require one authoritative checkout
