@@ -9,7 +9,8 @@ Read `TRAINING_ALGORITHM.md` (the loop), `RULES.md` (the game, engine-checked), 
    `battlecode-dev2` belongs to the paused 2024 project: never touch it.
 2. **Record every owner prompt verbatim in `PROMPTS.md`** (PDT), including `/loop` commands, but never a prompt that a
    `/loop` fires, such as "task check" (owner, PROMPTS 4-5).
-   **Push after every commit.** Stage explicit paths. **Report every time to the owner in PDT** (owner, PROMPTS 28).
+   **Push after every commit all the way to `main`** (owner, PROMPTS 69–70); this agent is the only repository writer.
+   Stage explicit paths. **Report every time to the owner in PDT** (owner, PROMPTS 28).
 3. **External bots' source is never read**, except the automated security scan before first compile
    (`tools/bench-scan.sh`, which prints pattern counts, and a minimal look at a hit only to rule out a risk).
    Their games and replays may be studied freely.

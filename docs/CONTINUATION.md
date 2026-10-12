@@ -5,6 +5,8 @@ driver and `battlecode-dev` are compute workers; do not transfer project control
 CLI interaction. The private GitHub worker now connects this web session to the original driver account and checkout.
 Authenticated driver inspection and strict host-key-checked internal SSH to battlecode-dev succeeded on 2026-10-12.
 GCP credentials remain on the driver. The authoritative live files, replays and running jobs remain on the original VMs.
+Publish every completed update to `main`, including generated progress, as the owner instructed in PROMPTS 69–70.
+The owner confirmed this agent is the only repository writer; a continuation branch alone is not publication.
 
 ## Establish remote access from the web environment
 
