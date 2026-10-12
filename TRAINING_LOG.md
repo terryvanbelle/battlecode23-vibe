@@ -1109,3 +1109,6 @@ of history. Times are PDT. Grep it; do not read it whole.
 - Local mocked installer and real local supervisor/publisher regressions cover credential boundaries, origin/cwd
   preservation, output bounds, timeout process groups, and response integrity: 34 tests pass. Official-jar integration remains a
   driver check because this cloud's temporary source-built jar has a different checksum; do not weaken the pin.
+- Final full-suite attempt with local socket permission: 79 packages and bot unit mains pass; 111 analysis, 3 ranked,
+  2 token, 34 worker, 58 ratings, 36 reports, and 21 operator tests pass. Replica/Galaxy failures are only their
+  enforced official-engine checksum checks (one each); frontend passes with four existing optional build skips.
