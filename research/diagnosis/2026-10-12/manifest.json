@@ -1,0 +1,82 @@
+{
+  "research/diagnosis/2026-10-12/cbc-cost/run.sh": {
+    "bytes": 3815,
+    "sha256": "ad3552be4723ea8008a951b179a88ccb216485dd864f940e0d554a41a8b6b298"
+  },
+  "research/diagnosis/2026-10-12/cbc-cost/CbcCostProbe.java": {
+    "bytes": 14793,
+    "sha256": "cf4884ccd145d94ce8debebd6d40e56e46c3c21d2a4478eb67b4c36aa777a693"
+  },
+  "research/diagnosis/2026-10-12/cbc-cost/ApiCalibration.java": {
+    "bytes": 509,
+    "sha256": "b326aa7f2ae388784201cbc1a9d45c90cc0e25cc5be150dbc750c74d6ddb84df"
+  },
+  "research/diagnosis/2026-10-12/cbc-cost/result.json": {
+    "bytes": 32471,
+    "sha256": "a4790bac26035bca89a77ea46c956febe54d4ace24b0ec401a3e687ae1a3edde"
+  },
+  "research/diagnosis/2026-10-12/cbc-cost/provenance.json": {
+    "bytes": 1471,
+    "sha256": "11991ba68b2394b0b7d0bddc865221a4bf6e8138cf37a2101363f5802d224554"
+  },
+  "research/diagnosis/2026-10-12/mend-cost/run.sh": {
+    "bytes": 4817,
+    "sha256": "64cf89c0ccb9174d71c021022c33e612eb6b109c4cf2d95d6396a977130c266c"
+  },
+  "research/diagnosis/2026-10-12/mend-cost/MendCostProbe.java": {
+    "bytes": 13822,
+    "sha256": "52165da50d0b6cbbfe99e905e890fff60d3a0a99ea94cde285641245a585d92c"
+  },
+  "research/diagnosis/2026-10-12/mend-cost/ApiCalibration.java": {
+    "bytes": 510,
+    "sha256": "efcd4f53b9eb1bcff17ff948131456c70219b884a18a5888327b98f55ac25ccc"
+  },
+  "research/diagnosis/2026-10-12/mend-cost/result.json": {
+    "bytes": 164587,
+    "sha256": "5b6884e61ba13d996d6b2b31dda1e149e5ec6a4d4cca47c3ded5c3ba7fa01c51"
+  },
+  "research/diagnosis/2026-10-12/mend-cost/provenance.json": {
+    "bytes": 2844,
+    "sha256": "97b54077ae772983d609a48ebbb0c5b7662e3f02de78840879623e204c7108ee"
+  },
+  "research/diagnosis/2026-10-12/blind-cooldown/NativeBlindProbe.java": {
+    "bytes": 12544,
+    "sha256": "44cf731914e438f8c880fcccf458c55948877fa3449f767de0fc1a039fa062a4"
+  },
+  "research/diagnosis/2026-10-12/blind-cooldown/run.sh": {
+    "bytes": 1912,
+    "sha256": "9415fa19978fe44c7b0be7fae0e24b115e4b03412685703c445962d433463ee0"
+  },
+  "research/diagnosis/2026-10-12/blind-cooldown/README.md": {
+    "bytes": 3286,
+    "sha256": "8cb5fd5cb6d0bd04ec5d6f4ae843d0b62d9db271676c6bf811d3b1ec41e2000b"
+  },
+  "research/diagnosis/2026-10-12/blind-cooldown/official-result.json": {
+    "bytes": 9077,
+    "sha256": "f64cdf2a934af2fd2f3f95e18be1aae4a4a7d0efa6ce5c474cf1db7d8b9b831b"
+  },
+  "research/diagnosis/2026-10-12/carrier/deposit_opportunity_probe.py": {
+    "bytes": 11063,
+    "sha256": "ea68be12de8d2e8a6efbdb70d043283ee1108d121119c3e95ab445acc5721c12"
+  },
+  "research/diagnosis/2026-10-12/carrier/forest_economy_probe.py": {
+    "bytes": 8760,
+    "sha256": "41f592af12749760f8aa092e41d97c289e02b0ee9f5d51fba2eadcec558051c7"
+  },
+  "research/diagnosis/2026-10-12/carrier/CarrierMovementProbe.java": {
+    "bytes": 12856,
+    "sha256": "dfb8f5517329ef8abd1ab264ba7b18e686b21393aaf1c65204538a54f43277d6"
+  },
+  "research/diagnosis/2026-10-12/carrier/trip-result.json": {
+    "bytes": 108044,
+    "sha256": "8c265b362438fc3d7bb45c2195ba01c01b1489ff7379cdeb1f969a841532feaf"
+  },
+  "research/diagnosis/2026-10-12/carrier/economy-result.json": {
+    "bytes": 57446,
+    "sha256": "ca5b97a0bcb518008118941365124122e4f71ac12be26d3f0c747a46db77c270"
+  },
+  "research/diagnosis/2026-10-12/carrier/movement-result.json": {
+    "bytes": 24674,
+    "sha256": "43fd2c4a6ac7111bc1b60a7fcb33595e33c4bde59e3241a60a3344a05e8fa21e"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "c_mend2_hash": "d62033781fbd",
+  "c_mend3_hash": "db9f54f47fea",
+  "calibration_sha256": "efcd4f53b9eb1bcff17ff948131456c70219b884a18a5888327b98f55ac25ccc",
+  "engine_sha256": "5d4e42a51946cc1c2149426485bda8096ff1c088c77e3ed075c06ce5968ed72a",
+  "games_run": 0,
+  "java_version": "openjdk version \"1.8.0_504\"\nOpenJDK Runtime Environment (Temurin)(build 1.8.0_504-b01)\nOpenJDK 64-Bit Server VM (Temurin)(build 25.504-b01, mixed mode)",
+  "method": "mendUpdate",
+  "note": "Own frozen classes only; API bodies/setup excluded, API callsite charges included. Pending debt asserted zero. Finite real method-entry budgets; reserve overshoots reported, never hidden. Method probe does not measure the later fight/march tail.",
+  "probe_sha256": "52165da50d0b6cbbfe99e905e890fff60d3a0a99ea94cde285641245a585d92c",
+  "prototype_only": false,
+  "result_sha256": "5b6884e61ba13d996d6b2b31dda1e149e5ec6a4d4cca47c3ded5c3ba7fa01c51",
+  "probe_source_sha256": {
+    "run.sh": "64cf89c0ccb9174d71c021022c33e612eb6b109c4cf2d95d6396a977130c266c",
+    "MendCostProbe.java": "52165da50d0b6cbbfe99e905e890fff60d3a0a99ea94cde285641245a585d92c",
+    "ApiCalibration.java": "efcd4f53b9eb1bcff17ff948131456c70219b884a18a5888327b98f55ac25ccc"
+  },
+  "bot_source_sha256": {
+    "Telemetry.java": "e3368b0e3538d510429ebab93d3823fe29fa5db306422c674f8e357794c4c4a2",
+    "Launcher.java": "b5c5cc4c0596befdfdbeba53e4808519bf07f6a3f551617a8237ff5d3b7dc571",
+    "Other.java": "cd8777b44e4ee3e7e5249f994a908640594d541721eaccf5000dbeccb00b58c0",
+    "HQ.java": "2eaf2e0c0b4e9ed288bd414174bfb155ce1c6e27b0a670b31c4e3f169aa4439a",
+    "C.java": "77929b6f1327444fadbe7efa512022f3aff303f1a761f32d37b35299eaba24d1",
+    "Carrier.java": "fba5498e8ad0b86690daafae870fe927b51c89d8bea9eb727d0d871953bca32c",
+    "Wells.java": "b5adfab062a749d30620398f6d15a6c65cb0d62d606f2cefdeb282cf418c3c57",
+    "Nav.java": "c5bf688b6be2d0cf099fd241647c49576a5d422ffe5afbf70d781007a6d2658c",
+    "Field.java": "570577fe6029baaf363203c68ffbbc27fa67ff31794af7b5ffeee0e25f769e63",
+    "MapMem.java": "f1eb6a3acdf7bd5b6041f210af7fcd79e59c4d8314150fa61ade02428ce85cc1",
+    "Comms.java": "4159bf4a6f481cbef174b6deed39cefb0c195aabd8831d48af3a56e7c401ae3a",
+    "Amplifier.java": "94125e4024dc0372f7ae7aa387e72e1746df681ddd82ee739835ce1fba6d355b",
+    "RobotPlayer.java": "b4de957b2bf6de639330e31028db6ab33b3189ad8f56e558c86b46cae5510149",
+    "G.java": "3c6d1892d71912a13e8ecd7f093fc781330d485868741ec27100a4361dbc270b",
+    "HQState.java": "b74c10c8e072bea94cfa659f69b58f3a1a62e26cd2ea7102bc32921d2b3dea5c"
+  },
+  "driver_artifacts": "/home/terryvanbelle/projects/vibe/2023/build/codex-recovery/mend-probe-20261012T213328Z",
+  "worker_id": "measure-mend-20261012T213229Z",
+  "worker_sha256": "9aa37653443aaf7e634723895cd7913fc5a3903a7d44fef9a9c43c40f95f6fb8",
+  "workflow_run_id": "38311277541"
+}

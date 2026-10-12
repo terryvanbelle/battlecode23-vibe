@@ -1,0 +1,20 @@
+{
+  "c_bc3_hash": "ed3aceb26a90",
+  "c_mend2_hash": "d62033781fbd",
+  "calibration_sha256": "b326aa7f2ae388784201cbc1a9d45c90cc0e25cc5be150dbc750c74d6ddb84df",
+  "engine_sha256": "5d4e42a51946cc1c2149426485bda8096ff1c088c77e3ed075c06ce5968ed72a",
+  "games_run": 0,
+  "java_version": "openjdk version \"1.8.0_504\"\nOpenJDK Runtime Environment (Temurin)(build 1.8.0_504-b01)\nOpenJDK 64-Bit Server VM (Temurin)(build 25.504-b01, mixed mode)",
+  "method": "computePredWells",
+  "note": "Synthetic fixed inputs. cached/changed warm at10000; cached_unbounded warms at1000000 and may be unreachable. Cost includes instrumented own instructions/array accounting and API callsite charges; host setup/proxy body excluded. Pending debt asserted zero.",
+  "output_dir": "/home/terryvanbelle/projects/vibe/2023/build/codex-recovery/cbc-probe-20261012T210624Z/output",
+  "probe_sha256": "cf4884ccd145d94ce8debebd6d40e56e46c3c21d2a4478eb67b4c36aa777a693",
+  "prototype_only": false,
+  "result_sha256": "a4790bac26035bca89a77ea46c956febe54d4ace24b0ec401a3e687ae1a3edde",
+  "probe_source_sha256": {
+    "run.sh": "ad3552be4723ea8008a951b179a88ccb216485dd864f940e0d554a41a8b6b298",
+    "CbcCostProbe.java": "cf4884ccd145d94ce8debebd6d40e56e46c3c21d2a4478eb67b4c36aa777a693",
+    "ApiCalibration.java": "b326aa7f2ae388784201cbc1a9d45c90cc0e25cc5be150dbc750c74d6ddb84df"
+  },
+  "driver_artifacts": "/home/terryvanbelle/projects/vibe/2023/build/codex-recovery/cbc-probe-20261012T210624Z"
+}

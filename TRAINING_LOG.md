@@ -1210,3 +1210,21 @@ of history. Times are PDT. Grep it; do not read it whole.
 - Collector finished 13:54 PDT, exit0/no timeout, 15,708 ->17,701 raw rows with prior byte prefix preserved,
   1,006 unavailable eligible field replay audit records. Final batch adds zero, seven matches unfinished. Ward3
   screen running stageC since14:05 PDT after stagesA/B and zero missing incumbent cells; no duplicate panel.
+
+## 2026-10-12 15:05 PDT — official Mend3 checks, published evidence and productivity diagnosis
+
+- Full official suite PASS at644abde,14:31:26–14:53:59 PDT, same start/end HEAD,80packages +852Mend3checks, all
+  tool/replica checks; no timeout. Canonical driver nowmain with live data preserved. Artifact unit-20261012T213126Z.
+- Main920aea3:17,701rawgames (+1993),1,006 replay-gap audit records,21 recovered reports; consistent chart set
+  captured14:42. Fresh rankings#28/88 rating1568.6,501rated matches latest14:11Oct12. Earlier#5snapshot is historical.
+- Official Mend3 method117repeated cases: no drift/common decision changes, allpendingdebt0;18fallbacks,3returns
+  below6000,min5912. Safe-nearest331both, visiblebypass335vs332, second-safe619vs332; method-entry budget differs
+  from later fallback-entry budget. Full live delivery pending, no trial. Exact artifacts and standalone probes
+  exportedunder research/diagnosis/2026-10-12; CBC results retain58finite-budget list differences/192cases.
+- Native host blind-cooldown13cases/205assertions PASS onofficial5d4/JDK8: clear hidden hit20,CD0->10->0; forced
+  cloud control0->12->2. Strictsum<=10 correctly rejects later debt. No metered hook cost or bot change claimed.
+- Forest4566/4570g4: actualown carriers95/96atr1000, favorablecombat but poorcollection; earlyequal-worker
+  populations alreadylag productivity. G trace moving-turn ABA19.1%/14.8%; repeated(5,20) empty-cargo episodes
+  last342/417/297rounds with observedG335/409/291 and freeendroundneighbours. Roles/goals andin-turnmovesunknown;
+  IDsdivisibleby4 may beAD carriers. InspectField/Carrier.moveTwice cancellation andstaticwalls; do not attribute
+  these to currents or a mana target without evidence. Physical well footprint andnativeown-only route fixture next.

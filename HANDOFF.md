@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-12 14:20 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
+Updated 2026-10-12 15:05 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
 requires ongoing interaction through the web interface (PROMPTS 58); use the VMs as
 remote compute workers, not a CLI handoff. Read `docs/CONTINUATION.md` before connecting, syncing or restarting jobs.
 VPN/TCP configuration is unavailable in this cloud instance. The private `battlecode23-control` repository is now
@@ -54,27 +54,42 @@ CBC3 remains held while actual call frequencies and consumed objectives are meas
 **c_mend3:** new isolated healing-selector arm, source hash `db9f54f47fea`. If the nearest owned island is blocked
 by a fresh sighting, seek a second safe island only with no visible enemies and 7,500 bytecodes at fallback entry.
 The scan checks the original 6,000 reserve between islands. Safe-nearest behavior retains the original API reads,
-ties and thresholds. All 852 decision/guard prototype checks pass; official suite, actual cost and delivery are
-pending. No submission or promotion.
+ties and thresholds. All 852 decision/guard prototype checks pass; actual live cost and delivery are
+pending; the official full suite passed. No submission or promotion.
 **c_ward3:** fresh full screen queued at 13:44 PDT as `20261012-204410-scr-c_ward3-3d2ef1dd0da7`, tag
 `scr-3d2ef1dd0da7-0b3c`: up to 128 candidate games, zero missing incumbent reference cells. The existing queue runner
 PID 254430 was reused. Its old job remains in `queue/cancelled/`, with no run or log markers. As of 14:17 PDT it is running stage C (100 roster cells); stages A/B are complete. All 100 c_mend2 reference
 cells are cached, with zero conflicts. c_well9's information-only roster Net is
 +1 after recovering the missing `summary.txt` files; gating Net remains 0 and its verdict remains FAIL.
 
-**Verification passed:** the corrected official-engine driver suite ran 2026-10-12 13:11:10–13:33:38 PDT,
-exit 0, no timeout, tied to code commit `83ae37a` at both start and finish. All 79 packages and bot tests passed;
-111 analysis, 3 ranked, 2 token, 36 worker, 60 rating, 36 report (2 skipped), 83 replica, 13 frontend, 46 backend and
-30 operator checks passed. The initial run's Python 3.9 fixture and cross-label invariant failures are repaired.
-Preserve raw `progress/games.csv`: galaxy-3357/2 and galaxy-4694/3
-have the same physical spawn owners and named winner, but different A/B labels and endings (r1631/r1421).
-`rc.getTeam()` makes the labels observable; dedupe now preserves labelled pairs and orientation, while exact labelled
-repeats still face the winner/round invariant. Refreshed views and the recovered data are on `main` (`9e8d180`).
-Live Rankings at 13:19 PDT: vibe23 #5 of 88, rating 1682.8. The snapshot has 15,708 recorded games; the bounded
-collector finished at 13:54 PDT with **17,701 games**, preserving the prior CSV byte prefix, and **1,006 audited
-unavailable field replay records**. No eligible completed matches remained; seven matches were unfinished.
-Publish the next consistent data/chart snapshot after guarded driver main adoption. The earlier 15,708 snapshot
-remains dated; do not mix its charts with the later raw totals.
+**Current official verification passed:** the suite ran 14:31:26–14:53:59 PDT on canonical driver `main`,
+source `644abde`, exit0/no timeout, same start/end HEAD. All80 bot packages and852 Mend3 checks passed, along with
+the complete111 analysis/3 ranked/2 token/36 worker/60 rating/36 report(2 skipped)/83 replica/13 frontend/
+46 backend/30 operator checks. Artifact directory `build/codex-recovery/unit-20261012T213126Z`.
+Driver main adoption preserved17,701 raw rows byte-for-byte,30 live files and35 screen states; archived all21
+recovered reports and kept the screen-cache lock inode. Preserve this authoritative checkout and its live data.
+
+**Progress published:** `920aea3` contains17,701 games,1,006 unavailable field replay audit records,21 recovered
+match reports and a consistent full chart set captured14:42 PDT. Existing rows remain. Rankings now show
+**vibe23 #28 of88, rating1568.6**; history fetched14:44 has501rated matches and latest actual rating14:11Oct12.
+The earlier #5/1682.8 snapshot is historical, not current standing. Active/validated remains c_mend2/145.
+The larger data set gives Mend2305–218/523 recorded unique games, BT2027±44 (rank19 of109 including builds).
+Diagnose the recent ranked opponent mix and actual productivity; do not change challenge policy to manufacture Elo.
+
+**New measured evidence:** `research/diagnosis/2026-10-12/` preserves official results, owned probes and SHA manifests.
+Mend3's117 repeated cases match the prototype: safe-nearest331/331; blocked-nearest+safe-second332/619; visible
+enemy bypass332/335; largest fallback2390/4088 with5912left. Eighteen fixture calls entered fallback; live frequency
+and whole-turn delivery remain pending. The native blind-shot correctness probe passed13cases/205assertions;
+strict cd+cost<=10 preserves next-own-start CD0. Host fixtures have no instruction meter; no blind-shot bot arm yet.
+
+**Priority diagnosis:** Forest4566g4/4570g4 has favorable combat exchange but weak collection. Actual own fleet
+95/96 at r1000, late carrier G72–78%; the productivity gap already appears with equal-or-more carriers early.
+Raw replay measurements found ABA on19.1%/14.8% of moving-G turns and repeated long equal-endpoint episodes.
+At(5,20), IDs12004/11476/11128 remain hundreds of rounds with empty cargo and free neighbours; do not infer
+their target or in-turn movement from endpoints. These IDs may be AD carriers. Inspect static wall geometry,
+actual roles and Carrier.moveTwice/Nav field detours before implementing. Shared knowledge remains unknown in
+field replays; no opponent shadow reruns. Native CBC workload and Mend3 followon helpers are prepared but not
+yet launched; they use only our own archetypes and reuse controls rather than replaying panels.
 
 **Read head-to-heads against the identity control, never against 10/20**: on `test/cells/self-swarm1-panel.txt`
 g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); on the screen's map-seed cells it scores

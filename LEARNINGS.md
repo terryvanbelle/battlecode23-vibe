@@ -80,6 +80,14 @@ outside vision. Re-extract the panels with the shot visibility classifier before
   r1631/r1421 with opposite labels. Keep both raw rows and labelled pair/orientation keys; retain the strict invariant
   for exact labelled repeats (TRAINING_LOG 2026-10-12 13:05).
 
+- **A loop guard is not a return reserve.** Mend3's official method fixtures admit an iteration above6,000 and
+  return as low as5,912 after the iteration/epilogue. Measure the maximum admitted work and the rest of the turn
+  before claiming guaranteed headroom (`research/diagnosis/2026-10-12-c_mend3-cost.md`).
+- **Measure productive capacity before adding labour.** In two Forest games, our worker counts were already
+  equal or greater early while resource collection lagged; the later95/96-carrier fleets did not close the gap.
+  Counts of builds, movement and state labels alone do not identify usable capacity or progress. Preserve
+  unknown goals and in-turn motion when measuring endpoint stalls (`research/diagnosis/2026-10-12/carrier/`).
+
 ### Process and gates
 
 - **Overlap trials.** A replica match plays the submission active when it is created, so a candidate needs to be active

@@ -1,0 +1,3771 @@
+{
+  "head": "644abde7564c09e3d19b0471ae28f429a8bac9fd",
+  "semantics": [
+    "Side A fixed from own generated match reports 4562 and 4565.",
+    "Only strictly earlier observed COMMS snapshots supply candidate wells.",
+    "No map truth or other-team observation is treated as our knowledge.",
+    "Replay trip well is the dominant collected well; reconstructed deposit load is all resources, not necessarily the dominant well resource alone. Per-trip deposit HQ is absent without dots.",
+    "Opportunity geometry is not exact counterfactual call count: shared state between snapshots, current role/well changes after TRIP, private seen wells, movement, and budget are not fully observed.",
+    "Zero opportunity counts do not rule out unobserved newly published or privately seen wells."
+  ],
+  "matches": [
+    {
+      "match": 4562,
+      "events_available": false,
+      "invalid_event_lines": null,
+      "our_dot_kinds": null,
+      "files": {
+        "/home/terryvanbelle/projects/vibe/2023/matches/4562/extract/games.csv": {
+          "bytes": 2226,
+          "sha256": "01fd8bd2fcd7bd683b33f2b64e27ee3f1282937eefd9d8a58459cb9eafa6d494"
+        },
+        "/home/terryvanbelle/projects/vibe/2023/matches/4562/extract/hq.csv": {
+          "bytes": 85883,
+          "sha256": "d8e0a971658ac7625ae94427e72b0b24ee6e43e753579223236e9a7610a25620"
+        },
+        "/home/terryvanbelle/projects/vibe/2023/matches/4562/extract/trips.csv": {
+          "bytes": 420781,
+          "sha256": "ffff52a8090a6d2022ad8b364be4ffcde43dd8e37aeb3c7bf34b1b8612281fb9"
+        }
+      },
+      "games": [
+        {
+          "game": 0,
+          "map": "BatSignal",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "1",
+          "rounds": "587",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 169,
+            "deposit_trips": 139,
+            "deposit_load_kg": 4170,
+            "death_trips": 0,
+            "deposit_cycle_median": 44,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  10,
+                  11
+                ],
+                "type": 2,
+                "trips": 118,
+                "first_collection_round": 3,
+                "deposit_trips": 108,
+                "deposit_load_kg": 3240,
+                "death_trips": 0,
+                "deposit_cycle_median": 48,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      10
+                    ],
+                    "cheb": 7,
+                    "dist2": 50
+                  }
+                ]
+              },
+              {
+                "well": [
+                  6,
+                  15
+                ],
+                "type": 1,
+                "trips": 28,
+                "first_collection_round": 3,
+                "deposit_trips": 25,
+                "deposit_load_kg": 750,
+                "death_trips": 0,
+                "deposit_cycle_median": 36,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      10
+                    ],
+                    "cheb": 5,
+                    "dist2": 34
+                  }
+                ]
+              },
+              {
+                "well": [
+                  27,
+                  6
+                ],
+                "type": 2,
+                "trips": 13,
+                "first_collection_round": 470,
+                "deposit_trips": 6,
+                "deposit_load_kg": 180,
+                "death_trips": 0,
+                "deposit_cycle_median": 101,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      10
+                    ],
+                    "cheb": 24,
+                    "dist2": 592
+                  }
+                ]
+              },
+              {
+                "well": [
+                  32,
+                  6
+                ],
+                "type": 2,
+                "trips": 1,
+                "first_collection_round": 582,
+                "deposit_trips": 0,
+                "deposit_load_kg": 0,
+                "death_trips": 0,
+                "deposit_cycle_median": null,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      10
+                    ],
+                    "cheb": 29,
+                    "dist2": 857
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 1,
+          "map": "Cat",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "1",
+          "rounds": "752",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 269,
+            "deposit_trips": 193,
+            "deposit_load_kg": 5790,
+            "death_trips": 18,
+            "deposit_cycle_median": 41,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  20,
+                  32
+                ],
+                "type": 2,
+                "trips": 107,
+                "first_collection_round": 3,
+                "deposit_trips": 81,
+                "deposit_load_kg": 2430,
+                "death_trips": 16,
+                "deposit_cycle_median": 49,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      11,
+                      25
+                    ],
+                    "cheb": 9,
+                    "dist2": 130
+                  },
+                  {
+                    "hq": [
+                      14,
+                      35
+                    ],
+                    "cheb": 6,
+                    "dist2": 45
+                  }
+                ]
+              },
+              {
+                "well": [
+                  19,
+                  38
+                ],
+                "type": 1,
+                "trips": 44,
+                "first_collection_round": 87,
+                "deposit_trips": 44,
+                "deposit_load_kg": 1320,
+                "death_trips": 0,
+                "deposit_cycle_median": 36.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      11,
+                      25
+                    ],
+                    "cheb": 13,
+                    "dist2": 233
+                  },
+                  {
+                    "hq": [
+                      14,
+                      35
+                    ],
+                    "cheb": 5,
+                    "dist2": 34
+                  }
+                ]
+              },
+              {
+                "well": [
+                  16,
+                  27
+                ],
+                "type": 1,
+                "trips": 39,
+                "first_collection_round": 212,
+                "deposit_trips": 37,
+                "deposit_load_kg": 1110,
+                "death_trips": 1,
+                "deposit_cycle_median": 35,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      11,
+                      25
+                    ],
+                    "cheb": 5,
+                    "dist2": 29
+                  },
+                  {
+                    "hq": [
+                      14,
+                      35
+                    ],
+                    "cheb": 8,
+                    "dist2": 68
+                  }
+                ]
+              },
+              {
+                "well": [
+                  29,
+                  32
+                ],
+                "type": 2,
+                "trips": 35,
+                "first_collection_round": 377,
+                "deposit_trips": 29,
+                "deposit_load_kg": 870,
+                "death_trips": 0,
+                "deposit_cycle_median": 93,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      11,
+                      25
+                    ],
+                    "cheb": 18,
+                    "dist2": 373
+                  },
+                  {
+                    "hq": [
+                      14,
+                      35
+                    ],
+                    "cheb": 15,
+                    "dist2": 234
+                  }
+                ]
+              },
+              {
+                "well": [
+                  30,
+                  38
+                ],
+                "type": 1,
+                "trips": 2,
+                "first_collection_round": 499,
+                "deposit_trips": 2,
+                "deposit_load_kg": 60,
+                "death_trips": 0,
+                "deposit_cycle_median": 63,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      11,
+                      25
+                    ],
+                    "cheb": 19,
+                    "dist2": 530
+                  },
+                  {
+                    "hq": [
+                      14,
+                      35
+                    ],
+                    "cheb": 16,
+                    "dist2": 265
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 2,
+          "map": "Cornucopia",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "0",
+          "rounds": "1416",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 136,
+            "deposit_trips": 44,
+            "deposit_load_kg": 1320,
+            "death_trips": 73,
+            "deposit_cycle_median": 56.5,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  23,
+                  29
+                ],
+                "type": 2,
+                "trips": 20,
+                "first_collection_round": 6,
+                "deposit_trips": 11,
+                "deposit_load_kg": 330,
+                "death_trips": 4,
+                "deposit_cycle_median": 53,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      10,
+                      18
+                    ],
+                    "cheb": 13,
+                    "dist2": 290
+                  },
+                  {
+                    "hq": [
+                      29,
+                      51
+                    ],
+                    "cheb": 22,
+                    "dist2": 520
+                  },
+                  {
+                    "hq": [
+                      48,
+                      18
+                    ],
+                    "cheb": 25,
+                    "dist2": 746
+                  }
+                ]
+              },
+              {
+                "well": [
+                  26,
+                  34
+                ],
+                "type": 2,
+                "trips": 20,
+                "first_collection_round": 7,
+                "deposit_trips": 17,
+                "deposit_load_kg": 510,
+                "death_trips": 1,
+                "deposit_cycle_median": 61,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      10,
+                      18
+                    ],
+                    "cheb": 16,
+                    "dist2": 512
+                  },
+                  {
+                    "hq": [
+                      29,
+                      51
+                    ],
+                    "cheb": 17,
+                    "dist2": 298
+                  },
+                  {
+                    "hq": [
+                      48,
+                      18
+                    ],
+                    "cheb": 22,
+                    "dist2": 740
+                  }
+                ]
+              },
+              {
+                "well": [
+                  35,
+                  29
+                ],
+                "type": 2,
+                "trips": 17,
+                "first_collection_round": 6,
+                "deposit_trips": 12,
+                "deposit_load_kg": 360,
+                "death_trips": 3,
+                "deposit_cycle_median": 53.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      10,
+                      18
+                    ],
+                    "cheb": 25,
+                    "dist2": 746
+                  },
+                  {
+                    "hq": [
+                      29,
+                      51
+                    ],
+                    "cheb": 22,
+                    "dist2": 520
+                  },
+                  {
+                    "hq": [
+                      48,
+                      18
+                    ],
+                    "cheb": 13,
+                    "dist2": 290
+                  }
+                ]
+              },
+              {
+                "well": [
+                  41,
+                  22
+                ],
+                "type": 1,
+                "trips": 5,
+                "first_collection_round": 128,
+                "deposit_trips": 3,
+                "deposit_load_kg": 90,
+                "death_trips": 2,
+                "deposit_cycle_median": 40,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      10,
+                      18
+                    ],
+                    "cheb": 31,
+                    "dist2": 977
+                  },
+                  {
+                    "hq": [
+                      29,
+                      51
+                    ],
+                    "cheb": 29,
+                    "dist2": 985
+                  },
+                  {
+                    "hq": [
+                      48,
+                      18
+                    ],
+                    "cheb": 7,
+                    "dist2": 65
+                  }
+                ]
+              },
+              {
+                "well": [
+                  17,
+                  22
+                ],
+                "type": 1,
+                "trips": 2,
+                "first_collection_round": 128,
+                "deposit_trips": 0,
+                "deposit_load_kg": 0,
+                "death_trips": 1,
+                "deposit_cycle_median": null,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      10,
+                      18
+                    ],
+                    "cheb": 7,
+                    "dist2": 65
+                  },
+                  {
+                    "hq": [
+                      29,
+                      51
+                    ],
+                    "cheb": 29,
+                    "dist2": 985
+                  },
+                  {
+                    "hq": [
+                      48,
+                      18
+                    ],
+                    "cheb": 31,
+                    "dist2": 977
+                  }
+                ]
+              },
+              {
+                "well": [
+                  32,
+                  24
+                ],
+                "type": 2,
+                "trips": 2,
+                "first_collection_round": 171,
+                "deposit_trips": 1,
+                "deposit_load_kg": 30,
+                "death_trips": 0,
+                "deposit_cycle_median": 56,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      10,
+                      18
+                    ],
+                    "cheb": 22,
+                    "dist2": 520
+                  },
+                  {
+                    "hq": [
+                      29,
+                      51
+                    ],
+                    "cheb": 27,
+                    "dist2": 738
+                  },
+                  {
+                    "hq": [
+                      48,
+                      18
+                    ],
+                    "cheb": 16,
+                    "dist2": 292
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 3,
+          "map": "DefaultMap",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "1",
+          "rounds": "644",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 353,
+            "deposit_trips": 269,
+            "deposit_load_kg": 8070,
+            "death_trips": 28,
+            "deposit_cycle_median": 40,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  7,
+                  21
+                ],
+                "type": 2,
+                "trips": 135,
+                "first_collection_round": 3,
+                "deposit_trips": 127,
+                "deposit_load_kg": 3810,
+                "death_trips": 0,
+                "deposit_cycle_median": 37,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      26
+                    ],
+                    "cheb": 5,
+                    "dist2": 34
+                  },
+                  {
+                    "hq": [
+                      13,
+                      23
+                    ],
+                    "cheb": 6,
+                    "dist2": 40
+                  },
+                  {
+                    "hq": [
+                      25,
+                      18
+                    ],
+                    "cheb": 18,
+                    "dist2": 333
+                  }
+                ]
+              },
+              {
+                "well": [
+                  20,
+                  23
+                ],
+                "type": 2,
+                "trips": 96,
+                "first_collection_round": 3,
+                "deposit_trips": 70,
+                "deposit_load_kg": 2100,
+                "death_trips": 14,
+                "deposit_cycle_median": 49,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      26
+                    ],
+                    "cheb": 16,
+                    "dist2": 265
+                  },
+                  {
+                    "hq": [
+                      13,
+                      23
+                    ],
+                    "cheb": 7,
+                    "dist2": 49
+                  },
+                  {
+                    "hq": [
+                      25,
+                      18
+                    ],
+                    "cheb": 5,
+                    "dist2": 50
+                  }
+                ]
+              },
+              {
+                "well": [
+                  12,
+                  20
+                ],
+                "type": 1,
+                "trips": 43,
+                "first_collection_round": 127,
+                "deposit_trips": 41,
+                "deposit_load_kg": 1230,
+                "death_trips": 0,
+                "deposit_cycle_median": 32,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      26
+                    ],
+                    "cheb": 8,
+                    "dist2": 100
+                  },
+                  {
+                    "hq": [
+                      13,
+                      23
+                    ],
+                    "cheb": 3,
+                    "dist2": 10
+                  },
+                  {
+                    "hq": [
+                      25,
+                      18
+                    ],
+                    "cheb": 13,
+                    "dist2": 173
+                  }
+                ]
+              },
+              {
+                "well": [
+                  11,
+                  8
+                ],
+                "type": 2,
+                "trips": 24,
+                "first_collection_round": 309,
+                "deposit_trips": 16,
+                "deposit_load_kg": 480,
+                "death_trips": 0,
+                "deposit_cycle_median": 69,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      26
+                    ],
+                    "cheb": 18,
+                    "dist2": 373
+                  },
+                  {
+                    "hq": [
+                      13,
+                      23
+                    ],
+                    "cheb": 15,
+                    "dist2": 229
+                  },
+                  {
+                    "hq": [
+                      25,
+                      18
+                    ],
+                    "cheb": 14,
+                    "dist2": 296
+                  }
+                ]
+              },
+              {
+                "well": [
+                  22,
+                  27
+                ],
+                "type": 1,
+                "trips": 16,
+                "first_collection_round": 268,
+                "deposit_trips": 13,
+                "deposit_load_kg": 390,
+                "death_trips": 1,
+                "deposit_cycle_median": 47,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      26
+                    ],
+                    "cheb": 18,
+                    "dist2": 325
+                  },
+                  {
+                    "hq": [
+                      13,
+                      23
+                    ],
+                    "cheb": 9,
+                    "dist2": 97
+                  },
+                  {
+                    "hq": [
+                      25,
+                      18
+                    ],
+                    "cheb": 9,
+                    "dist2": 90
+                  }
+                ]
+              },
+              {
+                "well": [
+                  24,
+                  10
+                ],
+                "type": 2,
+                "trips": 7,
+                "first_collection_round": 563,
+                "deposit_trips": 2,
+                "deposit_load_kg": 60,
+                "death_trips": 1,
+                "deposit_cycle_median": 86.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      26
+                    ],
+                    "cheb": 20,
+                    "dist2": 656
+                  },
+                  {
+                    "hq": [
+                      13,
+                      23
+                    ],
+                    "cheb": 13,
+                    "dist2": 290
+                  },
+                  {
+                    "hq": [
+                      25,
+                      18
+                    ],
+                    "cheb": 8,
+                    "dist2": 65
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 4,
+          "map": "Forest",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "0",
+          "rounds": "1161",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 386,
+            "deposit_trips": 223,
+            "deposit_load_kg": 6690,
+            "death_trips": 120,
+            "deposit_cycle_median": 74,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  8,
+                  12
+                ],
+                "type": 2,
+                "trips": 168,
+                "first_collection_round": 7,
+                "deposit_trips": 132,
+                "deposit_load_kg": 3960,
+                "death_trips": 23,
+                "deposit_cycle_median": 100.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      0,
+                      0
+                    ],
+                    "cheb": 12,
+                    "dist2": 208
+                  },
+                  {
+                    "hq": [
+                      6,
+                      30
+                    ],
+                    "cheb": 18,
+                    "dist2": 328
+                  },
+                  {
+                    "hq": [
+                      7,
+                      30
+                    ],
+                    "cheb": 18,
+                    "dist2": 325
+                  },
+                  {
+                    "hq": [
+                      11,
+                      48
+                    ],
+                    "cheb": 36,
+                    "dist2": 1305
+                  }
+                ]
+              },
+              {
+                "well": [
+                  6,
+                  3
+                ],
+                "type": 1,
+                "trips": 65,
+                "first_collection_round": 222,
+                "deposit_trips": 58,
+                "deposit_load_kg": 1740,
+                "death_trips": 1,
+                "deposit_cycle_median": 43,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      0,
+                      0
+                    ],
+                    "cheb": 6,
+                    "dist2": 45
+                  },
+                  {
+                    "hq": [
+                      6,
+                      30
+                    ],
+                    "cheb": 27,
+                    "dist2": 729
+                  },
+                  {
+                    "hq": [
+                      7,
+                      30
+                    ],
+                    "cheb": 27,
+                    "dist2": 730
+                  },
+                  {
+                    "hq": [
+                      11,
+                      48
+                    ],
+                    "cheb": 45,
+                    "dist2": 2050
+                  }
+                ]
+              },
+              {
+                "well": [
+                  9,
+                  21
+                ],
+                "type": 1,
+                "trips": 38,
+                "first_collection_round": 37,
+                "deposit_trips": 33,
+                "deposit_load_kg": 990,
+                "death_trips": 5,
+                "deposit_cycle_median": 56,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      0,
+                      0
+                    ],
+                    "cheb": 21,
+                    "dist2": 522
+                  },
+                  {
+                    "hq": [
+                      6,
+                      30
+                    ],
+                    "cheb": 9,
+                    "dist2": 90
+                  },
+                  {
+                    "hq": [
+                      7,
+                      30
+                    ],
+                    "cheb": 9,
+                    "dist2": 85
+                  },
+                  {
+                    "hq": [
+                      11,
+                      48
+                    ],
+                    "cheb": 27,
+                    "dist2": 733
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 5,
+          "map": "Hah",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "1",
+          "rounds": "586",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 178,
+            "deposit_trips": 123,
+            "deposit_load_kg": 3690,
+            "death_trips": 18,
+            "deposit_cycle_median": 39,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  14,
+                  11
+                ],
+                "type": 2,
+                "trips": 114,
+                "first_collection_round": 2,
+                "deposit_trips": 84,
+                "deposit_load_kg": 2520,
+                "death_trips": 15,
+                "deposit_cycle_median": 39.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      18
+                    ],
+                    "cheb": 10,
+                    "dist2": 149
+                  },
+                  {
+                    "hq": [
+                      10,
+                      7
+                    ],
+                    "cheb": 4,
+                    "dist2": 32
+                  }
+                ]
+              },
+              {
+                "well": [
+                  8,
+                  16
+                ],
+                "type": 1,
+                "trips": 31,
+                "first_collection_round": 6,
+                "deposit_trips": 25,
+                "deposit_load_kg": 750,
+                "death_trips": 1,
+                "deposit_cycle_median": 33,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      18
+                    ],
+                    "cheb": 4,
+                    "dist2": 20
+                  },
+                  {
+                    "hq": [
+                      10,
+                      7
+                    ],
+                    "cheb": 9,
+                    "dist2": 85
+                  }
+                ]
+              },
+              {
+                "well": [
+                  21,
+                  14
+                ],
+                "type": 2,
+                "trips": 16,
+                "first_collection_round": 396,
+                "deposit_trips": 10,
+                "deposit_load_kg": 300,
+                "death_trips": 0,
+                "deposit_cycle_median": 57.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      18
+                    ],
+                    "cheb": 17,
+                    "dist2": 305
+                  },
+                  {
+                    "hq": [
+                      10,
+                      7
+                    ],
+                    "cheb": 11,
+                    "dist2": 170
+                  }
+                ]
+              },
+              {
+                "well": [
+                  18,
+                  6
+                ],
+                "type": 1,
+                "trips": 5,
+                "first_collection_round": 474,
+                "deposit_trips": 4,
+                "deposit_load_kg": 120,
+                "death_trips": 0,
+                "deposit_cycle_median": 50,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      18
+                    ],
+                    "cheb": 14,
+                    "dist2": 340
+                  },
+                  {
+                    "hq": [
+                      10,
+                      7
+                    ],
+                    "cheb": 8,
+                    "dist2": 65
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 6,
+          "map": "IslandHopping",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "0",
+          "rounds": "1231",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 77,
+            "deposit_trips": 15,
+            "deposit_load_kg": 450,
+            "death_trips": 53,
+            "deposit_cycle_median": 50,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  20,
+                  13
+                ],
+                "type": 2,
+                "trips": 12,
+                "first_collection_round": 8,
+                "deposit_trips": 1,
+                "deposit_load_kg": 30,
+                "death_trips": 5,
+                "deposit_cycle_median": 59,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      6,
+                      23
+                    ],
+                    "cheb": 14,
+                    "dist2": 296
+                  },
+                  {
+                    "hq": [
+                      15,
+                      3
+                    ],
+                    "cheb": 10,
+                    "dist2": 125
+                  }
+                ]
+              },
+              {
+                "well": [
+                  21,
+                  7
+                ],
+                "type": 1,
+                "trips": 11,
+                "first_collection_round": 17,
+                "deposit_trips": 7,
+                "deposit_load_kg": 210,
+                "death_trips": 3,
+                "deposit_cycle_median": 50,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      6,
+                      23
+                    ],
+                    "cheb": 16,
+                    "dist2": 481
+                  },
+                  {
+                    "hq": [
+                      15,
+                      3
+                    ],
+                    "cheb": 6,
+                    "dist2": 52
+                  }
+                ]
+              },
+              {
+                "well": [
+                  16,
+                  15
+                ],
+                "type": 2,
+                "trips": 9,
+                "first_collection_round": 5,
+                "deposit_trips": 7,
+                "deposit_load_kg": 210,
+                "death_trips": 0,
+                "deposit_cycle_median": 49,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      6,
+                      23
+                    ],
+                    "cheb": 10,
+                    "dist2": 164
+                  },
+                  {
+                    "hq": [
+                      15,
+                      3
+                    ],
+                    "cheb": 12,
+                    "dist2": 145
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 7,
+          "map": "MassiveL",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "0",
+          "rounds": "1089",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 157,
+            "deposit_trips": 107,
+            "deposit_load_kg": 3210,
+            "death_trips": 44,
+            "deposit_cycle_median": 32,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  0,
+                  39
+                ],
+                "type": 2,
+                "trips": 106,
+                "first_collection_round": 2,
+                "deposit_trips": 102,
+                "deposit_load_kg": 3060,
+                "death_trips": 0,
+                "deposit_cycle_median": 32,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      2,
+                      37
+                    ],
+                    "cheb": 2,
+                    "dist2": 8
+                  },
+                  {
+                    "hq": [
+                      7,
+                      5
+                    ],
+                    "cheb": 34,
+                    "dist2": 1205
+                  }
+                ]
+              },
+              {
+                "well": [
+                  4,
+                  8
+                ],
+                "type": 1,
+                "trips": 4,
+                "first_collection_round": 3,
+                "deposit_trips": 3,
+                "deposit_load_kg": 90,
+                "death_trips": 0,
+                "deposit_cycle_median": 33,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      2,
+                      37
+                    ],
+                    "cheb": 29,
+                    "dist2": 845
+                  },
+                  {
+                    "hq": [
+                      7,
+                      5
+                    ],
+                    "cheb": 3,
+                    "dist2": 18
+                  }
+                ]
+              },
+              {
+                "well": [
+                  6,
+                  32
+                ],
+                "type": 1,
+                "trips": 4,
+                "first_collection_round": 134,
+                "deposit_trips": 2,
+                "deposit_load_kg": 60,
+                "death_trips": 1,
+                "deposit_cycle_median": 50.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      2,
+                      37
+                    ],
+                    "cheb": 5,
+                    "dist2": 41
+                  },
+                  {
+                    "hq": [
+                      7,
+                      5
+                    ],
+                    "cheb": 27,
+                    "dist2": 730
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 8,
+          "map": "Maze",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "0",
+          "rounds": "519",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 143,
+            "deposit_trips": 76,
+            "deposit_load_kg": 2280,
+            "death_trips": 57,
+            "deposit_cycle_median": 42,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  17,
+                  9
+                ],
+                "type": 2,
+                "trips": 42,
+                "first_collection_round": 4,
+                "deposit_trips": 38,
+                "deposit_load_kg": 1140,
+                "death_trips": 3,
+                "deposit_cycle_median": 42.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      46
+                    ],
+                    "cheb": 37,
+                    "dist2": 1565
+                  },
+                  {
+                    "hq": [
+                      11,
+                      2
+                    ],
+                    "cheb": 7,
+                    "dist2": 85
+                  },
+                  {
+                    "hq": [
+                      21,
+                      21
+                    ],
+                    "cheb": 12,
+                    "dist2": 160
+                  }
+                ]
+              },
+              {
+                "well": [
+                  14,
+                  5
+                ],
+                "type": 1,
+                "trips": 19,
+                "first_collection_round": 3,
+                "deposit_trips": 16,
+                "deposit_load_kg": 480,
+                "death_trips": 3,
+                "deposit_cycle_median": 33,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      46
+                    ],
+                    "cheb": 41,
+                    "dist2": 1802
+                  },
+                  {
+                    "hq": [
+                      11,
+                      2
+                    ],
+                    "cheb": 3,
+                    "dist2": 18
+                  },
+                  {
+                    "hq": [
+                      21,
+                      21
+                    ],
+                    "cheb": 16,
+                    "dist2": 305
+                  }
+                ]
+              },
+              {
+                "well": [
+                  10,
+                  39
+                ],
+                "type": 2,
+                "trips": 18,
+                "first_collection_round": 4,
+                "deposit_trips": 11,
+                "deposit_load_kg": 330,
+                "death_trips": 4,
+                "deposit_cycle_median": 53,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      46
+                    ],
+                    "cheb": 7,
+                    "dist2": 98
+                  },
+                  {
+                    "hq": [
+                      11,
+                      2
+                    ],
+                    "cheb": 37,
+                    "dist2": 1370
+                  },
+                  {
+                    "hq": [
+                      21,
+                      21
+                    ],
+                    "cheb": 18,
+                    "dist2": 445
+                  }
+                ]
+              },
+              {
+                "well": [
+                  27,
+                  18
+                ],
+                "type": 2,
+                "trips": 10,
+                "first_collection_round": 5,
+                "deposit_trips": 2,
+                "deposit_load_kg": 60,
+                "death_trips": 3,
+                "deposit_cycle_median": 59,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      46
+                    ],
+                    "cheb": 28,
+                    "dist2": 1360
+                  },
+                  {
+                    "hq": [
+                      11,
+                      2
+                    ],
+                    "cheb": 16,
+                    "dist2": 512
+                  },
+                  {
+                    "hq": [
+                      21,
+                      21
+                    ],
+                    "cheb": 6,
+                    "dist2": 45
+                  }
+                ]
+              },
+              {
+                "well": [
+                  17,
+                  21
+                ],
+                "type": 1,
+                "trips": 8,
+                "first_collection_round": 3,
+                "deposit_trips": 5,
+                "deposit_load_kg": 150,
+                "death_trips": 3,
+                "deposit_cycle_median": 33,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      46
+                    ],
+                    "cheb": 25,
+                    "dist2": 821
+                  },
+                  {
+                    "hq": [
+                      11,
+                      2
+                    ],
+                    "cheb": 19,
+                    "dist2": 397
+                  },
+                  {
+                    "hq": [
+                      21,
+                      21
+                    ],
+                    "cheb": 4,
+                    "dist2": 16
+                  }
+                ]
+              },
+              {
+                "well": [
+                  12,
+                  26
+                ],
+                "type": 2,
+                "trips": 7,
+                "first_collection_round": 5,
+                "deposit_trips": 3,
+                "deposit_load_kg": 90,
+                "death_trips": 3,
+                "deposit_cycle_median": 49,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      46
+                    ],
+                    "cheb": 20,
+                    "dist2": 481
+                  },
+                  {
+                    "hq": [
+                      11,
+                      2
+                    ],
+                    "cheb": 24,
+                    "dist2": 577
+                  },
+                  {
+                    "hq": [
+                      21,
+                      21
+                    ],
+                    "cheb": 9,
+                    "dist2": 106
+                  }
+                ]
+              },
+              {
+                "well": [
+                  5,
+                  41
+                ],
+                "type": 1,
+                "trips": 2,
+                "first_collection_round": 212,
+                "deposit_trips": 1,
+                "deposit_load_kg": 30,
+                "death_trips": 1,
+                "deposit_cycle_median": 35,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      46
+                    ],
+                    "cheb": 5,
+                    "dist2": 29
+                  },
+                  {
+                    "hq": [
+                      11,
+                      2
+                    ],
+                    "cheb": 39,
+                    "dist2": 1557
+                  },
+                  {
+                    "hq": [
+                      21,
+                      21
+                    ],
+                    "cheb": 20,
+                    "dist2": 656
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 9,
+          "map": "ReverseFunnel",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "0",
+          "rounds": "931",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 303,
+            "deposit_trips": 222,
+            "deposit_load_kg": 6660,
+            "death_trips": 30,
+            "deposit_cycle_median": 39,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  2,
+                  17
+                ],
+                "type": 2,
+                "trips": 164,
+                "first_collection_round": 2,
+                "deposit_trips": 156,
+                "deposit_load_kg": 4680,
+                "death_trips": 1,
+                "deposit_cycle_median": 39,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      0,
+                      19
+                    ],
+                    "cheb": 2,
+                    "dist2": 8
+                  },
+                  {
+                    "hq": [
+                      6,
+                      15
+                    ],
+                    "cheb": 4,
+                    "dist2": 20
+                  }
+                ]
+              },
+              {
+                "well": [
+                  3,
+                  16
+                ],
+                "type": 1,
+                "trips": 70,
+                "first_collection_round": 35,
+                "deposit_trips": 66,
+                "deposit_load_kg": 1980,
+                "death_trips": 0,
+                "deposit_cycle_median": 37,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      0,
+                      19
+                    ],
+                    "cheb": 3,
+                    "dist2": 18
+                  },
+                  {
+                    "hq": [
+                      6,
+                      15
+                    ],
+                    "cheb": 3,
+                    "dist2": 10
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        }
+      ]
+    },
+    {
+      "match": 4565,
+      "events_available": false,
+      "invalid_event_lines": null,
+      "our_dot_kinds": null,
+      "files": {
+        "/home/terryvanbelle/projects/vibe/2023/matches/4565/extract/games.csv": {
+          "bytes": 2198,
+          "sha256": "b21397e964743a491fff56e227f272d0e47fedcbc0298dea3657e09700a267f8"
+        },
+        "/home/terryvanbelle/projects/vibe/2023/matches/4565/extract/hq.csv": {
+          "bytes": 93962,
+          "sha256": "d319fb8d7533b5899ba44df35adb149f9117720ca331fd8c60fd948489c0ccb4"
+        },
+        "/home/terryvanbelle/projects/vibe/2023/matches/4565/extract/trips.csv": {
+          "bytes": 379403,
+          "sha256": "8de449d1226112fde0e7b778c099678d9bc3ec1775f2f95b1ff8eb99d0cc361c"
+        }
+      },
+      "games": [
+        {
+          "game": 0,
+          "map": "BatSignal",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "0",
+          "rounds": "504",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 131,
+            "deposit_trips": 107,
+            "deposit_load_kg": 3210,
+            "death_trips": 0,
+            "deposit_cycle_median": 44,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  10,
+                  11
+                ],
+                "type": 2,
+                "trips": 109,
+                "first_collection_round": 3,
+                "deposit_trips": 91,
+                "deposit_load_kg": 2730,
+                "death_trips": 0,
+                "deposit_cycle_median": 49,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      10
+                    ],
+                    "cheb": 7,
+                    "dist2": 50
+                  }
+                ]
+              },
+              {
+                "well": [
+                  6,
+                  15
+                ],
+                "type": 1,
+                "trips": 16,
+                "first_collection_round": 3,
+                "deposit_trips": 16,
+                "deposit_load_kg": 480,
+                "death_trips": 0,
+                "deposit_cycle_median": 35,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      10
+                    ],
+                    "cheb": 5,
+                    "dist2": 34
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 1,
+          "map": "Cat",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "1",
+          "rounds": "559",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 183,
+            "deposit_trips": 143,
+            "deposit_load_kg": 4290,
+            "death_trips": 0,
+            "deposit_cycle_median": 47,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  20,
+                  32
+                ],
+                "type": 2,
+                "trips": 100,
+                "first_collection_round": 3,
+                "deposit_trips": 92,
+                "deposit_load_kg": 2760,
+                "death_trips": 0,
+                "deposit_cycle_median": 50,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      11,
+                      25
+                    ],
+                    "cheb": 9,
+                    "dist2": 130
+                  },
+                  {
+                    "hq": [
+                      14,
+                      35
+                    ],
+                    "cheb": 6,
+                    "dist2": 45
+                  }
+                ]
+              },
+              {
+                "well": [
+                  29,
+                  32
+                ],
+                "type": 2,
+                "trips": 25,
+                "first_collection_round": 272,
+                "deposit_trips": 17,
+                "deposit_load_kg": 510,
+                "death_trips": 0,
+                "deposit_cycle_median": 123,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      11,
+                      25
+                    ],
+                    "cheb": 18,
+                    "dist2": 373
+                  },
+                  {
+                    "hq": [
+                      14,
+                      35
+                    ],
+                    "cheb": 15,
+                    "dist2": 234
+                  }
+                ]
+              },
+              {
+                "well": [
+                  19,
+                  38
+                ],
+                "type": 1,
+                "trips": 22,
+                "first_collection_round": 212,
+                "deposit_trips": 22,
+                "deposit_load_kg": 660,
+                "death_trips": 0,
+                "deposit_cycle_median": 36,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      11,
+                      25
+                    ],
+                    "cheb": 13,
+                    "dist2": 233
+                  },
+                  {
+                    "hq": [
+                      14,
+                      35
+                    ],
+                    "cheb": 5,
+                    "dist2": 34
+                  }
+                ]
+              },
+              {
+                "well": [
+                  16,
+                  27
+                ],
+                "type": 1,
+                "trips": 12,
+                "first_collection_round": 172,
+                "deposit_trips": 12,
+                "deposit_load_kg": 360,
+                "death_trips": 0,
+                "deposit_cycle_median": 35,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      11,
+                      25
+                    ],
+                    "cheb": 5,
+                    "dist2": 29
+                  },
+                  {
+                    "hq": [
+                      14,
+                      35
+                    ],
+                    "cheb": 8,
+                    "dist2": 68
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 2,
+          "map": "Cornucopia",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "0",
+          "rounds": "1157",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 141,
+            "deposit_trips": 54,
+            "deposit_load_kg": 1620,
+            "death_trips": 70,
+            "deposit_cycle_median": 54.5,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  23,
+                  29
+                ],
+                "type": 2,
+                "trips": 35,
+                "first_collection_round": 6,
+                "deposit_trips": 24,
+                "deposit_load_kg": 720,
+                "death_trips": 9,
+                "deposit_cycle_median": 53.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      10,
+                      18
+                    ],
+                    "cheb": 13,
+                    "dist2": 290
+                  },
+                  {
+                    "hq": [
+                      29,
+                      51
+                    ],
+                    "cheb": 22,
+                    "dist2": 520
+                  },
+                  {
+                    "hq": [
+                      48,
+                      18
+                    ],
+                    "cheb": 25,
+                    "dist2": 746
+                  }
+                ]
+              },
+              {
+                "well": [
+                  26,
+                  34
+                ],
+                "type": 2,
+                "trips": 19,
+                "first_collection_round": 7,
+                "deposit_trips": 15,
+                "deposit_load_kg": 450,
+                "death_trips": 3,
+                "deposit_cycle_median": 62,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      10,
+                      18
+                    ],
+                    "cheb": 16,
+                    "dist2": 512
+                  },
+                  {
+                    "hq": [
+                      29,
+                      51
+                    ],
+                    "cheb": 17,
+                    "dist2": 298
+                  },
+                  {
+                    "hq": [
+                      48,
+                      18
+                    ],
+                    "cheb": 22,
+                    "dist2": 740
+                  }
+                ]
+              },
+              {
+                "well": [
+                  35,
+                  29
+                ],
+                "type": 2,
+                "trips": 10,
+                "first_collection_round": 6,
+                "deposit_trips": 4,
+                "deposit_load_kg": 120,
+                "death_trips": 4,
+                "deposit_cycle_median": 58,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      10,
+                      18
+                    ],
+                    "cheb": 25,
+                    "dist2": 746
+                  },
+                  {
+                    "hq": [
+                      29,
+                      51
+                    ],
+                    "cheb": 22,
+                    "dist2": 520
+                  },
+                  {
+                    "hq": [
+                      48,
+                      18
+                    ],
+                    "cheb": 13,
+                    "dist2": 290
+                  }
+                ]
+              },
+              {
+                "well": [
+                  17,
+                  22
+                ],
+                "type": 1,
+                "trips": 9,
+                "first_collection_round": 65,
+                "deposit_trips": 8,
+                "deposit_load_kg": 240,
+                "death_trips": 1,
+                "deposit_cycle_median": 40,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      10,
+                      18
+                    ],
+                    "cheb": 7,
+                    "dist2": 65
+                  },
+                  {
+                    "hq": [
+                      29,
+                      51
+                    ],
+                    "cheb": 29,
+                    "dist2": 985
+                  },
+                  {
+                    "hq": [
+                      48,
+                      18
+                    ],
+                    "cheb": 31,
+                    "dist2": 977
+                  }
+                ]
+              },
+              {
+                "well": [
+                  32,
+                  34
+                ],
+                "type": 2,
+                "trips": 5,
+                "first_collection_round": 93,
+                "deposit_trips": 1,
+                "deposit_load_kg": 30,
+                "death_trips": 4,
+                "deposit_cycle_median": 81,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      10,
+                      18
+                    ],
+                    "cheb": 22,
+                    "dist2": 740
+                  },
+                  {
+                    "hq": [
+                      29,
+                      51
+                    ],
+                    "cheb": 17,
+                    "dist2": 298
+                  },
+                  {
+                    "hq": [
+                      48,
+                      18
+                    ],
+                    "cheb": 16,
+                    "dist2": 512
+                  }
+                ]
+              },
+              {
+                "well": [
+                  29,
+                  43
+                ],
+                "type": 1,
+                "trips": 4,
+                "first_collection_round": 448,
+                "deposit_trips": 1,
+                "deposit_load_kg": 30,
+                "death_trips": 2,
+                "deposit_cycle_median": 43,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      10,
+                      18
+                    ],
+                    "cheb": 25,
+                    "dist2": 986
+                  },
+                  {
+                    "hq": [
+                      29,
+                      51
+                    ],
+                    "cheb": 8,
+                    "dist2": 64
+                  },
+                  {
+                    "hq": [
+                      48,
+                      18
+                    ],
+                    "cheb": 25,
+                    "dist2": 986
+                  }
+                ]
+              },
+              {
+                "well": [
+                  41,
+                  22
+                ],
+                "type": 1,
+                "trips": 3,
+                "first_collection_round": 213,
+                "deposit_trips": 1,
+                "deposit_load_kg": 30,
+                "death_trips": 2,
+                "deposit_cycle_median": 38,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      10,
+                      18
+                    ],
+                    "cheb": 31,
+                    "dist2": 977
+                  },
+                  {
+                    "hq": [
+                      29,
+                      51
+                    ],
+                    "cheb": 29,
+                    "dist2": 985
+                  },
+                  {
+                    "hq": [
+                      48,
+                      18
+                    ],
+                    "cheb": 7,
+                    "dist2": 65
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 3,
+          "map": "DefaultMap",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "1",
+          "rounds": "1135",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 655,
+            "deposit_trips": 549,
+            "deposit_load_kg": 16470,
+            "death_trips": 47,
+            "deposit_cycle_median": 44,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  7,
+                  21
+                ],
+                "type": 2,
+                "trips": 243,
+                "first_collection_round": 3,
+                "deposit_trips": 234,
+                "deposit_load_kg": 7020,
+                "death_trips": 0,
+                "deposit_cycle_median": 41,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      26
+                    ],
+                    "cheb": 5,
+                    "dist2": 34
+                  },
+                  {
+                    "hq": [
+                      13,
+                      23
+                    ],
+                    "cheb": 6,
+                    "dist2": 40
+                  },
+                  {
+                    "hq": [
+                      25,
+                      18
+                    ],
+                    "cheb": 18,
+                    "dist2": 333
+                  }
+                ]
+              },
+              {
+                "well": [
+                  20,
+                  23
+                ],
+                "type": 2,
+                "trips": 188,
+                "first_collection_round": 3,
+                "deposit_trips": 159,
+                "deposit_load_kg": 4770,
+                "death_trips": 15,
+                "deposit_cycle_median": 42,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      26
+                    ],
+                    "cheb": 16,
+                    "dist2": 265
+                  },
+                  {
+                    "hq": [
+                      13,
+                      23
+                    ],
+                    "cheb": 7,
+                    "dist2": 49
+                  },
+                  {
+                    "hq": [
+                      25,
+                      18
+                    ],
+                    "cheb": 5,
+                    "dist2": 50
+                  }
+                ]
+              },
+              {
+                "well": [
+                  12,
+                  20
+                ],
+                "type": 1,
+                "trips": 54,
+                "first_collection_round": 95,
+                "deposit_trips": 54,
+                "deposit_load_kg": 1620,
+                "death_trips": 0,
+                "deposit_cycle_median": 35.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      26
+                    ],
+                    "cheb": 8,
+                    "dist2": 100
+                  },
+                  {
+                    "hq": [
+                      13,
+                      23
+                    ],
+                    "cheb": 3,
+                    "dist2": 10
+                  },
+                  {
+                    "hq": [
+                      25,
+                      18
+                    ],
+                    "cheb": 13,
+                    "dist2": 173
+                  }
+                ]
+              },
+              {
+                "well": [
+                  11,
+                  8
+                ],
+                "type": 2,
+                "trips": 44,
+                "first_collection_round": 681,
+                "deposit_trips": 41,
+                "deposit_load_kg": 1230,
+                "death_trips": 0,
+                "deposit_cycle_median": 69,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      26
+                    ],
+                    "cheb": 18,
+                    "dist2": 373
+                  },
+                  {
+                    "hq": [
+                      13,
+                      23
+                    ],
+                    "cheb": 15,
+                    "dist2": 229
+                  },
+                  {
+                    "hq": [
+                      25,
+                      18
+                    ],
+                    "cheb": 14,
+                    "dist2": 296
+                  }
+                ]
+              },
+              {
+                "well": [
+                  24,
+                  10
+                ],
+                "type": 2,
+                "trips": 44,
+                "first_collection_round": 728,
+                "deposit_trips": 37,
+                "deposit_load_kg": 1110,
+                "death_trips": 0,
+                "deposit_cycle_median": 54,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      26
+                    ],
+                    "cheb": 20,
+                    "dist2": 656
+                  },
+                  {
+                    "hq": [
+                      13,
+                      23
+                    ],
+                    "cheb": 13,
+                    "dist2": 290
+                  },
+                  {
+                    "hq": [
+                      25,
+                      18
+                    ],
+                    "cheb": 8,
+                    "dist2": 65
+                  }
+                ]
+              },
+              {
+                "well": [
+                  22,
+                  27
+                ],
+                "type": 1,
+                "trips": 25,
+                "first_collection_round": 237,
+                "deposit_trips": 24,
+                "deposit_load_kg": 720,
+                "death_trips": 1,
+                "deposit_cycle_median": 46.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      26
+                    ],
+                    "cheb": 18,
+                    "dist2": 325
+                  },
+                  {
+                    "hq": [
+                      13,
+                      23
+                    ],
+                    "cheb": 9,
+                    "dist2": 97
+                  },
+                  {
+                    "hq": [
+                      25,
+                      18
+                    ],
+                    "cheb": 9,
+                    "dist2": 90
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 4,
+          "map": "Forest",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "0",
+          "rounds": "1852",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 410,
+            "deposit_trips": 251,
+            "deposit_load_kg": 7530,
+            "death_trips": 113,
+            "deposit_cycle_median": 89,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  8,
+                  12
+                ],
+                "type": 2,
+                "trips": 205,
+                "first_collection_round": 7,
+                "deposit_trips": 191,
+                "deposit_load_kg": 5730,
+                "death_trips": 10,
+                "deposit_cycle_median": 106,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      0,
+                      0
+                    ],
+                    "cheb": 12,
+                    "dist2": 208
+                  },
+                  {
+                    "hq": [
+                      6,
+                      30
+                    ],
+                    "cheb": 18,
+                    "dist2": 328
+                  },
+                  {
+                    "hq": [
+                      7,
+                      30
+                    ],
+                    "cheb": 18,
+                    "dist2": 325
+                  },
+                  {
+                    "hq": [
+                      11,
+                      48
+                    ],
+                    "cheb": 36,
+                    "dist2": 1305
+                  }
+                ]
+              },
+              {
+                "well": [
+                  6,
+                  3
+                ],
+                "type": 1,
+                "trips": 44,
+                "first_collection_round": 158,
+                "deposit_trips": 37,
+                "deposit_load_kg": 1110,
+                "death_trips": 5,
+                "deposit_cycle_median": 43,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      0,
+                      0
+                    ],
+                    "cheb": 6,
+                    "dist2": 45
+                  },
+                  {
+                    "hq": [
+                      6,
+                      30
+                    ],
+                    "cheb": 27,
+                    "dist2": 729
+                  },
+                  {
+                    "hq": [
+                      7,
+                      30
+                    ],
+                    "cheb": 27,
+                    "dist2": 730
+                  },
+                  {
+                    "hq": [
+                      11,
+                      48
+                    ],
+                    "cheb": 45,
+                    "dist2": 2050
+                  }
+                ]
+              },
+              {
+                "well": [
+                  9,
+                  21
+                ],
+                "type": 1,
+                "trips": 24,
+                "first_collection_round": 38,
+                "deposit_trips": 23,
+                "deposit_load_kg": 690,
+                "death_trips": 1,
+                "deposit_cycle_median": 48,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      0,
+                      0
+                    ],
+                    "cheb": 21,
+                    "dist2": 522
+                  },
+                  {
+                    "hq": [
+                      6,
+                      30
+                    ],
+                    "cheb": 9,
+                    "dist2": 90
+                  },
+                  {
+                    "hq": [
+                      7,
+                      30
+                    ],
+                    "cheb": 9,
+                    "dist2": 85
+                  },
+                  {
+                    "hq": [
+                      11,
+                      48
+                    ],
+                    "cheb": 27,
+                    "dist2": 733
+                  }
+                ]
+              },
+              {
+                "well": [
+                  21,
+                  48
+                ],
+                "type": 1,
+                "trips": 3,
+                "first_collection_round": 1188,
+                "deposit_trips": 0,
+                "deposit_load_kg": 0,
+                "death_trips": 3,
+                "deposit_cycle_median": null,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      0,
+                      0
+                    ],
+                    "cheb": 48,
+                    "dist2": 2745
+                  },
+                  {
+                    "hq": [
+                      6,
+                      30
+                    ],
+                    "cheb": 18,
+                    "dist2": 549
+                  },
+                  {
+                    "hq": [
+                      7,
+                      30
+                    ],
+                    "cheb": 18,
+                    "dist2": 520
+                  },
+                  {
+                    "hq": [
+                      11,
+                      48
+                    ],
+                    "cheb": 10,
+                    "dist2": 100
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 5,
+          "map": "Hah",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "0",
+          "rounds": "557",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 160,
+            "deposit_trips": 115,
+            "deposit_load_kg": 3450,
+            "death_trips": 40,
+            "deposit_cycle_median": 48,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  14,
+                  11
+                ],
+                "type": 2,
+                "trips": 97,
+                "first_collection_round": 2,
+                "deposit_trips": 86,
+                "deposit_load_kg": 2580,
+                "death_trips": 10,
+                "deposit_cycle_median": 56,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      18
+                    ],
+                    "cheb": 10,
+                    "dist2": 149
+                  },
+                  {
+                    "hq": [
+                      10,
+                      7
+                    ],
+                    "cheb": 4,
+                    "dist2": 32
+                  }
+                ]
+              },
+              {
+                "well": [
+                  8,
+                  16
+                ],
+                "type": 1,
+                "trips": 29,
+                "first_collection_round": 6,
+                "deposit_trips": 25,
+                "deposit_load_kg": 750,
+                "death_trips": 4,
+                "deposit_cycle_median": 33,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      18
+                    ],
+                    "cheb": 4,
+                    "dist2": 20
+                  },
+                  {
+                    "hq": [
+                      10,
+                      7
+                    ],
+                    "cheb": 9,
+                    "dist2": 85
+                  }
+                ]
+              },
+              {
+                "well": [
+                  18,
+                  6
+                ],
+                "type": 1,
+                "trips": 6,
+                "first_collection_round": 261,
+                "deposit_trips": 4,
+                "deposit_load_kg": 120,
+                "death_trips": 1,
+                "deposit_cycle_median": 44,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      18
+                    ],
+                    "cheb": 14,
+                    "dist2": 340
+                  },
+                  {
+                    "hq": [
+                      10,
+                      7
+                    ],
+                    "cheb": 8,
+                    "dist2": 65
+                  }
+                ]
+              },
+              {
+                "well": [
+                  21,
+                  14
+                ],
+                "type": 2,
+                "trips": 3,
+                "first_collection_round": 320,
+                "deposit_trips": 0,
+                "deposit_load_kg": 0,
+                "death_trips": 3,
+                "deposit_cycle_median": null,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      4,
+                      18
+                    ],
+                    "cheb": 17,
+                    "dist2": 305
+                  },
+                  {
+                    "hq": [
+                      10,
+                      7
+                    ],
+                    "cheb": 11,
+                    "dist2": 170
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 6,
+          "map": "IslandHopping",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "0",
+          "rounds": "684",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 102,
+            "deposit_trips": 47,
+            "deposit_load_kg": 1410,
+            "death_trips": 31,
+            "deposit_cycle_median": 49,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  20,
+                  13
+                ],
+                "type": 2,
+                "trips": 28,
+                "first_collection_round": 8,
+                "deposit_trips": 13,
+                "deposit_load_kg": 390,
+                "death_trips": 5,
+                "deposit_cycle_median": 86,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      6,
+                      23
+                    ],
+                    "cheb": 14,
+                    "dist2": 296
+                  },
+                  {
+                    "hq": [
+                      15,
+                      3
+                    ],
+                    "cheb": 10,
+                    "dist2": 125
+                  }
+                ]
+              },
+              {
+                "well": [
+                  16,
+                  15
+                ],
+                "type": 2,
+                "trips": 22,
+                "first_collection_round": 5,
+                "deposit_trips": 17,
+                "deposit_load_kg": 510,
+                "death_trips": 5,
+                "deposit_cycle_median": 49,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      6,
+                      23
+                    ],
+                    "cheb": 10,
+                    "dist2": 164
+                  },
+                  {
+                    "hq": [
+                      15,
+                      3
+                    ],
+                    "cheb": 12,
+                    "dist2": 145
+                  }
+                ]
+              },
+              {
+                "well": [
+                  21,
+                  7
+                ],
+                "type": 1,
+                "trips": 20,
+                "first_collection_round": 17,
+                "deposit_trips": 17,
+                "deposit_load_kg": 510,
+                "death_trips": 2,
+                "deposit_cycle_median": 42,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      6,
+                      23
+                    ],
+                    "cheb": 16,
+                    "dist2": 481
+                  },
+                  {
+                    "hq": [
+                      15,
+                      3
+                    ],
+                    "cheb": 6,
+                    "dist2": 52
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 7,
+          "map": "MassiveL",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "0",
+          "rounds": "1771",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 494,
+            "deposit_trips": 329,
+            "deposit_load_kg": 9870,
+            "death_trips": 98,
+            "deposit_cycle_median": 35,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  0,
+                  39
+                ],
+                "type": 2,
+                "trips": 187,
+                "first_collection_round": 2,
+                "deposit_trips": 183,
+                "deposit_load_kg": 5490,
+                "death_trips": 0,
+                "deposit_cycle_median": 31,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      2,
+                      37
+                    ],
+                    "cheb": 2,
+                    "dist2": 8
+                  },
+                  {
+                    "hq": [
+                      7,
+                      5
+                    ],
+                    "cheb": 34,
+                    "dist2": 1205
+                  }
+                ]
+              },
+              {
+                "well": [
+                  2,
+                  0
+                ],
+                "type": 2,
+                "trips": 77,
+                "first_collection_round": 247,
+                "deposit_trips": 48,
+                "deposit_load_kg": 1440,
+                "death_trips": 10,
+                "deposit_cycle_median": 56,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      2,
+                      37
+                    ],
+                    "cheb": 37,
+                    "dist2": 1369
+                  },
+                  {
+                    "hq": [
+                      7,
+                      5
+                    ],
+                    "cheb": 5,
+                    "dist2": 50
+                  }
+                ]
+              },
+              {
+                "well": [
+                  6,
+                  32
+                ],
+                "type": 1,
+                "trips": 76,
+                "first_collection_round": 232,
+                "deposit_trips": 74,
+                "deposit_load_kg": 2220,
+                "death_trips": 1,
+                "deposit_cycle_median": 46,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      2,
+                      37
+                    ],
+                    "cheb": 5,
+                    "dist2": 41
+                  },
+                  {
+                    "hq": [
+                      7,
+                      5
+                    ],
+                    "cheb": 27,
+                    "dist2": 730
+                  }
+                ]
+              },
+              {
+                "well": [
+                  21,
+                  25
+                ],
+                "type": 2,
+                "trips": 28,
+                "first_collection_round": 853,
+                "deposit_trips": 10,
+                "deposit_load_kg": 300,
+                "death_trips": 11,
+                "deposit_cycle_median": 123.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      2,
+                      37
+                    ],
+                    "cheb": 19,
+                    "dist2": 505
+                  },
+                  {
+                    "hq": [
+                      7,
+                      5
+                    ],
+                    "cheb": 20,
+                    "dist2": 596
+                  }
+                ]
+              },
+              {
+                "well": [
+                  4,
+                  8
+                ],
+                "type": 1,
+                "trips": 15,
+                "first_collection_round": 3,
+                "deposit_trips": 12,
+                "deposit_load_kg": 360,
+                "death_trips": 1,
+                "deposit_cycle_median": 32.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      2,
+                      37
+                    ],
+                    "cheb": 29,
+                    "dist2": 845
+                  },
+                  {
+                    "hq": [
+                      7,
+                      5
+                    ],
+                    "cheb": 3,
+                    "dist2": 18
+                  }
+                ]
+              },
+              {
+                "well": [
+                  37,
+                  39
+                ],
+                "type": 2,
+                "trips": 2,
+                "first_collection_round": 1129,
+                "deposit_trips": 2,
+                "deposit_load_kg": 60,
+                "death_trips": 0,
+                "deposit_cycle_median": 148.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      2,
+                      37
+                    ],
+                    "cheb": 35,
+                    "dist2": 1229
+                  },
+                  {
+                    "hq": [
+                      7,
+                      5
+                    ],
+                    "cheb": 34,
+                    "dist2": 2056
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 8,
+          "map": "Maze",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "1",
+          "rounds": "424",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 254,
+            "deposit_trips": 189,
+            "deposit_load_kg": 5670,
+            "death_trips": 16,
+            "deposit_cycle_median": 46,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  10,
+                  39
+                ],
+                "type": 2,
+                "trips": 47,
+                "first_collection_round": 4,
+                "deposit_trips": 42,
+                "deposit_load_kg": 1260,
+                "death_trips": 0,
+                "deposit_cycle_median": 55,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      46
+                    ],
+                    "cheb": 7,
+                    "dist2": 98
+                  },
+                  {
+                    "hq": [
+                      11,
+                      2
+                    ],
+                    "cheb": 37,
+                    "dist2": 1370
+                  },
+                  {
+                    "hq": [
+                      21,
+                      21
+                    ],
+                    "cheb": 18,
+                    "dist2": 445
+                  }
+                ]
+              },
+              {
+                "well": [
+                  17,
+                  9
+                ],
+                "type": 2,
+                "trips": 40,
+                "first_collection_round": 4,
+                "deposit_trips": 38,
+                "deposit_load_kg": 1140,
+                "death_trips": 0,
+                "deposit_cycle_median": 42,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      46
+                    ],
+                    "cheb": 37,
+                    "dist2": 1565
+                  },
+                  {
+                    "hq": [
+                      11,
+                      2
+                    ],
+                    "cheb": 7,
+                    "dist2": 85
+                  },
+                  {
+                    "hq": [
+                      21,
+                      21
+                    ],
+                    "cheb": 12,
+                    "dist2": 160
+                  }
+                ]
+              },
+              {
+                "well": [
+                  12,
+                  26
+                ],
+                "type": 2,
+                "trips": 33,
+                "first_collection_round": 5,
+                "deposit_trips": 30,
+                "deposit_load_kg": 900,
+                "death_trips": 0,
+                "deposit_cycle_median": 47,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      46
+                    ],
+                    "cheb": 20,
+                    "dist2": 481
+                  },
+                  {
+                    "hq": [
+                      11,
+                      2
+                    ],
+                    "cheb": 24,
+                    "dist2": 577
+                  },
+                  {
+                    "hq": [
+                      21,
+                      21
+                    ],
+                    "cheb": 9,
+                    "dist2": 106
+                  }
+                ]
+              },
+              {
+                "well": [
+                  5,
+                  41
+                ],
+                "type": 1,
+                "trips": 22,
+                "first_collection_round": 87,
+                "deposit_trips": 19,
+                "deposit_load_kg": 570,
+                "death_trips": 0,
+                "deposit_cycle_median": 36,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      46
+                    ],
+                    "cheb": 5,
+                    "dist2": 29
+                  },
+                  {
+                    "hq": [
+                      11,
+                      2
+                    ],
+                    "cheb": 39,
+                    "dist2": 1557
+                  },
+                  {
+                    "hq": [
+                      21,
+                      21
+                    ],
+                    "cheb": 20,
+                    "dist2": 656
+                  }
+                ]
+              },
+              {
+                "well": [
+                  27,
+                  18
+                ],
+                "type": 2,
+                "trips": 21,
+                "first_collection_round": 5,
+                "deposit_trips": 10,
+                "deposit_load_kg": 300,
+                "death_trips": 5,
+                "deposit_cycle_median": 54.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      46
+                    ],
+                    "cheb": 28,
+                    "dist2": 1360
+                  },
+                  {
+                    "hq": [
+                      11,
+                      2
+                    ],
+                    "cheb": 16,
+                    "dist2": 512
+                  },
+                  {
+                    "hq": [
+                      21,
+                      21
+                    ],
+                    "cheb": 6,
+                    "dist2": 45
+                  }
+                ]
+              },
+              {
+                "well": [
+                  14,
+                  5
+                ],
+                "type": 1,
+                "trips": 17,
+                "first_collection_round": 3,
+                "deposit_trips": 15,
+                "deposit_load_kg": 450,
+                "death_trips": 0,
+                "deposit_cycle_median": 33,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      46
+                    ],
+                    "cheb": 41,
+                    "dist2": 1802
+                  },
+                  {
+                    "hq": [
+                      11,
+                      2
+                    ],
+                    "cheb": 3,
+                    "dist2": 18
+                  },
+                  {
+                    "hq": [
+                      21,
+                      21
+                    ],
+                    "cheb": 16,
+                    "dist2": 305
+                  }
+                ]
+              },
+              {
+                "well": [
+                  17,
+                  21
+                ],
+                "type": 1,
+                "trips": 17,
+                "first_collection_round": 3,
+                "deposit_trips": 16,
+                "deposit_load_kg": 480,
+                "death_trips": 0,
+                "deposit_cycle_median": 33,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      46
+                    ],
+                    "cheb": 25,
+                    "dist2": 821
+                  },
+                  {
+                    "hq": [
+                      11,
+                      2
+                    ],
+                    "cheb": 19,
+                    "dist2": 397
+                  },
+                  {
+                    "hq": [
+                      21,
+                      21
+                    ],
+                    "cheb": 4,
+                    "dist2": 16
+                  }
+                ]
+              },
+              {
+                "well": [
+                  22,
+                  31
+                ],
+                "type": 2,
+                "trips": 11,
+                "first_collection_round": 272,
+                "deposit_trips": 8,
+                "deposit_load_kg": 240,
+                "death_trips": 1,
+                "deposit_cycle_median": 58.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      3,
+                      46
+                    ],
+                    "cheb": 19,
+                    "dist2": 586
+                  },
+                  {
+                    "hq": [
+                      11,
+                      2
+                    ],
+                    "cheb": 29,
+                    "dist2": 962
+                  },
+                  {
+                    "hq": [
+                      21,
+                      21
+                    ],
+                    "cheb": 10,
+                    "dist2": 101
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        },
+        {
+          "game": 9,
+          "map": "ReverseFunnel",
+          "side": "A",
+          "replay_team": "vibe23",
+          "won": "0",
+          "rounds": "555",
+          "snapshots": 0,
+          "replay_telemetry": {
+            "tele": "bcc",
+            "tele_dots": "0",
+            "tele_unknown_kinds": "0"
+          },
+          "opportunity_counts": null,
+          "opportunity_unavailable_reason": "No COMMS/TRIP data dots; field replays disable indicators. Shared/private well knowledge and actual deposit HQ per carrier are unavailable.",
+          "examples": [],
+          "baseline": {
+            "replay_trips": 161,
+            "deposit_trips": 119,
+            "deposit_load_kg": 3570,
+            "death_trips": 26,
+            "deposit_cycle_median": 52,
+            "wells_by_collected_trip": [
+              {
+                "well": [
+                  2,
+                  17
+                ],
+                "type": 2,
+                "trips": 103,
+                "first_collection_round": 2,
+                "deposit_trips": 99,
+                "deposit_load_kg": 2970,
+                "death_trips": 0,
+                "deposit_cycle_median": 58,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      0,
+                      19
+                    ],
+                    "cheb": 2,
+                    "dist2": 8
+                  },
+                  {
+                    "hq": [
+                      6,
+                      15
+                    ],
+                    "cheb": 4,
+                    "dist2": 20
+                  }
+                ]
+              },
+              {
+                "well": [
+                  3,
+                  16
+                ],
+                "type": 1,
+                "trips": 22,
+                "first_collection_round": 35,
+                "deposit_trips": 20,
+                "deposit_load_kg": 600,
+                "death_trips": 0,
+                "deposit_cycle_median": 39.5,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      0,
+                      19
+                    ],
+                    "cheb": 3,
+                    "dist2": 18
+                  },
+                  {
+                    "hq": [
+                      6,
+                      15
+                    ],
+                    "cheb": 3,
+                    "dist2": 10
+                  }
+                ]
+              },
+              {
+                "well": [
+                  21,
+                  10
+                ],
+                "type": 2,
+                "trips": 3,
+                "first_collection_round": 487,
+                "deposit_trips": 0,
+                "deposit_load_kg": 0,
+                "death_trips": 3,
+                "deposit_cycle_median": null,
+                "geometric_distance_to_each_own_hq": [
+                  {
+                    "hq": [
+                      0,
+                      19
+                    ],
+                    "cheb": 21,
+                    "dist2": 522
+                  },
+                  {
+                    "hq": [
+                      6,
+                      15
+                    ],
+                    "cheb": 15,
+                    "dist2": 250
+                  }
+                ]
+              }
+            ]
+          },
+          "first_shared_snapshots": []
+        }
+      ]
+    }
+  ]
+}
