@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-12 13:41 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
+Updated 2026-10-12 14:20 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
 requires ongoing interaction through the web interface (PROMPTS 58); use the VMs as
 remote compute workers, not a CLI handoff. Read `docs/CONTINUATION.md` before connecting, syncing or restarting jobs.
 VPN/TCP configuration is unavailable in this cloud instance. The private `battlecode23-control` repository is now
@@ -46,11 +46,19 @@ island-round margin -136.8 (t -1.79). Against c_bc1: net +3, island-round margin
 confirm no coin cells in the three panels. Replay overruns/self deaths and decoded exception turns are zero;
 indicator counters are blank, so their apparent zeros do not establish main-work near misses or exception counts.
 Launcher end-turn maxima (median 9,175 vs c_mend2's 9,174; worst 9,363 each) include background work and telemetry;
-they do not measure `computePredWells` savings. Recover the method benchmark or measure work before the fill.
+they do not measure `computePredWells` savings. The official instrumented zero-game method probe is now complete:
+192 repeated cases, zero drift; 58 finite-budget list differences, zero ample-budget list differences. Two of six
+reachable 10k warmups saved work; empty cache checks cost more. See `research/diagnosis/2026-10-12-c_bc3-cost.md`.
+CBC3 remains held while actual call frequencies and consumed objectives are measured.
 **c_well9 screen FAIL:** h2h 9-11, roster Net 0; no VALID archetype records rescue the borderline h2h. No trial.
+**c_mend3:** new isolated healing-selector arm, source hash `db9f54f47fea`. If the nearest owned island is blocked
+by a fresh sighting, seek a second safe island only with no visible enemies and 7,500 bytecodes at fallback entry.
+The scan checks the original 6,000 reserve between islands. Safe-nearest behavior retains the original API reads,
+ties and thresholds. All 852 decision/guard prototype checks pass; official suite, actual cost and delivery are
+pending. No submission or promotion.
 **c_ward3:** fresh full screen queued at 13:44 PDT as `20261012-204410-scr-c_ward3-3d2ef1dd0da7`, tag
 `scr-3d2ef1dd0da7-0b3c`: up to 128 candidate games, zero missing incumbent reference cells. The existing queue runner
-PID 254430 was reused. Its old job remains in `queue/cancelled/`, with no run or log markers. All 100 c_mend2 reference
+PID 254430 was reused. Its old job remains in `queue/cancelled/`, with no run or log markers. As of 14:17 PDT it is running stage C (100 roster cells); stages A/B are complete. All 100 c_mend2 reference
 cells are cached, with zero conflicts. c_well9's information-only roster Net is
 +1 after recovering the missing `summary.txt` files; gating Net remains 0 and its verdict remains FAIL.
 
@@ -63,7 +71,10 @@ have the same physical spawn owners and named winner, but different A/B labels a
 `rc.getTeam()` makes the labels observable; dedupe now preserves labelled pairs and orientation, while exact labelled
 repeats still face the winner/round invariant. Refreshed views and the recovered data are on `main` (`9e8d180`).
 Live Rankings at 13:19 PDT: vibe23 #5 of 88, rating 1682.8. The snapshot has 15,708 recorded games; the bounded
-collector subsequently reached 15,937 games and 427 audited unavailable field replays by 13:38 PDT, and continues.
+collector finished at 13:54 PDT with **17,701 games**, preserving the prior CSV byte prefix, and **1,006 audited
+unavailable field replay records**. No eligible completed matches remained; seven matches were unfinished.
+Publish the next consistent data/chart snapshot after guarded driver main adoption. The earlier 15,708 snapshot
+remains dated; do not mix its charts with the later raw totals.
 
 **Read head-to-heads against the identity control, never against 10/20**: on `test/cells/self-swarm1-panel.txt`
 g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); on the screen's map-seed cells it scores

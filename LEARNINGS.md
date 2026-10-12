@@ -71,6 +71,10 @@ outside vision. Re-extract the panels with the shot visibility classifier before
   panel kept all c_mend2 win/loss outcomes, but end-turn launcher maxima (medians 9,175/9,174) include background
   work and cannot establish its method savings. All indicator counter fields were blank; use surviving telemetry
   with coverage checks, and keep the optimization pending until cost delivery is measured (TRAINING_LOG 2026-10-12 13:05).
+- **Exercise budget guards with the real instruction meter.** Reflection-set budgets proved logical completed-pass
+  equality for CBC3 but missed 58 finite-budget list differences in 192 official instrumented fixtures. Cache hits
+  also need reachable warm states and actual call weights; hypothetical unlimited warmups exaggerate savings
+  (`research/diagnosis/2026-10-12-c_bc3-cost.md`, TRAINING_LOG 2026-10-12 14:20).
 - **Simulation identity includes every observable input, not just starting positions.** [2023] `rc.getTeam()` exposes
   A/B labels: galaxy-3357/2 and galaxy-4694/3 give NolanChai the same physical spawns and named win, yet end at
   r1631/r1421 with opposite labels. Keep both raw rows and labelled pair/orientation keys; retain the strict invariant

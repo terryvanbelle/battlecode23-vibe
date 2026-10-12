@@ -1195,3 +1195,18 @@ of history. Times are PDT. Grep it; do not read it whole.
   up to 128 candidate games, 0 incumbent repeats (all 100 reference cells cached).
 - Continue independently while it plays: instrumented c_bc3/c_mend2 method cost/guard comparison and replay-based
   economy/combat/healing diagnosis. No candidate promoted and no new field panel requested.
+
+## 2026-10-12 14:20 PDT — official CBC3 cost diagnosis; conservative Mend3 arm
+
+- Official jar 5d4e42a5 / VM JDK8 instrumented computePredWells probe: 192 cases repeated twice, no cost drift or
+  pending debt; 58 finite-budget list differences, no differences at 1,000,000. Cached tight_sparse 818 -> 320,
+  cached empty 87 -> 208. Only two of six reachable 10k warmup shapes saved work. No unconditional
+  decision-preservation claim; hold c_mend2/145. Full provenance/limits and callsite interpretation in
+  research/diagnosis/2026-10-12-c_bc3-cost.md; driver artifacts build/codex-recovery/cbc-probe-20261012T210624Z.
+- c_mend3 db9f54f47fea differs from frozen Mend2 only in Launcher healing fallback: nearest blocked, no visible
+  enemies, fallback entry >=7500, between-island guard6000. Fresh four-slot sightings, original island ownership,
+  radius, tie order and ordinary-path reads preserved. 852 prototype selector/guard checks pass. Official full
+  suite and instrumented method/full-turn delivery diagnostics pending; no games/submission yet.
+- Collector finished 13:54 PDT, exit0/no timeout, 15,708 ->17,701 raw rows with prior byte prefix preserved,
+  1,006 unavailable eligible field replay audit records. Final batch adds zero, seven matches unfinished. Ward3
+  screen running stageC since14:05 PDT after stagesA/B and zero missing incumbent cells; no duplicate panel.
