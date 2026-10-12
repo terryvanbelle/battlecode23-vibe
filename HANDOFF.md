@@ -105,7 +105,10 @@ first-detour/second-return cancellation, but a return veto still fails to collec
 See `research/diagnosis/2026-10-12-forest-carrier-routing.md`; test route recovery and actual resource delivery.
 Shared knowledge remains unknown in field replays; no opponent shadow reruns.
 
-**Crowd-search arm closed:** official frozen c_explore1 (`409cfdfcbfd8`) passes 2,320 native checks,
+**Crowd-search closure under verification:** an audit found the fixture inherited incorrect forced ROT
+symmetry (`MapMem.cand=1`) on Forest. The first result is conditional on that prescribed state; corrected
+unresolved/valid-reflection controls are being checked. Keep original evidence. Frozen c_explore1
+(`409cfdfcbfd8`) passes 2,320 native checks,
 331 logical checks and 222 disabled-method identities, but the twelve-round unknown-Forest case discovers
 no centre well and delivers zero Mana. Explicit shared centre knowledge selects at r50, senses at r70 and
 collects/transfers 30 kg. Dense gather plus measured helper tail leaves only 401 from an assigned 3,100 budget.
