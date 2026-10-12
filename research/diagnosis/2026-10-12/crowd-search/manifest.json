@@ -1,0 +1,19 @@
+{
+  "candidate_source_tracked": false,
+  "files": {
+    "2026-10-12-carrier-crowd-search.md": "a1923bacb11d427b7a79a327b647a89cd94de0d2e5fd724bd42274223ac471fd",
+    "BytecodeIdentity.java": "30e731f743d268d5a1ad0717a57aba989ef182949d8e5ab3c8e659e4c776d9dc",
+    "CarrierCrowdProbe.java": "0eb379cb8f3a62943fd02b0932cebd14e38065f896747fa25263d2f354880b17",
+    "Explore1Probe.java": "a0c8d6c70d1d9769263e0d3346cc27c738ae68d5d743f697708fa9f4ae8068e2",
+    "ExploreGuardProbe.java": "2852f92af389f13a952c0a029d119deebbae44f89b094008f042e9dd1599fc2d",
+    "README.md": "cb1bacdac82d2ae2a962209aab86432fbcc86c119a8813272ce1d855554c7d94",
+    "crowd_run.sh": "66060e7a8f6cb0f6e1ec1f6479335a3703068201c3c7d12ee831558d93001076",
+    "crowd_source.py": "fe20aec21cc9ee1d050306d58dbde716b71d136d10e2c538554ba3b06d9cb189",
+    "explore_run.sh": "40ea5fae61014d6d36db354d40676be026b5d73d84cdb1cf6a24a3e58d3d1ed8",
+    "explore_source.py": "a734ec14dc43bf748ad3088c16649d512974dfbfc683311fc8709ab6b4d7aa56",
+    "frontier-preregistration.md": "2f9c1dfb06c3ae5bda7d40ea41d1460d0c168c119d9587259058c0bafce01b08",
+    "guard_run.sh": "8cddf118a638eb75f61f1d7ab78b668384c0a15c4e227deba9c9952f226747f9",
+    "official-evidence.json": "95be4afb4d7dbaed49a93bc5e7b7d445e39b575defabd2206b545ac5302f3037"
+  },
+  "server_games_run": 0
+}

@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-12 16:28 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
+Updated 2026-10-12 16:44 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
 requires ongoing interaction through the web interface (PROMPTS 58); use the VMs as
 remote compute workers, not a CLI handoff. Read `docs/CONTINUATION.md` before connecting, syncing or restarting jobs.
 VPN/TCP configuration is unavailable in this cloud instance. The private `battlecode23-control` repository is now
@@ -105,6 +105,13 @@ first-detour/second-return cancellation, but a return veto still fails to collec
 See `research/diagnosis/2026-10-12-forest-carrier-routing.md`; test route recovery and actual resource delivery.
 Shared knowledge remains unknown in field replays; no opponent shadow reruns.
 
+**Crowd-search arm closed:** official frozen c_explore1 (`409cfdfcbfd8`) passes 2,320 native checks,
+331 logical checks and 222 disabled-method identities, but the twelve-round unknown-Forest case discovers
+no centre well and delivers zero Mana. Explicit shared centre knowledge selects at r50, senses at r70 and
+collects/transfers 30 kg. Dense gather plus measured helper tail leaves only 401 from an assigned 3,100 budget.
+No field screen or tracked candidate package; separate frontier policy is in preparation. Read
+`research/diagnosis/2026-10-12-carrier-crowd-search.md` and its reproducible evidence in `crowd-search/`.
+
 **Exact Forest supply diagnosis:** official pass-only action reader/10 fixtures/48 timeline reconciliations show
 our only Mana pickup site throughr1000 in both4566g4/4570g4 is(8,12). Enemies first collect centreMana(30,48)/
 (29,48) at r36/38 andr125/196. Duringr101–250 centre903/544kg explains almost all945/471kg income gaps;
@@ -134,7 +141,9 @@ cooldown cost leaves next-own-start cooldown zero. The official method fixture p
 with zero repeated or disabled-control differences. A first hidden shot costs 227 instructions including its
 counter suffix; the maximum measured fixture cost is 461. Positive counters on later no-shot turns and the
 inner scan guard remain outside that price matrix. Targeted local decision checks pass 1,804 cases; the official
-82-package full suite and full-bot controlled/cloud delivery are pending. Fixed zero/4/2/1 doses and useful hidden
+82-package full suite started 16:41:49 on canonical driver main ca7a850, supervisor 3081844,
+`build/codex-recovery/unit-20261012T234149Z`; full-bot controlled/cloud delivery remains pending. Adoption
+preserved 89 live files, their bytes/inodes, all 35 screen states and the existing locks. Fixed zero/4/2/1 doses and useful hidden
 damage falsifiers are in `research/diagnosis/2026-10-12/blind-price/`. No submission or promotion.
 
 Native CBC workload launched15:15:35 PDT on battlecode-dev: supervisor291639,
