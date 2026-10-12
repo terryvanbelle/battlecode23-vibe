@@ -1,0 +1,60 @@
+{
+  "observed_utc": "2026-10-12T23:26:43.877638+00:00",
+  "driver_head": "5d81f87d0f686a12543abd719ad9c2a74923874f",
+  "unit": {
+    "directory": "/home/terryvanbelle/projects/vibe/2023/build/codex-recovery/unit-20261012T230434Z",
+    "status_metadata": {
+      "exists": true,
+      "bytes": 593,
+      "mtime_utc": "2026-10-12T23:25:29.668032+00:00",
+      "stable_read": true,
+      "sha256": "227e27aba059e61f66adf5a2eda28af006a43cc086b942269bded0e4559e4af1"
+    },
+    "status": {
+      "head": "5d81f87d0f686a12543abd719ad9c2a74923874f",
+      "finished_head": "5d81f87d0f686a12543abd719ad9c2a74923874f",
+      "completed": true,
+      "started_utc": "2026-10-12T23:04:34.820198+00:00",
+      "finished_utc": "2026-10-12T23:25:29.482260+00:00",
+      "supervisor_pid": 3072664,
+      "test_pid": 3072666,
+      "exit_code": 0,
+      "timed_out": false,
+      "timeout_seconds": 1800
+    },
+    "supervisor": {
+      "pid": 3072664,
+      "present": false
+    },
+    "stdout_tail": {
+      "metadata": {
+        "exists": true,
+        "bytes": 1964,
+        "mtime_utc": "2026-10-12T23:25:29.440030+00:00",
+        "stable_read": true,
+        "sha256": null
+      },
+      "text": "bots: compiled 81 packages\namp2: ampGate, census masking and rotation, legacy write zones, island switch, scout and escort, legacyZone, well flush: 49145 cases ok\namp2: ampGate, census masking and rotation, legacy write zones, island switch, scout and escort, legacyZone, well flush: 49145 cases ok\naura step: 7 cases ok\nbc1: 217142 cases ok\nbc2: 30000 fresh passes (5292 at the 38 limit, 3050 empty)\nbc2: sequence 13458 skips (1592 after the budget ran out), 12150 passes, 3945 calls under the guard (1540 on a matching key), 2447 passes cut at their first guard, 19496 raid answers\nbc2: 1899878 cases ok\nbc3: 30000 fresh passes (5292 at the 38 limit, 3050 empty)\nbc3: sequence 13458 skips (1592 after the budget ran out), 12150 passes, 3945 calls under the guard (1540 on a matching key), 2447 passes cut at their first guard, 19496 raid answers\nbc3: 1899878 cases ok\nBotTest: 13695 checks, 0 failures\nend1: endPick attackers, defenders, no enemy, nothing, null tiles: 17029 cases ok\nend2: endPick attackers, defenders, no enemy, nothing, null tiles: 17029 cases ok\nend3: endPick attackers, defenders, no enemy, nothing, null tiles: 17029 cases ok\nhot wells: 20 cases ok\nhot wells: 20 cases ok\nhot wells: 20 cases ok\nhot wells: 20 cases ok\nlane: 29 cases ok\nlane: 30 cases ok\nmend score and gate: 24 cases ok\nmend score and gate: 24 cases ok\nmend3: 852 cases ok\nprobe front: 8 cases ok\nroute1: 54 cases ok\nspread: Cornucopia, Forest, single HQ, duplicates ok\nward2: 521824 cases ok\nward3: 521824 cases ok\ntest_tools: 111 tests, 0 failures, 0 errors\nranked policy: Ran 3 tests in 0.481s OK \ncontest token: Ran 2 tests in 0.238s OK \nweb worker: Ran 36 tests in 62.228s OK \ntest_elo: 60 tests, 0 failures, 0 errors, 0 skipped\nmatch reports: Ran 36 tests in 26.755s OK (skipped=2) \nreplica: Ran 83 tests in 41.431s OK \ngalaxy frontend: Ran 13 tests in 1.975s OK \ngalaxy backend: Ran 46 tests in 30.964s OK \ngalaxy tools: Ran 30 tests in 27.513s OK \nunit-tests: PASS\n"
+    },
+    "stderr_tail": {
+      "metadata": {
+        "exists": true,
+        "bytes": 0,
+        "mtime_utc": "2026-10-12T23:04:34.818048+00:00",
+        "stable_read": true,
+        "sha256": null
+      },
+      "text": ""
+    },
+    "supervisor_log_tail": {
+      "metadata": {
+        "exists": true,
+        "bytes": 0,
+        "mtime_utc": "2026-10-12T23:04:34.762048+00:00",
+        "stable_read": true,
+        "sha256": null
+      },
+      "text": ""
+    }
+  }
+}

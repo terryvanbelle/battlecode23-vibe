@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-12 16:24 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
+Updated 2026-10-12 16:28 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
 requires ongoing interaction through the web interface (PROMPTS 58); use the VMs as
 remote compute workers, not a CLI handoff. Read `docs/CONTINUATION.md` before connecting, syncing or restarting jobs.
 VPN/TCP configuration is unavailable in this cloud instance. The private `battlecode23-control` repository is now
@@ -70,9 +70,10 @@ original bytes. Exact record `progress/screens/c_ward3-3d2ef1dd0da7.json`; colle
 source `644abde`, exit0/no timeout, same start/end HEAD. All80 bot packages and852 Mend3 checks passed, along with
 the complete111 analysis/3 ranked/2 token/36 worker/60 rating/36 report(2 skipped)/83 replica/13 frontend/
 46 backend/30 operator checks. Artifact directory `build/codex-recovery/unit-20261012T213126Z`.
-The newer81-package suite on driver main5d81f87 started16:04:34, directory
-`build/codex-recovery/unit-20261012T230434Z`. At16:24 it has compiled all81packages and passed54Route1/852Mend3
-checks plus analysis, ranked, token, worker, ratings and reports; remaining replica checks are running.
+The newer81-package suite on driver main5d81f87 **passed16:25:29**, directory
+`build/codex-recovery/unit-20261012T230434Z`. Same start/end HEAD, exit0/no timeout; all81packages,54Route1/852Mend3
+checks and complete analysis/replica/frontend/backend/operator suites pass. Exact verification is preserved in
+`research/diagnosis/2026-10-12/verification/route1-unit.json`.
 Driver main adoption preserved17,701 raw rows byte-for-byte,30 live files and35 screen states; archived all21
 recovered reports and kept the screen-cache lock inode. Preserve this authoritative checkout and its live data.
 
@@ -122,8 +123,9 @@ and private full9.77MBtrace SHA are in carrier evidence. **Experimental c_route1
 then locks original-hand bug movement after4eligible no-progress rounds until collection/reset. Admission6500,
 post-wave4000; cumulative `rr` counter with600admission. All54 local guard/counter checks and compiled-disabled
 common-method identities pass. Official actual-source fixture passed144cases at16:12PDT:48/48deposits vs37/48baseline/disabled,48zero identities,
-48pre-trigger identities and8real same-type target resets. Full81-package suite, cost and screen remain
-pending. See `research/diagnosis/2026-10-12-c_route1.md`; do not activate it yet. Keep the larger Mana capacity
+48pre-trigger identities and8real same-type target resets. Full81-package suite and official instrumented
+method-cost check nowpass:1077cases/4224assertions, zero repeat/disabled drift,1031completed/46paused.
+Ordinary warm gather+156instructions; fullCarrier.run/tail excluded. Complete-game delivery/screen pending. See `research/diagnosis/2026-10-12-c_route1.md`; do not activate it yet. Keep the larger Mana capacity
 diagnosis separate from the AD route repair.
 
 Native CBC workload launched15:15:35 PDT on battlecode-dev: supervisor291639,
