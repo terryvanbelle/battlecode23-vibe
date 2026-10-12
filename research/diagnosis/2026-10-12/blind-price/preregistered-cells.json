@@ -1,0 +1,80 @@
+{
+  "status": "prepared, no games launched",
+  "candidate_base_hash": "d62033781fbd",
+  "candidate_hash": "9ce6956c844b",
+  "dose_order": [0, 4, 2, 1],
+  "dose_production_hashes": {
+    "0": "43138ce60516",
+    "1": "9ce6956c844b",
+    "2": "6b6275c740cb",
+    "4": "625c5733784a"
+  },
+  "entry_scan_stats_guards": [4000, 3500, 2000],
+  "official_engine_sha256": "5d4e42a51946cc1c2149426485bda8096ff1c088c77e3ed075c06ce5968ed72a",
+  "jdk": "8",
+  "host": "battlecode-dev",
+  "controlled_full_turn_gate": {
+    "games_max": 5,
+    "rounds_per_fixture_max": 32,
+    "players": "entire owned RobotPlayer/Launcher turn including initialization, shared sensing, map work, telemetry and end-turn planning; all remaining robots are owned scripted fixture actors",
+    "arms": ["frozen c_mend2", "period 0", "period 4", "period 2", "period 1"],
+    "setup": "one frozen custom 20x20 map, boxed launcher at (6,6), sole attack-range hidden cloud at (9,6); native movement legality, cooldowns and damage remain authoritative",
+    "fixed_phases": [
+      {"rounds": [2, 9], "target": "own scripted enemy carrier held on hidden cloud; refill only after death at the following round boundary"},
+      {"rounds": [10, 13], "target": "empty hidden cloud"},
+      {"rounds": [14, 17], "target": "own scripted allied carrier on hidden cloud"},
+      {"rounds": [18, 21], "target": "own scripted visible enemy carrier at distance squared four; retain hidden cloud"},
+      {"rounds": [22, 32], "target": "hidden cloud plus a fixed passable friendly crowd; include positive bs counters on no-shot and off-phase turns"}
+    ],
+    "observations": [
+      "native attack-entry position, target, canSenseLocation, cooldown, rounded actual team multiplier and victim health before/after",
+      "native next own-start cooldown and exact launcher attack events",
+      "per-robot cumulative blindShots reflected only while its actual sandbox is paused, and emitted bs token with explicit missing/truncated coverage",
+      "whole sandbox bytecodes, pre-fill maxBc, overrun/exception counters and ordinary attack traces",
+      "later map/field work coverage; equal final padded bytecodes alone do not prove equal useful work"
+    ],
+    "zero_gate": "frozen base and period zero must match every round's native state, actions and metered bytecodes after package-name normalization",
+    "positive_gate": "period one must deliver at least one hidden enemy hit for 20 and one empty miss; ally damage is zero; each fired hook has next-start CD zero and exact counter/action join",
+    "limits": "fixture actors and forced cutoff are explicit; no winner, opponent realism, field frequency or local superiority claim"
+  },
+  "complete_cloud_delivery_cells": [
+    {"reference": "c_mend2", "reference_hash": "d62033781fbd", "map": "SmallElements", "candidate_side": "A"},
+    {"reference": "c_mend2", "reference_hash": "d62033781fbd", "map": "SmallElements", "candidate_side": "B"},
+    {"reference": "arch_ampmid", "reference_hash": "9b1099e4e1cf", "map": "SmallElements", "candidate_side": "A"},
+    {"reference": "arch_ampmid", "reference_hash": "9b1099e4e1cf", "map": "SmallElements", "candidate_side": "B"}
+  ],
+  "map_resource_expected_sha256": {
+    "SmallElements": "85d2835f910b40442523b5db054c9d3fd961906ce41822a6cc3cf27dab5f3c06"
+  },
+  "map_hash_verification": "expected bytes are from pinned engine source; verify this resource hash in the SHA-pinned official release jar before any game",
+  "complete_game_budget": {
+    "baseline_games_max": 4,
+    "dose_zero_games_max": 4,
+    "active_dose_games_max": 12,
+    "total_games_max": 20,
+    "max_parallel_games": 2,
+    "game_timeout_seconds": 600,
+    "shared_slot_semaphore": "/tmp/bc23-game-slots",
+    "no_replacement_games_after_timeout_or_invalid_evidence": true
+  },
+  "complete_game_conditions": {
+    "seed": "fixed built-in map seed, same labels and sides within a cell",
+    "profiler": false,
+    "show_indicators": true,
+    "baseline_control": "the unchanged frozen c_mend2 replaces the experimental package in the identical cell; a prior game is reusable only if every engine, JDK, map, side, source and configuration pin matches",
+    "zero_gate": "baseline and period zero require identical full state/action and bytecode fingerprints, winner/footer and round count in all four cells before active-dose expansion",
+    "dose_delivery": "after each paired active dose, report hook firings, useful hidden hits and native hit damage, zero-damage misses, counter coverage/gaps, conservative generic visibility bounds, basics and work-cost limits",
+    "counter_attribution": "only adjacent reliable samples with delta bs one identify that round's sole launcher attack; gaps permit interval totals, not guessed hit attribution",
+    "useful_damage_gate": "period one needs at least one identified hidden hit (20 native damage) across the four fixed cells; zero useful damage with complete coverage closes the arm before adding cells or ladder work",
+    "observability_gate": "missing counter/action attribution prevents acceptance; repair measurement before score expansion, without treating missing data as zero",
+    "falsifiers": [
+      "any zero-control state, action, bytecode or footer mismatch",
+      "any new overrun, caught/uncaught exception or displaced ordinary attack in the controlled fixture",
+      "any nonzero next-start cooldown after a fired controlled hook",
+      "any complete-observation counter/action mismatch or allied damage",
+      "no useful hidden hit damage across the fixed period-one cells with complete coverage",
+      "worse basics or useful planning work starved by hook/suffix price"
+    ],
+    "promotion": "delivery is a necessary gate only; local superiority requires the normal frozen-roster procedure, and ladder play remains a separate policy-controlled trial"
+  }
+}

@@ -128,6 +128,15 @@ method-cost check nowpass:1077cases/4224assertions, zero repeat/disabled drift,1
 Ordinary warm gather+156instructions; fullCarrier.run/tail excluded. Complete-game delivery/screen pending. See `research/diagnosis/2026-10-12-c_route1.md`; do not activate it yet. Keep the larger Mana capacity
 diagnosis separate from the AD route repair.
 
+**Experimental c_blind1** is published at `9ce6956c844b`, an isolated Mend2 copy changing only C/Launcher.
+After ordinary attacks and movement, it may shoot one hidden cloud tile only when the actual current-square
+cooldown cost leaves next-own-start cooldown zero. The official method fixture passed 448 cases / 5,770 checks,
+with zero repeated or disabled-control differences. A first hidden shot costs 227 instructions including its
+counter suffix; the maximum measured fixture cost is 461. Positive counters on later no-shot turns and the
+inner scan guard remain outside that price matrix. Targeted local decision checks pass 1,804 cases; the official
+82-package full suite and full-bot controlled/cloud delivery are pending. Fixed zero/4/2/1 doses and useful hidden
+damage falsifiers are in `research/diagnosis/2026-10-12/blind-price/`. No submission or promotion.
+
 Native CBC workload launched15:15:35 PDT on battlecode-dev: supervisor291639,
 `build/codex-recovery/cbc-native-20261012T221535Z/output` (status/log siblings). Up to4 own-archetype games,
 MAX_JOBS2,600-second game limits,45-minute supervisor limit; official frozen sources and engine. Each profiler
