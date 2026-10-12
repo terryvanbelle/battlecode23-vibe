@@ -334,3 +334,7 @@ Yep, I see it now!
 ## 68. 2026-10-12 PDT (message time unavailable)
 
 And to verify you're accessing the battlecode23-vibe repository correctly, can you update the progress/ directory?
+
+## 69. 2026-10-12 PDT (message time unavailable)
+
+I don't see RECOVERY.md yet.  Make sure you've pushed all the way to main
