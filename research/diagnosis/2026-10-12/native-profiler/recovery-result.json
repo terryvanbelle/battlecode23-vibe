@@ -1,0 +1,279 @@
+{
+  "observed_utc": "2026-10-12T23:24:12.974914+00:00",
+  "state": {
+    "state": "complete",
+    "started_utc": "2026-10-12T22:50:39.798744+00:00",
+    "finished_utc": "2026-10-12T22:56:07.399455+00:00",
+    "supervisor_pid": 342826,
+    "new_games_planned": 1,
+    "new_games_attempted": 1,
+    "new_games_run": 1,
+    "control_games_reused": 1,
+    "heap_mb": 2048,
+    "game_timeout_seconds": 900,
+    "wall_limit_seconds": 1350,
+    "output_dir": "/home/terryvanbelle/projects/vibe/2023/build/codex-recovery/cbc-on-recovery-20261012T225032Z-55d78b51/output",
+    "elapsed_seconds": 327.601,
+    "game_started_utc": "2026-10-12T22:50:42.215129+00:00",
+    "identity_verified": true,
+    "native_costs_available": false,
+    "usable_native_completed_intervals": 0,
+    "profile_caps": [
+      {
+        "capped": true,
+        "open_events": 2000000,
+        "side": "A"
+      },
+      {
+        "capped": true,
+        "open_events": 2000000,
+        "side": "B"
+      }
+    ],
+    "replay_uncompressed_bytes": 205285556,
+    "on_replay_bytes": 61741165,
+    "off_replay_sha256": "6544c8b768bd53579dc06473de148e464edd5262c663e7968e9586b630ec436b",
+    "on_replay_sha256": "d87ea357a9a01da311d797e68e80fcc29c24c0a3e523368b153691888940766a"
+  },
+  "identity": {
+    "fingerprint_identity": true,
+    "footer_result_identity": true,
+    "note": "Fingerprint compares rounds, state and metered bytecodes; it excludes profiler, indicators and footer winner. A footer difference remains explicit.",
+    "off_fingerprint": "0 Cornucopia 2000 9676e3f4731b44a8a84aa6bd0a2cd89a677fdf5e ce1b2c67ffb5c388e5afb44b372b8fe6abc0e8e0",
+    "off_replay_sha256": "6544c8b768bd53579dc06473de148e464edd5262c663e7968e9586b630ec436b",
+    "off_result": "0 Cornucopia A 2000",
+    "on_fingerprint": "0 Cornucopia 2000 9676e3f4731b44a8a84aa6bd0a2cd89a677fdf5e ce1b2c67ffb5c388e5afb44b372b8fe6abc0e8e0",
+    "on_replay_sha256": "d87ea357a9a01da311d797e68e80fcc29c24c0a3e523368b153691888940766a",
+    "on_result": "0 Cornucopia A 2000",
+    "terminal_metadata_valid": true
+  },
+  "native_cap_records": [
+    {
+      "game": 0,
+      "map": "Cornucopia",
+      "file": 0,
+      "side": "A",
+      "open_events": 2000000,
+      "open_cap": 2000000,
+      "capped": true,
+      "profile_count": 748
+    },
+    {
+      "game": 0,
+      "map": "Cornucopia",
+      "file": 1,
+      "side": "B",
+      "open_events": 2000000,
+      "open_cap": 2000000,
+      "capped": true,
+      "profile_count": 250
+    }
+  ],
+  "native_summary": {
+    "sha256": "77e9dd44bbaa9524c391dc2b893946c9bb9b1f2d25cd1488f3eb304accf559b9",
+    "launcher_summaries": [
+      {
+        "package": "c_mend2",
+        "map": "Cornucopia",
+        "side": "A",
+        "launcher_robots": 575,
+        "recorded_launcher_turns": 469309,
+        "robots_with_profile": 575,
+        "robots_with_complete_valid_trace": 0,
+        "robots_with_entry_budget_alignment": 0,
+        "exception_coverage": {
+          "missing_counter": 2,
+          "zero_through_last_turn": 573
+        },
+        "trace_issues": {
+          "empty_trace_with_recorded_turns": 486,
+          "unclosed_stack": 55,
+          "unmatched_close": 55
+        },
+        "capped_profile_files": [
+          0
+        ],
+        "methods": {
+          "computePredWells": {
+            "observed_entries": 700,
+            "entry_frequency_exact": false,
+            "entries_per_1000_recorded_launcher_turns": 1.4915546047486836,
+            "frequency_is_lower_bound": true,
+            "usable_completed_intervals": 0,
+            "entries_without_usable_cost": 700,
+            "terminal_close_ambiguous_intervals": 0,
+            "native_inclusive_bytecodes": {
+              "max": null,
+              "mean": null,
+              "n": 0,
+              "p50": null,
+              "p90": null,
+              "p99": null,
+              "sum": 0
+            },
+            "native_exclusive_bytecodes": {
+              "max": null,
+              "mean": null,
+              "n": 0,
+              "p50": null,
+              "p90": null,
+              "p99": null,
+              "sum": 0
+            },
+            "completed_entry_budget_histogram": {}
+          },
+          "march": {
+            "observed_entries": 8572,
+            "entry_frequency_exact": false,
+            "entries_per_1000_recorded_launcher_turns": 18.26515153129388,
+            "frequency_is_lower_bound": true,
+            "usable_completed_intervals": 0,
+            "entries_without_usable_cost": 8572,
+            "terminal_close_ambiguous_intervals": 0,
+            "native_inclusive_bytecodes": {
+              "max": null,
+              "mean": null,
+              "n": 0,
+              "p50": null,
+              "p90": null,
+              "p99": null,
+              "sum": 0
+            },
+            "native_exclusive_bytecodes": {
+              "max": null,
+              "mean": null,
+              "n": 0,
+              "p50": null,
+              "p90": null,
+              "p99": null,
+              "sum": 0
+            },
+            "completed_entry_budget_histogram": {}
+          },
+          "pickObjective": {
+            "observed_entries": 8572,
+            "entry_frequency_exact": false,
+            "entries_per_1000_recorded_launcher_turns": 18.26515153129388,
+            "frequency_is_lower_bound": true,
+            "usable_completed_intervals": 0,
+            "entries_without_usable_cost": 8572,
+            "terminal_close_ambiguous_intervals": 0,
+            "native_inclusive_bytecodes": {
+              "max": null,
+              "mean": null,
+              "n": 0,
+              "p50": null,
+              "p90": null,
+              "p99": null,
+              "sum": 0
+            },
+            "native_exclusive_bytecodes": {
+              "max": null,
+              "mean": null,
+              "n": 0,
+              "p50": null,
+              "p90": null,
+              "p99": null,
+              "sum": 0
+            },
+            "completed_entry_budget_histogram": {}
+          },
+          "raidWell": {
+            "observed_entries": 8443,
+            "entry_frequency_exact": false,
+            "entries_per_1000_recorded_launcher_turns": 17.990279325561623,
+            "frequency_is_lower_bound": true,
+            "usable_completed_intervals": 0,
+            "entries_without_usable_cost": 8443,
+            "terminal_close_ambiguous_intervals": 0,
+            "native_inclusive_bytecodes": {
+              "max": null,
+              "mean": null,
+              "n": 0,
+              "p50": null,
+              "p90": null,
+              "p99": null,
+              "sum": 0
+            },
+            "native_exclusive_bytecodes": {
+              "max": null,
+              "mean": null,
+              "n": 0,
+              "p50": null,
+              "p90": null,
+              "p99": null,
+              "sum": 0
+            },
+            "completed_entry_budget_histogram": {}
+          },
+          "run": {
+            "observed_entries": 12744,
+            "entry_frequency_exact": false,
+            "entries_per_1000_recorded_launcher_turns": 27.154816975596034,
+            "frequency_is_lower_bound": true,
+            "usable_completed_intervals": 0,
+            "entries_without_usable_cost": 12744,
+            "terminal_close_ambiguous_intervals": 0,
+            "native_inclusive_bytecodes": {
+              "max": null,
+              "mean": null,
+              "n": 0,
+              "p50": null,
+              "p90": null,
+              "p99": null,
+              "sum": 0
+            },
+            "native_exclusive_bytecodes": {
+              "max": null,
+              "mean": null,
+              "n": 0,
+              "p50": null,
+              "p90": null,
+              "p99": null,
+              "sum": 0
+            },
+            "completed_entry_budget_histogram": {}
+          }
+        }
+      }
+    ],
+    "limits": [
+      "Native costs are metered counter differences between method ENTER and CLOSE, excluding caller invocation/argument setup.",
+      "Exclusive costs subtract nested profiled methods; API and filtered library charges remain in the interval.",
+      "Frames merge overloads and identify calling methods, not source lines, inputs, cache keys, outputs, or branches.",
+      "Capped or invalid traces supply observed entry lower bounds only; their costs are suppressed.",
+      "Known ex>0 or engine exception death suppress all robot costs/callers. Costs additionally require a cumulative ex=0 observation on the final recorded turn; missing/tail-gap coverage leaves native nesting unverified and suppresses costs.",
+      "The ex counter covers caught unit/end-turn exceptions in our frozen bots, not a proof that every internal caught exception was recorded. Caller contexts remain validated native nesting, not source-line attribution.",
+      "Final-counter closures are excluded from costs because the replay does not distinguish normal and forced closes.",
+      "Entry budgets require complete counter/turn alignment with no overrun; histogram covers usable completed intervals only.",
+      "These games provide workload samples, not representative panel weights or evidence to promote a bot."
+    ]
+  },
+  "provenance": {
+    "engine_sha256": "5d4e42a51946cc1c2149426485bda8096ff1c088c77e3ed075c06ce5968ed72a",
+    "c_mend2_hash": "d62033781fbd",
+    "arch_ampmid_hash": "9b1099e4e1cf",
+    "map": "Cornucopia",
+    "planned_games": 1,
+    "max_jobs": 1,
+    "game_timeout_seconds": 900,
+    "prepare_only": false,
+    "engine_patch_used": false,
+    "prepared_utc": "2026-10-12T22:50:40.227127+00:00",
+    "java_version": "openjdk version \"1.8.0_504\"\nOpenJDK Runtime Environment (Temurin)(build 1.8.0_504-b01)\nOpenJDK 64-Bit Server VM (Temurin)(build 25.504-b01, mixed mode)",
+    "show_indicators": true,
+    "seed": "built-in map seed; A/B labels fixed",
+    "sha256": "f5823bcebb0ed637a39076967cc9bf69e6410b0608d81f5fdc31411fe5b44459",
+    "recovery": {
+      "type": "on_only_footer_heap_oom",
+      "original_output": "/home/terryvanbelle/projects/vibe/2023/build/codex-recovery/cbc-native-20261012T221535Z/output",
+      "original_provenance_sha256": "bed992f3d9039c6ec9bede6900c001802ecd586dec190f63fee2049b69a8b22c",
+      "original_off_sha256": "6544c8b768bd53579dc06473de148e464edd5262c663e7968e9586b630ec436b",
+      "original_on_failure_log_sha256": "5782bc2a6ecafea4b78dbd1443268e06d541ff563f3e7b19ca19442f03c34f09",
+      "off_heap_mb": 768,
+      "on_heap_mb": 2048,
+      "source_class_url_used": "/home/terryvanbelle/projects/vibe/2023/build/codex-recovery/cbc-native-20261012T221535Z/output/bots",
+      "note": "Off game reused unchanged; only profiler-on is rerun. Larger heap does not remove the native profiler cap."
+    }
+  }
+}

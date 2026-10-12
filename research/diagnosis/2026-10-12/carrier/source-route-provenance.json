@@ -1,0 +1,89 @@
+{
+  "provenance": {
+    "registered_games_run": 0,
+    "native_fixture_cases": 144,
+    "instruction_metered": false,
+    "driver_artifacts": "/home/terryvanbelle/projects/vibe/2023/build/codex-recovery/carrier-candidate-route-v2-20261012T231243Z",
+    "vm_artifacts": "~/projects/vibe/2023/build/codex-recovery/carrier-candidate-route-v2-20261012T231243Z",
+    "fixture_sha256": "6a976bbf91667ca08693d73ec326dfb04d1639a6a29a59d4f1175b6de50daed6",
+    "candidate_source_revision": "471eafaef776 (rr telemetry)",
+    "note_exercised_by_native_fixture": false,
+    "pinned_source_sha256": {
+      "c_mend2": {
+        "Amplifier.java": "81206994af4afcd0b435842ad4aebd1f8caf931af638d9e085c93432b0ce3025",
+        "C.java": "4b0d33597287f693bf9b764fc8a2c97e7a836b7afb2d0c70d9bb85dc012e1179",
+        "Carrier.java": "508a62e6e8d1c9aac6675e5a8146bfd40953433bf64b9a09a187efb30b3fa303",
+        "Comms.java": "3aa9be2612f4059c1606f495d0af3bfa1be2c8dba0dda86224e1262f8ddf200e",
+        "Field.java": "de0f0ae8da5973e91d992f94003b68ca89965f539910e07edba22486a110aa05",
+        "G.java": "0848fde563cc7447cff3f22431ad40ea70a9cf05b82fb72508a63a9308f1cd16",
+        "HQ.java": "faeefc9b162e611159286248fad5b17d653b59bf79a449c43aeb946586e57296",
+        "HQState.java": "4fafe2165f8aa5d257b1fc2ca33a1e5f43918e4a99088ba463fe16b2e3ea98e4",
+        "Launcher.java": "b45f8f95f15e8abebd34c5d3232bfbf4e33dd80bc21213a0440c02d8b9cc12f6",
+        "MapMem.java": "3bc6dd141c843944d9edf6324e93622b81929e6edd050ce54abccbcbeaa7c3f2",
+        "Nav.java": "18fcae8192a7607a638d9e5c34a1c61889ad790a882c1ed6095da87b0a7ca8a6",
+        "Other.java": "35d50758d2ce621f44474d7f8233827b63bc3d8222a04a3ae9250bfaad041246",
+        "RobotPlayer.java": "025e8bc574b1368062a6995c02440d65928cb2f526b527566eadd6deb30a4540",
+        "Telemetry.java": "d5eef32727109f6b2430cf14b81bd42e987282e731a8759f8bc535329ec7a267",
+        "Wells.java": "3ba9ddd0095bc9bd5568eafe2b9c7e232bfec5f4252eb45e7e69eea20dd4efd1"
+      },
+      "c_route1": {
+        "Amplifier.java": "0b022b55b0672f2b26655762ee93f856dbc8752af94146c7aac9d99cc4ff70e9",
+        "C.java": "55cf4ed39eef3b2e66664114867399f1c93c02e921a29f8e94d809b090ef8767",
+        "Carrier.java": "7598c0bcf3ba62fb22ff7ab21bd6ff58bd17520008c062eae3bc3462002a47c0",
+        "Comms.java": "13eb9d559e021d352dde6cc7389ceb4505a63d08a048c8e9956d9048d4e9d794",
+        "Field.java": "12cf9b7f54c6b4ff376a55151b375946d75c16298cdf4b69b775174bafdba6c2",
+        "G.java": "44d321a1eaed34bcc475bf904fe422d20cfd060693e1dab086193b830ca8dac2",
+        "HQ.java": "53a69ed64ab9c6eae9fe704d3cf7df1b9c896b9d8d0a5502afb71e45655aafaa",
+        "HQState.java": "38a7a94018fe9a1a40a95727c98b6fa834dc56ef77b752d2e5f49f281fc2002b",
+        "Launcher.java": "ebbdf222f17e654e76c1c2047f398940a08d565611606349df5829b23aa5e0b5",
+        "MapMem.java": "e60d14cf5007ba9258eff64c6a408ab3fa2f052996730eb50ff97f8727b6396e",
+        "Nav.java": "52494e5b3890c5935fd1a41198c9c6a11613f22b32a2d231192ea6cc60c63598",
+        "Other.java": "82885ab963632816f4425d525b357b12cf655bb49cbeda711c80f7924bcfd350",
+        "RobotPlayer.java": "958cb83e12decf8599e76eb0ded9a5fd57bad08c666ca4c873709ee61361fe44",
+        "Telemetry.java": "3c74fd47786038a168a234b616ac627c5f3445e98824a9d3d48fb6790e018cb0",
+        "Wells.java": "cbae505da52be6c89079916f93f9f66b1b36a518d96fadcaaa9c6b3153a19b43"
+      }
+    },
+    "disabled_constant_sha256": "cd16a37ef0dc0f0f9b035df14be3cf842c4cb1093e727b3ed4c5dd77d748e73a",
+    "disabled_derivation": "Exact C.java CARRIER_ROUTE_RECOVERY=true\u2192false replacement in a private source copy; all other source bytes are copied unchanged. Baseline fixture changes only its package declaration. Three separate class trees and JVMs.",
+    "official_engine_sha256": "5d4e42a51946cc1c2149426485bda8096ff1c088c77e3ed075c06ce5968ed72a",
+    "result_sha256": {
+      "baseline": "1007178c5d1e091c9df49f8c2799646a34942046f3f43dce6627ed5c0703a766",
+      "disabled": "4d3cf70c38dcd4d92f8d18c1562d01388e72e73c41a134448342fc5df1254507",
+      "enabled": "3b3e52581360e9f75bd4d1337e5416d47f38eb773cfee67757f6ee7bc9cf1bc2"
+    },
+    "result_bytes": {
+      "baseline": 2507520,
+      "disabled": 2507520,
+      "enabled": 1441898
+    }
+  },
+  "native_assertions": {
+    "baseline": 6296,
+    "disabled": 6296,
+    "enabled": 4686
+  },
+  "comparison_checks": {
+    "zero_arm_identity_pairs": 48,
+    "pre_trigger_identity_pairs": 48,
+    "first_native_move_identity_pairs": 48,
+    "complete_free_route_identity_pairs": 4,
+    "before_target_change_resets": 4,
+    "after_target_change_resets": 4
+  },
+  "successful_native30kgdeposits_per48cases": {
+    "baseline": 37,
+    "disabled": 37,
+    "enabled": 48
+  },
+  "actual_enabled_recovery_cases": 22,
+  "semantics": [
+    "Native GameWorld movement, occupancy, cooldown, real wells and actual30kg HQ transfer; owned NullControlProvider only, no player sandbox or field opponent classes.",
+    "Calls actual source Carrier.gather, deliver and unjam; observer proxy cannot veto or alter API behavior. Complete or initial local map knowledge and resolved symmetry are prescribed fixture states. Complete/fresh/pending fields and controlled permanent/transient own blockers are independent scenarios.",
+    "Clock guard input is synthetic ample100000; host calls are not instruction-metered and this fixture does not establish bytecode costs or performance under real finite budgets.",
+    "Native target-change scenarios call actual Carrier.switchWell at r4/r7 after prescribing an alternate same-type well from the native initial-map and world; collection and deposit use native controller calls. Old private replay targets are not inferred.",
+    "release5/release9 relocate controlled own blockers off the tested patch; relocation is an occupancy condition, not a legal one-turn travel claim. Returning legs use actual deliver without an external routing policy."
+  ],
+  "telemetry_note_validation": "Carrier.note rr and admission boundary validated by Route1Test; native fixture invokes gather/deliver/unjam, and instruction costs remain unmeasured.",
+  "full_trace_transport": "All144 complete native traces retained in three driver/VM JSON files; this reply samples explicitly declared turn windows."
+}

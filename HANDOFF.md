@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-12 15:58 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
+Updated 2026-10-12 16:24 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
 requires ongoing interaction through the web interface (PROMPTS 58); use the VMs as
 remote compute workers, not a CLI handoff. Read `docs/CONTINUATION.md` before connecting, syncing or restarting jobs.
 VPN/TCP configuration is unavailable in this cloud instance. The private `battlecode23-control` repository is now
@@ -70,6 +70,9 @@ original bytes. Exact record `progress/screens/c_ward3-3d2ef1dd0da7.json`; colle
 source `644abde`, exit0/no timeout, same start/end HEAD. All80 bot packages and852 Mend3 checks passed, along with
 the complete111 analysis/3 ranked/2 token/36 worker/60 rating/36 report(2 skipped)/83 replica/13 frontend/
 46 backend/30 operator checks. Artifact directory `build/codex-recovery/unit-20261012T213126Z`.
+The newer81-package suite on driver main5d81f87 started16:04:34, directory
+`build/codex-recovery/unit-20261012T230434Z`. At16:24 it has compiled all81packages and passed54Route1/852Mend3
+checks plus analysis, ranked, token, worker, ratings and reports; remaining replica checks are running.
 Driver main adoption preserved17,701 raw rows byte-for-byte,30 live files and35 screen states; archived all21
 recovered reports and kept the screen-cache lock inode. Preserve this authoritative checkout and its live data.
 
@@ -118,8 +121,8 @@ and private full9.77MBtrace SHA are in carrier evidence. **Experimental c_route1
 `471eafaef776`, onlyC/Carrier changed fromMend2. It tracks exact-well/field-epoch progress outside the crowd band,
 then locks original-hand bug movement after4eligible no-progress rounds until collection/reset. Admission6500,
 post-wave4000; cumulative `rr` counter with600admission. All54 local guard/counter checks and compiled-disabled
-common-method identities pass. Actual-source prototype48/48deposits vs37/48baseline/disabled,48zero identities,
-8real same-type target resets. Official actual-source fixture, full81-package suite, cost and screen remain
+common-method identities pass. Official actual-source fixture passed144cases at16:12PDT:48/48deposits vs37/48baseline/disabled,48zero identities,
+48pre-trigger identities and8real same-type target resets. Full81-package suite, cost and screen remain
 pending. See `research/diagnosis/2026-10-12-c_route1.md`; do not activate it yet. Keep the larger Mana capacity
 diagnosis separate from the AD route repair.
 
@@ -137,7 +140,11 @@ it has not launched yet. c_mend2/145 remains active.
 On-only recovery launched15:50 PDT, supervisor342825,
 `build/codex-recovery/cbc-on-recovery-20261012T225032Z-55d78b51/`: one2048MB profiling game,900-second game limit,
 1380-second outer supervisor, completed off reused. Original private source/classes remain fixed through canonical
-main adoption. Identity and caps are pending. The official instruction-metered crowded-well reachability probe
+main adoption. **Completed15:56:07:** state/bytecode/footer identity allpass, but both teams reached the native
+2,000,000OPEN cap. Zero usable completed intervals; all method costs/budget attribution remain unknown. Own575
+launchers have469,309recorded turns,573final-zero exception counters/2missing. Mend3 full-profile followon is
+blocked by this unusable control; do not run another full-profile pair. Preserved recovery evidence is in
+`research/diagnosis/2026-10-12/native-profiler/recovery-result.json`. The official instruction-metered crowded-well reachability probe
 also passed156checks/10scenarios: originalreselects home/0explore,12-round exclusionprototype3explore/discovery/
 30mockkg. Its RC sensing/movement/deposits are synthetic, not native physics or a whole-game delivery gate.
 
@@ -173,7 +180,7 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_lane2, c_mend2, c_end2, c_well7 | c_lane1, c_mend1, c_end1, c_well6 rebased onto c_bc1 (reviewed) | c_mend2 panel 61/100: +3 vs c_bc1, -1 vs c_aura2, healed x2.2 | c_mend2 accepted as g_iter10; c_lane2 closed (Forest 0-4 locally); c_well7 rejected (Forest carrier feeding); c_end2 rejected (net -1 vs c_bc1) |
 | c_bc3 | c_mend2 + decision-preserving computePredWells cut | completed 61/100; outcomes unchanged vs c_mend2; 1,899,878 equivalence checks | held: demonstrate actual method cost savings before promotion |
 | c_well9 | c_mend2 + diagonal-only well probe; removes the front probe that fed Forest carriers | collected screen FAIL: h2h 9-11, roster Net 0 | no trial; diagnose delivery before a revised arm |
-| c_ward3 | c_mend2 + forming launchers defend home wells reported by carriers | built/reviewed; queued job missing | requeue full screen against current validated hash on the VM |
+| c_ward3 | c_mend2 + forming launchers defend home wells reported by carriers | full screen FAIL: basics8/8, h2h9–11, information Net+2/gating Net0; all128 candidate games clean | closed15:17 PDT; no trial |
 | c_amp2, c_amp3 | amplifier scout/relay | c_amp2 h2h 9-11, roster -6, 0 overruns | closed; reopen only with a measured information gap |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
