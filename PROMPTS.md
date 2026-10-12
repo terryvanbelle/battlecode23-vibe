@@ -251,3 +251,11 @@ gcloud compute ssh claude-driver --zone=us-west1-b --project=tvanbelle-vibecode
 ## 58. 2026-10-12 PDT (message time unavailable)
 
 Is this going to hand off all work to the instance in claude-driver, so that I have to interact with its CLI from now on?  That's a non-starter for me.  I want to continue to interact via the web interface, not the CLI
+
+## 59. 2026-10-12 PDT (message time unavailable)
+
+OK, if you can figure out how to do that one-time authenticated remote connection, then I can follow instructions and/or type in commands.  But you'll have to tell me what to type or do in sufficient detail
+
+## 60. 2026-10-12 PDT (message time unavailable)
+
+I can get to Settings -> Code Cloud -> Environments -> Edit, but there's no Advanced from there.  It's just another chat inteface

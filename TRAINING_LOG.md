@@ -1080,3 +1080,13 @@ of history. Times are PDT. Grep it; do not read it whole.
   settings require environment configuration; starting a separate Codex CLI does not establish them.
 - No VM connection has yet succeeded. Repository fixes remain on codex/continue-bc23 / draft PR 1, and no live
   submission, queue, credentials or services were changed. Ongoing interaction must remain through the web UI.
+
+## 2026-10-12 PDT — one-time access setup authorized; environment Edit is a setup conversation
+
+- Owner PROMPTS 59 authorizes one-time commands with detailed instructions; PROMPTS 60 identifies the environment
+  editor as a chat. Official cloud documentation confirms that environment configuration can be refined in that
+  conversation and republished. First request confirmation of Tailscale VPN and raw TCP grant support there.
+- Plan the smallest route: Tailscale on claude-driver only, web-side grant for that peer's exact tailnet IPv4,
+  authenticated SSH with pinned host keys, then existing internal access to battlecode-dev. Native SSH remains the
+  straightforward option; Tailscale SSH may avoid a separate private-key binding, subject to explicit tailnet rules
+  and a successful actual connection check. No VM installation or configuration has happened yet.

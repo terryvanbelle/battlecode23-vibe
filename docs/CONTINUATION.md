@@ -8,6 +8,13 @@ changed either VM. The authoritative live files, credentials, replays and runnin
 
 ## Establish remote access from the web environment
 
+The owner can perform one-time setup commands but will not use the CLI for ongoing work (PROMPTS 59). The visible
+environment Edit flow is a setup conversation (PROMPTS 60). Use that conversation to request configuration changes
+and protected credential inputs rather than assuming an Advanced panel is visible. Confirm that VPN plus raw private
+TCP grants can be configured before installing anything on the driver; an HTTP domain allowlist is not a TCP grant.
+Prefer driver-only Tailscale access: the web agent connects to its tailnet IPv4, then reuses the driver's existing
+internal SSH connection to battlecode-dev. No subnet router or game-VM Tailscale installation is needed.
+
 The runtime's documented SSH transport is a configured VPN route plus authorized private TCP forwarding. Current
 observations show no VPN, no TCP grants, and no credential bindings. The environment configuration must provide a
 working route to the existing VPC, a grant for `battlecode-dev` (`10.138.0.3/32`) and the driver's verified private IP,
