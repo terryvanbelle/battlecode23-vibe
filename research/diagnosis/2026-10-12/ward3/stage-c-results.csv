@@ -1,0 +1,101 @@
+opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed
+arch_adecon,BatSignal,A,A,811,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,BatSignal,B,B,617,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,Cat,A,A,638,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,Cat,B,B,702,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,Cornucopia,A,A,861,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,Cornucopia,B,B,1579,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,DefaultMap,A,A,601,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,DefaultMap,B,B,590,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,Forest,A,A,1913,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,Forest,B,B,2000,win,The winning team won by having more sky islands.,map
+arch_adecon,Hah,A,A,408,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,Hah,B,B,440,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,IslandHopping,A,A,579,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,IslandHopping,B,B,614,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,MassiveL,A,A,1269,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,MassiveL,B,B,1026,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,Maze,A,A,372,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,Maze,B,B,390,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,ReverseFunnel,A,A,598,win,The winning team won by capturing 75% of sky islands.,map
+arch_adecon,ReverseFunnel,B,B,488,win,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,BatSignal,A,A,620,win,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,BatSignal,B,B,470,win,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,Cat,A,A,724,win,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,Cat,B,B,533,win,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,Cornucopia,A,A,2000,win,The winning team won by having more sky islands.,map
+arch_ampmid,Cornucopia,B,A,695,loss,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,DefaultMap,A,A,625,win,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,DefaultMap,B,B,549,win,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,Forest,A,A,1649,win,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,Forest,B,B,1797,win,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,Hah,A,A,396,win,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,Hah,B,B,422,win,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,IslandHopping,A,B,695,loss,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,IslandHopping,B,B,714,win,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,MassiveL,A,A,1956,win,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,MassiveL,B,B,1880,win,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,Maze,A,A,495,win,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,Maze,B,A,557,loss,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,ReverseFunnel,A,B,566,loss,The winning team won by capturing 75% of sky islands.,map
+arch_ampmid,ReverseFunnel,B,A,734,loss,The winning team won by capturing 75% of sky islands.,map
+arch_blob,BatSignal,A,A,665,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,BatSignal,B,B,503,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,Cat,A,A,539,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,Cat,B,B,447,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,Cornucopia,A,A,1969,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,Cornucopia,B,A,2000,loss,The winning team won by having more sky islands.,map
+arch_blob,DefaultMap,A,A,456,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,DefaultMap,B,B,522,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,Forest,A,A,1563,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,Forest,B,B,2000,win,The winning team won by having more sky islands.,map
+arch_blob,Hah,A,A,429,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,Hah,B,B,469,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,IslandHopping,A,A,588,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,IslandHopping,B,B,620,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,MassiveL,A,A,1213,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,MassiveL,B,B,861,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,Maze,A,A,367,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,Maze,B,B,415,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,ReverseFunnel,A,A,757,win,The winning team won by capturing 75% of sky islands.,map
+arch_blob,ReverseFunnel,B,B,459,win,The winning team won by capturing 75% of sky islands.,map
+arch_horde,BatSignal,A,A,619,win,The winning team won by capturing 75% of sky islands.,map
+arch_horde,BatSignal,B,B,669,win,The winning team won by capturing 75% of sky islands.,map
+arch_horde,Cat,A,B,1220,loss,The winning team won by capturing 75% of sky islands.,map
+arch_horde,Cat,B,B,492,win,The winning team won by capturing 75% of sky islands.,map
+arch_horde,Cornucopia,A,B,2000,loss,The winning team won by having more sky islands.,map
+arch_horde,Cornucopia,B,A,2000,loss,The winning team won by having more sky islands.,map
+arch_horde,DefaultMap,A,A,473,win,The winning team won by capturing 75% of sky islands.,map
+arch_horde,DefaultMap,B,A,2000,loss,The winning team won by having more sky islands.,map
+arch_horde,Forest,A,A,2000,win,The winning team won by having more sky islands.,map
+arch_horde,Forest,B,B,1800,win,The winning team won by capturing 75% of sky islands.,map
+arch_horde,Hah,A,B,936,loss,The winning team won by capturing 75% of sky islands.,map
+arch_horde,Hah,B,B,429,win,The winning team won by capturing 75% of sky islands.,map
+arch_horde,IslandHopping,A,B,2000,loss,The winning team won by having more sky islands.,map
+arch_horde,IslandHopping,B,B,501,win,The winning team won by capturing 75% of sky islands.,map
+arch_horde,MassiveL,A,A,1047,win,The winning team won by capturing 75% of sky islands.,map
+arch_horde,MassiveL,B,B,645,win,The winning team won by capturing 75% of sky islands.,map
+arch_horde,Maze,A,A,764,win,The winning team won by capturing 75% of sky islands.,map
+arch_horde,Maze,B,B,388,win,The winning team won by capturing 75% of sky islands.,map
+arch_horde,ReverseFunnel,A,A,679,win,The winning team won by capturing 75% of sky islands.,map
+arch_horde,ReverseFunnel,B,B,669,win,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,BatSignal,A,A,608,win,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,BatSignal,B,A,369,loss,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,Cat,A,A,513,win,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,Cat,B,A,415,loss,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,Cornucopia,A,A,1054,win,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,Cornucopia,B,B,2000,win,The winning team won by having more sky islands.,map
+arch_swarm,DefaultMap,A,A,446,win,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,DefaultMap,B,B,465,win,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,Forest,A,A,1780,win,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,Forest,B,B,1643,win,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,Hah,A,B,368,loss,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,Hah,B,B,502,win,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,IslandHopping,A,B,564,loss,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,IslandHopping,B,B,909,win,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,MassiveL,A,A,2000,win,The winning team won by having more sky islands.,map
+arch_swarm,MassiveL,B,B,1869,win,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,Maze,A,A,459,win,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,Maze,B,B,479,win,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,ReverseFunnel,A,A,374,win,The winning team won by capturing 75% of sky islands.,map
+arch_swarm,ReverseFunnel,B,B,715,win,The winning team won by capturing 75% of sky islands.,map

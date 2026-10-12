@@ -1,0 +1,3264 @@
+{
+  "games_run": 0,
+  "limits": [
+    "Timeline collection deltas are exact kg totals over sampled endpoint windows; rates are kg/round, not action counts.",
+    "Trip collects is kg over all wells/resources in that trip. Stored well and type identify the dominant well/type only.",
+    "Trip cohort amounts do not identify exact kg at that coordinate/type. Spanning trips prevent within-window action timing.",
+    "A dominant well is confirmed used by last_collect, not necessarily at first_collect. Current upgrades require round well fields/action amounts."
+  ],
+  "matches": [
+    {
+      "early_timeline": [
+        {
+          "A_minus_B_collected_Mn": 9,
+          "alive_C_A": 16,
+          "alive_C_B": 16,
+          "coll_Mn_A": 9,
+          "coll_Mn_B": 0,
+          "round": 10
+        },
+        {
+          "A_minus_B_collected_Mn": 38,
+          "alive_C_A": 16,
+          "alive_C_B": 16,
+          "coll_Mn_A": 39,
+          "coll_Mn_B": 1,
+          "round": 20
+        },
+        {
+          "A_minus_B_collected_Mn": 51,
+          "alive_C_A": 16,
+          "alive_C_B": 16,
+          "coll_Mn_A": 82,
+          "coll_Mn_B": 31,
+          "round": 30
+        },
+        {
+          "A_minus_B_collected_Mn": 48,
+          "alive_C_A": 16,
+          "alive_C_B": 16,
+          "coll_Mn_A": 127,
+          "coll_Mn_B": 79,
+          "round": 40
+        },
+        {
+          "A_minus_B_collected_Mn": 33,
+          "alive_C_A": 20,
+          "alive_C_B": 20,
+          "coll_Mn_A": 172,
+          "coll_Mn_B": 139,
+          "round": 50
+        },
+        {
+          "A_minus_B_collected_Mn": -3,
+          "alive_C_A": 20,
+          "alive_C_B": 20,
+          "coll_Mn_A": 210,
+          "coll_Mn_B": 213,
+          "round": 60
+        },
+        {
+          "A_minus_B_collected_Mn": -27,
+          "alive_C_A": 20,
+          "alive_C_B": 20,
+          "coll_Mn_A": 258,
+          "coll_Mn_B": 285,
+          "round": 70
+        },
+        {
+          "A_minus_B_collected_Mn": -50,
+          "alive_C_A": 20,
+          "alive_C_B": 20,
+          "coll_Mn_A": 302,
+          "coll_Mn_B": 352,
+          "round": 80
+        },
+        {
+          "A_minus_B_collected_Mn": -79,
+          "alive_C_A": 24,
+          "alive_C_B": 24,
+          "coll_Mn_A": 351,
+          "coll_Mn_B": 430,
+          "round": 90
+        },
+        {
+          "A_minus_B_collected_Mn": -122,
+          "alive_C_A": 25,
+          "alive_C_B": 23,
+          "coll_Mn_A": 395,
+          "coll_Mn_B": 517,
+          "round": 100
+        },
+        {
+          "A_minus_B_collected_Mn": -175,
+          "alive_C_A": 25,
+          "alive_C_B": 23,
+          "coll_Mn_A": 435,
+          "coll_Mn_B": 610,
+          "round": 110
+        },
+        {
+          "A_minus_B_collected_Mn": -220,
+          "alive_C_A": 25,
+          "alive_C_B": 23,
+          "coll_Mn_A": 485,
+          "coll_Mn_B": 705,
+          "round": 120
+        },
+        {
+          "A_minus_B_collected_Mn": -266,
+          "alive_C_A": 29,
+          "alive_C_B": 27,
+          "coll_Mn_A": 533,
+          "coll_Mn_B": 799,
+          "round": 130
+        },
+        {
+          "A_minus_B_collected_Mn": -308,
+          "alive_C_A": 30,
+          "alive_C_B": 27,
+          "coll_Mn_A": 581,
+          "coll_Mn_B": 889,
+          "round": 140
+        },
+        {
+          "A_minus_B_collected_Mn": -376,
+          "alive_C_A": 31,
+          "alive_C_B": 27,
+          "coll_Mn_A": 627,
+          "coll_Mn_B": 1003,
+          "round": 150
+        },
+        {
+          "A_minus_B_collected_Mn": -445,
+          "alive_C_A": 31,
+          "alive_C_B": 28,
+          "coll_Mn_A": 675,
+          "coll_Mn_B": 1120,
+          "round": 160
+        },
+        {
+          "A_minus_B_collected_Mn": -499,
+          "alive_C_A": 31,
+          "alive_C_B": 28,
+          "coll_Mn_A": 723,
+          "coll_Mn_B": 1222,
+          "round": 170
+        },
+        {
+          "A_minus_B_collected_Mn": -545,
+          "alive_C_A": 34,
+          "alive_C_B": 31,
+          "coll_Mn_A": 773,
+          "coll_Mn_B": 1318,
+          "round": 180
+        },
+        {
+          "A_minus_B_collected_Mn": -608,
+          "alive_C_A": 36,
+          "alive_C_B": 32,
+          "coll_Mn_A": 823,
+          "coll_Mn_B": 1431,
+          "round": 190
+        },
+        {
+          "A_minus_B_collected_Mn": -675,
+          "alive_C_A": 36,
+          "alive_C_B": 32,
+          "coll_Mn_A": 871,
+          "coll_Mn_B": 1546,
+          "round": 200
+        },
+        {
+          "A_minus_B_collected_Mn": -751,
+          "alive_C_A": 36,
+          "alive_C_B": 32,
+          "coll_Mn_A": 919,
+          "coll_Mn_B": 1670,
+          "round": 210
+        },
+        {
+          "A_minus_B_collected_Mn": -827,
+          "alive_C_A": 39,
+          "alive_C_B": 37,
+          "coll_Mn_A": 968,
+          "coll_Mn_B": 1795,
+          "round": 220
+        },
+        {
+          "A_minus_B_collected_Mn": -884,
+          "alive_C_A": 41,
+          "alive_C_B": 38,
+          "coll_Mn_A": 1016,
+          "coll_Mn_B": 1900,
+          "round": 230
+        },
+        {
+          "A_minus_B_collected_Mn": -970,
+          "alive_C_A": 42,
+          "alive_C_B": 38,
+          "coll_Mn_A": 1066,
+          "coll_Mn_B": 2036,
+          "round": 240
+        },
+        {
+          "A_minus_B_collected_Mn": -1067,
+          "alive_C_A": 42,
+          "alive_C_B": 39,
+          "coll_Mn_A": 1114,
+          "coll_Mn_B": 2181,
+          "round": 250
+        }
+      ],
+      "game": 4,
+      "match": 4566,
+      "sides": [
+        {
+          "dominant_trip_cohorts": [
+            {
+              "cutoff": 100,
+              "dominant_well_cohorts": [
+                {
+                  "all_resource_kg_in_finished_trips": 330,
+                  "all_resource_kg_in_spanning_trips_upper": 120,
+                  "carriers_in_cohort": 14,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    8,
+                    12
+                  ],
+                  "earliest_confirmed_by_last_collect": 36,
+                  "earliest_possible_first_collect": 7,
+                  "example_trips": [
+                    {
+                      "carrier": "12481",
+                      "collects": "30",
+                      "first_collect": "7",
+                      "last_collect": "36",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "1",
+                      "t_end": "53",
+                      "wait_rounds": "0"
+                    },
+                    {
+                      "carrier": "10111",
+                      "collects": "30",
+                      "first_collect": "8",
+                      "last_collect": "37",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "54",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 4,
+                  "trips_finished_collecting_by_cutoff": 11,
+                  "trips_with_possible_collection_by_cutoff": 15
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 60,
+                  "all_resource_kg_in_spanning_trips_upper": 60,
+                  "carriers_in_cohort": 2,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    9,
+                    21
+                  ],
+                  "earliest_confirmed_by_last_collect": 71,
+                  "earliest_possible_first_collect": 37,
+                  "example_trips": [
+                    {
+                      "carrier": "13064",
+                      "collects": "30",
+                      "first_collect": "37",
+                      "last_collect": "71",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "87",
+                      "wait_rounds": "5"
+                    },
+                    {
+                      "carrier": "11872",
+                      "collects": "30",
+                      "first_collect": "51",
+                      "last_collect": "80",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "90",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 2,
+                  "trips_finished_collecting_by_cutoff": 2,
+                  "trips_with_possible_collection_by_cutoff": 4
+                }
+              ]
+            },
+            {
+              "cutoff": 250,
+              "dominant_well_cohorts": [
+                {
+                  "all_resource_kg_in_finished_trips": 1050,
+                  "all_resource_kg_in_spanning_trips_upper": 150,
+                  "carriers_in_cohort": 25,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    8,
+                    12
+                  ],
+                  "earliest_confirmed_by_last_collect": 36,
+                  "earliest_possible_first_collect": 7,
+                  "example_trips": [
+                    {
+                      "carrier": "12481",
+                      "collects": "30",
+                      "first_collect": "7",
+                      "last_collect": "36",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "1",
+                      "t_end": "53",
+                      "wait_rounds": "0"
+                    },
+                    {
+                      "carrier": "10111",
+                      "collects": "30",
+                      "first_collect": "8",
+                      "last_collect": "37",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "54",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 5,
+                  "trips_finished_collecting_by_cutoff": 35,
+                  "trips_with_possible_collection_by_cutoff": 40
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 300,
+                  "all_resource_kg_in_spanning_trips_upper": 120,
+                  "carriers_in_cohort": 5,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    9,
+                    21
+                  ],
+                  "earliest_confirmed_by_last_collect": 71,
+                  "earliest_possible_first_collect": 37,
+                  "example_trips": [
+                    {
+                      "carrier": "13064",
+                      "collects": "30",
+                      "first_collect": "37",
+                      "last_collect": "71",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "87",
+                      "wait_rounds": "5"
+                    },
+                    {
+                      "carrier": "11872",
+                      "collects": "30",
+                      "first_collect": "51",
+                      "last_collect": "80",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "90",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 4,
+                  "trips_finished_collecting_by_cutoff": 10,
+                  "trips_with_possible_collection_by_cutoff": 14
+                }
+              ]
+            },
+            {
+              "cutoff": 500,
+              "dominant_well_cohorts": [
+                {
+                  "all_resource_kg_in_finished_trips": 30,
+                  "all_resource_kg_in_spanning_trips_upper": 0,
+                  "carriers_in_cohort": 1,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    6,
+                    3
+                  ],
+                  "earliest_confirmed_by_last_collect": 382,
+                  "earliest_possible_first_collect": 348,
+                  "example_trips": [
+                    {
+                      "carrier": "12444",
+                      "collects": "30",
+                      "first_collect": "348",
+                      "last_collect": "382",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "345",
+                      "t_end": "388",
+                      "wait_rounds": "5"
+                    }
+                  ],
+                  "spanning_trips": 0,
+                  "trips_finished_collecting_by_cutoff": 1,
+                  "trips_with_possible_collection_by_cutoff": 1
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 2250,
+                  "all_resource_kg_in_spanning_trips_upper": 120,
+                  "carriers_in_cohort": 39,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    8,
+                    12
+                  ],
+                  "earliest_confirmed_by_last_collect": 36,
+                  "earliest_possible_first_collect": 7,
+                  "example_trips": [
+                    {
+                      "carrier": "12481",
+                      "collects": "30",
+                      "first_collect": "7",
+                      "last_collect": "36",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "1",
+                      "t_end": "53",
+                      "wait_rounds": "0"
+                    },
+                    {
+                      "carrier": "10111",
+                      "collects": "30",
+                      "first_collect": "8",
+                      "last_collect": "37",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "54",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 4,
+                  "trips_finished_collecting_by_cutoff": 75,
+                  "trips_with_possible_collection_by_cutoff": 79
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 660,
+                  "all_resource_kg_in_spanning_trips_upper": 0,
+                  "carriers_in_cohort": 5,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    9,
+                    21
+                  ],
+                  "earliest_confirmed_by_last_collect": 71,
+                  "earliest_possible_first_collect": 37,
+                  "example_trips": [
+                    {
+                      "carrier": "13064",
+                      "collects": "30",
+                      "first_collect": "37",
+                      "last_collect": "71",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "87",
+                      "wait_rounds": "5"
+                    },
+                    {
+                      "carrier": "11872",
+                      "collects": "30",
+                      "first_collect": "51",
+                      "last_collect": "80",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "90",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 0,
+                  "trips_finished_collecting_by_cutoff": 22,
+                  "trips_with_possible_collection_by_cutoff": 22
+                }
+              ]
+            },
+            {
+              "cutoff": 1000,
+              "dominant_well_cohorts": [
+                {
+                  "all_resource_kg_in_finished_trips": 210,
+                  "all_resource_kg_in_spanning_trips_upper": 60,
+                  "carriers_in_cohort": 7,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    6,
+                    3
+                  ],
+                  "earliest_confirmed_by_last_collect": 382,
+                  "earliest_possible_first_collect": 348,
+                  "example_trips": [
+                    {
+                      "carrier": "12444",
+                      "collects": "30",
+                      "first_collect": "348",
+                      "last_collect": "382",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "345",
+                      "t_end": "388",
+                      "wait_rounds": "5"
+                    },
+                    {
+                      "carrier": "12128",
+                      "collects": "30",
+                      "first_collect": "546",
+                      "last_collect": "596",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "544",
+                      "t_end": "606",
+                      "wait_rounds": "12"
+                    }
+                  ],
+                  "spanning_trips": 2,
+                  "trips_finished_collecting_by_cutoff": 7,
+                  "trips_with_possible_collection_by_cutoff": 9
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 4490,
+                  "all_resource_kg_in_spanning_trips_upper": 120,
+                  "carriers_in_cohort": 68,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    8,
+                    12
+                  ],
+                  "earliest_confirmed_by_last_collect": 36,
+                  "earliest_possible_first_collect": 7,
+                  "example_trips": [
+                    {
+                      "carrier": "12481",
+                      "collects": "30",
+                      "first_collect": "7",
+                      "last_collect": "36",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "1",
+                      "t_end": "53",
+                      "wait_rounds": "0"
+                    },
+                    {
+                      "carrier": "10111",
+                      "collects": "30",
+                      "first_collect": "8",
+                      "last_collect": "37",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "54",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 4,
+                  "trips_finished_collecting_by_cutoff": 150,
+                  "trips_with_possible_collection_by_cutoff": 154
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 960,
+                  "all_resource_kg_in_spanning_trips_upper": 0,
+                  "carriers_in_cohort": 13,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    9,
+                    21
+                  ],
+                  "earliest_confirmed_by_last_collect": 71,
+                  "earliest_possible_first_collect": 37,
+                  "example_trips": [
+                    {
+                      "carrier": "13064",
+                      "collects": "30",
+                      "first_collect": "37",
+                      "last_collect": "71",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "87",
+                      "wait_rounds": "5"
+                    },
+                    {
+                      "carrier": "11872",
+                      "collects": "30",
+                      "first_collect": "51",
+                      "last_collect": "80",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "90",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 0,
+                  "trips_finished_collecting_by_cutoff": 32,
+                  "trips_with_possible_collection_by_cutoff": 32
+                }
+              ]
+            }
+          ],
+          "initial_HQ_count": null,
+          "production_windows": [
+            {
+              "alive_C_at_end": 25,
+              "built_C_at_end": 25,
+              "collected_kg": {
+                "Ad": 75,
+                "Ex": 0,
+                "Mn": 395
+              },
+              "end": 100,
+              "kg_per_round": {
+                "Ad": 0.75,
+                "Ex": 0.0,
+                "Mn": 3.95
+              },
+              "rounds": 100,
+              "start": 1
+            },
+            {
+              "alive_C_at_end": 42,
+              "built_C_at_end": 42,
+              "collected_kg": {
+                "Ad": 285,
+                "Ex": 0,
+                "Mn": 719
+              },
+              "end": 250,
+              "kg_per_round": {
+                "Ad": 1.9,
+                "Ex": 0.0,
+                "Mn": 4.793333333333333
+              },
+              "rounds": 150,
+              "start": 101
+            },
+            {
+              "alive_C_at_end": 46,
+              "built_C_at_end": 46,
+              "collected_kg": {
+                "Ad": 330,
+                "Ex": 0,
+                "Mn": 1196
+              },
+              "end": 500,
+              "kg_per_round": {
+                "Ad": 1.32,
+                "Ex": 0.0,
+                "Mn": 4.784
+              },
+              "rounds": 250,
+              "start": 251
+            },
+            {
+              "alive_C_at_end": 95,
+              "built_C_at_end": 105,
+              "collected_kg": {
+                "Ad": 490,
+                "Ex": 0,
+                "Mn": 2244
+              },
+              "end": 1000,
+              "kg_per_round": {
+                "Ad": 0.98,
+                "Ex": 0.0,
+                "Mn": 4.488
+              },
+              "rounds": 500,
+              "start": 501
+            }
+          ],
+          "side": "A",
+          "team": "vibe23"
+        },
+        {
+          "dominant_trip_cohorts": [
+            {
+              "cutoff": 100,
+              "dominant_well_cohorts": [
+                {
+                  "all_resource_kg_in_finished_trips": 39,
+                  "all_resource_kg_in_spanning_trips_upper": 117,
+                  "carriers_in_cohort": 4,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    29,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 76,
+                  "earliest_possible_first_collect": 38,
+                  "example_trips": [
+                    {
+                      "carrier": "11207",
+                      "collects": "39",
+                      "first_collect": "38",
+                      "last_collect": "76",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "114",
+                      "wait_rounds": "0"
+                    },
+                    {
+                      "carrier": "13631",
+                      "collects": "39",
+                      "first_collect": "83",
+                      "last_collect": "121",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "163",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 3,
+                  "trips_finished_collecting_by_cutoff": 1,
+                  "trips_with_possible_collection_by_cutoff": 4
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 78,
+                  "all_resource_kg_in_spanning_trips_upper": 39,
+                  "carriers_in_cohort": 3,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    30,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 74,
+                  "earliest_possible_first_collect": 36,
+                  "example_trips": [
+                    {
+                      "carrier": "12521",
+                      "collects": "39",
+                      "first_collect": "36",
+                      "last_collect": "74",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "98",
+                      "wait_rounds": "1"
+                    },
+                    {
+                      "carrier": "12775",
+                      "collects": "39",
+                      "first_collect": "58",
+                      "last_collect": "96",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "46",
+                      "t_end": "120",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 1,
+                  "trips_finished_collecting_by_cutoff": 2,
+                  "trips_with_possible_collection_by_cutoff": 3
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 234,
+                  "all_resource_kg_in_spanning_trips_upper": 234,
+                  "carriers_in_cohort": 12,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    51,
+                    12
+                  ],
+                  "earliest_confirmed_by_last_collect": 58,
+                  "earliest_possible_first_collect": 20,
+                  "example_trips": [
+                    {
+                      "carrier": "11707",
+                      "collects": "39",
+                      "first_collect": "20",
+                      "last_collect": "58",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "1",
+                      "t_end": "93",
+                      "wait_rounds": "1"
+                    },
+                    {
+                      "carrier": "14016",
+                      "collects": "39",
+                      "first_collect": "22",
+                      "last_collect": "60",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "1",
+                      "t_end": "90",
+                      "wait_rounds": "0"
+                    }
+                  ],
+                  "spanning_trips": 6,
+                  "trips_finished_collecting_by_cutoff": 6,
+                  "trips_with_possible_collection_by_cutoff": 12
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 0,
+                  "all_resource_kg_in_spanning_trips_upper": 39,
+                  "carriers_in_cohort": 1,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    53,
+                    3
+                  ],
+                  "earliest_confirmed_by_last_collect": 144,
+                  "earliest_possible_first_collect": 99,
+                  "example_trips": [
+                    {
+                      "carrier": "13975",
+                      "collects": "39",
+                      "first_collect": "99",
+                      "last_collect": "144",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "86",
+                      "t_end": "152",
+                      "wait_rounds": "8"
+                    }
+                  ],
+                  "spanning_trips": 1,
+                  "trips_finished_collecting_by_cutoff": 0,
+                  "trips_with_possible_collection_by_cutoff": 1
+                }
+              ]
+            },
+            {
+              "cutoff": 250,
+              "dominant_well_cohorts": [
+                {
+                  "all_resource_kg_in_finished_trips": 546,
+                  "all_resource_kg_in_spanning_trips_upper": 39,
+                  "carriers_in_cohort": 14,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    29,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 76,
+                  "earliest_possible_first_collect": 38,
+                  "example_trips": [
+                    {
+                      "carrier": "11207",
+                      "collects": "39",
+                      "first_collect": "38",
+                      "last_collect": "76",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "114",
+                      "wait_rounds": "0"
+                    },
+                    {
+                      "carrier": "13631",
+                      "collects": "39",
+                      "first_collect": "83",
+                      "last_collect": "121",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "163",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 1,
+                  "trips_finished_collecting_by_cutoff": 14,
+                  "trips_with_possible_collection_by_cutoff": 15
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 390,
+                  "all_resource_kg_in_spanning_trips_upper": 273,
+                  "carriers_in_cohort": 12,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    30,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 74,
+                  "earliest_possible_first_collect": 36,
+                  "example_trips": [
+                    {
+                      "carrier": "12521",
+                      "collects": "39",
+                      "first_collect": "36",
+                      "last_collect": "74",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "98",
+                      "wait_rounds": "1"
+                    },
+                    {
+                      "carrier": "12775",
+                      "collects": "39",
+                      "first_collect": "58",
+                      "last_collect": "96",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "46",
+                      "t_end": "120",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 7,
+                  "trips_finished_collecting_by_cutoff": 10,
+                  "trips_with_possible_collection_by_cutoff": 17
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 0,
+                  "all_resource_kg_in_spanning_trips_upper": 39,
+                  "carriers_in_cohort": 1,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    38,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 266,
+                  "earliest_possible_first_collect": 221,
+                  "example_trips": [
+                    {
+                      "carrier": "13787",
+                      "collects": "39",
+                      "first_collect": "221",
+                      "last_collect": "266",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "216",
+                      "t_end": "284",
+                      "wait_rounds": "7"
+                    }
+                  ],
+                  "spanning_trips": 1,
+                  "trips_finished_collecting_by_cutoff": 0,
+                  "trips_with_possible_collection_by_cutoff": 1
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 78,
+                  "all_resource_kg_in_spanning_trips_upper": 0,
+                  "carriers_in_cohort": 2,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    50,
+                    21
+                  ],
+                  "earliest_confirmed_by_last_collect": 197,
+                  "earliest_possible_first_collect": 152,
+                  "example_trips": [
+                    {
+                      "carrier": "12032",
+                      "collects": "39",
+                      "first_collect": "152",
+                      "last_collect": "197",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "133",
+                      "t_end": "211",
+                      "wait_rounds": "7"
+                    },
+                    {
+                      "carrier": "13306",
+                      "collects": "39",
+                      "first_collect": "191",
+                      "last_collect": "236",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "171",
+                      "t_end": "250",
+                      "wait_rounds": "8"
+                    }
+                  ],
+                  "spanning_trips": 0,
+                  "trips_finished_collecting_by_cutoff": 2,
+                  "trips_with_possible_collection_by_cutoff": 2
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 936,
+                  "all_resource_kg_in_spanning_trips_upper": 234,
+                  "carriers_in_cohort": 21,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    51,
+                    12
+                  ],
+                  "earliest_confirmed_by_last_collect": 58,
+                  "earliest_possible_first_collect": 20,
+                  "example_trips": [
+                    {
+                      "carrier": "11707",
+                      "collects": "39",
+                      "first_collect": "20",
+                      "last_collect": "58",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "1",
+                      "t_end": "93",
+                      "wait_rounds": "1"
+                    },
+                    {
+                      "carrier": "14016",
+                      "collects": "39",
+                      "first_collect": "22",
+                      "last_collect": "60",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "1",
+                      "t_end": "90",
+                      "wait_rounds": "0"
+                    }
+                  ],
+                  "spanning_trips": 6,
+                  "trips_finished_collecting_by_cutoff": 24,
+                  "trips_with_possible_collection_by_cutoff": 30
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 117,
+                  "all_resource_kg_in_spanning_trips_upper": 39,
+                  "carriers_in_cohort": 3,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    53,
+                    3
+                  ],
+                  "earliest_confirmed_by_last_collect": 144,
+                  "earliest_possible_first_collect": 99,
+                  "example_trips": [
+                    {
+                      "carrier": "13975",
+                      "collects": "39",
+                      "first_collect": "99",
+                      "last_collect": "144",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "86",
+                      "t_end": "152",
+                      "wait_rounds": "8"
+                    },
+                    {
+                      "carrier": "13975",
+                      "collects": "39",
+                      "first_collect": "156",
+                      "last_collect": "201",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "152",
+                      "t_end": "210",
+                      "wait_rounds": "8"
+                    }
+                  ],
+                  "spanning_trips": 1,
+                  "trips_finished_collecting_by_cutoff": 3,
+                  "trips_with_possible_collection_by_cutoff": 4
+                }
+              ]
+            },
+            {
+              "cutoff": 500,
+              "dominant_well_cohorts": [
+                {
+                  "all_resource_kg_in_finished_trips": 39,
+                  "all_resource_kg_in_spanning_trips_upper": 78,
+                  "carriers_in_cohort": 3,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    21,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 395,
+                  "earliest_possible_first_collect": 350,
+                  "example_trips": [
+                    {
+                      "carrier": "13217",
+                      "collects": "39",
+                      "first_collect": "350",
+                      "last_collect": "395",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "299",
+                      "t_end": "450",
+                      "wait_rounds": "8"
+                    },
+                    {
+                      "carrier": "12032",
+                      "collects": "39",
+                      "first_collect": "477",
+                      "last_collect": "522",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "406",
+                      "t_end": "576",
+                      "wait_rounds": "18"
+                    }
+                  ],
+                  "spanning_trips": 2,
+                  "trips_finished_collecting_by_cutoff": 1,
+                  "trips_with_possible_collection_by_cutoff": 3
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 1560,
+                  "all_resource_kg_in_spanning_trips_upper": 272,
+                  "carriers_in_cohort": 32,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    29,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 76,
+                  "earliest_possible_first_collect": 38,
+                  "example_trips": [
+                    {
+                      "carrier": "11207",
+                      "collects": "39",
+                      "first_collect": "38",
+                      "last_collect": "76",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "114",
+                      "wait_rounds": "0"
+                    },
+                    {
+                      "carrier": "13631",
+                      "collects": "39",
+                      "first_collect": "83",
+                      "last_collect": "121",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "163",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 7,
+                  "trips_finished_collecting_by_cutoff": 40,
+                  "trips_with_possible_collection_by_cutoff": 47
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 1443,
+                  "all_resource_kg_in_spanning_trips_upper": 273,
+                  "carriers_in_cohort": 30,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    30,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 74,
+                  "earliest_possible_first_collect": 36,
+                  "example_trips": [
+                    {
+                      "carrier": "12521",
+                      "collects": "39",
+                      "first_collect": "36",
+                      "last_collect": "74",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "98",
+                      "wait_rounds": "1"
+                    },
+                    {
+                      "carrier": "12775",
+                      "collects": "39",
+                      "first_collect": "58",
+                      "last_collect": "96",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "46",
+                      "t_end": "120",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 7,
+                  "trips_finished_collecting_by_cutoff": 37,
+                  "trips_with_possible_collection_by_cutoff": 44
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 312,
+                  "all_resource_kg_in_spanning_trips_upper": 195,
+                  "carriers_in_cohort": 13,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    38,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 266,
+                  "earliest_possible_first_collect": 221,
+                  "example_trips": [
+                    {
+                      "carrier": "13787",
+                      "collects": "39",
+                      "first_collect": "221",
+                      "last_collect": "266",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "216",
+                      "t_end": "284",
+                      "wait_rounds": "7"
+                    },
+                    {
+                      "carrier": "11666",
+                      "collects": "39",
+                      "first_collect": "260",
+                      "last_collect": "305",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "251",
+                      "t_end": "323",
+                      "wait_rounds": "8"
+                    }
+                  ],
+                  "spanning_trips": 5,
+                  "trips_finished_collecting_by_cutoff": 8,
+                  "trips_with_possible_collection_by_cutoff": 13
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 234,
+                  "all_resource_kg_in_spanning_trips_upper": 0,
+                  "carriers_in_cohort": 6,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    50,
+                    21
+                  ],
+                  "earliest_confirmed_by_last_collect": 197,
+                  "earliest_possible_first_collect": 152,
+                  "example_trips": [
+                    {
+                      "carrier": "12032",
+                      "collects": "39",
+                      "first_collect": "152",
+                      "last_collect": "197",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "133",
+                      "t_end": "211",
+                      "wait_rounds": "7"
+                    },
+                    {
+                      "carrier": "13306",
+                      "collects": "39",
+                      "first_collect": "191",
+                      "last_collect": "236",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "171",
+                      "t_end": "250",
+                      "wait_rounds": "8"
+                    }
+                  ],
+                  "spanning_trips": 0,
+                  "trips_finished_collecting_by_cutoff": 6,
+                  "trips_with_possible_collection_by_cutoff": 6
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 2223,
+                  "all_resource_kg_in_spanning_trips_upper": 351,
+                  "carriers_in_cohort": 41,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    51,
+                    12
+                  ],
+                  "earliest_confirmed_by_last_collect": 58,
+                  "earliest_possible_first_collect": 20,
+                  "example_trips": [
+                    {
+                      "carrier": "11707",
+                      "collects": "39",
+                      "first_collect": "20",
+                      "last_collect": "58",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "1",
+                      "t_end": "93",
+                      "wait_rounds": "1"
+                    },
+                    {
+                      "carrier": "14016",
+                      "collects": "39",
+                      "first_collect": "22",
+                      "last_collect": "60",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "1",
+                      "t_end": "90",
+                      "wait_rounds": "0"
+                    }
+                  ],
+                  "spanning_trips": 9,
+                  "trips_finished_collecting_by_cutoff": 57,
+                  "trips_with_possible_collection_by_cutoff": 66
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 195,
+                  "all_resource_kg_in_spanning_trips_upper": 0,
+                  "carriers_in_cohort": 4,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    53,
+                    3
+                  ],
+                  "earliest_confirmed_by_last_collect": 144,
+                  "earliest_possible_first_collect": 99,
+                  "example_trips": [
+                    {
+                      "carrier": "13975",
+                      "collects": "39",
+                      "first_collect": "99",
+                      "last_collect": "144",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "86",
+                      "t_end": "152",
+                      "wait_rounds": "8"
+                    },
+                    {
+                      "carrier": "13975",
+                      "collects": "39",
+                      "first_collect": "156",
+                      "last_collect": "201",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "152",
+                      "t_end": "210",
+                      "wait_rounds": "8"
+                    }
+                  ],
+                  "spanning_trips": 0,
+                  "trips_finished_collecting_by_cutoff": 5,
+                  "trips_with_possible_collection_by_cutoff": 5
+                }
+              ]
+            },
+            {
+              "cutoff": 1000,
+              "dominant_well_cohorts": [
+                {
+                  "all_resource_kg_in_finished_trips": 780,
+                  "all_resource_kg_in_spanning_trips_upper": 427,
+                  "carriers_in_cohort": 29,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    21,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 395,
+                  "earliest_possible_first_collect": 350,
+                  "example_trips": [
+                    {
+                      "carrier": "13217",
+                      "collects": "39",
+                      "first_collect": "350",
+                      "last_collect": "395",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "299",
+                      "t_end": "450",
+                      "wait_rounds": "8"
+                    },
+                    {
+                      "carrier": "12032",
+                      "collects": "39",
+                      "first_collect": "477",
+                      "last_collect": "522",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "406",
+                      "t_end": "576",
+                      "wait_rounds": "18"
+                    }
+                  ],
+                  "spanning_trips": 11,
+                  "trips_finished_collecting_by_cutoff": 20,
+                  "trips_with_possible_collection_by_cutoff": 31
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 3982,
+                  "all_resource_kg_in_spanning_trips_upper": 351,
+                  "carriers_in_cohort": 78,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    29,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 76,
+                  "earliest_possible_first_collect": 38,
+                  "example_trips": [
+                    {
+                      "carrier": "11207",
+                      "collects": "39",
+                      "first_collect": "38",
+                      "last_collect": "76",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "114",
+                      "wait_rounds": "0"
+                    },
+                    {
+                      "carrier": "13631",
+                      "collects": "39",
+                      "first_collect": "83",
+                      "last_collect": "121",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "163",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 9,
+                  "trips_finished_collecting_by_cutoff": 107,
+                  "trips_with_possible_collection_by_cutoff": 116
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 3777,
+                  "all_resource_kg_in_spanning_trips_upper": 472,
+                  "carriers_in_cohort": 78,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    30,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 74,
+                  "earliest_possible_first_collect": 36,
+                  "example_trips": [
+                    {
+                      "carrier": "12521",
+                      "collects": "39",
+                      "first_collect": "36",
+                      "last_collect": "74",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "98",
+                      "wait_rounds": "1"
+                    },
+                    {
+                      "carrier": "12775",
+                      "collects": "39",
+                      "first_collect": "58",
+                      "last_collect": "96",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "46",
+                      "t_end": "120",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 13,
+                  "trips_finished_collecting_by_cutoff": 100,
+                  "trips_with_possible_collection_by_cutoff": 113
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 2409,
+                  "all_resource_kg_in_spanning_trips_upper": 552,
+                  "carriers_in_cohort": 62,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    38,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 266,
+                  "earliest_possible_first_collect": 221,
+                  "example_trips": [
+                    {
+                      "carrier": "13787",
+                      "collects": "39",
+                      "first_collect": "221",
+                      "last_collect": "266",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "216",
+                      "t_end": "284",
+                      "wait_rounds": "7"
+                    },
+                    {
+                      "carrier": "11666",
+                      "collects": "39",
+                      "first_collect": "260",
+                      "last_collect": "305",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "251",
+                      "t_end": "323",
+                      "wait_rounds": "8"
+                    }
+                  ],
+                  "spanning_trips": 15,
+                  "trips_finished_collecting_by_cutoff": 63,
+                  "trips_with_possible_collection_by_cutoff": 78
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 738,
+                  "all_resource_kg_in_spanning_trips_upper": 115,
+                  "carriers_in_cohort": 20,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    50,
+                    21
+                  ],
+                  "earliest_confirmed_by_last_collect": 197,
+                  "earliest_possible_first_collect": 152,
+                  "example_trips": [
+                    {
+                      "carrier": "12032",
+                      "collects": "39",
+                      "first_collect": "152",
+                      "last_collect": "197",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "133",
+                      "t_end": "211",
+                      "wait_rounds": "7"
+                    },
+                    {
+                      "carrier": "13306",
+                      "collects": "39",
+                      "first_collect": "191",
+                      "last_collect": "236",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "171",
+                      "t_end": "250",
+                      "wait_rounds": "8"
+                    }
+                  ],
+                  "spanning_trips": 3,
+                  "trips_finished_collecting_by_cutoff": 19,
+                  "trips_with_possible_collection_by_cutoff": 22
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 4986,
+                  "all_resource_kg_in_spanning_trips_upper": 351,
+                  "carriers_in_cohort": 78,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    51,
+                    12
+                  ],
+                  "earliest_confirmed_by_last_collect": 58,
+                  "earliest_possible_first_collect": 20,
+                  "example_trips": [
+                    {
+                      "carrier": "11707",
+                      "collects": "39",
+                      "first_collect": "20",
+                      "last_collect": "58",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "1",
+                      "t_end": "93",
+                      "wait_rounds": "1"
+                    },
+                    {
+                      "carrier": "14016",
+                      "collects": "39",
+                      "first_collect": "22",
+                      "last_collect": "60",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "1",
+                      "t_end": "90",
+                      "wait_rounds": "0"
+                    }
+                  ],
+                  "spanning_trips": 9,
+                  "trips_finished_collecting_by_cutoff": 128,
+                  "trips_with_possible_collection_by_cutoff": 137
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 897,
+                  "all_resource_kg_in_spanning_trips_upper": 195,
+                  "carriers_in_cohort": 26,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    53,
+                    3
+                  ],
+                  "earliest_confirmed_by_last_collect": 144,
+                  "earliest_possible_first_collect": 99,
+                  "example_trips": [
+                    {
+                      "carrier": "13975",
+                      "collects": "39",
+                      "first_collect": "99",
+                      "last_collect": "144",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "86",
+                      "t_end": "152",
+                      "wait_rounds": "8"
+                    },
+                    {
+                      "carrier": "13975",
+                      "collects": "39",
+                      "first_collect": "156",
+                      "last_collect": "201",
+                      "load": "39",
+                      "outcome": "deposit",
+                      "t0": "152",
+                      "t_end": "210",
+                      "wait_rounds": "8"
+                    }
+                  ],
+                  "spanning_trips": 5,
+                  "trips_finished_collecting_by_cutoff": 24,
+                  "trips_with_possible_collection_by_cutoff": 29
+                }
+              ]
+            }
+          ],
+          "initial_HQ_count": null,
+          "production_windows": [
+            {
+              "alive_C_at_end": 23,
+              "built_C_at_end": 24,
+              "collected_kg": {
+                "Ad": 2,
+                "Ex": 0,
+                "Mn": 517
+              },
+              "end": 100,
+              "kg_per_round": {
+                "Ad": 0.02,
+                "Ex": 0.0,
+                "Mn": 5.17
+              },
+              "rounds": 100,
+              "start": 1
+            },
+            {
+              "alive_C_at_end": 39,
+              "built_C_at_end": 40,
+              "collected_kg": {
+                "Ad": 229,
+                "Ex": 0,
+                "Mn": 1664
+              },
+              "end": 250,
+              "kg_per_round": {
+                "Ad": 1.5266666666666666,
+                "Ex": 0.0,
+                "Mn": 11.093333333333334
+              },
+              "rounds": 150,
+              "start": 101
+            },
+            {
+              "alive_C_at_end": 69,
+              "built_C_at_end": 71,
+              "collected_kg": {
+                "Ad": 625,
+                "Ex": 0,
+                "Mn": 3422
+              },
+              "end": 500,
+              "kg_per_round": {
+                "Ad": 2.5,
+                "Ex": 0.0,
+                "Mn": 13.688
+              },
+              "rounds": 250,
+              "start": 251
+            },
+            {
+              "alive_C_at_end": 174,
+              "built_C_at_end": 180,
+              "collected_kg": {
+                "Ad": 4193,
+                "Ex": 0,
+                "Mn": 7543
+              },
+              "end": 1000,
+              "kg_per_round": {
+                "Ad": 8.386,
+                "Ex": 0.0,
+                "Mn": 15.086
+              },
+              "rounds": 500,
+              "start": 501
+            }
+          ],
+          "side": "B",
+          "team": "NotLLeon.v7"
+        }
+      ]
+    },
+    {
+      "early_timeline": [
+        {
+          "A_minus_B_collected_Mn": 10,
+          "alive_C_A": 16,
+          "alive_C_B": 16,
+          "coll_Mn_A": 10,
+          "coll_Mn_B": 0,
+          "round": 10
+        },
+        {
+          "A_minus_B_collected_Mn": 50,
+          "alive_C_A": 16,
+          "alive_C_B": 16,
+          "coll_Mn_A": 50,
+          "coll_Mn_B": 0,
+          "round": 20
+        },
+        {
+          "A_minus_B_collected_Mn": 90,
+          "alive_C_A": 16,
+          "alive_C_B": 16,
+          "coll_Mn_A": 90,
+          "coll_Mn_B": 0,
+          "round": 30
+        },
+        {
+          "A_minus_B_collected_Mn": 115,
+          "alive_C_A": 16,
+          "alive_C_B": 16,
+          "coll_Mn_A": 120,
+          "coll_Mn_B": 5,
+          "round": 40
+        },
+        {
+          "A_minus_B_collected_Mn": 117,
+          "alive_C_A": 20,
+          "alive_C_B": 20,
+          "coll_Mn_A": 142,
+          "coll_Mn_B": 25,
+          "round": 50
+        },
+        {
+          "A_minus_B_collected_Mn": 140,
+          "alive_C_A": 20,
+          "alive_C_B": 20,
+          "coll_Mn_A": 185,
+          "coll_Mn_B": 45,
+          "round": 60
+        },
+        {
+          "A_minus_B_collected_Mn": 166,
+          "alive_C_A": 20,
+          "alive_C_B": 20,
+          "coll_Mn_A": 235,
+          "coll_Mn_B": 69,
+          "round": 70
+        },
+        {
+          "A_minus_B_collected_Mn": 159,
+          "alive_C_A": 20,
+          "alive_C_B": 20,
+          "coll_Mn_A": 273,
+          "coll_Mn_B": 114,
+          "round": 80
+        },
+        {
+          "A_minus_B_collected_Mn": 157,
+          "alive_C_A": 24,
+          "alive_C_B": 24,
+          "coll_Mn_A": 321,
+          "coll_Mn_B": 164,
+          "round": 90
+        },
+        {
+          "A_minus_B_collected_Mn": 153,
+          "alive_C_A": 24,
+          "alive_C_B": 24,
+          "coll_Mn_A": 371,
+          "coll_Mn_B": 218,
+          "round": 100
+        },
+        {
+          "A_minus_B_collected_Mn": 139,
+          "alive_C_A": 25,
+          "alive_C_B": 24,
+          "coll_Mn_A": 416,
+          "coll_Mn_B": 277,
+          "round": 110
+        },
+        {
+          "A_minus_B_collected_Mn": 134,
+          "alive_C_A": 25,
+          "alive_C_B": 24,
+          "coll_Mn_A": 457,
+          "coll_Mn_B": 323,
+          "round": 120
+        },
+        {
+          "A_minus_B_collected_Mn": 142,
+          "alive_C_A": 28,
+          "alive_C_B": 28,
+          "coll_Mn_A": 507,
+          "coll_Mn_B": 365,
+          "round": 130
+        },
+        {
+          "A_minus_B_collected_Mn": 136,
+          "alive_C_A": 28,
+          "alive_C_B": 29,
+          "coll_Mn_A": 557,
+          "coll_Mn_B": 421,
+          "round": 140
+        },
+        {
+          "A_minus_B_collected_Mn": 107,
+          "alive_C_A": 29,
+          "alive_C_B": 28,
+          "coll_Mn_A": 597,
+          "coll_Mn_B": 490,
+          "round": 150
+        },
+        {
+          "A_minus_B_collected_Mn": 86,
+          "alive_C_A": 29,
+          "alive_C_B": 27,
+          "coll_Mn_A": 646,
+          "coll_Mn_B": 560,
+          "round": 160
+        },
+        {
+          "A_minus_B_collected_Mn": 70,
+          "alive_C_A": 29,
+          "alive_C_B": 27,
+          "coll_Mn_A": 691,
+          "coll_Mn_B": 621,
+          "round": 170
+        },
+        {
+          "A_minus_B_collected_Mn": 62,
+          "alive_C_A": 32,
+          "alive_C_B": 31,
+          "coll_Mn_A": 736,
+          "coll_Mn_B": 674,
+          "round": 180
+        },
+        {
+          "A_minus_B_collected_Mn": 61,
+          "alive_C_A": 33,
+          "alive_C_B": 31,
+          "coll_Mn_A": 784,
+          "coll_Mn_B": 723,
+          "round": 190
+        },
+        {
+          "A_minus_B_collected_Mn": 47,
+          "alive_C_A": 33,
+          "alive_C_B": 32,
+          "coll_Mn_A": 834,
+          "coll_Mn_B": 787,
+          "round": 200
+        },
+        {
+          "A_minus_B_collected_Mn": -31,
+          "alive_C_A": 33,
+          "alive_C_B": 32,
+          "coll_Mn_A": 877,
+          "coll_Mn_B": 908,
+          "round": 210
+        },
+        {
+          "A_minus_B_collected_Mn": -128,
+          "alive_C_A": 36,
+          "alive_C_B": 35,
+          "coll_Mn_A": 919,
+          "coll_Mn_B": 1047,
+          "round": 220
+        },
+        {
+          "A_minus_B_collected_Mn": -197,
+          "alive_C_A": 37,
+          "alive_C_B": 36,
+          "coll_Mn_A": 969,
+          "coll_Mn_B": 1166,
+          "round": 230
+        },
+        {
+          "A_minus_B_collected_Mn": -265,
+          "alive_C_A": 36,
+          "alive_C_B": 36,
+          "coll_Mn_A": 1017,
+          "coll_Mn_B": 1282,
+          "round": 240
+        },
+        {
+          "A_minus_B_collected_Mn": -318,
+          "alive_C_A": 36,
+          "alive_C_B": 36,
+          "coll_Mn_A": 1063,
+          "coll_Mn_B": 1381,
+          "round": 250
+        }
+      ],
+      "game": 4,
+      "match": 4570,
+      "sides": [
+        {
+          "dominant_trip_cohorts": [
+            {
+              "cutoff": 100,
+              "dominant_well_cohorts": [
+                {
+                  "all_resource_kg_in_finished_trips": 270,
+                  "all_resource_kg_in_spanning_trips_upper": 150,
+                  "carriers_in_cohort": 12,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    8,
+                    12
+                  ],
+                  "earliest_confirmed_by_last_collect": 36,
+                  "earliest_possible_first_collect": 7,
+                  "example_trips": [
+                    {
+                      "carrier": "11707",
+                      "collects": "30",
+                      "first_collect": "7",
+                      "last_collect": "36",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "1",
+                      "t_end": "53",
+                      "wait_rounds": "0"
+                    },
+                    {
+                      "carrier": "11164",
+                      "collects": "30",
+                      "first_collect": "8",
+                      "last_collect": "37",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "54",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 5,
+                  "trips_finished_collecting_by_cutoff": 9,
+                  "trips_with_possible_collection_by_cutoff": 14
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 30,
+                  "all_resource_kg_in_spanning_trips_upper": 0,
+                  "carriers_in_cohort": 1,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    9,
+                    21
+                  ],
+                  "earliest_confirmed_by_last_collect": 86,
+                  "earliest_possible_first_collect": 57,
+                  "example_trips": [
+                    {
+                      "carrier": "12464",
+                      "collects": "30",
+                      "first_collect": "57",
+                      "last_collect": "86",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "96",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 0,
+                  "trips_finished_collecting_by_cutoff": 1,
+                  "trips_with_possible_collection_by_cutoff": 1
+                }
+              ]
+            },
+            {
+              "cutoff": 250,
+              "dominant_well_cohorts": [
+                {
+                  "all_resource_kg_in_finished_trips": 30,
+                  "all_resource_kg_in_spanning_trips_upper": 0,
+                  "carriers_in_cohort": 1,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    6,
+                    3
+                  ],
+                  "earliest_confirmed_by_last_collect": 247,
+                  "earliest_possible_first_collect": 213,
+                  "example_trips": [
+                    {
+                      "carrier": "12280",
+                      "collects": "30",
+                      "first_collect": "213",
+                      "last_collect": "247",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "211",
+                      "t_end": "252",
+                      "wait_rounds": "6"
+                    }
+                  ],
+                  "spanning_trips": 0,
+                  "trips_finished_collecting_by_cutoff": 1,
+                  "trips_with_possible_collection_by_cutoff": 1
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 1020,
+                  "all_resource_kg_in_spanning_trips_upper": 120,
+                  "carriers_in_cohort": 27,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    8,
+                    12
+                  ],
+                  "earliest_confirmed_by_last_collect": 36,
+                  "earliest_possible_first_collect": 7,
+                  "example_trips": [
+                    {
+                      "carrier": "11707",
+                      "collects": "30",
+                      "first_collect": "7",
+                      "last_collect": "36",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "1",
+                      "t_end": "53",
+                      "wait_rounds": "0"
+                    },
+                    {
+                      "carrier": "11164",
+                      "collects": "30",
+                      "first_collect": "8",
+                      "last_collect": "37",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "54",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 4,
+                  "trips_finished_collecting_by_cutoff": 34,
+                  "trips_with_possible_collection_by_cutoff": 38
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 30,
+                  "all_resource_kg_in_spanning_trips_upper": 0,
+                  "carriers_in_cohort": 1,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    9,
+                    21
+                  ],
+                  "earliest_confirmed_by_last_collect": 86,
+                  "earliest_possible_first_collect": 57,
+                  "example_trips": [
+                    {
+                      "carrier": "12464",
+                      "collects": "30",
+                      "first_collect": "57",
+                      "last_collect": "86",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "96",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 0,
+                  "trips_finished_collecting_by_cutoff": 1,
+                  "trips_with_possible_collection_by_cutoff": 1
+                }
+              ]
+            },
+            {
+              "cutoff": 500,
+              "dominant_well_cohorts": [
+                {
+                  "all_resource_kg_in_finished_trips": 390,
+                  "all_resource_kg_in_spanning_trips_upper": 0,
+                  "carriers_in_cohort": 4,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    6,
+                    3
+                  ],
+                  "earliest_confirmed_by_last_collect": 247,
+                  "earliest_possible_first_collect": 213,
+                  "example_trips": [
+                    {
+                      "carrier": "12280",
+                      "collects": "30",
+                      "first_collect": "213",
+                      "last_collect": "247",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "211",
+                      "t_end": "252",
+                      "wait_rounds": "6"
+                    },
+                    {
+                      "carrier": "12280",
+                      "collects": "30",
+                      "first_collect": "256",
+                      "last_collect": "290",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "252",
+                      "t_end": "295",
+                      "wait_rounds": "6"
+                    }
+                  ],
+                  "spanning_trips": 0,
+                  "trips_finished_collecting_by_cutoff": 13,
+                  "trips_with_possible_collection_by_cutoff": 13
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 2160,
+                  "all_resource_kg_in_spanning_trips_upper": 150,
+                  "carriers_in_cohort": 36,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    8,
+                    12
+                  ],
+                  "earliest_confirmed_by_last_collect": 36,
+                  "earliest_possible_first_collect": 7,
+                  "example_trips": [
+                    {
+                      "carrier": "11707",
+                      "collects": "30",
+                      "first_collect": "7",
+                      "last_collect": "36",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "1",
+                      "t_end": "53",
+                      "wait_rounds": "0"
+                    },
+                    {
+                      "carrier": "11164",
+                      "collects": "30",
+                      "first_collect": "8",
+                      "last_collect": "37",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "54",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 5,
+                  "trips_finished_collecting_by_cutoff": 72,
+                  "trips_with_possible_collection_by_cutoff": 77
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 240,
+                  "all_resource_kg_in_spanning_trips_upper": 30,
+                  "carriers_in_cohort": 2,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    9,
+                    21
+                  ],
+                  "earliest_confirmed_by_last_collect": 86,
+                  "earliest_possible_first_collect": 57,
+                  "example_trips": [
+                    {
+                      "carrier": "12464",
+                      "collects": "30",
+                      "first_collect": "57",
+                      "last_collect": "86",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "96",
+                      "wait_rounds": "1"
+                    },
+                    {
+                      "carrier": "12464",
+                      "collects": "30",
+                      "first_collect": "267",
+                      "last_collect": "296",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "96",
+                      "t_end": "306",
+                      "wait_rounds": "0"
+                    }
+                  ],
+                  "spanning_trips": 1,
+                  "trips_finished_collecting_by_cutoff": 8,
+                  "trips_with_possible_collection_by_cutoff": 9
+                }
+              ]
+            },
+            {
+              "cutoff": 1000,
+              "dominant_well_cohorts": [
+                {
+                  "all_resource_kg_in_finished_trips": 750,
+                  "all_resource_kg_in_spanning_trips_upper": 30,
+                  "carriers_in_cohort": 9,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    6,
+                    3
+                  ],
+                  "earliest_confirmed_by_last_collect": 247,
+                  "earliest_possible_first_collect": 213,
+                  "example_trips": [
+                    {
+                      "carrier": "12280",
+                      "collects": "30",
+                      "first_collect": "213",
+                      "last_collect": "247",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "211",
+                      "t_end": "252",
+                      "wait_rounds": "6"
+                    },
+                    {
+                      "carrier": "12280",
+                      "collects": "30",
+                      "first_collect": "256",
+                      "last_collect": "290",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "252",
+                      "t_end": "295",
+                      "wait_rounds": "6"
+                    }
+                  ],
+                  "spanning_trips": 1,
+                  "trips_finished_collecting_by_cutoff": 25,
+                  "trips_with_possible_collection_by_cutoff": 26
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 4320,
+                  "all_resource_kg_in_spanning_trips_upper": 90,
+                  "carriers_in_cohort": 62,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    8,
+                    12
+                  ],
+                  "earliest_confirmed_by_last_collect": 36,
+                  "earliest_possible_first_collect": 7,
+                  "example_trips": [
+                    {
+                      "carrier": "11707",
+                      "collects": "30",
+                      "first_collect": "7",
+                      "last_collect": "36",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "1",
+                      "t_end": "53",
+                      "wait_rounds": "0"
+                    },
+                    {
+                      "carrier": "11164",
+                      "collects": "30",
+                      "first_collect": "8",
+                      "last_collect": "37",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "54",
+                      "wait_rounds": "1"
+                    }
+                  ],
+                  "spanning_trips": 3,
+                  "trips_finished_collecting_by_cutoff": 144,
+                  "trips_with_possible_collection_by_cutoff": 147
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 750,
+                  "all_resource_kg_in_spanning_trips_upper": 60,
+                  "carriers_in_cohort": 13,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    9,
+                    21
+                  ],
+                  "earliest_confirmed_by_last_collect": 86,
+                  "earliest_possible_first_collect": 57,
+                  "example_trips": [
+                    {
+                      "carrier": "12464",
+                      "collects": "30",
+                      "first_collect": "57",
+                      "last_collect": "86",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "96",
+                      "wait_rounds": "1"
+                    },
+                    {
+                      "carrier": "12464",
+                      "collects": "30",
+                      "first_collect": "267",
+                      "last_collect": "296",
+                      "load": "30",
+                      "outcome": "deposit",
+                      "t0": "96",
+                      "t_end": "306",
+                      "wait_rounds": "0"
+                    }
+                  ],
+                  "spanning_trips": 2,
+                  "trips_finished_collecting_by_cutoff": 25,
+                  "trips_with_possible_collection_by_cutoff": 27
+                }
+              ]
+            }
+          ],
+          "initial_HQ_count": 4,
+          "production_windows": [
+            {
+              "alive_C_at_end": 24,
+              "built_C_at_end": 24,
+              "collected_kg": {
+                "Ad": 30,
+                "Ex": 0,
+                "Mn": 371
+              },
+              "end": 100,
+              "kg_per_round": {
+                "Ad": 0.3,
+                "Ex": 0.0,
+                "Mn": 3.71
+              },
+              "rounds": 100,
+              "start": 1
+            },
+            {
+              "alive_C_at_end": 36,
+              "built_C_at_end": 37,
+              "collected_kg": {
+                "Ad": 30,
+                "Ex": 0,
+                "Mn": 692
+              },
+              "end": 250,
+              "kg_per_round": {
+                "Ad": 0.2,
+                "Ex": 0.0,
+                "Mn": 4.613333333333333
+              },
+              "rounds": 150,
+              "start": 101
+            },
+            {
+              "alive_C_at_end": 40,
+              "built_C_at_end": 48,
+              "collected_kg": {
+                "Ad": 585,
+                "Ex": 0,
+                "Mn": 1170
+              },
+              "end": 500,
+              "kg_per_round": {
+                "Ad": 2.34,
+                "Ex": 0.0,
+                "Mn": 4.68
+              },
+              "rounds": 250,
+              "start": 251
+            },
+            {
+              "alive_C_at_end": 96,
+              "built_C_at_end": 108,
+              "collected_kg": {
+                "Ad": 918,
+                "Ex": 0,
+                "Mn": 2162
+              },
+              "end": 1000,
+              "kg_per_round": {
+                "Ad": 1.836,
+                "Ex": 0.0,
+                "Mn": 4.324
+              },
+              "rounds": 500,
+              "start": 501
+            }
+          ],
+          "side": "A",
+          "team": "vibe23"
+        },
+        {
+          "dominant_trip_cohorts": [
+            {
+              "cutoff": 100,
+              "dominant_well_cohorts": [
+                {
+                  "all_resource_kg_in_finished_trips": 0,
+                  "all_resource_kg_in_spanning_trips_upper": 40,
+                  "carriers_in_cohort": 1,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    50,
+                    21
+                  ],
+                  "earliest_confirmed_by_last_collect": 108,
+                  "earliest_possible_first_collect": 63,
+                  "example_trips": [
+                    {
+                      "carrier": "12775",
+                      "collects": "40",
+                      "first_collect": "63",
+                      "last_collect": "108",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "46",
+                      "t_end": "125",
+                      "wait_rounds": "8"
+                    }
+                  ],
+                  "spanning_trips": 1,
+                  "trips_finished_collecting_by_cutoff": 0,
+                  "trips_with_possible_collection_by_cutoff": 1
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 80,
+                  "all_resource_kg_in_spanning_trips_upper": 240,
+                  "carriers_in_cohort": 8,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    51,
+                    12
+                  ],
+                  "earliest_confirmed_by_last_collect": 77,
+                  "earliest_possible_first_collect": 38,
+                  "example_trips": [
+                    {
+                      "carrier": "10951",
+                      "collects": "40",
+                      "first_collect": "38",
+                      "last_collect": "77",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "102",
+                      "wait_rounds": "2"
+                    },
+                    {
+                      "carrier": "11207",
+                      "collects": "40",
+                      "first_collect": "39",
+                      "last_collect": "78",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "3",
+                      "t_end": "168",
+                      "wait_rounds": "2"
+                    }
+                  ],
+                  "spanning_trips": 6,
+                  "trips_finished_collecting_by_cutoff": 2,
+                  "trips_with_possible_collection_by_cutoff": 8
+                }
+              ]
+            },
+            {
+              "cutoff": 250,
+              "dominant_well_cohorts": [
+                {
+                  "all_resource_kg_in_finished_trips": 214,
+                  "all_resource_kg_in_spanning_trips_upper": 160,
+                  "carriers_in_cohort": 11,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    29,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 219,
+                  "earliest_possible_first_collect": 196,
+                  "example_trips": [
+                    {
+                      "carrier": "13787",
+                      "collects": "3",
+                      "first_collect": "217",
+                      "last_collect": "219",
+                      "load": "3",
+                      "outcome": "deposit",
+                      "t0": "147",
+                      "t_end": "283",
+                      "wait_rounds": "7"
+                    },
+                    {
+                      "carrier": "10797",
+                      "collects": "11",
+                      "first_collect": "200",
+                      "last_collect": "220",
+                      "load": "11",
+                      "outcome": "deposit",
+                      "t0": "3",
+                      "t_end": "300",
+                      "wait_rounds": "12"
+                    }
+                  ],
+                  "spanning_trips": 4,
+                  "trips_finished_collecting_by_cutoff": 7,
+                  "trips_with_possible_collection_by_cutoff": 11
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 164,
+                  "all_resource_kg_in_spanning_trips_upper": 160,
+                  "carriers_in_cohort": 8,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    30,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 165,
+                  "earliest_possible_first_collect": 125,
+                  "example_trips": [
+                    {
+                      "carrier": "12450",
+                      "collects": "40",
+                      "first_collect": "125",
+                      "last_collect": "165",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "3",
+                      "t_end": "190",
+                      "wait_rounds": "3"
+                    },
+                    {
+                      "carrier": "11180",
+                      "collects": "40",
+                      "first_collect": "125",
+                      "last_collect": "166",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "3",
+                      "t_end": "194",
+                      "wait_rounds": "3"
+                    }
+                  ],
+                  "spanning_trips": 4,
+                  "trips_finished_collecting_by_cutoff": 6,
+                  "trips_with_possible_collection_by_cutoff": 10
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 120,
+                  "all_resource_kg_in_spanning_trips_upper": 0,
+                  "carriers_in_cohort": 1,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    50,
+                    21
+                  ],
+                  "earliest_confirmed_by_last_collect": 108,
+                  "earliest_possible_first_collect": 63,
+                  "example_trips": [
+                    {
+                      "carrier": "12775",
+                      "collects": "40",
+                      "first_collect": "63",
+                      "last_collect": "108",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "46",
+                      "t_end": "125",
+                      "wait_rounds": "8"
+                    },
+                    {
+                      "carrier": "12775",
+                      "collects": "40",
+                      "first_collect": "131",
+                      "last_collect": "176",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "125",
+                      "t_end": "191",
+                      "wait_rounds": "8"
+                    }
+                  ],
+                  "spanning_trips": 0,
+                  "trips_finished_collecting_by_cutoff": 3,
+                  "trips_with_possible_collection_by_cutoff": 3
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 760,
+                  "all_resource_kg_in_spanning_trips_upper": 120,
+                  "carriers_in_cohort": 15,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    51,
+                    12
+                  ],
+                  "earliest_confirmed_by_last_collect": 77,
+                  "earliest_possible_first_collect": 38,
+                  "example_trips": [
+                    {
+                      "carrier": "10951",
+                      "collects": "40",
+                      "first_collect": "38",
+                      "last_collect": "77",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "102",
+                      "wait_rounds": "2"
+                    },
+                    {
+                      "carrier": "11207",
+                      "collects": "40",
+                      "first_collect": "39",
+                      "last_collect": "78",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "3",
+                      "t_end": "168",
+                      "wait_rounds": "2"
+                    }
+                  ],
+                  "spanning_trips": 3,
+                  "trips_finished_collecting_by_cutoff": 19,
+                  "trips_with_possible_collection_by_cutoff": 22
+                }
+              ]
+            },
+            {
+              "cutoff": 500,
+              "dominant_well_cohorts": [
+                {
+                  "all_resource_kg_in_finished_trips": 0,
+                  "all_resource_kg_in_spanning_trips_upper": 40,
+                  "carriers_in_cohort": 1,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    21,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 526,
+                  "earliest_possible_first_collect": 480,
+                  "example_trips": [
+                    {
+                      "carrier": "10751",
+                      "collects": "40",
+                      "first_collect": "480",
+                      "last_collect": "526",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "461",
+                      "t_end": "646",
+                      "wait_rounds": "9"
+                    }
+                  ],
+                  "spanning_trips": 1,
+                  "trips_finished_collecting_by_cutoff": 0,
+                  "trips_with_possible_collection_by_cutoff": 1
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 1060,
+                  "all_resource_kg_in_spanning_trips_upper": 286,
+                  "carriers_in_cohort": 28,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    29,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 219,
+                  "earliest_possible_first_collect": 196,
+                  "example_trips": [
+                    {
+                      "carrier": "13787",
+                      "collects": "3",
+                      "first_collect": "217",
+                      "last_collect": "219",
+                      "load": "3",
+                      "outcome": "deposit",
+                      "t0": "147",
+                      "t_end": "283",
+                      "wait_rounds": "7"
+                    },
+                    {
+                      "carrier": "10797",
+                      "collects": "11",
+                      "first_collect": "200",
+                      "last_collect": "220",
+                      "load": "11",
+                      "outcome": "deposit",
+                      "t0": "3",
+                      "t_end": "300",
+                      "wait_rounds": "12"
+                    }
+                  ],
+                  "spanning_trips": 8,
+                  "trips_finished_collecting_by_cutoff": 29,
+                  "trips_with_possible_collection_by_cutoff": 37
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 1193,
+                  "all_resource_kg_in_spanning_trips_upper": 200,
+                  "carriers_in_cohort": 29,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    30,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 165,
+                  "earliest_possible_first_collect": 125,
+                  "example_trips": [
+                    {
+                      "carrier": "12450",
+                      "collects": "40",
+                      "first_collect": "125",
+                      "last_collect": "165",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "3",
+                      "t_end": "190",
+                      "wait_rounds": "3"
+                    },
+                    {
+                      "carrier": "11180",
+                      "collects": "40",
+                      "first_collect": "125",
+                      "last_collect": "166",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "3",
+                      "t_end": "194",
+                      "wait_rounds": "3"
+                    }
+                  ],
+                  "spanning_trips": 5,
+                  "trips_finished_collecting_by_cutoff": 34,
+                  "trips_with_possible_collection_by_cutoff": 39
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 0,
+                  "all_resource_kg_in_spanning_trips_upper": 40,
+                  "carriers_in_cohort": 1,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    38,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 516,
+                  "earliest_possible_first_collect": 471,
+                  "example_trips": [
+                    {
+                      "carrier": "10064",
+                      "collects": "40",
+                      "first_collect": "471",
+                      "last_collect": "516",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "459",
+                      "t_end": "536",
+                      "wait_rounds": "7"
+                    }
+                  ],
+                  "spanning_trips": 1,
+                  "trips_finished_collecting_by_cutoff": 0,
+                  "trips_with_possible_collection_by_cutoff": 1
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 280,
+                  "all_resource_kg_in_spanning_trips_upper": 80,
+                  "carriers_in_cohort": 2,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    50,
+                    21
+                  ],
+                  "earliest_confirmed_by_last_collect": 108,
+                  "earliest_possible_first_collect": 63,
+                  "example_trips": [
+                    {
+                      "carrier": "12775",
+                      "collects": "40",
+                      "first_collect": "63",
+                      "last_collect": "108",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "46",
+                      "t_end": "125",
+                      "wait_rounds": "8"
+                    },
+                    {
+                      "carrier": "12775",
+                      "collects": "40",
+                      "first_collect": "131",
+                      "last_collect": "176",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "125",
+                      "t_end": "191",
+                      "wait_rounds": "8"
+                    }
+                  ],
+                  "spanning_trips": 2,
+                  "trips_finished_collecting_by_cutoff": 7,
+                  "trips_with_possible_collection_by_cutoff": 9
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 1880,
+                  "all_resource_kg_in_spanning_trips_upper": 320,
+                  "carriers_in_cohort": 33,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    51,
+                    12
+                  ],
+                  "earliest_confirmed_by_last_collect": 77,
+                  "earliest_possible_first_collect": 38,
+                  "example_trips": [
+                    {
+                      "carrier": "10951",
+                      "collects": "40",
+                      "first_collect": "38",
+                      "last_collect": "77",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "102",
+                      "wait_rounds": "2"
+                    },
+                    {
+                      "carrier": "11207",
+                      "collects": "40",
+                      "first_collect": "39",
+                      "last_collect": "78",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "3",
+                      "t_end": "168",
+                      "wait_rounds": "2"
+                    }
+                  ],
+                  "spanning_trips": 8,
+                  "trips_finished_collecting_by_cutoff": 47,
+                  "trips_with_possible_collection_by_cutoff": 55
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 240,
+                  "all_resource_kg_in_spanning_trips_upper": 80,
+                  "carriers_in_cohort": 3,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    53,
+                    3
+                  ],
+                  "earliest_confirmed_by_last_collect": 345,
+                  "earliest_possible_first_collect": 301,
+                  "example_trips": [
+                    {
+                      "carrier": "10828",
+                      "collects": "40",
+                      "first_collect": "301",
+                      "last_collect": "345",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "296",
+                      "t_end": "357",
+                      "wait_rounds": "7"
+                    },
+                    {
+                      "carrier": "14011",
+                      "collects": "40",
+                      "first_collect": "358",
+                      "last_collect": "403",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "326",
+                      "t_end": "414",
+                      "wait_rounds": "8"
+                    }
+                  ],
+                  "spanning_trips": 2,
+                  "trips_finished_collecting_by_cutoff": 6,
+                  "trips_with_possible_collection_by_cutoff": 8
+                }
+              ]
+            },
+            {
+              "cutoff": 1000,
+              "dominant_well_cohorts": [
+                {
+                  "all_resource_kg_in_finished_trips": 393,
+                  "all_resource_kg_in_spanning_trips_upper": 0,
+                  "carriers_in_cohort": 5,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    21,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 526,
+                  "earliest_possible_first_collect": 480,
+                  "example_trips": [
+                    {
+                      "carrier": "10751",
+                      "collects": "40",
+                      "first_collect": "480",
+                      "last_collect": "526",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "461",
+                      "t_end": "646",
+                      "wait_rounds": "9"
+                    },
+                    {
+                      "carrier": "11996",
+                      "collects": "40",
+                      "first_collect": "621",
+                      "last_collect": "667",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "596",
+                      "t_end": "717",
+                      "wait_rounds": "13"
+                    }
+                  ],
+                  "spanning_trips": 0,
+                  "trips_finished_collecting_by_cutoff": 12,
+                  "trips_with_possible_collection_by_cutoff": 12
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 3462,
+                  "all_resource_kg_in_spanning_trips_upper": 267,
+                  "carriers_in_cohort": 76,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    29,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 219,
+                  "earliest_possible_first_collect": 196,
+                  "example_trips": [
+                    {
+                      "carrier": "13787",
+                      "collects": "3",
+                      "first_collect": "217",
+                      "last_collect": "219",
+                      "load": "3",
+                      "outcome": "deposit",
+                      "t0": "147",
+                      "t_end": "283",
+                      "wait_rounds": "7"
+                    },
+                    {
+                      "carrier": "10797",
+                      "collects": "11",
+                      "first_collect": "200",
+                      "last_collect": "220",
+                      "load": "11",
+                      "outcome": "deposit",
+                      "t0": "3",
+                      "t_end": "300",
+                      "wait_rounds": "12"
+                    }
+                  ],
+                  "spanning_trips": 7,
+                  "trips_finished_collecting_by_cutoff": 100,
+                  "trips_with_possible_collection_by_cutoff": 107
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 3100,
+                  "all_resource_kg_in_spanning_trips_upper": 77,
+                  "carriers_in_cohort": 60,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    30,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 165,
+                  "earliest_possible_first_collect": 125,
+                  "example_trips": [
+                    {
+                      "carrier": "12450",
+                      "collects": "40",
+                      "first_collect": "125",
+                      "last_collect": "165",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "3",
+                      "t_end": "190",
+                      "wait_rounds": "3"
+                    },
+                    {
+                      "carrier": "11180",
+                      "collects": "40",
+                      "first_collect": "125",
+                      "last_collect": "166",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "3",
+                      "t_end": "194",
+                      "wait_rounds": "3"
+                    }
+                  ],
+                  "spanning_trips": 2,
+                  "trips_finished_collecting_by_cutoff": 87,
+                  "trips_with_possible_collection_by_cutoff": 89
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 720,
+                  "all_resource_kg_in_spanning_trips_upper": 120,
+                  "carriers_in_cohort": 4,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    38,
+                    48
+                  ],
+                  "earliest_confirmed_by_last_collect": 516,
+                  "earliest_possible_first_collect": 471,
+                  "example_trips": [
+                    {
+                      "carrier": "10064",
+                      "collects": "40",
+                      "first_collect": "471",
+                      "last_collect": "516",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "459",
+                      "t_end": "536",
+                      "wait_rounds": "7"
+                    },
+                    {
+                      "carrier": "10064",
+                      "collects": "40",
+                      "first_collect": "543",
+                      "last_collect": "589",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "536",
+                      "t_end": "611",
+                      "wait_rounds": "8"
+                    }
+                  ],
+                  "spanning_trips": 3,
+                  "trips_finished_collecting_by_cutoff": 18,
+                  "trips_with_possible_collection_by_cutoff": 21
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 1320,
+                  "all_resource_kg_in_spanning_trips_upper": 160,
+                  "carriers_in_cohort": 6,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    50,
+                    21
+                  ],
+                  "earliest_confirmed_by_last_collect": 108,
+                  "earliest_possible_first_collect": 63,
+                  "example_trips": [
+                    {
+                      "carrier": "12775",
+                      "collects": "40",
+                      "first_collect": "63",
+                      "last_collect": "108",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "46",
+                      "t_end": "125",
+                      "wait_rounds": "8"
+                    },
+                    {
+                      "carrier": "12775",
+                      "collects": "40",
+                      "first_collect": "131",
+                      "last_collect": "176",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "125",
+                      "t_end": "191",
+                      "wait_rounds": "8"
+                    }
+                  ],
+                  "spanning_trips": 4,
+                  "trips_finished_collecting_by_cutoff": 33,
+                  "trips_with_possible_collection_by_cutoff": 37
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 4280,
+                  "all_resource_kg_in_spanning_trips_upper": 320,
+                  "carriers_in_cohort": 71,
+                  "dominant_type": "Mn",
+                  "dominant_well": [
+                    51,
+                    12
+                  ],
+                  "earliest_confirmed_by_last_collect": 77,
+                  "earliest_possible_first_collect": 38,
+                  "example_trips": [
+                    {
+                      "carrier": "10951",
+                      "collects": "40",
+                      "first_collect": "38",
+                      "last_collect": "77",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "2",
+                      "t_end": "102",
+                      "wait_rounds": "2"
+                    },
+                    {
+                      "carrier": "11207",
+                      "collects": "40",
+                      "first_collect": "39",
+                      "last_collect": "78",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "3",
+                      "t_end": "168",
+                      "wait_rounds": "2"
+                    }
+                  ],
+                  "spanning_trips": 8,
+                  "trips_finished_collecting_by_cutoff": 107,
+                  "trips_with_possible_collection_by_cutoff": 115
+                },
+                {
+                  "all_resource_kg_in_finished_trips": 1800,
+                  "all_resource_kg_in_spanning_trips_upper": 80,
+                  "carriers_in_cohort": 7,
+                  "dominant_type": "Ad",
+                  "dominant_well": [
+                    53,
+                    3
+                  ],
+                  "earliest_confirmed_by_last_collect": 345,
+                  "earliest_possible_first_collect": 301,
+                  "example_trips": [
+                    {
+                      "carrier": "10828",
+                      "collects": "40",
+                      "first_collect": "301",
+                      "last_collect": "345",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "296",
+                      "t_end": "357",
+                      "wait_rounds": "7"
+                    },
+                    {
+                      "carrier": "14011",
+                      "collects": "40",
+                      "first_collect": "358",
+                      "last_collect": "403",
+                      "load": "40",
+                      "outcome": "deposit",
+                      "t0": "326",
+                      "t_end": "414",
+                      "wait_rounds": "8"
+                    }
+                  ],
+                  "spanning_trips": 2,
+                  "trips_finished_collecting_by_cutoff": 45,
+                  "trips_with_possible_collection_by_cutoff": 47
+                }
+              ]
+            }
+          ],
+          "initial_HQ_count": 4,
+          "production_windows": [
+            {
+              "alive_C_at_end": 24,
+              "built_C_at_end": 24,
+              "collected_kg": {
+                "Ad": 33,
+                "Ex": 0,
+                "Mn": 218
+              },
+              "end": 100,
+              "kg_per_round": {
+                "Ad": 0.33,
+                "Ex": 0.0,
+                "Mn": 2.18
+              },
+              "rounds": 100,
+              "start": 1
+            },
+            {
+              "alive_C_at_end": 36,
+              "built_C_at_end": 38,
+              "collected_kg": {
+                "Ad": 87,
+                "Ex": 0,
+                "Mn": 1163
+              },
+              "end": 250,
+              "kg_per_round": {
+                "Ad": 0.58,
+                "Ex": 0.0,
+                "Mn": 7.753333333333333
+              },
+              "rounds": 150,
+              "start": 101
+            },
+            {
+              "alive_C_at_end": 61,
+              "built_C_at_end": 70,
+              "collected_kg": {
+                "Ad": 537,
+                "Ex": 0,
+                "Mn": 3133
+              },
+              "end": 500,
+              "kg_per_round": {
+                "Ad": 2.148,
+                "Ex": 0.0,
+                "Mn": 12.532
+              },
+              "rounds": 250,
+              "start": 251
+            },
+            {
+              "alive_C_at_end": 162,
+              "built_C_at_end": 188,
+              "collected_kg": {
+                "Ad": 3725,
+                "Ex": 0,
+                "Mn": 6631
+              },
+              "end": 1000,
+              "kg_per_round": {
+                "Ad": 7.45,
+                "Ex": 0.0,
+                "Mn": 13.262
+              },
+              "rounds": 500,
+              "start": 501
+            }
+          ],
+          "side": "B",
+          "team": "britacatalin.FinalBot"
+        }
+      ]
+    }
+  ],
+  "replays_walked": 0,
+  "schema_version": 1,
+  "upgrade_reference": {
+    "assumed_action_cooldown": 10,
+    "assumed_clear_stationary_collectors": 6,
+    "base_rate_per_collect": 1,
+    "ideal_extra_kg_per_round": 12,
+    "ideal_post_upgrade_payback_rounds": 116.66666666666667,
+    "limits": "Ideal six continuously collecting residents, no travel/crowding/aura and no changes to worker count. Initial HQ stock can fund deposits; worker-turn capacity alone cannot rule out early upgrades.",
+    "minimum_40kg_deposit_actions": 35,
+    "own_resource_cost": 1400,
+    "upgraded_rate_per_collect": 3
+  }
+}

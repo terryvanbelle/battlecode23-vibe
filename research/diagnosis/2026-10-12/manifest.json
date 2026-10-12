@@ -19,6 +19,10 @@
     "bytes": 12856,
     "sha256": "dfb8f5517329ef8abd1ab264ba7b18e686b21393aaf1c65204538a54f43277d6"
   },
+  "research/diagnosis/2026-10-12/carrier/CarrierRouteDeliveryFixture.java": {
+    "bytes": 27960,
+    "sha256": "b172831cb57298a4a55aa84267a7ad3436c26ca2761980653b7ac35f4e4cb1c9"
+  },
   "research/diagnosis/2026-10-12/carrier/ForestWellGeometry.java": {
     "bytes": 9219,
     "sha256": "d3d3058cb398a5d63950569623fa09d827afe3219434f6801ce907c2fb67e3e4"
@@ -51,6 +55,18 @@
     "bytes": 92058,
     "sha256": "e79d4c9f1a1194a9d0b6b34b1300ab3640f9d652c0ce729b54a0de9fb4f2a207"
   },
+  "research/diagnosis/2026-10-12/carrier/route-delivery-case-summary.json": {
+    "bytes": 134638,
+    "sha256": "e953eda394e76b7e26347a935840c71ce7383b8fb30a5812e06d4691b8718a65"
+  },
+  "research/diagnosis/2026-10-12/carrier/route-delivery-provenance.json": {
+    "bytes": 4488,
+    "sha256": "f78ea29cd23c59ef386838db022ff415562301de38dff4f4b0e0dfbe2dafe6fe"
+  },
+  "research/diagnosis/2026-10-12/carrier/route-delivery-trace-sample.json": {
+    "bytes": 122612,
+    "sha256": "006b75ac96d9a24f54d13dcbaa6d844d5dbeedf799c83aa2b59bd8b904aa4a69"
+  },
   "research/diagnosis/2026-10-12/carrier/trip-result.json": {
     "bytes": 108044,
     "sha256": "8c265b362438fc3d7bb45c2195ba01c01b1489ff7379cdeb1f969a841532feaf"
@@ -75,6 +91,18 @@
     "bytes": 3815,
     "sha256": "ad3552be4723ea8008a951b179a88ccb216485dd864f940e0d554a41a8b6b298"
   },
+  "research/diagnosis/2026-10-12/forest-capacity/ForestActions.java": {
+    "bytes": 16233,
+    "sha256": "86bbd521a8db8c3df901e883d3a69f9bc8ee8519372a981c441c120a243c2551"
+  },
+  "research/diagnosis/2026-10-12/forest-capacity/action-result.json": {
+    "bytes": 45331,
+    "sha256": "828f3d507d3035066370df1108ef24ee87f1442da5f4538f414d2c5128b36768"
+  },
+  "research/diagnosis/2026-10-12/forest-capacity/csv-cohort-analysis.json": {
+    "bytes": 115353,
+    "sha256": "61bfc7f71ce75c241134fcc6fe67d41e1a1cb12568ab8feda5c76844af6efcbc"
+  },
   "research/diagnosis/2026-10-12/mend-cost/ApiCalibration.java": {
     "bytes": 510,
     "sha256": "efcd4f53b9eb1bcff17ff948131456c70219b884a18a5888327b98f55ac25ccc"
@@ -98,5 +126,21 @@
   "research/diagnosis/2026-10-12/ranked/20261012-1507-PDT.json": {
     "bytes": 24628,
     "sha256": "47595ef5246dae091cce4895fc1157d860f7700ba6329448f712c79912ef8e53"
+  },
+  "research/diagnosis/2026-10-12/ward3/collection-summary.json": {
+    "bytes": 9484,
+    "sha256": "660a33c7219ca192224b5dec27956c61aa51c36a4a5bad474f5594f72ff2dc93"
+  },
+  "research/diagnosis/2026-10-12/ward3/stage-a-results.csv": {
+    "bytes": 872,
+    "sha256": "9681d0236f8f8f81e08efa9a952416e075762d6bfedfd5e4f70581ea47af8a3f"
+  },
+  "research/diagnosis/2026-10-12/ward3/stage-b-results.csv": {
+    "bytes": 1789,
+    "sha256": "048a934206754b42aa3b02e74323c8830e830786e02b6cdb93e15d8bd3830570"
+  },
+  "research/diagnosis/2026-10-12/ward3/stage-c-results.csv": {
+    "bytes": 9064,
+    "sha256": "d2df0542f3b787b499184a50e73346ccb5558f25ecb956d3c4195a0b937dad7d"
   }
 }

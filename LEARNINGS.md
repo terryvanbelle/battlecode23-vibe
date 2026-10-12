@@ -91,6 +91,10 @@ outside vision. Re-extract the panels with the shot visibility classifier before
   cancellation but still fails to collect for64 native fixture turns, replacing it with a longer cycle and
   suppressing an unjam. A lower oscillation count does not establish delivery. Validate first collection and
   resource return as well as common action paths (`research/diagnosis/2026-10-12-forest-carrier-routing.md`).
+- **Separate sites, upgrades and staffing in an income gap.** Exact Forest actions show comparable home-well
+  production, while enemy centre wells supply903/544kg of the945/471kg Mana gaps duringr101–250. Neither side
+  upgraded throughr1000. Worker counts and whole-trip totals could not identify this; pair action targets with
+  signed inventory changes and reconcile the totals (`research/diagnosis/2026-10-12-forest-mana-capacity.md`).
 
 ### Process and gates
 
@@ -107,6 +111,10 @@ outside vision. Re-extract the panels with the shot visibility classifier before
   cancelled c_ward3 job "missing"; the recursive enqueue check found its preserved entry before any duplicate job ran.
   Recover full run summaries too: copying only results/census/provenance left a completed reference run uncached
   because ingestion requires `summary.txt` (TRAINING_LOG 2026-10-12 13:41).
+- **Budget native-profiler storage separately from ordinary games.** A normal control finished, but its profiler
+  twin exhausted768MB while serializing the footer. Preserve completed controls and re-run only the failed
+  measurement with explicit runtime provenance and simulation identity; a larger heap does not remove trace
+  caps or make censored costs usable (TRAINING_LOG 2026-10-12 15:43).
 
 - **A state check and the action it authorizes must share the transition lock.** The ranked loop checked the validated
   submission, then a trial could activate its candidate before the ranked POST. Serialize fresh checks through match

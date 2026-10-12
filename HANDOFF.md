@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-12 15:20 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
+Updated 2026-10-12 15:43 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
 requires ongoing interaction through the web interface (PROMPTS 58); use the VMs as
 remote compute workers, not a CLI handoff. Read `docs/CONTINUATION.md` before connecting, syncing or restarting jobs.
 VPN/TCP configuration is unavailable in this cloud instance. The private `battlecode23-control` repository is now
@@ -58,8 +58,12 @@ ties and thresholds. All 852 decision/guard prototype checks pass; actual live c
 pending; the official full suite passed. No submission or promotion.
 **c_ward3:** fresh full screen queued at 13:44 PDT as `20261012-204410-scr-c_ward3-3d2ef1dd0da7`, tag
 `scr-3d2ef1dd0da7-0b3c`: up to 128 candidate games, zero missing incumbent reference cells. The existing queue runner
-PID 254430 was reused. Its old job remains in `queue/cancelled/`, with no run or log markers. As of 14:17 PDT it is running stage C (100 roster cells); stages A/B are complete. All 100 c_mend2 reference
-cells are cached, with zero conflicts. c_well9's information-only roster Net is
+PID 254430 was reused. Its old job remains in `queue/cancelled/`, with no run or log markers.
+**Finished15:17 PDT; normal collection15:30 gives FAIL:** basics8/8, head-to-head9–11/BORDERLINE,
+information-only roster Net+2, gating Net0 (no VALID records), all128 candidate games zero overruns/exceptions/
+self deaths/near misses. No trial. Cache unique keys6572→6828 with256 added rows, zero conflicts and preserved
+original bytes. Exact record `progress/screens/c_ward3-3d2ef1dd0da7.json`; collection/results evidence under
+`research/diagnosis/2026-10-12/ward3/`. All100 c_mend2 reference cells remain cached. c_well9's information-only roster Net is
 +1 after recovering the missing `summary.txt` files; gating Net remains 0 and its verdict remains FAIL.
 
 **Current official verification passed:** the suite ran 14:31:26–14:53:59 PDT on canonical driver `main`,
@@ -97,12 +101,32 @@ first-detour/second-return cancellation, but a return veto still fails to collec
 See `research/diagnosis/2026-10-12-forest-carrier-routing.md`; test route recovery and actual resource delivery.
 Shared knowledge remains unknown in field replays; no opponent shadow reruns.
 
+**Exact Forest supply diagnosis:** official pass-only action reader/10 fixtures/48 timeline reconciliations show
+our only Mana pickup site throughr1000 in both4566g4/4570g4 is(8,12). Enemies first collect centreMana(30,48)/
+(29,48) at r36/38 andr125/196. Duringr101–250 centre903/544kg explains almost all945/471kg income gaps;
+home production differs only+42/−73kg. No upgrades/conversions/well deposits; every pickup1kg, zero unpaired
+actions. See `research/diagnosis/2026-10-12-forest-mana-capacity.md`. Discovery versus selection remains unresolved
+by missing field shared-memory telemetry. Source audit identifies a no-alternative crowd switch that clears
+`well` then immediately reselects the rejected known well next turn, bypassing intended exploration; isolate its
+delivery fixture rather than bundling c_well9's other changes.
+
+The official owned route-delivery fixture passed320 cases/35,424 checks, with280 first-detour pairs and240
+unchanged-before-trigger pairs. Locked original-hand bug policies deposit30kg in40/40 prescribed groups versus
+baseline29/40. One temporary AD blocker costs10extra rounds; native target-change paths still untested (pure
+identity/reset guards passed). Host budgets are synthetic, not an instruction meter. Exactcase/24sample exports
+and private full9.77MBtrace SHA are in carrier evidence. Experimental c_route1 is being implemented separately;
+no source hash/screen/promotion yet. Keep the larger Mana capacity diagnosis separate from the AD route repair.
+
 Native CBC workload launched15:15:35 PDT on battlecode-dev: supervisor291639,
 `build/codex-recovery/cbc-native-20261012T221535Z/output` (status/log siblings). Up to4 own-archetype games,
 MAX_JOBS2,600-second game limits,45-minute supervisor limit; official frozen sources and engine. Each profiler
-off/on pair must match state and bytecode fingerprints. Exception-positive or missing final-turn ex coverage
-censors costs/caller/budget attribution. Mend3 followon reuses this first control pair and adds only2 games once
-its identity is available; it has not launched yet. c_mend2/145 remains active.
+off/on pair must match state and bytecode fingerprints. **Stopped15:23:34, exit1**: its ordinary control completed
+at r2000 (Mend2 wins by islands,11.36MB replay), but profiling-on ran out of Java heap space while serializing
+the profiler footer with768MB heap; no on replay/identity, so the second pair never ran. Preserve off replay,
+source and class tree. Only an on-only recovery with explicit heap change and exact fingerprint/footer identity
+can make this control reusable. Native team caps still censor costs. Exception-positive or missing final-turn ex
+coverage also censors costs/caller/budget attribution. Mend3 followon adds only2 games after a verified control;
+it has not launched yet. c_mend2/145 remains active.
 
 **Read head-to-heads against the identity control, never against 10/20**: on `test/cells/self-swarm1-panel.txt`
 g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); on the screen's map-seed cells it scores

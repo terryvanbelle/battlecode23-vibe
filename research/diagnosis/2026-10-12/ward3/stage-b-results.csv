@@ -1,0 +1,21 @@
+opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed
+c_mend2,BatSignal,A,A,580,win,The winning team won by capturing 75% of sky islands.,map
+c_mend2,BatSignal,B,A,609,loss,The winning team won by capturing 75% of sky islands.,map
+c_mend2,Cat,A,A,517,win,The winning team won by capturing 75% of sky islands.,map
+c_mend2,Cat,B,A,519,loss,The winning team won by capturing 75% of sky islands.,map
+c_mend2,Cornucopia,A,B,2000,loss,The winning team won by having more sky islands.,map
+c_mend2,Cornucopia,B,B,2000,win,The winning team won by having more sky islands.,map
+c_mend2,DefaultMap,A,B,600,loss,The winning team won by capturing 75% of sky islands.,map
+c_mend2,DefaultMap,B,A,427,loss,The winning team won by capturing 75% of sky islands.,map
+c_mend2,Forest,A,A,2000,win,The winning team won by having more sky islands.,map
+c_mend2,Forest,B,B,2000,win,The winning team won by having more sky islands.,map
+c_mend2,Hah,A,B,487,loss,The winning team won by capturing 75% of sky islands.,map
+c_mend2,Hah,B,B,496,win,The winning team won by capturing 75% of sky islands.,map
+c_mend2,IslandHopping,A,B,499,loss,The winning team won by capturing 75% of sky islands.,map
+c_mend2,IslandHopping,B,B,570,win,The winning team won by capturing 75% of sky islands.,map
+c_mend2,MassiveL,A,A,2000,win,The winning team won by having more sky islands.,map
+c_mend2,MassiveL,B,B,2000,win,The winning team won by having more sky islands.,map
+c_mend2,Maze,A,B,566,loss,The winning team won by capturing 75% of sky islands.,map
+c_mend2,Maze,B,A,384,loss,The winning team won by capturing 75% of sky islands.,map
+c_mend2,ReverseFunnel,A,B,528,loss,The winning team won by capturing 75% of sky islands.,map
+c_mend2,ReverseFunnel,B,A,465,loss,The winning team won by capturing 75% of sky islands.,map

@@ -1,0 +1,9 @@
+opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed
+examplefuncsplayer,Contraction,A,A,535,win,The winning team won by capturing 75% of sky islands.,map
+examplefuncsplayer,Contraction,B,B,487,win,The winning team won by capturing 75% of sky islands.,map
+examplefuncsplayer,FourNations,A,A,586,win,The winning team won by capturing 75% of sky islands.,map
+examplefuncsplayer,FourNations,B,B,403,win,The winning team won by capturing 75% of sky islands.,map
+examplefuncsplayer,SmallElements,A,A,351,win,The winning team won by capturing 75% of sky islands.,map
+examplefuncsplayer,SmallElements,B,B,333,win,The winning team won by capturing 75% of sky islands.,map
+examplefuncsplayer,Tightrope,A,A,459,win,The winning team won by capturing 75% of sky islands.,map
+examplefuncsplayer,Tightrope,B,B,426,win,The winning team won by capturing 75% of sky islands.,map
