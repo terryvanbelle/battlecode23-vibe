@@ -218,3 +218,32 @@ I can think of three cross-year principles that I think are worth preserving fro
 ## 50. 2026-10-11 08:04 PDT
 
 Let's just keep these principles either in TRAINING_ALGORITHM or LEARNINGS for now.  They should get picked up in future years from there, but in general we should think of the ways that good ideas could migrate from practice year to practice year to actual tournament
+
+## 51. 2026-10-12 PDT (message time unavailable)
+
+I'd like you to continue work that I started with an old Claude session.  The github repository is battlecode23-vibe, which should contain all the details.  Take a look at the PROMPTS to see my original instructions to them, and also look in the HANDOFF and LEARNINGS docs, as well as the other documentation.  They've started a replica of the Battlecode environment, running in a GCloud VM.  Try to continue to use that.  Let me know if you need any clarifications from me
+
+## 52. 2026-10-12 PDT (message time unavailable)
+
+gcloud compute ssh battlecode-dev --zone us-west1-b --project tvanbelle-vibecode
+
+## 53. 2026-10-12 PDT (message time unavailable)
+
+Please tell me how to do that
+
+## 54. 2026-10-12 PDT (message time unavailable)
+
+I have another GCP VM called claude-driver, which is the VM where I used to run Claude Code that then accessed battlecode-dev.  If I start a codex instance there, would that help you?
+
+## 55. 2026-10-12 PDT (message time unavailable)
+
+OK, I've got a codex instance running via tmux in claude-driver.  Do you have everything you need now?
+
+## 56. 2026-10-12 PDT (message time unavailable)
+
+OK, do whatever you need to do to get this to work.  You know better than I do, so just do it
+
+## 57. 2026-10-12 PDT (message time unavailable)
+
+Not sure if you have this, but here's the command I use to access claude-driver:
+gcloud compute ssh claude-driver --zone=us-west1-b --project=tvanbelle-vibecode

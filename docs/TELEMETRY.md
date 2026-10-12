@@ -835,12 +835,41 @@ current pushes):
 - `partial_loads`: the share of deposits under 40.
 - `carriers_per_well`: the median number of carriers within r² 2 of a used well, counted while a carrier of this team
   is there.
-- `blind_rate`: the share of shots that hit nothing.
+- `blind_rate`: the historical share of launcher shots that hit nothing; it does not measure visibility. `miss_rate`
+  below is an explicit alias with identical values.
 - `focus`: the share of hits whose victim took 2 or more hits that round.
 - `kill_conv`: the share of victims hit that died within 3 rounds.
 - `first_builds`: the side's first 12 builds as `r:T` joined by spaces.
 
-Tier 3, not now: E9 map control, E10 `islands.csv`, E13 vision, E14 raids, E15 retreat and heal, E16 special units,
+**Shot visibility** (2026-10-12; appended after Tier 2, launcher shots only):
+
+```
+miss_rate,shot_visible,shot_outside_vision,shot_visibility_unknown,outside_vision_rate_lower,outside_vision_rate_upper,
+outside_vision_hits,outside_vision_misses,unknown_visibility_hits,unknown_visibility_misses
+```
+
+The three `shot_*` columns partition all launcher shots. The lower bound is `shot_outside_vision / shots`; the upper
+bound is `(shot_outside_vision + shot_visibility_unknown) / shots`. Both are blank with no shots. These are logical
+bounds from missing geometry, not confidence intervals. Hits and misses are counted separately for certain
+outside-vision shots and unknown shots; a miss is never sufficient evidence of firing outside vision.
+
+`--shots` emits a per-shot CSV. `--extract DIR --shots` optionally adds `shots.csv`; normal extracts omit this large
+file and remove a stale `shots.csv` from that destination. Its header is:
+
+```
+match,game,round,action_idx,side,attacker_id,attacker_type,action,target_id,hit,target_x,target_y,visibility,
+actor_candidates,target_candidates,visible_pairs,outside_pairs
+```
+
+`action` is `launch` or `throw`; `visibility` is `visible`, `outside_vision`, or `unknown`. Coordinates are blank when
+the hit target's position is ambiguous. Classification considers all supported shot-time geometry: movement emits
+no action, hit targets store a robot ID, positions are recorded after currents, and dead robots lack endpoints.
+Movement bounds, walls, current pushes/blocked pushes, and victim execution order constrain the possibilities.
+Occupancy and exact cooldowns are deliberately relaxed, expanding uncertainty. A label is certain only when all
+range-valid position pairs agree; mixed/empty sets and unsupported nonzero-origin maps are unknown. Clouds on either
+end restrict vision to r² 4. Throws appear in the shot CSV but not the launcher census rates.
+
+Tier 3, not now: E9 map control, E10 `islands.csv`, E14 raids, E15 retreat and heal, E16 special units,
 E17 terrain, E18 compute. Add them later as appended columns or new files under the same rules.
 
 ### B.6 Tiers for B

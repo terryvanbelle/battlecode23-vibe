@@ -1,10 +1,12 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-10 09:30 PDT.
+Updated 2026-10-12 PDT from the committed state through 2026-10-11 09:15 PDT. Live VM state has not yet been checked
+by the new Codex session. Read `docs/CONTINUATION.md` before syncing or restarting jobs.
 
 ## Standing
 
-- **Validated build g_iter10 = c_mend2** (submission 143, accepted 2026-10-11 05:14 PDT): g_iter9 (c_bc1) plus
+- **Validated build g_iter10 = c_mend2** (accepted as submission 143, 2026-10-11 05:14 PDT; last recorded active
+  submission **145**, restored after parking c_bc3): g_iter9 (c_bc1) plus
   wounded launchers (80 HP or less) heal on a nearby island we own (none before our first anchor). Panel 61/100: net +3
   vs c_bc1's panel (island-rounds +183, t +2.3), -1 vs c_aura2's; healed HP a game 1,561 -> 3,430 (t +4.8), launcher
   deaths -7.5 (t -2.4); 0 overruns. Panel run `gauntlet/20261011-080046-panel-c_mend2`.
@@ -30,6 +32,13 @@ Updated 2026-10-10 09:30 PDT.
   no launcher still 40+ rounds; 0 overruns.
 
 ## In flight (VM queue; self-play cells pinned by seed)
+
+**First recovery task:** reconcile live state, then collect the existing **c_bc3** parked panel (submission 144,
+`gauntlet/20261011-161413-panel-c_bc3`, matches **4943-4952**). It cuts `computePredWells` bytecodes while preserving
+decisions (Bc3Test: 1,899,878 equivalence checks). Compare against BOTH `gauntlet/20261011-080046-panel-c_mend2` and
+`gauntlet/20261011-042052-panel-c_bc1`, check all 100 cells and the basics, then decide. Do not create a duplicate panel.
+`c_well9` has a queued screen against c_mend2; `c_ward3` awaits that incumbent's reference cache. Their live results
+are not yet known here.
 
 **Read head-to-heads against the identity control, never against 10/20**: on `test/cells/self-swarm1-panel.txt`
 g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); on the screen's map-seed cells it scores
@@ -60,7 +69,11 @@ g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); o
 | c_end1 | g_iter8 + island duty from r1700 for the r2000 tiebreak (rank 2) | reviewed; unit tests PASS | screen queued 16:04 PDT |
 | c_mend1 | g_iter8 + wounded launchers heal on a nearby island we own (rank 3) | screen PASS (12-8, roster +3, 0 overruns) | rebased as c_mend2: trial after c_bc1 |
 | c_bc1 | c_aura2 + decision-preserving launcher bytecode cuts (indicator guard, regroup via G's ally pass, island loop skip, enemyHQs/siegeTarget/raidWell caches; test/bot/Bc1Test.java) | 6 VM games: launcher near misses 44 -> 0; panel 58/100, net -4 (p 0.29), 0 overruns | accepted 22:44 PDT as g_iter9 |
-| c_lane2, c_mend2, c_end2, c_well7 | c_lane1, c_mend1, c_end1, c_well6 rebased onto c_bc1 (reviewed) | c_mend2 panel 61/100: +3 vs c_bc1, -1 vs c_aura2, healed x2.2 | c_mend2 accepted 05:14 PDT as g_iter10; c_lane2 closed; c_well7, c_end2 panels playing |
+| c_lane2, c_mend2, c_end2, c_well7 | c_lane1, c_mend1, c_end1, c_well6 rebased onto c_bc1 (reviewed) | c_mend2 panel 61/100: +3 vs c_bc1, -1 vs c_aura2, healed x2.2 | c_mend2 accepted as g_iter10; c_lane2 closed (Forest 0-4 locally); c_well7 rejected (Forest carrier feeding); c_end2 rejected (net -1 vs c_bc1) |
+| c_bc3 | c_mend2 + decision-preserving computePredWells cut | 1,899,878 equivalence checks; trial 144 parked 2026-10-11 09:15 PDT | collect matches 4943-4952; compare both reference panels |
+| c_well9 | c_mend2 + diagonal-only well probe; removes the front probe that fed Forest carriers | built/reviewed, screen queued | collect existing screen, then judge delivery on MassiveL and deaths on Forest |
+| c_ward3 | c_mend2 + forming launchers defend home wells reported by carriers | built/reviewed, screen held for reference cache | screen once c_mend2 cache exists |
+| c_amp2, c_amp3 | amplifier scout/relay | c_amp2 h2h 9-11, roster -6, 0 overruns | closed; reopen only with a measured information gap |
 | c_grp1 | formations of 6 at home, wait up to 25 turns | 9/20 vs g_iter2; screen vs g_iter3 FAIL (h2h 7-13) | closed |
 
 Closed or superseded since g_iter2 (20 games vs g_iter2 on the h2h cells; identity 4): c_nav3 9, c_nav3a 8, c_swarm4b 8,
@@ -79,7 +92,7 @@ rotation is worth carrying into a later arm.
   for `tools/paired.py`). Hourly limits count requests AND the matches they create (an accepted request counts
   twice); galaxy's default 10/10 was raised to 40 unranked and 20 ranked (owner, PROMPTS 15-16), so about 20 panel
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
-- Validated build: **g_iter10 = c_mend2** (submission 143, accepted 2026-10-11 05:14 PDT; baseline panel run
+- Validated build: **g_iter10 = c_mend2** (accepted as 143, last recorded active 145, accepted 2026-10-11 05:14 PDT; baseline panel run
   `gauntlet/20261011-080046-panel-c_mend2`, 61/100). Before it **g_iter9 = c_bc1** (submission 136, accepted 2026-10-10 22:44 PDT; baseline panel run
   `gauntlet/20261011-042052-panel-c_bc1`, 58/100). Before it **g_iter8 = c_aura2** (submission 129, accepted
   2026-10-10 06:15 PDT; baseline panel run `gauntlet/20261010-121416-panel-c_aura2`, 62/100). Before it **g_iter7 = c_def3** (submission 126; resubmitted as 128 after c_flee3's rejection, accepted 2026-10-09 21:40 PDT; baseline panel run
@@ -91,8 +104,8 @@ rotation is worth carrying into a later arm.
   distance-field navigation and a capped forming wait (owner, PROMPTS 35). Baseline panel run for the next trials:
   `gauntlet/20261009-082005-panel-c_nav4`. Earlier: g_iter2 = c_swarm1 (`...-210429-panel1-c_swarm1`, 40/100), g_iter1 =
   c_line8a (`...-180016-panel1-c_line8a`, 33/100), g_iter0 (`...-011350-panel1-g_iter0`, 31/100). Local cells vs the
-  previous incumbent: `test/cells/self-swarm1-panel.txt`; the pre-trial screen (`tools/screen.py`) now plays against
-  g_iter3.
+  previous incumbent: `test/cells/self-swarm1-panel.txt`; the pre-trial screen (`tools/screen.py`) reads the current
+  validated package from `progress/ladder-state.json` (last recorded: c_mend2).
 - Ranked vs unranked follows `docs/LADDER_STRATEGY.md` (owner, PROMPTS 17-18), state in `progress/ladder-state.json`:
   `tools/ladder_policy.py ranked` runs detached on the driver (`logs/ranked-policy.log`): ranked challenges upward
   only while the validated build is active (BURST one per 5 min while we have < 30 rated matches or the build is < 24 h

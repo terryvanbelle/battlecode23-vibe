@@ -94,10 +94,14 @@ class ApiError(Exception):
 def _save_token(tok):
     os.makedirs(CACHE, mode=0o700, exist_ok=True)
     p = os.path.join(CACHE, 'token.json')
-    fd = os.open(p + '.tmp', os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
-    with os.fdopen(fd, 'w') as fh:
-        json.dump(tok, fh)
-    os.replace(p + '.tmp', p)
+    fd, tmp = tempfile.mkstemp(prefix='.token-', suffix='.tmp', dir=CACHE)
+    try:
+        with os.fdopen(fd, 'w') as fh:
+            json.dump(tok, fh)
+        os.replace(tmp, p)
+    finally:
+        if os.path.exists(tmp):
+            os.unlink(tmp)
 
 
 def login():

@@ -75,8 +75,8 @@ is placed on the ladder. Then run the first **correctness audit** (§4) and only
    - *free actions* (owner, PROMPTS 49): every cooldown, write or sense that costs nothing when idle gets a job at all
      times, even a low-percentage one (an unused launcher action is a blind shot at a cloud tile that may hide an enemy).
    - *action patterns, not counts* (owner, PROMPTS 49): classify the field's combat actions by context (what the actor
-     could see, where it aimed, terrain, timing) and compare with ours; the blind-fire gap was invisible in shot and
-     damage totals and obvious per shot.
+     could see, where it aimed, terrain, timing) and compare with ours; shot and damage totals alone do not expose
+     these differences, and a miss fraction alone does not establish shot-time visibility.
    - *a structural swing* (§4).
    Prefer repairs, cap removals and changes that cost nothing; reallocations between unit types rarely transfer.
    After three rejects in one functional area, the next candidate comes from another area. At least one structural

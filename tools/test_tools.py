@@ -153,6 +153,161 @@ class ReplayDumpTest(unittest.TestCase):
             self.assertEqual(f[-2], '0', line)   # no overruns in the example bot
 
 
+class ShotVisibilityTest(unittest.TestCase):
+    """The replay has no in-turn move events: distinguish proven geometry from unresolved timing.
+
+    The Java probe uses synthetic positions/terrain, not games. Fixture checks join every emitted shot back to the
+    census, including hits, misses and unknowns, so the aggregate never silently drops unresolved shots.
+    """
+    FIX = ReplayDumpTest.FIX
+
+    @classmethod
+    def setUpClass(cls):
+        import hashlib
+        header = subprocess.run(['bash', str(TOOLS / 'replay-dump.sh'), '--census-header'],
+                                capture_output=True, text=True, timeout=600)
+        if header.returncode:
+            raise RuntimeError(header.stderr)
+        reader = REPO / 'build' / ('replaydump-' + hashlib.sha1((TOOLS / 'replaydump/ReplayDump.java').read_bytes()).hexdigest()[:12])
+        cls.tmp = tempfile.TemporaryDirectory()
+        cls.cp = os.pathsep.join((cls.tmp.name, str(reader), str(REPO / 'engine/battlecode23-3.0.15.jar')))
+        src = Path(cls.tmp.name) / 'ShotGeometryProbe.java'
+        src.write_text(r'''
+package replaydump;
+import java.util.*;
+public class ShotGeometryProbe {
+    static int[] ints(String s) { if (s.equals("-")) return new int[0]; return Arrays.stream(s.split(",")).mapToInt(Integer::parseInt).toArray(); }
+    static ReplayDump.Robot robot(int id, int type, int pre, int post, int turn, int born, boolean dead) {
+        ReplayDump.Robot r = new ReplayDump.Robot(); r.id=id; r.type=type; r.team=1; r.preX=pre%10; r.preY=pre/10;
+        r.x=post%10; r.y=post/10; r.turnIdx=turn; r.turnRound=turn<0 ? -1 : 5; r.born=born; r.died=dead ? 5 : -1; return r;
+    }
+    public static void main(String[] a) throws Exception {
+        if (a[0].equals("timing")) {
+            ReplayDump d = new ReplayDump(a[1]); d.W=d.H=10; d.originX=d.originY=0;
+            d.wall=new boolean[100]; d.cloud=new boolean[100]; d.current=new int[100];
+            d.cloud[46]=d.cloud[47]=true; d.shotsOut=System.out;
+            ReplayDump.Robot actor=robot(101,2,44,44,1,0,false);
+            // The victim has not acted: use pre=(6,4), not end=(7,4) after its later move.
+            d.classifyShot(actor,robot(102,2,46,47,2,0,false),102,false,5,1,new ReplayDump.ShotGeometry(10,10,d.wall,d.cloud,d.current));
+            d.shotPositions.clear(); d.turnEndPositions.clear();
+            d.classifyShot(actor,robot(102,2,46,47,0,0,false),102,false,5,2,new ReplayDump.ShotGeometry(10,10,d.wall,d.cloud,d.current));
+            d.shotPositions.clear(); d.turnEndPositions.clear();
+            d.classifyShot(actor,robot(102,1,46,47,-1,5,false),102,false,5,3,new ReplayDump.ShotGeometry(10,10,d.wall,d.cloud,d.current));
+            d.shotPositions.clear(); d.turnEndPositions.clear();
+            d.classifyShot(actor,robot(102,1,46,46,0,0,true),102,false,5,4,new ReplayDump.ShotGeometry(10,10,d.wall,d.cloud,d.current));
+            d.shotPositions.clear(); d.turnEndPositions.clear();
+            d.classifyShot(robot(101,2,45,44,1,0,false),null,-48,false,5,5,new ReplayDump.ShotGeometry(10,10,d.wall,d.cloud,d.current));
+            d.shotPositions.clear(); d.turnEndPositions.clear(); d.current[45]=1; // WEST current, not an own move
+            d.classifyShot(robot(101,2,45,44,1,0,false),null,-48,false,5,6,new ReplayDump.ShotGeometry(10,10,d.wall,d.cloud,d.current));
+            d.shotPositions.clear(); d.turnEndPositions.clear(); d.current[45]=0;
+            d.classifyShot(robot(101,2,44,44,1,0,true),null,-48,false,5,7,new ReplayDump.ShotGeometry(10,10,d.wall,d.cloud,d.current));
+            d.shotPositions.clear(); d.turnEndPositions.clear();
+            d.classifyShot(actor,robot(102,1,46,47,-1,5,true),102,false,5,8,new ReplayDump.ShotGeometry(10,10,d.wall,d.cloud,d.current));
+            d.shotPositions.clear(); d.turnEndPositions.clear(); d.originX=2;
+            d.classifyShot(actor,null,-48,false,5,9,new ReplayDump.ShotGeometry(10,10,d.wall,d.cloud,d.current));
+            return;
+        }
+        int w=Integer.parseInt(a[1]), h=Integer.parseInt(a[2]);
+        boolean[] walls=new boolean[w*h], clouds=new boolean[w*h]; int[] currents=new int[w*h];
+        for(int p:ints(a[3])) walls[p]=true; for(int p:ints(a[4])) clouds[p]=true;
+        if(!a[5].equals("-")) for(String pair:a[5].split(",")) { int[] v=Arrays.stream(pair.split(":")).mapToInt(Integer::parseInt).toArray(); currents[v[0]]=v[1]; }
+        ReplayDump.ShotGeometry g=new ReplayDump.ShotGeometry(w,h,walls,clouds,currents);
+        if(a[0].equals("end")) System.out.println(Arrays.toString(g.endpoints(Integer.parseInt(a[6]),Integer.parseInt(a[7]),Integer.parseInt(a[8]))));
+        else if(a[0].equals("during")) System.out.println(Arrays.toString(g.duringTurn(Integer.parseInt(a[6]),ints(a[7]),Integer.parseInt(a[8]))));
+        else if(a[0].equals("budget")) System.out.println(ReplayDump.ShotGeometry.maxMoves(Integer.parseInt(a[6])));
+        else { ReplayDump.ShotGeometry.Verdict v=g.classify(ints(a[6]),ints(a[7]),Integer.parseInt(a[8]),Integer.parseInt(a[9]));
+            System.out.println(ReplayDump.ShotGeometry.NAMES[v.state]+","+v.visible+","+v.outside); }
+    }
+}
+''')
+        built = subprocess.run(['javac', '-nowarn', '-encoding', 'UTF-8', '-d', cls.tmp.name, '-cp', cls.cp, str(src)],
+                               capture_output=True, text=True, timeout=120)
+        if built.returncode:
+            raise RuntimeError(built.stderr)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tmp.cleanup()
+
+    def probe(self, mode, *args, clouds=(), walls=(), currents=(), size=(10, 10)):
+        fmt = lambda values: ','.join(map(str, values)) or '-'
+        command = ['java', '-cp', self.cp, 'replaydump.ShotGeometryProbe', mode, *map(str, size), fmt(walls), fmt(clouds),
+                   fmt(f'{p}:{d}' for p, d in currents), *map(str, args)]
+        return subprocess.run(command, capture_output=True, text=True, check=True, timeout=30).stdout.strip()
+
+    def test_cloud_vision_boundary_and_clear_shots(self):
+        self.assertEqual(self.probe('classify', '44', '46', 16, 20, clouds=(46,)), 'visible,1,0')
+        self.assertEqual(self.probe('classify', '44', '47', 16, 20, clouds=(47,)), 'outside_vision,0,1')
+        self.assertEqual(self.probe('classify', '44', '47', 16, 20, clouds=(44,)), 'outside_vision,0,1')
+        self.assertEqual(self.probe('classify', '44', '48', 16, 20), 'visible,1,0')
+        self.assertEqual(self.probe('classify', '44', '49', 16, 20), 'unknown,0,0')
+
+    def test_self_and_wall_targets_are_legal_visible_misses(self):
+        self.assertEqual(self.probe('classify', '44', '44', 16, 20, clouds=(44,)), 'visible,1,0')
+        self.assertEqual(self.probe('classify', '44', '47', 16, 20, walls=(47,)), 'visible,1,0')
+
+    def test_movement_timing_and_empty_geometry_stay_unknown(self):
+        self.assertEqual(self.probe('classify', '44,45', '47', 16, 20, clouds=(47,)), 'unknown,1,1')
+        self.assertEqual(self.probe('classify', '-', '47', 16, 20, clouds=(47,)), 'unknown,0,0')
+
+    def test_inverse_current_preserves_blocked_and_pushed_sources(self):
+        import ast
+        ends = ast.literal_eval(self.probe('end', 45, 44, 1, currents=((45, 1),)))
+        self.assertEqual(set(ends), {44, 45})
+        self.assertEqual(set(ast.literal_eval(self.probe('end', 44, 44, 1, currents=((44, 5),)))), {44})
+        self.assertEqual(set(ast.literal_eval(self.probe('during', 45, '44,45', 1))), {44, 45})
+
+    def test_dead_robot_has_no_fake_stationary_endpoint(self):
+        import ast
+        ends = ast.literal_eval(self.probe('end', 44, -1, 1))
+        self.assertEqual(len(ends), 9)
+        self.assertIn(45, ends)
+        self.assertEqual(self.probe('end', 44, 99, 1), '[]')
+
+    def test_passability_and_minimum_cooldown_move_bounds(self):
+        import ast
+        self.assertEqual([int(self.probe('budget', t)) for t in range(6)], [0, 4, 1, 2, 1, 1])
+        points = ast.literal_eval(self.probe('end', 44, -1, 4, walls=tuple(5 + y * 10 for y in range(10))))
+        self.assertTrue(all(p % 10 < 5 for p in points))
+
+    def test_hit_turn_order_spawn_and_current_timing(self):
+        import csv, io
+        result = subprocess.run(['java', '-cp', self.cp, 'replaydump.ShotGeometryProbe', 'timing', str(self.FIX)],
+                                capture_output=True, text=True, check=True, timeout=30).stdout
+        states = [row[12] for row in csv.reader(io.StringIO(result))]
+        self.assertEqual(states, ['visible', 'outside_vision', 'visible', 'unknown', 'unknown', 'unknown', 'unknown', 'visible', 'unknown'])
+
+    def test_fixture_shots_join_exactly_to_census_and_keep_miss_semantics(self):
+        import csv, io
+        def dump(*args):
+            return subprocess.run(['bash', str(TOOLS / 'replay-dump.sh'), str(self.FIX), *args],
+                                  capture_output=True, text=True, check=True, timeout=600).stdout
+        shots = list(csv.DictReader(io.StringIO(dump('--shots'))))
+        census = list(csv.DictReader(io.StringIO(dump('--census'))))
+        with tempfile.TemporaryDirectory() as extracted:
+            dump('--extract', extracted, '--games', '0', '--match', '9', '--shots')
+            with open(Path(extracted) / 'shots.csv') as stream:
+                emitted = list(csv.DictReader(stream))
+            self.assertEqual([{**row, 'match': '9'} for row in shots], emitted)
+            # Per-shot output is opt-in (large miss-heavy field replays); aggregate bounds are always in census.
+            dump('--extract', extracted, '--games', '0')
+            self.assertFalse((Path(extracted) / 'shots.csv').exists())
+        for team in census:
+            own = [s for s in shots if s['side'] == team['side'] and s['action'] == 'launch']
+            n = len(own)
+            self.assertEqual(n, int(team['shots']))
+            self.assertEqual(team['miss_rate'], team['blind_rate'])
+            self.assertAlmostEqual(float(team['miss_rate']), sum(s['hit'] == '0' for s in own) / n, places=3)
+            counts = {v: sum(s['visibility'] == v for s in own) for v in ('visible', 'outside_vision', 'unknown')}
+            self.assertEqual([int(team[k]) for k in ('shot_visible', 'shot_outside_vision', 'shot_visibility_unknown')], list(counts.values()))
+            self.assertEqual(sum(counts.values()), n)
+            self.assertEqual(float(team['outside_vision_rate_lower']), counts['outside_vision'] / n)
+            self.assertEqual(float(team['outside_vision_rate_upper']), (counts['outside_vision'] + counts['unknown']) / n)
+            for state, stem in (('outside_vision', 'outside_vision'), ('unknown', 'unknown_visibility')):
+                for hit, suffix in (('1', 'hits'), ('0', 'misses')):
+                    self.assertEqual(int(team[stem + '_' + suffix]), sum(s['visibility'] == state and s['hit'] == hit for s in own))
+
+
 class ReplayDumpMultiGameTest(unittest.TestCase):
     """A galaxy match file holds one game per map: --games lists them and --game N reads one (fixture: g_iter0 vs
     examplefuncsplayer on maptestsmall then SmallElements, alternate order; the engine printed A wins r339 and r188)."""
@@ -1364,7 +1519,14 @@ class ReplayExtractLegacyTest(unittest.TestCase):
             self.assertEqual(self.sha(legacy), want, (f, args))
         full = dump(None, '--census-header').strip()
         self.assertEqual(full, dump(FIX_MIRROR, '--census').splitlines()[0])
-        self.assertTrue(full.endswith(',' + ReplayExtractTest.T1 + ',' + ReplayExtractTest.T2))
+        columns = full.split(',')
+        historical_extension = (ReplayExtractTest.T1 + ',' + ReplayExtractTest.T2).split(',')
+        historical_end = self.OLD_COLS + len(historical_extension)
+        self.assertEqual(columns[self.OLD_COLS:historical_end], historical_extension)
+        self.assertEqual(columns[historical_end:],
+                         ('miss_rate,shot_visible,shot_outside_vision,shot_visibility_unknown,'
+                          'outside_vision_rate_lower,outside_vision_rate_upper,outside_vision_hits,outside_vision_misses,'
+                          'unknown_visibility_hits,unknown_visibility_misses').split(','))
 
 
 class ReplayExtractTest(unittest.TestCase):

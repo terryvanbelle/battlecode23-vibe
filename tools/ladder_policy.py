@@ -206,8 +206,9 @@ def state_lock():
     """Hold the state's lock (flock on build/ladder-state.lock) through one read-modify-write. Several processes
     write the state: each trial-start process (when its trial starts, and hours later when its panel ends), trial-park,
     trial-decide, trial-end and init; without the lock, the later of two overlapping writes drops the other's. The
-    commands that change the active submission hold it from their checks to their state write, compile wait included,
-    so that what they checked (no open trial, the validated build active) still holds when they write. Not reentrant."""
+    commands that change the active submission hold it from their checks to their state write, compile wait included.
+    Ranked requests hold it from their eligibility checks through the POST too, so a trial cannot activate a candidate
+    between the active-submission check and match creation. Not reentrant."""
     os.makedirs(os.path.dirname(LOCK), exist_ok=True)
     fd = os.open(LOCK, os.O_RDWR | os.O_CREAT, 0o644)
     try:
@@ -511,33 +512,36 @@ def cmd_ranked(poll=60):
     rested = {}                     # team id -> time it may be challenged again
     while True:
         try:
-            now = utcnow()
-            s = load_state()
-            ms = our_matches(tid)
-            sub = active_submission()
-            v = s.get('validated') or {}
-            mode = ranked_mode(n_rated(ms), parse_t(v.get('since')), now)
-            ok, why = may_challenge(s, sub and sub['id'], waiting(ms), last, mode, now)
-            if ok:
-                opp = pick_open(contest.rankings(), tid, rested, now, rnd)
-                if opp:
-                    try:
-                        r = contest.request(opp['id'], True, [], '?')
-                    except contest.ApiError as e:
-                        if e.code != 409:
-                            raise
-                        rested[opp['id']] = now + datetime.timedelta(minutes=15)
-                        print(time.strftime('%H:%M:%S'), 'resting', opp['name'], '15 min:', e.detail[:80], flush=True)
-                        continue
-                    last = now
-                    print(time.strftime('%H:%M:%S'), mode, 'ranked request', r['id'], 'to', opp['name'], 'rated', opp['rating'], flush=True)
-                    note = None
-                elif note != 'top':
-                    print(time.strftime('%H:%M:%S'), 'nobody rated at or above us: weaker teams challenge us', flush=True)
-                    note = 'top'
-            elif why not in ('interval',) and why != note:
-                print(time.strftime('%H:%M:%S'), 'paused:', why, flush=True)
-                note = why
+            # Match creation fixes the active submission. Serialize the fresh checks and request with every command
+            # that changes it; otherwise trial-start can activate its candidate after the check but before the POST.
+            with state_lock():
+                now = utcnow()
+                s = load_state()
+                ms = our_matches(tid)
+                sub = active_submission()
+                v = s.get('validated') or {}
+                mode = ranked_mode(n_rated(ms), parse_t(v.get('since')), now)
+                ok, why = may_challenge(s, sub and sub['id'], waiting(ms), last, mode, now)
+                if ok:
+                    opp = pick_open(contest.rankings(), tid, rested, now, rnd)
+                    if opp:
+                        try:
+                            r = contest.request(opp['id'], True, [], '?')
+                        except contest.ApiError as e:
+                            if e.code != 409:
+                                raise
+                            rested[opp['id']] = now + datetime.timedelta(minutes=15)
+                            print(time.strftime('%H:%M:%S'), 'resting', opp['name'], '15 min:', e.detail[:80], flush=True)
+                            continue
+                        last = now
+                        print(time.strftime('%H:%M:%S'), mode, 'ranked request', r['id'], 'to', opp['name'], 'rated', opp['rating'], flush=True)
+                        note = None
+                    elif note != 'top':
+                        print(time.strftime('%H:%M:%S'), 'nobody rated at or above us: weaker teams challenge us', flush=True)
+                        note = 'top'
+                elif why not in ('interval',) and why != note:
+                    print(time.strftime('%H:%M:%S'), 'paused:', why, flush=True)
+                    note = why
         except contest.ApiError as e:
             print(time.strftime('%H:%M:%S'), 'refused:', e.code, e.detail[:120], flush=True)
             if e.code == 429:

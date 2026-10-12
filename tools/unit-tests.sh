@@ -4,7 +4,8 @@
 #   2. compile test/bot/*Test.java against the bot and run each *Test main (no JUnit in the engine jar);
 #   3. python tool tests (tools/test_tools.py: synthetic inputs and committed fixtures; tools/test_elo.py: the ladder
 #      ratings, elolib's fit and dedupe, elo.py's ELO.md, field_score.py; tools/test_match_report.py: match reports,
-#      the contest.py report hook, telemetry_query, the basics/delivery guards);
+#      the contest.py report hook, telemetry_query, the basics/delivery guards; tools/test_ranked_policy.py:
+#      concurrent ranked requests and candidate trials);
 #   4. the replica tests (test/replica) and the galaxy frontend build checks (test/galaxy/test_frontend.py);
 #   5. the galaxy back-end tests (test/galaxy/test_galaxy.py: stand-ins, saturn, relay, deploy renderers);
 #   6. the galaxy operator tools (test/galaxy/test_field_tools.py: field seeding, activity, results, snapshot).
@@ -25,6 +26,8 @@ if ls "$REPO"/test/bot/*Test.java >/dev/null 2>&1; then
 fi
 tt=$(python3 "$REPO/tools/test_tools.py" 2>&1) || fail=1
 printf '%s\n' "$tt" | tail -1
+pt=$(python3 "$REPO/tools/test_ranked_policy.py" 2>&1) && echo "ranked policy: $(printf '%s\n' "$pt" | grep -E '^(Ran|OK)' | tr '\n' ' ')" || { printf '%s\n' "$pt" | tail -40; fail=1; }
+ct=$(python3 "$REPO/tools/test_contest_token.py" 2>&1) && echo "contest token: $(printf '%s\n' "$ct" | grep -E '^(Ran|OK)' | tr '\n' ' ')" || { printf '%s\n' "$ct" | tail -40; fail=1; }
 et=$(python3 "$REPO/tools/test_elo.py" 2>&1) && printf '%s\n' "$et" | tail -1 || { printf '%s\n' "$et" | tail -40; fail=1; }
 mt=$(python3 "$REPO/tools/test_match_report.py" 2>&1) && echo "match reports: $(printf '%s\n' "$mt" | grep -E '^(Ran|OK)' | tr '\n' ' ')" || { printf '%s\n' "$mt" | tail -40; fail=1; }
 rt=$(python3 "$REPO/test/replica/test_replica.py" 2>&1) && echo "replica: $(printf '%s\n' "$rt" | grep -E '^(Ran|OK)' | tr '\n' ' ')" || { printf '%s\n' "$rt" | tail -40; fail=1; }

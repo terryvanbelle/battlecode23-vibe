@@ -1037,3 +1037,35 @@ of history. Times are PDT. Grep it; do not read it whole.
 - The 09:00 autoscrim was created on c_mend2 (matches 4849-4938 at 09:00:00). trial-start c_bc3 (--skip-screen:
   decision-preserving computePredWells cut, Bc3Test 1,899,878 cases) at 09:14; panel matches 4943-4952; parked at
   09:15 with c_mend2 active again as 145. Judge against c_mend2's panel and c_bc1's.
+
+## 2026-10-12 PDT — Codex recovery, instrument correction, and driver continuation
+
+- Read PROMPTS, CLAUDE, HANDOFF, LEARNINGS, the training algorithm/rules, recent log and replica documentation.
+  HANDOFF was stale: latest committed state is validated c_mend2 active 145, c_bc3 trial 144 parked with matches
+  4943-4952; c_well7/c_end2/c_lane2/c_amp2/c_amp3 are closed. Reconciled the handoff without claiming live VM results.
+- This cloud environment has no GCP identity, gcloud CLI, SSH credentials or VM route. The owner started Codex via tmux
+  on the original claude-driver; docs/CONTINUATION.md describes preserving both live checkouts/processes, checking
+  collector/pruning health, collecting the existing c_bc3 panel against both references, and resuming c_well9/c_ward3.
+  No VM action, scrimmage request, candidate game, or promotion was performed here.
+- Published contest.py still used one token.json.tmp, despite the prior log's uncommitted fix. Reconstructed unique
+  private temporary writes with cleanup. Both simultaneous-writer and failed-write regressions pass and fail against
+  the original implementation. Reconcile any unpublished driver fix instead of overwriting it.
+- Ranked policy checked the active build before POST without the trial-state lock. Trial-start could activate a
+  candidate in between. Hold the existing lock through fresh checks and match creation; three concurrency tests pass
+  (both ordering cases, lock release on 409/429/500/network failure). Both ordering regressions fail on original code.
+  Locks remain local to one checkout; preserve one authoritative driver and ranked process.
+- Instrument correction: historical blind_rate is a miss fraction, not shots outside vision. Retracted the 43-70%
+  visibility claim in LEARNINGS. Pinned engine 3.0.15 (af42086) records no move events, stores hit victim IDs, emits
+  positions after currents, and omits dead endpoints. Added conservative visible/outside_vision/unknown shot classes,
+  unknown-inclusive rate bounds, and optional per-shot CSV. Historical columns retain their values; miss_rate is an
+  explicit alias. Geometry reviewed independently (self-shots remain legal, unsupported map origins are unknown).
+  Fourteen targeted reader tests, including eight geometry/integration regressions, pass. Re-extract the panels for
+  visibility evidence before proposing a blind-fire arm or attributing damage/deaths to it.
+- Installed JDK 8 locally and built engine tag 3.0.15 for unit/fixture verification only (JSI 3457c7fd; local jar SHA256
+  bdc00ae46ff683a6de688c9ea7bfc46f2981077f59af9b07a81e5761bffec34f). This gitignored jar is not the checksum-pinned
+  release and is never for deployment or candidate verdicts. All 79 bot packages compile and bot unit mains pass;
+  analysis tests (111, one skip), rating tests (58), match reports (36, two skips), ranked/token regressions (3/2) and
+  operator tests (21) pass. The analysis suite retains pinned historical census hashes and verifies the added columns.
+  The full unit entrypoint was run: release-backed replica/Galaxy compile integration refuses this jar's checksum,
+  as intended. Full release-backed verification remains required on claude-driver before adoption. The frontend
+  suite has four existing skips; the analysis suite has one missing-optional-fixture skip.

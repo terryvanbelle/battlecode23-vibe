@@ -9,9 +9,11 @@ this game: a filter that replays 2023 drops them, every other year may use them)
 
 ## 1. Cross-year principles (owner, PROMPTS 49)
 
-From the blind-fire example: the teams that beat us fire at tiles they cannot see on 43-70% of their launcher shots, the
-teams we beat and our own bot never do (census blind_rate, panel gauntlet/20261011-080046-panel-c_mend2; TRAINING_LOG
-2026-10-11 07:25).
+From the blind-fire investigation: the teams that beat us have 43-70% zero-damage launcher shots, while several teams
+we beat and our own bot have none (historical census `blind_rate`, panel
+`gauntlet/20261011-080046-panel-c_mend2`; TRAINING_LOG 2026-10-11 07:25). Correction, 2026-10-12: that metric is a
+miss fraction, not visibility. It motivates the investigation but does not establish how many shots were aimed
+outside vision. Re-extract the panels with the shot visibility classifier before making that quantitative claim.
 
 1. **Look for actions that cost nothing, and give them something to do at all times, even at low odds.** An unused
    cooldown is lost for good; a small chance of damage on every idle turn is free value. Audit every per-turn action
@@ -19,8 +21,8 @@ teams we beat and our own bot never do (census blind_rate, panel gauntlet/202610
    and a cloud cuts vision to r2 4 (RULES 6.1), so an idle launcher can shoot cloud tiles that may hide an enemy.
 2. **Look for patterns in enemy combat actions that capture what they do and we don't, beyond raw counts.** Classify
    each action by its context (what the actor could see, where it aimed, terrain, timing, target) and compare the
-   distributions: the teams that beat us, the teams we beat, us. The blind-fire gap was invisible in shot, damage and
-   kill totals and obvious per shot.
+   distributions: the teams that beat us, the teams we beat, us. Shot and damage totals alone cannot distinguish
+   missed visible attacks from attacks outside vision.
 3. **In a live contest, lurk on the contest's discussion channels (e.g. Discord) for ideas.** Strategies are discussed
    while the contest runs. In a practice replay of a past year this is excluded: the old discussions are second-hand
    strategy content for that year, like its post-mortems (CLAUDE.md rule 4).
@@ -50,6 +52,9 @@ teams we beat and our own bot never do (census blind_rate, panel gauntlet/202610
 
 ### Measurement
 
+- **Check what a metric measures before naming the mechanism.** A miss fraction called `blind_rate` was mistaken for
+  attacks outside vision. Replay endpoints also follow current pushes and do not timestamp movement; preserve unknown
+  shot geometries and rate bounds instead of guessing attack positions (TRAINING_LOG 2026-10-12).
 - **One reference panel is one draw; judge against two.** Games are deterministic, so a build's panel is a single
   realisation of its bytecode-timing-dependent outcomes, and any change re-draws the borderline cells. Every candidate
   after c_aura2 lost island-rounds against its panel (-77 to -198) and the flips ran 15 lost to 10 gained; c_bc1, with
@@ -73,6 +78,10 @@ teams we beat and our own bot never do (census blind_rate, panel gauntlet/202610
 
 ### Tooling
 
+- **A state check and the action it authorizes must share the transition lock.** The ranked loop checked the validated
+  submission, then a trial could activate its candidate before the ranked POST. Serialize fresh checks through match
+  creation; both concurrent orderings are regression-tested. Local file locks require one authoritative checkout
+  (TRAINING_LOG 2026-10-12).
 - **Parallel processes need per-process temp files and a lock.** The trial state and the API token were both written
   through one shared temp file; overlapping panels crashed a collector (TRAINING_LOG 2026-10-11 07:25).
 - **Reference caches are per incumbent.** The first screen against a new incumbent replays its 100 roster games; queue

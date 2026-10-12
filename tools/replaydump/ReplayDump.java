@@ -35,10 +35,12 @@ import java.util.zip.GZIPInputStream;
  *   --islands                 island ownership changes over time
  *   --states                  per team and type, the share of robot-turns in each state token (first note char)
  *   --overruns                every robot-turn that used its whole bytecode limit (round, robot, age in rounds)
+ *   --shots                   CSV: each launch/throw, hit status and conservative shot-time visibility
  * Telemetry and extraction (docs/TELEMETRY.md part B; the B.2 model is built in run() when `deep` is set):
- *   --extract DIR [--match ID] [--games all|i,j] [--tele-turns]   one decompression, then every selected game's files
+ *   --extract DIR [--match ID] [--games all|i,j] [--tele-turns] [--shots]   one decompression, then selected games' files
  *                             (games, census, deaths, engagements, timeline, hq, robots, tele_states, trips .csv;
- *                             tele_events.jsonl when a side has dots; tele_turns.csv with --tele-turns) into DIR
+ *                             shots.csv with --shots; tele_events.jsonl when a side has dots;
+ *                             tele_turns.csv with --tele-turns) into DIR
  *   --tele                    telemetry check of one game: status per side, offset, sync, agreement, records, states
  *   --fingerprint             one line per game: game map rounds state_sha1 bytecode_sha1 (indicators excluded)
  *   --decode-record KIND A B C D [--type T]   the tele_events.jsonl JSON of one data-dot record (no replay file)
@@ -46,6 +48,9 @@ import java.util.zip.GZIPInputStream;
  * --census appends the columns of TELEMETRY.md B.5 after `counters`. Legacy columns keep their meaning: `dmg` credits
  * every negative CHANGE_HEALTH (HQ aura included) to the other team and leaves out lethal damage, and `kills` counts
  * any death that had a hit in the same round. New tools use `dmg_hits` and `kills_hits`.
+ * `blind_rate` remains the historical zero-damage-shot fraction, also named `miss_rate`. Visibility is separate:
+ * moves have no action events, hit targets store an ID, and movedLocs is AFTER currents. A shot is classified only
+ * when every possible shot-time geometry agrees; otherwise it is unknown. Rate bounds include unknown shots.
  */
 public class ReplayDump {
     static final String[] TN = {"HQ", "CARRIER", "LAUNCHER", "AMPLIFIER", "DESTABILIZER", "BOOSTER"};
@@ -81,7 +86,7 @@ public class ReplayDump {
 
     GameWrapper gw;
     String mapName, teamA = "A", teamB = "B";
-    int W, H, symmetry, winner, totalRounds;
+    int W, H, originX, originY, symmetry, winner, totalRounds;
     boolean[] wall, cloud;
     int[] current, island, resource;
     int[] maxHp = {1, 150, 200, 120, 300, 400};
@@ -162,6 +167,7 @@ public class ReplayDump {
                 mapName = g.name();
                 W = g.maxCorner().x() - g.minCorner().x();
                 H = g.maxCorner().y() - g.minCorner().y();
+                originX = g.minCorner().x(); originY = g.minCorner().y();
                 symmetry = g.symmetry();
                 int n = W * H;
                 wall = new boolean[n]; cloud = new boolean[n]; current = new int[n]; island = new int[n]; resource = new int[n];
@@ -689,7 +695,12 @@ public class ReplayDump {
     static final String CENSUS_HDR_T2 = "kite_stand_fire,kite_fire_retreat,kite_stepin_fire,kite_fire_ambiguous,kite_advance,"
         + "kite_retreat,kite_hold,exposed_end,alone20,group_p50,trip_cycle_p50,partial_loads,carriers_per_well,blind_rate,focus,"
         + "kill_conv,first_builds";
-    static final String CENSUS_HDR_ALL = CENSUS_HDR + "," + CENSUS_HDR_T1 + "," + CENSUS_HDR_T2;
+    static final String CENSUS_HDR_SHOTS = "miss_rate,shot_visible,shot_outside_vision,shot_visibility_unknown,"
+        + "outside_vision_rate_lower,outside_vision_rate_upper,outside_vision_hits,outside_vision_misses,"
+        + "unknown_visibility_hits,unknown_visibility_misses";
+    static final String CENSUS_HDR_ALL = CENSUS_HDR + "," + CENSUS_HDR_T1 + "," + CENSUS_HDR_T2 + "," + CENSUS_HDR_SHOTS;
+    static final String SHOTS_HDR = "match,game,round,action_idx,side,attacker_id,attacker_type,action,target_id,hit,"
+        + "target_x,target_y,visibility,actor_candidates,target_candidates,visible_pairs,outside_pairs";
 
     static final String GAMES_HDR = "match,game,map,width,height,symmetry,islands,rounds,side,team,won,win_reason,tb_margin,vtb500,"
         + "vtb1000,vtb1500,tele,tele_offset,tele_sync_n,tele_sync,tele_agree_n,tele_agree,tele_valid,tele_invalid,tele_exc_turns,"
@@ -881,7 +892,7 @@ public class ReplayDump {
     final long[][][][][] stc = new long[3][NT][4][64][2];      // [team][type][phase][code][src 0 bcc, 1 string]
     final long[][] kindN = new long[3][COMMS0 + 1];             // records by kind; COMMS (merged) at COMMS0
     final List<TreeMap<String, Long>> unknownKinds = Arrays.<TreeMap<String, Long>>asList(null, new TreeMap<>(), new TreeMap<>());
-    PrintStream eventsOut, turnsOut;
+    PrintStream eventsOut, turnsOut, shotsOut;
     // per-round scratch
     final List<Hit> roundHits = new ArrayList<>();
     final List<int[]> eorDmg = new ArrayList<>();          // [victim id, amount, class 1 aura 2 destab 3 other]
@@ -900,6 +911,9 @@ public class ReplayDump {
     final long[][] kite = new long[3][7];
     final long[] contactTurns = new long[3], exposedEnd = new long[3], alone20 = new long[3], shots2 = new long[3],
         blind2 = new long[3], hitsN = new long[3], focusN = new long[3];
+    // Launcher shots only; [team][visible / outside vision / unknown][miss / hit]. Throws appear in shots.csv.
+    final long[][][] shotVisibility = new long[3][3][2];
+    final Map<Integer, int[]> shotPositions = new HashMap<>(), turnEndPositions = new HashMap<>();
     final List<List<Integer>> groupSizes = Arrays.<List<Integer>>asList(null, new ArrayList<>(), new ArrayList<>());
     final List<List<Integer>> cpw = Arrays.<List<Integer>>asList(null, new ArrayList<>(), new ArrayList<>());
     final List<int[]> hitVictims = new ArrayList<>();      // [attacking team, victim id, round]
@@ -1092,12 +1106,126 @@ public class ReplayDump {
         for (Robot rb : alive) { rb.prevPreX = rb.preX; rb.prevPreY = rb.preY; rb.preX = rb.x; rb.preY = rb.y; rb.hpStart = rb.hp2; }
     }
 
+    /** Conservative geometry, grounded in engine 3.0.15 InternalRobot.canSenseLocation/attack/setLocation and
+     * GameWorld.applyCurrents/updateRobot. The replay does not timestamp moves, so this is a set of possibilities,
+     * never a guessed before/after-move position. Occupancy/cooldowns may shrink these sets, not enlarge them. */
+    static final class ShotGeometry {
+        static final String[] NAMES = {"visible", "outside_vision", "unknown"};
+        final int width, height;
+        final boolean[] walls, clouds;
+        final int[] currents;
+
+        ShotGeometry(int w, int h, boolean[] wa, boolean[] cl, int[] cu) {
+            width = w; height = h; walls = wa; clouds = cl; currents = cu;
+        }
+
+        // Minimum multiplier .55 = 1 - 3*.1 - .15; movement adds round(base*m), readiness is cooldown < 10.
+        // Carrier minimum base 5 gives 3 (four moves); launcher 20 gives 11; amplifier 15 gives 8.
+        static int maxMoves(int type) { return type == 0 ? 0 : type == 1 ? 4 : type == 3 ? 2 : 1; }
+
+        Map<Integer, Integer> reachable(int[] starts, int budget) {
+            Map<Integer, Integer> dist = new LinkedHashMap<>();
+            ArrayDeque<Integer> q = new ArrayDeque<>();
+            for (int s : starts) if (s >= 0 && s < width * height && !walls[s] && !dist.containsKey(s)) { dist.put(s, 0); q.add(s); }
+            while (!q.isEmpty()) {
+                int p = q.remove(), d = dist.get(p), x = p % width, y = p / width;
+                if (d >= budget) continue;
+                for (int dy = -1; dy <= 1; dy++) for (int dx = -1; dx <= 1; dx++) {
+                    int nx = x + dx, ny = y + dy, n = nx + ny * width;
+                    if ((dx == 0 && dy == 0) || nx < 0 || nx >= width || ny < 0 || ny >= height || walls[n] || dist.containsKey(n)) continue;
+                    dist.put(n, d + 1); q.add(n);
+                }
+            }
+            return dist;
+        }
+
+        int[] endpoints(int start, int postCurrent, int budget) {
+            Map<Integer, Integer> reach = reachable(new int[]{start}, budget);
+            List<Integer> out = new ArrayList<>();
+            for (int p : reach.keySet()) {
+                int c = currents[p];
+                // A current may be blocked by terrain, collisions or another blocked robot. It emits no event.
+                if (postCurrent < 0 || p == postCurrent || (c >= 0 && c < 9
+                    && p % width + CUR_DX[c] == postCurrent % width && p / width + CUR_DY[c] == postCurrent / width)) out.add(p);
+            }
+            return ints(out);
+        }
+
+        int[] duringTurn(int start, int[] ends, int budget) {
+            Map<Integer, Integer> fromStart = reachable(new int[]{start}, budget), fromEnd = reachable(ends, budget);
+            List<Integer> out = new ArrayList<>();
+            for (Map.Entry<Integer, Integer> p : fromStart.entrySet()) {
+                Integer tail = fromEnd.get(p.getKey());
+                if (tail != null && p.getValue() + tail <= budget) out.add(p.getKey());
+            }
+            return ints(out);
+        }
+
+        static int[] ints(List<Integer> a) { int[] out = new int[a.size()]; for (int i = 0; i < out.length; i++) out[i] = a.get(i); return out; }
+
+        static final class Verdict {
+            int state = 2, visible, outside;
+        }
+
+        Verdict classify(int[] actors, int[] targets, int actionR2, int visionR2) {
+            Verdict v = new Verdict();
+            for (int a : actors) for (int t : targets) {
+                if (a < 0 || a >= width * height || t < 0 || t >= width * height) continue;
+                int dx = a % width - t % width, dy = a / width - t / width, d2 = dx * dx + dy * dy;
+                if (d2 > actionR2) continue; // Self/ally/HQ and wall targets are legal zero-damage attacks.
+                int radius = clouds[a] || clouds[t] ? 4 : visionR2;
+                if (d2 <= radius) v.visible++; else v.outside++;
+            }
+            if (v.visible > 0 && v.outside == 0) v.state = 0;
+            else if (v.outside > 0 && v.visible == 0) v.state = 1;
+            return v;
+        }
+    }
+
+    int[] turnEndCandidates(Robot rb, int rn, ShotGeometry geometry) {
+        int[] cached = turnEndPositions.get(rb.id);
+        if (cached != null) return cached;
+        int start = rb.preX + rb.preY * W;
+        int[] result;
+        if (rb.born == rn || rb.turnRound != rn || rb.type == 0) result = new int[]{start};
+        else result = geometry.endpoints(start, rb.died == rn ? -1 : rb.x + rb.y * W, ShotGeometry.maxMoves(rb.type));
+        turnEndPositions.put(rb.id, result);
+        return result;
+    }
+
+    void classifyShot(Robot actor, Robot victim, int encodedTarget, boolean thr, int rn, int actionIndex, ShotGeometry geometry) {
+        int[] actors = shotPositions.get(actor.id);
+        if (actors == null) {
+            actors = geometry.duringTurn(actor.preX + actor.preY * W, turnEndCandidates(actor, rn, geometry), ShotGeometry.maxMoves(actor.type));
+            shotPositions.put(actor.id, actors);
+        }
+        int[] targets;
+        if (encodedTarget < 0) targets = new int[]{-encodedTarget - 1};
+        else if (victim == null) targets = new int[0];
+        else if (victim.born == rn || victim.turnRound != rn || (actor.turnRound == rn && victim.turnIdx > actor.turnIdx))
+            targets = new int[]{victim.preX + victim.preY * W};
+        else targets = turnEndCandidates(victim, rn, geometry);
+        // Existing position reconstruction assumes the shipped zero-origin corpus. Do not silently classify
+        // a custom nonzero-origin replay using mismatched coordinate/index spaces.
+        if (originX != 0 || originY != 0) { actors = new int[0]; targets = encodedTarget < 0 ? new int[]{-encodedTarget - 1} : new int[0]; }
+        ShotGeometry.Verdict v = geometry.classify(actors, targets, thr ? 9 : 16, actor.type == 0 || actor.type == 3 ? 34 : 20);
+        if (!thr && actor.team >= 1 && actor.team <= 2) shotVisibility[actor.team][v.state][encodedTarget >= 0 ? 1 : 0]++;
+        if (shotsOut != null) {
+            String tx = targets.length == 1 ? "" + (originX + targets[0] % W) : "", ty = targets.length == 1 ? "" + (originY + targets[0] / W) : "";
+            shotsOut.println(prefix + "," + rn + "," + actionIndex + "," + side(actor.team) + "," + actor.id + "," + TC[actor.type]
+                + "," + (thr ? "throw" : "launch") + "," + (encodedTarget >= 0 ? encodedTarget : "") + "," + (encodedTarget >= 0 ? 1 : 0)
+                + "," + tx + "," + ty + "," + ShotGeometry.NAMES[v.state] + "," + actors.length + "," + targets.length + "," + v.visible + "," + v.outside);
+        }
+    }
+
     void deepRound(Round r) {
         final int rn = r.roundID();
         final boolean fin = rn == totalRounds;
         rounds2++;
         int nb = r.bytecodeIDsLength();
         for (int k = 0; k < nb; k++) { Robot rb = robots.get(r.bytecodeIDs(k)); if (rb != null) { rb.turnIdx = k; rb.turnRound = rn; } }
+        shotPositions.clear(); turnEndPositions.clear();
+        ShotGeometry shotGeometry = new ShotGeometry(W, H, wall, cloud, current);
         roundHits.clear(); eorDmg.clear(); throwers.clear();
         // ---- actions in order: HP, inventories, hit attribution, builds, anchors, trips (B.2). Engine order: a hit's
         // CHANGE_HEALTH comes right before its LAUNCH/THROW_ATTACK; a lethal hit has none (the victim's death CHANGE_*
@@ -1116,6 +1244,7 @@ public class ReplayDump {
                     if (!thr) { shots2[tm]++; if (tgt < 0) blind2[tm]++; }
                     else if (!throwers.contains(rb)) throwers.add(rb);
                     Robot v = tgt >= 0 ? robots.get(tgt) : null;
+                    classifyShot(rb, v, tgt, thr, rn, k, shotGeometry);
                     if (v != null) {
                         Hit h = new Hit();
                         h.att = rb; h.vic = v; h.thr = thr; h.idx = k; h.round = rn;
@@ -1819,6 +1948,15 @@ public class ReplayDump {
         for (Map.Entry<Integer, Integer> e : lastHit.entrySet()) { Robot v = robots.get(e.getKey()); if (v.died >= 0 && v.died <= e.getValue() + 3) conv++; }
         c.add(share(conv, lastHit.size()));
         c.add(String.join(" ", firstBuilds.get(t)));
+        // `blind_rate` above is preserved, with an explicit alias. All following rates concern launcher shots.
+        c.add(share(blind2[t], shots2[t]));
+        long visible = shotVisibility[t][0][0] + shotVisibility[t][0][1];
+        long outside = shotVisibility[t][1][0] + shotVisibility[t][1][1];
+        long unknown = shotVisibility[t][2][0] + shotVisibility[t][2][1];
+        c.add("" + visible); c.add("" + outside); c.add("" + unknown);
+        c.add(shots2[t] == 0 ? "" : Double.toString((double) outside / shots2[t]));
+        c.add(shots2[t] == 0 ? "" : Double.toString((double) (outside + unknown) / shots2[t]));
+        for (int state : new int[]{1, 2}) { c.add("" + shotVisibility[t][state][1]); c.add("" + shotVisibility[t][state][0]); }
         return c;
     }
 
@@ -1998,9 +2136,14 @@ public class ReplayDump {
         }
         File evTmp = new File(dir, "tele_events.jsonl.tmp"), ev = new File(dir, "tele_events.jsonl"), turns = new File(dir, "tele_turns.csv");
         PrintStream evOut = new PrintStream(new BufferedOutputStream(new FileOutputStream(evTmp)), false, "US-ASCII");
-        PrintStream turnsOut = null;
+        PrintStream turnsOut = null, shotsOut = null;
         if (wantTurns) { turnsOut = new PrintStream(new BufferedOutputStream(new FileOutputStream(turns)), false, "US-ASCII"); turnsOut.println(TURNS_HDR); }
         else turns.delete();
+        File shots = new File(dir, "shots.csv");
+        if (flag(a, "--shots")) {
+            shotsOut = new PrintStream(new BufferedOutputStream(new FileOutputStream(shots)), false, "US-ASCII");
+            shotsOut.println(SHOTS_HDR);
+        } else shots.delete();
         boolean anyDots = false;
         for (int g : sel) {
             ReplayDump d = new ReplayDump(gw, g);
@@ -2009,6 +2152,7 @@ public class ReplayDump {
             d.prefix = match + "," + g;
             d.eventsOut = evOut;
             d.turnsOut = turnsOut;
+            d.shotsOut = shotsOut;
             d.run(null);
             anyDots |= d.dotSide[1] || d.dotSide[2];
             for (String row : d.gamesRows()) out.get("games.csv").println(row);
@@ -2027,6 +2171,7 @@ public class ReplayDump {
         for (PrintStream p : out.values()) p.close();
         evOut.close();
         if (turnsOut != null) turnsOut.close();
+        if (shotsOut != null) shotsOut.close();
         ev.delete();
         if (anyDots) { if (!evTmp.renameTo(ev)) throw new IOException("cannot rename " + evTmp); }
         else evTmp.delete();
@@ -2109,7 +2254,7 @@ public class ReplayDump {
         if (a.length < 1) {
             System.err.println("usage: ReplayDump <replay.bc23> [--game N] [--games | --census [--no-header] | --metrics [--every N] | --robot ID | --map-at R | "
                 + "--logs [--team A|B] [--id ID] [--from R --to R] | --bytecode | --navstats | --events --from R --to R | --islands | --tele | --checks"
-                + " | --fingerprint | --extract DIR [--match ID] [--games all|i,j] [--tele-turns]]   or   ReplayDump --decode-record KIND A B C D [--type T]");
+                + " | --shots | --fingerprint | --extract DIR [--match ID] [--games all|i,j] [--tele-turns] [--shots]]   or   ReplayDump --decode-record KIND A B C D [--type T]");
             System.exit(2);
         }
         if (flag(a, "--extract")) { extract(a[0], a); return; }
@@ -2127,6 +2272,7 @@ public class ReplayDump {
         PrintStream o = new PrintStream(new BufferedOutputStream(System.out), false);
         int from = Integer.parseInt(arg(a, "--from", "0")), to = Integer.parseInt(arg(a, "--to", "1000000"));
         if (flag(a, "--census")) d.census(o, !flag(a, "--no-header"));
+        else if (flag(a, "--shots")) { d.deep = true; d.shotsOut = o; o.println(SHOTS_HDR); d.run(null); }
         else if (flag(a, "--metrics")) d.metrics(o, Integer.parseInt(arg(a, "--every", "50")));
         else if (flag(a, "--robot")) d.robot(o, Integer.parseInt(arg(a, "--robot", "-1")));
         else if (flag(a, "--map-at")) d.mapAt(o, Integer.parseInt(arg(a, "--map-at", "1")));
