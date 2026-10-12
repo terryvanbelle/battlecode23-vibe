@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-12 15:43 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
+Updated 2026-10-12 15:58 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
 requires ongoing interaction through the web interface (PROMPTS 58); use the VMs as
 remote compute workers, not a CLI handoff. Read `docs/CONTINUATION.md` before connecting, syncing or restarting jobs.
 VPN/TCP configuration is unavailable in this cloud instance. The private `battlecode23-control` repository is now
@@ -114,8 +114,14 @@ The official owned route-delivery fixture passed320 cases/35,424 checks, with280
 unchanged-before-trigger pairs. Locked original-hand bug policies deposit30kg in40/40 prescribed groups versus
 baseline29/40. One temporary AD blocker costs10extra rounds; native target-change paths still untested (pure
 identity/reset guards passed). Host budgets are synthetic, not an instruction meter. Exactcase/24sample exports
-and private full9.77MBtrace SHA are in carrier evidence. Experimental c_route1 is being implemented separately;
-no source hash/screen/promotion yet. Keep the larger Mana capacity diagnosis separate from the AD route repair.
+and private full9.77MBtrace SHA are in carrier evidence. **Experimental c_route1 source is now published**, hash
+`471eafaef776`, onlyC/Carrier changed fromMend2. It tracks exact-well/field-epoch progress outside the crowd band,
+then locks original-hand bug movement after4eligible no-progress rounds until collection/reset. Admission6500,
+post-wave4000; cumulative `rr` counter with600admission. All54 local guard/counter checks and compiled-disabled
+common-method identities pass. Actual-source prototype48/48deposits vs37/48baseline/disabled,48zero identities,
+8real same-type target resets. Official actual-source fixture, full81-package suite, cost and screen remain
+pending. See `research/diagnosis/2026-10-12-c_route1.md`; do not activate it yet. Keep the larger Mana capacity
+diagnosis separate from the AD route repair.
 
 Native CBC workload launched15:15:35 PDT on battlecode-dev: supervisor291639,
 `build/codex-recovery/cbc-native-20261012T221535Z/output` (status/log siblings). Up to4 own-archetype games,
@@ -127,6 +133,13 @@ source and class tree. Only an on-only recovery with explicit heap change and ex
 can make this control reusable. Native team caps still censor costs. Exception-positive or missing final-turn ex
 coverage also censors costs/caller/budget attribution. Mend3 followon adds only2 games after a verified control;
 it has not launched yet. c_mend2/145 remains active.
+
+On-only recovery launched15:50 PDT, supervisor342825,
+`build/codex-recovery/cbc-on-recovery-20261012T225032Z-55d78b51/`: one2048MB profiling game,900-second game limit,
+1380-second outer supervisor, completed off reused. Original private source/classes remain fixed through canonical
+main adoption. Identity and caps are pending. The official instruction-metered crowded-well reachability probe
+also passed156checks/10scenarios: originalreselects home/0explore,12-round exclusionprototype3explore/discovery/
+30mockkg. Its RC sensing/movement/deposits are synthetic, not native physics or a whole-game delivery gate.
 
 **Read head-to-heads against the identity control, never against 10/20**: on `test/cells/self-swarm1-panel.txt`
 g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); on the screen's map-seed cells it scores
