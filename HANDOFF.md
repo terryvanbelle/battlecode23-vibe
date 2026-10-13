@@ -156,6 +156,15 @@ The complete controlled evidence and reproducibility helpers are now preserved i
 `research/diagnosis/2026-10-12/blind-full-loop/`, including the exact native artifact,
 planning audit, frozen source archive, reader tests and transport provenance. The natural delivery gate is unchanged.
 
+**Experimental c_seam1** (`5e11b3da11c9`) is now published for verification. This isolated Mend2 copy changes
+only C/Carrier: an empty Mana carrier with no known alternative can search for at most 24 rounds toward unknown
+waypoints derived from known allied HQs and map midlines. Retired coordinates exclude duplicate projection aliases.
+The official method fixtures discover, collect and transfer 30 Mana on Forest under both unresolved and valid
+symmetry controls; the disabled and 12-round arms deliver zero. These initialized fixtures omit the complete
+RobotPlayer turn. The new logical regression test passes 26 checks; the required 83-package full suite and native
+full-bot delivery are pending. Source, exact protocol and official evidence are preserved in
+`research/diagnosis/2026-10-12-seam-search.md` and `seam-search/`. No field screen, submission or promotion.
+
 Native CBC workload launched15:15:35 PDT on battlecode-dev: supervisor291639,
 `build/codex-recovery/cbc-native-20261012T221535Z/output` (status/log siblings). Up to4 own-archetype games,
 MAX_JOBS2,600-second game limits,45-minute supervisor limit; official frozen sources and engine. Each profiler
