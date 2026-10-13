@@ -1,0 +1,16 @@
+{
+  "candidate_source_pin": "409cfdfcbfd8",
+  "existing_zero_methods": 222,
+  "files": {
+    "2026-10-12-carrier-crowd-search.md": "f2b35fab4f188f9576fce15663bdb8067ba784f61c940fd0e2b54101c449d020",
+    "ExploreGuardProbeV2.java": "0572aef60e457788d37ab2c361304566bb71fef6bbca735531cd5e58cb105c04",
+    "README-v2.md": "6929658bae2a3a7c15827f4875f17ba468cf8e0a9f1f050d8b056cde9997f78e",
+    "guard_run_v2.sh": "23d7f0815d779145a7638dca9fa8d9b20f6929373b8491db7f00cdb86659f8d9",
+    "official-symmetry-evidence.json": "239e956604db3b1a489edac1de4fed3d7452e3c4f618be51bc59ff554fbffbab"
+  },
+  "logical_checks": 331,
+  "native_checks": 2756,
+  "preserves_original_evidence": true,
+  "server_games_run": 0,
+  "worlds": 55
+}
