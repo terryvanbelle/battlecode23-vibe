@@ -1,0 +1,3 @@
+opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed
+c_mend2,Forest,A,B,2000,loss,The winning team won by having more sky islands.,map
+c_mend2,Forest,B,A,2000,loss,The winning team won by having more sky islands.,map

@@ -165,6 +165,14 @@ RobotPlayer turn. The new logical regression test passes 26 checks; the required
 full-bot delivery are pending. Source, exact protocol and official evidence are preserved in
 `research/diagnosis/2026-10-12-seam-search.md` and `seam-search/`. No field screen, submission or promotion.
 
+**Route1 full-game foundations failed:** both normal Forest sides against frozen Mend2 lost at round 2000.
+The candidate reported 36/52 recoveries but deposited 9,702/11,702 Mana against 16,591/14,112. Overruns,
+exceptions, main-work near misses and wrong final symmetry masks are zero; side B missed the symmetry
+deadline (round 304). The opposing Mend2 side B also resolved late (round 350), so these observations do not
+identify a new-code cause. Actor-specific recovery-to-deposit attribution is still pending. The incumbent
+remains Mend2, and the wider Route1 value block is paused. Exact completed evidence is in
+`research/diagnosis/2026-10-13/route1-full-bot/`.
+
 Native CBC workload launched15:15:35 PDT on battlecode-dev: supervisor291639,
 `build/codex-recovery/cbc-native-20261012T221535Z/output` (status/log siblings). Up to4 own-archetype games,
 MAX_JOBS2,600-second game limits,45-minute supervisor limit; official frozen sources and engine. Each profiler
@@ -193,8 +201,11 @@ terminal result. All three lifetimes are complete and uncapped: 266,778 OPEN eve
 aligned budgets and final zero exception counters. This is a diagnostic sample with unknown population weights.
 Sixteen owned-target scan witnesses include the following march, objective selection and Launcher tail; none
 establishes a blocked-nearest or fallback opportunity. Frozen Mend3 is now running its two candidate off/on
-games on battlecode-dev, reusing that control. See `research/diagnosis/2026-10-13-c_mend3-sampled-control.md`
-and its reproducibility packet. Candidate results, fallback delivery and promotion remain unobserved.
+games on battlecode-dev, reusing that control. The pair completed at 17:52:55 PDT with valid identity and
+uncapped selected traces. Its world-state fingerprint also matches the incumbent control. One fallback scan
+adds 594 instructions in the selected lifetimes, with no observed change in the game state; its useful target
+and healing delivery remain unknown. See `research/diagnosis/2026-10-13-c_mend3-sampled-control.md` and
+`research/diagnosis/2026-10-13/mend-sampled-candidate/`. No promotion or broader trial.
 
 **Read head-to-heads against the identity control, never against 10/20**: on `test/cells/self-swarm1-panel.txt`
 g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); on the screen's map-seed cells it scores

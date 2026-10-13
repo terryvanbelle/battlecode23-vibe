@@ -1,0 +1,148 @@
+{
+  "assessment": {
+    "limits": [
+      "A measured return above 6000 for this one call is not a universal return floor or turn-safety claim.",
+      "Entry is distinct from selected-target decision and delivered movement.",
+      "The healing window does not establish fallback benefit or causation.",
+      "Matching full state fingerprints establish no visible behavioral difference in this deterministic match, not equivalence across maps or workloads."
+    ],
+    "promotion_supported": false,
+    "prospective_wider_trial": "closed_pending_actual_delivery_evidence",
+    "visible_benefit_observed": false
+  },
+  "fallback": {
+    "death_context": {
+      "meaning": "No recorded death in this match; no claim beyond match end.",
+      "recorded_death_round": null
+    },
+    "delivery_status": "No following march/pickObjective or selected-target witness recorded for this call; world-state fingerprint unchanged across candidate and control.",
+    "entry_evidence": "Thirteen direct-child Comms.read calls after nearestEnemy closes inside mendUpdate, interpreted against the frozen own candidate source.",
+    "following_march_inclusive": 0,
+    "following_pick_objective_inclusive": 0,
+    "healing_context": {
+      "causality": "Replay context only; no healing attributed to the fallback.",
+      "first_round": 1472,
+      "last_round": 1482,
+      "recorded_hp": 20,
+      "window": "Fallback-call round through r0+10 inclusive."
+    },
+    "inclusive_cost": 1256,
+    "launcher_tail_inclusive": 108,
+    "method_entry_budget": 8549,
+    "movement_ready_explanation": {
+      "reason": "Launcher.run invokes march only after rc.isMovementReady(); the absence of a following march is consistent with movement not being ready, without directly measuring the movement cooldown.",
+      "status": "source_based_hypothesis_pending_window_reader"
+    },
+    "observed_source_inferred_entries": 1,
+    "return_budget": 7293,
+    "robot": 11979,
+    "round": 1472,
+    "same_turn_launcher_events": [],
+    "selected_mend_island": null,
+    "selected_target_status": "unknown",
+    "target_witness_reason": "no_usable_following_march",
+    "usable_entries": 1
+  },
+  "identity": {
+    "candidate_and_control_bytecode_fingerprint_equal": false,
+    "candidate_and_control_full_state_fingerprint_equal": true,
+    "candidate_bytecode_fingerprint": "d048e0977194807ee48eea1fa4de301b00e44f47",
+    "candidate_off_on_state_bytecode_footer_equal": true,
+    "control_bytecode_fingerprint": "ce1b2c67ffb5c388e5afb44b372b8fe6abc0e8e0",
+    "control_off_on_state_bytecode_footer_equal": true,
+    "replay_sha256": {
+      "candidate_off": "ae0c41cc1d37f6f87efbd95658cdf2a5e02de7786a1f3c735291b480c4c3bbc9",
+      "candidate_on": "84107fc6c76f815350cc0757c5f15f4b201028ec40f7caae1946995af5309ae0",
+      "control_off": "6544c8b768bd53579dc06473de148e464edd5262c663e7968e9586b630ec436b",
+      "control_on": "71863f3f3e7069ee7a377d5c5faa670992e3738411ebb93186000adb3f06af78"
+    },
+    "reused_control_hashes_unchanged": true,
+    "state_fingerprint": "9676e3f4731b44a8a84aa6bd0a2cd89a677fdf5e"
+  },
+  "inputs": {
+    "candidate": {
+      "file": "official-completed-candidate.json",
+      "format": "Completed private-worker response; evidence parsed from JSON stdout.",
+      "provenance_sha256": "9d23012a126f0e2f30b2513639a1ab415e426b1204256454165a6f6f30181cff",
+      "reader_sha256": "52391cc1317aa94c7a1c97c28ea2dfde34c4b7dde47e851c17e9d8a34b4cd9dd",
+      "sha256": "eeeab905198c778b607342c30c04802575e31f30376f7b076cd8594aacf331a8"
+    },
+    "control": {
+      "file": "official-completed-control.json",
+      "provenance_sha256": "42a5b11ec69d5d6c9ecb5b3ab419856f47c94f7f2599d547c8910c60e0abcad6",
+      "sha256": "463dec180afbcd4cd51aa0c7128515145ca0b8a7624f88877b905075b9b182c0"
+    },
+    "host_source_sha256": "2848b63dfff7ef84f8578945794e80d94f251bc18713ecebf1ffd1c8fd5e7e62"
+  },
+  "kind": "selected_launcher_diagnostic",
+  "match": {
+    "candidate_package": "c_mend3",
+    "control_package": "c_mend2",
+    "map": "Cornucopia",
+    "map_seed": 272,
+    "opponent_package": "arch_ampmid",
+    "result": "A wins at round 2000",
+    "side": "A"
+  },
+  "sample": {
+    "all_selected_uncapped_valid_aligned_final_exception_counter_zero": true,
+    "last_exception_counter_round": 2000,
+    "launcher_ids": [
+      13460,
+      11979,
+      12422
+    ],
+    "limits": "Selected diagnostic sample; no population weights or match-wide fallback opportunity count.",
+    "selected_aligned_mend_intervals": {
+      "11979": 649,
+      "12422": 434,
+      "13460": 1185
+    },
+    "selection": "Three own lifetimes selected by a healing proxy before candidate execution.",
+    "total_aligned_mend_intervals": 2268,
+    "unknown_or_unusable_mend_budgets": 0
+  },
+  "schema_version": 1,
+  "selected_cost_totals": [
+    {
+      "candidate_sum": 59620,
+      "control_sum": 59026,
+      "delta": 594,
+      "intervals": 2268,
+      "method": "mendUpdate",
+      "metric": "inclusive"
+    },
+    {
+      "candidate_sum": 5482750,
+      "control_sum": 5482156,
+      "delta": 594,
+      "intervals": 2268,
+      "method": "run",
+      "metric": "inclusive"
+    },
+    {
+      "candidate_sum": 3632205,
+      "control_sum": 3632205,
+      "delta": 0,
+      "intervals": 1758,
+      "method": "march",
+      "metric": "inclusive"
+    },
+    {
+      "candidate_sum": 2576336,
+      "control_sum": 2576336,
+      "delta": 0,
+      "intervals": 1758,
+      "method": "pickObjective",
+      "metric": "inclusive"
+    },
+    {
+      "candidate_sum": 4014334,
+      "control_sum": 4014334,
+      "delta": 0,
+      "intervals": 2268,
+      "method": "mendUpdate",
+      "metric": "launcher_tail_inclusive"
+    }
+  ]
+}
