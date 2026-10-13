@@ -187,6 +187,15 @@ blocked by this unusable control; do not run another full-profile pair. Preserve
 also passed156checks/10scenarios: originalreselects home/0explore,12-round exclusionprototype3explore/discovery/
 30mockkg. Its RC sensing/movement/deposits are synthetic, not native physics or a whole-game delivery gate.
 
+**Sampled healing measurements recovered:** a separate control using native profilers for three explicitly
+selected own launchers now matches the preserved profiler-off game exactly in state, metered bytecodes and
+terminal result. All three lifetimes are complete and uncapped: 266,778 OPEN events across 2,268 turns, with
+aligned budgets and final zero exception counters. This is a diagnostic sample with unknown population weights.
+Sixteen owned-target scan witnesses include the following march, objective selection and Launcher tail; none
+establishes a blocked-nearest or fallback opportunity. Frozen Mend3 is now running its two candidate off/on
+games on battlecode-dev, reusing that control. See `research/diagnosis/2026-10-13-c_mend3-sampled-control.md`
+and its reproducibility packet. Candidate results, fallback delivery and promotion remain unobserved.
+
 **Read head-to-heads against the identity control, never against 10/20**: on `test/cells/self-swarm1-panel.txt`
 g_iter2's own code scores 4/20 against itself (TRAINING_LOG 2026-10-08 22:35); on the screen's map-seed cells it scores
 10/20 (seat-neutral, 2026-10-09 01:30). Compare cell by cell, and arms built on g_iter3 against c_nav4's own runs.

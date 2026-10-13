@@ -1,0 +1,22 @@
+{
+  "engine_sha256": "5d4e42a51946cc1c2149426485bda8096ff1c088c77e3ed075c06ce5968ed72a",
+  "games_run_during_packet_preparation": 0,
+  "raw_replays_included": false,
+  "source_files": {
+    "README.md": "50bec903220932d9da1dfbf274bd2429c961b9f5f16103194de742e8f40497b3",
+    "control-evidence.json": "6c0c33d7a7a3c7201de8ac3b2213da4cc23badf9e9431ea2c856e88a2374eb6c",
+    "helpers/NativeProfile.java": "71b1e08b85146ce35b61218f4c9acdf2cd99574d30bea342deea6b55a537f949",
+    "helpers/OwnLauncherSelector.java": "5e02b74bbc4f20f9c6feb8afb800abad8d013250e2631ef780228acfa9ab1330",
+    "helpers/ReplayDump.java": "691b42496dce9ee5dd6e789f2d3502ae51867c874cd7c5bddaa489c1e8e96650",
+    "helpers/SampledProfileHost.java": "2848b63dfff7ef84f8578945794e80d94f251bc18713ecebf1ffd1c8fd5e7e62",
+    "helpers/SamplingCacheTest.java": "8b6c97bb329e56e13cf41d47632690f6479fd6cb339c8c9003590b6b168ea848",
+    "helpers/SamplingCalibration.java": "30c9b34704958039ba3d0c646e943f77ffc5cfccf3ec9ec4473dbac9d68c98dc",
+    "helpers/summarize.py": "7a2f0d1771b7edc9dd40fb715f1e6058f7cf712f864cfc050749ecf37aaa1748",
+    "helpers/test_sampled.py": "f5769e25e891f72f7deba06996e1766f621784f979efd105a6494ffda5738470",
+    "helpers/test_scope.py": "a71b2aedfada3146bac4bb28d95431aa1975f4cdee95f9aab0b2366fa0db51d9",
+    "helpers/validate_candidate.py": "5126f611bb6ea84b1f5876160fda37d56b623b9255229753b246ceb3900392fd",
+    "helpers/validate_sampled.py": "f5c9b3f44f5c532512a0514c0fb48cb1b21b16770b5799bf59a26687331fac45",
+    "helpers/validate_scope.py": "b224b11e3b7bb1e008a6ee8ea2bed11a1b837aefd6a99d2f14398632ec167ae9",
+    "run.sh": "4e112c023bed397b38dff36313c467602b60b436561126061b3d9f1b922df44f"
+  }
+}

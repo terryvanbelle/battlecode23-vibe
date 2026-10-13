@@ -1,0 +1,477 @@
+{
+  "arch_ampmid_hash": "9b1099e4e1cf",
+  "c_mend2_hash": "d62033781fbd",
+  "costs_returned": true,
+  "elapsed_seconds": 466.907,
+  "engine_sha256": "5d4e42a51946cc1c2149426485bda8096ff1c088c77e3ed075c06ce5968ed72a",
+  "finished_utc": "2026-10-13T00:08:52.796848+00:00",
+  "games_in_this_measurement": 1,
+  "host_source_sha256": "2848b63dfff7ef84f8578945794e80d94f251bc18713ecebf1ffd1c8fd5e7e62",
+  "java_runtime": "Temurin 1.8.0_504-b01",
+  "limits": "Three own healing-proxy-selected lifetimes only. No population weights, fallback opportunity count or promotion conclusion.",
+  "map": "Cornucopia",
+  "map_seed": 272,
+  "mend_scope": {
+    "excluded_records": {
+      "missing_own_profile_file": 570
+    },
+    "limits": [
+      "Admission concerns useful measured cost scope only. Exact replay identity, hashes, source/classes, engine/JDK and matchup provenance must pass separately first.",
+      "One complete owned-target recheck and its march/pickObjective tail are sufficient for this diagnostic admission; this is not a statistical or promotion gate.",
+      "Nested nearestEnemy proves an owned target was evaluated, not that it was blocked or a fallback alternative existed.",
+      "Other-side profile caps and unrelated non-launcher exceptions do not block this narrow scope. A cap on the selected own team file still censors all launcher costs in that file.",
+      "No usable scope means not_ready and zero new candidate games; it is not evidence of zero fallback opportunities."
+    ],
+    "missing_requirements": [],
+    "own_launcher_robots": 573,
+    "ready": true,
+    "same_turn_mend_tail_witnesses": 16,
+    "samples": [
+      {
+        "direct_reads_before_nearest": 9,
+        "entry_budget": 8546,
+        "following_march_inclusive": 1418,
+        "following_pick_objective_inclusive": 970,
+        "game": 0,
+        "launcher_tail_inclusive": 1734,
+        "map": "Cornucopia",
+        "native_inclusive": 496,
+        "package": "c_mend2",
+        "return_budget": 8050,
+        "robot": 13460,
+        "round": 1031,
+        "side": "A"
+      },
+      {
+        "direct_reads_before_nearest": 9,
+        "entry_budget": 8826,
+        "following_march_inclusive": 1620,
+        "following_pick_objective_inclusive": 1056,
+        "game": 0,
+        "launcher_tail_inclusive": 1846,
+        "map": "Cornucopia",
+        "native_inclusive": 693,
+        "package": "c_mend2",
+        "return_budget": 8133,
+        "robot": 13460,
+        "round": 1320,
+        "side": "A"
+      },
+      {
+        "direct_reads_before_nearest": 9,
+        "entry_budget": 9229,
+        "following_march_inclusive": 1183,
+        "following_pick_objective_inclusive": 1030,
+        "game": 0,
+        "launcher_tail_inclusive": 1307,
+        "map": "Cornucopia",
+        "native_inclusive": 693,
+        "package": "c_mend2",
+        "return_budget": 8536,
+        "robot": 13460,
+        "round": 1330,
+        "side": "A"
+      },
+      {
+        "direct_reads_before_nearest": 9,
+        "entry_budget": 9134,
+        "following_march_inclusive": 1123,
+        "following_pick_objective_inclusive": 970,
+        "game": 0,
+        "launcher_tail_inclusive": 1247,
+        "map": "Cornucopia",
+        "native_inclusive": 613,
+        "package": "c_mend2",
+        "return_budget": 8521,
+        "robot": 11979,
+        "round": 1442,
+        "side": "A"
+      },
+      {
+        "direct_reads_before_nearest": 9,
+        "entry_budget": 9191,
+        "following_march_inclusive": 1123,
+        "following_pick_objective_inclusive": 970,
+        "game": 0,
+        "launcher_tail_inclusive": 1247,
+        "map": "Cornucopia",
+        "native_inclusive": 613,
+        "package": "c_mend2",
+        "return_budget": 8578,
+        "robot": 11979,
+        "round": 1452,
+        "side": "A"
+      }
+    ],
+    "schema_version": 1,
+    "scope": {
+      "game": 0,
+      "map": "Cornucopia",
+      "map_seed": 272,
+      "package": "c_mend2",
+      "side": "A"
+    },
+    "status": "ready",
+    "usable_aligned_own_launchers": 3,
+    "usable_budgeted_method_intervals": {
+      "march": 1758,
+      "mendUpdate": 2268,
+      "nearestEnemy": 1781,
+      "pickObjective": 1758,
+      "run": 2268
+    }
+  },
+  "native_profile_caps": [
+    {
+      "capped": false,
+      "file": 0,
+      "game": 0,
+      "map": "Cornucopia",
+      "map_seed": 272,
+      "open_cap": 2000000,
+      "open_events": 266778,
+      "profile_count": 3,
+      "side": "A"
+    },
+    {
+      "capped": false,
+      "file": 1,
+      "game": 0,
+      "map": "Cornucopia",
+      "map_seed": 272,
+      "open_cap": 2000000,
+      "open_events": 0,
+      "profile_count": 0,
+      "side": "?"
+    }
+  ],
+  "original_control_off_reused": true,
+  "provenance_sha256": "42a5b11ec69d5d6c9ecb5b3ab419856f47c94f7f2599d547c8910c60e0abcad6",
+  "sample_coverage_gate": {
+    "complete_usable_launcher_ids": [
+      13460,
+      11979,
+      12422
+    ],
+    "explicit_sample_ids": [
+      13460,
+      11979,
+      12422
+    ],
+    "identity_verified": true,
+    "limits": "Full replay identity and selected-robot coverage gate only. Mend-specific method/tail scope must pass separately; sampling is selected diagnostic evidence, not workload population weights.",
+    "missing_requirements": [],
+    "native_costs_available": true,
+    "ready": true,
+    "status": "ready"
+  },
+  "selected_aligned_mend_intervals": {
+    "11979": 649,
+    "12422": 434,
+    "13460": 1185
+  },
+  "selected_coverage": [
+    {
+      "entry_budget_aligned": true,
+      "exception_death": false,
+      "exception_max": 0,
+      "exception_status": "zero_through_last_turn",
+      "frequency_exact": true,
+      "issues": [],
+      "last_exception_counter_round": 2000,
+      "native_costs_usable": true,
+      "opens": 147313,
+      "profile": "#13460 (LAUNCHER)",
+      "recorded_turns": 1185,
+      "robot": 13460,
+      "team_capped": false,
+      "trace_valid": true,
+      "type": "LAUNCHER"
+    },
+    {
+      "entry_budget_aligned": true,
+      "exception_death": false,
+      "exception_max": 0,
+      "exception_status": "zero_through_last_turn",
+      "frequency_exact": true,
+      "issues": [],
+      "last_exception_counter_round": 2000,
+      "native_costs_usable": true,
+      "opens": 74151,
+      "profile": "#11979 (LAUNCHER)",
+      "recorded_turns": 649,
+      "robot": 11979,
+      "team_capped": false,
+      "trace_valid": true,
+      "type": "LAUNCHER"
+    },
+    {
+      "entry_budget_aligned": true,
+      "exception_death": false,
+      "exception_max": 0,
+      "exception_status": "zero_through_last_turn",
+      "frequency_exact": true,
+      "issues": [],
+      "last_exception_counter_round": 2000,
+      "native_costs_usable": true,
+      "opens": 45314,
+      "profile": "#12422 (LAUNCHER)",
+      "recorded_turns": 434,
+      "robot": 12422,
+      "team_capped": false,
+      "trace_valid": true,
+      "type": "LAUNCHER"
+    }
+  ],
+  "selected_mend_intervals_with_unknown_or_unusable_budget": {
+    "11979": 0,
+    "12422": 0,
+    "13460": 0
+  },
+  "selected_method_costs": {
+    "fight": {
+      "entry_budget": {
+        "max": 9090,
+        "n": 24,
+        "p50": 8619,
+        "p90": 8980,
+        "sum": 206060
+      },
+      "inclusive": {
+        "max": 3359,
+        "n": 24,
+        "p50": 1936,
+        "p90": 2545,
+        "sum": 50069
+      },
+      "return_budget": {
+        "max": 7415,
+        "n": 24,
+        "p50": 6567,
+        "p90": 7349,
+        "sum": 155991
+      }
+    },
+    "march": {
+      "entry_budget": {
+        "max": 9341,
+        "n": 1758,
+        "p50": 8439,
+        "p90": 9056,
+        "sum": 14966708
+      },
+      "inclusive": {
+        "max": 5280,
+        "n": 1758,
+        "p50": 1626,
+        "p90": 4697,
+        "sum": 3632205
+      },
+      "return_budget": {
+        "max": 8856,
+        "n": 1758,
+        "p50": 6780,
+        "p90": 7684,
+        "sum": 11334503
+      }
+    },
+    "mendScore": {
+      "entry_budget": {
+        "max": 8337,
+        "n": 37,
+        "p50": 7311,
+        "p90": 8024,
+        "sum": 271247
+      },
+      "inclusive": {
+        "max": 21,
+        "n": 37,
+        "p50": 18,
+        "p90": 21,
+        "sum": 654
+      },
+      "return_budget": {
+        "max": 8319,
+        "n": 37,
+        "p50": 7293,
+        "p90": 8008,
+        "sum": 270593
+      }
+    },
+    "mendUpdate": {
+      "entry_budget": {
+        "max": 9371,
+        "n": 2268,
+        "p50": 8474,
+        "p90": 9066,
+        "sum": 19356403
+      },
+      "following_march_inclusive": {
+        "max": 5280,
+        "n": 2268,
+        "p50": 1615,
+        "p90": 4469,
+        "sum": 3632205
+      },
+      "following_pick_objective_inclusive": {
+        "max": 4786,
+        "n": 2268,
+        "p50": 970,
+        "p90": 3849,
+        "sum": 2576336
+      },
+      "inclusive": {
+        "max": 693,
+        "n": 2268,
+        "p50": 18,
+        "p90": 19,
+        "sum": 59026
+      },
+      "launcher_tail_inclusive": {
+        "max": 5506,
+        "n": 2268,
+        "p50": 1729,
+        "p90": 4667,
+        "sum": 4014334
+      },
+      "return_budget": {
+        "max": 9353,
+        "n": 2268,
+        "p50": 8451,
+        "p90": 9033,
+        "sum": 19297377
+      }
+    },
+    "nearestEnemy": {
+      "entry_budget": {
+        "max": 9329,
+        "n": 1781,
+        "p50": 8427,
+        "p90": 9037,
+        "sum": 15135372
+      },
+      "inclusive": {
+        "max": 200,
+        "n": 1781,
+        "p50": 88,
+        "p90": 157,
+        "sum": 188314
+      },
+      "return_budget": {
+        "max": 9252,
+        "n": 1781,
+        "p50": 8350,
+        "p90": 8939,
+        "sum": 14947058
+      }
+    },
+    "pickObjective": {
+      "entry_budget": {
+        "max": 9341,
+        "n": 1758,
+        "p50": 8439,
+        "p90": 9056,
+        "sum": 14966708
+      },
+      "inclusive": {
+        "max": 4786,
+        "n": 1758,
+        "p50": 1019,
+        "p90": 4052,
+        "sum": 2576336
+      },
+      "return_budget": {
+        "max": 9107,
+        "n": 1758,
+        "p50": 7420,
+        "p90": 8153,
+        "sum": 12390372
+      }
+    },
+    "read": {
+      "entry_budget": {
+        "max": 9446,
+        "n": 13577,
+        "p50": 8327,
+        "p90": 8991,
+        "sum": 107465087
+      },
+      "inclusive": {
+        "max": 5,
+        "n": 13577,
+        "p50": 5,
+        "p90": 5,
+        "sum": 67885
+      },
+      "return_budget": {
+        "max": 9441,
+        "n": 13577,
+        "p50": 8322,
+        "p90": 8986,
+        "sum": 107397202
+      }
+    },
+    "run": {
+      "entry_budget": {
+        "max": 9817,
+        "n": 2268,
+        "p50": 9078,
+        "p90": 9690,
+        "sum": 20765199
+      },
+      "inclusive": {
+        "max": 6123,
+        "n": 2268,
+        "p50": 2216,
+        "p90": 5275,
+        "sum": 5482156
+      },
+      "return_budget": {
+        "max": 9203,
+        "n": 2268,
+        "p50": 6761,
+        "p90": 8386,
+        "sum": 15283043
+      }
+    },
+    "shoot": {
+      "entry_budget": {
+        "max": 9393,
+        "n": 4505,
+        "p50": 8228,
+        "p90": 8922,
+        "sum": 34680213
+      },
+      "inclusive": {
+        "max": 291,
+        "n": 4505,
+        "p50": 22,
+        "p90": 22,
+        "sum": 111718
+      },
+      "return_budget": {
+        "max": 9371,
+        "n": 4505,
+        "p50": 8206,
+        "p90": 8899,
+        "sum": 34568495
+      }
+    }
+  },
+  "selected_own_launcher_ids": [
+    13460,
+    11979,
+    12422
+  ],
+  "terminal_identity": {
+    "fingerprint_identity": true,
+    "footer_result_identity": true,
+    "off_fingerprint": "0 Cornucopia 2000 9676e3f4731b44a8a84aa6bd0a2cd89a677fdf5e ce1b2c67ffb5c388e5afb44b372b8fe6abc0e8e0",
+    "off_replay_sha256": "6544c8b768bd53579dc06473de148e464edd5262c663e7968e9586b630ec436b",
+    "off_result": "0 Cornucopia A 2000",
+    "on_fingerprint": "0 Cornucopia 2000 9676e3f4731b44a8a84aa6bd0a2cd89a677fdf5e ce1b2c67ffb5c388e5afb44b372b8fe6abc0e8e0",
+    "on_replay_sha256": "71863f3f3e7069ee7a377d5c5faa670992e3738411ebb93186000adb3f06af78",
+    "on_result": "0 Cornucopia A 2000",
+    "terminal_metadata_valid": true
+  }
+}
