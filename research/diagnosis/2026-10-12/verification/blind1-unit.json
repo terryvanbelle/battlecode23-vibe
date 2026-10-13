@@ -1,0 +1,22 @@
+{
+  "head": "ca7a8508e71b8256eba1248315e2b59d6a6f657d",
+  "directory": "/home/terryvanbelle/projects/vibe/2023/build/codex-recovery/unit-20261012T234149Z",
+  "status": {
+    "completed": true,
+    "started_utc": "2026-10-12T23:41:49.216365+00:00",
+    "timeout_seconds": 1800,
+    "supervisor_pid": 3081844,
+    "stdout": "/home/terryvanbelle/projects/vibe/2023/build/codex-recovery/unit-20261012T234149Z/unit.stdout.log",
+    "stderr": "/home/terryvanbelle/projects/vibe/2023/build/codex-recovery/unit-20261012T234149Z/unit.stderr.log",
+    "exit_code": 0,
+    "timed_out": false,
+    "head": "ca7a8508e71b8256eba1248315e2b59d6a6f657d",
+    "test_pid": 3081846,
+    "finished_head": "ca7a8508e71b8256eba1248315e2b59d6a6f657d",
+    "finished_utc": "2026-10-13T00:06:26.239461+00:00"
+  },
+  "status_sha256": "9381e9ee5e2152707595dbff18f6e76edba4eea79469df6f8df53b4b77296342",
+  "unit.stdout.log": "bots: compiled 82 packages\namp2: ampGate, census masking and rotation, legacy write zones, island switch, scout and escort, legacyZone, well flush: 49145 cases ok\namp2: ampGate, census masking and rotation, legacy write zones, island switch, scout and escort, legacyZone, well flush: 49145 cases ok\naura step: 7 cases ok\nbc1: 217142 cases ok\nbc2: 30000 fresh passes (5292 at the 38 limit, 3050 empty)\nbc2: sequence 13458 skips (1592 after the budget ran out), 12150 passes, 3945 calls under the guard (1540 on a matching key), 2447 passes cut at their first guard, 19496 raid answers\nbc2: 1899878 cases ok\nbc3: 30000 fresh passes (5292 at the 38 limit, 3050 empty)\nbc3: sequence 13458 skips (1592 after the budget ran out), 12150 passes, 3945 calls under the guard (1540 on a matching key), 2447 passes cut at their first guard, 19496 raid answers\nbc3: 1899878 cases ok\nblind1 period 1: 1804 checks ok\nBotTest: 13695 checks, 0 failures\nend1: endPick attackers, defenders, no enemy, nothing, null tiles: 17029 cases ok\nend2: endPick attackers, defenders, no enemy, nothing, null tiles: 17029 cases ok\nend3: endPick attackers, defenders, no enemy, nothing, null tiles: 17029 cases ok\nhot wells: 20 cases ok\nhot wells: 20 cases ok\nhot wells: 20 cases ok\nhot wells: 20 cases ok\nlane: 29 cases ok\nlane: 30 cases ok\nmend score and gate: 24 cases ok\nmend score and gate: 24 cases ok\nmend3: 852 cases ok\nprobe front: 8 cases ok\nroute1: 54 cases ok\nspread: Cornucopia, Forest, single HQ, duplicates ok\nward2: 521824 cases ok\nward3: 521824 cases ok\ntest_tools: 111 tests, 0 failures, 0 errors\nranked policy: Ran 3 tests in 0.243s OK \ncontest token: Ran 2 tests in 0.243s OK \nweb worker: Ran 36 tests in 77.259s OK \ntest_elo: 60 tests, 0 failures, 0 errors, 0 skipped\nmatch reports: Ran 36 tests in 27.536s OK (skipped=2) \nreplica: Ran 83 tests in 20.490s OK \ngalaxy frontend: Ran 13 tests in 1.961s OK \ngalaxy backend: Ran 46 tests in 19.383s OK \ngalaxy tools: Ran 30 tests in 15.683s OK \nunit-tests: PASS\n",
+  "unit.stderr.log": "",
+  "supervisor.log": ""
+}

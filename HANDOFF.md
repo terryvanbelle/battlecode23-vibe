@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-12 17:04 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
+Updated 2026-10-12 17:20 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
 requires ongoing interaction through the web interface (PROMPTS 58); use the VMs as
 remote compute workers, not a CLI handoff. Read `docs/CONTINUATION.md` before connecting, syncing or restarting jobs.
 VPN/TCP configuration is unavailable in this cloud instance. The private `battlecode23-control` repository is now
@@ -144,8 +144,12 @@ cooldown cost leaves next-own-start cooldown zero. The official method fixture p
 with zero repeated or disabled-control differences. A first hidden shot costs 227 instructions including its
 counter suffix; the maximum measured fixture cost is 461. Positive counters on later no-shot turns and the
 inner scan guard remain outside that price matrix. Targeted local decision checks pass 1,804 cases; the official
-82-package full suite started 16:41:49 on canonical driver main ca7a850, supervisor 3081844,
-`build/codex-recovery/unit-20261012T234149Z`; full-bot controlled/cloud delivery remains pending. Adoption
+82-package full suite passed 17:06:26 on unchanged canonical driver main ca7a850, supervisor 3081844,
+`build/codex-recovery/unit-20261012T234149Z`; all bot and apparatus checks pass. Verification/blind1-unit.json
+preserves the result. The five-arm full RobotPlayer controlled diagnostic also passed: exact disabled identity,
+period1 27 shots/19 useful hidden hits/380 damage/8 misses/zero allied damage, all four ordinary shots retained.
+Twenty-six next starts have CD0; final-shot next-start is censored. Main work peaks4,562 vs4,336 baseline,
+with temporary map/field backlog catching up by r7. Natural-game delivery and planning tradeoff remain pending. Adoption
 preserved 89 live files, their bytes/inodes, all 35 screen states and the existing locks. Fixed zero/4/2/1 doses and useful hidden
 damage falsifiers are in `research/diagnosis/2026-10-12/blind-price/`. No submission or promotion.
 
