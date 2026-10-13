@@ -1,0 +1,82 @@
+{
+  "base_files_sha256": {
+    "Amplifier.java": "81206994af4afcd0b435842ad4aebd1f8caf931af638d9e085c93432b0ce3025",
+    "C.java": "4b0d33597287f693bf9b764fc8a2c97e7a836b7afb2d0c70d9bb85dc012e1179",
+    "Carrier.java": "508a62e6e8d1c9aac6675e5a8146bfd40953433bf64b9a09a187efb30b3fa303",
+    "Comms.java": "3aa9be2612f4059c1606f495d0af3bfa1be2c8dba0dda86224e1262f8ddf200e",
+    "Field.java": "de0f0ae8da5973e91d992f94003b68ca89965f539910e07edba22486a110aa05",
+    "G.java": "0848fde563cc7447cff3f22431ad40ea70a9cf05b82fb72508a63a9308f1cd16",
+    "HQ.java": "faeefc9b162e611159286248fad5b17d653b59bf79a449c43aeb946586e57296",
+    "HQState.java": "4fafe2165f8aa5d257b1fc2ca33a1e5f43918e4a99088ba463fe16b2e3ea98e4",
+    "Launcher.java": "b45f8f95f15e8abebd34c5d3232bfbf4e33dd80bc21213a0440c02d8b9cc12f6",
+    "MapMem.java": "3bc6dd141c843944d9edf6324e93622b81929e6edd050ce54abccbcbeaa7c3f2",
+    "Nav.java": "18fcae8192a7607a638d9e5c34a1c61889ad790a882c1ed6095da87b0a7ca8a6",
+    "Other.java": "35d50758d2ce621f44474d7f8233827b63bc3d8222a04a3ae9250bfaad041246",
+    "RobotPlayer.java": "025e8bc574b1368062a6995c02440d65928cb2f526b527566eadd6deb30a4540",
+    "Telemetry.java": "d5eef32727109f6b2430cf14b81bd42e987282e731a8759f8bc535329ec7a267",
+    "Wells.java": "3ba9ddd0095bc9bd5568eafe2b9c7e232bfec5f4252eb45e7e69eea20dd4efd1"
+  },
+  "base_hash": "d62033781fbd",
+  "complete_overlay_sha256": {
+    "C.java": "7d187dc930b6d0d60891fb2abcfaa908e01f2be071fbbde5e235fffe91776141",
+    "Launcher.java": "abf696af24d63bbe32c421bcf50fbd24b28a96653a1f0ae2fcdaa9f4274f0b2e"
+  },
+  "dose_hashes": {
+    "0": "43138ce60516",
+    "1": "9ce6956c844b",
+    "2": "6b6275c740cb",
+    "4": "625c5733784a"
+  },
+  "fixture_order": [
+    "base",
+    "0",
+    "4",
+    "2",
+    "1"
+  ],
+  "helper_files": {
+    "BlindCalibration.java": {
+      "mode": 384,
+      "sha256": "457d20e99c1cb397594554a86f1c00daad538786589588b30df0b88da2aad632"
+    },
+    "ControlledBlindGame.java": {
+      "mode": 384,
+      "sha256": "f6bccf4cb91c5fc6543b70a9993dce7ac81ba489898c0605df5d53a8bbea4787"
+    },
+    "README.md": {
+      "mode": 384,
+      "sha256": "b67c0f6b25ade560698facfa3b580dc607cdaeaca948acec9ca997524949d719"
+    },
+    "base-provenance.json": {
+      "mode": 384,
+      "sha256": "d1f0f1e7b311f6282f0ceb6196854256cbbff0ec26402f0a028c08f7427f4791"
+    },
+    "overlays.json": {
+      "mode": 384,
+      "sha256": "76a1aece28d9bec506e4fb7ac2d4f50b86cf2e67c5b55fda8b5abc8469b9685c"
+    },
+    "prepare.py": {
+      "mode": 384,
+      "sha256": "2e5fbfe7c922c321eb5d33f209ff7e01454ed788eca13e1ba2abe7f05ac406bc"
+    },
+    "run.sh": {
+      "mode": 448,
+      "sha256": "37dae563b54be7e2bf877c360065fc7dfdc2a4162044b54ffb8093b4ed5ec2bf"
+    },
+    "summarize.py": {
+      "mode": 384,
+      "sha256": "79829fee2ddb282ccdb574e828ec7b769915a055c1887e88de61723e6cb93dcd"
+    },
+    "test_summary.py": {
+      "mode": 384,
+      "sha256": "e47f9097f929bc6062e78296bdef283b7334d1e21ba5b874017366e58092e9b5"
+    }
+  },
+  "official_engine_sha256": "5d4e42a51946cc1c2149426485bda8096ff1c088c77e3ed075c06ce5968ed72a",
+  "prototype_classes_jars_or_results_transferred": false,
+  "rounds_per_fixture_max": 32,
+  "scope": "five controlled full-owned-launcher RobotPlayer fixtures, no natural scored games",
+  "vm_seconds_max": 175,
+  "worker_seconds_max": 300,
+  "zero_gate_before_active_arms": true
+}

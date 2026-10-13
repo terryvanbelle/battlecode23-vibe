@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-12 17:20 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
+Updated 2026-10-12 17:39 PDT. Authenticated inspections verified both existing VMs from this web session. The owner
 requires ongoing interaction through the web interface (PROMPTS 58); use the VMs as
 remote compute workers, not a CLI handoff. Read `docs/CONTINUATION.md` before connecting, syncing or restarting jobs.
 VPN/TCP configuration is unavailable in this cloud instance. The private `battlecode23-control` repository is now
@@ -152,6 +152,9 @@ Twenty-six next starts have CD0; final-shot next-start is censored. Main work pe
 with temporary map/field backlog catching up by r7. Natural-game delivery and planning tradeoff remain pending. Adoption
 preserved 89 live files, their bytes/inodes, all 35 screen states and the existing locks. Fixed zero/4/2/1 doses and useful hidden
 damage falsifiers are in `research/diagnosis/2026-10-12/blind-price/`. No submission or promotion.
+The complete controlled evidence and reproducibility helpers are now preserved in
+`research/diagnosis/2026-10-12/blind-full-loop/`, including the exact native artifact,
+planning audit, frozen source archive, reader tests and transport provenance. The natural delivery gate is unchanged.
 
 Native CBC workload launched15:15:35 PDT on battlecode-dev: supervisor291639,
 `build/codex-recovery/cbc-native-20261012T221535Z/output` (status/log siblings). Up to4 own-archetype games,

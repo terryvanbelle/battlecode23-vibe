@@ -1,0 +1,23 @@
+{
+  "base_package": "c_mend2",
+  "base_normalized_sha1": "d62033781fbd",
+  "base_files": {
+    "Amplifier.java": "81206994af4afcd0b435842ad4aebd1f8caf931af638d9e085c93432b0ce3025",
+    "C.java": "4b0d33597287f693bf9b764fc8a2c97e7a836b7afb2d0c70d9bb85dc012e1179",
+    "Carrier.java": "508a62e6e8d1c9aac6675e5a8146bfd40953433bf64b9a09a187efb30b3fa303",
+    "Comms.java": "3aa9be2612f4059c1606f495d0af3bfa1be2c8dba0dda86224e1262f8ddf200e",
+    "Field.java": "de0f0ae8da5973e91d992f94003b68ca89965f539910e07edba22486a110aa05",
+    "G.java": "0848fde563cc7447cff3f22431ad40ea70a9cf05b82fb72508a63a9308f1cd16",
+    "HQ.java": "faeefc9b162e611159286248fad5b17d653b59bf79a449c43aeb946586e57296",
+    "HQState.java": "4fafe2165f8aa5d257b1fc2ca33a1e5f43918e4a99088ba463fe16b2e3ea98e4",
+    "Launcher.java": "b45f8f95f15e8abebd34c5d3232bfbf4e33dd80bc21213a0440c02d8b9cc12f6",
+    "MapMem.java": "3bc6dd141c843944d9edf6324e93622b81929e6edd050ce54abccbcbeaa7c3f2",
+    "Nav.java": "18fcae8192a7607a638d9e5c34a1c61889ad790a882c1ed6095da87b0a7ca8a6",
+    "Other.java": "35d50758d2ce621f44474d7f8233827b63bc3d8222a04a3ae9250bfaad041246",
+    "RobotPlayer.java": "025e8bc574b1368062a6995c02440d65928cb2f526b527566eadd6deb30a4540",
+    "Telemetry.java": "d5eef32727109f6b2430cf14b81bd42e987282e731a8759f8bc535329ec7a267",
+    "Wells.java": "3ba9ddd0095bc9bd5568eafe2b9c7e232bfec5f4252eb45e7e69eea20dd4efd1"
+  },
+  "tracked_edits": false,
+  "games_run": 0
+}

@@ -1,0 +1,98 @@
+{
+  "files": {
+    "README.md": {
+      "bytes": 6405,
+      "mode": 384,
+      "sha256": "de6507f9176ba51f1914003bcee667a0e04e7867fea6825a5e87f33fc198ed3f"
+    },
+    "helpers/ControlledBlindGame.java": {
+      "bytes": 20243,
+      "mode": 384,
+      "sha256": "f6bccf4cb91c5fc6543b70a9993dce7ac81ba489898c0605df5d53a8bbea4787"
+    },
+    "helpers/base-provenance.json": {
+      "bytes": 1439,
+      "mode": 384,
+      "sha256": "d1f0f1e7b311f6282f0ceb6196854256cbbff0ec26402f0a028c08f7427f4791"
+    },
+    "helpers/helpers-v1.tar.gz": {
+      "bytes": 18352,
+      "mode": 384,
+      "sha256": "b69e349412c38c1ebbd8092f78b6a342f14d65b1670b0256d585b436ed0279cf"
+    },
+    "helpers/make_blind_full_turn_job.py": {
+      "bytes": 18510,
+      "mode": 384,
+      "sha256": "5119c8a93e2f39a019aaf59402f617de1d6c27e8ee84179fed8aeb6b944a2bb9"
+    },
+    "helpers/prepare.py": {
+      "bytes": 3120,
+      "mode": 384,
+      "sha256": "2e5fbfe7c922c321eb5d33f209ff7e01454ed788eca13e1ba2abe7f05ac406bc"
+    },
+    "helpers/run.sh": {
+      "bytes": 4410,
+      "mode": 384,
+      "sha256": "37dae563b54be7e2bf877c360065fc7dfdc2a4162044b54ffb8093b4ed5ec2bf"
+    },
+    "helpers/run_blind_full_turn.py": {
+      "bytes": 39806,
+      "mode": 384,
+      "sha256": "1f720682d5012171e989961eed2106b210f3e9ae819cbd9be1fee310a3aaeb77"
+    },
+    "helpers/source-manifest.json": {
+      "bytes": 3365,
+      "mode": 384,
+      "sha256": "9a9c63f726da763ea5ace6c2715cd121562832353209b41b1a115483df9594a9"
+    },
+    "helpers/summarize.py": {
+      "bytes": 9337,
+      "mode": 384,
+      "sha256": "79829fee2ddb282ccdb574e828ec7b769915a055c1887e88de61723e6cb93dcd"
+    },
+    "helpers/test_summary.py": {
+      "bytes": 5041,
+      "mode": 384,
+      "sha256": "e47f9097f929bc6062e78296bdef283b7334d1e21ba5b874017366e58092e9b5"
+    },
+    "helpers/transfer-preparation.json": {
+      "bytes": 1781,
+      "mode": 384,
+      "sha256": "cd570a7f97f0180c362d53fb86294c1f7b3b41b964b9e2462ff00d580c553ff0"
+    },
+    "memory-evidence.md": {
+      "bytes": 7235,
+      "mode": 384,
+      "sha256": "a6a3a17ef48f805d3099eaf559c483079427ce529394bf245de263214ccef9b4"
+    },
+    "official-full-loop-artifact.json": {
+      "bytes": 257232,
+      "mode": 384,
+      "sha256": "4676ddf483b78d0cebd52a64dcd4f4c87f45e8692261567a1a7f48fc1587ee54"
+    }
+  },
+  "manifest_excludes_itself": true,
+  "official_engine_sha256": "5d4e42a51946cc1c2149426485bda8096ff1c088c77e3ed075c06ce5968ed72a",
+  "preparation_actions": {
+    "jobs_started": 0,
+    "original_preregistration_modified": false,
+    "publication": false,
+    "tracked_edits": false,
+    "vm_access": false
+  },
+  "prepared_date_utc": "2026-10-13",
+  "schema_version": 1,
+  "scope": "official controlled full owned launcher loop; no natural scored-game or promotion evidence",
+  "source_pins": {
+    "base": "d62033781fbd",
+    "period0": "43138ce60516",
+    "period1": "9ce6956c844b",
+    "period2": "6b6275c740cb",
+    "period4": "625c5733784a"
+  },
+  "status": "frozen scratch evidence packet for root review",
+  "unchanged_preregistration": {
+    "repository_path": "research/diagnosis/2026-10-12/blind-price/preregistered-cells.json",
+    "sha256": "ee4144cf924574ee3b3a093ff41d7e0ff7eddf2737a5bb5935ecf3fb88b14a09"
+  }
+}
