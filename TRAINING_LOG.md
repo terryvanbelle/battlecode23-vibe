@@ -1428,3 +1428,4 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
 - vs c_mend2: 98 identical, net 0, island-rounds +3 (t +0.10), 82 identical margins; vs c_bc1 net +3 (+1.34 SE),
   +187 (t +2.32). Healed HP +97 a game (t 0.6), kills +2.1 (t 1.2), damage -225 (t -0.4); 0 overruns/exceptions.
   The second-safe-island fallback almost never fires on the panel: no measurable effect. Rejected (trial-decide 148).
+- c_blind1 screen PASS (h2h 11-9, roster info Net +2, 128 games 0 overruns): progress/screens/c_blind1-9ce6956c844b.json.
