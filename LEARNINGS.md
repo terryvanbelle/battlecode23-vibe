@@ -13,7 +13,10 @@ From the blind-fire investigation: the teams that beat us have 43-70% zero-damag
 we beat and our own bot have none (historical census `blind_rate`, panel
 `gauntlet/20261011-080046-panel-c_mend2`; TRAINING_LOG 2026-10-11 07:25). Correction, 2026-10-12: that metric is a
 miss fraction, not visibility. It motivates the investigation but does not establish how many shots were aimed
-outside vision. Re-extract the panels with the shot visibility classifier before making that quantitative claim.
+outside vision. Re-extract the panels with the shot visibility classifier before making that quantitative claim. Measured 2026-10-14
+(panel `gauntlet/20261014-160033-panel-c_blind1`): the panel opponents land 20.7 outside-vision hits a game, and our
+blind-firing c_blind1 lands 20.2 of 10,551 such shots (damage +96 a game, t 0.07). Blind fire correlates with the teams
+that beat us but does not explain their wins; the principle stands (it was free), the expected value here is ~1% of damage.
 
 1. **Look for actions that cost nothing, and give them something to do at all times, even at low odds.** An unused
    cooldown is lost for good; a small chance of damage on every idle turn is free value. Audit every per-turn action
