@@ -410,3 +410,7 @@ You mentioned an hourly request limit.  Which system is imposing that limit?
 ## 87. 2026-10-14 09:45 PDT
 
 Getting back to Bradly-Terry vs. Replica:  If the replica's rank is significantly below the BT rank, does that just mean that I should wait, and the replica rank will eventually converge back to the BT rank?  Also, can we use the superior BT ratings algorithm to our advantage in the actual contest?
+
+## 88. 2026-10-14 10:05 PDT
+
+You know our workflow now.  Last week I ran into the weekly limit after about 4 days using Opus 5.5 Ultracode.  Is there any non-obtrusive way I can optimize the existing workflow so that I can stretch that configuration to last the entire week?
