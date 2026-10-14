@@ -1402,3 +1402,5 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   c_blind1 screen runs. tools/watch_events.py reports QUEUE_RUNNER_DEAD (jobs pending, queue/.lock free).
 - HANDOFF.md rewritten for 2026-10-14 (old in-flight section archived in research/diagnosis/2026-10-12-handoff-inflight.md);
   tools/progress-refresh.sh added (from the session scratchpad). LEARNINGS: liveness alarms. Unit tests PASS.
+- 2026-10-14 12:30 PDT: watcher STUCK_MATCH 6932 (field ranked maxwelljones14 vs battlecode-archive.sprintBot, RUN 67 min while the 5 others had just started); cancelled and re-rated (second sprintBot hang after 6282).
+- 2026-10-14 13:10 PDT: progress refresh: 1,645 games from 546 matches into games.csv; Elo, field score, rating history, ladder snapshot regenerated. The match-report sweep was stopped by Claude Code under driver memory pressure (2 GB) and is not restarted until the owner asks.
