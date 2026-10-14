@@ -105,6 +105,16 @@ outside vision. Re-extract the panels with the shot visibility classifier before
   every arm that added launcher work overran (c_lane1: 21). A decision-preserving cut (c_bc1: median calm-march turn
   6,856 -> 3,664) was the prerequisite for the launcher arms (TRAINING_LOG 2026-10-10 21:20).
 
+### Budget (owner, PROMPTS 88)
+
+- **An agent project's weekly usage is dominated by idle cache rewrites and context size, not by thinking.** Audit of
+  2026-10-07..11 (scratchpad tokens/tally.py, reprice.py): workflow agents that waited 5-60 minutes inside a turn
+  rewrote their whole context on resuming (5-minute cache): 18% of all usage; every main-session turn re-read a
+  430-730k context: 20%; fixed 30-minute checks cost ~85-165k units each even when idle (past 60 minutes they would
+  rewrite the context into a new 1-hour cache entry and cost more). Workflow agents should queue long jobs and stop, a
+  fresh agent collects; keep checks under the 1-hour cache TTL and let an event watcher wake the session; compact the
+  main context early; one-off setup (reading prior years, building a replica) spent 56% of the first week.
+
 ### Tooling
 
 - **Inspect cancelled queue entries as well as pending, running and done.** The standard status helper called a

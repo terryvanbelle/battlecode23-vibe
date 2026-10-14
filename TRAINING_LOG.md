@@ -1347,3 +1347,15 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   points at equilibrium (3-game shares), several ranks on its compressed scale; each new build restarts from the
   team's rating. Planned: a ranked selector that maximises expected rating gain, 24 x (P_BT - E_galaxy), and
   declines incoming ranked challenges with negative expected gain.
+
+## 2026-10-14 10:40 PDT — usage audit (owner, PROMPTS 88)
+- Workflow wf_066b5a64-a7a (tally on Sonnet, recommendation on Opus). The first week held about 265M list-price units
+  and ran out after 4.0 days; 56% was one-off setup. Steady state (10-09, 10-10) ~35M a day: at the edge of 7 days.
+  Biggest avoidable costs: workflow agents waiting inside a turn (5-minute cache rewrites, 18%); main-context reads
+  at a median ~600k (20%); fixed-interval checks; background-job wake-ups (9%).
+- Agent-side changes adopted: workflow agents never wait more than ~4 minutes in a turn (queue, stop, collect with a
+  fresh agent); Sonnet/medium effort for mechanical stages (rebase, compile/test, tallies), Opus for diagnosis,
+  judging, design and review; one reviewer for small diffs; one shared digest per diagnosis run; chained background
+  steps. Planned: an event watcher, a cron progress refresh, a weekly budget meter. Owner-side (suggested): earlier
+  auto-compaction (autoCompactWindow ~300k, untested name), cancel the 2-hour refresh loop, task check every 55 min.
+  LEARNINGS 3 "Budget".
