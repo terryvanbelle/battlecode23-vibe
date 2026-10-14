@@ -1375,3 +1375,10 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   frozen at 1581.07). Staff Cancel + Recalculate ratings (galaxy's own admin actions, via the Django shell as
   bcreplica), as for 2565 and 2593 (2026-10-09): our rating 1654 a minute later. sprintBot games are the slow ones;
   the planned event watcher must flag any match in RUN for more than 2 hours.
+
+## 2026-10-14 11:05 PDT — event watcher replaces the task-check loop (owner, PROMPTS 90)
+- tools/watch_events.py: exits on the first new event (PANEL_DONE, SCREEN_DONE, STUCK_MATCH > 2 h, RANKED_DEAD,
+  REPLICA_DOWN, VM_DOWN) or a 50-minute HEARTBEAT; completions are reported once (build/watch-events.seen); the
+  stuck-match scan reads the newest 400 matches every 15 minutes. CLAUDE.md rule 7: never end a turn without it (or
+  another background job) armed; on a HEARTBEAT take the next target from TRAINING_ALGORITHM §2. Tests:
+  WatchEventsTest (stuck matches, panels done, dedupe, seen file).

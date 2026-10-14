@@ -325,6 +325,35 @@ class ReplayDumpMultiGameTest(unittest.TestCase):
         self.assertNotIn('maptestsmall', g1)
 
 
+class WatchEventsTest(unittest.TestCase):
+    """tools/watch_events.py pure parts (owner, PROMPTS 90): the watcher that wakes the session on events."""
+    @classmethod
+    def setUpClass(cls):
+        cls.w = load('watch_events', TOOLS / 'watch_events.py')
+
+    def test_stuck_matches(self):
+        import datetime as dt
+        now = dt.datetime(2026, 10, 14, 18, 0, tzinfo=dt.timezone.utc)
+        ms = [{'id': 1, 'status': 'RUN', 'created': '2026-10-14T11:59:00-04:00'},   # 2h01 old: stuck
+              {'id': 2, 'status': 'RUN', 'created': '2026-10-14T12:30:00-04:00'},   # 1h30: not yet
+              {'id': 3, 'status': 'OK!', 'created': '2026-10-12T09:00:00-04:00'},   # finished
+              {'id': 4, 'status': 'QUE', 'created': '2026-10-12T12:00:00-04:00'}]   # queued two days
+        self.assertEqual(self.w.stuck_matches(ms, now), [1, 4])
+
+    def test_panels_done_and_dedupe(self):
+        txt = ("trial: None\n"
+               "parked: c_blind1 (submission 146) since 2026-10-14 09:01 PDT: panel done (run gauntlet/x)\n"
+               "parked: c_mend3 (submission 148) since 2026-10-14 09:01 PDT: panel playing (run gauntlet/y)\n")
+        self.assertEqual(self.w.panels_done(txt), ['c_blind1'])
+        self.assertEqual(self.w.new_events(['PANEL_DONE c_blind1', 'HEARTBEAT'], {'PANEL_DONE c_blind1'}), ['HEARTBEAT'])
+
+    def test_seen_file(self):
+        d = tempfile.mkdtemp(); p = str(Path(d, 'seen'))
+        self.assertEqual(self.w.load_seen(p), set())
+        self.w.mark_seen('SCREEN_DONE j1', p); self.w.mark_seen('STUCK_MATCH 6282', p)
+        self.assertEqual(self.w.load_seen(p), {'SCREEN_DONE j1', 'STUCK_MATCH 6282'})
+
+
 class ContestClientTest(unittest.TestCase):
     """tools/contest.py offline pieces: the submission zip layout, multipart encoding, cells, game rows, site guard."""
     @classmethod
