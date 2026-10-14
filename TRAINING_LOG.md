@@ -1441,3 +1441,12 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   empty: the 6-hourly tools/galaxy/prune_replays.py job last ran 2026-10-12 17:30 PDT (lost in the 10-12 18:48
   outage), and field-vs-field replays have accumulated (/srv/bc23-galaxy 5.0 GB). Running the prune and reinstalling
   the crontab were both denied by the session's permission classifier: waiting for the owner.
+
+## 2026-10-14 15:19 PDT: c_blind2 and c_blind1 rejected; c_mend2 stays validated
+
+- c_blind2 (gauntlet/20261014-172209-panel-c_blind2): 100 of 100 outcomes identical to c_blind1; vs c_mend2 net +2,
+  island-rounds -126 (t -1.26), damage -980 (t -0.88), kills -4.4; outside-vision hits 23.7 a game (c_blind1 20.2) from
+  11,260 such shots. Launchers built -5.8 (c_blind1 -8.9). 0 overruns/exceptions.
+- Neither blind-fire arm shows a measurable effect on damage, kills or margins (LEARNINGS 1: ~1% of damage), so neither
+  is accepted on a +2 net that is within noise. Both rejected (trial-decide 152, 146). The principle stays: free actions
+  are worth auditing, and this one was audited.
