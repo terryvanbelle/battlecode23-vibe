@@ -1394,3 +1394,11 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   flagged 90 QUE matches that were only waiting behind the 09:00 autoscrim. New QUEUE_STALLED: QUE over 2 h with
   nothing RUN.
 - Unit tests PASS.
+
+## 2026-10-14 12:22 PDT: VM queue runner was down two days; QUEUE_RUNNER_DEAD alarm; HANDOFF refreshed
+
+- The VM queue runner exited on a STOP file at 2026-10-12 18:48 PDT (the same minute every galaxy unit stopped); the
+  four screens queued this morning (c_blind1, c_mend3, c_seam1, c_blind2) sat pending. Restarted at 11:47 PDT; the
+  c_blind1 screen runs. tools/watch_events.py reports QUEUE_RUNNER_DEAD (jobs pending, queue/.lock free).
+- HANDOFF.md rewritten for 2026-10-14 (old in-flight section archived in research/diagnosis/2026-10-12-handoff-inflight.md);
+  tools/progress-refresh.sh added (from the session scratchpad). LEARNINGS: liveness alarms. Unit tests PASS.

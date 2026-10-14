@@ -15,6 +15,8 @@ of every turn the agent re-arms it. Events, each reported once (keys kept in bui
   RANKED_DEAD               the ranked loop process is gone
   REPLICA_DOWN              the replica API does not answer
   VM_DOWN                   the VM does not answer ssh
+  QUEUE_RUNNER_DEAD         VM jobs are pending and nobody holds queue/.lock, the runner's flock (a STOP file left it down 2026-10-12 18:48 to
+                            10-14 11:47 PDT, and four screens waited unseen)
   HEARTBEAT                 nothing happened for --heartbeat minutes (default 50, under the 1-hour prompt cache): the
                             agent takes the next item from TRAINING_ALGORITHM's target sources
 The pure parts (event keys, staleness) are tested in tools/test_tools.py WatchEventsTest."""
@@ -116,11 +118,14 @@ def check(stuck_every=900, stuck_pages=40):
                 ev.append('QUEUE_STALLED')
         except Exception:
             pass
-    r = sh("bash -c 'source tools/vm.sh && ensure_vm && gssh \"cd ~/projects/vibe/2023; for f in $(ls -t logs/*scr-*.log 2>/dev/null | head -6); do tail -1 $f | grep -q SCREEN-END && basename $f .log; done\"'", 90)
+    r = sh("bash -c 'source tools/vm.sh && ensure_vm && gssh \"cd ~/projects/vibe/2023; for f in $(ls -t logs/*scr-*.log 2>/dev/null | head -6); do tail -1 $f | grep -q SCREEN-END && basename $f .log; done; ls queue/pending | grep -q . && flock -n queue/.lock true && echo RUNNER-DEAD; true\"'", 90)
     if r is None or r.returncode != 0:
         ev.append('VM_DOWN')
     else:
         for job in r.stdout.split():
+            if job == 'RUNNER-DEAD':
+                ev.append('QUEUE_RUNNER_DEAD')
+                continue
             pkg_hash = job.split('-scr-', 1)[-1]                     # <package>-<hash>
             if not os.path.exists(os.path.join(REPO, 'progress', 'screens', pkg_hash + '.json')):
                 ev.append(f'SCREEN_DONE {job}')

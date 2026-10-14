@@ -138,3 +138,9 @@ outside vision. Re-extract the panels with the shot visibility classifier before
   through one shared temp file; overlapping panels crashed a collector (TRAINING_LOG 2026-10-11 07:25).
 - **Reference caches are per incumbent.** The first screen against a new incumbent replays its 100 roster games; queue
   the second screen only after the first fills the cache (TRAINING_LOG 2026-10-11 06:50).
+- **Every long-running component needs a liveness alarm that wakes the agent.** On 2026-10-12 18:48 PDT the replica
+  and the VM queue runner both stopped without a recorded reason; nothing reported it, and screens queued 40 hours
+  later sat pending unseen. An event watcher now exits (waking the session) on a dead replica, ranked loop, VM or
+  queue runner; test liveness by the component's own lock or API, not a process name (the runner re-executes from a
+  temp copy). Age since creation is no stuck-match test behind a batch backlog: alarm on time seen running
+  (TRAINING_LOG 2026-10-14).
