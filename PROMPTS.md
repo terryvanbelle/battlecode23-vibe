@@ -399,6 +399,6 @@ Can you give me a URL for the replica?
 
 Where do I get the vibe23 password again?
 
-## 85. 2026-10-14 09:33 PDT
+## 85. 2026-10-14 09:38 PDT
 
 I notice that Bradley-Terry ratings seem more stable and optimistic than the game's ELO ratings.  Are they more accurate?
