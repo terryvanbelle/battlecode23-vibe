@@ -1422,3 +1422,9 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   33.7k). Paired against c_mend2: damage +96 (t 0.07), kills +2.2 (t 0.24), hits +2.7 (t 0.03): no measurable effect.
   Launchers built 154 -> 145. Basics: 0 overruns, exceptions, self deaths.
 - Held parked: decide together with c_blind2 (memory-targeted blind shots), whose panel is still playing.
+
+## 2026-10-14 13:53 PDT: c_mend3 rejected (gauntlet/20261014-160116-panel-c_mend3, 61/100)
+
+- vs c_mend2: 98 identical, net 0, island-rounds +3 (t +0.10), 82 identical margins; vs c_bc1 net +3 (+1.34 SE),
+  +187 (t +2.32). Healed HP +97 a game (t 0.6), kills +2.1 (t 1.2), damage -225 (t -0.4); 0 overruns/exceptions.
+  The second-safe-island fallback almost never fires on the panel: no measurable effect. Rejected (trial-decide 148).

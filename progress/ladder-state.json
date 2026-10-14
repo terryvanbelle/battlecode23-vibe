@@ -393,6 +393,28 @@
    "submission": 152,
    "package": "c_blind2",
    "validated_resubmitted": 153
+  },
+  {
+   "at": "2026-10-14T20:21:28.337437+00:00",
+   "event": "panel-done",
+   "submission": 146,
+   "package": "c_blind1",
+   "run": "gauntlet/20261014-160033-panel-c_blind1"
+  },
+  {
+   "at": "2026-10-14T20:52:58.463091+00:00",
+   "event": "panel-done",
+   "submission": 148,
+   "package": "c_mend3",
+   "run": "gauntlet/20261014-160116-panel-c_mend3"
+  },
+  {
+   "at": "2026-10-14T20:53:41.490645+00:00",
+   "event": "reject",
+   "submission": 148,
+   "package": "c_mend3",
+   "parked": true,
+   "run": "gauntlet/20261014-160116-panel-c_mend3"
   }
  ],
  "parked": [
@@ -416,29 +438,9 @@
     6989,
     6990,
     6991
-   ]
-  },
-  {
-   "run_dir": "gauntlet/20261014-160116-panel-c_mend3",
-   "pid": 3153891,
-   "submission": 148,
-   "package": "c_mend3",
-   "started": "2026-10-14T16:01:06.084978+00:00",
-   "panel": "test/cells/panel-v1.txt",
-   "hash": "db9f54f47fea",
-   "parked": "2026-10-14T16:01:48.737836+00:00",
-   "panel_matches": [
-    6992,
-    6993,
-    6994,
-    6995,
-    6996,
-    6997,
-    6998,
-    6999,
-    7000,
-    7001
-   ]
+   ],
+   "run": "gauntlet/20261014-160033-panel-c_blind1",
+   "panel_done": "2026-10-14T20:21:28.336097+00:00"
   },
   {
    "run_dir": "gauntlet/20261014-170135-panel-c_seam1",
