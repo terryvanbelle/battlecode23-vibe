@@ -1320,7 +1320,7 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   c_seam1 (Forest Mana search toward HQ-derived waypoints). Trials start after the 09:00 autoscrim, parked so the
   panels overlap.
 
-## 2026-10-14 09:05 PDT — c_blind1 and c_mend3 trials parked; c_blind2 building
+## 2026-10-14 09:00 PDT — c_blind1 and c_mend3 trials parked; c_blind2 building
 - The 09:00 autoscrim was created on c_mend2 (matches 6831-6951). trial-start c_blind1 (--skip-screen, reason
   recorded; screen running in parallel) -> panel 6982-6991, parked 09:01, c_mend2 active as 147; c_mend3 -> panel
   6992-7001, parked 09:01, c_mend2 active as 149.
