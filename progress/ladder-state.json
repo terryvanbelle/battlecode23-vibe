@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 145,
+  "submission": 149,
   "package": "c_mend2",
   "since": "2026-10-11T12:14:09.832137+00:00",
   "panel_run": "gauntlet/20261011-080046-panel-c_mend2"
@@ -337,7 +337,80 @@
    "package": "c_bc3",
    "parked": true,
    "run": "gauntlet/20261011-161413-panel-c_bc3"
+  },
+  {
+   "at": "2026-10-14T16:00:33.238760+00:00",
+   "event": "trial-start",
+   "submission": 146,
+   "package": "c_blind1",
+   "screen_skipped": "owner principle (PROMPTS 49): the launcher's idle attack shoots hidden cloud tiles; screen running in parallel; 1,804 decision checks and 448 official cost fixtures pass; a local screen cannot reproduce the field's cloud hiding"
+  },
+  {
+   "at": "2026-10-14T16:01:05.253933+00:00",
+   "event": "park",
+   "submission": 146,
+   "package": "c_blind1",
+   "validated_resubmitted": 147
+  },
+  {
+   "at": "2026-10-14T16:01:16.333658+00:00",
+   "event": "trial-start",
+   "submission": 148,
+   "package": "c_mend3",
+   "screen_skipped": "isolated mend selector variant (852 decision/guard checks pass); screen running in parallel"
+  },
+  {
+   "at": "2026-10-14T16:01:48.737905+00:00",
+   "event": "park",
+   "submission": 148,
+   "package": "c_mend3",
+   "validated_resubmitted": 149
   }
  ],
- "parked": []
+ "parked": [
+  {
+   "run_dir": "gauntlet/20261014-160033-panel-c_blind1",
+   "pid": 3153832,
+   "submission": 146,
+   "package": "c_blind1",
+   "started": "2026-10-14T16:00:23.012716+00:00",
+   "panel": "test/cells/panel-v1.txt",
+   "hash": "9ce6956c844b",
+   "parked": "2026-10-14T16:01:05.253849+00:00",
+   "panel_matches": [
+    6982,
+    6983,
+    6984,
+    6985,
+    6986,
+    6987,
+    6988,
+    6989,
+    6990,
+    6991
+   ]
+  },
+  {
+   "run_dir": "gauntlet/20261014-160116-panel-c_mend3",
+   "pid": 3153891,
+   "submission": 148,
+   "package": "c_mend3",
+   "started": "2026-10-14T16:01:06.084978+00:00",
+   "panel": "test/cells/panel-v1.txt",
+   "hash": "db9f54f47fea",
+   "parked": "2026-10-14T16:01:48.737836+00:00",
+   "panel_matches": [
+    6992,
+    6993,
+    6994,
+    6995,
+    6996,
+    6997,
+    6998,
+    6999,
+    7000,
+    7001
+   ]
+  }
+ ]
 }

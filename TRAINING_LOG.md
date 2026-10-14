@@ -1319,3 +1319,15 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   the owner's free-action principle, LEARNINGS 1), c_mend3 (second safe island when the nearest is contested),
   c_seam1 (Forest Mana search toward HQ-derived waypoints). Trials start after the 09:00 autoscrim, parked so the
   panels overlap.
+
+## 2026-10-14 09:05 PDT — c_blind1 and c_mend3 trials parked; c_blind2 building
+- The 09:00 autoscrim was created on c_mend2 (matches 6831-6951). trial-start c_blind1 (--skip-screen, reason
+  recorded; screen running in parallel) -> panel 6982-6991, parked 09:01, c_mend2 active as 147; c_mend3 -> panel
+  6992-7001, parked 09:01, c_mend2 active as 149.
+- The blind-fire classifier and the token-race fix from this session's uncommitted 2026-10-11 work (archived by the
+  web session in build/codex-recovery/20261012T191037Z) are superseded on main by the web session's own versions
+  (ReplayDump --shots, census shot_visible/shot_outside_vision/shot_visibility_unknown; contest._save_token with
+  mkstemp; aa7470c). The archived patch is dropped.
+- c_blind1 aims at unseen cloud tiles by a rotating index (no prior) and never from a cloud. Workflow wf_2d77b4f5-efd
+  builds c_blind2: memory targeting first (the last-seen tile of an enemy fighter that went out of sight within 6
+  rounds, also from inside a cloud), then c_blind1's scan; the field's shooters aim at remembered positions.
