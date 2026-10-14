@@ -1429,3 +1429,11 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   +187 (t +2.32). Healed HP +97 a game (t 0.6), kills +2.1 (t 1.2), damage -225 (t -0.4); 0 overruns/exceptions.
   The second-safe-island fallback almost never fires on the panel: no measurable effect. Rejected (trial-decide 148).
 - c_blind1 screen PASS (h2h 11-9, roster info Net +2, 128 games 0 overruns): progress/screens/c_blind1-9ce6956c844b.json.
+
+## 2026-10-14 14:55 PDT: c_seam1 rejected (gauntlet/20261014-170135-panel-c_seam1, 59/100); c_seam2 built
+
+- vs c_mend2 net -2 (-0.53 SE, 6-8), island-rounds -62 (t -0.53); vs c_bc1 net +1, +122 (t +0.94).
+- Mechanism works on Forest (10 cells): Mn collected by r250 +285 (t +2.58), carriers built +35 (t +1.4). It costs
+  elsewhere (90 cells): Mn by r100 -19 (t -3.48), Mn collected -357 (t -1.89), launchers -8.9 (t -2.41).
+  0 overruns/exceptions. Rejected (trial-decide 150).
+- c_seam2 = c_seam1 with the crowd search started only when no other Mana well is in the shared array (Seam2Test).
