@@ -1437,3 +1437,7 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   elsewhere (90 cells): Mn by r100 -19 (t -3.48), Mn collected -357 (t -1.89), launchers -8.9 (t -2.41).
   0 overruns/exceptions. Rejected (trial-decide 150).
 - c_seam2 = c_seam1 with the crowd search started only when no other Mana well is in the shared array (Seam2Test).
+- 2026-10-14 15:19 PDT: c_seam2 screen refused: VM disk 1.54 GB free (20 GB, 92% used). The operator crontab on the VM is
+  empty: the 6-hourly tools/galaxy/prune_replays.py job last ran 2026-10-12 17:30 PDT (lost in the 10-12 18:48
+  outage), and field-vs-field replays have accumulated (/srv/bc23-galaxy 5.0 GB). Running the prune and reinstalling
+  the crontab were both denied by the session's permission classifier: waiting for the owner.
