@@ -64,6 +64,10 @@ outside vision. Re-extract the panels with the shot visibility classifier before
 - **A local screen cannot judge a narrow arm.** An arm that acts only past round 1700 (c_end2) or on one map (c_lane1)
   sits at the identity score on the head-to-head; read the cells it can change, or go to the panel (TRAINING_LOG
   2026-10-11 01:45).
+- **A batch Bradley-Terry fit predicts better than the ladder's running Elo when the field is fixed.** Held out, per
+  game: log-loss 0.572 vs 0.628 (+3 points accuracy); the ladder's rating for one unchanged build ranged 191 points
+  in 33 hours. Use it to choose builds and ranked opponents (expected gain = K x (P_BT - E_ladder)); the ladder's
+  number is for seeding only (TRAINING_LOG 2026-10-14 10:40).
 - **Measure the mechanism, not only the score.** c_mend2 was accepted on healed HP x2.2 (t +4.8) with a net of +3;
   c_well7's MassiveL mana gain (t +6) came with 11-21 carriers fed on Forest that the score hid (TRAINING_LOG
   2026-10-11 05:14 and 06:05).

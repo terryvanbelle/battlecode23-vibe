@@ -1359,3 +1359,19 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   steps. Planned: an event watcher, a cron progress refresh, a weekly budget meter. Owner-side (suggested): earlier
   auto-compaction (autoCompactWindow ~300k, untested name), cancel the 2-hour refresh loop, task check every 55 min.
   LEARNINGS 3 "Budget".
+
+## 2026-10-14 10:40 PDT — BT predicts better than galaxy Elo (held out); stuck match 6282 cancelled (rating 1581 -> 1654)
+- Workflow wf_ca33769b-078 (measure + independent verify, scratchpad btacc/). Per game, our matches after 2026-10-10
+  00:00 PDT (378 matches, 1,834 games), BT fitted only on earlier matches, galaxy from pre-match ratings (siarnaq's
+  expected_score, n rebuilt; reproduces all 12,724 rated updates): log-loss galaxy 0.628 vs BT 0.572 (rolling;
+  difference -0.056 [-0.072, -0.041]), accuracy +3.1 points; ranked only 0.640 vs 0.605; c_mend2 0.616 vs 0.576;
+  second cutoff 2026-10-11 12:00: 0.614 vs 0.568. Galaxy's gaps are too narrow on unranked panels (calibration slope
+  2.8), but on ranked games its scale is about right: there BT wins because it ranks opponents with less noise.
+  Stability: c_mend2's galaxy rating ranged 191 points over 33 hours of unchanged code; BT within ~6 galaxy-equivalent.
+  BT's ranked bias +0.038 [+0.009, +0.067] of win share at the first cutoff, mostly c_def3 and c_aura2 (builds
+  validated after good panels run high early); c_mend2 +0.015. The test covers opponents ranked 1-44 of 87 only.
+- The verifier found ranked match 6282 (AnOvercookedFork.quals vs battlecode-archive.sprintBot, created 2026-10-12
+  09:00 PDT) stuck in RUN, blocking every later rating in creation order (172 finished participations unrated; ours
+  frozen at 1581.07). Staff Cancel + Recalculate ratings (galaxy's own admin actions, via the Django shell as
+  bcreplica), as for 2565 and 2593 (2026-10-09): our rating 1654 a minute later. sprintBot games are the slow ones;
+  the planned event watcher must flag any match in RUN for more than 2 hours.
