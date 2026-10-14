@@ -1414,3 +1414,11 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
 - HQ: action CD 2, its only actions are builds (the damage aura is passive); amplifier has no action. No other idle
   free action in the rules (RULES 2, 5.2). Not pursued.
 - Anchors: 1.3 lost a game (160 Ad+Mn each) vs them 1.1, after c_anc3's courier survival rules (from 9.5 of 12.4 in losses): no clear gap left. Audit closed; next target from the panels.
+
+## 2026-10-14 13:23 PDT: c_blind1 panel (gauntlet/20261014-160033-panel-c_blind1): 63/100, mechanism inert
+
+- Paired: vs c_mend2 net +2 (+0.71 SE, 5-3), island-rounds -68 (t -0.62); vs c_bc1 net +5 (+1.51 SE), +115 (t +1.02).
+- Mechanism: our shots 1,611 -> 12,537 a game, 10,551 outside vision, of which 20.2 hit (0.2%; ~400 damage, ~1% of our
+  33.7k). Paired against c_mend2: damage +96 (t 0.07), kills +2.2 (t 0.24), hits +2.7 (t 0.03): no measurable effect.
+  Launchers built 154 -> 145. Basics: 0 overruns, exceptions, self deaths.
+- Held parked: decide together with c_blind2 (memory-targeted blind shots), whose panel is still playing.
