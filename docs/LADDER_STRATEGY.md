@@ -30,9 +30,16 @@ means making it active, and while it is active, autoscrims and every accepted in
 
 **2. Bank rating with ranked games, and only with a validated build active.**
 - *Validated* means the build passed the panel gate (`TRAINING_ALGORITHM.md`).
-- Challenges go to one of the 3 teams rated closest at or above us. Above us, the expected score is low, so a win
-  gains a lot and a loss costs little.
-- Galaxy refuses ranked challenges to weaker teams; weaker teams challenge us instead.
+- Challenges go to the open team at or above us with the largest **expected gain** `24 * (P - E)`: P is our win
+  chance from the Bradley-Terry fit over every game we have (`tools/elolib.py`; refit hourly), E is what galaxy
+  expects from the two displayed ratings. If no team offers a positive gain, the loop sends no ranked request. The
+  fit predicts held-out games better than galaxy's running Elo (log-loss 0.572 vs 0.628, `LEARNINGS.md`), and
+  galaxy's scale is compressed: on 2026-10-14 BT spread the 13 teams above us over 290 points where galaxy spread
+  them over 120, so 11 of them offered negative gains (-2 to -6) and only one a clear positive one (+3.1). Without a
+  BT estimate (a build with no games, a failed fit) the loop falls back to one of the 3 teams rated closest above us.
+- Galaxy refuses ranked challenges to weaker teams; weaker teams challenge us instead. Incoming ranked challenges stay on
+  auto-accept: on 2026-10-14 all 73 teams below us offered a positive expected gain (+0.3 to +8.5; the same
+  compression, seen from above). Re-check with the same fit before ever declining one.
 
 **3. Pace ranked play.**
 - **BURST** (one request every 5 minutes) while ratings are young (fewer than 30 rated matches) or the build was

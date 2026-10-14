@@ -7,8 +7,11 @@ Runs in the background (Bash run_in_background) and EXITS on the first new event
 of every turn the agent re-arms it. Events, each reported once (keys kept in build/watch-events.seen):
   PANEL_DONE <package>      a parked trial's panel finished (tools/ladder_policy.py status says "panel done")
   SCREEN_DONE <job>         a VM screen job finished (SCREEN-END in its log) and has no collected record yet
-  STUCK_MATCH <id>          a replica match in RUN or QUE for more than 2 hours (siarnaq rates in creation order, so
-                            one stuck match freezes every later rating: 2565, 2593, 6282)
+  STUCK_MATCH <id>          a replica match the watcher has seen in RUN for more than 1 hour (siarnaq rates in creation
+                            order, so one stuck match freezes every later rating: 2565, 2593, 6282). Age since creation
+                            is no test: after an autoscrim, matches wait in QUE for hours and start late (2026-10-14:
+                            90 false alarms).
+  QUEUE_STALLED             matches wait in QUE more than 2 hours after creation and none is RUN (the runner is down)
   RANKED_DEAD               the ranked loop process is gone
   REPLICA_DOWN              the replica API does not answer
   VM_DOWN                   the VM does not answer ssh
@@ -19,6 +22,7 @@ import argparse, datetime as dt, json, os, subprocess, sys, time
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SEEN = os.path.join(REPO, 'build', 'watch-events.seen')
+RUN_SINCE = os.path.join(REPO, 'build', 'watch-events.run.json')   # match id -> first time the watcher saw it RUN
 sys.path.insert(0, os.path.join(REPO, 'tools'))
 
 
@@ -40,13 +44,22 @@ def parse_ts(s):
     return dt.datetime.fromisoformat(s.replace('Z', '+00:00')).astimezone(dt.timezone.utc)
 
 
-def stuck_matches(matches, now, hours=2.0):
-    """Ids of matches still RUN/QUE more than `hours` after creation (pure)."""
-    out = []
+def stuck_matches(matches, run_since, now, hours=1.0):
+    """Ids of matches seen in RUN for more than `hours`, and the updated first-seen-RUN map {id: epoch seconds},
+    keeping only matches still in RUN (pure; `now` is epoch seconds)."""
+    since = {}
     for m in matches:
-        if m.get('status') in ('RUN', 'QUE') and (now - parse_ts(m['created'])).total_seconds() > hours * 3600:
-            out.append(m['id'])
-    return sorted(out)
+        if m.get('status') == 'RUN':
+            since[str(m['id'])] = run_since.get(str(m['id']), now)
+    return sorted(int(i) for i, t in since.items() if now - t > hours * 3600), since
+
+
+def queue_stalled(matches, now, hours=2.0):
+    """True when a match waits in QUE more than `hours` after creation while none is RUN (pure; aware `now`)."""
+    if any(m.get('status') == 'RUN' for m in matches):
+        return False
+    return any(m.get('status') == 'QUE' and (now - parse_ts(m['created'])).total_seconds() > hours * 3600
+               for m in matches)
 
 
 def panels_done(status_text):
@@ -76,7 +89,8 @@ _last_stuck_scan = [0.0]
 
 def check(stuck_every=900, stuck_pages=40):
     """Every candidate event key right now (side effects: API, ssh, ps). The stuck-match scan reads the newest
-    stuck_pages x 10 matches (an autoscrim creates ~176 at once) at most every stuck_every seconds."""
+    stuck_pages x 10 matches (an autoscrim creates ~176 at once) at most every stuck_every seconds, so a stuck RUN
+    match is reported 1 to 1.25 hours after the watcher first saw it running (the map persists across re-arms)."""
     ev = []
     r = sh('timeout 60 python3 tools/ladder_policy.py status')
     if r is None or r.returncode != 0 or 'Connection refused' in (r.stdout + r.stderr):
@@ -90,7 +104,16 @@ def check(stuck_every=900, stuck_pages=40):
         try:
             import contest
             ms = contest.pages('/api/compete/bc23/match/?ordering=-id', limit=stuck_pages)
-            ev += [f'STUCK_MATCH {i}' for i in stuck_matches(ms, dt.datetime.now(dt.timezone.utc))]
+            try:
+                run_since = json.load(open(RUN_SINCE))
+            except (FileNotFoundError, ValueError):
+                run_since = {}
+            stuck, run_since = stuck_matches(ms, run_since, time.time())
+            with open(RUN_SINCE, 'w') as fh:
+                json.dump(run_since, fh)
+            ev += [f'STUCK_MATCH {i}' for i in stuck]
+            if queue_stalled(ms, dt.datetime.now(dt.timezone.utc)):
+                ev.append('QUEUE_STALLED')
         except Exception:
             pass
     r = sh("bash -c 'source tools/vm.sh && ensure_vm && gssh \"cd ~/projects/vibe/2023; for f in $(ls -t logs/*scr-*.log 2>/dev/null | head -6); do tail -1 $f | grep -q SCREEN-END && basename $f .log; done\"'", 90)

@@ -332,13 +332,25 @@ class WatchEventsTest(unittest.TestCase):
         cls.w = load('watch_events', TOOLS / 'watch_events.py')
 
     def test_stuck_matches(self):
+        now = 10_000.0
+        ms = [{'id': 1, 'status': 'RUN', 'created': 'x'},   # seen RUN 1h01 ago: stuck
+              {'id': 2, 'status': 'RUN', 'created': 'x'},   # seen RUN 30 min ago: not yet
+              {'id': 5, 'status': 'RUN', 'created': 'x'},   # first seen now
+              {'id': 3, 'status': 'OK!', 'created': 'x'},   # finished: dropped from the map
+              {'id': 4, 'status': 'QUE', 'created': 'x'}]   # queued: never stuck by age
+        stuck, since = self.w.stuck_matches(ms, {'1': now - 3660, '2': now - 1800, '3': now - 9000}, now)
+        self.assertEqual(stuck, [1])
+        self.assertEqual(since, {'1': now - 3660, '2': now - 1800, '5': now})
+
+    def test_queue_stalled(self):
         import datetime as dt
         now = dt.datetime(2026, 10, 14, 18, 0, tzinfo=dt.timezone.utc)
-        ms = [{'id': 1, 'status': 'RUN', 'created': '2026-10-14T11:59:00-04:00'},   # 2h01 old: stuck
-              {'id': 2, 'status': 'RUN', 'created': '2026-10-14T12:30:00-04:00'},   # 1h30: not yet
-              {'id': 3, 'status': 'OK!', 'created': '2026-10-12T09:00:00-04:00'},   # finished
-              {'id': 4, 'status': 'QUE', 'created': '2026-10-12T12:00:00-04:00'}]   # queued two days
-        self.assertEqual(self.w.stuck_matches(ms, now), [1, 4])
+        old = {'id': 4, 'status': 'QUE', 'created': '2026-10-14T11:00:00-04:00'}    # 3h queued
+        new = {'id': 6, 'status': 'QUE', 'created': '2026-10-14T13:30:00-04:00'}    # 30 min queued
+        run = {'id': 7, 'status': 'RUN', 'created': '2026-10-14T09:00:00-04:00'}
+        self.assertTrue(self.w.queue_stalled([old, new], now))
+        self.assertFalse(self.w.queue_stalled([old, run], now))     # the backlog is moving
+        self.assertFalse(self.w.queue_stalled([new], now))
 
     def test_panels_done_and_dedupe(self):
         txt = ("trial: None\n"
@@ -621,6 +633,28 @@ class LadderPolicyTest(unittest.TestCase):
         self.assertEqual(self.p.pick_open(ladder, 4, rested, now, random.Random(0))['id'], 1)
         rested[1] = now + datetime.timedelta(minutes=5)
         self.assertIsNone(self.p.pick_open(ladder, 4, rested, now, random.Random(0)))
+
+    def test_expected_gain(self):
+        self.assertAlmostEqual(self.p.expected_gain(0.5, 1600, 1600), 0.0)
+        self.assertAlmostEqual(self.p.expected_gain(0.626, 1654.1, 1656.2), 24 * (0.626 - 0.496978), places=3)   # we are 2.1 below: E < 0.5
+        self.assertLess(self.p.expected_gain(0.157, 1654, 1776), 0)     # BT: far weaker than galaxy thinks
+
+    def test_pick_gain(self):
+        import datetime
+        now = self.t(9)
+        ladder = [{'id': 1, 'name': 'a', 'rating': 900, 'status': 'R', 'active': True},
+                  {'id': 2, 'name': 'b', 'rating': 750, 'status': 'R', 'active': True},
+                  {'id': 3, 'name': 'c', 'rating': 760, 'status': 'R', 'active': False},
+                  {'id': 5, 'name': 'd', 'rating': 600, 'status': 'R', 'active': True},
+                  {'id': 4, 'name': 'us', 'rating': 700, 'status': 'R', 'active': True}]
+        P = {'a': 0.45, 'b': 0.60, 'c': 0.99, 'd': 0.99}    # c inactive, d below us: never picked
+        opp, g = self.p.pick_gain(ladder, 4, {}, now, P)
+        self.assertEqual(opp['id'], 1)                     # 24 (0.45 - 0.240) = 5.0 beats 24 (0.60 - 0.429) = 4.1
+        opp, g = self.p.pick_gain(ladder, 4, {1: now + datetime.timedelta(minutes=5)}, now, P)
+        self.assertEqual(opp['id'], 2)                     # a rests
+        opp, g = self.p.pick_gain(ladder, 4, {}, now, {'a': 0.1, 'b': 0.3})
+        self.assertIsNone(opp); self.assertLess(g, 0)      # every gain negative: no request
+        self.assertEqual(self.p.pick_gain(ladder, 4, {}, now, {}), (None, None))   # no estimates
 
     def test_trial_window(self):
         self.assertTrue(self.p.trial_window_ok(self.t(16), self.t(9)))

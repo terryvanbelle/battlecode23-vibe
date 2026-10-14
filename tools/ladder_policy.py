@@ -52,6 +52,9 @@ TRIAL_HOURS = 2.5                               # a panel trial must fit before 
 BAND = 3                                        # challenge one of the BAND teams rated closest at or above us
 PARK_TIMEOUT, PARK_POLL = 20 * 60, 30           # trial-park: wait this long (s) for the panel's matches, polling
 PARK_PAGES = 10                                 # pages of our match list trial-park reads (newest first)
+GAIN_K = 24                                     # siarnaq: a ranked match moves the mean by K (S - E)
+BT_REFRESH = 3600                               # seconds between refits of the Bradley-Terry model (a fit takes ~20 s)
+MIN_GAIN = 0.0                                  # challenge only a team whose expected gain exceeds this
 
 
 # ---------------------------------------------------------------- pure policy (tested)
@@ -497,6 +500,42 @@ def cmd_trial_decide(key, accept):
     print(ev['event'], p['package'], '- validated build is', s['validated'])
 
 
+def expected_gain(p_bt, r_us, r_opp, k=GAIN_K):
+    """Expected change of our galaxy rating from one ranked match: K (P - E), P our win chance from the BT fit, E the
+    share galaxy expects from the two displayed ratings (LEARNINGS: BT predicts better than the ladder's Elo)."""
+    return k * (p_bt - 1 / (1 + 10 ** ((r_opp - r_us) / 400)))
+
+
+def pick_gain(ladder, tid, rested, now, P, min_gain=MIN_GAIN):
+    """(team, gain): the open team rated at or above us (galaxy allows no other ranked request) with the largest
+    expected gain above min_gain, or (None, best gain seen or None). Teams P has no estimate for are skipped."""
+    me = next((t for t in ladder if t['id'] == tid), None)
+    if me is None or me['rating'] is None:
+        return None, None
+    best, bg = None, None
+    for t in ladder:
+        if (t['id'] == tid or not t['active'] or t['status'] != 'R' or t['rating'] is None
+                or t['rating'] < me['rating'] or rested.get(t['id'], now) > now or t['name'] not in P):
+            continue
+        g = expected_gain(P[t['name']], me['rating'], t['rating'])
+        if bg is None or g > bg:
+            best, bg = t, g
+    return (best, bg) if bg is not None and bg > min_gain else (None, bg)
+
+
+def bt_probs(package):
+    """{player name: P(the build `package` beats it)} from a BT fit over progress/games.csv, or None when the
+    build has no games. Field players are named as galaxy names the teams."""
+    if os.path.join(REPO, 'tools') not in sys.path:
+        sys.path.insert(0, os.path.join(REPO, 'tools'))
+    import elolib
+    R = elolib.fit(elolib.dedupe(elolib.load()))[0]
+    u = 'us:' + package
+    if u not in R:
+        return None
+    return {n: elolib.expected(R[u], r) for n, r in R.items() if n != u}
+
+
 def pick_open(ladder, tid, rested, now, rnd):
     """pick_upward over the teams not resting (409: 3 active ranked matches with them, or they fell below us)."""
     open_ = [t for t in ladder if t['id'] == tid or rested.get(t['id'], now) <= now]
@@ -510,8 +549,17 @@ def cmd_ranked(poll=60):
     last = None
     note = None
     rested = {}                     # team id -> time it may be challenged again
+    P, P_for, P_at = None, None, 0.0  # BT win chances of the validated build, refreshed hourly
     while True:
         try:
+            pkg = (load_state().get('validated') or {}).get('package')
+            if pkg and (pkg != P_for or time.time() - P_at > BT_REFRESH):
+                try:
+                    P = bt_probs(pkg)
+                except Exception as e:  # no model: fall back to the closest teams above us
+                    print(time.strftime('%H:%M:%S'), 'BT fit failed:', e, flush=True)
+                    P = None
+                P_for, P_at = pkg, time.time()
             # Match creation fixes the active submission. Serialize the fresh checks and request with every command
             # that changes it; otherwise trial-start can activate its candidate after the check but before the POST.
             with state_lock():
@@ -523,7 +571,15 @@ def cmd_ranked(poll=60):
                 mode = ranked_mode(n_rated(ms), parse_t(v.get('since')), now)
                 ok, why = may_challenge(s, sub and sub['id'], waiting(ms), last, mode, now)
                 if ok:
-                    opp = pick_open(contest.rankings(), tid, rested, now, rnd)
+                    ladder = contest.rankings()
+                    if P:
+                        opp, gain = pick_gain(ladder, tid, rested, now, P)
+                        if opp is None and note != 'gain':
+                            print(time.strftime('%H:%M:%S'), 'no open team above us with a positive expected gain'
+                                  f' (best {gain if gain is None else round(gain, 1)}): no ranked request', flush=True)
+                            note = 'gain'
+                    else:
+                        opp, gain = pick_open(ladder, tid, rested, now, rnd), None
                     if opp:
                         try:
                             r = contest.request(opp['id'], True, [], '?')
@@ -534,9 +590,10 @@ def cmd_ranked(poll=60):
                             print(time.strftime('%H:%M:%S'), 'resting', opp['name'], '15 min:', e.detail[:80], flush=True)
                             continue
                         last = now
-                        print(time.strftime('%H:%M:%S'), mode, 'ranked request', r['id'], 'to', opp['name'], 'rated', opp['rating'], flush=True)
+                        print(time.strftime('%H:%M:%S'), mode, 'ranked request', r['id'], 'to', opp['name'], 'rated',
+                              opp['rating'], '' if gain is None else f'expected gain {gain:+.1f}', flush=True)
                         note = None
-                    elif note != 'top':
+                    elif P is None and note != 'top':
                         print(time.strftime('%H:%M:%S'), 'nobody rated at or above us: weaker teams challenge us', flush=True)
                         note = 'top'
                 elif why not in ('interval',) and why != note:

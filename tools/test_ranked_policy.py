@@ -64,6 +64,7 @@ class RankedPolicyConcurrencyTest(unittest.TestCase):
             submit=lambda *args: {'id': 30}, wait_submission=wait_submission,
             block=lambda *args, **kw: os.path.join(tmp.name, 'panel'))
         self.p.contest = self.client
+        self.p.bt_probs = lambda package: None   # no BT model: the loop falls back to the closest teams above us
         self.sleep_patch = mock.patch.object(self.p.time, 'sleep', side_effect=LoopStopped)
         self.sleep_patch.start()
         self.addCleanup(self.sleep_patch.stop)

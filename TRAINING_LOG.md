@@ -1382,3 +1382,15 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   stuck-match scan reads the newest 400 matches every 15 minutes. CLAUDE.md rule 7: never end a turn without it (or
   another background job) armed; on a HEARTBEAT take the next target from TRAINING_ALGORITHM §2. Tests:
   WatchEventsTest (stuck matches, panels done, dedupe, seen file).
+
+## 2026-10-14 11:46 PDT: ranked opponents by expected gain; watcher stuck-match fix
+
+- `ladder_policy ranked` now challenges the open team at or above us with the largest expected gain 24 (P_BT - E_galaxy)
+  (BT refit hourly from progress/games.csv), and sends nothing when no gain is positive; without a BT estimate it falls
+  back to the 3 closest teams above. Today c_mend2 (galaxy 1654): 11 of 13 teams above offer -2 to -6, NotLLeon.v7 +3.1,
+  CyrilSharma.finalBot -0.4. Galaxy's scale is compressed (BT 290 points across those teams, galaxy 120); all 73 teams
+  below offer +0.3 to +8.5 when they challenge us, so incoming ranked stays on auto-accept (docs/LADDER_STRATEGY.md).
+- tools/watch_events.py: STUCK_MATCH now means seen in RUN for over 1 hour (first-seen map in build/); its first run
+  flagged 90 QUE matches that were only waiting behind the 09:00 autoscrim. New QUEUE_STALLED: QUE over 2 h with
+  nothing RUN.
+- Unit tests PASS.
