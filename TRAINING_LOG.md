@@ -1404,3 +1404,13 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   tools/progress-refresh.sh added (from the session scratchpad). LEARNINGS: liveness alarms. Unit tests PASS.
 - 2026-10-14 12:30 PDT: watcher STUCK_MATCH 6932 (field ranked maxwelljones14 vs battlecode-archive.sprintBot, RUN 67 min while the 5 others had just started); cancelled and re-rated (second sprintBot hang after 6282).
 - 2026-10-14 13:10 PDT: progress refresh: 1,645 games from 546 matches into games.csv; Elo, field score, rating history, ladder snapshot regenerated. The match-report sweep was stopped by Claude Code under driver memory pressure (2 GB) and is not restarted until the owner asks.
+
+## 2026-10-14 13:22 PDT: free-action audit (owner principle 1), carriers and HQs
+
+- Carrier throws (up to 50 damage; cargo is lost on death anyway): c_mend2 already throws at w >= 8, threat r2 <= 9,
+  HP <= 60. Since 10-11 (797 games, telemetry_query deaths): our carriers die 35.3 a game (them 54.7) but lose only
+  95.6 Mn of cargo a game in all (under 3 kg each), so a wider death-throw adds little. Anchors lost 1.3 a game (them
+  1.1) is the larger leak: escorting or routing anchor carriers, not throwing.
+- HQ: action CD 2, its only actions are builds (the damage aura is passive); amplifier has no action. No other idle
+  free action in the rules (RULES 2, 5.2). Not pursued.
+- Anchors: 1.3 lost a game (160 Ad+Mn each) vs them 1.1, after c_anc3's courier survival rules (from 9.5 of 12.4 in losses): no clear gap left. Audit closed; next target from the panels.
