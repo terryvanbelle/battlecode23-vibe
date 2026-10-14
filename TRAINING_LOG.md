@@ -1306,7 +1306,7 @@ Route1 completed both normal Forest sides against frozen Mend2, losing each at r
 
 Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/footer identity and complete uncapped three-ID cost scope. Its world-state fingerprint also equals the preserved Mend2 control. One measured fallback entry at11979/r1472 costs1,256 and returns7,293; selected MendUpdate and Launcher.run totals each increase594, while march/objective/after-mend tail totals stay identical. Selected target and causal healing delivery remain unknown; the20HP contextual healing window is not attributed to fallback. See research/diagnosis/2026-10-13/mend-sampled-candidate/. Incumbent c_mend2/145 stays active; neither candidate is promoted or expanded.
 
-## 2026-10-14 08:35 PDT — CLI session resumed; replica restarted; c_bc3 rejected; trials resume
+## 2026-10-14 08:30 PDT — CLI session resumed; replica restarted; c_bc3 rejected; trials resume
 - This session (stopped by the weekly usage limit 2026-10-11 09:20) resumed after the owner's "try again" (PROMPTS
   76-81). The web/runner session's work (2026-10-12, PROMPTS 51-75) was fast-forwarded from origin/main (5f90d1c).
 - The galaxy replica had been down since 2026-10-12 18:48 PDT: every galaxy unit stopped and postgresql@15-main masked
