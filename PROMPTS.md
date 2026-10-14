@@ -390,3 +390,11 @@ try again
 ## 82. 2026-10-14 09:24 PDT
 
 Can you give me a URL for the replica?
+
+## 83. 2026-10-14 09:28 PDT
+
+/auto-mode-setup
+
+## 84. 2026-10-14 09:28 PDT
+
+Where do I get the vibe23 password again?
