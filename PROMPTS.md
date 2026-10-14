@@ -402,3 +402,7 @@ Where do I get the vibe23 password again?
 ## 85. 2026-10-14 09:38 PDT
 
 I notice that Bradley-Terry ratings seem more stable and optimistic than the game's ELO ratings.  Are they more accurate?
+
+## 86. 2026-10-14 09:42 PDT
+
+You mentioned an hourly request limit.  Which system is imposing that limit?
