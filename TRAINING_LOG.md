@@ -1450,3 +1450,4 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
 - Neither blind-fire arm shows a measurable effect on damage, kills or margins (LEARNINGS 1: ~1% of damage), so neither
   is accepted on a +2 net that is within noise. Both rejected (trial-decide 152, 146). The principle stays: free actions
   are worth auditing, and this one was audited.
+- 2026-10-14 15:20 PDT: c_seam2 trial started (--force: parked within a minute; --skip-screen: VM disk) and parked: submission 154, panel matches 7022-7031, run gauntlet/20261014-221959-panel-c_seam2; c_mend2 active again as 155.
