@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 151,
+  "submission": 153,
   "package": "c_mend2",
   "since": "2026-10-11T12:14:09.832137+00:00",
   "panel_run": "gauntlet/20261011-080046-panel-c_mend2"
@@ -379,6 +379,20 @@
    "submission": 150,
    "package": "c_seam1",
    "validated_resubmitted": 151
+  },
+  {
+   "at": "2026-10-14T17:22:09.981777+00:00",
+   "event": "trial-start",
+   "submission": 152,
+   "package": "c_blind2",
+   "screen_skipped": "memory-targeted blind fire (owner principles, PROMPTS 49); Blind2Test 163 checks, full unit tests PASS; screen running in parallel"
+  },
+  {
+   "at": "2026-10-14T17:23:53.032437+00:00",
+   "event": "park",
+   "submission": 152,
+   "package": "c_blind2",
+   "validated_resubmitted": 153
   }
  ],
  "parked": [
@@ -446,6 +460,28 @@
     7009,
     7010,
     7011
+   ]
+  },
+  {
+   "run_dir": "gauntlet/20261014-172209-panel-c_blind2",
+   "pid": 3167910,
+   "submission": 152,
+   "package": "c_blind2",
+   "started": "2026-10-14T17:21:57.480821+00:00",
+   "panel": "test/cells/panel-v1.txt",
+   "hash": "dee7825e9315",
+   "parked": "2026-10-14T17:23:53.032339+00:00",
+   "panel_matches": [
+    7012,
+    7013,
+    7014,
+    7015,
+    7016,
+    7017,
+    7018,
+    7019,
+    7020,
+    7021
    ]
   }
  ]
