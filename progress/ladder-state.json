@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 149,
+  "submission": 151,
   "package": "c_mend2",
   "since": "2026-10-11T12:14:09.832137+00:00",
   "panel_run": "gauntlet/20261011-080046-panel-c_mend2"
@@ -365,6 +365,20 @@
    "submission": 148,
    "package": "c_mend3",
    "validated_resubmitted": 149
+  },
+  {
+   "at": "2026-10-14T17:01:35.185807+00:00",
+   "event": "trial-start",
+   "submission": 150,
+   "package": "c_seam1",
+   "screen_skipped": "Forest Mana search toward HQ-derived waypoints (official method fixtures discover and deliver 30 Mana on Forest; 26 logical checks); screen running in parallel"
+  },
+  {
+   "at": "2026-10-14T17:02:59.446392+00:00",
+   "event": "park",
+   "submission": 150,
+   "package": "c_seam1",
+   "validated_resubmitted": 151
   }
  ],
  "parked": [
@@ -410,6 +424,28 @@
     6999,
     7000,
     7001
+   ]
+  },
+  {
+   "run_dir": "gauntlet/20261014-170135-panel-c_seam1",
+   "pid": 3163003,
+   "submission": 150,
+   "package": "c_seam1",
+   "started": "2026-10-14T17:01:22.912869+00:00",
+   "panel": "test/cells/panel-v1.txt",
+   "hash": "5e11b3da11c9",
+   "parked": "2026-10-14T17:02:59.446307+00:00",
+   "panel_matches": [
+    7002,
+    7003,
+    7004,
+    7005,
+    7006,
+    7007,
+    7008,
+    7009,
+    7010,
+    7011
    ]
   }
  ]

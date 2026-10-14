@@ -1331,3 +1331,19 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
 - c_blind1 aims at unseen cloud tiles by a rotating index (no prior) and never from a cloud. Workflow wf_2d77b4f5-efd
   builds c_blind2: memory targeting first (the last-seen tile of an enemy fighter that went out of sight within 6
   rounds, also from inside a cloud), then c_blind1's scan; the field's shooters aim at remembered positions.
+
+## 2026-10-14 10:02 PDT — c_seam1 trial parked; c_blind2 built; rating and limit questions (PROMPTS 85-87)
+- trial-start c_seam1 (--skip-screen, reason recorded) at 10:01 after the hourly unranked limit reset; panel
+  7002-7011; parked 10:02 (c_mend2 active as 151). Three panels play: c_blind1, c_mend3, c_seam1.
+- c_blind2 (workflow wf_2d77b4f5-efd): c_blind1 + memory targeting (8 slots of enemy fighters' last-seen tiles and
+  last move direction; shoot the most recent hidden one within r2 16, also from a cloud when the cooldown fits;
+  C.BLIND_MEM_DEBT 0 keeps the strict cooldown rule, so a cloud tile's 1.2 multiplier blocks most in-cloud shots).
+  The review capped a 9,857-bytecode all-candidates-visible spike at ~1,400 (one pass, memLast skip); Blind2Test 163
+  checks. Full unit tests running.
+- The hourly request limit is siarnaq's own per-episode cap (ranked/unranked_scrimmage_hourly_limit, defaults 10/10),
+  set to 20/40 on the replica (PROMPTS 15-16); a 10-match panel counts 20 (requests plus created matches).
+- Bradley-Terry vs galaxy Elo: held-out accuracy test running (workflow wf_ca33769b-078). Galaxy's Elo with K 24
+  reverts about 3.5% of a gap per match (time constant ~30 matches, ~half a day at our pace) and wanders about +-26
+  points at equilibrium (3-game shares), several ranks on its compressed scale; each new build restarts from the
+  team's rating. Planned: a ranked selector that maximises expected rating gain, 24 x (P_BT - E_galaxy), and
+  declines incoming ranked challenges with negative expected gain.
