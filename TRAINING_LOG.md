@@ -1451,3 +1451,13 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   is accepted on a +2 net that is within noise. Both rejected (trial-decide 152, 146). The principle stays: free actions
   are worth auditing, and this one was audited.
 - 2026-10-14 15:20 PDT: c_seam2 trial started (--force: parked within a minute; --skip-screen: VM disk) and parked: submission 154, panel matches 7022-7031, run gauntlet/20261014-221959-panel-c_seam2; c_mend2 active again as 155.
+
+## 2026-10-14 16:18 PDT: c_seam2 rejected: identical to c_seam1 on all 100 cells; Forest-mana line closed for now
+
+- Panel gauntlet/20261014-221959-panel-c_seam2 (submission 154, matches 7022-7031): every game has c_seam1's winner and
+  round count (100 identical margins), so the no-other-known-Mana-well gate never bound: each search c_seam1 started
+  already had no alternative in the shared array. The off-Forest cost (Mn by r100 -19, t -3.5; launchers -8.9) comes
+  from those searches themselves. Rejected (trial-decide 154); its queued screen cancelled.
+- VM disk: the owner ran tools/galaxy/vm-prune.sh: 657 field replays, 2.0 GB freed (3.4 GB free, 82%). Its cron line
+  lost the path's quotes (open(/home/...)); fixed with tools/galaxy/prune-local.sh, reinstall pending.
+- 2026-10-14 16:24 PDT: owner reran vm-prune.sh --install-cron: crontab now '30 */6 * * * bash .../tools/galaxy/prune-local.sh' (0 replays due; 3.4 GB free).

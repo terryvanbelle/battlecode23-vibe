@@ -467,30 +467,22 @@
    "submission": 154,
    "package": "c_seam2",
    "validated_resubmitted": 155
-  }
- ],
- "parked": [
+  },
   {
-   "run_dir": "gauntlet/20261014-221959-panel-c_seam2",
-   "pid": 3208257,
+   "at": "2026-10-14T23:17:19.717694+00:00",
+   "event": "panel-done",
    "submission": 154,
    "package": "c_seam2",
-   "started": "2026-10-14T22:19:49.353535+00:00",
-   "panel": "test/cells/panel-v1.txt",
-   "hash": "8db3274ae2ab",
-   "parked": "2026-10-14T22:20:28.550418+00:00",
-   "panel_matches": [
-    7022,
-    7023,
-    7024,
-    7025,
-    7026,
-    7027,
-    7028,
-    7029,
-    7030,
-    7031
-   ]
+   "run": "gauntlet/20261014-221959-panel-c_seam2"
+  },
+  {
+   "at": "2026-10-14T23:18:41.475819+00:00",
+   "event": "reject",
+   "submission": 154,
+   "package": "c_seam2",
+   "parked": true,
+   "run": "gauntlet/20261014-221959-panel-c_seam2"
   }
- ]
+ ],
+ "parked": []
 }
