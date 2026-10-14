@@ -362,3 +362,27 @@ Once you've gotten back up to speed, you'll be expending a lot of intelligence d
 ## 75. 2026-10-12 PDT (message time unavailable)
 
 Incidentally, just so we're clear:  I expect you to work continuously until I tell you to stop.  Under no circumstances are you to stop working to ask me for new ideas for how to proceed
+
+## 76. 2026-10-11 to 2026-10-14 PDT (message time unavailable; sent to the CLI session while it was out of usage)
+
+Try again
+
+## 77. 2026-10-11 to 2026-10-14 PDT (message time unavailable)
+
+I paid for usage credits.  Please resume computation
+
+## 78. 2026-10-11 to 2026-10-14 PDT (message time unavailable)
+
+Try again
+
+## 79. 2026-10-11 to 2026-10-14 PDT (message time unavailable)
+
+I bought usage credits.  Please use them!
+
+## 80. 2026-10-11 to 2026-10-14 PDT (message time unavailable)
+
+Give me my usage credits, you fucking thief!
+
+## 81. 2026-10-14 08:28 PDT
+
+try again
