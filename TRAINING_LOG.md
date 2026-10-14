@@ -1376,7 +1376,7 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   bcreplica), as for 2565 and 2593 (2026-10-09): our rating 1654 a minute later. sprintBot games are the slow ones;
   the planned event watcher must flag any match in RUN for more than 2 hours.
 
-## 2026-10-14 11:05 PDT — event watcher replaces the task-check loop (owner, PROMPTS 90)
+## 2026-10-14 10:55 PDT — event watcher replaces the task-check loop (owner, PROMPTS 90)
 - tools/watch_events.py: exits on the first new event (PANEL_DONE, SCREEN_DONE, STUCK_MATCH > 2 h, RANKED_DEAD,
   REPLICA_DOWN, VM_DOWN) or a 50-minute HEARTBEAT; completions are reported once (build/watch-events.seen); the
   stuck-match scan reads the newest 400 matches every 15 minutes. CLAUDE.md rule 7: never end a turn without it (or
