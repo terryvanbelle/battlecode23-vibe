@@ -1536,3 +1536,12 @@ c_mend2 active again as 159. Judge by paired.py vs c_mend2/c_bc1 panels; mechani
   pursued. c_mend2 panel whole-game totals: wins us/them launchers 167/98, Mn 6,121/2,348; losses 134/296 and
   2,975/12,301. Losses end with the economy collapsed under siege (HQ pressure r2<=9 965 vs 63), the late state the
   causal graph traces to r150-300 fight losses.
+
+## 2026-10-15 05:47 PDT: c_siege1, launcher batches under a siege
+- c_mend2 panel deaths per game, losses vs wins: our launchers spawn-killed 17.6 vs 0.5 (~1,000 Mn a lost game),
+  enemy launchers killed by our HQ aura 23.4 vs 0.6; HQ pressure r2<=9 965 vs 63. A threatened HQ built a launcher
+  whenever Mn >= 45 and fed them one at a time into the siege.
+- c_siege1 = c_mend2 + a threatened HQ with >= C.SIEGE_MIN (2) enemy fighters in view builds launchers only when
+  it can spawn min(C.SIEGE_BATCH_MAX 5, enemies + 1) this turn (HQ action cooldown 2: 5 builds a turn, RULES 3.1).
+  c_batch1 (2026-10-07, batches outside threats) failed because waiting delayed every launcher; this batches only
+  where single launchers die at birth. Siege1Test; unit-tests PASS.
