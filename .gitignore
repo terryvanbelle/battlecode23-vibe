@@ -13,3 +13,6 @@ tools/.venv/
 .claude/scheduled_tasks.lock
 research/**/classes/
 logs/
+
+# behavioural-cloning rows (tools/sa_extract.py): hundreds of MB, regenerable from panel replays
+research/clone/

@@ -325,6 +325,98 @@ class ReplayDumpMultiGameTest(unittest.TestCase):
         self.assertNotIn('maptestsmall', g1)
 
 
+class ReplayDumpSaTest(unittest.TestCase):
+    """--sa (behavioural-cloning rows) on two-games.bc23 game 0, team A (g_iter0): per-turn rows must add up to the
+    summary's whole-game totals (built C12 L27 A3, anchors 5/5/5, deposited Ad640 Mn1080, collected Ad702 Mn1156,
+    154 launcher shots), HQ round 1 sees the +200/+200 grant, and a launcher never moves two turns running (move
+    cooldown 20 at m = 1, RULES.md 5.1) once current pushes are undone. tools/sa_extract.py drives it per panel."""
+    FIX = ReplayDumpMultiGameTest.FIX
+
+    @classmethod
+    def setUpClass(cls):
+        import csv
+        cls.tmp = tempfile.TemporaryDirectory()
+        cls.out = Path(cls.tmp.name) / 'sa'
+        cls.log = subprocess.run(['bash', str(TOOLS / 'replay-dump.sh'), str(cls.FIX), '--sa', '--team', 'A', '--game', '0',
+                                  '--out', str(cls.out)], capture_output=True, text=True, timeout=600).stdout
+        cls.raw = {k: (cls.out / f'sa_{k}.csv').read_text().splitlines() for k in ('L', 'HQ', 'C')}
+        cls.rows = {k: list(csv.DictReader(v)) for k, v in cls.raw.items()}
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tmp.cleanup()
+
+    def test_shape(self):
+        self.assertIn('0 maptestsmall team=A name=g_iter0 rows_L=', self.log)
+        for k, lines in self.raw.items():
+            n = len(lines[0].split(','))
+            self.assertGreater(len(lines), 100, k)
+            for line in lines[1:]:
+                self.assertEqual(len(line.split(',')), n, (k, line))
+
+    def test_totals_match_summary(self):
+        L, H, C = self.rows['L'], self.rows['HQ'], self.rows['C']
+        s = lambda rows, col: sum(int(r[col]) for r in rows)
+        self.assertEqual((s(H, 'built_C'), s(H, 'built_L'), s(H, 'built_A')), (12, 27, 3))
+        self.assertEqual(s(H, 'anchors_std') + s(H, 'anchors_acc'), 5)
+        self.assertEqual((s(C, 'anchor_take'), s(C, 'anchor_place')), (5, 5))
+        self.assertEqual((s(C, 'dep_ad'), s(C, 'dep_mn')), (640, 1080))
+        self.assertEqual(sum(int(r['collect_amt']) for r in C if r['collect_res'] == 'Ad'), 702)
+        self.assertEqual(sum(int(r['collect_amt']) for r in C if r['collect_res'] == 'Mn'), 1156)
+        self.assertEqual(s(L, 'n_attacks'), 154)
+        h1 = H[0]
+        self.assertEqual((h1['round'], h1['bank_Ad'], h1['bank_Mn'], h1['built_C'], h1['built_L']), ('1', '200', '200', '3', '2'))
+
+    def test_launcher_turn_logic(self):
+        last, consecutive = {}, 0
+        for r in self.rows['L']:
+            if r['moved'] == '1':
+                consecutive += last.get(r['id']) == int(r['round']) - 1
+                last[r['id']] = int(r['round'])
+            if r['attacked'] == '1' and r['atk_order'] in ('before', 'after', 'either'):
+                d_s, d_e = int(r['atk_d2_start']), int(r['atk_d2_end'])
+                self.assertTrue(d_s <= 16 or d_e <= 16, r)
+                self.assertEqual(r['atk_order'], 'either' if d_s <= 16 and d_e <= 16 else 'before' if d_s <= 16 else 'after')
+            if r['atk_hit'] == '1':
+                self.assertIn(r['atk_target_type'], 'CLADB')
+                self.assertGreater(int(r['atk_target_hp_before']), 0)
+        self.assertEqual(consecutive, 0)
+        self.assertEqual(set(r['move_dir'] for r in self.rows['L']) - set(ReplayDumpSaTest.DIRS), set())
+
+    DIRS = ('CENTER', 'NORTH', 'NORTHEAST', 'EAST', 'SOUTHEAST', 'SOUTH', 'SOUTHWEST', 'WEST', 'NORTHWEST', '?')
+
+    def test_driver_panel(self):
+        """sa_extract.py finds the opponent's games in a panel's results.csv and extracts both sides."""
+        import csv, gzip
+        sx = load('sa_extract', 'sa_extract.py')
+        with tempfile.TemporaryDirectory() as d:
+            panel = Path(d) / 'g' / '20990101-000000-panel-x'
+            (panel / 'replays').mkdir(parents=True)
+            os.symlink(self.FIX, panel / 'replays' / '77.bc23')
+            (panel / 'results.csv').write_text('opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed,game,match,submission\n'
+                                               'examplefuncsplayer,maptestsmall,A,A,339,win,,map,0,77,1\n'
+                                               'other.bot,maptestsmall,A,A,339,win,,map,0,78,1\n')
+            self.assertEqual(list(sx.panel_games(panel / 'results.csv', 'example').items()),
+                             [(('77', 'A'), ('examplefuncsplayer', [0]))])
+            self.assertIsNone(sx.find_replay(str(panel), 78))
+            out = Path(d) / 'clone'
+            with open(os.devnull, 'w') as null:
+                old, sys.stdout = sys.stdout, null
+                try:
+                    rc = sx.main(['example', '--panels', str(Path(d) / 'g' / '*-panel-*'), '--out', str(out)])
+                finally:
+                    sys.stdout = old
+            self.assertEqual(rc, 0)
+            with gzip.open(out / 'sa_HQ.csv.gz', 'rt') as f:
+                opp = list(csv.DictReader(f))
+            with gzip.open(out / 'ours_sa_L.csv.gz', 'rt') as f:
+                ours = list(csv.DictReader(f))
+            self.assertEqual((opp[0]['panel'], opp[0]['opponent'], opp[0]['match'], opp[0]['map']),
+                             ('20990101-000000-panel-x', 'examplefuncsplayer', '77', 'maptestsmall'))
+            self.assertEqual(len(ours), len(self.rows['L']))
+            self.assertEqual(sum(int(r['n_attacks']) for r in ours), 154)
+
+
 class WatchEventsTest(unittest.TestCase):
     """tools/watch_events.py pure parts (owner, PROMPTS 90): the watcher that wakes the session on events."""
     @classmethod

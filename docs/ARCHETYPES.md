@@ -177,7 +177,7 @@ per-game medians would give 0.627 and 0.773; `ahead_win` gives vrangr1 0.94 and 
   `tools/snapshot.sh` with `bot` replaced by `c_line6`.
 - Every archetype constant lives in a block at the top of `C.java`, headed `ARCHETYPE arch_<name> (S<k>)`. Each
   constant carries the member measurement that sets it, as the base already does.
-  - Set `C.TELE_BUILD`: arch_swarm 101, arch_adecon 102, arch_blob 103, arch_horde 104, arch_ampmid 105.
+  - Set `C.TELE_BUILD`: arch_swarm 101, arch_adecon 102, arch_blob 103, arch_horde 104, arch_ampmid 105, arch_jm 106 (jmerle sparring partner, a c_mend2 fork).
   - Keep `C.TELEMETRY = true` unless it causes near misses; record the reason if it is turned off.
 - Robustness is part of the specification:
   - 0 uncaught exceptions;

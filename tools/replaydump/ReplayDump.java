@@ -45,6 +45,10 @@ import java.util.zip.GZIPInputStream;
  *   --fingerprint             one line per game: game map rounds state_sha1 bytecode_sha1 (indicators excluded)
  *   --decode-record KIND A B C D [--type T]   the tele_events.jsonl JSON of one data-dot record (no replay file)
  *   --checks                  model identities (hp never above max, team totals = HQ banks + cargo, hit pairing)
+ *   --sa --team A|B --out DIR [--games all|i,j | --game N] [--match ID] [--gzip] [--append] [--file-prefix P]
+ *        [--pre-hdr H --pre-val V]   behavioural-cloning rows of one team (tools/sa_extract.py drives it):
+ *                             sa_L.csv, sa_HQ.csv, sa_C.csv, one row per launcher/HQ/carrier turn, state at the start of
+ *                             the robot's own turn (rebuilt in turn order), actions of that turn (see sa())
  * --census appends the columns of TELEMETRY.md B.5 after `counters`. Legacy columns keep their meaning: `dmg` credits
  * every negative CHANGE_HEALTH (HQ aura included) to the other team and leaves out lethal damage, and `kills` counts
  * any death that had a hit in the same round. New tools use `dmg_hits` and `kills_hits`.
@@ -2240,6 +2244,371 @@ public class ReplayDump {
     }
 
 
+    // ================================================================ --sa: behavioural-cloning rows (state -> action)
+    // One row per robot-turn of ONE team: launchers (sa_L.csv), HQs (sa_HQ.csv), carriers (sa_C.csv). State is the
+    // acting robot's view at the START OF ITS OWN TURN, rebuilt in turn order inside the round: robots that acted
+    // earlier this round stand on their post-turn squares with their post-turn hp/inventory, robots killed earlier this
+    // round are gone, robots built earlier this round exist. Turn order = the round's bytecode list (engine spawn order);
+    // an action belongs to the turn of the next owner-bearing action (CHANGE_* entries precede the action that caused
+    // them). Limits: the replay has no move events, so a post-turn square is the end-of-round square with the current's
+    // push undone (pos_note 1 = undone, 2 = ambiguous, 3 = died this round: move unknown); a carrier's 2+ steps are one
+    // shortest decomposition of its displacement; attack-vs-move order is inferred from geometry only (atk_order);
+    // counts are geometric (no cloud vision cut) and include the HQ's own team where noted; wells keep their map type.
+    static final String SA_L_HDR = "match,game,map,round,id,hp,x,y,d2_own_hq,d2_enemy_hq,ally_L_20,enemy_L_20,enemy_L_16,"
+        + "enemy_C_20,ally_L_34_oov,enemy_L_34_oov,near_eL_dx,near_eL_dy,near_eL_d2,enemy_L_hp_sum20,enemy_L_hp_min16,"
+        + "ally_L_hp_sum20,on_cloud,d2_well_ad,d2_well_mn,d2_island_own,d2_island_enemy,d2_island_neutral,"
+        + "move_dir,moved,pos_note,attacked,n_attacks,atk_hit,atk_target_type,atk_target_id,atk_tx,atk_ty,atk_d2_start,"
+        + "atk_d2_end,atk_target_hp_before,atk_order";
+    static final String SA_HQ_HDR = "match,game,map,round,hq_id,x,y,bank_Ad,bank_Mn,bank_Ex,team_L,team_C,team_A,"
+        + "enemy_L_34,enemy_L_9,enemy_C_34,built_C,built_L,built_A,built_D,built_B,anchors_std,anchors_acc";
+    static final String SA_C_HDR = "match,game,map,round,id,hp,x,y,ad,mn,ex,anchor,d2_own_hq,enemy_L_20,near_eL_d2,ally_L_20,"
+        + "d2_well_ad,d2_well_mn,d2_island_own,d2_island_neutral,move_dirs,move_n,pos_note,collect_res,collect_amt,n_collects,"
+        + "dep_ad,dep_mn,dep_ex,well_dep,anchor_take,anchor_place,threw,throw_hit,throw_target_type,throw_target_id,throw_order";
+    static final String[] RES = {"Ad", "Mn", "Ex"};
+    long saAnomalies, saAmbig;
+    final int[] saRows = new int[3];
+
+    /** Per cell, the least d2 to any cell matching `src`; -1 everywhere when none matches. */
+    int[] nearGrid(java.util.function.IntPredicate src) {
+        int n = W * H;
+        List<Integer> s = new ArrayList<>();
+        for (int k = 0; k < n; k++) if (src.test(k)) s.add(k);
+        int[] g = new int[n];
+        for (int k = 0; k < n; k++) {
+            int best = -1, x = k % W, y = k / W;
+            for (int q : s) { int d = G2(x, y, q % W, q / W); if (best < 0 || d < best) best = d; }
+            g[k] = best;
+        }
+        return g;
+    }
+
+    static String dirName(int dx, int dy) {
+        int[][] v = {{0, 0}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
+        for (int i = 0; i < 9; i++) if (v[i][0] == dx && v[i][1] == dy) return DIR9[i];
+        return "?";
+    }
+
+    /** Shortest step decomposition of a displacement, diagonals first ("CENTER" when none). */
+    static String steps(int dx, int dy) {
+        StringBuilder sb = new StringBuilder();
+        while (dx != 0 || dy != 0) {
+            int sx = Integer.signum(dx), sy = Integer.signum(dy);
+            sb.append(sb.length() == 0 ? "" : "+").append(dirName(sx, sy));
+            dx -= sx; dy -= sy;
+        }
+        return sb.length() == 0 ? "CENTER" : sb.toString();
+    }
+
+    /** The post-turn square from the start square s and the end-of-round square e: {square, note 0 plain, 1 current
+     * push undone, 2 ambiguous}. A current pushes a robot one square from where its turn ended, unless the push is
+     * blocked (RULES.md 4.1 and 6.4). Preference: stayed (s), then e when e has no current, then the squares whose
+     * current leads to e, then e with a blocked push. A known attack square (atk >= 0, out of reach r2 from s) keeps
+     * only the squares that reach it, since the attack then came after the move. */
+    int[] postTurn(int s, int e, int maxMoves, int atk, int r2) {
+        int sx = s % W, sy = s / W, ex = e % W, ey = e / W;
+        if (e == s) return new int[]{s, 0};          // stayed: no current, or its push was blocked
+        List<Integer> cands = new ArrayList<>();
+        for (int y = Math.max(0, sy - maxMoves); y <= Math.min(H - 1, sy + maxMoves); y++)
+            for (int x = Math.max(0, sx - maxMoves); x <= Math.min(W - 1, sx + maxMoves); x++) {
+                int p = x + y * W, c = current[p];
+                if (!wall[p] && c > 0 && c < 9 && x + CUR_DX[c] == ex && y + CUR_DY[c] == ey) cands.add(p);
+            }
+        if (cands.isEmpty()) return new int[]{e, 0};
+        boolean eReach = Math.max(Math.abs(ex - sx), Math.abs(ey - sy)) <= maxMoves;
+        boolean eFree = current[e] <= 0 || current[e] >= 9;
+        List<Integer> order = new ArrayList<>();
+        if (cands.contains(s)) order.add(s);
+        if (eReach && eFree) order.add(e);
+        for (int c : cands) if (!order.contains(c)) order.add(c);
+        int primary = order.size();
+        if (eReach && !eFree) order.add(e);
+        if (atk >= 0 && G2(sx, sy, atk % W, atk / W) > r2) {
+            List<Integer> f = new ArrayList<>();
+            for (int k = 0; k < order.size(); k++) {
+                int p = order.get(k);
+                if (G2(p % W, p / W, atk % W, atk / W) <= r2) f.add(p); else if (k < primary) primary--;
+            }
+            if (!f.isEmpty()) { order = f; primary = Math.min(primary, f.size()); }
+        }
+        int r = order.get(0);
+        if (r == e) return new int[]{e, 0};
+        if (primary <= 1) return new int[]{r, 1};
+        saAmbig++;
+        return new int[]{r, 2};
+    }
+
+    static boolean ownerBearing(byte a) {
+        return a != Action.CHANGE_HEALTH && a != Action.CHANGE_ADAMANTIUM && a != Action.CHANGE_MANA && a != Action.CHANGE_ELIXIR;
+    }
+
+    static boolean resChange(byte a) { return a == Action.CHANGE_ADAMANTIUM || a == Action.CHANGE_MANA || a == Action.CHANGE_ELIXIR; }
+
+    /** What the acting robot did in its turn. */
+    static final class SaTurn {
+        int nAtk, atkTgtId = -1, atkLoc = -1, atkHpBefore = -1, atkType = -1; boolean atkHit;
+        int collRes = -1, collAmt, nColl, wellDep, ancTake, ancPlace;
+        final int[] dep = new int[3], built = new int[NT], anchors = new int[2];
+    }
+
+    void sa(int team, PrintStream oL, PrintStream oH, PrintStream oC, String pre) {
+        int[] dAd = nearGrid(k -> resource[k] == 1), dMn = nearGrid(k -> resource[k] == 2);
+        List<Robot> hqList = new ArrayList<>();
+        for (Robot rb : robots.values()) if (rb.type == 0) hqList.add(rb);
+        Map<Integer, Robot> hqLoc = new HashMap<>();
+        for (Robot h : hqList) hqLoc.put(h.x + h.y * W, h);
+        List<Robot> live = new ArrayList<>(robots.values());
+        int[] own = new int[Math.max(64, nIslands + 1)];
+        int[][] islG = new int[3][];
+        boolean islDirty = true;
+        for (Round r : rounds) {
+            final int rn = r.roundID();
+            if (islDirty) {
+                for (int o = 0; o < 3; o++) { final int oo = o; islG[o] = nearGrid(k -> island[k] > 0 && island[k] < own.length && own[island[k]] == oo); }
+                islDirty = false;
+            }
+            Map<Integer, int[]> pend = new HashMap<>();
+            SpawnedBodyTable sp = r.spawnedBodies();
+            if (sp != null) for (int k = 0; k < sp.robotIDsLength(); k++)
+                pend.put(sp.robotIDs(k), new int[]{sp.teamIDs(k), sp.types(k), sp.locs().xs(k), sp.locs().ys(k)});
+            Set<Integer> diedNow = new HashSet<>();
+            for (int k = 0; k < r.diedIDsLength(); k++) diedNow.add(r.diedIDs(k));
+            Map<Integer, Integer> endPos = new HashMap<>();
+            for (int k = 0; k < r.movedIDsLength(); k++) endPos.put(r.movedIDs(k), r.movedLocs().xs(k) + r.movedLocs().ys(k) * W);
+            int nb = r.bytecodeIDsLength(), na = r.actionsLength();
+            Map<Integer, Integer> tix = new HashMap<>();
+            for (int k = 0; k < nb; k++) tix.put(r.bytecodeIDs(k), k);
+            int[] owner = new int[na];
+            for (int k = 0; k < na; k++) owner[k] = ownerBearing(r.actions(k)) ? tix.getOrDefault(r.actionIDs(k), -1) : -2;
+            int p = 0;
+            // round 1: every HQ's +200 Ad/Mn comes before any turn (RULES.md 4.1 step 2)
+            if (rn == 1) while (p < na && resChange(r.actions(p)) && r.actionTargets(p) >= 0 && robots.get(r.actionIDs(p)) != null
+                && robots.get(r.actionIDs(p)).type == 0) { saApply(r, p, null, null, rn, diedNow, pend, hqLoc, live); p++; }
+            for (int j = 0; j < nb; j++) {
+                int q = p, last = -1;
+                while (q < na) {
+                    int o = owner[q];
+                    if (o == -2) { q++; continue; }
+                    if (o > j) break;
+                    if (o != j) saAnomalies++;
+                    last = q;
+                    q++;
+                }
+                Robot rb = robots.get(r.bytecodeIDs(j));
+                boolean want = rb != null && rb.died < 0 && rb.team == team && rb.type <= 2;
+                String feat = want ? saFeatures(rb, live, hqList, dAd, dMn, islG) : null;
+                SaTurn t = new SaTurn();
+                int sx = rb == null ? 0 : rb.x, sy = rb == null ? 0 : rb.y;
+                for (int k = p; k <= last; k++) saApply(r, k, rb, t, rn, diedNow, pend, hqLoc, live);
+                if (last >= 0) p = last + 1;
+                if (rb == null || rb.type == 0) { if (want) saWriteHQ(oH, pre, rn, rb, t, feat); continue; }
+                int note = 0;
+                Integer e = endPos.get(rb.id);
+                if (e != null && rb.died < 0) {
+                    int[] pt = postTurn(sx + sy * W, e, ShotGeometry.maxMoves(rb.type), t.atkLoc, rb.type == 2 ? 16 : 9);
+                    rb.x = pt[0] % W; rb.y = pt[0] / W; note = pt[1];
+                } else note = 3;
+                if (!want) continue;
+                if (rb.type == 2) saWriteL(oL, pre, rn, rb, t, feat, sx, sy, note);
+                else saWriteC(oC, pre, rn, rb, t, feat, sx, sy, note);
+            }
+            for (int k = p; k < na; k++) {           // end of round: islands, destabilize, HQ aura and income
+                if (owner[k] != -2) saAnomalies++;
+                saApply(r, k, null, null, rn, diedNow, pend, hqLoc, live);
+            }
+            for (Map.Entry<Integer, int[]> e : pend.entrySet()) {
+                int[] v = e.getValue();
+                live.add(spawn(e.getKey(), v[0], v[1], v[2], v[3], rn));
+            }
+            for (Robot rb : live) {
+                Integer e = endPos.get(rb.id);
+                if (e != null) { rb.x = e % W; rb.y = e / W; }
+                if (diedNow.contains(rb.id) && rb.died < 0) rb.died = rn;
+            }
+            live.removeIf(rb -> rb.died >= 0);
+            for (int k = 0; k < r.islandIDsLength(); k++) {
+                int iid = r.islandIDs(k), o = r.islandOwnership(k);
+                if (iid > 0 && iid < own.length && own[iid] != o) { own[iid] = o; islDirty = true; }
+            }
+        }
+    }
+
+    void saApply(Round r, int k, Robot actor, SaTurn t, int rn, Set<Integer> diedNow, Map<Integer, int[]> pend,
+                 Map<Integer, Robot> hqLoc, List<Robot> live) {
+        int id = r.actionIDs(k), tgt = r.actionTargets(k);
+        byte a = r.actions(k);
+        Robot x = robots.get(id);
+        if (x == null) return;
+        boolean me = t != null && x == actor;
+        switch (a) {
+            case Action.CHANGE_HEALTH: x.hp = Math.min(maxHp[x.type], x.hp + tgt); break;
+            case Action.CHANGE_ADAMANTIUM: x.ad += tgt; break;
+            case Action.CHANGE_MANA: x.mn += tgt; break;
+            case Action.CHANGE_ELIXIR: x.ex += tgt; break;
+            case Action.LAUNCH_ATTACK: case Action.THROW_ATTACK: {
+                Robot v = tgt >= 0 ? robots.get(tgt) : null;
+                boolean paired = k > 0 && r.actions(k - 1) == Action.CHANGE_HEALTH && r.actionIDs(k - 1) == tgt && r.actionTargets(k - 1) < 0;
+                if (me && t.nAtk++ == 0) {
+                    t.atkHit = tgt >= 0;
+                    t.atkTgtId = tgt;
+                    if (v != null) {
+                        t.atkLoc = v.x + v.y * W; t.atkType = v.type;
+                        t.atkHpBefore = paired ? v.hp - r.actionTargets(k - 1) : v.hp;
+                    } else if (tgt < 0) t.atkLoc = -tgt - 1;
+                }
+                if (v != null && !paired && diedNow.contains(v.id) && v.died < 0) v.died = rn;   // lethal hit: gone now
+                if (a == Action.THROW_ATTACK) { x.ad = x.mn = x.ex = 0; x.anchors = 0; }
+                break;
+            }
+            case Action.SPAWN_UNIT: {
+                int[] v = pend.remove(tgt);
+                if (v != null) { live.add(spawn(tgt, v[0], v[1], v[2], v[3], rn)); if (me) t.built[v[1]]++; }
+                break;
+            }
+            case Action.BUILD_ANCHOR: if (me) t.anchors[tgt == 1 ? 1 : 0]++; break;
+            case Action.PICK_UP_ANCHOR:
+                if (tgt >= 0) { x.anchors++; if (me) t.ancTake++; } else x.anchors = Math.max(0, x.anchors - 1);
+                break;
+            case Action.PLACE_ANCHOR: x.anchors = Math.max(0, x.anchors - 1); if (me) t.ancPlace++; break;
+            case Action.PICK_UP_RESOURCE:
+                if (me && k > 0 && r.actionIDs(k - 1) == id && resChange(r.actions(k - 1)) && r.actionTargets(k - 1) > 0) {
+                    int ri = r.actions(k - 1) == Action.CHANGE_ADAMANTIUM ? 0 : r.actions(k - 1) == Action.CHANGE_MANA ? 1 : 2;
+                    if (t.collRes < 0) t.collRes = ri;
+                    t.collAmt += r.actionTargets(k - 1);
+                    t.nColl++;
+                }
+                break;
+            case Action.PLACE_RESOURCE:
+                if (me && k > 0 && r.actionIDs(k - 1) == id && resChange(r.actions(k - 1)) && r.actionTargets(k - 1) < 0) {
+                    int ri = r.actions(k - 1) == Action.CHANGE_ADAMANTIUM ? 0 : r.actions(k - 1) == Action.CHANGE_MANA ? 1 : 2;
+                    Robot h = hqLoc.get(tgt);
+                    if (h != null && h.team == x.team) t.dep[ri] -= r.actionTargets(k - 1); else t.wellDep -= r.actionTargets(k - 1);
+                }
+                break;
+            default: break;
+        }
+    }
+
+    /** The shared state columns of one robot-turn (start of its turn). */
+    String saFeatures(Robot rb, List<Robot> live, List<Robot> hqList, int[] dAd, int[] dMn, int[][] islG) {
+        int t = rb.team, i = rb.x + rb.y * W;
+        int dOwn = -1, dEn = -1;
+        for (Robot h : hqList) {
+            int d = G2(h.x, h.y, rb.x, rb.y);
+            if (h.team == t) { if (dOwn < 0 || d < dOwn) dOwn = d; } else if (dEn < 0 || d < dEn) dEn = d;
+        }
+        int aL20 = 0, eL20 = 0, eL16 = 0, eC20 = 0, aL34 = 0, eL34 = 0, eLsum = 0, eLmin = -1, aLsum = 0, nd = -1, ndx = 0, ndy = 0;
+        int tL = 0, tC = 0, tA = 0, eL9 = 0, eC34 = 0;
+        for (Robot o : live) {
+            if (o.died >= 0 || o == rb) continue;
+            if (o.team == t) { if (o.type == 2) tL++; else if (o.type == 1) tC++; else if (o.type == 3) tA++; }
+            int d = G2(o.x, o.y, rb.x, rb.y);
+            if (d > 34) continue;
+            boolean en = o.team != t;
+            if (o.type == 2) {
+                if (en) {
+                    eL34++;
+                    if (d <= 9) eL9++;
+                    if (d <= 20) { eL20++; eLsum += o.hp; if (nd < 0 || d < nd) { nd = d; ndx = o.x - rb.x; ndy = o.y - rb.y; } }
+                    if (d <= 16) { eL16++; if (eLmin < 0 || o.hp < eLmin) eLmin = o.hp; }
+                } else { aL34++; if (d <= 20) { aL20++; aLsum += o.hp; } }
+            } else if (o.type == 1 && en) { eC34++; if (d <= 20) eC20++; }
+        }
+        int iOwn = islG[t][i], iEn = islG[3 - t][i], iNeu = islG[0][i];
+        if (rb.type == 0)
+            return rb.ad + "," + rb.mn + "," + rb.ex + "," + tL + "," + tC + "," + tA + "," + eL34 + "," + eL9 + "," + eC34;
+        if (rb.type == 1)
+            return rb.ad + "," + rb.mn + "," + rb.ex + "," + rb.anchors + "," + dOwn + "," + eL20 + "," + (nd < 0 ? "" : "" + nd) + "," + aL20
+                + "," + dAd[i] + "," + dMn[i] + "," + iOwn + "," + iNeu;
+        return dOwn + "," + dEn + "," + aL20 + "," + eL20 + "," + eL16 + "," + eC20 + "," + aL34 + "," + eL34 + ","
+            + (nd < 0 ? ",," : ndx + "," + ndy + "," + nd) + "," + eLsum + "," + (eLmin < 0 ? "" : "" + eLmin) + "," + aLsum + ","
+            + (cloud[i] ? 1 : 0) + "," + dAd[i] + "," + dMn[i] + "," + iOwn + "," + iEn + "," + iNeu;
+    }
+
+    /** before / after / either (both squares reach the target) / nomove / unknown, from the start and post-turn squares. */
+    String atkOrder(SaTurn t, int sx, int sy, Robot rb, int note, int r2) {
+        if (t.nAtk == 0 || t.atkLoc < 0) return "";
+        int tx = t.atkLoc % W, ty = t.atkLoc / W;
+        if (note == 3) return G2(sx, sy, tx, ty) > r2 ? "after" : "unknown";   // died this round: post square unknown
+        boolean moved = sx != rb.x || sy != rb.y;
+        if (!moved) return "nomove";
+        boolean fs = G2(sx, sy, tx, ty) <= r2, fe = G2(rb.x, rb.y, tx, ty) <= r2;
+        return fs && fe ? "either" : fs ? "before" : fe ? "after" : "unknown";
+    }
+
+    void saWriteL(PrintStream o, String pre, int rn, Robot rb, SaTurn t, String feat, int sx, int sy, int note) {
+        saRows[0]++;
+        boolean moved = note != 3 && (sx != rb.x || sy != rb.y);
+        int tx = t.atkLoc < 0 ? -1 : t.atkLoc % W, ty = t.atkLoc < 0 ? -1 : t.atkLoc / W;
+        o.println(pre + "," + rn + "," + rb.id + "," + rb.hp + "," + sx + "," + sy + "," + feat + ","
+            + (note == 3 ? "?" : dirName(rb.x - sx, rb.y - sy)) + "," + (note == 3 ? "" : moved ? "1" : "0") + "," + note + ","
+            + (t.nAtk > 0 ? 1 : 0) + "," + t.nAtk + "," + (t.nAtk > 0 ? (t.atkHit ? "1" : "0") : "") + ","
+            + (t.atkType >= 0 ? "" + TC[t.atkType] : "") + "," + (t.atkTgtId >= 0 ? "" + t.atkTgtId : "") + ","
+            + (tx < 0 ? "," : tx + "," + ty) + "," + (tx < 0 ? "" : "" + G2(sx, sy, tx, ty)) + ","
+            + (tx < 0 || note == 3 ? "" : "" + G2(rb.x, rb.y, tx, ty)) + "," + (t.atkHpBefore >= 0 ? "" + t.atkHpBefore : "") + ","
+            + atkOrder(t, sx, sy, rb, note, 16));
+    }
+
+    void saWriteHQ(PrintStream o, String pre, int rn, Robot h, SaTurn t, String feat) {
+        saRows[1]++;
+        o.println(pre + "," + rn + "," + h.id + "," + h.x + "," + h.y + "," + feat + "," + t.built[1] + "," + t.built[2] + ","
+            + t.built[3] + "," + t.built[4] + "," + t.built[5] + "," + t.anchors[0] + "," + t.anchors[1]);
+    }
+
+    void saWriteC(PrintStream o, String pre, int rn, Robot rb, SaTurn t, String feat, int sx, int sy, int note) {
+        saRows[2]++;
+        int dx = rb.x - sx, dy = rb.y - sy;
+        o.println(pre + "," + rn + "," + rb.id + "," + rb.hp + "," + sx + "," + sy + "," + feat + ","
+            + (note == 3 ? "?" : steps(dx, dy)) + "," + (note == 3 ? "" : "" + Math.max(Math.abs(dx), Math.abs(dy))) + "," + note + ","
+            + (t.collRes < 0 ? "" : RES[t.collRes]) + "," + t.collAmt + "," + t.nColl + "," + t.dep[0] + "," + t.dep[1] + "," + t.dep[2] + ","
+            + t.wellDep + "," + t.ancTake + "," + t.ancPlace + "," + (t.nAtk > 0 ? 1 : 0) + "," + (t.nAtk > 0 ? (t.atkHit ? "1" : "0") : "") + ","
+            + (t.atkType >= 0 ? "" + TC[t.atkType] : "") + "," + (t.atkTgtId >= 0 ? "" + t.atkTgtId : "") + ","
+            + atkOrder(t, sx, sy, rb, note, 9));
+    }
+
+    /** --sa --team A|B --out DIR [--games all|i,j | --game N] [--match ID] [--file-prefix P] [--gzip] [--append]
+     * [--pre-hdr H --pre-val V]: sa_L.csv, sa_HQ.csv, sa_C.csv (header first). */
+    static void saMain(String file, String[] a) throws IOException {
+        String side = arg(a, "--team", null);
+        if (side == null || !(side.equals("A") || side.equals("B"))) { System.err.println("--sa needs --team A|B"); System.exit(2); }
+        int team = side.equals("A") ? 1 : 2;
+        File dir = new File(arg(a, "--out", "."));
+        if (!dir.isDirectory() && !dir.mkdirs()) throw new IOException("cannot create " + dir);
+        String base = new File(file).getName();
+        int lead = 0;
+        while (lead < base.length() && Character.isDigit(base.charAt(lead))) lead++;
+        int match = Integer.parseInt(arg(a, "--match", lead > 0 && lead < 10 ? base.substring(0, lead) : "0"));
+        GameWrapper gw = load(file);
+        int ng = countGames(gw);
+        List<Integer> sel = new ArrayList<>();
+        String gs = arg(a, "--games", arg(a, "--game", "all"));
+        if (gs.equals("all")) for (int g = 0; g < ng; g++) sel.add(g);
+        else for (String s : gs.split(",")) { int g = Integer.parseInt(s.trim()); if (g >= 0 && g < ng) sel.add(g); }
+        // --file-prefix P names the files P + sa_L.csv ...; --gzip writes .csv.gz; --append adds to existing files (a
+        // gzip file then holds one member per run, which gzip readers concatenate) and writes the header only into a
+        // new or empty file; --pre-hdr "a,b" --pre-val "x,y" put constant columns first (no commas inside values)
+        String fp = arg(a, "--file-prefix", ""), preHdr = arg(a, "--pre-hdr", ""), preVal = arg(a, "--pre-val", "");
+        if (preHdr.split(",", -1).length != preVal.split(",", -1).length) { System.err.println("--pre-hdr and --pre-val differ in length"); System.exit(2); }
+        boolean gz = flag(a, "--gzip"), app = flag(a, "--append");
+        String[][] fs = {{"sa_L.csv", SA_L_HDR}, {"sa_HQ.csv", SA_HQ_HDR}, {"sa_C.csv", SA_C_HDR}};
+        PrintStream[] ps = new PrintStream[3];
+        for (int i = 0; i < 3; i++) {
+            File f = new File(dir, fp + fs[i][0] + (gz ? ".gz" : ""));
+            boolean fresh = !app || !f.exists() || f.length() == 0;
+            OutputStream os = new FileOutputStream(f, app);
+            if (gz) os = new java.util.zip.GZIPOutputStream(os, 1 << 16);
+            ps[i] = new PrintStream(new BufferedOutputStream(os, 1 << 16), false, "US-ASCII");
+            if (fresh) ps[i].println((preHdr.isEmpty() ? "" : preHdr + ",") + fs[i][1]);
+        }
+        for (int g : sel) {
+            ReplayDump d = new ReplayDump(gw, g);
+            d.sa(team, ps[0], ps[1], ps[2], (preHdr.isEmpty() ? "" : preVal + ",") + match + "," + g + "," + d.mapName);
+            System.out.printf("%d %s team=%s name=%s rows_L=%d rows_HQ=%d rows_C=%d order_anomalies=%d ambiguous_current=%d%n", g, d.mapName,
+                side, team == 1 ? d.teamA : d.teamB, d.saRows[0], d.saRows[1], d.saRows[2], d.saAnomalies, d.saAmbig);
+            System.out.flush();
+        }
+        for (PrintStream p : ps) p.close();
+    }
+
     // ---------------------------------------------------------------- main
     static String arg(String[] a, String k, String def) {
         for (int i = 0; i < a.length - 1; i++) if (a[i].equals(k)) return a[i + 1];
@@ -2254,10 +2623,11 @@ public class ReplayDump {
         if (a.length < 1) {
             System.err.println("usage: ReplayDump <replay.bc23> [--game N] [--games | --census [--no-header] | --metrics [--every N] | --robot ID | --map-at R | "
                 + "--logs [--team A|B] [--id ID] [--from R --to R] | --bytecode | --navstats | --events --from R --to R | --islands | --tele | --checks"
-                + " | --shots | --fingerprint | --extract DIR [--match ID] [--games all|i,j] [--tele-turns] [--shots]]   or   ReplayDump --decode-record KIND A B C D [--type T]");
+                + " | --shots | --fingerprint | --sa --team A|B --out DIR | --extract DIR [--match ID] [--games all|i,j] [--tele-turns] [--shots]]   or   ReplayDump --decode-record KIND A B C D [--type T]");
             System.exit(2);
         }
         if (flag(a, "--extract")) { extract(a[0], a); return; }
+        if (flag(a, "--sa")) { saMain(a[0], a); return; }
         if (flag(a, "--fingerprint")) {
             PrintStream fo = new PrintStream(new BufferedOutputStream(System.out), false);
             fingerprint(load(a[0]), fo);
