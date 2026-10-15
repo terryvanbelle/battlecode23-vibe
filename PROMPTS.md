@@ -498,3 +498,7 @@ New idea to get past the plateau, and feel free to push back:  Could you choose 
 ## 109. 2026-10-15 08:56 PDT
 
 Can you explain to me why c_well5 does so well in BT, and yet was rejected in the panel?
+
+## 110. 2026-10-15 15:15 PDT
+
+Could you update the progress directory?
