@@ -462,3 +462,7 @@ OK, I'll shut you down one more time and restart
 ## 100. 2026-10-14 16:26 PDT
 
 OK, you should be restarted with the correct permissions applied now
+
+## 101. 2026-10-14 18:31 PDT
+
+While you're waiting on games, I've got an interesting research project for you to chew on.  Given a set of losing panel games, can you construct a DAG where each node is a game state (either "loss" or some statement about one or more state variables), and each edge is a cause/effect?  If you could start with the "loss" state and work backwards, maybe you could come back to a small number of initial states.  From one of those initial states, move forward to construct a cause/effect chain, A causes B cases C causes loss.  Then come up with a change that fixes A, and fixes B given that A is fixed, and fixes C given that A and B are fixed, which hypothetically flips the loss to a win.  Don't actually implement this idea yet, just evaluate for feasibility
