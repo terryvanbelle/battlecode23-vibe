@@ -1490,3 +1490,8 @@ c_mend2 active again as 159. Judge by paired.py vs c_mend2/c_bc1 panels; mechani
   per carrier-round -3.6 (38 per 100); launchers built -2.1, kills -2.7 vs their kills +2.5. Losses are decided by
   the early fight war over carriers and launchers, not by build counts. Next: which early fights (engagements.csv)
   separate them; candidate only if a cause is found and fixable.
+- 2026-10-14 19:23 PDT: causal-graph drill-down (research/diagnosis/2026-10-14-causal-dag-feasibility.md, "First run"): Mn@200 root
+  -> carriers dying, not built; enemy carrier kills are mostly a consequence of fight wins (stratified -2.4 -> -0.67);
+  early fights lost by reinforcement rate (fights 57 rounds longer, enemy feeds 9.8 more launchers in), not first hit
+  or start numbers; divergence starts r60-100 as ~2 rounds more waiting a trip. No single fixable root: no bot from
+  it (owner: submit only on a positive result). Forest "stuck" trips are the map (our median trip 87, theirs 92).

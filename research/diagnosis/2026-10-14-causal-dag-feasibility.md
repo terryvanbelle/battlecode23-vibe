@@ -67,3 +67,45 @@ costs a panel (3–4 hours of queue), so about 6–10 tests fit in the remaining
   measured on the new games, not on the old ones.
 - **Cost.** Building the extractor and the graph is about half a day of offline work. Extracting 29 panels' replays
   on the 2 GB driver may need the VM.
+
+## First run (2026-10-14 19:23 PDT; owner, PROMPTS 102: "try it out, but only submit a bot if it yields a positive result")
+
+Data: 20 panels × 100 shared cells = 2,000 games, 836 losses; 41 cells have both wins and losses across builds, and
+every comparison below is loss minus win **within those cells**. Graph: `tools/causal_dag.py` →
+`research/diagnosis/causal-dag.md`. Drill-down scripts: `research/diagnosis/causal/`.
+
+Backward walk from "loss": the late nodes are launchers alive (RD +0.66 at r600), army and mana; the walk ends at
+**mana collected behind by r200** (219 of 836 losses), r50/r100 mana (151) and army at r100 (82). Adamantium is not
+a root: Ad@100 behind has RD −0.19 (we trail in Ad in 69% of wins), so c_ad1 is not supported.
+
+Drilling the Mn@200 root (each step one level earlier):
+
+| step | loss − win, same cell | reading |
+|---|---|---|
+| r200 economy | our Mn −132, theirs +90; carriers built equal; we lose 1.2 more, they lose 2.4 fewer | the gap is carriers dying, not carriers built |
+| r≤200 kills | enemy carriers killed −2.4, almost all in their half; launcher kills equal | — |
+| same, holding the fight record fixed | carrier kills −0.67 ± 0.30 | mostly a **consequence** of winning fights |
+| r≤200 launcher fights | won −13 points; first hit −0.03 (n.s.); start numbers −0.3 (n.s.); fights 57 rounds longer; enemy feeds 9.8 more launchers in, we 4.2 | fronts are attrition, decided by reinforcement rate (production) |
+| r≤150 carriers | collecting −2.5 points of turns, waiting at crowded wells +1.7, fleeing +1.0 | — |
+| trips started r0–60 / r60–100 | wait +0.8 / +1.9 rounds a trip; cycle +0.1 / +3.1 (n.s. once 1,000-round outliers are capped) | small |
+| identical | r50: everything equal (same opening) | divergence begins r60–100 |
+
+Long trips are a property of Forest and MassiveL, not a bug of ours: on Forest our deposit trips take a median of 87
+rounds against the opponents' 92, but they complete 7,713 deposits to our 4,496 (more carriers).
+
+## Verdict of the first run
+
+**No positive result for a new bot.** The within-cell divergence starts small and diffuse at r60–100. The largest
+early lever is about 2 rounds of waiting a trip, under 4% of the cycle. It grows through a feedback loop: slightly
+less mana → fewer reinforcements → longer fights lost → carriers on both sides die or survive → mana gap. That is
+chaotic amplification, not one fixable event. Every builds-level difference in this dataset is a small code change,
+so the cells show how small perturbations play out, not a single mistake.
+
+The robust structural signal is the one already under test: opponents run far more carriers and trips (60 against
+109 built). c_cap1 and c_thr1 target it. c_ad1 is held (Ad is not a root).
+
+The method itself works: the graph, the paired cells and the stratified checks separated a cause (fight results)
+from an effect (carrier kills), and caught two false leads (adamantium; Forest's "stuck" trips). Lessons for the next
+run:
+- use capped or median statistics, since means were dominated by 1,000-round trips;
+- add per-round positions from the replays, to see what slows carriers near wells at r60–100.
