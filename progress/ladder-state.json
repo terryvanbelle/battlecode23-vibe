@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 161,
+  "submission": 163,
   "package": "c_mend2",
   "since": "2026-10-11T12:14:09.832137+00:00",
   "panel_run": "gauntlet/20261011-080046-panel-c_mend2"
@@ -553,6 +553,19 @@
    "event": "reject",
    "submission": 160,
    "package": "c_open1"
+  },
+  {
+   "at": "2026-10-15T12:48:15.071354+00:00",
+   "event": "trial-start",
+   "submission": 162,
+   "package": "c_siege1",
+   "screen_skipped": "launcher batches under a siege (spawn kills 17.6 per lost game)"
+  },
+  {
+   "at": "2026-10-15T13:32:08.486895+00:00",
+   "event": "reject",
+   "submission": 162,
+   "package": "c_siege1"
   }
  ],
  "parked": []

@@ -486,3 +486,11 @@ About to restart, let me know when you're ready
 ## 106. 2026-10-14 18:56 PDT
 
 We good to continue, Sparky?
+
+## 107. 2026-10-15 06:29 PDT
+
+Looks like it's done
+
+## 108. 2026-10-15 06:44 PDT
+
+New idea to get past the plateau, and feel free to push back:  Could you choose one opponent slightly better than you, and craft an archetype that mimics its decisions as closely as possible?  I don't mean recording their exact moves, as that would be brittle, but maybe a version of yourself with the goal of issuing the same moves as that bot from existing matches.  If you had such a thing, you could test locally against it until you win reliably, and then submit that

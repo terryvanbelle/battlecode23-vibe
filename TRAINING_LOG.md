@@ -1545,3 +1545,11 @@ c_mend2 active again as 159. Judge by paired.py vs c_mend2/c_bc1 panels; mechani
   it can spawn min(C.SIEGE_BATCH_MAX 5, enemies + 1) this turn (HQ action cooldown 2: 5 builds a turn, RULES 3.1).
   c_batch1 (2026-10-07, batches outside threats) failed because waiting delayed every launcher; this batches only
   where single launchers die at birth. Siege1Test; unit-tests PASS.
+
+## 2026-10-15 06:32 PDT — c_siege1 rejected
+
+Panel `gauntlet/20261015-124815-panel-c_siege1` (submission 162). Paired vs c_mend2: identical 93, gained 2, lost 5, net −3
+(−1.13 SE), island margin −159 (t −1.54); vs c_bc1 net 0 (3/3). Mechanism did not engage: spawn-killed launchers per
+lost game 17.0 vs 17.7 (wins 0.5 both), so the losses' spawn kills are not batch-able starts. Cost: launchers built
+146.6 vs 154.0, Mn 4608 vs 4894, launchers died 80.4 vs 81.8. Holding mana under siege only delays production; the
+spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains validated (sub 163).
