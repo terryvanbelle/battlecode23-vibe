@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 159,
+  "submission": 161,
   "package": "c_mend2",
   "since": "2026-10-11T12:14:09.832137+00:00",
   "panel_run": "gauntlet/20261011-080046-panel-c_mend2"
@@ -540,6 +540,19 @@
    "package": "c_thr1",
    "parked": true,
    "run": "gauntlet/20261015-005712-panel-c_thr1"
+  },
+  {
+   "at": "2026-10-15T08:02:11.814181+00:00",
+   "event": "trial-start",
+   "submission": 160,
+   "package": "c_open1",
+   "screen_skipped": "carrier-first opening (awesomelemonade CCCC LLLL; 8 of 26 always-lost cells)"
+  },
+  {
+   "at": "2026-10-15T10:59:40.924668+00:00",
+   "event": "reject",
+   "submission": 160,
+   "package": "c_open1"
   }
  ],
  "parked": []

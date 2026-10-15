@@ -1517,3 +1517,11 @@ c_mend2 active again as 159. Judge by paired.py vs c_mend2/c_bc1 panels; mechani
 - c_open1 = c_mend2 + through round C.CARRIER_FIRST_UNTIL (10) the HQ builds a carrier before a launcher when both
   are affordable. Open1Test; unit-tests PASS. Local DefaultMap vs c_mend2 (one game, a check only): r50 carriers 13
   vs 11, launchers 14 vs 12, Mn collected 353 vs 297; lost r581 on islands.
+
+## 2026-10-15 03:59 PDT: c_open1 rejected (panel 7404-7413 area, gauntlet/20261015-080211-panel-c_open1)
+- vs c_mend2: identical 85, gained 5, lost 10, net -5 (-1.29 SE); island-round margin -492 (t -3.42). vs c_bc1: net
+  -2 (-0.50 SE), margin -309 (t -2.24). awesomelemonade 1-2: the opening did not touch the cells it targeted.
+- Mechanism (census, 100 cells): carriers built 60.0 vs 60.6 over the game, launchers 145.9 vs 154.0, Mn collected
+  -475, carriers died 36.6 vs 33.6, launchers died 88.6 vs 81.8. The early carrier lead (r50 +2 locally) did not
+  last: carriers built before the launchers die without cover, and the late launcher start costs fights. Copying
+  awesomelemonade's build order alone does not copy their economy (their edge is fights at equal dN as well).
