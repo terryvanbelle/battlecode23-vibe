@@ -1618,3 +1618,8 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - c_well10 = c_well9 with C.HOT false. Queued w10-jm (same cells vs c_mend2 and arch_jm; c_well9 had 6/16 and 5/16).
 - The mimic idea (owner, PROMPTS 108) paid off as a diagnostic: playing a jmerle-like opponent made the Forest gap
   reproducible and the control exposed it as our regression, not a jmerle behaviour.
+- 15:30 PDT w10-jm (gauntlet/20261015-214208-w10-jm, same 32 cells): c_well10 vs c_mend2 6/16 (Forest 1/4), vs arch_jm 5/16
+  (Forest 1/4): identical totals to c_well9's 6/16 and 5/16. Hot wells off lets carriers mine the midline (its one Forest
+  win: 1,900 Mn at (25-30,45) in r750-1000 while c_mend2 got 12 there), but who holds the midline is decided by the
+  launchers, game by game. Forest is a midline-control map; HOT is not the lever. Screen queued for the 10-map record
+  (20261015-215222-scr-c_well10).
