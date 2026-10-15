@@ -1502,3 +1502,9 @@ c_mend2 active again as 159. Judge by paired.py vs c_mend2/c_bc1 panels; mechani
   collected +473 and Mn -350, launchers built 144 vs 154. The extra carriers mined adamantium (AD flag while under the
   cap) and paid for themselves in Ad, not in Mn: more carriers without more mana. Rejected. Consistent with the
   causal graph: the gap is mana and fights, not carrier count as such.
+
+## 2026-10-14 21:37 PDT: c_thr1 rejected (panel 7218-7227)
+- vs c_mend2: identical 93, gained 3, lost 4, net -1 (-0.38 SE); island-round margin -69 (t -0.92). vs c_bc1: net +2
+  (+0.71 SE). Mechanism: carriers built 64.5 vs 60.6 (55 cells changed), Mn -203, Ad +10, launchers 149.7 vs 154.0.
+  Like c_cap1, more carriers cost launchers and did not raise mana. Both carrier-count arms are closed: the
+  withheld-carrier and cap reasons were not the binding constraint on income (see the causal-graph run).
