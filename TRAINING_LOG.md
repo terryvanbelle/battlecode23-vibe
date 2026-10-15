@@ -1598,3 +1598,9 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   cap formula (min(30, max((6 + r/50) x nHQ, 8 x Mn wells))) reaches 30 by r50 on 4-HQ maps whatever the well capacity,
   but extra carriers cost only Ad, which we cannot spend there anyway, so the fix is map control (midline wells), not
   the cap.
+- 12:55 PDT fidelity (gauntlet/20261015-192936-fid-arch_jm, c_mend2 vs arch_jm, 10 maps x 2 sides, random seeds): c_mend2
+  12/20. Agreement with c_mend2's record against the real jmerle on 12/20 games: matches on Cat, DefaultMap, Hah (we win)
+  and Forest, Maze (we lose) both sides, IslandHopping and ReverseFunnel 1 of 2; misses BatSignal (arch_jm wins; jmerle
+  loses 22/24), Cornucopia and MassiveL (arch_jm loses both at r2000 on islands; jmerle wins 24/24 and 22/24). Partial
+  pass: the mimic reproduces the Forest and Maze losses with code we can read, so ablate it there next (abl-jm: c_well9
+  vs arch_jm and four one-behaviour-off variants, Forest/Maze/IslandHopping/ReverseFunnel, paired seeds 1101/2202).
