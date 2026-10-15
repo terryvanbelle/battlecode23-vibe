@@ -1525,3 +1525,7 @@ c_mend2 active again as 159. Judge by paired.py vs c_mend2/c_bc1 panels; mechani
   -475, carriers died 36.6 vs 33.6, launchers died 88.6 vs 81.8. The early carrier lead (r50 +2 locally) did not
   last: carriers built before the launchers die without cover, and the late launcher start costs fights. Copying
   awesomelemonade's build order alone does not copy their economy (their edge is fights at equal dN as well).
+- 2026-10-15 04:00 PDT: equal-numbers launcher fights (last 12 panels; 1,997 won, 1,777 lost): our launcher-turn modes in the fight
+  cells are alike (F 0.24/0.23, H 0.21/0.21, M 0.19/0.17, N 0.24/0.23) except regroup G 0.030 won vs 0.071 lost and
+  outnumbered Fo/Ho 0.008 vs 0.046. Regroup runs only with no enemy in sight (a launcher left alone turns back), so
+  it reads as an effect of losing allies, not a cause. No micro lever found in mode shares.
