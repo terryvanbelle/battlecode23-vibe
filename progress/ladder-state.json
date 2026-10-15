@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 157,
+  "submission": 159,
   "package": "c_mend2",
   "since": "2026-10-11T12:14:09.832137+00:00",
   "panel_run": "gauntlet/20261011-080046-panel-c_mend2"
@@ -496,6 +496,20 @@
    "submission": 156,
    "package": "c_cap1",
    "validated_resubmitted": 157
+  },
+  {
+   "at": "2026-10-15T00:57:12.756856+00:00",
+   "event": "trial-start",
+   "submission": 158,
+   "package": "c_thr1",
+   "screen_skipped": "carrier withheld under threat 35% of late HQ turns; build on a fighter-free spawn tile"
+  },
+  {
+   "at": "2026-10-15T00:57:43.430413+00:00",
+   "event": "park",
+   "submission": 158,
+   "package": "c_thr1",
+   "validated_resubmitted": 159
   }
  ],
  "parked": [
@@ -519,6 +533,28 @@
     7215,
     7216,
     7217
+   ]
+  },
+  {
+   "run_dir": "gauntlet/20261015-005712-panel-c_thr1",
+   "pid": 3232286,
+   "submission": 158,
+   "package": "c_thr1",
+   "started": "2026-10-15T00:57:01.804096+00:00",
+   "panel": "test/cells/panel-v1.txt",
+   "hash": "b63813a927a3",
+   "parked": "2026-10-15T00:57:43.430346+00:00",
+   "panel_matches": [
+    7218,
+    7219,
+    7220,
+    7221,
+    7222,
+    7223,
+    7224,
+    7225,
+    7226,
+    7227
    ]
   }
  ]

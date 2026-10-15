@@ -1470,3 +1470,9 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   threatened 't' 35%, poor 'p' 30%; HQ enemy pressure r2<=9 965 vs 63.
 - c_cap1 = c_mend2 with CAP_MAX 45 (census slot is 16-bit); Cap1Test; unit tests PASS. The 't' withholding is next.
 - 2026-10-14 17:14 PDT: c_cap1 trial parked: parked: c_cap1 (submission 156) since 2026-10-14 17:14 PDT: panel playing (run gauntlet/20261015-001351-panel-c_cap1, trial-start pid 3224890)
+
+## 2026-10-14 17:58 PDT: c_thr1 trial parked (submission 158, panel 7218-7227)
+c_thr1 = c_mend2 + a threatened HQ still builds a carrier when a free spawn tile is out of reach (r2 26) of every
+visible enemy fighter (HQ.safeCarrierTile; unsafe when bytecodes are short). Target: the 't' withhold reason, 35% of
+late HQ turns in losses. Test: test/bot/Thr1Test.java. Screen 20261015-005655-scr-c_thr1-b63813a927a3 queued.
+c_mend2 active again as 159. Judge by paired.py vs c_mend2/c_bc1 panels; mechanism: built_C, coll_Mn, reason 't'.
