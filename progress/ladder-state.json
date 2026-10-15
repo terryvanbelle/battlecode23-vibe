@@ -1,9 +1,9 @@
 {
  "validated": {
-  "submission": 163,
-  "package": "c_mend2",
-  "since": "2026-10-11T12:14:09.832137+00:00",
-  "panel_run": "gauntlet/20261011-080046-panel-c_mend2"
+  "submission": 164,
+  "package": "c_well9",
+  "since": "2026-10-15T19:18:15.880112+00:00",
+  "panel_run": "gauntlet/20261015-160249-panel-c_well9"
  },
  "trial": null,
  "history": [
@@ -566,6 +566,19 @@
    "event": "reject",
    "submission": 162,
    "package": "c_siege1"
+  },
+  {
+   "at": "2026-10-15T16:02:49.759989+00:00",
+   "event": "trial-start",
+   "submission": 164,
+   "package": "c_well9",
+   "screen_skipped": "owner PROMPTS 109: c_well5's diagonal near-well probe alone (MassiveL Mn +460) never had a panel; its screen failed by one game (h2h 9-11, borderline), which cannot see a one-map effect"
+  },
+  {
+   "at": "2026-10-15T19:18:17.104233+00:00",
+   "event": "accept",
+   "submission": 164,
+   "package": "c_well9"
   }
  ],
  "parked": []

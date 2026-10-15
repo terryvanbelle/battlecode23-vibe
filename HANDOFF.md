@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-14 11:55 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
+Updated 2026-10-15 12:20 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
 archived in `research/diagnosis/2026-10-12-handoff-inflight.md`). On 2026-10-12 18:48 PDT every galaxy unit stopped and
 the VM queue runner exited on a STOP file, with no recorded reason; both were restarted on 2026-10-14 (the replica in
 the morning, the runner at 11:47 PDT). `tools/watch_events.py` now reports either failure (REPLICA_DOWN,
@@ -8,8 +8,12 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
 
 ## Standing
 
-- **Validated build g_iter10 = c_mend2** (accepted as submission 143, 2026-10-11 05:14 PDT; active and
-  validated submission **153** on 2026-10-14): g_iter9 (c_bc1) plus
+- **Validated build g_iter11 = c_well9** (submission 164, accepted 2026-10-15 12:18 PDT): g_iter10 (c_mend2) plus
+  c_well5's diagonal near-well mana probe only (no front probe: c_well5/c_well7 fed Forest carriers to the midline
+  well). Panel 63/100 (`gauntlet/20261015-160249-panel-c_well9`): vs c_mend2 net +2 (6-4), island-rounds +324
+  (t +1.61); vs c_bc1 net +5 (8-3), +507 (t +2.51). MassiveL mana +2,841 a game; Forest carrier deaths unchanged;
+  0 exceptions. Judge candidates against c_well9's and c_mend2's panels.
+- Before it **g_iter10 = c_mend2** (submission 143/163, accepted 2026-10-11 05:14 PDT): g_iter9 (c_bc1) plus
   wounded launchers (80 HP or less) heal on a nearby island we own (none before our first anchor). Panel 61/100: net +3
   vs c_bc1's panel (island-rounds +183, t +2.3), -1 vs c_aura2's; healed HP a game 1,561 -> 3,430 (t +4.8), launcher
   deaths -7.5 (t -2.4); 0 overruns. Panel run `gauntlet/20261011-080046-panel-c_mend2`.
@@ -35,27 +39,20 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-14 11:55 PDT)
+## In flight (2026-10-15 12:20 PDT)
 
-**Parked trials** (`tools/ladder_policy.py status`), panels playing behind the 09:00 autoscrim; judge each with
-`tools/paired.py <run> <ref>` against c_mend2 (`gauntlet/20261011-080046-panel-c_mend2`, 61/100) and c_bc1
-(`gauntlet/20261011-042052-panel-c_bc1`, 58/100), check its mechanism, then `trial-decide`:
-- **c_blind1** (submission 146, matches 6982-6991): idle launchers shoot cloud tiles that may hide an enemy (owner
-  principle 1, LEARNINGS §1). Mechanism: `shot_outside_vision` hits in the census.
-- **c_mend3** (148, 6992-7001): a second safe island when the nearest is blocked (healing selector).
-- **c_seam1** (150, 7002-7011): Forest Mana search toward HQ-derived waypoints. Mechanism: Forest Mana income.
-- **c_blind2** (152, 7012-7021): c_blind1 plus memory-targeted blind shots (8 slots, age 6; `test/bot/Blind2Test.java`).
-- **c_bc3** rejected (cost delivery not shown). Screens c_well9 and c_ward3 FAILED; c_amp2 closed.
+- **Owner idea (PROMPTS 108): a jmerle mimic as a sparring partner.** `tools/sa_extract.py` + ReplayDump `--sa` wrote
+  state-action rows for jmerle.camel_case_v30_final and our side of the same 240 panel games
+  (`research/clone/jmerle/`, gitignored, 367 MB). Findings (TRAINING_LOG 2026-10-15): completed carrier trips are as
+  efficient as jmerle's; the gap is map control. In our losses jmerle's launchers hold the middle (25-30% of launcher
+  turns at prog 0.4-0.6 against our 4-15%) and kill our carriers in our half at age 10-20 (Maze: 57 of 57 built);
+  jmerle mines 89% mana; blind fire in clouds (85% of in-range cloud turns against our 31%).
+- **arch_jm** (being built from c_mend2): mana-first, blind fire, midfield front, press when out of range. Fidelity
+  gate before use: c_mend2 vs arch_jm on the 10 panel maps must reproduce our record against the real jmerle (we win
+  Cat, BatSignal, Hah and mostly DefaultMap; lose Cornucopia, Forest, IslandHopping, Maze, ReverseFunnel, MassiveL).
+- Rejected today: c_cap1, c_thr1, c_open1, c_siege1 (TRAINING_LOG). c_ad1 committed, held (Ad is not a loss root).
 
-**VM screens** (informational: the four trials skipped the gate with recorded reasons): c_blind1 running since 11:47
-PDT, then c_mend3, c_seam1, c_blind2 (about 1.5 h each); collect with `tools/screen.py collect <pkg>`.
-
-**Ranked play** chooses the open team above us with the largest expected gain 24 (P_BT - E_galaxy) and sends nothing
-when none is positive (`docs/LADDER_STRATEGY.md`); on 2026-10-14 only NotLLeon.v7 qualified. Incoming ranked stays
-auto-accept (all teams below give positive gains). Galaxy rating 1654 after stuck match 6282 was cancelled.
-
-**Next:** decide the four trials; cron progress refresh and a token-budget meter (owner, PROMPTS 88); then the next
-target from TRAINING_ALGORITHM §2.
+**Ranked play** chooses the open team above us with the largest expected gain (`docs/LADDER_STRATEGY.md`).
 
 ## The galaxy replica (owner, PROMPTS 11-12)
 
@@ -69,7 +66,8 @@ target from TRAINING_ALGORITHM §2.
   for `tools/paired.py`). Hourly limits count requests AND the matches they create (an accepted request counts
   twice); galaxy's default 10/10 was raised to 40 unranked and 20 ranked (owner, PROMPTS 15-16), so about 20 panel
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
-- Validated build: **g_iter10 = c_mend2** (accepted as 143, last recorded active 145, accepted 2026-10-11 05:14 PDT; baseline panel run
+- Validated build: **g_iter11 = c_well9** (submission 164, accepted 2026-10-15 12:18 PDT; baseline panel run
+  `gauntlet/20261015-160249-panel-c_well9`, 63/100). Before it **g_iter10 = c_mend2** (accepted as 143, 2026-10-11 05:14 PDT; baseline panel run
   `gauntlet/20261011-080046-panel-c_mend2`, 61/100). Before it **g_iter9 = c_bc1** (submission 136, accepted 2026-10-10 22:44 PDT; baseline panel run
   `gauntlet/20261011-042052-panel-c_bc1`, 58/100). Before it **g_iter8 = c_aura2** (submission 129, accepted
   2026-10-10 06:15 PDT; baseline panel run `gauntlet/20261010-121416-panel-c_aura2`, 62/100). Before it **g_iter7 = c_def3** (submission 126; resubmitted as 128 after c_flee3's rejection, accepted 2026-10-09 21:40 PDT; baseline panel run
@@ -82,7 +80,7 @@ target from TRAINING_ALGORITHM §2.
   `gauntlet/20261009-082005-panel-c_nav4`. Earlier: g_iter2 = c_swarm1 (`...-210429-panel1-c_swarm1`, 40/100), g_iter1 =
   c_line8a (`...-180016-panel1-c_line8a`, 33/100), g_iter0 (`...-011350-panel1-g_iter0`, 31/100). Local cells vs the
   previous incumbent: `test/cells/self-swarm1-panel.txt`; the pre-trial screen (`tools/screen.py`) reads the current
-  validated package from `progress/ladder-state.json` (last recorded: c_mend2).
+  validated package from `progress/ladder-state.json` (last recorded: c_well9).
 - Ranked vs unranked follows `docs/LADDER_STRATEGY.md` (owner, PROMPTS 17-18), state in `progress/ladder-state.json`:
   `tools/ladder_policy.py ranked` runs detached on the driver (PID 3179283 since 2026-10-14 11:46 PDT; log
   `logs/ranked-policy.log`): ranked challenges upward

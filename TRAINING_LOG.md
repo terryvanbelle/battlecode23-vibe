@@ -1553,3 +1553,33 @@ Panel `gauntlet/20261015-124815-panel-c_siege1` (submission 162). Paired vs c_me
 lost game 17.0 vs 17.7 (wins 0.5 both), so the losses' spawn kills are not batch-able starts. Cost: launchers built
 146.6 vs 154.0, Mn 4608 vs 4894, launchers died 80.4 vs 81.8. Holding mana under siege only delays production; the
 spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains validated (sub 163).
+
+## 2026-10-15 12:20 PDT — jmerle state-action study (owner, PROMPTS 108); c_well9 accepted (owner question, PROMPTS 109)
+
+- New tool: ReplayDump `--sa` + `tools/sa_extract.py` write per-unit-turn state -> action rows for one team (state at
+  the start of the robot's own turn; attack-before/after-move inferred from distances only). jmerle's side and ours of
+  240 panel games: 11.1M / 3.8M launcher turns, 7.1M / 3.0M carrier turns (research/clone/jmerle/, gitignored).
+- Launcher micro is close to ours, except blind fire (in-range turns on a cloud: jmerle attacks 85%, 34% hit; ours 31%,
+  only when visible: about 570 damage a game, the c_blind1/2 effect) and pressing when outnumbered out of range
+  (toward 33% / away 9%; ours 12% / 37%).
+- Carriers: completed trips are as efficient (median cycle 48 vs 44, 0.55 kg a carrier-turn both); jmerle's small
+  deposits were Ad and Mn handed over on separate turns. The gap is outside trips: through r600 our carriers spend 37%
+  of turns empty and not collecting (jmerle 15%) and 14% on outbound legs that never reach a well (2%). Forest: 66% vs
+  8%; one home mana well with ~5 open tiles caps us (2,510 Mn by r600 is about its ceiling); a VM Forest game showed
+  77 of 95 carriers ping-pong G/W/S between crowded wells (one for 358 rounds), a symptom of saturation; jmerle doubles
+  its Forest mana by holding the midline well (30,48).
+- Map control decides it: in c_mend2's panel games jmerle collected 24,088 Mn on Cornucopia (ours 1,712), 10,483 on
+  IslandHopping (480), 9,416 on Maze (1,980); we lost every carrier built there (57/57 on Maze; jmerle lost 1), killed
+  by launchers in our half (prog 0.1-0.3) at age 10-20. Launcher positions in our losses: jmerle home/mid/deep 55/28/18%
+  at r0-100 rising to 30/25/45% by r400; ours 78/14/8% to 59/4/37%, with 13-22% within r2 36 of their HQ.
+  jmerle mines 89% mana (ours 69-81%; our Ad bank 184 at r400, 255 at r600 against its 40-75).
+- Our record against the real jmerle by map (24 panels): win Cat 24/24, BatSignal 22/24, Hah 22/24, DefaultMap 17/24;
+  lose MassiveL 22/24, Cornucopia, Forest, IslandHopping, Maze and ReverseFunnel 24/24: the fidelity target for a mimic.
+- Next: arch_jm = c_mend2 + mana-first, blind fire, midfield front, press out of range; used only once c_mend2 vs
+  arch_jm reproduces that per-map record on the VM.
+- c_well9 (c_mend2 + c_well5's diagonal near-well probe only; its screen had failed 9-11 so it never had a panel; owner
+  asked why c_well5 rates high in BT yet was rejected: one 64/100 panel, rating 2080 +- 88 vs c_mend2 2019 +- 42).
+  trial-start --skip-screen 09:02 PDT (submission 164). Panel gauntlet/20261015-160249-panel-c_well9: 63/100; vs c_mend2
+  90 identical, 6 gained, 4 lost, net +2, island-rounds +324 (t +1.61); vs c_bc1 net +5 (8-3), +507 (t +2.51).
+  Mechanism: MassiveL Mn +2,841 a game (8,093 vs 5,252), launchers +23 there; Forest carrier deaths 70.9 vs 67.7 (no
+  feeding); 0 exceptions. Accepted 12:18 PDT (trial-end --accept): g_iter11 = c_well9, submission 164.
