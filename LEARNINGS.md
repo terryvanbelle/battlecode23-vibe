@@ -147,3 +147,8 @@ that beat us but does not explain their wins; the principle stands (it was free)
   queue runner; test liveness by the component's own lock or API, not a process name (the runner re-executes from a
   temp copy). Age since creation is no stuck-match test behind a batch backlog: alarm on time seen running
   (TRAINING_LOG 2026-10-14).
+
+- 2026-10-14 (causal graph of panel losses): paired panel cells give a true per-cell counterfactual, and stratifying
+  by cell separates causes from effects (enemy carrier kills fell from -2.4 to -0.67 once fights were held fixed). But
+  small code changes diverge chaotically from r60-100: wins and losses of the same cell differ by many small amounts,
+  not by one early mistake. Use capped or median statistics: means of trip times were dominated by 1,000-round trips.
