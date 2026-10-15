@@ -1623,3 +1623,9 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   win: 1,900 Mn at (25-30,45) in r750-1000 while c_mend2 got 12 there), but who holds the midline is decided by the
   launchers, game by game. Forest is a midline-control map; HOT is not the lever. Screen queued for the 10-map record
   (20261015-215222-scr-c_well10).
+- 15:25 PDT Forest's contested wells are the mana pair (29,48)/(30,48), top centre on the mirror axis (arch_jm's front
+  point, the HQ midpoint, lies ~20 tiles south of them, so its front never engaged there). Units within r2 64 of
+  (29.5,48), 24 panel games vs jmerle, average per round: jmerle launchers 1.9 (r0-100), 4.7 (r200), 6.9 (r500), 8.6
+  (r600-700); carriers 1.8, 7.4, 15.2, 22.4. Ours: 0.0 launchers and 0.0-0.2 carriers in every bucket. Our launchers stall
+  at 24-25 alive from r300 while jmerle's grow 38 -> 72. Next candidate: a contested-well objective (launchers hold the
+  centre mana well and carriers mine it) on maps that have one.
