@@ -1469,3 +1469,4 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
   HQs end holding 1,269 Ad unspent (391 at r500): Ad is not the late constraint. Late HQ turn-end reasons: cap 'c' 21%,
   threatened 't' 35%, poor 'p' 30%; HQ enemy pressure r2<=9 965 vs 63.
 - c_cap1 = c_mend2 with CAP_MAX 45 (census slot is 16-bit); Cap1Test; unit tests PASS. The 't' withholding is next.
+- 2026-10-14 17:14 PDT: c_cap1 trial parked: parked: c_cap1 (submission 156) since 2026-10-14 17:14 PDT: panel playing (run gauntlet/20261015-001351-panel-c_cap1, trial-start pid 3224890)

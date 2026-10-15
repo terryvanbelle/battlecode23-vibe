@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 155,
+  "submission": 157,
   "package": "c_mend2",
   "since": "2026-10-11T12:14:09.832137+00:00",
   "panel_run": "gauntlet/20261011-080046-panel-c_mend2"
@@ -482,7 +482,44 @@
    "package": "c_seam2",
    "parked": true,
    "run": "gauntlet/20261014-221959-panel-c_seam2"
+  },
+  {
+   "at": "2026-10-15T00:13:51.791897+00:00",
+   "event": "trial-start",
+   "submission": 156,
+   "package": "c_cap1",
+   "screen_skipped": "single constant (CAP_MAX 30 -> 45) from the c_mend2 loss economy; Cap1Test, unit tests PASS; screen queued in parallel"
+  },
+  {
+   "at": "2026-10-15T00:14:29.070338+00:00",
+   "event": "park",
+   "submission": 156,
+   "package": "c_cap1",
+   "validated_resubmitted": 157
   }
  ],
- "parked": []
+ "parked": [
+  {
+   "run_dir": "gauntlet/20261015-001351-panel-c_cap1",
+   "pid": 3224890,
+   "submission": 156,
+   "package": "c_cap1",
+   "started": "2026-10-15T00:13:41.550603+00:00",
+   "panel": "test/cells/panel-v1.txt",
+   "hash": "22cf2a0c896b",
+   "parked": "2026-10-15T00:14:29.070259+00:00",
+   "panel_matches": [
+    7208,
+    7209,
+    7210,
+    7211,
+    7212,
+    7213,
+    7214,
+    7215,
+    7216,
+    7217
+   ]
+  }
+ ]
 }
