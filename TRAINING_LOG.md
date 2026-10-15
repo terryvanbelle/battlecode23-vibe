@@ -1583,3 +1583,18 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   90 identical, 6 gained, 4 lost, net +2, island-rounds +324 (t +1.61); vs c_bc1 net +5 (8-3), +507 (t +2.51).
   Mechanism: MassiveL Mn +2,841 a game (8,093 vs 5,252), launchers +23 there; Forest carrier deaths 70.9 vs 67.7 (no
   feeding); 0 exceptions. Accepted 12:18 PDT (trial-end --accept): g_iter11 = c_well9, submission 164.
+
+## 2026-10-15 12:50 PDT: arch_jm built (jmerle sparring partner); carrier census vs jmerle
+- arch_jm (99742df) = c_mend2 + c_blind2 blind fire (BLIND_MEM_DEBT 13), mana-first Ad (bank cap 80 = anchor), GROUP_MIN 2
+  with a midfield front point (prog 0.5, +0.1 per 75 rounds from r150), close-in out of range (hp > 60). Driver game vs
+  c_mend2 DefaultMap seed 1: lost (conquest r431), 0 overruns, 0 exceptions. Micro and mana share match jmerle (out of
+  range toward/away 35-45%/2-10% vs 33-38%/7-13%; Mn share 0.85-0.88 vs 0.89); launcher positions do not yet
+  (home/mid/deep r100-200 58/37/5 vs 45/29/26: c_mend2 besieged its exposed HQ and the raid recall pulled launchers home).
+  Fidelity run queued on the VM: fid-arch_jm, c_mend2 vs arch_jm, 10 panel maps, both sides.
+- Carriers alive / empty per game, r<=600, from the 240 panel games (jmerle side vs ours): Forest r300 jmerle 52/7, ours
+  38/26; r600 85/12 vs 44/33. jmerle runs MORE carriers on Forest and nearly all are loaded; ours sit empty (collecting
+  on 1% of empty turns vs 10%). Mn delivered by r600: 5,649 vs 2,510 (9.4 vs 4.2 a turn, i.e. one well's ~5 open tiles).
+  ReverseFunnel 28/4 vs 22/11 at r300. Cause on Forest: we mine one home well; jmerle also mines the midline well. The
+  cap formula (min(30, max((6 + r/50) x nHQ, 8 x Mn wells))) reaches 30 by r50 on 4-HQ maps whatever the well capacity,
+  but extra carriers cost only Ad, which we cannot spend there anyway, so the fix is map control (midline wells), not
+  the cap.
