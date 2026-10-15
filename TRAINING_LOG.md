@@ -1495,3 +1495,10 @@ c_mend2 active again as 159. Judge by paired.py vs c_mend2/c_bc1 panels; mechani
   early fights lost by reinforcement rate (fights 57 rounds longer, enemy feeds 9.8 more launchers in), not first hit
   or start numbers; divergence starts r60-100 as ~2 rounds more waiting a trip. No single fixable root: no bot from
   it (owner: submit only on a positive result). Forest "stuck" trips are the map (our median trip 87, theirs 92).
+
+## 2026-10-14 21:11 PDT: c_cap1 rejected (panel 7208-7217)
+- vs c_mend2: identical 98, gained 0, lost 2, net -2 (-1.41 SE); island-round margin -188 (t -2.63). vs c_bc1: net +1
+  (+0.45 SE). Mechanism (census, our rows, 100 cells): carriers built 70.8 vs 60.6 (42 cells changed), but Ad
+  collected +473 and Mn -350, launchers built 144 vs 154. The extra carriers mined adamantium (AD flag while under the
+  cap) and paid for themselves in Ad, not in Mn: more carriers without more mana. Rejected. Consistent with the
+  causal graph: the gap is mana and fights, not carrier count as such.

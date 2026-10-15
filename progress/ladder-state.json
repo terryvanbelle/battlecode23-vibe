@@ -510,31 +510,24 @@
    "submission": 158,
    "package": "c_thr1",
    "validated_resubmitted": 159
+  },
+  {
+   "at": "2026-10-15T04:10:38.227721+00:00",
+   "event": "panel-done",
+   "submission": 156,
+   "package": "c_cap1",
+   "run": "gauntlet/20261015-001351-panel-c_cap1"
+  },
+  {
+   "at": "2026-10-15T04:11:37.810463+00:00",
+   "event": "reject",
+   "submission": 156,
+   "package": "c_cap1",
+   "parked": true,
+   "run": "gauntlet/20261015-001351-panel-c_cap1"
   }
  ],
  "parked": [
-  {
-   "run_dir": "gauntlet/20261015-001351-panel-c_cap1",
-   "pid": 3224890,
-   "submission": 156,
-   "package": "c_cap1",
-   "started": "2026-10-15T00:13:41.550603+00:00",
-   "panel": "test/cells/panel-v1.txt",
-   "hash": "22cf2a0c896b",
-   "parked": "2026-10-15T00:14:29.070259+00:00",
-   "panel_matches": [
-    7208,
-    7209,
-    7210,
-    7211,
-    7212,
-    7213,
-    7214,
-    7215,
-    7216,
-    7217
-   ]
-  },
   {
    "run_dir": "gauntlet/20261015-005712-panel-c_thr1",
    "pid": 3232286,
