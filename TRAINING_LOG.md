@@ -1461,3 +1461,11 @@ Mend3 completed two off/on games17:52:55 with exact intra-pair state/bytecode/fo
 - VM disk: the owner ran tools/galaxy/vm-prune.sh: 657 field replays, 2.0 GB freed (3.4 GB free, 82%). Its cron line
   lost the path's quotes (open(/home/...)); fixed with tools/galaxy/prune-local.sh, reinstall pending.
 - 2026-10-14 16:24 PDT: owner reran vm-prune.sh --install-cron: crontab now '30 */6 * * * bash .../tools/galaxy/prune-local.sh' (0 replays due; 3.4 GB free).
+
+## 2026-10-14 17:12 PDT: carrier gap diagnosis; c_cap1 built (CAP_MAX 30 -> 45)
+
+- telemetry_query econ since 10-11 (1,177 games): Mn@250 +204 vs opponents, Ad@250 -264, carriers built 60 vs 109.
+- c_mend2 panel by result: in the 39 losses opponents build 158 carriers to our 62 and collect 4x our Mn, while our
+  HQs end holding 1,269 Ad unspent (391 at r500): Ad is not the late constraint. Late HQ turn-end reasons: cap 'c' 21%,
+  threatened 't' 35%, poor 'p' 30%; HQ enemy pressure r2<=9 965 vs 63.
+- c_cap1 = c_mend2 with CAP_MAX 45 (census slot is 16-bit); Cap1Test; unit tests PASS. The 't' withholding is next.
