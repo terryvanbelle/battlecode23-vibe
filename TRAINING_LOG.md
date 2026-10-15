@@ -1604,3 +1604,17 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   loses 22/24), Cornucopia and MassiveL (arch_jm loses both at r2000 on islands; jmerle wins 24/24 and 22/24). Partial
   pass: the mimic reproduces the Forest and Maze losses with code we can read, so ablate it there next (abl-jm: c_well9
   vs arch_jm and four one-behaviour-off variants, Forest/Maze/IslandHopping/ReverseFunnel, paired seeds 1101/2202).
+
+## 2026-10-15 14:40 PDT: mimic ablation finds our own Forest regression; c_well10 = c_well9 with hot wells off
+- abl-jm and abl2-jm (gauntlet/20261015-194740-abl-jm, -203812-abl2-jm): c_well9 vs arch_jm, its four one-off and four
+  one-on variants, and c_mend2 as control; Forest/Maze/IslandHopping/ReverseFunnel x 2 sides x seeds 1101/2202 (16 cells
+  each). c_well9 wins: c_mend2 6/16 (Forest 0/4), arch_jm 5/16, one-off 5-7/16, one-on 6-8/16. No arch_jm behaviour
+  carries the result: the control does as well. Maze goes by side (c_well9 wins as A, loses as B, every opponent).
+- Mechanism (--sa collect sites, Forest seed 1101): c_mend2 and the mimic mine the midline wells (25-35,45) from r500,
+  2,000-2,400 Mn per 250 rounds; c_well9 mines 35 there and only its home well (50,10), the other home wells fading after
+  r500. c_well9 inherits c_well6's hot wells (C.HOT), added to stop c_well5's front probe feeding carriers on Forest; c_well9
+  has no front probe (PROBE_FRONT false), so the mark only keeps carriers off the midline wells. This also explains the
+  Forest carrier census above (33 of 44 carriers empty at r600).
+- c_well10 = c_well9 with C.HOT false. Queued w10-jm (same cells vs c_mend2 and arch_jm; c_well9 had 6/16 and 5/16).
+- The mimic idea (owner, PROMPTS 108) paid off as a diagnostic: playing a jmerle-like opponent made the Forest gap
+  reproducible and the control exposed it as our regression, not a jmerle behaviour.
