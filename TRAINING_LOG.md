@@ -1508,3 +1508,12 @@ c_mend2 active again as 159. Judge by paired.py vs c_mend2/c_bc1 panels; mechani
   (+0.71 SE). Mechanism: carriers built 64.5 vs 60.6 (55 cells changed), Mn -203, Ad +10, launchers 149.7 vs 154.0.
   Like c_cap1, more carriers cost launchers and did not raise mana. Both carrier-count arms are closed: the
   withheld-carrier and cap reasons were not the binding constraint on income (see the causal-graph run).
+
+## 2026-10-14 22:50 PDT: plateau step 4 (copy the offence that beats us): c_open1, carrier-first opening
+- 26 of 100 panel cells are lost by nearly every build since c_anc3; 8 are awesomelemonade.finalBot's (jmerle 5,
+  vrangr1 4). Against them (296 games): first 12 builds L 3.6 vs our 7.9 (they open CCCC LLLL, noted 2026-10-10 but
+  never tried); C alive@100 +1.1, Mn@100 +49, L alive@150 +3.6, carriers built 90 vs 35; fights won 71%, first hit
+  0.68, and at every dN they win 10-20 points more.
+- c_open1 = c_mend2 + through round C.CARRIER_FIRST_UNTIL (10) the HQ builds a carrier before a launcher when both
+  are affordable. Open1Test; unit-tests PASS. Local DefaultMap vs c_mend2 (one game, a check only): r50 carriers 13
+  vs 11, launchers 14 vs 12, Mn collected 353 vs 297; lost r581 on islands.
