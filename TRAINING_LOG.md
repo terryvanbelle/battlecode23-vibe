@@ -1476,3 +1476,17 @@ c_thr1 = c_mend2 + a threatened HQ still builds a carrier when a free spawn tile
 visible enemy fighter (HQ.safeCarrierTile; unsafe when bytecodes are short). Target: the 't' withhold reason, 35% of
 late HQ turns in losses. Test: test/bot/Thr1Test.java. Screen 20261015-005655-scr-c_thr1-b63813a927a3 queued.
 c_mend2 active again as 159. Judge by paired.py vs c_mend2/c_bc1 panels; mechanism: built_C, coll_Mn, reason 't'.
+- 2026-10-14 18:22 PDT: watcher STUCK_MATCH 7035 (field ranked battlecode-archive.sprintBot vs pranayagra.finalbotfinaltwo, created 17:00 PDT; third sprintBot hang). New tools/galaxy/cancel-match.sh <id> [--cancel] (the 6932 method as one command); the cancel was denied by the permission classifier, owner asked to allow Bash(tools/galaxy/cancel-match.sh:*).
+- 2026-10-14 18:53 PDT: owner ran tools/galaxy/cancel-match.sh 7035 --cancel: 7035 RUN -> CAN, re-rating requested.
+
+## 2026-10-14 18:54 PDT: causal graph of panel losses, first pass (owner, PROMPTS 101-102); c_ad1 held
+- tools/causal_dag.py: 2,000 games (836 losses), 20 panels on the same 100 cells; nodes "trail by T in X at round R",
+  Mantel-Haenszel risk differences within cells; edges = onset of B after A, same cell. Backward-walk roots: Mn@200
+  219, Mn@50 82, Army@100 82, Mn@100 69, Calive@150 61. Main chain: Mn behind by r200 -> launchers alive behind
+  r300+ -> loss. Adamantium is NOT a loss root: Ad@100 behind has within-cell RD -0.19 (behind in 69% of wins).
+  So c_ad1 (more early Ad) is unsupported: held, not submitted (owner: only submit on a positive result).
+- Mn@200 decomposed within 41 mixed cells (research/diagnosis/causal-mn200.py; loss minus win, same cell): our Mn
+  -132, theirs +90; carriers built equal (-0.1) but we lose 1.2 more and they lose 2.4 fewer (alive gap 3.9); our Mn
+  per carrier-round -3.6 (38 per 100); launchers built -2.1, kills -2.7 vs their kills +2.5. Losses are decided by
+  the early fight war over carriers and launchers, not by build counts. Next: which early fights (engagements.csv)
+  separate them; candidate only if a cause is found and fixable.
