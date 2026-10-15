@@ -1529,3 +1529,10 @@ c_mend2 active again as 159. Judge by paired.py vs c_mend2/c_bc1 panels; mechani
   cells are alike (F 0.24/0.23, H 0.21/0.21, M 0.19/0.17, N 0.24/0.23) except regroup G 0.030 won vs 0.071 lost and
   outnumbered Fo/Ho 0.008 vs 0.046. Regroup runs only with no enemy in sight (a launcher left alone turns back), so
   it reads as an effect of losing allies, not a cause. No micro lever found in mode shares.
+- 2026-10-15 04:36 PDT: plateau step 3 (API sweep): unused RobotController calls are adjacentLocation, canActLocation, canSenseRobot(AtLocation),
+  disintegrate, get{Action,Movement}CooldownTurns, getAnchor, resign, senseAnchor, senseAnchorPlantedHealth,
+  senseMapInfo, senseNearbyCloudLocations, senseRobot, setIndicatorLine. Currents are handled (MapMem). Well upgrades
+  (1,400 own-type deposited: rate 3) are unused by us and by the field; payback ~470 rounds at our trip rates: not
+  pursued. c_mend2 panel whole-game totals: wins us/them launchers 167/98, Mn 6,121/2,348; losses 134/296 and
+  2,975/12,301. Losses end with the economy collapsed under siege (HQ pressure r2<=9 965 vs 63), the late state the
+  causal graph traces to r150-300 fight losses.
