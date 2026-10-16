@@ -1864,3 +1864,18 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   291-374 vs 250). It fits the census: we float Ad (bank_end_Ad 982 in wins, 1,165 in losses; theirs 361/507).
   c_adlo1 = c_well9 with AD_EARLY_EVERY 12, AD_LATE_EVERY 7, CAP_MAX 40, CAP_PER_MN_WELL 7, ANCHOR_START 330
   (tools/param.py make): delivery game vs c_well9 on DefaultMap queued on the driver.
+- 10:14 PDT 'behind' engagements on c_well9's panel (matches 7600-7609, engagements.csv): vs awesomelemonade 328 of
+  478 start with us outnumbered, median 0 of our launchers vs 9 of theirs, 303 in our own third of the axis, only 46
+  by r300; vrangr1, pranayagra, jmerle, britacatalin, georgezhang02 alike (sizes 0 v 4-9, mostly own third, mostly
+  after r300). They are sieges and raids with no defender, not fights we pick badly: the micro contrast measured on
+  all engagements is mostly the late siege. The lever stays the r100-300 home economy (c_guard1, c_pack1, c_gp1).
+- 10:33 PDT c_adlo1 delivery game vs c_well9 (driver, DefaultMap seed 1101): won by conquest r560; 0 exceptions, 0
+  overruns; Ad bank r500 142 vs 560, 11 anchors built vs 0, C250 17 vs 10 (one game: no verdict). Screen on the VM
+  after the Swiss frees the game slots.
+- 10:36 PDT Swiss economy on rounds 1-3 (122 games, census.raw): c_sw07 0.83 of games, c_well9 0.65, c_sw11 0.65,
+  c_sw12 0.61. Over the 16 bots (Spearman): AD_LATE_EVERY vs Ad share of collection -0.30 (the knob acts), vs games
+  won +0.07; ANCHOR_START vs won +0.30 (the two variants anchoring from r160-168 are last); bank500_Ad vs won -0.15.
+  The leaders' shared economy direction is weak evidence; ANCHOR_START is the clearest.
+- 10:36 PDT tools/swiss.py init --pool A,B,... (with --k): local-mode variants re-draw only constants from the pool
+  (plus --always); unknown names, --pool without --k and --k above the pool size are refused. For a second, focused
+  search (e.g. the economy constants around c_well9). Unit test ParamTest.test_local_mode_pool.

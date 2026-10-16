@@ -113,6 +113,7 @@ SPACE = [
     ('AHEAD_MIN', 0, 3, 'fight() steps in to fire when ahead by N (allies + 1 - enemy fighters)', {'optional': True}),
     ('HOLD_THREAT', 0, 3, 'otherwise fire only from tiles at most N enemy fighters reach', {'optional': True}),
 ]
+SPACE_NAMES = frozenset(sp[0] for sp in SPACE)
 
 # Settings that make no sense are never drawn and never built (owner: "Don't include nonsensical settings, like
 # max < min"). Each is a Python expression over the setting's names.
@@ -255,10 +256,10 @@ def draw(rng, s):
     return rng.randint(s[1], s[2])
 
 
-def sample(n, seed, tries=10000, names=None, base=None, k=None, always=()):
+def sample(n, seed, tries=10000, names=None, base=None, k=None, always=(), pool=None):
     """n random settings of the space (only `names` when given: the constants a base defines), each satisfying every
     constraint (deterministic for a seed). Local mode (base and k given): each setting is `base` with k constants
-    re-drawn, the ones in `always` among them."""
+    re-drawn, the ones in `always` among them, the others from `pool` when given (else from the whole space)."""
     rng = random.Random(seed)
     space = [sp for sp in SPACE if names is None or sp[0] in names]
     out = []
@@ -269,7 +270,7 @@ def sample(n, seed, tries=10000, names=None, base=None, k=None, always=()):
             else:
                 s = dict(base)
                 forced = [sp for sp in space if sp[0] in always]
-                rest = [sp for sp in space if sp[0] not in always]
+                rest = [sp for sp in space if sp[0] not in always and (pool is None or sp[0] in pool)]
                 for sp in forced + rng.sample(rest, max(0, k - len(forced))):
                     s[sp[0]] = draw(rng, sp)
             if not violations(s):

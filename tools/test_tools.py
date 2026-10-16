@@ -2387,6 +2387,17 @@ class ParamTest(unittest.TestCase):
         self.assertIn('AHEAD_MIN', moved)
         self.assertGreater(len(moved), 20)                                   # different constants per variant
 
+    def test_local_mode_pool(self):
+        b = self.p.base_setting((REPO / 'src' / 'c_well9' / 'C.java').read_text())
+        pool = ('AD_EARLY_EVERY', 'AD_LATE_EVERY', 'CAP_MAX', 'CAP_PER_MN_WELL', 'ANCHOR_START')
+        ss = self.p.sample(30, 5, names=set(b), base=b, k=3, pool=pool)
+        self.assertEqual(ss, self.p.sample(30, 5, names=set(b), base=b, k=3, pool=pool))
+        moved = {x for s in ss for x in b if s[x] != b[x]}
+        self.assertLessEqual(moved, set(pool))                               # nothing outside the pool moves
+        self.assertGreater(len(moved), 3)
+        for s in ss:
+            self.assertEqual(self.p.violations(s), [])
+
     def test_make_renames_and_guards(self):
         with tempfile.TemporaryDirectory() as td:
             d = self.p.make('c_well9', 'c_ptest', {'RING_MIN': 12}, out=td, note='unit test')

@@ -296,13 +296,18 @@ def spearman(xs, ys):
     return sxy / (sx * sy) if sx and sy else 0.0
 
 
-def init(base, n, seed, maps, tag='', prefix='c_sw', rounds=None, k=None, always=()):
+def init(base, n, seed, maps, tag='', prefix='c_sw', rounds=None, k=None, always=(), pool=None):
     text = param.c_java(base).read_text()
     b = param.base_setting(text)
     bad = param.violations(b)
     if bad:
         sys.exit(f'!! {base} breaks: ' + '; '.join(bad))
-    variants = param.sample(2 ** n - 1, seed, names=set(b), base=b, k=k, always=always)
+    unknown = [x for x in tuple(always) + tuple(pool or ()) if x not in b or x not in param.SPACE_NAMES]
+    if unknown:
+        sys.exit(f'!! not in the space of {base}: ' + ', '.join(unknown))
+    if pool is not None and k is not None and k > len(set(always) | set(pool)):
+        sys.exit(f'!! --k {k} exceeds --always plus --pool ({len(set(always) | set(pool))} constants)')
+    variants = param.sample(2 ** n - 1, seed, names=set(b), base=b, k=k, always=always, pool=pool)
     stamp = datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')
     d = REPO / 'gauntlet' / (f'{stamp}-swiss' + (f'-{tag}' if tag else ''))
     d.mkdir(parents=True)
@@ -313,7 +318,9 @@ def init(base, n, seed, maps, tag='', prefix='c_sw', rounds=None, k=None, always
         for i, s in enumerate(variants, 1):
             fh.write('\t'.join([f'{prefix}{i:02d}', 'variant'] + [str(s[k]) for k in keys]) + '\n')
     cfg = {'base': base, 'base_hash': bot_hash(base), 'n': n, 'rounds': rounds or n, 'maps': maps, 'seed': seed,
-           'created_utc': stamp, 'mode': 'local k=%d always=%s' % (k, ','.join(always)) if k else 'full',
+           'created_utc': stamp,
+           'mode': ('local k=%d always=%s' % (k, ','.join(always)) + (' pool=%s' % ','.join(pool) if pool else '')) if k
+           else 'full',
            'space': [list(s[:3]) for s in param.SPACE if s[0] in b],
            'constraints': param.CONSTRAINTS}
     (d / 'config.json').write_text(json.dumps(cfg, indent=1) + '\n')
@@ -333,6 +340,7 @@ def main(argv=None):
     p.add_argument('--prefix', default='c_sw')
     p.add_argument('--k', type=int, help='local mode: each variant re-draws only k constants (default: all)')
     p.add_argument('--always', default='', help='local mode: constants every variant re-draws (comma-separated)')
+    p.add_argument('--pool', default='', help='local mode: draw the other constants only from these (comma-separated)')
     p = sub.add_parser('run')
     p.add_argument('dir')
     p.add_argument('--jobs', type=int, default=5)
@@ -346,8 +354,10 @@ def main(argv=None):
     p.add_argument('newpkg')
     a = ap.parse_args(argv)
     if a.cmd == 'init':
+        if a.pool and not a.k:
+            sys.exit('!! --pool needs --k (local mode)')
         print(init(a.base, a.n, a.seed, a.maps.split(','), a.tag, a.prefix, a.rounds, a.k,
-                   tuple(x for x in a.always.split(',') if x)))
+                   tuple(x for x in a.always.split(',') if x), tuple(x for x in a.pool.split(',') if x) or None))
     elif a.cmd == 'run':
         run(a.dir, a.jobs, not a.no_census, a.keep_replays)
     elif a.cmd == 'standings':

@@ -108,8 +108,10 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   4343-4352), parked once its matches exist. Both panels (c_pack1 169, c_gp1 171) wait in the queue; the watcher
   reports PANEL_DONE for each. Compare paired with c_well9's panel (63/100) via tools/paired.py, then
   `trial-decide <pkg> --accept|--reject`; if c_pack1 is accepted first, c_gp1 must also beat c_pack1.
-- **Replica queue (10:11 PDT):** 6 matches run (8064-8080), 140 queued (8081-8220) from the 09:00 autoscrim burst;
-  our panels are the last 20 (c_pack1 8201-8210, c_gp1 8211-8220), so they start after ~2-3 h and end ~16:00-17:00.
+- **Replica queue (10:54 PDT):** ~35 matches/h; 95 queued ahead of our panels (c_pack1 8201-8210, c_gp1
+  8211-8220), which should start ~13:40 and end ~16:30 PDT.
+- **Swiss after round 3 (10:52 PDT):** c_sw07 15/18 (66 of 73 constants differ from c_well9), c_well9 12/18;
+  round 4 pairs them. The likely winner goes to the panel (`swiss.py export ... c_tune1`, trial --skip-screen).
 - **c_adlo1** (tools/param.py make c_well9: AD_EARLY_EVERY 12, AD_LATE_EVERY 7, CAP_MAX 40, CAP_PER_MN_WELL 7,
   ANCHOR_START 330): the direction shared by the Swiss leaders after round 2 (c_sw12, c_sw07, c_sw11), and we float
   Ad (bank_end_Ad 982-1,165 vs 361-507). Delivery game on the driver first.
