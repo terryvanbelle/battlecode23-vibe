@@ -1663,3 +1663,11 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - 23:45 PDT mid1-jm (VM gauntlet/20261016-061013-mid1-jm, the 32 abl2-jm/w10-jm cells): c_mid1 vs c_mend2 10/16, vs
   arch_jm 9/16, 19/32 (c_well9 and c_well10 11/32 each). Forest 8/8 (c_well10 2/8, c_well9 vs c_mend2 0/4); Maze 4/8,
   IslandHopping 3/8, ReverseFunnel 4/8: the other maps unchanged within noise. The contested-well squad fixes Forest.
+- 01:10 PDT c_mid1 trial started 01:06 (submission 167, panel matches 8014-8023, run
+  gauntlet/20261016-080646-panel-c_mid1) and parked; c_well9 active again as submission 168.
+- 01:15 PDT site coverage: Mid.pick needs a well that is some HQ's nearest mana well (urgent) and beyond r2 64 of
+  every HQ, so c_mid1 has a site only on Forest (HQ (11,48)) and Cornucopia (all three HQs); its screen games on
+  BatSignal, Cat, DefaultMap and Hah are identical to c_well9's. Maze's mid wells fail it ((27,18) r2 45 from our HQ
+  (21,21); (12,26) no HQ's nearest). ReverseFunnel home well (sa data, 4 panels, r0-600): carriers adjacent ours
+  7.2/7.8/6.1 vs jmerle 8.1/8.7/8.7 per 200-round bucket, Mn collects there 5.9/5.8/4.6 vs 7.0/7.4/7.4 a round
+  (jmerle 4,354 Mn a game there, ours 3,289): our home well runs below saturation.

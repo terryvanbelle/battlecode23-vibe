@@ -40,7 +40,7 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-15 21:58 PDT)
+## In flight (2026-10-16 01:15 PDT)
 
 - **Owner idea (PROMPTS 108): a jmerle mimic as a sparring partner.** `tools/sa_extract.py` + ReplayDump `--sa` wrote
   state-action rows for jmerle.camel_case_v30_final and our side of the same 240 panel games
@@ -56,9 +56,10 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
 - **c_mid1** (10f9d74; contested-well objective on c_well9: HQ 0 picks a mana well in band p 35-65% beyond r2 64 of
   every HQ, launchers with id%3==0 hold it for 100-round tours, carriers mine it while screened and leave through home
   when outnumbered; PROBE_FRONT on, C.HOT on with the site exempt). Screen queued 21:54 PDT
-  (20261016-045404-scr-c_mid1-5c619ca1048d); collect with `tools/screen.py collect c_mid1`. On PASS, trial-start right
-  after the 01:00 PDT autoscrim (the 2.5-hour window rules out an earlier start), then paired vs
-  gauntlet/20261015-160249-panel-c_well9 and the per-map census (Forest pair, Cornucopia ring, Maze mid wells).
+  (20261016-045404-scr-c_mid1-5c619ca1048d): PASS, h2h 13/20, roster net +7 (arch_jm +4); local 19/32 on the
+  jmerle-study cells (c_well9 11/32; Forest 8/8). Trial parked 01:10 PDT (submission 167, panel 8014-8023, run
+  gauntlet/20261016-080646-panel-c_mid1); when the panel is done: tools/paired.py vs
+  gauntlet/20261015-160249-panel-c_well9, the per-map census diff, then `trial-decide c_mid1 --accept|--reject`.
 - Rejected today: c_cap1, c_thr1, c_open1, c_siege1, c_well10 (TRAINING_LOG). c_ad1 committed, held (Ad is not a loss root).
 
 **Ranked play** chooses the open team above us with the largest expected gain (`docs/LADDER_STRATEGY.md`).
