@@ -1989,3 +1989,16 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   overfitting claim, but every local tool (screen, race, Swiss) plays only the 10 panel maps; worth watching.
 - Ranked 8190 vs pranayagra (1-2): maptestsmall lost to a r5 launcher rush, then 45 spawn kills over 1,800 rounds
   (Mn 5 collected all game); Pakbot lost (0 carriers alive at r100, launchers 1 vs 18 at r250).
+
+## 2026-10-16 15:04 PDT: c_gp1 accepted as g_iter13 (panel 8211-8220, 71/100); c_sim1 screen FAIL 5/20
+- c_gp1 (c_guard1 + c_pack1's packing; c_guard1 = c_mid1's contested-well site + home-well defence) panel
+  gauntlet/20261016-170213-panel-c_gp1: 71/100, the best panel so far (c_pack1 67, c_well9 63). Paired vs c_pack1:
+  82 identical, gained 11, lost 7, net +4 (+0.94 SE); island-rounds +94 (t +0.50). Flips by map: Cornucopia 4-0,
+  Forest 3-0 (our two weakest maps: ranked panel-map record 0.29 on Forest/Cornucopia), ReverseFunnel 1-0, Hah 2-2,
+  IslandHopping 1-1, Maze, Cat, DefaultMap, MassiveL 0-1. Census vs c_pack1: carriers built -11.0 (t -3.60) and
+  died -10.1 (t -2.96), Mn +172 (t +0.46), Ad -530 (t -2.00), kills -21.9 (t -1.90). Vs c_well9: net +8 (+1.89 SE).
+  Accepted (trial-decide 171 --accept): submission 176 is the validated build. c_tune1 (c_well9-based) must now
+  beat c_gp1's panel.
+- c_sim1 screen FAIL: h2h 5/20 vs c_well9 (basics 8/8, 0 overruns or exceptions). Judging "ahead" by the focus-fire
+  simulation (engage 2v1, 3v2 at health) and standing after firing lose clearly to the count rule (AHEAD_MIN 2) and
+  kiting. Rejected without a panel; no follow-up on simulation-based engagement.

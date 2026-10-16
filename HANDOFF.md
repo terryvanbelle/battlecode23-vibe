@@ -8,12 +8,16 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
 
 ## Standing
 
-- **Validated build g_iter12 = c_pack1** (submission 175, accepted 2026-10-16 14:38 PDT): g_iter11 (c_well9) plus
+- **Validated build g_iter13 = c_gp1** (submission 176, accepted 2026-10-16 15:04 PDT): c_guard1 (c_mid1's
+  contested mana-well site + home-well defence: carriers report raiders they fled, launchers answer fresh sightings
+  in the home zone) plus c_pack1's packing. Panel 71/100 (`gauntlet/20261016-170213-panel-c_gp1`): vs c_pack1 net +4
+  (+0.94 SE; Cornucopia 4-0, Forest 3-0), carrier deaths -10.1 a game (t -2.96); vs c_well9 net +8 (+1.89 SE).
+  Judge candidates against c_gp1's panel.
+- Before it **g_iter12 = c_pack1** (submission 175, accepted 2026-10-16 14:38 PDT): g_iter11 (c_well9) plus
   well packing (C.PACK: near its well a carrier takes the nearest free collect square; a collector steps onto a free
   well tile). Panel 67/100 (`gauntlet/20261016-160153-panel-c_pack1`): vs c_well9 86 identical, gained 9, lost 5,
   net +4 (+1.07 SE), island-rounds -242 (t -1.73). Census paired: Mn collected +336 a game (t +0.89; Maze +1,506,
-  Forest +786, Cat +655), carrier deaths -4.7 (t -1.83), Ad -159. Screen PASS (h2h 13/20). Judge candidates against
-  c_pack1's and c_well9's panels.
+  Forest +786, Cat +655), carrier deaths -4.7 (t -1.83), Ad -159. Screen PASS (h2h 13/20).
 - Before it **g_iter11 = c_well9** (submission 164, accepted 2026-10-15 12:18 PDT; active again as submission 166
   since 20:20 PDT, after c_well10's rejected trial): g_iter10 (c_mend2) plus
   c_well5's diagonal near-well mana probe only (no front probe: c_well5/c_well7 fed Forest carriers to the midline
@@ -46,7 +50,7 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-16 14:40 PDT)
+## In flight (2026-10-16 15:10 PDT)
 
 - **Owner's parameter-search project (PROMPTS 114; practice session, bold attempts welcome).** `tools/param.py`
   builds a package with C.java constants overridden at build time (`make BASE NEW NAME=VALUE ...`; `space` = 73
@@ -60,12 +64,14 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   combined points, 384 games, rungs 8/16/32 units, ~6-8 h. On RACE_DONE: copy config, bots, units, games, census,
   rung*.txt and final.txt to research/race/<run>/, run `analyse`; a winner that beats the base by a clear paired net
   gets `export`ed and screened (the screen is the independent check: the race selected on its own cells).
-- **c_sim1 (13:49 PDT)** = c_knob2 + C.SIM_KEEP 60 + C.SIM_STAND 1: fight()'s "ahead" from a focus-fire simulation
-  over the fighters in vision (health-aware; Launcher.simKeep, Sim1Test), stay put after firing when ahead. Why:
-  against the three teams that beat us most our focus is 0.42 to 0.54 and kill conversion 0.72 to 0.91 (c_well9
-  panel census); on Cat vs vrangr1 three healthy launchers held off six damaged ones. Screen job
-  20261016-182322-scr-c_sim1-5365e65c3cb8 runs next after c_tune1's (moved ahead of c_adlo1's); on SCREEN_DONE
-  `tools/screen.py collect c_sim1`, and a PASS goes to a panel trial.
+- **c_sim1 rejected** (screen FAIL 14:56 PDT, h2h 5/20 vs c_well9): judging "ahead" by a focus-fire simulation
+  (engage 2v1/3v2 at health, stand after firing) loses clearly to the count rule and kiting.
+- **c_keep2 (15:10 PDT)** = c_gp1 + C.HOT_KEEP_MN: when every known mana well is hot, a mana carrier keeps the one
+  nearest our HQ for a trip instead of mining any cool (Ad) well. Why: from c_well9 on, Orbit (only mana wells on
+  the centre column) gave Mn@100 10-11 vs 142-168 in ranked play (driver repro: c_well9 Mn 15/31, Ad 528/563 at r100;
+  c_mend2 89/77 Mn). Ranked games on non-panel maps: 21% have our Mn@100 below 60% of theirs (we win 15% of those);
+  never on panel maps. c_keep1 = the same fix on c_pack1 (driver check only). Next: Orbit delivery game, the maps
+  where every mana well is a front well (scratchpad map dumps), then a screen on those maps.
 - **Watcher fix (08:34 PDT):** SCREEN_DONE never fired before (the VM probe expanded on the driver); it does now.
 
 - **Owner idea (PROMPTS 108): a jmerle mimic as a sparring partner.** `tools/sa_extract.py` + ReplayDump `--sa` wrote
@@ -117,15 +123,10 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   06:23 PDT (owner, PROMPTS 113): 2.2 GB free. Screen PASS 08:06 PDT (h2h 13/20, roster info Net +3, 148 games 0
   overruns or exceptions; progress/screens/c_pack1-b6ac7e5c5e37.json): trial from 09:00 PDT. **Accepted 14:38 PDT**
   (Standing above).
-- **c_gp1** (c_guard1 + c_pack1's packing, same code and constants): delivery game vs c_well9 on Forest 1101 won
-  at r2000, collMn 20,316 to 7,089; VM gp1-80 52/80 (c_guard1 45/80 on the same cells). Screen PASS 10:01 PDT
-  (h2h 12/20, roster info Net +9: arch_jm +5, arch_ampmid +2, arch_swarm +2; 148 games 0 overruns or exceptions;
-  progress/screens/c_gp1-5ab98ca6e5b2.json). **Trial started 10:02 PDT** (submission 171, panel requests
-  4343-4352), parked; panel 8211-8220 playing. On PANEL_DONE compare paired with c_pack1's panel (67/100, the
-  validated build) and c_well9's via tools/paired.py, then `trial-decide c_gp1 --accept|--reject`: it must beat
-  c_pack1.
-- **Replica queue (14:38 PDT):** c_pack1's panel done (accepted); c_gp1 (8211-8220) playing, c_tune1 (8221-8230)
-  next. c_tune1 is c_well9-based, so it must beat c_pack1's panel too.
+- **c_gp1** (c_guard1 + c_pack1's packing): screen PASS 10:01 PDT (h2h 12/20, roster info Net +9); **accepted
+  15:04 PDT** (Standing above).
+- **Replica queue (15:04 PDT):** c_pack1's and c_gp1's panels done (both accepted in turn); c_tune1 (8221-8230)
+  playing. c_tune1 is c_well9-based: compare paired with c_gp1's panel (71/100) and decide.
 - **Swiss DONE 11:16 PDT** (research/swiss/20261016-153444-swiss-n4/): WINNER c_sw07 18/24 (c_sw06 16, c_sw12 16,
   c_well9 15, unbeaten); c_sw07 drew c_well9 3-3 head to head. No constant is established by the correlations
   (n=16). c_sw07 = **src/c_tune1**: **trial started 11:43 PDT** (submission 173, --skip-screen "owner PROMPTS
@@ -151,7 +152,8 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   for `tools/paired.py`). Hourly limits count requests AND the matches they create (an accepted request counts
   twice); galaxy's default 10/10 was raised to 40 unranked and 20 ranked (owner, PROMPTS 15-16), so about 20 panel
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
-- Validated build: **g_iter12 = c_pack1** (submission 175, accepted 2026-10-16 14:38 PDT; baseline panel run
+- Validated build: **g_iter13 = c_gp1** (submission 176, accepted 2026-10-16 15:04 PDT; baseline panel run
+  `gauntlet/20261016-170213-panel-c_gp1`, 71/100). Before it **g_iter12 = c_pack1** (submission 175, accepted 2026-10-16 14:38 PDT; baseline panel run
   `gauntlet/20261016-160153-panel-c_pack1`, 67/100). Before it **g_iter11 = c_well9** (submission 164, accepted 2026-10-15 12:18 PDT, resubmitted as 166 at 20:20 PDT; baseline panel run
   `gauntlet/20261015-160249-panel-c_well9`, 63/100). Before it **g_iter10 = c_mend2** (accepted as 143, 2026-10-11 05:14 PDT; baseline panel run
   `gauntlet/20261011-080046-panel-c_mend2`, 61/100). Before it **g_iter9 = c_bc1** (submission 136, accepted 2026-10-10 22:44 PDT; baseline panel run

@@ -1,9 +1,9 @@
 {
  "validated": {
-  "submission": 175,
-  "package": "c_pack1",
-  "since": "2026-10-16T21:38:00.485845+00:00",
-  "panel_run": "gauntlet/20261016-160153-panel-c_pack1"
+  "submission": 176,
+  "package": "c_gp1",
+  "since": "2026-10-16T22:04:36.489607+00:00",
+  "panel_run": "gauntlet/20261016-170213-panel-c_gp1"
  },
  "trial": null,
  "history": [
@@ -679,31 +679,25 @@
    "trial_submission": 169,
    "parked": true,
    "run": "gauntlet/20261016-160153-panel-c_pack1"
+  },
+  {
+   "at": "2026-10-16T22:03:03.991670+00:00",
+   "event": "panel-done",
+   "submission": 171,
+   "package": "c_gp1",
+   "run": "gauntlet/20261016-170213-panel-c_gp1"
+  },
+  {
+   "at": "2026-10-16T22:04:36.489693+00:00",
+   "event": "accept",
+   "submission": 176,
+   "package": "c_gp1",
+   "trial_submission": 171,
+   "parked": true,
+   "run": "gauntlet/20261016-170213-panel-c_gp1"
   }
  ],
  "parked": [
-  {
-   "run_dir": "gauntlet/20261016-170213-panel-c_gp1",
-   "pid": 3523751,
-   "submission": 171,
-   "package": "c_gp1",
-   "started": "2026-10-16T17:01:52.644984+00:00",
-   "panel": "test/cells/panel-v1.txt",
-   "hash": "5ab98ca6e5b2",
-   "parked": "2026-10-16T17:03:12.430596+00:00",
-   "panel_matches": [
-    8211,
-    8212,
-    8213,
-    8214,
-    8215,
-    8216,
-    8217,
-    8218,
-    8219,
-    8220
-   ]
-  },
   {
    "run_dir": "gauntlet/20261016-184324-panel-c_tune1",
    "pid": 3542446,
