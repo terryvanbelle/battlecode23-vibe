@@ -1847,3 +1847,9 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   c_pack1's trial parked 09:22 (submission 169, panel matches 8201-8210); c_well9 active again as 170.
 - 09:47 PDT tools/param.py local mode (`swiss.py init --k K --always A,B`): each variant is the base with only K
   constants re-drawn (the --always ones among them), for a second, attributable search around the incumbent.
+- 10:01 PDT c_gp1 screen PASS (job 20261016-134053-scr-c_gp1-5ab98ca6e5b2): (a) 8/8, (b) h2h 12/20 vs c_well9,
+  (c) roster info Net +9 (arch_jm +5, arch_ampmid +2, arch_swarm +2), no archetype gate, (d) 148 games 0 overruns,
+  0 exceptions, 0 self-deaths. Record progress/screens/c_gp1-5ab98ca6e5b2.json.
+- 10:02 PDT c_gp1 trial started (submission 171, panel requests 4343-4352); trial-park queued to put c_well9 back
+  once the panel's matches exist. c_pack1's panel (submission 169) still waits in the queue. If c_pack1 is accepted
+  first, c_gp1 must also beat it (paired, same cells).
