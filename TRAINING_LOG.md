@@ -1853,3 +1853,14 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - 10:02 PDT c_gp1 trial started (submission 171, panel requests 4343-4352); trial-park queued to put c_well9 back
   once the panel's matches exist. c_pack1's panel (submission 169) still waits in the queue. If c_pack1 is accepted
   first, c_gp1 must also beat it (paired, same cells).
+- 10:10 PDT idle adamantium as ammunition (a carrier withdraws 40 Ad from its HQ, transferResource(hq, AD, -40), and
+  throws it for 50 damage), measured before building on c_well9's panel extracts (matches/7600-7609, hq.csv): in our 37
+  losses the HQs end with 1,165 Ad unspent (median ~700) and enemy fighters stand within r2 9 of an HQ holding >= 90
+  Ad in 2,783 HQ-buckets (520 Ad on average there), but only 96 of those buckets fall in r0-300; the rest are sieges
+  of games already lost (enemy 157 launchers at the end). The lever acts after the turn (r215): not built.
+- 10:10 PDT Swiss after round 2: c_sw12 and c_sw07 10/12, c_well9 9/12 (3rd), c_sw11 8/12. The three variants share a
+  direction against c_well9: fewer adamantium miners (AD_EARLY_EVERY 9-16 vs 8, AD_LATE_EVERY 6-7 vs 4), higher
+  carrier cap (CAP_MAX 39-43 vs 30), fewer per mana well (CAP_PER_MN_WELL 6-7 vs 8), later anchors (ANCHOR_START
+  291-374 vs 250). It fits the census: we float Ad (bank_end_Ad 982 in wins, 1,165 in losses; theirs 361/507).
+  c_adlo1 = c_well9 with AD_EARLY_EVERY 12, AD_LATE_EVERY 7, CAP_MAX 40, CAP_PER_MN_WELL 7, ANCHOR_START 330
+  (tools/param.py make): delivery game vs c_well9 on DefaultMap queued on the driver.
