@@ -1671,3 +1671,25 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   (21,21); (12,26) no HQ's nearest). ReverseFunnel home well (sa data, 4 panels, r0-600): carriers adjacent ours
   7.2/7.8/6.1 vs jmerle 8.1/8.7/8.7 per 200-round bucket, Mn collects there 5.9/5.8/4.6 vs 7.0/7.4/7.4 a round
   (jmerle 4,354 Mn a game there, ours 3,289): our home well runs below saturation.
+
+## 2026-10-16 02:25 PDT: c_raid1 not superior locally; IslandHopping is lost to an early HQ assault; c_front1
+- c_raid1 (d14555c) = c_mid1 + mana raid (C.RAID_MANA: a predicted mana well nearer an enemy HQ than each of ours is a
+  raid candidate at any distance; other types rank after every mana well; the site excluded). VM raid1-jm
+  (gauntlet/20261016-083137-raid1-jm: the 32 study cells + Cornucopia x c_mend2/arch_jm x A/B x 1101/2202): 19/40 vs
+  c_mid1 22/40 (mid1-jm 19/32 + gauntlet/20261016-083254-mid1-corn 3/8). Cornucopia 4/8 (c_mid1 3/8; vs arch_jm 4/4 vs
+  2/4), Forest 8/8 both, IslandHopping 3/8 both, Maze 1/8 (4/8: the army now tours five enemy mana wells across the
+  maze), ReverseFunnel 3/8 (4/8; two games identical). Loss replays only (gauntlet wins are pruned without KEEP_ALL;
+  CENSUS=1 from now on): Cornucopia's enemy Mn by r500 falls in 2 of 3 paired cells; IslandHopping's is unchanged
+  (2,376-2,818 vs 2,135-2,838) because the game is lost before the raid starts (launchers at r500 1-6 vs 19-39 in both).
+  Held, not screened.
+- c_well9's panel by opponent: awesomelemonade 2/10, vrangr1 2/10, pranayagra 3/10, jmerle 5/10, NotLLeon 6/10, the rest
+  8-10/10; by map Cornucopia and Forest 4/10. In contact our launchers hold (neither move nor fire) 35-41% of turns,
+  the top teams 22-31%, the gap being their blind fire (rejected 10-14: c_blind1/2 inert).
+- IslandHopping early collapse (c_raid1 vs arch_jm, s1101, side A): even at r50 (carriers 10/10, launchers 11/11), then
+  the army marched on the enemy HQ (44,3) and lost 5 launchers to 1 at r2 37-81 of it in r78-95; kills by r150 10 vs
+  21, launchers 10 vs 18, Mn collected equal (728 vs 765). Same shape in c_well9's panel game vs awesomelemonade
+  (IslandHopping): ahead 14-10 in launchers at r150, then 12 launchers lost in the enemy half in r150-250 against 6,
+  no robots left by r400 (Mn collected 859 in the game against 17,220).
+- c_front1 = c_mid1 + arch_jm's midfield front (C.FRONT ported unchanged: the army holds a point 50% of the way from our
+  HQ centroid to the siege target before r150, 60/70/80% from r150/225/300, raid and ring from r375). Front1Test 7
+  cases. VM front1-jm on the same 40 cells with CENSUS=1.
