@@ -2014,3 +2014,9 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   step after an accept (ACCEPT_NEXT); TRAINING_ALGORITHM step 7 and docs/LADDER_STRATEGY.md name
   tools/progress-refresh.sh. tools/web-worker test_timeout_kills_parent_and_child_process_group flaked under driver
   load 7 (the job's 1 s timeout beat the child's pid write); timeout 3 s, bound 10 s.
+- 16:39 PDT carrier deaths, ranked 8190-8237 (327 games, sub 175/176, deaths.csv r<=300): lost games 14.0 of ours per
+  game vs 6.6 of theirs; won games 3.8 vs 16.8. In losses ours die in F 614 (317 empty), G 450 (318 empty), C 178,
+  V 174, W 100; all to launchers; prog quartiles 0.10/0.20/0.31 (home wells; c_well6's hot memory covers front wells
+  only). Cee 8236 g0: carriers built 18/19 by r250 but alive 11/17. Workflow c_flee1 (on c_gp1: replay diagnosis,
+  3 designs, judge, implement, review) and c_expl1 (frontier exploration, on c_keep2) running. keep2-h2h 40/83 at
+  16:30 (both-sides maps: Fractured 2-0; Contraction, Checkmate2 0-2). progress/ pushed 16:05 (e86cc9f; 23 reports).
