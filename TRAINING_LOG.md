@@ -1640,3 +1640,12 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   -1,784; Cornucopia -701 (carrier deaths -38); Maze -259 (carrier deaths +14); Forest +34, Mn +677, carrier deaths +17;
   DefaultMap +266, Mn +1,509. Hot wells earn their keep on MassiveL and Cornucopia; the contested-well candidate (c_mid1)
   must keep C.HOT on and exempt only a contested well our launchers hold.
+- 21:54 PDT c_mid1 committed (10f9d74) and screened (20261016-045404-scr-c_mid1-5c619ca1048d). Built on c_well10 by a
+  workflow (Mid.java site choice: a mana well in band p 35-65% under every surviving symmetry, beyond r2 64 of our HQs
+  and every enemy HQ candidate, with a twin within r2 2; launcher squad id%3==0 on 100-round tours, holders within
+  r2 20 outside a free zone of r2 8; carriers mine while screened, leave through home for 64 rounds when outnumbered or
+  crowded), then rebased onto c_well9: C.HOT on, the site and its twin never hot (Carrier.front false there, Mid.update
+  clears an earlier mark, hotLocal true there while a carrier avoids it). PROBE_FRONT on: the front probe is the only
+  path that finds Forest's pair. Dev game before the rebase (c_mid1 vs c_well9, Forest seed 1): won r1738 by
+  conquest, Mn 17,758 vs 5,519, launchers alive at r1000 139 vs 34, carriers lost 6 vs 157, 0 exceptions, launcher max
+  bytecode 9,173.
