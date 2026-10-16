@@ -524,3 +524,7 @@ Second:  I've got a new research project for you.  I'd like you to create a bot 
 ## 115. 2026-10-16 08:49 PDT
 
 What's left to do to validate c_gp1?
+
+## 116. 2026-10-16 11:10 PDT
+
+It looks like you swapped c_well9 back in 2 minutes after submitted c_gp1.  What's the story there?
