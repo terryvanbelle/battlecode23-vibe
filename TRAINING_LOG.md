@@ -1890,3 +1890,8 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   ~4 of 73 constants pass that by chance, none passes Bonferroni (|rho| ~0.78): no constant is established.
   c_sw07 exported as src/c_tune1 (tools/swiss.py export; header names the run): next, its panel trial (owner:
   "run that bot against the panel"), --skip-screen with the owner's reason, parked behind c_pack1 and c_gp1.
+- 11:43 PDT c_tune1 (= c_sw07) panel trial started (owner, PROMPTS 114: "run that bot against the panel"):
+  submission 173, panel requests 4353-4362, --skip-screen with the owner's reason; parked at once (panel matches
+  8221-8230, bound to 173); c_well9 active again as 174. Three panels now wait in the replica queue: c_pack1
+  8201-8210, c_gp1 8211-8220, c_tune1 8221-8230 (c_tune1 expected ~18:30-19:30 PDT). Its screen and c_adlo1's run
+  on the VM for information (jobs 20261016-182059-scr-c_tune1-dbaa8dbe5c83, 20261016-182323-scr-c_adlo1-3abbc150aa18).

@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 172,
+  "submission": 174,
   "package": "c_well9",
   "since": "2026-10-15T19:18:15.880112+00:00",
   "panel_run": "gauntlet/20261015-160249-panel-c_well9"
@@ -649,6 +649,20 @@
    "submission": 171,
    "package": "c_gp1",
    "validated_resubmitted": 172
+  },
+  {
+   "at": "2026-10-16T18:43:24.291267+00:00",
+   "event": "trial-start",
+   "submission": 173,
+   "package": "c_tune1",
+   "screen_skipped": "owner PROMPTS 114: the Swiss winner (c_sw07 of 20261016-153444-swiss-n4) goes to the panel"
+  },
+  {
+   "at": "2026-10-16T18:43:50.028357+00:00",
+   "event": "park",
+   "submission": 173,
+   "package": "c_tune1",
+   "validated_resubmitted": 174
   }
  ],
  "parked": [
@@ -694,6 +708,28 @@
     8218,
     8219,
     8220
+   ]
+  },
+  {
+   "run_dir": "gauntlet/20261016-184324-panel-c_tune1",
+   "pid": 3542446,
+   "submission": 173,
+   "package": "c_tune1",
+   "started": "2026-10-16T18:43:14.062326+00:00",
+   "panel": "test/cells/panel-v1.txt",
+   "hash": "dbaa8dbe5c83",
+   "parked": "2026-10-16T18:43:50.028288+00:00",
+   "panel_matches": [
+    8221,
+    8222,
+    8223,
+    8224,
+    8225,
+    8226,
+    8227,
+    8228,
+    8229,
+    8230
    ]
   }
  ]

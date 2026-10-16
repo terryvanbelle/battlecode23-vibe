@@ -40,17 +40,13 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-16 10:03 PDT)
+## In flight (2026-10-16 11:45 PDT)
 
 - **Owner's parameter-search project (PROMPTS 114; practice session, bold attempts welcome).** `tools/param.py`
   builds a package with C.java constants overridden at build time (`make BASE NEW NAME=VALUE ...`; `space` = 73
   numeric constants with ranges and 10 constraints; `sample` = random valid settings). `tools/swiss.py` runs a Swiss
-  tournament of the base plus random variants (`init`, `run`, `standings`, `analyse`, `export DIR BOT NEWPKG`). Run
-  **gauntlet/20261016-153444-swiss-n4** on the VM (log `logs/swiss1.log`): 16 bots (c_well9 + c_sw01..15), 4 rounds,
-  Forest/DefaultMap/Maze both sides, 192 games, started 08:34 PDT, ~2-3 h. The watcher reports SWISS_DONE; then copy
-  config.json, bots.tsv, games.csv, final.txt and census.csv to research/swiss/<run>/, run `analyse`, and if a variant
-  wins, `export` it as a new package and run it against the panel (`tools/ladder_policy.py trial-start <pkg>
-  --skip-screen "owner PROMPTS 114: Swiss winner to the panel"`, after a screen if time allows).
+  tournament of the base plus random variants (`init` [--pool A,B,.. --k K for a focused search], `run`,
+  `standings`, `analyse`, `export DIR BOT NEWPKG`). First run done 11:16 PDT (below).
 - **Watcher fix (08:34 PDT):** SCREEN_DONE never fired before (the VM probe expanded on the driver); it does now.
 
 - **Owner idea (PROMPTS 108): a jmerle mimic as a sparring partner.** `tools/sa_extract.py` + ReplayDump `--sa` wrote
@@ -112,8 +108,9 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   8211-8220), which should start ~13:40 and end ~16:30 PDT.
 - **Swiss DONE 11:16 PDT** (research/swiss/20261016-153444-swiss-n4/): WINNER c_sw07 18/24 (c_sw06 16, c_sw12 16,
   c_well9 15, unbeaten); c_sw07 drew c_well9 3-3 head to head. No constant is established by the correlations
-  (n=16). c_sw07 = **src/c_tune1**: panel trial next (--skip-screen "owner PROMPTS 114"), parked; its screen and
-  c_adlo1's run on the VM for information.
+  (n=16). c_sw07 = **src/c_tune1**: **trial started 11:43 PDT** (submission 173, --skip-screen "owner PROMPTS
+  114"), parked (panel matches 8221-8230; c_well9 active again as 174); expected ~18:30-19:30 PDT. Its screen and
+  c_adlo1's run on the VM for information (`tools/screen.py collect <pkg>` on SCREEN_DONE).
 - **c_adlo1** (tools/param.py make c_well9: AD_EARLY_EVERY 12, AD_LATE_EVERY 7, CAP_MAX 40, CAP_PER_MN_WELL 7,
   ANCHOR_START 330): the direction shared by the Swiss leaders after round 2 (c_sw12, c_sw07, c_sw11), and we float
   Ad (bank_end_Ad 982-1,165 vs 361-507). Delivery game on the driver first.
