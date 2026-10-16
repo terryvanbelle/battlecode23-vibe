@@ -1629,3 +1629,7 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   (r600-700); carriers 1.8, 7.4, 15.2, 22.4. Ours: 0.0 launchers and 0.0-0.2 carriers in every bucket. Our launchers stall
   at 24-25 alive from r300 while jmerle's grow 38 -> 72. Next candidate: a contested-well objective (launchers hold the
   centre mana well and carriers mine it) on maps that have one.
+- 17:30 PDT c_well10 screen PASS (20261015-215222-scr-c_well10): basics 8/8, h2h 11/20 vs c_well9 (PASS at 11), roster
+  net +0 (arch_jm 1-1, arch_horde +1, arch_swarm -1), 148 games with 0 overruns/exceptions/self-deaths. Trial started
+  17:32 PDT, submission 165, panel gauntlet/20261016-003246-panel-c_well10. Purpose: c_mid1 (contested-well objective,
+  in build) sits on c_well10, so the panel measures what hot wells off costs or gains against the field first.
