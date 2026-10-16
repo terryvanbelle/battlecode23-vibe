@@ -82,6 +82,9 @@ exist, the candidate need not stay active.
   would replace the candidate as the active submission. A trial submission id can stand in for the package name.
   Compare the run with the panel run of the build validated at decision time, since another parked trial may have
   been accepted in the meantime. `status` prints the `tools/paired.py` command.
+- After any accept (`trial-end --accept` or `trial-decide --accept`), regenerate `progress/` with
+  `tools/progress-refresh.sh` and commit and push it with `research/matches/` (owner, PROMPTS 119); both commands print
+  this step.
 - Overlapping panels have identical cells. `tools/contest.py block` therefore records the block's submission in each
   request of `requests.jsonl`, and it pairs a match with a request only if our participant row carries it. For
   `trial-start`, the block's submission is the candidate's; otherwise it is the one active when the block starts. The

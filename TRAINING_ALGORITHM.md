@@ -100,6 +100,8 @@ is placed on the ladder. Then run the first **correctness audit** (§4) and only
    it. An overrun or a new exception voids an arm.
 7. **Accept**: snapshot as a frozen package; enter the ladder as a new player and calibrate; play the frozen roster;
    run the post-block command (ratings, charts, pages, census, ledger, handoff); commit and push in the same step.
+   On every accept, run `tools/progress-refresh.sh` and commit and push `progress/` and `research/matches/` (owner,
+   PROMPTS 119); `tools/ladder_policy.py` prints this step after an accept.
 8. **Reject**: restore the incumbent byte for byte; ledger entry with the closing number, the kind of closure and a
    testable re-open condition. Positive near-misses with independent mechanisms are kept to be stacked and tested as a
    new arm. Never stack on mere non-inferiority.

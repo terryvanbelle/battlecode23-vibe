@@ -110,6 +110,11 @@ that beat us but does not explain their wins; the principle stands (it was free)
 
 ### Process and gates
 
+- **Self-play tournaments select against our own style, not the field.** The Swiss winner over 16 variants of our
+  build (c_sw07: GROUP_MIN 3, FORM_MAX_TURNS 11, a wider siege ring, 18/24) scored 63/100 on the field panel: net
+  -8 vs c_gp1 and island-rounds -727 (t -3.53) vs c_well9, on whose panel it tied. Its screen h2h was 9/20. A
+  parameter search needs field-like opponents (archetypes, panel cells) in its scoring, and its winner still faces
+  the panel (TRAINING_LOG 2026-10-16 15:42).
 - **Overlap trials.** A replica match plays the submission active when it is created, so a candidate needs to be active
   only while its panel's matches are created (about a minute); park it and run the next. Serial trials gave one per
   8-hour window behind the autoscrim backlog (TRAINING_LOG 2026-10-11 01:03).

@@ -2002,3 +2002,15 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - c_sim1 screen FAIL: h2h 5/20 vs c_well9 (basics 8/8, 0 overruns or exceptions). Judging "ahead" by the focus-fire
   simulation (engage 2v1, 3v2 at health) and standing after firing lose clearly to the count rule (AHEAD_MIN 2) and
   kiting. Rejected without a panel; no follow-up on simulation-based engagement.
+
+## 2026-10-16 15:42 PDT: c_tune1 rejected (panel 8221-8230, 63/100); PROMPTS 119 (progress/ on every accept)
+- c_tune1 (Swiss winner c_sw07 of 20261016-153444-swiss-n4; trial --skip-screen on the owner's direction, PROMPTS
+  114) panel gauntlet/20261016-184324-panel-c_tune1: 63/100. Paired vs c_gp1 (validated): 74 identical, gained 9,
+  lost 17, net -8 (-1.57 SE), island-rounds -579 (t -2.71); georgezhang02 0-4, vrangr1 1-4. Vs c_well9: net 0,
+  island-rounds -727 (t -3.53). Its screen was FAIL (h2h 9/20). Rejected (trial-decide 173 --reject). LEARNINGS:
+  self-play tournaments select against our own style, not the field.
+- Owner, PROMPTS 119: "Please update the progress directory whenever accepting a new candidate". The two accepts
+  today (c_pack1 14:38, c_gp1 15:04) left progress/ behind; refresh started 15:27 PDT. ladder_policy now prints the
+  step after an accept (ACCEPT_NEXT); TRAINING_ALGORITHM step 7 and docs/LADDER_STRATEGY.md name
+  tools/progress-refresh.sh. tools/web-worker test_timeout_kills_parent_and_child_process_group flaked under driver
+  load 7 (the job's 1 s timeout beat the child's pid write); timeout 3 s, bound 10 s.

@@ -50,7 +50,7 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-16 15:10 PDT)
+## In flight (2026-10-16 15:42 PDT)
 
 - **Owner's parameter-search project (PROMPTS 114; practice session, bold attempts welcome).** `tools/param.py`
   builds a package with C.java constants overridden at build time (`make BASE NEW NAME=VALUE ...`; `space` = 73
@@ -125,13 +125,10 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   (Standing above).
 - **c_gp1** (c_guard1 + c_pack1's packing): screen PASS 10:01 PDT (h2h 12/20, roster info Net +9); **accepted
   15:04 PDT** (Standing above).
-- **Replica queue (15:04 PDT):** c_pack1's and c_gp1's panels done (both accepted in turn); c_tune1 (8221-8230)
-  playing. c_tune1 is c_well9-based: compare paired with c_gp1's panel (71/100) and decide.
-- **Swiss DONE 11:16 PDT** (research/swiss/20261016-153444-swiss-n4/): WINNER c_sw07 18/24 (c_sw06 16, c_sw12 16,
-  c_well9 15, unbeaten); c_sw07 drew c_well9 3-3 head to head. No constant is established by the correlations
-  (n=16). c_sw07 = **src/c_tune1**: **trial started 11:43 PDT** (submission 173, --skip-screen "owner PROMPTS
-  114"), parked (panel matches 8221-8230; c_well9 active again as 174); expected ~18:30-19:30 PDT. Its screen and
-  c_adlo1's run on the VM for information (`tools/screen.py collect <pkg>` on SCREEN_DONE).
+- **Replica queue (15:42 PDT):** no trial open; c_gp1 (176) active and validated. c_tune1 rejected 15:41 PDT
+  (panel 63/100, net -8 vs c_gp1, island-rounds -579 t -2.71).
+- **Swiss DONE 11:16 PDT** (research/swiss/20261016-153444-swiss-n4/): winner c_sw07 = src/c_tune1, rejected on the
+  panel (LEARNINGS: self-play tournaments select against our own style).
 - **c_adlo1** (tools/param.py make c_well9: AD_EARLY_EVERY 12, AD_LATE_EVERY 7, CAP_MAX 40, CAP_PER_MN_WELL 7,
   ANCHOR_START 330): the direction shared by the Swiss leaders after round 2 (c_sw12, c_sw07, c_sw11), and we float
   Ad (bank_end_Ad 982-1,165 vs 361-507). Delivery game on the driver first.
