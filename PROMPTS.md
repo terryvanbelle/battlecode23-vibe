@@ -532,3 +532,7 @@ It looks like you swapped c_well9 back in 2 minutes after submitted c_gp1.  What
 ## 117. 2026-10-16 11:11 PDT
 
 Ah, got it, thanks
+
+## 118. 2026-10-16 12:50 PDT
+
+What's the status of c_gp1?

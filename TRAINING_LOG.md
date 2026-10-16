@@ -1895,3 +1895,20 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   8221-8230, bound to 173); c_well9 active again as 174. Three panels now wait in the replica queue: c_pack1
   8201-8210, c_gp1 8211-8220, c_tune1 8221-8230 (c_tune1 expected ~18:30-19:30 PDT). Its screen and c_adlo1's run
   on the VM for information (jobs 20261016-182059-scr-c_tune1-dbaa8dbe5c83, 20261016-182323-scr-c_adlo1-3abbc150aa18).
+- 11:50 PDT Do screens predict the panel? Over the 20 trials with a 20-game screen and a panel (Spearman against the
+  panel's paired net vs the incumbent): stage b (h2h wins of 20) +0.45, stage c roster info net +0.42; a z-score blend
+  weighted 0.25-0.5 to h2h reaches Pearson +0.58-0.59 (c_anc3's +16/+9 carries much of it). Both local measures carry
+  signal; neither alone is enough. c_well9's panel by opponent: vrangr1 2/10, awesomelemonade 2/10, pranayagra 3/10,
+  jmerle 5/10, NotLLeon 6/10, the other five 8-10/10: the three teams that beat us most hold the gain.
+- 11:58 PDT tools/race.py (new): successive-halving race of C.java settings against an opponent pool (default
+  c_well9 + arch_jm + arch_swarm + arch_ampmid, the panel's 10 maps). A unit is (opponent, map, fresh seed) played
+  from both sides; rung k plays the next units for the base (the control, never cut) and every live candidate, then
+  the best ceil(keep x n) by games won go on; the table's net vs the base is paired. `analyse` gives the win share by
+  level of each varied constant on rung 1 (all bots, same cells). The watcher reports RACE_DONE. RaceTest (6 tests,
+  one end-to-end with faked games).
+- 11:59 PDT Race gauntlet/20261016-185924-race-micro on the VM (log logs/race-micro.log): base c_knob1 (= c_well9 with
+  fight()'s two thresholds as constants) and the full grid AHEAD_MIN 0-3 x HOLD_THREAT 0-3 (15 variants + the base),
+  rungs 8/16/32 units, keep 0.5: 256 + 144 + 160 = 560 games. Why: the three teams that beat us most stand and fire on
+  0.33-0.38 of contact turns to our 0.17-0.20 and hold on 0.22-0.27 to our 0.35-0.40 (07:06 today); the parity hold
+  (AHEAD_MIN 2, HOLD_THREAT 1) is the switch that keeps ours out. c_swarm4a/b (step in at 1 or 0 ahead) were rejected
+  on 10-08 on g_iter2, a much older bot; the hold-threat axis was never varied.

@@ -8,6 +8,7 @@ of every turn the agent re-arms it. Events, each reported once (keys kept in bui
   PANEL_DONE <package>      a parked trial's panel finished (tools/ladder_policy.py status says "panel done")
   SCREEN_DONE <job>         a VM screen job finished (SCREEN-END in its log) and has no collected record yet
   SWISS_DONE <run>          a VM Swiss tournament (tools/swiss.py) wrote final.txt and research/swiss/<run>/ lacks it
+  RACE_DONE <run>           a VM race (tools/race.py) wrote final.txt and research/race/<run>/ lacks it
   STUCK_MATCH <id>          a replica match the watcher has seen in RUN for more than 1 hour (siarnaq rates in creation
                             order, so one stuck match freezes every later rating: 2565, 2593, 6282). Age since creation
                             is no test: after an autoscrim, matches wait in QUE for hours and start late (2026-10-14:
@@ -81,12 +82,13 @@ def new_events(candidates, seen):
 
 
 def vm_check_cmd():
-    """The VM probe: finished screen jobs, finished Swiss runs (SWISS:<run>) and a dead queue runner. The remote
-    command is single-quoted for the local shell: until 2026-10-16 it sat in double quotes, so $(ls logs/...) and $f
-    expanded on the driver (no screen logs there) and SCREEN_DONE could never fire."""
+    """The VM probe: finished screen jobs, finished Swiss runs (SWISS:<run>) and races (RACE:<run>), and a dead queue
+    runner. The remote command is single-quoted for the local shell: until 2026-10-16 it sat in double quotes, so
+    $(ls logs/...) and $f expanded on the driver (no screen logs there) and SCREEN_DONE could never fire."""
     remote = ('cd ~/projects/vibe/2023; '
               'for f in $(ls -t logs/*scr-*.log 2>/dev/null | head -6); do tail -1 $f | grep -q SCREEN-END && basename $f .log; done; '
               'for d in $(ls -d gauntlet/*-swiss* 2>/dev/null); do [ -f $d/final.txt ] && echo SWISS:$(basename $d); done; '
+              'for d in $(ls -d gauntlet/*-race* 2>/dev/null); do [ -f $d/final.txt ] && echo RACE:$(basename $d); done; '
               'ls queue/pending | grep -q . && flock -n queue/.lock true && echo RUNNER-DEAD; true')
     return 'bash -c ' + shlex.quote('source tools/vm.sh && ensure_vm >/dev/null 2>&1 && gssh ' + shlex.quote(remote))
 
@@ -138,10 +140,10 @@ def check(stuck_every=900, stuck_pages=40):
             if job == 'RUNNER-DEAD':
                 ev.append('QUEUE_RUNNER_DEAD')
                 continue
-            if job.startswith('SWISS:'):
-                run = job[len('SWISS:'):]
-                if not os.path.exists(os.path.join(REPO, 'research', 'swiss', run, 'final.txt')):
-                    ev.append(f'SWISS_DONE {run}')
+            if job.startswith(('SWISS:', 'RACE:')):
+                kind, run = job.split(':', 1)
+                if not os.path.exists(os.path.join(REPO, 'research', kind.lower(), run, 'final.txt')):
+                    ev.append(f'{kind}_DONE {run}')
                 continue
             pkg_hash = job.split('-scr-', 1)[-1]                     # <package>-<hash>
             if not os.path.exists(os.path.join(REPO, 'progress', 'screens', pkg_hash + '.json')):
@@ -159,7 +161,7 @@ def main():
         seen = load_seen()
         fresh = new_events(check(), seen)
         # transient states (down, dead) are re-reported each time the watcher is armed; completions only once
-        once = [e for e in fresh if e.split()[0] in ('PANEL_DONE', 'SCREEN_DONE', 'SWISS_DONE', 'STUCK_MATCH')]
+        once = [e for e in fresh if e.split()[0] in ('PANEL_DONE', 'SCREEN_DONE', 'SWISS_DONE', 'RACE_DONE', 'STUCK_MATCH')]
         if fresh:
             for e in once:
                 mark_seen(e)

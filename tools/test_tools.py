@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Unit tests for the analysis and process tools (synthetic inputs; no games). Run by tools/unit-tests.sh."""
-import importlib.util, os, subprocess, sys, tempfile, unittest
+import contextlib, importlib.util, io, json, os, subprocess, sys, tempfile, unittest
 from pathlib import Path
 
 TOOLS = Path(__file__).resolve().parent
@@ -429,6 +429,7 @@ class WatchEventsTest(unittest.TestCase):
         self.assertIn('$(ls -t logs/*scr-*.log', out)       # sent literally, not run on the driver
         self.assertIn('tail -1 $f', out)
         self.assertIn('echo SWISS:$(basename $d)', out)
+        self.assertIn('echo RACE:$(basename $d)', out)
 
     def test_stuck_matches(self):
         now = 10_000.0
@@ -2464,6 +2465,97 @@ class SwissTest(unittest.TestCase):
     def test_spearman(self):
         self.assertAlmostEqual(self.s.spearman([1, 2, 3], [10, 20, 30]), 1.0)
         self.assertAlmostEqual(self.s.spearman([1, 2, 3], [3, 2, 1]), -1.0)
+
+
+class RaceTest(unittest.TestCase):
+    """tools/race.py: units, grid, the cut and the paired table (the successive-halving follow-up to the Swiss)."""
+    @classmethod
+    def setUpClass(cls):
+        cls.r = load('race', 'race.py')
+        cls.p = cls.r.param
+        cls.b = cls.p.base_setting((REPO / 'src' / 'c_knob1' / 'C.java').read_text())
+
+    def test_units_balanced_and_seeded(self):
+        opps, maps = ['o1', 'o2', 'o3', 'o4'], [f'M{i}' for i in range(10)]
+        us = self.r.units(opps, maps, 80, 7)
+        self.assertEqual(us, self.r.units(opps, maps, 80, 7))
+        self.assertEqual([u[0] for u in us[:8]], opps * 2)                   # every prefix: opponents round-robin
+        for o in opps:                                                      # each cycle covers every map once
+            mine = [u[1] for u in us if u[0] == o]
+            self.assertEqual(sorted(mine[:10]), sorted(maps))
+            self.assertEqual(sorted(mine[10:]), sorted(maps))
+        self.assertEqual(len({u[2] for u in us}), 80)                       # a fresh seed per unit
+        self.assertNotEqual([u[1] for u in us if u[0] == 'o1'][:10], [u[1] for u in us if u[0] == 'o1'][10:])
+
+    def test_grid_skips_the_base_point_and_nonsense(self):
+        pts = self.r.grid_points({'AHEAD_MIN': [1, 2], 'HOLD_THREAT': [1, 2]}, self.b)
+        self.assertEqual(len(pts), 3)                                       # (2, 1) is the base itself
+        self.assertNotIn(self.b, pts)
+        ring = self.r.grid_points({'RING_MIN': [self.b['RING_MAX'] - 8, self.b['RING_MAX']]}, self.b)
+        self.assertTrue(all(s['RING_MIN'] + 8 <= s['RING_MAX'] for s in ring))   # RING_MIN + 8 <= RING_MAX holds
+        with self.assertRaises(SystemExit):
+            self.r.parse_grid(['AHEAD_MIN=1,9'], self.b)                       # outside the space's 0..3
+
+    def g(self, rung, bot, opp, m, seed, side, result):
+        return {'rung': str(rung), 'bot': bot, 'opp': opp, 'map': m, 'seed': str(seed), 'side': side,
+                'result': result}
+
+    def test_cut_ranks_by_wins_then_the_rung(self):
+        games = [self.g(1, 'x', 'o', 'M', 1, 'A', 'win'), self.g(1, 'x', 'o', 'M', 1, 'B', 'loss'),
+                 self.g(1, 'y', 'o', 'M', 1, 'A', 'win'), self.g(1, 'y', 'o', 'M', 1, 'B', 'win'),
+                 self.g(1, 'z', 'o', 'M', 1, 'A', 'unknown'), self.g(1, 'z', 'o', 'M', 1, 'B', 'loss')]
+        keys = {('o', 'M', '1')}
+        self.assertEqual(self.r.cut(games, ['x', 'y', 'z'], keys, keys, 0.5, 3, 1), ['y', 'x'])
+        self.assertEqual(self.r.cut(games, ['x', 'z'], keys, keys, 0.5, 3, 1), ['x'])
+
+    def test_table_net_is_paired_against_the_base(self):
+        cfg = {'base': 'b', 'opps': {'o': 'h'}}
+        games = [self.g(1, 'b', 'o', 'M', 1, 'A', 'win'), self.g(1, 'b', 'o', 'M', 1, 'B', 'loss'),
+                 self.g(1, 'x', 'o', 'M', 1, 'A', 'loss'), self.g(1, 'x', 'o', 'M', 1, 'B', 'win'),
+                 self.g(1, 'y', 'o', 'M', 1, 'A', 'win'), self.g(1, 'y', 'o', 'M', 1, 'B', 'win'),
+                 self.g(1, 'y', 'o', 'M', 2, 'A', 'win')]                         # unit 2 is outside the keys
+        rows = {r[0]: r for r in self.r.table(cfg, games, ['b', 'x', 'y'], {('o', 'M', '1')})}
+        self.assertEqual(rows['y'][1:5], (2, 2.0, 1.0, 1))
+        self.assertEqual(rows['x'][4], 0)                                   # one gained, one lost
+        self.assertEqual(self.r.table(cfg, games, ['b', 'x', 'y'], {('o', 'M', '1')})[0][0], 'y')
+
+    def test_init_writes_bots_and_units(self):
+        with tempfile.TemporaryDirectory() as t:
+            d = self.r.init('c_knob1', 5, ['AHEAD_MIN=1,2', 'HOLD_THREAT=1,2'], opps=['c_well9'], maps=['Maze', 'Cat'],
+                            rungs=[2, 4], parent=t)
+            bots = self.r.swiss.read_bots(d)
+            self.assertEqual([b[1] for b in bots], ['base', 'variant', 'variant', 'variant'])
+            self.assertEqual([b[0] for b in bots[1:]], ['c_rc01', 'c_rc02', 'c_rc03'])
+            self.assertEqual(len(self.r.read_units(d)), 4)
+            cfg = json.loads((Path(d) / 'config.json').read_text())
+            self.assertEqual(cfg['rungs'], [2, 4])
+            self.assertEqual(list(cfg['opps']), ['c_well9'])
+            with self.assertRaises(SystemExit):
+                self.r.init('c_knob1', 5, ['AHEAD_MIN=1'], opps=['c_knob1'], parent=t)   # the base as an opponent
+
+    def test_run_end_to_end_without_games(self):
+        def fake(d, r, ta, tb, m, seed, census=True, keep=False):     # c_rc02 wins every game; otherwise side B
+            side = 'A' if ta == 'c_rc02' else 'B'
+            return {'map': m, 'seed': seed, 'winner_side': side, 'rounds': 500, 'reason': 'x', 'secs': 1,
+                    'exc_lines': 0}
+        build, play = self.r.build, self.r.swiss.play
+        self.r.build, self.r.swiss.play = (lambda *a: None), fake
+        try:
+            with tempfile.TemporaryDirectory() as t:
+                d = self.r.init('c_knob1', 5, ['AHEAD_MIN=1,2', 'HOLD_THREAT=1,2'], opps=['c_well9'],
+                                maps=['Maze', 'Cat'], rungs=[2, 4], parent=t)
+                with contextlib.redirect_stdout(io.StringIO()):
+                    self.r.run(d, jobs=2)
+                    self.r.run(d, jobs=2)                                    # resumed: nothing left to play
+                games = self.r.read_games(d)
+                self.assertEqual(len(games), 4 * 2 * 2 + 3 * 2 * 2)          # rung 1: 4 bots; rung 2: base + 2 kept
+                final = (Path(d) / 'final.txt').read_text()
+                self.assertIn('WINNER c_rc02 (a variant)', final)
+                self.assertEqual(json.loads((Path(d) / 'rung1.json').read_text())['kept'][0], 'c_rc02')
+                self.assertIn('c_rc02', self.r.standings(d))
+                self.assertIn('HOLD_THREAT', self.r.analyse(d))
+        finally:
+            self.r.build, self.r.swiss.play = build, play
 
 
 if __name__ == '__main__':
