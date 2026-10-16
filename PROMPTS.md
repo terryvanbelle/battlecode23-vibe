@@ -536,3 +536,7 @@ Ah, got it, thanks
 ## 118. 2026-10-16 12:50 PDT
 
 What's the status of c_gp1?
+
+## 119. 2026-10-16 15:24 PDT
+
+Please update the progress directory whenever accepting a new candidate

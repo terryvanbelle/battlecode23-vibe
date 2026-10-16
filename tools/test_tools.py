@@ -2345,10 +2345,13 @@ class ParamTest(unittest.TestCase):
     def test_optional_knobs(self):
         k = self.p.base_setting((REPO / 'src' / 'c_knob1' / 'C.java').read_text())
         self.assertEqual((k['AHEAD_MIN'], k['HOLD_THREAT']), (2, 1))   # c_well9's hard-coded values
-        self.assertEqual(len(k), len(self.p.SPACE) - 1)                 # all but c_knob2's STAND_THREAT
+        self.assertEqual(len(k), len(self.p.SPACE) - 3)                 # all but STAND_THREAT, SIM_KEEP, SIM_STAND
         k2 = self.p.base_setting((REPO / 'src' / 'c_knob2' / 'C.java').read_text())
         self.assertEqual((k2['AHEAD_MIN'], k2['HOLD_THREAT'], k2['STAND_THREAT']), (2, 1, -1))   # -1: always kite
-        self.assertEqual(len(k2), len(self.p.SPACE))
+        self.assertEqual(len(k2), len(self.p.SPACE) - 2)                # all but c_sim1's SIM_KEEP, SIM_STAND
+        k3 = self.p.base_setting((REPO / 'src' / 'c_sim1' / 'C.java').read_text())
+        self.assertEqual((k3['SIM_KEEP'], k3['SIM_STAND']), (60, 1))
+        self.assertEqual(len(k3), len(self.p.SPACE))
         b = self.p.base_setting(self.text)
         for s in self.p.sample(5, 3, names=set(b)):
             self.assertEqual(set(s), set(b))

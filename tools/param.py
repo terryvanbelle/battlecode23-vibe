@@ -114,6 +114,9 @@ SPACE = [
     ('HOLD_THREAT', 0, 3, 'otherwise fire only from tiles at most N enemy fighters reach', {'optional': True}),
     ('STAND_THREAT', -1, 3, 'after firing, stay put when at most N enemy fighters reach the tile (-1: kite)',
      {'optional': True}),
+    ('SIM_KEEP', -1, 90, 'ahead = a focus-fire simulation keeps at least N% of our shots-to-kill (-1: AHEAD_MIN)',
+     {'optional': True}),
+    ('SIM_STAND', 0, 1, 'ahead by the simulation with the shot spent: stay put (1) or kite (0)', {'optional': True}),
 ]
 SPACE_NAMES = frozenset(sp[0] for sp in SPACE)
 
