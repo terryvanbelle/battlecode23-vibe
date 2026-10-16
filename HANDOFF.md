@@ -40,7 +40,7 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-16 03:15 PDT)
+## In flight (2026-10-16 04:56 PDT)
 
 - **Owner idea (PROMPTS 108): a jmerle mimic as a sparring partner.** `tools/sa_extract.py` + ReplayDump `--sa` wrote
   state-action rows for jmerle.camel_case_v30_final and our side of the same 240 panel games
@@ -57,9 +57,10 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   every HQ, launchers with id%3==0 hold it for 100-round tours, carriers mine it while screened and leave through home
   when outnumbered; PROBE_FRONT on, C.HOT on with the site exempt). Screen queued 21:54 PDT
   (20261016-045404-scr-c_mid1-5c619ca1048d): PASS, h2h 13/20, roster net +7 (arch_jm +4); local 19/32 on the
-  jmerle-study cells (c_well9 11/32; Forest 8/8). Trial parked 01:10 PDT (submission 167, panel 8014-8023, run
-  gauntlet/20261016-080646-panel-c_mid1); when the panel is done: tools/paired.py vs
-  gauntlet/20261015-160249-panel-c_well9, the per-map census diff, then `trial-decide c_mid1 --accept|--reject`.
+  jmerle-study cells (c_well9 11/32; Forest 8/8). **Trial rejected 05:18 PDT** (submission 167, panel
+  gauntlet/20261016-080646-panel-c_mid1): 62/100 vs 63, paired net -1 (-0.58 SE), 97 identical; Forest +1,
+  Cornucopia -1, MassiveL -1, the rest identical (the site exists only where a mid-band mana well is some HQ's
+  nearest).
 - **c_raid1** (d14555c; c_mid1 + mana raid: enemy-side mana wells are raid targets at any distance, mana before Ad):
   held, 19/40 on the 40 study cells (c_mid1 22/40): Cornucopia better (4/8 vs 3/8), Maze worse (1/8 vs 4/8: the army
   tours five enemy wells). A narrower variant (only the nearest enemy-side mana well) is untested.
@@ -67,8 +68,16 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   22/40): ReverseFunnel 5/8 and Cornucopia 4/8 better, Forest 6/8 and Maze 1/8 worse.
 - **Losses to jmerle are mana stalls** (TRAINING_LOG 2026-10-16 03:15): our Mn collection stops near r100-125 on
   Cornucopia and IslandHopping while jmerle's launchers sit on our contested or home mana wells; launchers react only
-  to sightings within r2 64 and the HQ recall rallies on the HQ tile. Next candidate: c_guard1, launchers defend our
-  home mana wells.
+  to sightings within r2 64 and the HQ recall rallies on the HQ tile.
+- **The losses are a production race lost at home** (TRAINING_LOG 2026-10-16 04:56): launcher trades are even per 50
+  rounds to r300, but the war is in our half from r50 and our carriers die 2:1 (10.7 vs 5.8 a game by r300, 6.4
+  within 5 tiles of our HQs); launchers 13 vs 11 at r100, 13 vs 20 at r250 on mining.
+- **c_rally1** (c_mid1 + an outnumbered launcher's step weighs r2 to our nearest HQ, Launcher.kiteScore): VM rally1-80
+  (build/cells-rally1.txt: the 40 study cells + 40 h2h vs c_mid1) 23/40 on the study cells (c_mid1 22/40); h2h
+  running.
+- **c_guard1** (c_mid1 + home-well defence, C.GUARD: carriers report the raider they fled at their next write turn;
+  launchers within r2 400 take fresh home-zone sightings nearer than their site or siege target): VM guard1-80 on
+  the same cells, running.
 - Rejected 10-15: c_cap1, c_thr1, c_open1, c_siege1, c_well10 (TRAINING_LOG). c_ad1 committed, held (Ad is not a loss root).
 
 **Ranked play** chooses the open team above us with the largest expected gain (`docs/LADDER_STRATEGY.md`).

@@ -1709,3 +1709,40 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   themselves, and the c_def2 recall fires only on HQ alarms (enemy fighters outnumber ours in HQ vision) and rallies on
   the HQ tile, so a home well 12 tiles out is undefended. Neither jmerle nor awesomelemonade upgrades a well (every
   PLACE_RESOURCE target is an HQ).
+
+## 2026-10-16 04:56 PDT: the losses are a production race lost at home; c_rally1 and c_guard1
+- c_well9 panel census (gauntlet/20261015-160249-panel-c_well9, 37 losses / 63 wins, medians us vs them). Losses:
+  r100 launchers 13 vs 11, carriers 12 vs 12, Mn collected 410 vs 497, Ad 86 vs 68; r250 launchers 13 vs 20,
+  carriers 18 vs 22, Mn 1,125 vs 1,487, Ad 259 vs 390, banked Mn 250 vs 410; game totals launchers built 101 vs
+  204, Mn collected 2,214 vs 9,236, carriers lost 46 vs 17. Wins: r100 launchers 16 vs 8, Mn 520 vs 347; r250 33
+  vs 7. Start and passive income are 970 of our ~1,370 Mn by r100 (RULES 3.1), so mining decides from r100 on: the
+  r250 launcher gap (7) is about the mining gap (362 Mn, 6 launchers).
+- Deaths located in all 100 games (scratchpad cdeath.py: our and their deaths with distance from their own nearest
+  HQ and map progress). Launcher trades in losses are even in every 50-round bucket to r300 (2.4/2.5, 5.7/5.8,
+  6.4/6.4, 6.7/6.9, 7.3/7.0, 8.4/7.2), but their launchers die in our third of the map from r50 (2.1-3.1 a bucket):
+  the war is fought in our half. Our carriers die about 2:1 from r50 (1.9-2.2 vs 0.9-1.0 a bucket). Carriers lost
+  r0-300, losses: ours 10.7 a game (2.7 within 2 tiles of our HQ, 3.7 at 3-5, 2.9 at 6-8), theirs 5.8 (1.7 at 15+
+  tiles: they mine far out); r300-600: ours 20.9 (13.3 within 5 tiles: spawn and deposit camping). Wins mirror
+  it: their carriers 17.4 a game r0-300, 11.4 within 5 tiles of their HQ. Whoever wins the launcher war camps the
+  other's HQs; the race is lost in r100-250 on production, not on trades.
+- Cat vs vrangr1 (7600 game 1, lost r428, Mn 115 vs 3,170; one mana well, (20,31)): our two opening groups of 4 met
+  the enemy one after the other (HQ (14,34)'s at r12-16, HQ (11,24)'s at r20-24) and lost 6 launchers to 2 in r20-38.
+- c_rally1 (c_mid1 + retreat cohesion, C.KITE_RALLY/RALLY_HOME): an outnumbered launcher (enemies > allies + 1) that
+  steps without firing scores tiles by threat, then r2 from the nearest fighter (cap 50) against r2 to our nearest
+  HQ (cap 400; Launcher.kiteScore), where c_mid1 walked straight away from the fighter (Rally1Test 7 cases). VM
+  rally1-80 (the 40 study cells + 40 h2h vs c_mid1): study cells 23/40 (c_mid1 22/40): Cornucopia 4/8 (3/8),
+  Forest 8/8, IslandHopping 2/8 (3/8), Maze 3/8 (4/8), ReverseFunnel 6/8 (4/8); h2h running (Cat 0/3 so far).
+- c_guard1 (c_mid1 + home-well defence, C.GUARD): writes need an HQ within r2 9 (RULES 7), so no robot ever reported
+  raiders at a home well 12 tiles out. A carrier now keeps the fighter it last fled out of write range and reports
+  it at its next write turn (within GUARD_REPORT_AGE 24 rounds); after the recall, a launcher takes a fresh sighting
+  (stamp age <= 1) in our home zone (r2 GUARD_HOME_R2 200 of our nearest HQ and nearer it than every predicted enemy
+  HQ) within r2 GUARD_R2 400 of itself when it is nearer than its site or siege target; forming and grouping
+  unchanged; one that arrives and sees nobody skips that sighting until it is restamped (Guard1Test 8 cases). VM
+  guard1-80 on the same 80 cells.
+- 05:18 PDT c_mid1 trial rejected (submission 167, panel 8014-8023, gauntlet/20261016-080646-panel-c_mid1): 62/100
+  vs c_well9's 63/100; paired: identical 97, gained 1, lost 2, net -1 (-0.58 SE); island-rounds -193 (t -1.30). By
+  map Forest +1 (Mn +442 a game, enemy Mn -3,275), Cornucopia -1, MassiveL -1 (Mn -2,352, launchers built -32); the
+  other seven maps identical or nearly (the site exists only where a mid-band mana well is some HQ's nearest). The
+  local gain (jmerle-study cells 19/32 vs 11/32, Forest 8/8) was the mimic's Forest, not the ladder's. c_well9 stays
+  validated (submission 168). c_rally1 and c_guard1 are c_mid1-based; off Forest, Cornucopia and MassiveL that base
+  plays as c_well9.

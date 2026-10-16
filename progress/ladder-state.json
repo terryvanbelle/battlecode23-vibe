@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 166,
+  "submission": 168,
   "package": "c_well9",
   "since": "2026-10-15T19:18:15.880112+00:00",
   "panel_run": "gauntlet/20261015-160249-panel-c_well9"
@@ -592,6 +592,35 @@
    "event": "reject",
    "submission": 165,
    "package": "c_well10"
+  },
+  {
+   "at": "2026-10-16T08:06:46.699377+00:00",
+   "event": "trial-start",
+   "submission": 167,
+   "package": "c_mid1",
+   "screen": "progress/screens/c_mid1-5c619ca1048d.json"
+  },
+  {
+   "at": "2026-10-16T08:10:34.940096+00:00",
+   "event": "park",
+   "submission": 167,
+   "package": "c_mid1",
+   "validated_resubmitted": 168
+  },
+  {
+   "at": "2026-10-16T12:17:46.839784+00:00",
+   "event": "panel-done",
+   "submission": 167,
+   "package": "c_mid1",
+   "run": "gauntlet/20261016-080646-panel-c_mid1"
+  },
+  {
+   "at": "2026-10-16T12:18:32.377160+00:00",
+   "event": "reject",
+   "submission": 167,
+   "package": "c_mid1",
+   "parked": true,
+   "run": "gauntlet/20261016-080646-panel-c_mid1"
   }
  ],
  "parked": []
