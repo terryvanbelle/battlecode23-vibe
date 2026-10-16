@@ -72,12 +72,22 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
 - **The losses are a production race lost at home** (TRAINING_LOG 2026-10-16 04:56): launcher trades are even per 50
   rounds to r300, but the war is in our half from r50 and our carriers die 2:1 (10.7 vs 5.8 a game by r300, 6.4
   within 5 tiles of our HQs); launchers 13 vs 11 at r100, 13 vs 20 at r250 on mining.
-- **c_rally1** (c_mid1 + an outnumbered launcher's step weighs r2 to our nearest HQ, Launcher.kiteScore): VM rally1-80
-  (build/cells-rally1.txt: the 40 study cells + 40 h2h vs c_mid1) 23/40 on the study cells (c_mid1 22/40); h2h
-  running.
+- **c_rally1** (c_mid1 + an outnumbered launcher's step weighs r2 to our nearest HQ, Launcher.kiteScore): held,
+  41/80 on VM rally1-80 (study cells 23/40, c_mid1 22/40; h2h vs c_mid1 18/40).
 - **c_guard1** (c_mid1 + home-well defence, C.GUARD: carriers report the raider they fled at their next write turn;
   launchers within r2 400 take fresh home-zone sightings nearer than their site or siege target): VM guard1-80 on
-  the same cells, running.
+  the same cells, study cells 24/40 (c_mid1 22/40), h2h running.
+- **c_guard2** (c_guard1 + one sentry amplifier per HQ at the home mana well beyond the HQ's vision, C.SENTRY, AD_FLAGS
+  heartbeat bits 12-15): VM guard2-80 on the same cells, running.
+- **Carriers walk empty** (TRAINING_LOG 2026-10-16 05:52): r40-200 we collect on 0.36 of carrier turns to jmerle's
+  0.52 and walk empty on 0.36 to their 0.10; Forest's home mana well (walls on three sides) yields 386-469 collects
+  per 100 rounds to their 482-592 (they fill the well tile), and they take up to 700 from the midline mana pair that
+  we never mine (hot).
+- **c_pack1** (c_well9 + well packing, C.PACK: near its well a carrier takes the nearest free collect square, a
+  collector steps onto a free well tile): delivery on Forest vs c_well9, home well 491-545 collects per 100 rounds
+  to 475-482, 106-165 of them on the well tile. Screen queued 06:09 PDT (job 20261016-130923-scr-c_pack1-b6ac7e5c5e37;
+  `tools/screen.py collect c_pack1`), started with --min-disk-gb 1.4: the VM disk has 1.6 GB free.
+- **c_front1** screen FAIL (b 10/20 borderline, roster info Net -16).
 - Rejected 10-15: c_cap1, c_thr1, c_open1, c_siege1, c_well10 (TRAINING_LOG). c_ad1 committed, held (Ad is not a loss root).
 
 **Ranked play** chooses the open team above us with the largest expected gain (`docs/LADDER_STRATEGY.md`).

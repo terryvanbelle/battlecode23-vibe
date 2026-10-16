@@ -1746,3 +1746,39 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   local gain (jmerle-study cells 19/32 vs 11/32, Forest 8/8) was the mimic's Forest, not the ladder's. c_well9 stays
   validated (submission 168). c_rally1 and c_guard1 are c_mid1-based; off Forest, Cornucopia and MassiveL that base
   plays as c_well9.
+- c_rally1 held: VM rally1-80 (gauntlet/20261016-105904-rally1) 41/80; study cells 23/40 (c_mid1 22/40), h2h vs
+  c_mid1 18/40 (Forest 0/4, Cat 1/4, Cornucopia 1/4). Not locally superior.
+- c_guard1 delivery (VM dev game vs c_mid1, IslandHopping 1101, won r673): 6 carrier reports 9-19 rounds after the
+  sighting, 21 launcher guard objectives.
+- c_guard2 (c_guard1 + a sentry amplifier per HQ, C.SENTRY): an HQ whose nearest shared mana well lies beyond its own
+  vision (r2 > SENTRY_MIN_R2 34) and within GUARD_HOME_R2 200 builds one amplifier (30 Ad + 15 Mn) from r30 when no
+  sentry heartbeat (AD_FLAGS bit 12 + HQ index, set every turn by the sentry, read and cleared by the HQ every
+  SENTRY_CHECK 16 rounds) was seen and none was built since the last check; the sentry holds a post SENTRY_OUT 3
+  tiles beyond the well on the HQ-well line and reports and backs away from fighters as amplifiers did
+  (Guard2Test 13 cases). Delivery (VM dev game vs c_mid1, IslandHopping 1101, won r891): 2 sentries built r76, none
+  died, 43 GUARD lines. VM guard2-80 on the same 80 cells.
+
+## 2026-10-16 05:52 PDT: our carriers walk empty; Forest's home mana well is packed short
+
+- Carrier turn use r40-200, our side vs jmerle's in the same games (research/clone/jmerle, panels from 10-14 on;
+  scratchpad cecon.py): we collect on 0.36 of carrier turns to their 0.52 (Cornucopia 0.47/0.52, Forest 0.23/0.39,
+  IslandHopping 0.31/0.52, Maze 0.51/0.68) and walk empty on 0.36 to their 0.10 (Forest 0.59/0.12). Mn collected a
+  carrier turn: Forest 0.184 vs 0.315, Maze 0.400 vs 0.579, IslandHopping 0.209 vs 0.516. Their deposits are mixed
+  (5 and 25-30 kg); ours are all 30 kg (CARRIER_RETURN_LOAD).
+- Forest by well (9 games, collects a game per 100 rounds): our home mana well (8,12) gives 386-469, theirs (the
+  mirror) 482-592; they also take 127-700 from the contested midline mana pair (29,48)/(30,48), we take 6 then 0
+  (hot). At r47 of 7415 game 4 the well (8,12) had walls on three sides, five collectors on its open neighbours and
+  the well tile empty, with two to three carriers queued behind; one carrier walked between home and that well from
+  r3 to r200 without a single collect. Local census of c_rally1 (telemetry): carriers wait at a crowded well (W) on
+  0.21 of turns on Hah, 0.16 ReverseFunnel, 0.13 BatSignal, 0.11 Cornucopia and Cat; go to a well (G) 0.42 on Forest.
+- c_pack1 (c_well9 + well packing, C.PACK): within r2 8 of its well a carrier walks to the nearest free collect
+  square (the well tile or a passable neighbour without a robot or a current) instead of at the well tile, holding
+  while our carrier on the well tile is full (its exit must stay open); a collector with more than 5 kg of room steps
+  onto a free well tile (not onto a current, nor into a cloud from clear air), so the square it frees takes a queued
+  carrier (PackTest 7 cases).
+- Trip phases r40-400 (scratchpad trips.py; outbound = deposit to first collect, return = last collect to deposit):
+  ReverseFunnel outbound 16.8 turns for 1.4 tiles (jmerle 3.4 for 1.3), MassiveL 25.7 for 5.0 (15.3 for 2.5), Forest
+  34.8 for 13.2 (10.7 for 8.1): our carriers queue or wander before their first collect. IslandHopping: 129 trips
+  completed to their 521 with similar cycles (52 vs 55 turns) and similar carrier turns: ours move loaded on 0.32 of
+  turns (0.22) and rarely deposit, the raider problem c_guard1/2 address. Cornucopia Mn per carrier turn is equal
+  (0.436 vs 0.442).
