@@ -1842,3 +1842,8 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   fire when ahead by 2+; C.HOLD_THREAT 1: else fire only from tiles at most 1 enemy fighter reaches). javap: every
   class's bytecode identical to c_well9's but C (the two new fields), so c_knob1 at its defaults is the incumbent.
   tools/param.py: optional space entries (AHEAD_MIN, HOLD_THREAT 0-3) used only for bases that define them.
+- 09:22 PDT Swiss round 1 (48 games, 48 min; Forest 340 s a game at r1970, DefaultMap 77 s, Maze 60 s): c_well9 beat
+  c_sw06 4-2; c_sw07, c_sw11, c_sw12 6-0; c_sw05, c_sw08, c_sw14 0-6 (two of them anchor from r160-168, base 250).
+  c_pack1's trial parked 09:22 (submission 169, panel matches 8201-8210); c_well9 active again as 170.
+- 09:47 PDT tools/param.py local mode (`swiss.py init --k K --always A,B`): each variant is the base with only K
+  constants re-drawn (the --always ones among them), for a second, attributable search around the incumbent.

@@ -255,15 +255,23 @@ def draw(rng, s):
     return rng.randint(s[1], s[2])
 
 
-def sample(n, seed, tries=10000, names=None):
+def sample(n, seed, tries=10000, names=None, base=None, k=None, always=()):
     """n random settings of the space (only `names` when given: the constants a base defines), each satisfying every
-    constraint (deterministic for a seed)."""
+    constraint (deterministic for a seed). Local mode (base and k given): each setting is `base` with k constants
+    re-drawn, the ones in `always` among them."""
     rng = random.Random(seed)
     space = [sp for sp in SPACE if names is None or sp[0] in names]
     out = []
     while len(out) < n:
         for _ in range(tries):
-            s = {sp[0]: draw(rng, sp) for sp in space}
+            if k is None:
+                s = {sp[0]: draw(rng, sp) for sp in space}
+            else:
+                s = dict(base)
+                forced = [sp for sp in space if sp[0] in always]
+                rest = [sp for sp in space if sp[0] not in always]
+                for sp in forced + rng.sample(rest, max(0, k - len(forced))):
+                    s[sp[0]] = draw(rng, sp)
             if not violations(s):
                 break
         else:

@@ -2375,6 +2375,18 @@ class ParamTest(unittest.TestCase):
             for sp in self.p.SPACE:
                 self.assertTrue(sp[1] <= s[sp[0]] <= sp[2] or s[sp[0]] == self.p.opts(sp).get('off'), sp[0])
 
+    def test_local_mode(self):
+        b = self.p.base_setting((REPO / 'src' / 'c_knob1' / 'C.java').read_text())
+        ss = self.p.sample(30, 4, names=set(b), base=b, k=6, always=('AHEAD_MIN', 'HOLD_THREAT'))
+        self.assertEqual(ss, self.p.sample(30, 4, names=set(b), base=b, k=6, always=('AHEAD_MIN', 'HOLD_THREAT')))
+        for s in ss:
+            self.assertEqual(set(s), set(b))
+            self.assertLessEqual(sum(s[x] != b[x] for x in b), 6)          # at most k constants move
+            self.assertEqual(self.p.violations(s), [])
+        moved = {x for s in ss for x in b if s[x] != b[x]}
+        self.assertIn('AHEAD_MIN', moved)
+        self.assertGreater(len(moved), 20)                                   # different constants per variant
+
     def test_make_renames_and_guards(self):
         with tempfile.TemporaryDirectory() as td:
             d = self.p.make('c_well9', 'c_ptest', {'RING_MIN': 12}, out=td, note='unit test')
