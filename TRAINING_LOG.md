@@ -1879,3 +1879,14 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - 10:36 PDT tools/swiss.py init --pool A,B,... (with --k): local-mode variants re-draw only constants from the pool
   (plus --always); unknown names, --pool without --k and --k above the pool size are refused. For a second, focused
   search (e.g. the economy constants around c_well9). Unit test ParamTest.test_local_mode_pool.
+- 11:16 PDT Swiss 20261016-153444-swiss-n4 DONE (owner, PROMPTS 114; 192 games 08:34-11:16 PDT, 0 exceptions, 0
+  games without a result; research/swiss/20261016-153444-swiss-n4/: config, bots, games, census, final, analyse).
+  Final: c_sw07 18/24 (matches 3-1-0), c_sw06 16, c_sw12 16, c_well9 15 (2-2-0, unbeaten, top Buchholz 59), c_sw15
+  14 ... c_sw14 6. WINNER c_sw07, a variant: 66 of 73 constants differ from c_well9; it drew c_well9 3-3 (Forest
+  1-1, DefaultMap 1-1, Maze 1-1) and won on its results against the other variants (Forest 5/8, DefaultMap 7/8, Maze
+  6/8; c_well9 3/8, 6/8, 6/8: Forest is c_well9's weak map here as on the panel, 4/10). Side A won 108 of 192 (Maze
+  41-23). Rank correlation with points over the 16 bots: FORM_MAX_TURNS -0.69, ANCHOR_PERIOD -0.61, SCOUT_FROM
+  +0.60, MEND_HP +0.58, WELL_CROWD_PATIENCE -0.54, ANCHOR_GATE_UNTIL +0.50; at n=16 |rho| >= 0.50 is p < 0.05 and
+  ~4 of 73 constants pass that by chance, none passes Bonferroni (|rho| ~0.78): no constant is established.
+  c_sw07 exported as src/c_tune1 (tools/swiss.py export; header names the run): next, its panel trial (owner:
+  "run that bot against the panel"), --skip-screen with the owner's reason, parked behind c_pack1 and c_gp1.

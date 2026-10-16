@@ -110,8 +110,10 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   `trial-decide <pkg> --accept|--reject`; if c_pack1 is accepted first, c_gp1 must also beat c_pack1.
 - **Replica queue (10:54 PDT):** ~35 matches/h; 95 queued ahead of our panels (c_pack1 8201-8210, c_gp1
   8211-8220), which should start ~13:40 and end ~16:30 PDT.
-- **Swiss after round 3 (10:52 PDT):** c_sw07 15/18 (66 of 73 constants differ from c_well9), c_well9 12/18;
-  round 4 pairs them. The likely winner goes to the panel (`swiss.py export ... c_tune1`, trial --skip-screen).
+- **Swiss DONE 11:16 PDT** (research/swiss/20261016-153444-swiss-n4/): WINNER c_sw07 18/24 (c_sw06 16, c_sw12 16,
+  c_well9 15, unbeaten); c_sw07 drew c_well9 3-3 head to head. No constant is established by the correlations
+  (n=16). c_sw07 = **src/c_tune1**: panel trial next (--skip-screen "owner PROMPTS 114"), parked; its screen and
+  c_adlo1's run on the VM for information.
 - **c_adlo1** (tools/param.py make c_well9: AD_EARLY_EVERY 12, AD_LATE_EVERY 7, CAP_MAX 40, CAP_PER_MN_WELL 7,
   ANCHOR_START 330): the direction shared by the Swiss leaders after round 2 (c_sw12, c_sw07, c_sw11), and we float
   Ad (bank_end_Ad 982-1,165 vs 361-507). Delivery game on the driver first.
