@@ -194,11 +194,11 @@ signal.signal(signal.SIGTERM, signal.SIG_IGN)
 child = subprocess.Popen([sys.executable, '-c', 'import signal,time;signal.signal(signal.SIGTERM,signal.SIG_IGN);time.sleep(60)'])
 Path(os.environ['BC23_WORKER_OUTPUT'], 'test-child.pid').write_text(str(child.pid))
 time.sleep(60)
-""", timeout_seconds=1)
+""", timeout_seconds=3)   # 1 s flaked under driver load 7: the job had not yet written the child's pid
         started = time.monotonic()
         result = run_job.run(self.request, self.job, self.repo, self.output)
         self.assertEqual(result["status"], "timeout")
-        self.assertLess(time.monotonic() - started, 8)
+        self.assertLess(time.monotonic() - started, 10)   # 3 s + 2 s SIGTERM grace + SIGKILL
         pid = int((self.output / "test-child.pid").read_text())
         proc = Path("/proc") / str(pid) / "status"
         # An orphaned zombie is terminated and awaiting init's reap; it cannot

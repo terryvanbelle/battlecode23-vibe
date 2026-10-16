@@ -47,6 +47,8 @@ E = contest.EPISODE
 BURST_EVERY, MAINTAIN_EVERY = 300, 1800        # seconds between our ranked requests
 YOUNG_N = 30                                    # rated matches until the volume penalty is small (1500*0.85^30 = 11)
 FRESH_HOURS = 24                                # a newly validated build is likely underrated for this long
+ACCEPT_NEXT = ('next (owner, PROMPTS 119): tools/progress-refresh.sh, then commit and push progress/ and '
+               'research/matches/ (not while tools/unit-tests.sh runs)')
 MAX_WAITING = 2                                 # our matches waiting in the queue: above this, no new ranked request
 TRIAL_HOURS = 2.5                               # a panel trial must fit before the next autoscrim
 BAND = 3                                        # challenge one of the BAND teams rated closest at or above us
@@ -406,6 +408,8 @@ def cmd_trial_end(accept):
         s['trial'] = None
         save_state(s)
     print(event, t['package'], '- validated build is', s['validated'])
+    if event == 'accept':
+        print(ACCEPT_NEXT)
 
 
 def panel_cells(t):
@@ -498,6 +502,8 @@ def cmd_trial_decide(key, accept):
         s['history'].append(dict({'at': utcnow().isoformat()}, **ev, parked=True, run=run))
         save_state(s)
     print(ev['event'], p['package'], '- validated build is', s['validated'])
+    if ev['event'] == 'accept':
+        print(ACCEPT_NEXT)
 
 
 def expected_gain(p_bt, r_us, r_opp, k=GAIN_K):
