@@ -1940,3 +1940,52 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   (FORM_MAX_TURNS 21-28 vs 8-16): the correlations mostly flag settings that break the bot, and c_well9 (80, 15) sits
   with the leaders. Small moves the leaders share: FORM_MAX_TURNS 8-11, ANCHOR_PERIOD 18-19 (c_well9 15, 30), a
   follow-up --point race after the micro race.
+
+## 2026-10-16 13:49 PDT: c_sim1, launchers judge a fight by health (focus-fire simulation)
+- Cat vs vrangr1 (c_well9 panel match 7600 game 1, lost r428; per-turn launcher states of both sides, ReplayDump --sa):
+  our two groups of four met theirs at r13-37 and lost 6 launchers to 2; hits per contact turn were close (0.69 vs
+  0.76), but their fire was concentrated: census focus 0.18 vs 0.58, kill conversion 0.37 vs 1.00, first hit 0.13 vs
+  0.88, exchange 0.30 vs 3.31. At r45 three of ours (180/200/120 HP) held off six of theirs at 20/20/40/180/20/80:
+  the count rule (allies + 1 - enemies >= 2) said behind, a focus-fire simulation says won (we keep 20%); their
+  damaged launchers then walked to our HQ. Panel-wide (census, 100 games): against the three teams that beat us most
+  our focus is 0.42 to their 0.54, kill conversion 0.72 to 0.91, exchange 0.97 to 1.57; against the other seven we
+  lead on both (0.55/0.91 to 0.34/0.61). Hah vs vrangr1 (same match, game 5) is a different loss: ahead r80-140 (8-10
+  launchers to 4-8), then a fight at r130-150 beside their HQ, where their new launchers joined at once while four of
+  ours sat at our HQ; 10 to 6 became 6 to 11 and the carriers went next (16 to 2 by r220).
+- c_sim1 = c_knob2 + C.SIM_KEEP 60 + C.SIM_STAND 1 (Launcher.simKeep): fight()'s "ahead" is a simulation over the
+  fighters in vision (self + up to 11 of our launchers vs up to 12 enemy launchers and destabilizers; shots to kill
+  = HP/20 rounded up; each round both sides fire one shot per live unit at the other side's weakest): ahead when it
+  wipes them and keeps >= 60% of our shots-to-kill. Full health: 2v1 keeps 75, 3v2 63, 4v3 55, 3v1 86, 6v4 66, equal
+  numbers lose. Ahead with the shot spent, a launcher stays put instead of kiting. Count rule below 5,000 bytecodes
+  left (SIM_MIN_LEFT). Offline flips at SIM_KEEP 60 (same-round positions and HPs): Cat 7600 g1 37 of 204 contact turns
+  to engage (2v1 15, 3v2 8, damaged 2v2/1v1 14), 2 to hold; DefaultMap vs awesomelemonade (7603 g3) 75 of 979 to
+  engage (2v1 33, 3v2 17, 4v3 13), 6 to hold. Sim1Test 20 cases; param.py SIM_KEEP (-1..90), SIM_STAND (optional).
+- 13:41 PDT delivery games on the driver (Cat 1101, both sides): side B won both (c_well9 r470, c_sim1 r479, 75% of
+  islands): no strength signal; 0 exceptions, 0 overruns, launcher bytecode max 9,176 (c_well9 9,174). VM disk at
+  1.91 GB free refused the screen: 84 replays of finished runs deleted (build/codex-recovery from 10-12/13,
+  guard1, guard2; owner, PROMPTS 113), 2.2 GB free. Screen queued next after c_tune1's (stage c at 100/120), ahead
+  of c_adlo1's: job renamed 20261016-182322-scr-c_sim1-5365e65c3cb8 (the queue runs pending jobs in name order) and
+  the screen state's job id updated to match.
+
+## 2026-10-16 14:38 PDT: c_pack1 accepted as g_iter12 (panel 8201-8210); c_tune1 screen FAIL (information only)
+- c_pack1 panel gauntlet/20261016-160153-panel-c_pack1: 67/100 (c_well9 63/100). Paired vs c_well9: 86 identical,
+  gained 9, lost 5, net +4 (+1.07 SE, sign p 0.42); island-rounds -242 (t -1.73). By opponent: pranayagra 3-0,
+  vrangr1 2-0, reeceyang 0-1, the rest even. By map: BatSignal +2, Hah +2-1, others +1/0; Cornucopia 0-2.
+- Mechanism (census, our rows, 100 paired cells): Mn collected +336 a game (t +0.89; Maze +1,506, Forest +786, Cat
+  +655, DefaultMap +556; Cornucopia -359, ReverseFunnel -244), carriers built -3.4 and died -4.7 (t -1.83), Ad -159
+  (t -1.43), launchers built +5.1, kills +7.1. Packing pays in mana where the home well is crowded. Screen PASS
+  (h2h 13/20). Accepted (trial-decide 169 --accept): submission 175 is the validated build; c_gp1 and c_tune1 must
+  now beat c_pack1's panel.
+- c_tune1 screen (Swiss winner c_sw07, panel trial already started --skip-screen on the owner's direction): FAIL,
+  h2h 9/20 borderline, roster information Net +5 (arch_horde +2), 148 games 0 overruns or exceptions. Its panel
+  decides.
+- Hah vs vrangr1 (c_well9 panel 7600 g5) follow-up: the four launchers at home r125-160 were three at (10-14, 8-11)
+  seeing two allies each and one at the other HQ (4,18): the GROUP_MIN 4 forming hold kept them home ~35 rounds while
+  the main group fought beside the enemy HQ. c_tune1 already has GROUP_MIN 3 and FORM_MAX_TURNS 11, so its panel
+  tests a shorter hold; c_join1 (skip the hold for a fight sighting within r2 64) would not have fired here (the
+  fight was ~30 tiles away) and is not built.
+- Ranked map record (527 ranked matches with extracts, all builds): panel maps 0.58 (157 games) vs other maps 0.52
+  (1,424); since 10-14 other maps 0.46 (184) vs panel maps 0.65 (17). The gap is within ~1.5 SE in each era: no
+  overfitting claim, but every local tool (screen, race, Swiss) plays only the 10 panel maps; worth watching.
+- Ranked 8190 vs pranayagra (1-2): maptestsmall lost to a r5 launcher rush, then 45 spawn kills over 1,800 rounds
+  (Mn 5 collected all game); Pakbot lost (0 carriers alive at r100, launchers 1 vs 18 at r250).
