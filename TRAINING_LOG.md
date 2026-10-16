@@ -1796,3 +1796,20 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   (study cells 18/40: c_mend2 9/20, arch_jm 9/20): c_guard2 held. c_pack1's screen passed stage (b) (12 of its first 18
   games) and runs its roster stage. c_gp1's screen was first queued with --roster none, but a reduced record never
   admits a trial: cancelled and requeued with the full roster (job 20261016-134053-scr-c_gp1-5ab98ca6e5b2).
+- 07:06 PDT field contrast on c_well9's panel (census, 100 games): 89 games end by conquest before r2000 (11 reach the
+  tiebreak, 7-4), so island endgames are worth at most ~4 games. Per game they collect Ad 3,438 / Mn 5,938 to our
+  2,005 / 4,686 (+40% resources). Launcher fights vs the three teams that beat us most (awesomelemonade 2/10, vrangr1
+  2/10, pranayagra 3/10): they stand and fire on 0.33-0.38 of contact turns to our 0.17-0.20 and hold (no move, no shot)
+  on 0.22-0.27 to our 0.35-0.40; kill conversion 0.86-0.93 to 0.69-0.74; awesomelemonade's exchange 1.91 to our 0.74.
+  Every top team fires every turn: 55-69% of their shots hit nothing (pranayagra on Forest, 7604 g4: 166k unseen-square
+  shots, 503 hits, plus up to 478 of unknown visibility, against 3,338 visible hits). Blind fire was already tried and
+  rejected (c_blind1/c_blind2, 10-14: ~20 unseen hits a game, ~1% of damage); a c_blind1 rebuild was started by mistake
+  and discarded before any change. No panel team collects elixir; pranayagra, vrangr1, georgezhang02 build amplifiers.
+- 07:06 PDT awesomelemonade DefaultMap loss (7603 g3, r663): damage even to r250 (11.5k each, kills 57 vs 64), but
+  their carriers 19-21 to our 11-14 from r150, Mn collected 2,116 to 1,618 by r250 (+31%), launchers 20 to 9 at r250;
+  our army is gone by r325 and the HQs then build 2 launchers per 25 rounds into a 50-120 launcher siege. 6 of our
+  carriers die by r72 (raids), 7 in r172-221, 17 in the r270-313 collapse. Our HQs withhold an affordable carrier under
+  threat ('t') on 66% of HQ turns in r100-300 (c_thr1 and c_cap1, which built more carriers, were rejected: extra
+  carriers did not raise mana). c_gp1's MassiveL debug game (vs c_well9, 1101): Mn 9,231 to 6,715, island-rounds 3,093
+  to 2,315, lost the r2000 tiebreak 1-2 islands; no MassiveL economy problem in c_gp1.
+- 07:02 PDT VM gp1-80: c_gp1 on guard1-80's 80 cells (seeds from cells, paired with c_guard1's 45/80).
