@@ -1693,3 +1693,19 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - c_front1 = c_mid1 + arch_jm's midfield front (C.FRONT ported unchanged: the army holds a point 50% of the way from our
   HQ centroid to the siege target before r150, 60/70/80% from r150/225/300, raid and ring from r375). Front1Test 7
   cases. VM front1-jm on the same 40 cells with CENSUS=1.
+- 03:15 PDT c_front1 not superior locally: VM front1-jm (gauntlet/20261016-092753-front1-jm, CENSUS=1) 19/40 vs c_mid1
+  22/40. Cornucopia 4/8 (3/8), Forest 6/8 (8/8; arch_jm 2/4), IslandHopping 3/8 (3/8), Maze 1/8 (4/8), ReverseFunnel
+  5/8 (4/8). Held, not screened. Maze falls to 1/8 under both army-objective changes (raid, front); its results go by
+  side. Driver replay of the IslandHopping s1101 A cell (lost r655, same as the VM): launchers 12 vs 14 at r150, then
+  12 -> 7 by r175 (B 14 -> 11), our carriers 14 -> 6 in r225-275 while B's rise to 18; collected Mn 1,261 vs 1,376 at
+  r250, 1,786 vs 3,424 at r525; shots 323 vs 546 by r250.
+- 03:15 PDT the losses to jmerle are mana stalls (c_well9 panel census): our collected Mn a game on Cornucopia 561,
+  IslandHopping 480, Maze 1,972, Forest 5,410; jmerle 16,972, 10,483, 14,298, 18,069; every carrier we build dies
+  (built = died, 53-65). Cornucopia (7601 game 2): ahead in the war (launchers 19 vs 9 at r100, kills 34 vs 24 at
+  r150) but our Mn collection stops near r100 (412, then 561 flat from r200) while Ad mining goes on: the ring's mana
+  wells are in the contested middle and all turn hot; c_mid1's site covers one of them. IslandHopping (7601 game 6):
+  armies even, our Mn stalls at r125 (415; 459 at r300) while jmerle's rises 469 -> 1,675, its launchers parked on our
+  home mana well (16,15) while our army is away. Our launchers answer sightings only within C.SIGHTING_R2 64 of
+  themselves, and the c_def2 recall fires only on HQ alarms (enemy fighters outnumber ours in HQ vision) and rallies on
+  the HQ tile, so a home well 12 tiles out is undefended. Neither jmerle nor awesomelemonade upgrades a well (every
+  PLACE_RESOURCE target is an HQ).

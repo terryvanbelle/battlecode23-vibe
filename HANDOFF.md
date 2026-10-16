@@ -40,7 +40,7 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-16 02:25 PDT)
+## In flight (2026-10-16 03:15 PDT)
 
 - **Owner idea (PROMPTS 108): a jmerle mimic as a sparring partner.** `tools/sa_extract.py` + ReplayDump `--sa` wrote
   state-action rows for jmerle.camel_case_v30_final and our side of the same 240 panel games
@@ -63,9 +63,12 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
 - **c_raid1** (d14555c; c_mid1 + mana raid: enemy-side mana wells are raid targets at any distance, mana before Ad):
   held, 19/40 on the 40 study cells (c_mid1 22/40): Cornucopia better (4/8 vs 3/8), Maze worse (1/8 vs 4/8: the army
   tours five enemy wells). A narrower variant (only the nearest enemy-side mana well) is untested.
-- **c_front1** (c_mid1 + arch_jm's midfield front, C.FRONT): IslandHopping is lost at r75-150 when our army marches on
-  the enemy HQ and trades 5 launchers for 1 there (TRAINING_LOG 2026-10-16 02:25). VM front1-jm (40 cells, CENSUS=1)
-  is playing; compare with c_mid1's 22/40 per map, then screen if better.
+- **c_front1** (e38aa0c; c_mid1 + arch_jm's midfield front, C.FRONT): held, 19/40 on the 40 study cells (c_mid1
+  22/40): ReverseFunnel 5/8 and Cornucopia 4/8 better, Forest 6/8 and Maze 1/8 worse.
+- **Losses to jmerle are mana stalls** (TRAINING_LOG 2026-10-16 03:15): our Mn collection stops near r100-125 on
+  Cornucopia and IslandHopping while jmerle's launchers sit on our contested or home mana wells; launchers react only
+  to sightings within r2 64 and the HQ recall rallies on the HQ tile. Next candidate: c_guard1, launchers defend our
+  home mana wells.
 - Rejected 10-15: c_cap1, c_thr1, c_open1, c_siege1, c_well10 (TRAINING_LOG). c_ad1 committed, held (Ad is not a loss root).
 
 **Ranked play** chooses the open team above us with the largest expected gain (`docs/LADDER_STRATEGY.md`).
