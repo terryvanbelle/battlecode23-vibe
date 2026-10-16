@@ -67,6 +67,11 @@ that beat us but does not explain their wins; the principle stands (it was free)
 - **A local screen cannot judge a narrow arm.** An arm that acts only past round 1700 (c_end2) or on one map (c_lane1)
   sits at the identity score on the head-to-head; read the cells it can change, or go to the panel (TRAINING_LOG
   2026-10-11 01:45).
+- **Local proxies measure soundness, not matchups.** Over 20 trials with a screen and a panel, the head-to-head score
+  (+0.45) and the roster net (+0.42) each track the panel's paired net, a blend +0.58; but no archetype's net tracks
+  the panel against the teams it was modelled on (-0.31 to +0.26). Weight local opponents near 50% (the mirror,
+  arch_jm), read the roster as a regression check, and let only the panel judge a matchup (TRAINING_LOG 2026-10-16
+  11:50, 12:18).
 - **A batch Bradley-Terry fit predicts better than the ladder's running Elo when the field is fixed.** Held out, per
   game: log-loss 0.572 vs 0.628 (+3 points accuracy); the ladder's rating for one unchanged build ranged 191 points
   in 33 hours. Use it to choose builds and ranked opponents (expected gain = K x (P_BT - E_ladder)); the ladder's

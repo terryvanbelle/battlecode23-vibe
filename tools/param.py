@@ -112,6 +112,8 @@ SPACE = [
     # micro knobs (c_knob1; c_well9 hard-codes 2 and 1)
     ('AHEAD_MIN', 0, 3, 'fight() steps in to fire when ahead by N (allies + 1 - enemy fighters)', {'optional': True}),
     ('HOLD_THREAT', 0, 3, 'otherwise fire only from tiles at most N enemy fighters reach', {'optional': True}),
+    ('STAND_THREAT', -1, 3, 'after firing, stay put when at most N enemy fighters reach the tile (-1: kite)',
+     {'optional': True}),
 ]
 SPACE_NAMES = frozenset(sp[0] for sp in SPACE)
 

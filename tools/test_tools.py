@@ -2345,7 +2345,10 @@ class ParamTest(unittest.TestCase):
     def test_optional_knobs(self):
         k = self.p.base_setting((REPO / 'src' / 'c_knob1' / 'C.java').read_text())
         self.assertEqual((k['AHEAD_MIN'], k['HOLD_THREAT']), (2, 1))   # c_well9's hard-coded values
-        self.assertEqual(len(k), len(self.p.SPACE))
+        self.assertEqual(len(k), len(self.p.SPACE) - 1)                 # all but c_knob2's STAND_THREAT
+        k2 = self.p.base_setting((REPO / 'src' / 'c_knob2' / 'C.java').read_text())
+        self.assertEqual((k2['AHEAD_MIN'], k2['HOLD_THREAT'], k2['STAND_THREAT']), (2, 1, -1))   # -1: always kite
+        self.assertEqual(len(k2), len(self.p.SPACE))
         b = self.p.base_setting(self.text)
         for s in self.p.sample(5, 3, names=set(b)):
             self.assertEqual(set(s), set(b))
@@ -2532,6 +2535,22 @@ class RaceTest(unittest.TestCase):
             self.assertEqual(list(cfg['opps']), ['c_well9'])
             with self.assertRaises(SystemExit):
                 self.r.init('c_knob1', 5, ['AHEAD_MIN=1'], opps=['c_knob1'], parent=t)   # the base as an opponent
+
+    def test_points(self):
+        k2 = self.p.base_setting((REPO / 'src' / 'c_knob2' / 'C.java').read_text())
+        s = self.r.parse_point('AHEAD_MIN=0,STAND_THREAT=2', k2)
+        self.assertEqual((s['AHEAD_MIN'], s['HOLD_THREAT'], s['STAND_THREAT']), (0, 1, 2))
+        for bad in ('AHEAD_MIN=2', 'STAND_THREAT=4', 'NOPE=1'):           # the base itself; out of range; unknown
+            with self.assertRaises(SystemExit):
+                self.r.parse_point(bad, k2)
+        with tempfile.TemporaryDirectory() as t:
+            with self.assertRaises(SystemExit):                              # a duplicate candidate
+                self.r.init('c_knob2', 5, ['AHEAD_MIN=1,2'], opps=['c_well9'], parent=t, points=['AHEAD_MIN=1'])
+            d = self.r.init('c_knob2', 5, opps=['c_well9'], maps=['Maze'], rungs=[1], parent=t,
+                            points=['STAND_THREAT=1', 'AHEAD_MIN=1,HOLD_THREAT=2'])
+            bots = self.r.swiss.read_bots(d)
+            self.assertEqual([(b[2]['AHEAD_MIN'], b[2]['HOLD_THREAT'], b[2]['STAND_THREAT']) for b in bots],
+                             [(2, 1, -1), (2, 1, 1), (1, 2, -1)])
 
     def test_run_end_to_end_without_games(self):
         def fake(d, r, ta, tb, m, seed, census=True, keep=False):     # c_rc02 wins every game; otherwise side B

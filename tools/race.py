@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Successive-halving race of C.java settings against an opponent pool (the follow-up to the Swiss of PROMPTS 114).
 
-  tools/race.py init --base c_knob1 --seed 7 [--grid NAME=v1,v2,... ...] [--sample N [--k K --pool A,B --always C]]
-        [--opps c_well9,arch_jm,...] [--maps M1,M2,...] [--rungs 8,16,32] [--keep 0.5] [--tag t] [--prefix c_rc]
+  tools/race.py init --base c_knob1 --seed 7 [--grid NAME=v1,v2,... ...] [--point NAME=v,NAME=v ...]
+        [--sample N [--k K --pool A,B --always C]] [--opps c_well9,arch_jm,...] [--maps M1,M2,...] [--rungs 8,16,32]
+        [--keep 0.5] [--tag t] [--prefix c_rc]
         prints the new run dir gauntlet/<stamp>-race[-t]/: config.json, bots.tsv (the base, then the candidates: the
-        grid's points other than the base's own, then the random draws of tools/param.py) and units.csv
+        grid's points other than the base's own, then each --point, then the random draws of tools/param.py) and
+        units.csv
   tools/race.py run DIR [--jobs 5]       build every bot and opponent into DIR/classes, then play the rungs (resumable)
   tools/race.py standings DIR            the table after the games so far
   tools/race.py analyse DIR              win share by level of each varied constant, on rung 1 (every bot, same cells)
@@ -88,8 +90,23 @@ def parse_grid(items, b):
     return grid
 
 
+def parse_point(item, b):
+    """One candidate: 'NAME=v,NAME=v' as overrides of the base setting `b` (each value inside the space's range)."""
+    s = dict(b)
+    for kv in item.split(','):
+        name, _, v = kv.partition('=')
+        parse_grid([f'{name}={v}'], b)
+        s[name] = int(v)
+    if s == b:
+        sys.exit(f'!! --point {item} is the base itself')
+    bad = param.violations(s)
+    if bad:
+        sys.exit(f'!! --point {item} breaks: ' + '; '.join(bad))
+    return s
+
+
 def init(base, seed, grid=(), sample=0, k=None, always=(), pool=None, opps=OPPS, maps=PANEL_MAPS, rungs=(8, 16, 32),
-         keep=0.5, tag='', prefix='c_rc', parent=None):
+         keep=0.5, tag='', prefix='c_rc', parent=None, points=()):
     text = param.c_java(base).read_text()
     b = param.base_setting(text)
     bad = param.violations(b)
@@ -104,13 +121,16 @@ def init(base, seed, grid=(), sample=0, k=None, always=(), pool=None, opps=OPPS,
     if missing:
         sys.exit('!! no package src/' + ', src/'.join(missing))
     cands = grid_points(parse_grid(grid, b), b) if grid else []
+    cands += [parse_point(x, b) for x in points]
+    if any(cands[i] == cands[j] for i in range(len(cands)) for j in range(i)):
+        sys.exit('!! two candidates share a setting')
     if sample:
         unknown = [x for x in tuple(always) + tuple(pool or ()) if x not in b or x not in param.SPACE_NAMES]
         if unknown:
             sys.exit(f'!! not in the space of {base}: ' + ', '.join(unknown))
         cands += param.sample(sample, seed, names=set(b), base=b, k=k, always=always, pool=pool)
     if not cands:
-        sys.exit('!! no candidates: give --grid and/or --sample')
+        sys.exit('!! no candidates: give --grid, --point and/or --sample')
     names = [f'{prefix}{i:02d}' for i in range(1, len(cands) + 1)]
     clash = sorted(set(names + [base]) & set(opps))
     if clash:
@@ -131,7 +151,7 @@ def init(base, seed, grid=(), sample=0, k=None, always=(), pool=None, opps=OPPS,
             w.writerow([i, *u])
     cfg = {'base': base, 'base_hash': swiss.bot_hash(base), 'seed': seed, 'created_utc': stamp,
            'opps': {o: swiss.bot_hash(o) for o in opps}, 'maps': list(maps), 'rungs': rungs, 'keep': keep,
-           'grid': parse_grid(grid, b) if grid else {},
+           'grid': parse_grid(grid, b) if grid else {}, 'points': list(points),
            'sample': ({'n': sample, 'k': k, 'always': list(always), 'pool': list(pool or [])} if sample else None),
            'space': [list(s[:3]) for s in param.SPACE if s[0] in b], 'constraints': param.CONSTRAINTS}
     (d / 'config.json').write_text(json.dumps(cfg, indent=1) + '\n')
@@ -338,6 +358,7 @@ def main(argv=None):
     p.add_argument('--base', default='c_knob1')
     p.add_argument('--seed', type=int, required=True)
     p.add_argument('--grid', action='append', default=[], help='NAME=v1,v2,... (repeat: the full product)')
+    p.add_argument('--point', action='append', default=[], help='one candidate: NAME=v,NAME=v (repeatable)')
     p.add_argument('--sample', type=int, default=0, help='random candidates drawn by tools/param.py')
     p.add_argument('--k', type=int, help='--sample in local mode: each draw re-draws only k constants')
     p.add_argument('--always', default='')
@@ -365,7 +386,7 @@ def main(argv=None):
             sys.exit('!! --pool needs --k (local mode)')
         print(init(a.base, a.seed, a.grid, a.sample, a.k, tuple(x for x in a.always.split(',') if x),
                    tuple(x for x in a.pool.split(',') if x) or None, a.opps.split(','), a.maps.split(','),
-                   [int(x) for x in a.rungs.split(',')], a.keep, a.tag, a.prefix))
+                   [int(x) for x in a.rungs.split(',')], a.keep, a.tag, a.prefix, points=a.point))
     elif a.cmd == 'run':
         run(a.dir, a.jobs, not a.no_census, a.keep_replays)
     elif a.cmd == 'standings':

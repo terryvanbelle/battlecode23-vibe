@@ -1912,3 +1912,31 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   0.33-0.38 of contact turns to our 0.17-0.20 and hold on 0.22-0.27 to our 0.35-0.40 (07:06 today); the parity hold
   (AHEAD_MIN 2, HOLD_THREAT 1) is the switch that keeps ours out. c_swarm4a/b (step in at 1 or 0 ahead) were rejected
   on 10-08 on g_iter2, a much older bot; the hold-threat axis was never varied.
+- 12:15 PDT race-micro stopped after 2 games (dir renamed .stopped on the VM): Cornucopia games ran to r2000 in 387-535 s
+  with the replica's 6 match JVMs and two screens on the VM's 8 cores (load 24), so 560 games would take ~15 h. Replaced
+  by a one-factor-at-a-time design with a third knob. c_knob2 = c_knob1 + C.STAND_THREAT (-1 = c_well9): with the shot
+  spent, a launcher stays on a tile at most STAND_THREAT enemy fighters reach instead of kiting; kiting spends the move
+  (launcher move cooldown 20, RULES 2: one move every other turn), so the kited launcher cannot step back in and holds
+  the next turn, the likely source of our 0.35-0.40 hold share. Race gauntlet/20261016-191511-race-micro2 (log
+  logs/race-micro2.log): base c_knob2 (= c_well9: 2/1/-1) and 9 points: AHEAD_MIN 1, 0; HOLD_THREAT 2, 3; STAND_THREAT
+  0, 1, 2; (1, 2, 1); (0, 3, 2); rungs 8/16/32 units, keep 0.5: 160 + 96 + 128 = 384 games. tools/race.py init
+  --point NAME=v,NAME=v (one candidate; duplicates and the base's own point refused; RaceTest.test_points).
+- 12:18 PDT Archetype fidelity, 20-21 trials with a screen and a panel (Spearman of each archetype's screen net with
+  the panel's paired net): against the archetype's own member teams arch_swarm +0.03, arch_ampmid -0.04, arch_blob
+  +0.05, arch_adecon +0.26, arch_horde -0.31; against the panel total arch_swarm +0.43, arch_adecon +0.43, arch_blob
+  +0.37, arch_ampmid +0.18, arch_horde +0.04 (arch_jm: 2 trials). No archetype models its members' matchup; several
+  track overall soundness. c_well9 beats them 20/20 (adecon), 18/20 (blob), 16/20 (swarm), 15/20 (ampmid), 14/20
+  (horde), 10/20 (arch_jm): only arch_jm and the mirror sit near 50%, where a game carries the most information.
+- 12:18 PDT c_tune1 screen (for information; its trial is running): basics 8/8, h2h vs c_well9 9/20 (borderline band:
+  pass 11, borderline 9), roster stage running. With the Swiss's 3-3, 12/26 head to head: no better than c_well9 in
+  the mirror; the panel decides.
+- 13:00 PDT race-micro2 at 13/160 rung-1 games after 45 min: the long maps run first and every Cornucopia and Forest game
+  so far reached r2000 in 520-700 s (VM load 27 on 8 cores: the replica's ~6 match JVMs, the race's 5 slots, the
+  c_tune1 screen). Rung 1 should take ~4-5 h, the race ~10 h. Replica (12:50): matches 8194-8200 running; our three
+  panels (c_pack1 8201-8210, c_gp1 8211-8220, c_tune1 8221-8230) queued next, in that order.
+- 13:02 PDT Swiss census by bot (research/swiss/20261016-153444-swiss-n4): points follow damage taken per contact turn
+  (top four 10.0-10.9, bottom three 12.3-13.8) and launchers lost (126-156 vs 171-173 a game); hit|contact and
+  move|contact barely differ (0.67-0.71, 0.42-0.44). The bottom bots mend late (MEND_HP 41-45 vs 78-94) and form long
+  (FORM_MAX_TURNS 21-28 vs 8-16): the correlations mostly flag settings that break the bot, and c_well9 (80, 15) sits
+  with the leaders. Small moves the leaders share: FORM_MAX_TURNS 8-11, ANCHOR_PERIOD 18-19 (c_well9 15, 30), a
+  follow-up --point race after the micro race.
