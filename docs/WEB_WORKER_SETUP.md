@@ -100,7 +100,7 @@ read-only jobs; Actions' rerun button does not rerun a reserved request.
 Long-running training belongs on `battlecode-dev` through the established queue/replica tools. Driver jobs should
 inspect, submit and poll that work rather than run volume games on the driver. Use one registered driver runner and
 one authoritative project checkout. Before adopting changes, follow the live-state preservation steps in
-[CONTINUATION.md](CONTINUATION.md) and run the official-jar test suite on the driver.
+[the archived continuation guide](../research/diagnosis/2026-10-12-continuation.md) and run the official-jar test suite on the driver.
 
 To disconnect later, stop the private runner service from its directory with `sudo ./svc.sh stop` and remove that
 repository-scoped runner in GitHub settings. Existing Battlecode jobs and VM SSH configuration are independent.

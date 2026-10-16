@@ -7,7 +7,8 @@ private replica of the official judging stack (galaxy) that never contacts battl
 Start with `TRAINING_ALGORITHM.md` (the loop), `RULES.md` (the game, engine-checked) and `HANDOFF.md` (current state).
 All owner prompts are in `PROMPTS.md` (PDT).
 
-For continuing from the web interface using the original VMs, read `docs/CONTINUATION.md` before connecting or syncing.
+The CLI session on claude-driver runs the project (`HANDOFF.md`); the 2026-10-12 web-session continuation guide is
+archived in `research/diagnosis/2026-10-12-continuation.md`.
 The one-time private GitHub worker installation is in [docs/WEB_WORKER_SETUP.md](docs/WEB_WORKER_SETUP.md).
 
 The ladder replica runs galaxy's own backend and frontend behind a password-protected site with rankings and replays:
@@ -26,6 +27,7 @@ projected with a 95% band to the ends of weeks 1-4. `progress/progress.png`: acc
 replica's Team Settings "Rating History" chart (siarnaq's displayed rating after each ranked, non-tournament
 scrimmage), redrawn in PDT with each submission's first rated match marked. The left axis starts at 1,400; a right axis
 shows our Bradley-Terry ratings (each build over its rated tenure, trial candidates at their trial start), tied to the
-left one by a least-squares fit over the field teams (one replica point is about 5.8 BT points).
+left one by a least-squares fit over the field teams (one replica point is about 4.5 BT points; the chart's footer
+gives the current fit).
 
 ![rating history](progress/rating-history.png)

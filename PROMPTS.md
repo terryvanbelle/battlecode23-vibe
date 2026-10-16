@@ -502,3 +502,7 @@ Can you explain to me why c_well5 does so well in BT, and yet was rejected in th
 ## 110. 2026-10-15 15:15 PDT
 
 Could you update the progress directory?
+
+## 111. 2026-10-15 20:47 PDT
+
+What's up with the progress audit?  I thought you just had to regenerate the files

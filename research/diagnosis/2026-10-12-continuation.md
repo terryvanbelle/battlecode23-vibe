@@ -1,5 +1,8 @@
 # Continuing from the web interface with the existing VMs
 
+> **Archived 2026-10-15** (was `docs/CONTINUATION.md`). It describes the 2026-10-12 continuation through the Codex web
+> session. Since 2026-10-14 the CLI session on claude-driver runs the project; see `HANDOFF.md` for the current state.
+
 Updated 2026-10-12 PDT. **All ongoing owner interaction remains in the web interface** (PROMPTS 58). The original
 driver and `battlecode-dev` are compute workers; do not transfer project control to a CLI session or require ongoing
 CLI interaction. The private GitHub worker now connects this web session to the original driver account and checkout.
@@ -20,7 +23,7 @@ The runner picks up jobs through outbound HTTPS. This web session writes the tru
 bounded JSON response from that private repository. Existing GCP/SSH credentials remain on the driver. The driver
 then reuses its existing access to battlecode-dev; no new incoming VM port is needed.
 
-Follow [WEB_WORKER_SETUP.md](WEB_WORKER_SETUP.md) for the concrete one-time setup. The public bot repository contains
+Follow [WEB_WORKER_SETUP.md](../../docs/WEB_WORKER_SETUP.md) for the concrete one-time setup. The public bot repository contains
 the installer and workflow template only; never register this credential-bearing runner to the public repository.
 The private repo's writers have command access as the driver account, so keep access limited to the owner and intended
 GitHub connection. This transport executes trusted jobs; it is not a sandbox.
