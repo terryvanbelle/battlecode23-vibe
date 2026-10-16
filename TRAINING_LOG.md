@@ -1649,3 +1649,14 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   path that finds Forest's pair. Dev game before the rebase (c_mid1 vs c_well9, Forest seed 1): won r1738 by
   conquest, Mn 17,758 vs 5,519, launchers alive at r1000 139 vs 34, carriers lost 6 vs 157, 0 exceptions, launcher max
   bytecode 9,173.
+- 23:07 PDT c_mid1 screen PASS (20261016-045404-scr-c_mid1-5c619ca1048d): basics 8/8, h2h 13/20 vs c_well9 (Forest 2-0,
+  Cornucopia 2-0, MassiveL 2-0), roster info-only net +7 (arch_jm +4: 10 -> 14 of 20, ampmid/blob/horde +1, no
+  losses), 148 games with 0 overruns/exceptions/self-deaths. Dev game vs arch_jm (Forest seed 1, after the rebase):
+  won r1776 by conquest, Mn collected by r1000 9,517 vs ~4,600, launchers 115 vs 33. Trial waits for the 01:00 PDT
+  autoscrim (2.5-hour window).
+- 23:00 PDT spawn-camping check (jmerle sa data, the 4 latest panels): our launcher deaths on IslandHopping have median
+  age 22 rounds (60% at most 30), 86% within r2 100 of our HQ, 67% alone; Cornucopia 33/47%/74%/51%; Maze 43/37%/84%;
+  jmerle's die at median 127-313 rounds, 1-32% near its HQ. Alone in contact (no ally launcher within r2 20):
+  IslandHopping ours 41-66% from r200 vs jmerle 10-13%. Not a new lever: c_siege1 (batching under siege) found the
+  spawn kills to be a symptom of a front already lost; the cause is early map control (jmerle home/mid/deep 55/28/18%
+  at r0-100, ours 78/14/8%).
