@@ -1816,3 +1816,29 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - 08:06 PDT c_pack1 screen PASS (progress/screens/c_pack1-b6ac7e5c5e37.json): basics 8/8, h2h vs c_well9 13/20, roster
   info Net +3 (arch_ampmid +4, arch_jm +1, arch_adecon -1, arch_horde -1), 148 games 0 overruns, exceptions, self
   deaths. gp1-80 at 48 games: study cells 27/40 (c_guard1 24/40 on the same cells; arch_jm Cornucopia 2/4 vs 4/4).
+- 08:20 PDT owner, PROMPTS 114: a practice session, so high-risk/high-reward attempts are welcome; new research project:
+  random C.java constants, a Swiss tournament of 2^N bots (3 maps, both sides, the best bot included), and a panel run
+  for a winner that is not the incumbent.
+- 08:34 PDT parameter search tooling. tools/param.py: `make BASE NEW NAME=VALUE ...` builds a package with C.java
+  constants overridden at build time (the engine passes bots only bc.testing.* properties, the same to both teams, the
+  replica passes none, and javac inlines static finals, so a generated package is the only override the panel and
+  ladder can run); `space` lists 73 numeric constants with ranges that hold c_well9's values (switches, dead constants,
+  rule facts, bit layouts and bytecode guards left out) and 10 constraints (RING_MIN + 8 <= RING_MAX, MEND_HP + 20 <=
+  MEND_FULL, PROBE_NEAR < PROBE_FAR, FIELD_NEAR_D2 < FIELD_FAR_D2, ANCHOR_START <= ANCHOR_BLIND_FROM, ...); `sample`
+  draws uniform valid settings (SIEGE_ROTATE_FROM off with p 0.5). tools/swiss.py: init/run/standings/analyse/export;
+  Monrad pairing without rematches, one seed per pair and map for both sides, points = games won, Buchholz, base first
+  on ties; games take gauntlet.sh's machine-wide slots; replays reduced to census rows. Measured VM rate ~130 games/h
+  across 5 slots (gp1-80 + c_pack1 screen: 200 games in ~85 min), so N=4: 16 bots (c_well9 + 15 variants), 4 rounds x
+  8 pairs x 6 games = 192 games, ~2-3 h beside the c_gp1 screen; N=5 (480 games) would take ~5-6 h.
+  Maps Forest (clouds, economy, r2000 mirrors), DefaultMap (small open), Maze (walls, navigation). Run
+  gauntlet/20261016-153444-swiss-n4 on the VM (log logs/swiss1.log), seed 114.
+- 08:34 PDT watcher bug: tools/watch_events.py's VM probe put the remote command in double quotes, so $(ls logs/...)
+  and $f expanded on the driver (no screen logs there) and SCREEN_DONE could never fire. Fixed (single-quoted, tested),
+  and SWISS_DONE <run> added (final.txt on the VM, no research/swiss/<run>/final.txt here).
+- 08:43 PDT VM gp1-80 final: c_gp1 52/80 on guard1-80's cells (c_guard1 45/80 on the same cells): study cells 27/40
+  (arch_jm 15/20, c_mend2 12/20; c_guard1 24/40), vs c_mid1 25/40 (Cat 4/4, Forest 4/4, Maze 1/4). c_gp1's screen
+  56/120 through its roster part.
+- 08:43 PDT c_knob1 = c_well9 with fight()'s two hard-coded micro thresholds as constants (C.AHEAD_MIN 2: step in to
+  fire when ahead by 2+; C.HOLD_THREAT 1: else fire only from tiles at most 1 enemy fighter reaches). javap: every
+  class's bytecode identical to c_well9's but C (the two new fields), so c_knob1 at its defaults is the incumbent.
+  tools/param.py: optional space entries (AHEAD_MIN, HOLD_THREAT 0-3) used only for bases that define them.

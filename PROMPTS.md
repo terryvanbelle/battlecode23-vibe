@@ -514,3 +514,13 @@ How did last night go?
 ## 113. 2026-10-16 06:23 PDT
 
 You can delete old replays to save space 
+
+## 114. 2026-10-16 08:20 PDT
+
+OK, two things:  First, don't worry too much about any imagined time left.  We're doing a practice session, so that means it's a good time to experiment with new approaches, even if they're a high-risk/high-reward type of attempt.  When the actual tournament comes around, we'll be more conservative, but that won't be for a while.
+
+Second:  I've got a new research project for you.  I'd like you to create a bot that can override its C.java global constants on the command line, or some other useful way.  Please come up with reasonable ranges on the numerical constants, and then I'd like you to instantiate 2^N bots, each with a random setting for the constants.  Don't include nonsensical settings, like max < min.  Run a Swiss-style tournament on 3 representative boards each, both sides.  Include the existing best bot as one of the competitors.  If a bot that's different from the existing best bot wins the tournament, run that bot against the panel and see how it does.  Choose N so that the whole things runs in a few hours
+
+## 115. 2026-10-16 08:49 PDT
+
+What's left to do to validate c_gp1?

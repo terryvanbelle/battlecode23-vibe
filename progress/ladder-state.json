@@ -5,7 +5,15 @@
   "since": "2026-10-15T19:18:15.880112+00:00",
   "panel_run": "gauntlet/20261015-160249-panel-c_well9"
  },
- "trial": null,
+ "trial": {
+  "submission": 169,
+  "package": "c_pack1",
+  "started": "2026-10-16T16:01:41.072266+00:00",
+  "panel": "test/cells/panel-v1.txt",
+  "run_dir": "gauntlet/20261016-160153-panel-c_pack1",
+  "pid": 3513890,
+  "hash": "b6ac7e5c5e37"
+ },
  "history": [
   {
    "at": "2026-10-08T02:35:39.835215+00:00",
@@ -621,6 +629,13 @@
    "package": "c_mid1",
    "parked": true,
    "run": "gauntlet/20261016-080646-panel-c_mid1"
+  },
+  {
+   "at": "2026-10-16T16:01:53.015600+00:00",
+   "event": "trial-start",
+   "submission": 169,
+   "package": "c_pack1",
+   "screen": "progress/screens/c_pack1-b6ac7e5c5e37.json"
   }
  ],
  "parked": []
