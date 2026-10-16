@@ -1782,3 +1782,17 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   completed to their 521 with similar cycles (52 vs 55 turns) and similar carrier turns: ours move loaded on 0.32 of
   turns (0.22) and rarely deposit, the raider problem c_guard1/2 address. Cornucopia Mn per carrier turn is equal
   (0.436 vs 0.442).
+- 06:20 PDT guard1-80 at 61/80: study cells 24/40 (c_mid1 22/40, c_rally1 23/40), h2h vs c_mid1 14/21 (Forest 4/4,
+  Cornucopia 3/4, Cat 3/4). guard2-80 study 12/27 so far. c_gp1 = c_guard1 + c_pack1's packing (same code and
+  constants; Gp1Test 15 cases: PackTest's and Guard1Test's): Forest's site pair has 8 usable collect squares (two well
+  tiles, (29,47)/(30,47)/(29,49)/(30,49), two cloud squares; the others are currents) where c_mid1 kept 3.4-4.2
+  carriers on collect tiles with 51-57 within r2 64 from r600.
+- 06:23 PDT finished local gauntlets' replays pruned on the VM (owner, PROMPTS 113): 19 runs, free disk 1.6 -> 2.2 GB.
+- 06:34 PDT c_gp1 delivery game vs c_well9 (Forest 1101): won at r2000, collMn 20,316 vs 7,089, cMn100 615 vs 378,
+  cMn250 2,079 vs 1,088, L250 66 vs 44; midline mana 396-652 collects per 100 rounds and home well 477-545 (175-381 on
+  well tiles); 0 exceptions, 0 overruns.
+- 06:41 PDT guard1-80 finished 45/80: study cells 24/40, h2h vs c_mid1 21/40 (Forest 4/4, Cat 3/4, Cornucopia 3/4;
+  DefaultMap, Maze, ReverseFunnel 1/4 each), so c_guard1 is c_mid1's equal head to head. guard2-80 stopped at 40 games
+  (study cells 18/40: c_mend2 9/20, arch_jm 9/20): c_guard2 held. c_pack1's screen passed stage (b) (12 of its first 18
+  games) and runs its roster stage. c_gp1's screen was first queued with --roster none, but a reduced record never
+  admits a trial: cancelled and requeued with the full roster (job 20261016-134053-scr-c_gp1-5ab98ca6e5b2).

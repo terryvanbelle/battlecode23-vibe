@@ -510,3 +510,7 @@ What's up with the progress audit?  I thought you just had to regenerate the fil
 ## 112. 2026-10-16 06:16 PDT
 
 How did last night go?
+
+## 113. 2026-10-16 06:23 PDT
+
+You can delete old replays to save space 

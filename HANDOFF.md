@@ -75,10 +75,11 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
 - **c_rally1** (c_mid1 + an outnumbered launcher's step weighs r2 to our nearest HQ, Launcher.kiteScore): held,
   41/80 on VM rally1-80 (study cells 23/40, c_mid1 22/40; h2h vs c_mid1 18/40).
 - **c_guard1** (c_mid1 + home-well defence, C.GUARD: carriers report the raider they fled at their next write turn;
-  launchers within r2 400 take fresh home-zone sightings nearer than their site or siege target): VM guard1-80 on
-  the same cells, study cells 24/40 (c_mid1 22/40), h2h running.
+  launchers within r2 400 take fresh home-zone sightings nearer than their site or siege target): 45/80 on VM
+  guard1-80, study cells 24/40 (c_mid1 22/40), h2h vs c_mid1 21/40 (Forest 4/4, Cat 3/4, Cornucopia 3/4; DefaultMap,
+  Maze, ReverseFunnel 1/4 each).
 - **c_guard2** (c_guard1 + one sentry amplifier per HQ at the home mana well beyond the HQ's vision, C.SENTRY, AD_FLAGS
-  heartbeat bits 12-15): VM guard2-80 on the same cells, running.
+  heartbeat bits 12-15): held, study cells 18/40 on VM guard2-80 (stopped at 40 of 80 games, 06:41 PDT).
 - **Carriers walk empty** (TRAINING_LOG 2026-10-16 05:52): r40-200 we collect on 0.36 of carrier turns to jmerle's
   0.52 and walk empty on 0.36 to their 0.10; Forest's home mana well (walls on three sides) yields 386-469 collects
   per 100 rounds to their 482-592 (they fill the well tile), and they take up to 700 from the midline mana pair that
@@ -86,7 +87,12 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
 - **c_pack1** (c_well9 + well packing, C.PACK: near its well a carrier takes the nearest free collect square, a
   collector steps onto a free well tile): delivery on Forest vs c_well9, home well 491-545 collects per 100 rounds
   to 475-482, 106-165 of them on the well tile. Screen queued 06:09 PDT (job 20261016-130923-scr-c_pack1-b6ac7e5c5e37;
-  `tools/screen.py collect c_pack1`), started with --min-disk-gb 1.4: the VM disk has 1.6 GB free.
+  `tools/screen.py collect c_pack1`), started with --min-disk-gb 1.4 (1.6 GB free); finished gauntlets' replays pruned
+  06:23 PDT (owner, PROMPTS 113): 2.2 GB free. Stage (b) passed (12 of its first 18 games); the roster stage runs.
+- **c_gp1** (c_guard1 + c_pack1's packing, same code and constants): delivery game vs c_well9 on Forest 1101 won at
+  r2000, collMn 20,316 to 7,089, cMn250 2,079 to 1,088, L250 66 to 44 (midline mana 396-652 collects per 100 rounds,
+  home well 477-545), 0 exceptions, 0 overruns. Full screen queued 06:40 PDT behind c_pack1's (job
+  20261016-134053-scr-c_gp1-5ab98ca6e5b2; a --roster none screen writes a reduced record, which never admits a trial).
 - **c_front1** screen FAIL (b 10/20 borderline, roster info Net -16).
 - Rejected 10-15: c_cap1, c_thr1, c_open1, c_siege1, c_well10 (TRAINING_LOG). c_ad1 committed, held (Ad is not a loss root).
 
