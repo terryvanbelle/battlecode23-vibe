@@ -1813,3 +1813,6 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   carriers did not raise mana). c_gp1's MassiveL debug game (vs c_well9, 1101): Mn 9,231 to 6,715, island-rounds 3,093
   to 2,315, lost the r2000 tiebreak 1-2 islands; no MassiveL economy problem in c_gp1.
 - 07:02 PDT VM gp1-80: c_gp1 on guard1-80's 80 cells (seeds from cells, paired with c_guard1's 45/80).
+- 08:06 PDT c_pack1 screen PASS (progress/screens/c_pack1-b6ac7e5c5e37.json): basics 8/8, h2h vs c_well9 13/20, roster
+  info Net +3 (arch_ampmid +4, arch_jm +1, arch_adecon -1, arch_horde -1), 148 games 0 overruns, exceptions, self
+  deaths. gp1-80 at 48 games: study cells 27/40 (c_guard1 24/40 on the same cells; arch_jm Cornucopia 2/4 vs 4/4).

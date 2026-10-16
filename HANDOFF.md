@@ -88,7 +88,8 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   collector steps onto a free well tile): delivery on Forest vs c_well9, home well 491-545 collects per 100 rounds
   to 475-482, 106-165 of them on the well tile. Screen queued 06:09 PDT (job 20261016-130923-scr-c_pack1-b6ac7e5c5e37;
   `tools/screen.py collect c_pack1`), started with --min-disk-gb 1.4 (1.6 GB free); finished gauntlets' replays pruned
-  06:23 PDT (owner, PROMPTS 113): 2.2 GB free. Stage (b) passed (12 of its first 18 games); the roster stage runs.
+  06:23 PDT (owner, PROMPTS 113): 2.2 GB free. Screen PASS 08:06 PDT (h2h 13/20, roster info Net +3, 148 games 0
+  overruns or exceptions; progress/screens/c_pack1-b6ac7e5c5e37.json): trial from 09:00 PDT.
 - **c_gp1** (c_guard1 + c_pack1's packing, same code and constants): delivery game vs c_well9 on Forest 1101 won at
   r2000, collMn 20,316 to 7,089, cMn250 2,079 to 1,088, L250 66 to 44 (midline mana 396-652 collects per 100 rounds,
   home well 477-545), 0 exceptions, 0 overruns. Full screen queued 06:40 PDT behind c_pack1's (job
