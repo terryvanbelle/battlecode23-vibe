@@ -1,6 +1,6 @@
 # Galaxy replica ladder
 
-Snapshot of the Rankings page of our private galaxy replica (https://galaxy.136-86-167-127.sslip.io/bc23/rankings), taken Oct 16 13:32 PDT. Written by `tools/galaxy/snapshot.py`: regenerate it, do not edit it. The live site, with replays, is described in ACCESS.md.
+Snapshot of the Rankings page of our private galaxy replica (https://galaxy.136-86-167-127.sslip.io/bc23/rankings), taken Oct 16 15:51 PDT. Written by `tools/galaxy/snapshot.py`: regenerate it, do not edit it. The live site, with replays, is described in ACCESS.md.
 
 **Rating is the galaxy replica's displayed rating**: siarnaq's penalized Elo, mean − 1500·0.85^n after n rated matches, so every team starts at 0 and climbs over its first ~20 ranked matches. It is not the Bradley-Terry fit of `progress/ELO.md`. 88 teams (88 with an accepted submission). Games W-L counts the games recorded in `progress/games.csv` from the replica (88 teams have some); our team is **vibe23**, whose builds appear there as `us:<package>`.
 
@@ -8,28 +8,28 @@ Snapshot of the Rankings page of our private galaxy replica (https://galaxy.136-
 
 | # | Team | Rating | Games W-L | Submission |
 |---:|---|---:|---|---|
-| 1 | awesomelemonade.finalBot | 1792.6 | 452-134 | accepted |
+| 1 | awesomelemonade.finalBot | 1792.6 | 474-142 | accepted |
 | 2 | maxwelljones14.MPWorking | 1776.3 | 165-78 | accepted |
 | 3 | IvanGeffner.fortytwo | 1763.7 | 190-92 | accepted |
 | 4 | carlguo866.submit26\_final | 1754.9 | 155-103 | accepted |
-| 5 | vrangr1.AFinalsBot | 1732.6 | 427-162 | accepted |
+| 5 | vrangr1.AFinalsBot | 1732.6 | 446-173 | accepted |
 | 6 | AnOvercookedFork.quals | 1717.4 | 174-111 | accepted |
-| 7 | jmerle.camel\_case\_v30\_final | 1711.0 | 421-243 | accepted |
+| 7 | jmerle.camel\_case\_v30\_final | 1711.0 | 437-257 | accepted |
 | 8 | battlecode-archive.sprintBot | 1702.5 | 180-117 | accepted |
 | 9 | georgezhang02.FB\_ZZZ | 1701.0 | 187-116 | accepted |
-| 10 | pranayagra.finalbotfinaltwo | 1697.9 | 183-114 | accepted |
-| 11 | pranayagra.finalbotfinal | 1695.9 | 451-249 | accepted |
+| 10 | pranayagra.finalbotfinaltwo | 1697.9 | 185-115 | accepted |
+| 11 | pranayagra.finalbotfinal | 1695.9 | 467-266 | accepted |
 | 12 | CyrilSharma.finalBot | 1666.2 | 217-158 | accepted |
-| 13 | **vibe23** | 1653.0 | 2708-2441 | accepted |
+| 13 | **vibe23** | 1653.0 | 2911-2544 | accepted |
 | 14 | ethanlabelle.dev | 1649.2 | 226-191 | accepted |
-| 15 | NotLLeon.v7 | 1644.4 | 365-386 | accepted |
+| 15 | NotLLeon.v7 | 1644.4 | 376-405 | accepted |
 | 16 | VarunVejalla.karel | 1631.8 | 218-214 | accepted |
 | 17 | GabeG888.v8o1 | 1630.3 | 180-147 | accepted |
-| 18 | georgezhang02.CB\_tuning2 | 1624.7 | 360-394 | accepted |
+| 18 | georgezhang02.CB\_tuning2 | 1624.7 | 366-418 | accepted |
 | 19 | GabeG888.v8 | 1621.8 | 190-149 | accepted |
 | 20 | VarunVejalla.ali8 | 1617.1 | 171-153 | accepted |
-| 21 | britacatalin.FinalBot | 1613.8 | 310-387 | accepted |
-| 22 | reeceyang.v5anaconda | 1612.8 | 262-435 | accepted |
+| 21 | britacatalin.FinalBot | 1613.8 | 316-411 | accepted |
+| 22 | reeceyang.v5anaconda | 1612.8 | 264-463 | accepted |
 | 23 | programjames.fourthbot | 1605.0 | 188-154 | accepted |
 | 24 | ethanlabelle.v19 | 1604.6 | 211-212 | accepted |
 | 25 | SampleProvider.SPAARK | 1599.7 | 167-151 | accepted |
@@ -38,7 +38,7 @@ Snapshot of the Rankings page of our private galaxy replica (https://galaxy.136-
 | 28 | NicholasKelly15.gopher10 | 1588.3 | 168-138 | accepted |
 | 29 | toyat522.bot5a | 1576.1 | 183-192 | accepted |
 | 30 | DannyZhang686.pqual2 | 1567.9 | 188-181 | accepted |
-| 31 | battlecode-archive.Sprint1 | 1564.1 | 224-440 | accepted |
+| 31 | battlecode-archive.Sprint1 | 1564.1 | 225-469 | accepted |
 | 32 | ipince.bobby | 1563.2 | 160-143 | accepted |
 | 33 | SteamBlizzard.newVnewME | 1557.6 | 192-180 | accepted |
 | 34 | DukeBas.\_main | 1556.7 | 205-170 | accepted |
@@ -49,7 +49,7 @@ Snapshot of the Rankings page of our private galaxy replica (https://galaxy.136-
 | 39 | Nawlej.PoonPoon | 1539.2 | 177-168 | accepted |
 | 40 | TheK098.qp1\_7\_sprint\_1 | 1536.5 | 191-169 | accepted |
 | 41 | beaverbois.USQualifiers | 1531.5 | 189-174 | accepted |
-| 42 | yaonam.PoonPoonv4 | 1519.9 | 232-504 | accepted |
+| 42 | yaonam.PoonPoonv4 | 1519.9 | 234-532 | accepted |
 | 43 | JfeMak.realplayer2 | 1519.7 | 219-222 | accepted |
 | 44 | BrysonJGalapon.friday | 1519.0 | 195-177 | accepted |
 | 45 | kevinli405.maggi3 | 1518.2 | 188-199 | accepted |
@@ -101,23 +101,23 @@ Snapshot of the Rankings page of our private galaxy replica (https://galaxy.136-
 
 | Match | Created | Player 0 | Score | Player 1 | Maps | Type | Status |
 |---:|---|---|---|---|---|---|---|
-| 8230 | Oct 16 11:43 PDT | **vibe23** | ?–? | britacatalin.FinalBot | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8229 | Oct 16 11:43 PDT | **vibe23** | ?–? | yaonam.PoonPoonv4 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8228 | Oct 16 11:43 PDT | **vibe23** | ?–? | reeceyang.v5anaconda | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8227 | Oct 16 11:43 PDT | **vibe23** | ?–? | battlecode-archive.Sprint1 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8226 | Oct 16 11:43 PDT | **vibe23** | ?–? | NotLLeon.v7 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8225 | Oct 16 11:43 PDT | **vibe23** | ?–? | pranayagra.finalbotfinal | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8224 | Oct 16 11:43 PDT | **vibe23** | ?–? | awesomelemonade.finalBot | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8223 | Oct 16 11:43 PDT | **vibe23** | ?–? | georgezhang02.CB\_tuning2 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8222 | Oct 16 11:43 PDT | **vibe23** | ?–? | jmerle.camel\_case\_v30\_final | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8221 | Oct 16 11:43 PDT | **vibe23** | ?–? | vrangr1.AFinalsBot | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8220 | Oct 16 10:02 PDT | **vibe23** | ?–? | britacatalin.FinalBot | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8219 | Oct 16 10:02 PDT | **vibe23** | ?–? | yaonam.PoonPoonv4 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8218 | Oct 16 10:02 PDT | **vibe23** | ?–? | reeceyang.v5anaconda | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8217 | Oct 16 10:02 PDT | **vibe23** | ?–? | battlecode-archive.Sprint1 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8216 | Oct 16 10:02 PDT | **vibe23** | ?–? | NotLLeon.v7 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8215 | Oct 16 10:02 PDT | **vibe23** | ?–? | pranayagra.finalbotfinal | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8214 | Oct 16 10:02 PDT | **vibe23** | ?–? | awesomelemonade.finalBot | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8213 | Oct 16 10:02 PDT | **vibe23** | ?–? | georgezhang02.CB\_tuning2 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | QUE |
-| 8212 | Oct 16 10:02 PDT | **vibe23** | ?–? | jmerle.camel\_case\_v30\_final | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | RUN |
-| 8211 | Oct 16 10:02 PDT | **vibe23** | ?–? | vrangr1.AFinalsBot | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | RUN |
+| 8238 | Oct 16 15:50 PDT | **vibe23** | ?–? | pranayagra.finalbotfinaltwo | maptestsmall, Target, Rectangle | ranked | RUN |
+| 8237 | Oct 16 15:45 PDT | **vibe23** | 3–0 | pranayagra.finalbotfinal | BowAndArrow, Spiral, CrownJewels | ranked | OK! |
+| 8236 | Oct 16 15:39 PDT | **vibe23** | 0–3 | CyrilSharma.finalBot | Tacocat, Cee, River | ranked | OK! |
+| 8235 | Oct 16 15:34 PDT | CyrilSharma.finalBot | 1–2 | **vibe23** | SweetDreams, Quiet, DefaultMap | ranked | OK! |
+| 8234 | Oct 16 15:28 PDT | **vibe23** | 1–2 | CyrilSharma.finalBot | FishCake, Turtle, DefaultMap | ranked | OK! |
+| 8233 | Oct 16 15:22 PDT | pranayagra.finalbotfinaltwo | 1–2 | **vibe23** | Target, SomethingFishy, ExtremelyMid | ranked | OK! |
+| 8232 | Oct 16 15:17 PDT | pranayagra.finalbotfinal | 2–1 | **vibe23** | BattleSuns, Pit, River | ranked | OK! |
+| 8231 | Oct 16 15:11 PDT | pranayagra.finalbotfinaltwo | 2–1 | **vibe23** | BuildSite, Target, Diagonal | ranked | OK! |
+| 8230 | Oct 16 11:43 PDT | **vibe23** | 8–2 | britacatalin.FinalBot | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 8229 | Oct 16 11:43 PDT | **vibe23** | 9–1 | yaonam.PoonPoonv4 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 8228 | Oct 16 11:43 PDT | **vibe23** | 9–1 | reeceyang.v5anaconda | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 8227 | Oct 16 11:43 PDT | **vibe23** | 9–1 | battlecode-archive.Sprint1 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 8226 | Oct 16 11:43 PDT | **vibe23** | 6–4 | NotLLeon.v7 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 8225 | Oct 16 11:43 PDT | **vibe23** | 6–4 | pranayagra.finalbotfinal | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 8224 | Oct 16 11:43 PDT | **vibe23** | 3–7 | awesomelemonade.finalBot | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 8223 | Oct 16 11:43 PDT | **vibe23** | 6–4 | georgezhang02.CB\_tuning2 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 8222 | Oct 16 11:43 PDT | **vibe23** | 5–5 | jmerle.camel\_case\_v30\_final | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 8221 | Oct 16 11:43 PDT | **vibe23** | 2–8 | vrangr1.AFinalsBot | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 8220 | Oct 16 10:02 PDT | **vibe23** | 8–2 | britacatalin.FinalBot | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 8219 | Oct 16 10:02 PDT | **vibe23** | 10–0 | yaonam.PoonPoonv4 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
