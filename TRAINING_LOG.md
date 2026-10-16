@@ -1660,3 +1660,6 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   IslandHopping ours 41-66% from r200 vs jmerle 10-13%. Not a new lever: c_siege1 (batching under siege) found the
   spawn kills to be a symptom of a front already lost; the cause is early map control (jmerle home/mid/deep 55/28/18%
   at r0-100, ours 78/14/8%).
+- 23:45 PDT mid1-jm (VM gauntlet/20261016-061013-mid1-jm, the 32 abl2-jm/w10-jm cells): c_mid1 vs c_mend2 10/16, vs
+  arch_jm 9/16, 19/32 (c_well9 and c_well10 11/32 each). Forest 8/8 (c_well10 2/8, c_well9 vs c_mend2 0/4); Maze 4/8,
+  IslandHopping 3/8, ReverseFunnel 4/8: the other maps unchanged within noise. The contested-well squad fixes Forest.
