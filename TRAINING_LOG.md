@@ -1633,3 +1633,10 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   net +0 (arch_jm 1-1, arch_horde +1, arch_swarm -1), 148 games with 0 overruns/exceptions/self-deaths. Trial started
   17:32 PDT, submission 165, panel gauntlet/20261016-003246-panel-c_well10. Purpose: c_mid1 (contested-well objective,
   in build) sits on c_well10, so the panel measures what hot wells off costs or gains against the field first.
+- 20:20 PDT c_well10 rejected (trial-end --reject; c_well9 resubmitted as submission 166). Panel
+  gauntlet/20261016-003246-panel-c_well10: 62/100 (vrangr1 2, jmerle 5, georgezhang02 7, awesomelemonade 2, pranayagra 4,
+  NotLLeon 7, Sprint1 10, reeceyang 9, yaonam 9, britacatalin 7). Paired vs c_well9: 95 identical, gained 2, lost 3, net
+  -1; island-rounds -210 a game (t -2.12). Per map (c_well10 minus c_well9, per game): MassiveL island margin -1,429, Mn
+  -1,784; Cornucopia -701 (carrier deaths -38); Maze -259 (carrier deaths +14); Forest +34, Mn +677, carrier deaths +17;
+  DefaultMap +266, Mn +1,509. Hot wells earn their keep on MassiveL and Cornucopia; the contested-well candidate (c_mid1)
+  must keep C.HOT on and exempt only a contested well our launchers hold.

@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 164,
+  "submission": 166,
   "package": "c_well9",
   "since": "2026-10-15T19:18:15.880112+00:00",
   "panel_run": "gauntlet/20261015-160249-panel-c_well9"
@@ -579,6 +579,19 @@
    "event": "accept",
    "submission": 164,
    "package": "c_well9"
+  },
+  {
+   "at": "2026-10-16T00:32:46.010149+00:00",
+   "event": "trial-start",
+   "submission": 165,
+   "package": "c_well10",
+   "screen": "progress/screens/c_well10-ce956d295758.json"
+  },
+  {
+   "at": "2026-10-16T03:17:32.645867+00:00",
+   "event": "reject",
+   "submission": 165,
+   "package": "c_well10"
   }
  ],
  "parked": []

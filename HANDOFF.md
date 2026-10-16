@@ -8,7 +8,8 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
 
 ## Standing
 
-- **Validated build g_iter11 = c_well9** (submission 164, accepted 2026-10-15 12:18 PDT): g_iter10 (c_mend2) plus
+- **Validated build g_iter11 = c_well9** (submission 164, accepted 2026-10-15 12:18 PDT; active again as submission 166
+  since 20:20 PDT, after c_well10's rejected trial): g_iter10 (c_mend2) plus
   c_well5's diagonal near-well mana probe only (no front probe: c_well5/c_well7 fed Forest carriers to the midline
   well). Panel 63/100 (`gauntlet/20261015-160249-panel-c_well9`): vs c_mend2 net +2 (6-4), island-rounds +324
   (t +1.61); vs c_bc1 net +5 (8-3), +507 (t +2.51). MassiveL mana +2,841 a game; Forest carrier deaths unchanged;
@@ -39,18 +40,23 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-15 12:20 PDT)
+## In flight (2026-10-15 20:25 PDT)
 
 - **Owner idea (PROMPTS 108): a jmerle mimic as a sparring partner.** `tools/sa_extract.py` + ReplayDump `--sa` wrote
   state-action rows for jmerle.camel_case_v30_final and our side of the same 240 panel games
-  (`research/clone/jmerle/`, gitignored, 367 MB). Findings (TRAINING_LOG 2026-10-15): completed carrier trips are as
-  efficient as jmerle's; the gap is map control. In our losses jmerle's launchers hold the middle (25-30% of launcher
-  turns at prog 0.4-0.6 against our 4-15%) and kill our carriers in our half at age 10-20 (Maze: 57 of 57 built);
-  jmerle mines 89% mana; blind fire in clouds (85% of in-range cloud turns against our 31%).
-- **arch_jm** (being built from c_mend2): mana-first, blind fire, midfield front, press when out of range. Fidelity
-  gate before use: c_mend2 vs arch_jm on the 10 panel maps must reproduce our record against the real jmerle (we win
-  Cat, BatSignal, Hah and mostly DefaultMap; lose Cornucopia, Forest, IslandHopping, Maze, ReverseFunnel, MassiveL).
-- Rejected today: c_cap1, c_thr1, c_open1, c_siege1 (TRAINING_LOG). c_ad1 committed, held (Ad is not a loss root).
+  (`research/clone/jmerle/`, gitignored, 367 MB). `src/arch_jm` (c_mend2 + mana-first, blind fire, midfield front,
+  close-in) matches jmerle's micro and mana share; fidelity 12/20 games agree with our record against the real jmerle
+  (Forest and Maze reproduced; Cornucopia, MassiveL, BatSignal not). Its ablation found no single jmerle behaviour that
+  carries the result; the c_mend2 control beat c_well9 on Forest 4-0, which exposed the real gap (TRAINING_LOG
+  2026-10-15 14:40-15:25): **Forest's contested mana wells (29,48)/(30,48)**, which jmerle holds from r0 (launchers
+  1.9 -> 8.6, carriers 1.8 -> 22.4 within r2 64) and we never visit (0.0 in every bucket).
+- **c_well10 rejected** (c_well9 with hot wells off; screen PASS 11/20; panel 62/100, net -1 vs c_well9, island-rounds
+  -210 t -2.12). Hot wells pay for themselves: MassiveL -1,429 island-rounds and -1,784 Mn a game without them,
+  Cornucopia -701; Forest +677 Mn but +16.6 carrier deaths. Keep C.HOT on.
+- **c_mid1** (contested-well objective: launchers hold the contested central mana well, carriers mine it while held) is
+  being built by a workflow on c_well10; rebase its change onto c_well9 (HOT on, exempting only the held contested
+  well) before screening.
+- Rejected today: c_cap1, c_thr1, c_open1, c_siege1, c_well10 (TRAINING_LOG). c_ad1 committed, held (Ad is not a loss root).
 
 **Ranked play** chooses the open team above us with the largest expected gain (`docs/LADDER_STRATEGY.md`).
 
@@ -66,7 +72,7 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   for `tools/paired.py`). Hourly limits count requests AND the matches they create (an accepted request counts
   twice); galaxy's default 10/10 was raised to 40 unranked and 20 ranked (owner, PROMPTS 15-16), so about 20 panel
   requests (200 games) and 10 ranked challenges an hour; the VM is the real limit. Ranked: 3 random maps, upward only.
-- Validated build: **g_iter11 = c_well9** (submission 164, accepted 2026-10-15 12:18 PDT; baseline panel run
+- Validated build: **g_iter11 = c_well9** (submission 164, accepted 2026-10-15 12:18 PDT, resubmitted as 166 at 20:20 PDT; baseline panel run
   `gauntlet/20261015-160249-panel-c_well9`, 63/100). Before it **g_iter10 = c_mend2** (accepted as 143, 2026-10-11 05:14 PDT; baseline panel run
   `gauntlet/20261011-080046-panel-c_mend2`, 61/100). Before it **g_iter9 = c_bc1** (submission 136, accepted 2026-10-10 22:44 PDT; baseline panel run
   `gauntlet/20261011-042052-panel-c_bc1`, 58/100). Before it **g_iter8 = c_aura2** (submission 129, accepted
