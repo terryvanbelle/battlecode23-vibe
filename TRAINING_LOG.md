@@ -2198,3 +2198,7 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   c_hr1 waits for c_rot1's panel (c_hr2 may supersede it: hr2-h2h running).
 - 14:24 PDT c_rot1 trial parked (panel matches 8812-8821; c_gp1 active as 184); c_hr1 trial-start (submission 185,
   requests 4427 on, log logs/trial-c_hr1.log).
+- 14:26 PDT c_rot1 panel done (parked; paired.py vs c_gp1's): 99 identical, gained 1 (pranayagra.finalbotfinal), lost 0,
+  net +1 (1.0 SE), island-rounds +34 (t 0.33). Positive but within noise; local h2h 115/206 (+12 maps). Decision held
+  until c_hr1's panel (its superset: rotation + hunt) is done: accept the better one if positive (trial-decide
+  --accept is refused while c_hr1's trial is open anyway).
