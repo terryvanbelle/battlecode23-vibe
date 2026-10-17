@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-17 14:00 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
+Updated 2026-10-17 15:17 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
 archived in `research/diagnosis/2026-10-12-handoff-inflight.md`). On 2026-10-12 18:48 PDT every galaxy unit stopped and
 the VM queue runner exited on a STOP file, with no recorded reason; both were restarted on 2026-10-14 (the replica in
 the morning, the runner at 11:47 PDT). `tools/watch_events.py` now reports either failure (REPLICA_DOWN,
@@ -50,14 +50,11 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-17 14:00 PDT)
+## In flight (2026-10-17 15:17 PDT)
 
-- **State (14:24 PDT 10-17).** c_rot1 trial PARKED (submission 183, matches 8812-8821), log
-  `logs/trial-c_rot1.log`, run dir `gauntlet/20261017-183626-panel-c_rot1`): on PANEL/its results.csv,
-  `python3 tools/paired.py gauntlet/20261017-183626-panel-c_rot1 gauntlet/20261016-170213-panel-c_gp1`, then
-  `tools/ladder_policy.py trial-decide c_rot1 --accept|--reject` (accept -> `tools/progress-refresh.sh`, push progress/ and
-  research/matches/). c_hr1 trial running (submission 185, log `logs/trial-c_hr1.log`; screen PASS 13/20; decide with
-  trial-end). VM: hr1-h2h-r (random seeds), hr2-h2h.
+- **State (15:17 PDT 10-17).** **c_hr1 is the validated build (submission 185, accepted 15:17 PDT)**: c_gp1 + C.HUNT
+  + siege rotation (SIEGE_ROTATE_FROM 300, SIEGE_ROTATE 100). Screens and h2h now run vs c_hr1. c_rot1 rejected
+  (subsumed); c_hr2 (rotate only on known HQs) dropped, net -9 games vs c_hr1. VM: hr1-h2h-r (random seeds).
   `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125; never battlecode-dev2).
 - **Owner's parameter-search project (PROMPTS 114; practice session, bold attempts welcome).** `tools/param.py`
   builds a package with C.java constants overridden at build time (`make BASE NEW NAME=VALUE ...`; `space` = 73
@@ -171,7 +168,7 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   (Standing above).
 - **c_gp1** (c_guard1 + c_pack1's packing): screen PASS 10:01 PDT (h2h 12/20, roster info Net +9); **accepted
   15:04 PDT** (Standing above).
-- **Replica queue (15:42 PDT):** no trial open; c_gp1 (176) active and validated. c_tune1 rejected 15:41 PDT
+- **Replica queue (10-16 15:42 PDT, superseded by the State entry above):** c_tune1 rejected 15:41 PDT
   (panel 63/100, net -8 vs c_gp1, island-rounds -579 t -2.71).
 - **Swiss DONE 11:16 PDT** (research/swiss/20261016-153444-swiss-n4/): winner c_sw07 = src/c_tune1, rejected on the
   panel (LEARNINGS: self-play tournaments select against our own style).
@@ -211,7 +208,7 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   `gauntlet/20261009-082005-panel-c_nav4`. Earlier: g_iter2 = c_swarm1 (`...-210429-panel1-c_swarm1`, 40/100), g_iter1 =
   c_line8a (`...-180016-panel1-c_line8a`, 33/100), g_iter0 (`...-011350-panel1-g_iter0`, 31/100). Local cells vs the
   previous incumbent: `test/cells/self-swarm1-panel.txt`; the pre-trial screen (`tools/screen.py`) reads the current
-  validated package from `progress/ladder-state.json` (last recorded: c_well9).
+  validated package from `progress/ladder-state.json` (last recorded: c_hr1).
 - Ranked vs unranked follows `docs/LADDER_STRATEGY.md` (owner, PROMPTS 17-18), state in `progress/ladder-state.json`:
   `tools/ladder_policy.py ranked` runs detached on the driver (PID 3179283 since 2026-10-14 11:46 PDT; log
   `logs/ranked-policy.log`): ranked challenges upward

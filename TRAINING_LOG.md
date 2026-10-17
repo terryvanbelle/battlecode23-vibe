@@ -2202,3 +2202,10 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   net +1 (1.0 SE), island-rounds +34 (t 0.33). Positive but within noise; local h2h 115/206 (+12 maps). Decision held
   until c_hr1's panel (its superset: rotation + hunt) is done: accept the better one if positive (trial-decide
   --accept is refused while c_hr1's trial is open anyway).
+- 15:17 PDT c_hr1 panel (submission 185) vs c_gp1's: 97 identical, gained 2 (awesomelemonade, pranayagra), lost 1
+  (georgezhang02), net +1 (0.58 SE), island-rounds +50 (t 0.41); vs c_rot1's panel net 0. Local: hr1-h2h 117/206
+  (map seeds) and hr1-h2h-r 100/185 so far (random seeds): two samples ~55% (z ~2). **c_hr1 ACCEPTED** (trial-end;
+  validated 185); parked c_rot1 rejected (subsumed by c_hr1). progress-refresh running.
+- 15:17 PDT hr2-h2h (c_hr2 = c_hr1 + ROT_KNOWN) 108/206: vs hr1-h2h game by game 127 identical, gained 11 (USA B among
+  them), lost 20: net -9. Rotating between symmetry guesses pays on most maps (the cycle visits the candidates,
+  eliminating wrong ones and finding the real HQs), though it costs USA. c_hr2 dropped.
