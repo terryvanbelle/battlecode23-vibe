@@ -2181,3 +2181,6 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   lost both 6 (+14 maps), panel maps 13/20: best local result yet (c_rot1 115, 16/4; c_hunt1 107, 12/8: the two
   stack). rot3-h2h (ROTATE 50) 110/206, 16/9, panel 12/20: worse than c_rot1's ROTATE 100. Lines and USA lost both
   sides in all three. c_hr1 screen queued (20261017-192824-scr-c_hr1-83b5e566de21). VM replays of the three pruned.
+- 12:54 PDT Lines (lost both sides by c_rot1/c_hr1/c_rot3 on the map seed): c_hr1 vs c_gp1 on seed 1 wins both sides
+  (A r1295, B r850, conquest). The h2h's single map seed per side makes one map's both-sides result seed luck, not a
+  structural loss. Second sample queued: hr1-h2h-r (c_hr1 vs c_gp1, all maps both sides, random seeds).
