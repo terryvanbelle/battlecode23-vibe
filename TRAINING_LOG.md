@@ -2184,3 +2184,9 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - 12:54 PDT Lines (lost both sides by c_rot1/c_hr1/c_rot3 on the map seed): c_hr1 vs c_gp1 on seed 1 wins both sides
   (A r1295, B r850, conquest). The h2h's single map seed per side makes one map's both-sides result seed luck, not a
   structural loss. Second sample queued: hr1-h2h-r (c_hr1 vs c_gp1, all maps both sides, random seeds).
+- 13:25 PDT rot2-h2h (ROTATE_FROM 200) 115/206, won both 20 / lost both 8, panel 12/20: no better than c_rot1. USA lost
+  both sides by every rotation build, and on seed 1 too (c_hr1 A lost r863, B lost r740). USA has one HQ per team, so
+  rotation should be a no-op there: but MapMem.enemyHQs() returns one image per live symmetry until the enemy HQ is
+  seen, and from r300 siegeTarget cycled the army between those guesses (c_hr1's launchers turned back north at
+  r320-380; 11 vs 25 launchers at r500). **c_hr2** = c_hr1 + ROT_KNOWN (rotate only when MapMem.decided() or every
+  enemy HQ is seen; pure rotRank, Hr2Test). hr2-h2h queued; unit tests running.
