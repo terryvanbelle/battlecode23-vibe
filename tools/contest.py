@@ -41,7 +41,7 @@ flipped), so (opponent, map, bot_side, seed) names the same physical game in any
 requests.jsonl holds one line per request, with the submission that was active when it was made. A match pairs with a
 request only if our participant row carries that submission, so two overlapping panels of identical cells (a parked
 trial's and the next one's, docs/LADDER_STRATEGY.md) never take each other's matches."""
-import argparse, base64, csv, hashlib, io, json, os, subprocess, sys, tempfile, time, urllib.error, urllib.parse, urllib.request, uuid, zipfile
+import argparse, base64, csv, hashlib, io, json, os, socket, subprocess, sys, tempfile, time, urllib.error, urllib.parse, urllib.request, uuid, zipfile
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.environ.get('CONTEST_SITE', 'https://galaxy.136-86-167-127.sslip.io').rstrip('/')
@@ -74,15 +74,32 @@ def http(method, path, body=None, token=None, raw=False, ctype=None, timeout=120
         else:
             data, headers['Content-Type'] = json.dumps(body).encode(), 'application/json'
     req = urllib.request.Request(url, data=data, method=method, headers=headers)
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            out = r.read()
-    except urllib.error.HTTPError as e:
-        detail = e.read().decode(errors='replace')[:500]
-        raise ApiError(e.code, detail) from None
+    for attempt in range(NET_RETRIES + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                out = r.read()
+            break
+        except urllib.error.HTTPError as e:
+            detail = e.read().decode(errors='replace')[:500]
+            raise ApiError(e.code, detail) from None
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
+            # a GET is resent on any network failure; another method only when the request never left (a failed
+            # name lookup or a refused connection: 2026-10-17 03:40 PDT a DNS failure ended trial-start's panel block)
+            if attempt == NET_RETRIES or not (method == 'GET' or unsent(e)):
+                raise
+            time.sleep(min(NET_BACKOFF * 2 ** attempt, 160))
     if raw:
         return out
     return json.loads(out) if out else None
+
+
+NET_RETRIES, NET_BACKOFF = 6, 5          # resends after a network failure, 5-160 s apart (about 5 minutes in all)
+
+
+def unsent(e):
+    """Whether a network failure means the request never reached the server, so resending it cannot repeat it."""
+    r = getattr(e, 'reason', e)
+    return isinstance(r, (socket.gaierror, ConnectionRefusedError))
 
 
 class ApiError(Exception):

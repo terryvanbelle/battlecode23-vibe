@@ -167,3 +167,7 @@ that beat us but does not explain their wins; the principle stands (it was free)
   (rating-history.md missed two accepts; the cost had grown quadratically with the number of chart labels). A monitor
   that scans the newest N items misses the one old item that matters: siarnaq's rating chain waits on the OLDEST
   unfinished match, so look for it by state (every RUN match), not by recency.
+- 2026-10-17: the replica's host name resolves through an external wildcard DNS (sslip.io), and lookups fail now and
+  then (Errno -5 twice in 10 minutes, fine a minute later). A long-lived client must resend on a failed lookup or a
+  refused connection (the request never left), and resend a GET on any network error; a POST that may have reached
+  the server is not resent (a duplicate scrimmage request). trial-start's in-process panel block died on one lookup.

@@ -2126,3 +2126,8 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   launchers march to the centroid of the predicted enemy HQs until r2 20 of it; Quiet diagnosis: both corners marched
   to (3,16) first, the split group met the opponent's four 1-0 v 4). Sym1Test 7 checks; unit-tests PASS. VM queued:
   mn1-h2h, sym1-h2h (all maps both sides vs c_gp1), self-all (c_gp1 mirror, every map, side A: side-bias audit).
+- 04:14 PDT trial-start c_expl1 (submission 179) died at 03:40 on a DNS failure (sslip.io lookup, Errno -5) after 10
+  of the panel's 14 requests; a first resume died the same way. tools/contest.py http() now resends on a failed lookup
+  or refused connection (any method) and on any network error for a GET, 6 times 5-160 s apart
+  (test_network_failures_resend_only_when_safe); unit-tests PASS. Panel resumed (RESUME=gauntlet/20261017-091445-
+  panel-c_expl1). Interim VM: flee9-h2h 85/147 (57.8%), mn1-h2h 13/24, sym1-h2h 10/25, self-all 30/103.

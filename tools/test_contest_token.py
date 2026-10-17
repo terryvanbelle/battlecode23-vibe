@@ -67,5 +67,35 @@ class ContestTokenTest(unittest.TestCase):
         self.assertEqual(list(path.parent.iterdir()), [path])
 
 
+    def test_network_failures_resend_only_when_safe(self):
+        import socket, urllib.error
+
+        class Resp:
+            def __enter__(self): return self
+            def __exit__(self, *a): return False
+            def read(self): return b'{"ok": 1}'
+
+        dns = urllib.error.URLError(socket.gaierror(-5, 'No address associated with hostname'))
+        reset = urllib.error.URLError(ConnectionResetError(104, 'reset'))
+        self.client._gate = lambda: 'Basic synthetic'
+        site = self.client.SITE
+        with mock.patch.object(self.client.time, 'sleep') as sl:
+            # a failed lookup is resent for any method
+            with mock.patch.object(self.client.urllib.request, 'urlopen', side_effect=[dns, dns, Resp()]) as uo:
+                self.assertEqual(self.client.http('POST', site + '/api/x/', {'a': 1}), {'ok': 1})
+                self.assertEqual(uo.call_count, 3)
+            # a reset after sending: a GET is resent, a POST is not (it may have reached the server)
+            with mock.patch.object(self.client.urllib.request, 'urlopen', side_effect=[reset, Resp()]) as uo:
+                self.assertEqual(self.client.http('GET', site + '/api/x/'), {'ok': 1})
+            with mock.patch.object(self.client.urllib.request, 'urlopen', side_effect=[reset, Resp()]) as uo:
+                with self.assertRaises(urllib.error.URLError):
+                    self.client.http('POST', site + '/api/x/', {'a': 1})
+                self.assertEqual(uo.call_count, 1)
+            # the retries end: the last failure is raised
+            with mock.patch.object(self.client.urllib.request, 'urlopen', side_effect=[dns] * (self.client.NET_RETRIES + 1)):
+                with self.assertRaises(urllib.error.URLError):
+                    self.client.http('GET', site + '/api/x/')
+            self.assertTrue(all(c.args[0] <= 160 for c in sl.call_args_list))
+
 if __name__ == '__main__':
     unittest.main()
