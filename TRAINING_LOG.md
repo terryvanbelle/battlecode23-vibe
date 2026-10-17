@@ -2165,3 +2165,7 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   flee9's +13; panel maps 12/20 with Cornucopia and ReverseFunnel won both). Screen c_rot1 queued
   (20261017-153742). c_hr1 = param c_hunt1 with c_rot1's rotation (stack of the two siege fixes): VM hr1-h2h queued.
 - 09:05 PDT trial-start c_hunt1 (submission 181) after the 09:00 autoscrim; panel requests 4406 on.
+- 09:58 PDT c_rot2 (param c_gp1: SIEGE_ROTATE_FROM 200, SIEGE_ROTATE 100) and c_rot3 (FROM 300, ROTATE 50): the
+  rotation timing neighbours of c_rot1; VM rot2-h2h, rot3-h2h queued 09:15. VM load average 28 on 8 cores with the
+  c_hunt1 panel, the c_rot1 screen and hr1-h2h: stopping rot2/rot3 was refused by the permission classifier, so they
+  run on; no new VM work until the load drops.
