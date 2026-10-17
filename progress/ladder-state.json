@@ -1,18 +1,18 @@
 {
  "validated": {
-  "submission": 180,
+  "submission": 182,
   "package": "c_gp1",
   "since": "2026-10-16T22:04:36.489607+00:00",
   "panel_run": "gauntlet/20261016-170213-panel-c_gp1"
  },
  "trial": {
-  "submission": 181,
-  "package": "c_hunt1",
-  "started": "2026-10-17T16:05:07.270193+00:00",
+  "submission": 183,
+  "package": "c_rot1",
+  "started": "2026-10-17T18:36:06.540586+00:00",
   "panel": "test/cells/panel-v1.txt",
-  "run_dir": "gauntlet/20261017-160519-panel-c_hunt1",
-  "pid": 3734138,
-  "hash": "03d3e2b496cb"
+  "run_dir": "gauntlet/20261017-183626-panel-c_rot1",
+  "pid": 3758428,
+  "hash": "da9d3c56b20b"
  },
  "history": [
   {
@@ -751,7 +751,44 @@
    "submission": 181,
    "package": "c_hunt1",
    "screen": "progress/screens/c_hunt1-03d3e2b496cb.json"
+  },
+  {
+   "at": "2026-10-17T18:36:03.013191+00:00",
+   "event": "park",
+   "submission": 181,
+   "package": "c_hunt1",
+   "validated_resubmitted": 182
+  },
+  {
+   "at": "2026-10-17T18:36:26.902589+00:00",
+   "event": "trial-start",
+   "submission": 183,
+   "package": "c_rot1",
+   "screen": "progress/screens/c_rot1-da9d3c56b20b.json"
   }
  ],
- "parked": []
+ "parked": [
+  {
+   "run_dir": "gauntlet/20261017-160519-panel-c_hunt1",
+   "pid": 3734138,
+   "submission": 181,
+   "package": "c_hunt1",
+   "started": "2026-10-17T16:05:07.270193+00:00",
+   "panel": "test/cells/panel-v1.txt",
+   "hash": "03d3e2b496cb",
+   "parked": "2026-10-17T18:36:03.013112+00:00",
+   "panel_matches": [
+    8802,
+    8803,
+    8804,
+    8805,
+    8806,
+    8807,
+    8808,
+    8809,
+    8810,
+    8811
+   ]
+  }
+ ]
 }
