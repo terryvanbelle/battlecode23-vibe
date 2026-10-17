@@ -548,3 +548,7 @@ Please feel free to purge anything from either VM disk that you don't think you'
 ## 121. 2026-10-16 21:56 PDT
 
 rating-history.md doesn't have c_pack1 or c_gp1
+
+## 122. 2026-10-17 08:20 PDT
+
+If you have several candidates waiting for a panel run, does it make sense to have them play head to head to determine the order in which they're evaluated in a panel, rather than first-come-first-served?

@@ -2152,3 +2152,10 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   systematic side bias (ranked side A 0.47 vs B 0.55 since 10-14 is not a bot asymmetry). Near-identical builds split
   most maps by side (hunt1: 83 of 103 split), so won-both minus lost-both is the map signal: flee9 +13, hunt1 +4,
   mn1 +4, sym1 +3.
+- 08:00 PDT c_hunt1 screen PASS (progress/screens/c_hunt1-03d3e2b496cb.json): basics clean (148 games, 0 overruns),
+  h2h 12/20 vs c_gp1, roster info-only net -2 (3 of 120 roster games changed: the wider raid rarely fires against the
+  archetypes). trial-start refused at 07:58 (the next autoscrim, 09:00 PDT, falls inside the 2.5 h panel): start after it.
+  The driver cannot finish a Cornucopia game (two runs hit run-dev's 30 min timeout). c_rot1 = tools/param.py c_gp1
+  with SIEGE_ROTATE_FROM 300, SIEGE_ROTATE 100 (Cornucopia 8613 g2 r765: ~30 launchers held the ring at one enemy HQ
+  while 12 enemy carriers mined between our HQs; c_hunt1 extends only once the target's raid wells are cleared, which
+  a ring in constant contact never does). VM rot1-h2h (all maps both sides vs c_gp1) queued.
