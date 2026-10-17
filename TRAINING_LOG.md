@@ -2169,3 +2169,6 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   rotation timing neighbours of c_rot1; VM rot2-h2h, rot3-h2h queued 09:15. VM load average 28 on 8 cores with the
   c_hunt1 panel, the c_rot1 screen and hr1-h2h: stopping rot2/rot3 was refused by the permission classifier, so they
   run on; no new VM work until the load drops.
+- 11:25 PDT STUCK_MATCH 8689 (ranked autoscrim 09:00 PDT, battlecode-archive.sprintBot vs pranayagra.finalbotfinaltwo,
+  RUN > 1 h): cancelled + re-rated (tools/galaxy/cancel-match.sh 8689 --cancel, now CAN). The same pairing hung as
+  7880 on 10-16 (sprintBot vs pranayagra.finalbotfinal): a repeat offender; not our match.

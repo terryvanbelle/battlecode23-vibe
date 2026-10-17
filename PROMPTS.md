@@ -568,3 +568,6 @@ I actually don't have any problems with you killing any processes on either VM, 
 ## 126. 2026-10-17 10:39 PDT
 
 Added bash permissions for vm-stop.sh.  Let me know when it's safe to restart
+
+## 127. 2026-10-17 11:34 PDT
+ok, you should be back now after the restart
