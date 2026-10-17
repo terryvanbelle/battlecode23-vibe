@@ -2107,3 +2107,14 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   our Mn carriers spent 586 turns in X (explore) and none mining; one HQ of each team sits in a walled pocket ~33
   walking tiles from its wells. Workflow econ-weak-maps (one agent per map + synthesis) and VM econ8-self (c_gp1
   self-play on the 8 maps, both sides, map seed, 16 games) running.
+- 02:28 PDT econ-weak-maps workflow DONE (8 map agents + synthesis): SoundWave/Turtle/Scatter = blind opening search
+  (no Mn well in HQ vision; centre-first leg into walls or the enemy half), Orbit/Spin = dead-end well choice (every
+  Mn well hot or the avoided mid site; the any-type fallback kept an Ad well for life; carriers explored holding
+  cargo), Quiet/maptestsmall/Rewind = combat symptoms. econ8-self (c_gp1 self-play, deterministic, A = B rows):
+  side A collapses on SoundWave (Mn@100 0 vs 140, @250 18 vs 920), Orbit (@250 65 vs 317, Ad 1336), Quiet, Spin.
+  expl1-h2h DONE: c_expl1 110/206 vs c_gp1 (+7, ~1 SE), maps won both 15 / lost both 8; SoundWave and Turtle won
+  both sides, Scatter lost both. c_mn1 = c_expl1 + MN_TRIP (a fallback well lasts one trip once a role well is
+  known) + MN_AVOID_JUMP (site-only role well: fallback at once) + MN_BANK (no well, cargo >= 10: bank, not explore);
+  Mn1Test 13 checks; unit-tests PASS. c_flee9 flee9-panel DONE: 30/56, 0 overruns (Cornucopia/MassiveL seeds 2-5
+  included), panel 20/40 = noise; flee9-h2h (all maps both sides) queued. VM econ8-mn1 / econ8-expl1 (8 maps both
+  sides vs c_gp1, KEEP_ALL) running; c_expl1 trial-start submitted.

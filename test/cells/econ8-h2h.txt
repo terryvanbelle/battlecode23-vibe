@@ -1,0 +1,17 @@
+# econ8 maps (ranked Mn@100 <= 0.35x the opponent's), both sides, map seed: c_gp1 as the opponent of c_mn1 / c_expl1
+c_gp1 SoundWave A map
+c_gp1 SoundWave B map
+c_gp1 Spin A map
+c_gp1 Spin B map
+c_gp1 Turtle A map
+c_gp1 Turtle B map
+c_gp1 Orbit A map
+c_gp1 Orbit B map
+c_gp1 Quiet A map
+c_gp1 Quiet B map
+c_gp1 Rewind A map
+c_gp1 Rewind B map
+c_gp1 Scatter A map
+c_gp1 Scatter B map
+c_gp1 maptestsmall A map
+c_gp1 maptestsmall B map
