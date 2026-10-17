@@ -95,8 +95,8 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   Screen PASS 08:00 PDT 10-17. **Trial (submission 181) started 09:05 PDT 10-17** (restart state above).
 - **c_rot1** = param c_gp1 SIEGE_ROTATE_FROM 300 / SIEGE_ROTATE 100 (the army steps through the enemy HQs). rot1-h2h
   DONE 115/206 (won both 16, lost both 4; panel maps 12/20). Screen queued 08:37 PDT (`tools/screen.py collect c_rot1`).
-- **c_hr1** = param c_hunt1 + c_rot1's rotation. hr1-h2h running. **c_rot2** (ROTATE_FROM 200) and **c_rot3**
-  (ROTATE 50) = timing variants of c_rot1; rot2-h2h and rot3-h2h running.
+- **c_hr1** = param c_hunt1 + c_rot1's rotation. hr1-h2h DONE 117/206 (won both 20, lost both 6; panel 13/20); screen queued 12:28 PDT. **c_rot2** (ROTATE_FROM 200) and **c_rot3**
+  (ROTATE 50) = timing variants of c_rot1; rot3-h2h DONE 110/206 (16/9, worse than c_rot1); rot2-h2h running.
 - **c_flee9** = c_flee4 + FLEE9_HOLD: 0 overruns in 56 games; panel 20/40 vs c_gp1 (noise). flee9-h2h DONE: 116/206
   vs c_gp1 (+13 maps: won both 29, lost both 16, the same 16 as c_flee1). **Screen FAIL 06:19 PDT** (h2h 8/20 on
   the panel maps; flee9-h2h there 9/20): not trialled.

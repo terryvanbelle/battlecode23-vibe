@@ -2177,3 +2177,7 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - 11:36 PDT c_hunt1 trial parked (panel matches 8802-8811; c_gp1 active again as 182); c_rot1 trial-start (submission
   183, requests 4416 on, log logs/trial-c_rot1.log). Decide each with paired.py vs gauntlet/20261016-170213-panel-c_gp1,
   then trial-decide c_hunt1 / trial-end c_rot1.
+- 12:28 PDT h2h vs c_gp1, all maps both sides (203/206 = map signal): hr1-h2h (c_hunt1 + rotation) 117/206, won both 20,
+  lost both 6 (+14 maps), panel maps 13/20: best local result yet (c_rot1 115, 16/4; c_hunt1 107, 12/8: the two
+  stack). rot3-h2h (ROTATE 50) 110/206, 16/9, panel 12/20: worse than c_rot1's ROTATE 100. Lines and USA lost both
+  sides in all three. c_hr1 screen queued (20261017-192824-scr-c_hr1-83b5e566de21). VM replays of the three pruned.
