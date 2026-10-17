@@ -544,3 +544,7 @@ Please update the progress directory whenever accepting a new candidate
 ## 120. 2026-10-16 18:22 PDT
 
 Please feel free to purge anything from either VM disk that you don't think you'll need anymore
+
+## 121. 2026-10-16 21:56 PDT
+
+rating-history.md doesn't have c_pack1 or c_gp1

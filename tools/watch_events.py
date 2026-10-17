@@ -12,7 +12,9 @@ of every turn the agent re-arms it. Events, each reported once (keys kept in bui
   STUCK_MATCH <id>          a replica match the watcher has seen in RUN for more than 1 hour (siarnaq rates in creation
                             order, so one stuck match freezes every later rating: 2565, 2593, 6282). Age since creation
                             is no test: after an autoscrim, matches wait in QUE for hours and start late (2026-10-14:
-                            90 false alarms).
+                            90 false alarms) The RUN set is the API's newest
+                            matches plus every RUN match in galaxy's database (run_ids_cmd): 7880 left the API window
+                            and froze the ratings 21 h unseen (2026-10-16).
   QUEUE_STALLED             matches wait in QUE more than 2 hours after creation and none is RUN (the runner is down)
   RANKED_DEAD               the ranked loop process is gone
   REPLICA_DOWN              the replica API does not answer
@@ -93,6 +95,27 @@ def vm_check_cmd():
     return 'bash -c ' + shlex.quote('source tools/vm.sh && ensure_vm >/dev/null 2>&1 && gssh ' + shlex.quote(remote))
 
 
+def run_ids_cmd():
+    """Every replica match in RUN, from galaxy's database on the VM (the Django shell as bcreplica, as
+    tools/galaxy/cancel-match.sh runs it): the API has no status filter, and the stuck scan's newest-first window missed
+    match 7880 (sprintBot vs pranayagra.finalbotfinal, created 2026-10-16 01:00 PDT), which sat in RUN for 21 h while
+    later autoscrims and panels pushed it out; every rating after it waited (owner, PROMPTS 121)."""
+    py = ("from siarnaq.api.compete.models import Match; "
+          "print('RUNIDS', *Match.objects.filter(status='RUN').values_list('pk', flat=True))")
+    shell = ('set -a; . /etc/bc23-galaxy/galaxy.env; set +a; cd /opt/bc23-galaxy/src/backend; '
+             '/opt/bc23-galaxy/venv/bin/python manage.py shell')
+    remote = "printf '%s\\n' " + shlex.quote(py) + ' | sudo -u bcreplica bash -c ' + shlex.quote(shell)
+    return 'bash -c ' + shlex.quote('source tools/vm.sh && ensure_vm >/dev/null 2>&1 && gssh ' + shlex.quote(remote))
+
+
+def parse_run_ids(text):
+    """Match ids on run_ids_cmd's RUNIDS line (pure); None when the line is missing (the probe failed)."""
+    for line in (text or '').splitlines():
+        if line.startswith('RUNIDS'):
+            return [int(x) for x in line.split()[1:]]
+    return None
+
+
 def sh(cmd, timeout=120):
     try:
         return subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=timeout, cwd=REPO)
@@ -120,6 +143,8 @@ def check(stuck_every=900, stuck_pages=40):
         try:
             import contest
             ms = contest.pages('/api/compete/bc23/match/?ordering=-id', limit=stuck_pages)
+            r = sh(run_ids_cmd(), 120)   # RUN matches older than the API window too
+            ms = ms + [{'id': i, 'status': 'RUN'} for i in (parse_run_ids(r.stdout) if r is not None else None) or []]
             try:
                 run_since = json.load(open(RUN_SINCE))
             except (FileNotFoundError, ValueError):

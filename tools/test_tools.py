@@ -452,6 +452,19 @@ class WatchEventsTest(unittest.TestCase):
         self.assertFalse(self.w.queue_stalled([old, run], now))     # the backlog is moving
         self.assertFalse(self.w.queue_stalled([new], now))
 
+    def test_run_ids_probe(self):   # the DB probe for RUN matches outside the API window (7880, PROMPTS 121)
+        cmd = self.w.run_ids_cmd().replace('source tools/vm.sh && ensure_vm >/dev/null 2>&1 && gssh ', 'echo ')
+        out = subprocess.run(cmd, shell=True, capture_output=True, text=True).stdout
+        self.assertIn("sudo -u bcreplica bash -c", out)
+        self.assertIn("manage.py shell", out)
+        py = subprocess.run(out.replace(' | sudo -u bcreplica bash -c ', ' | cat; : '), shell=True, capture_output=True,
+                            text=True).stdout   # what the VM's shell pipes into the Django shell
+        self.assertIn("print('RUNIDS', *Match.objects.filter(status='RUN').values_list('pk', flat=True))", py)
+        self.assertEqual(self.w.parse_run_ids("warning\nRUNIDS 7880 8436\n"), [7880, 8436])
+        self.assertEqual(self.w.parse_run_ids("RUNIDS\n"), [])
+        self.assertIsNone(self.w.parse_run_ids("Traceback ..."))
+        self.assertIsNone(self.w.parse_run_ids(None))
+
     def test_panels_done_and_dedupe(self):
         txt = ("trial: None\n"
                "parked: c_blind1 (submission 146) since 2026-10-14 09:01 PDT: panel done (run gauntlet/x)\n"
@@ -2134,6 +2147,19 @@ class RatingHistoryTest(unittest.TestCase):
         return {'id': mid, 'status': status, 'created': created, 'is_ranked': ranked, 'tournament_round': tour,
                 'participants': [{'team': 9, 'submission': other_sub, 'rating': 1400.0, 'old_rating': 1400.0},
                                  {'team': self.US, 'submission': sub, 'rating': rating, 'old_rating': old}]}
+
+    def test_validated_unrated(self):   # c_pack1 (#175): validated 26 minutes, replaced before a ranked match
+        h = [{'event': 'init', 'submission': 24, 'package': 'g_iter0', 'at': '2026-10-07T20:00:00+00:00'},
+             {'event': 'accept', 'submission': 175, 'package': 'c_pack1', 'at': '2026-10-16T21:38:00+00:00'},
+             {'event': 'trial-start', 'submission': 171, 'package': 'c_gp1', 'at': '2026-10-16T17:02:00+00:00'},
+             {'event': 'accept', 'submission': 176, 'package': 'c_gp1', 'at': '2026-10-16T22:04:36+00:00'},
+             {'event': 'accept', 'submission': 180, 'package': 'c_new1', 'at': '2026-10-17T09:00:00+00:00'}]
+        never = [(171, 'c_gp1', 'reupload'), (175, 'c_pack1', 'validated'), (180, 'c_new1', 'validated')]
+        out = self.rh.validated_unrated(never, h)
+        self.assertEqual([(r[0], r[1], r[3], r[4]) for r in out], [(175, 'c_pack1', 176, 'c_gp1'), (180, 'c_new1', None, None)])
+        self.assertEqual(out[0][2].isoformat(), '2026-10-16T21:38:00+00:00')
+        self.assertEqual(out[0][5].isoformat(), '2026-10-16T22:04:36+00:00')
+        self.assertIsNone(out[1][5])
 
     def test_points_from_history_in_time_order(self):
         js = {'team_id': self.US, 'team_rating': {'rating_history': [

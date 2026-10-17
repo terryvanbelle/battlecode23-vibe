@@ -167,6 +167,25 @@ def kind_of(sid, package, history):
     return 'reupload' if package and any(e.get('package') == package for e in ok) else 'trial'
 
 
+def validated_unrated(never, history):
+    """[(submission, package, UTC accept time, next validated submission, its package, UTC time)] for each validated
+    submission in `never` (no rated match): the init/accept event that made it the validated build and the next one,
+    which replaced it before the ranked loop played it (c_pack1, #175: validated 26 minutes, PROMPTS 121). The next
+    entries are None for the current validated build (pure)."""
+    ok = sorted((e for e in history if e.get('event') in ('init', 'accept') and e.get('at')), key=lambda e: e['at'])
+    out = []
+    for sid, pkg, kind in never:
+        if kind != 'validated':
+            continue
+        for i, e in enumerate(ok):
+            if e.get('submission') == sid:
+                nx = ok[i + 1] if i + 1 < len(ok) else None
+                out.append((sid, pkg, parse_ts(e['at']), nx and nx.get('submission'), nx and nx.get('package'),
+                            nx and parse_ts(nx['at'])))
+                break
+    return out
+
+
 def spread(xs, gap, lo=0.0, hi=1.0):
     """Label positions (axes fractions) moved apart to at least `gap`, as little as possible, inside [lo, hi];
     returned in the input order."""
@@ -580,40 +599,75 @@ def draw(points, table, bundle, path, bt=None, bt_note=''):
                 seg = _dense(np.array([start, tip]), 2.0) if length > 1 else np.empty((0, 2))
                 opts.append((bb, seg, tuple(start), tuple(tip), length, centre))
             geo.append(opts)
-        static = {}   # (label, candidate) -> its cost against everything but the other labels
-        def cost(i, k, placed):
+        def static_cost(i, k):   # a candidate's cost against everything but the other labels
             bb, seg, s0, s1, _, centre = geo[i][k]
-            if (i, k) not in static:
-                c = 0.0 if (axbb.x0 <= bb.x0 - 2 and bb.x1 + 2 <= axbb.x1 and axbb.y0 <= bb.y0 - 2 and bb.y1 + 2 <= axbb.y1) else 1e7
-                for j, (o, kind) in enumerate(fixed):
-                    if j == 1 + i:   # its own band or bars: the label sits beside them, its leader stays off the bar
-                        c += LINE['bar'] * hits(seg[np.hypot(*(seg - centre).T) > 10], o)
-                    else:
-                        c += overlap(bb, o, kind) + LINE[kind] * hits(seg, o)
-                c += 300.0 * hits(cur, bb.padded(2))
-                if len(seg) > 1:   # the leader across or along the curve, or through a submission marker
-                    c += 600.0 * crossings(s0, s1, poly) + 100.0 * near(seg, cur, 3) + 300.0 * near(seg, rings, 14)
-                static[i, k] = c
-            c, pb = static[i, k], bb.padded(2)
+            c = 0.0 if (axbb.x0 <= bb.x0 - 2 and bb.x1 + 2 <= axbb.x1 and axbb.y0 <= bb.y0 - 2 and bb.y1 + 2 <= axbb.y1) else 1e7
+            for j, (o, kind) in enumerate(fixed):
+                if j == 1 + i:   # its own band or bars: the label sits beside them, its leader stays off the bar
+                    c += LINE['bar'] * hits(seg[np.hypot(*(seg - centre).T) > 10], o)
+                else:
+                    c += overlap(bb, o, kind) + LINE[kind] * hits(seg, o)
+            c += 300.0 * hits(cur, bb.padded(2))
+            if len(seg) > 1:   # the leader across or along the curve, or through a submission marker
+                c += 600.0 * crossings(s0, s1, poly) + 100.0 * near(seg, cur, 3) + 300.0 * near(seg, rings, 14)
+            return c
+        # A label's candidates as arrays, so a placement prices all of them at once against each placed label: box
+        # extents, padded boxes, leader ends, leader point counts, and every leader point with its candidate's index.
+        # Each pair term is the scalar formula's arithmetic, element by element and in the same order, so the layout
+        # is the one the candidate-by-candidate search chose (it took 30+ minutes at 40+ labels: PROMPTS 121).
+        A = []
+        for i, opts in enumerate(geo):
+            ext = np.array([[o[0].x0, o[0].y0, o[0].x1, o[0].y1] for o in opts])
+            segs = [o[1] for o in opts]
+            A.append({'ext': ext, 'pad': ext + [-2.0, -2.0, 2.0, 2.0],
+                      's0': np.array([o[2] for o in opts]), 's1': np.array([o[3] for o in opts]),
+                      'nseg': np.array([len(s) for s in segs]), 'pts': np.vstack(segs),
+                      'own': np.repeat(np.arange(len(opts)), [len(s) for s in segs]),
+                      'static': np.array([static_cost(i, k) for k in range(len(opts))]),
+                      'half': np.array([0.5 * o[4] for o in opts])})
+        pair = {}   # (label i, label j, j's candidate) -> (base, crossing) cost arrays over i's candidates
+        def pair_cost(i, j, kk):
+            if (i, j, kk) not in pair:
+                a, K = A[i], len(geo[i])
+                ob, oseg, o0, o1 = geo[j][kk][:4]
+                gx, gy = GAP['label']; x0, y0, x1, y1 = a['ext'].T
+                w = np.minimum(x1 + gx, ob.x1) - np.maximum(x0 - gx, ob.x0)
+                hh = np.minimum(y1 + gy, ob.y1) - np.maximum(y0 - gy, ob.y0)
+                ov = np.where((w > 0) & (hh > 0), AREA['label'] * w * hh, 0.0)
+                P = a['pts']   # this label's leader points inside the other label's box, per candidate
+                inb = (P[:, 0] >= ob.x0) & (P[:, 0] <= ob.x1) & (P[:, 1] >= ob.y0) & (P[:, 1] <= ob.y1)
+                lead = np.bincount(a['own'][inb], minlength=K)
+                px0, py0, px1, py1 = a['pad'].T   # the other leader's points inside this label's padded box
+                under = ((oseg[:, None, 0] >= px0) & (oseg[:, None, 0] <= px1) & (oseg[:, None, 1] >= py0)
+                         & (oseg[:, None, 1] <= py1)).sum(0) if len(oseg) else np.zeros(K, int)
+                base = ov + LINE['label'] * lead + 300.0 * under
+                cr = np.zeros(K)
+                if len(oseg) > 1:   # crossings(s0, s1, [o0, o1]) for every candidate with a leader
+                    (ax_, ay), (bx, by) = o0, o1
+                    p, q = a['s0'], a['s1']
+                    side = lambda ax_, ay, bx, by, cx, cy: (bx - ax_) * (cy - ay) - (by - ay) * (cx - ax_)
+                    d1, d2 = side(ax_, ay, bx, by, p[:, 0], p[:, 1]), side(ax_, ay, bx, by, q[:, 0], q[:, 1])
+                    d3 = side(p[:, 0], p[:, 1], q[:, 0], q[:, 1], ax_, ay)
+                    d4 = side(p[:, 0], p[:, 1], q[:, 0], q[:, 1], bx, by)
+                    lo, hi = np.minimum(p[:, 0], q[:, 0]), np.maximum(p[:, 0], q[:, 0])
+                    x = ~((max(ax_, bx) < lo) | (min(ax_, bx) > hi)) & (d1 * d2 < 0) & (d3 * d4 < 0)
+                    cr = np.where((a['nseg'] > 1) & x, 600.0, 0.0)
+                pair[i, j, kk] = (base, cr)
+            return pair[i, j, kk]
+        def costs(i, placed):   # every candidate of label i against the labels placed so far
+            c = A[i]['static'].copy()
             for j, kk in placed.items():
                 if j != i:   # another label: under this one or under this leader; its leader under this label or crossed
-                    ob, oseg, o0, o1 = geo[j][kk][:4]
-                    c += overlap(bb, ob, 'label') + LINE['label'] * hits(seg, ob) + 300.0 * hits(oseg, pb)
-                    if len(seg) > 1 and len(oseg) > 1:
-                        c += 600.0 * crossings(s0, s1, [o0, o1])
+                    base, cr = pair_cost(i, j, kk)
+                    c += base; c += cr
             return c
         def layout(order):
             placed = {}
-            for i in order + order:
-                best = None
-                for k in range(len(geo[i])):
-                    c = cost(i, k, placed)
-                    if best is None or c + 0.5 * geo[i][k][4] < best[0]:
-                        best = (c + 0.5 * geo[i][k][4], k)
-                    if c == 0:
-                        break
-                placed[i] = best[1]
-            return sum(cost(i, k, placed) + 0.5 * geo[i][k][4] for i, k in placed.items()), placed
+            for i in order + order:   # the first free candidate, else the cheapest by cost + 0.5 per pixel of leader
+                c = costs(i, placed); tot = c + A[i]['half']
+                free = np.flatnonzero(c == 0)
+                placed[i] = int(np.argmin(tot[:free[0] + 1] if len(free) else tot))
+            return sum(float(costs(i, placed)[k]) + float(A[i]['half'][k]) for i, k in placed.items()), placed
         n = len(labels)
         first = sorted(range(n), key=lambda i: boxes[i][0] != 'bar')   # trial candidates first: a point has fewer places
         rnd = random.Random(0)
@@ -679,7 +733,7 @@ def bt_md(bt, points):
     return out
 
 
-def write_md(points, table, never, bundle, path, png, bt=None, bt_note=''):
+def write_md(points, table, never, bundle, path, png, bt=None, bt_note='', history=()):
     f = lambda v: '-' if v is None else f'{v:,.0f}'
     curve_only = 'matches' not in bundle
     name, ep = team_info(bundle)
@@ -717,6 +771,11 @@ def write_md(points, table, never, bundle, path, png, bt=None, bt_note=''):
                       "penalized rating Elo mean - 1500 x 0.85^n (n = rated games so far), which starts at 1500 - 1500 = 0."]
     if never:
         lines += ['', 'No rated match: ' + ', '.join(f'#{s} {p} ({LABEL[k]})' for s, p, k in never) + '.']
+        for sid, pkg, t0, nsid, npkg, t1 in validated_unrated(never, history):
+            lines += ['', f"#{sid} {pkg} was the validated build from {to_pdt(t0):%m-%d %H:%M} " +
+                      (f"to {to_pdt(t1):%m-%d %H:%M} {zname(t1)}, when #{nsid} {npkg} replaced it before any ranked match "
+                       f"was created: it has no point on the curve." if t1 else
+                       f"{zname(t0)} and has not played a ranked match yet.")]
     nlow, tlow = below_floor(points)
     if nlow:
         lines += ['', f"The chart's left axis starts at {FLOOR:,} (owner, PROMPTS 45): {nlow} rated matches below it, the last at "
@@ -764,7 +823,7 @@ def main():
             if bt is None:
                 bt_note = 'No Bradley-Terry axis: fewer than 3 field teams to calibrate it on.'
     draw(points, table, bundle, png, bt, bt_note)
-    write_md(points, table, never, bundle, md, os.path.basename(png), bt, bt_note)
+    write_md(points, table, never, bundle, md, os.path.basename(png), bt, bt_note, history)
     print(f'{len(points)} rated matches, latest rating {points[-1][1]:.0f} at {to_pdt(points[-1][0]):%Y-%m-%d %H:%M} '
           f'{zname(points[-1][0])}; {len(table)} submissions with a rated match, {len(never)} without')
     for r in table:

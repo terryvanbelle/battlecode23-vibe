@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 176,
+  "submission": 178,
   "package": "c_gp1",
   "since": "2026-10-16T22:04:36.489607+00:00",
   "panel_run": "gauntlet/20261016-170213-panel-c_gp1"
@@ -710,6 +710,19 @@
    "package": "c_tune1",
    "parked": true,
    "run": "gauntlet/20261016-184324-panel-c_tune1"
+  },
+  {
+   "at": "2026-10-17T03:44:28.923622+00:00",
+   "event": "trial-start",
+   "submission": 177,
+   "package": "c_adlo2",
+   "screen": "progress/screens/c_adlo2-dc0032eb1894.json"
+  },
+  {
+   "at": "2026-10-17T06:41:19.603920+00:00",
+   "event": "reject",
+   "submission": 177,
+   "package": "c_adlo2"
   }
  ],
  "parked": []

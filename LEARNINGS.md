@@ -162,3 +162,8 @@ that beat us but does not explain their wins; the principle stands (it was free)
   by cell separates causes from effects (enemy carrier kills fell from -2.4 to -0.67 once fights were held fixed). But
   small code changes diverge chaotically from r60-100: wins and losses of the same cell differ by many small amounts,
   not by one early mistake. Use capped or median statistics: means of trip times were dominated by 1,000-round trips.
+
+- 2026-10-16 (PROMPTS 121): a refresh step killed by its timeout must fail loudly, or its output goes stale unseen
+  (rating-history.md missed two accepts; the cost had grown quadratically with the number of chart labels). A monitor
+  that scans the newest N items misses the one old item that matters: siarnaq's rating chain waits on the OLDEST
+  unfinished match, so look for it by state (every RUN match), not by recency.

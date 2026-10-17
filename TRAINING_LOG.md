@@ -2065,3 +2065,33 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   maps, lost both 9 (AllElements, Cube, Forest, Frog, IslandHopping, IslandHoppingTwo, Minefield, MoonPhases,
   RaceToTheTop): strong in self-play overall, weak on the large panel maps. Next: the overrun source (Cornucopia
   replay), then ablations of the FLEE1 sub-switches on the panel maps.
+- 21:52 PDT flee1-h2h DONE (c_flee1 vs c_gp1, all 103 maps both sides): 114/206, won both sides 26 maps, lost both 15
+  (AllElements, Cube, Forest, Frog, IslandHopping, IslandHoppingTwo, Minefield, MoonPhases, RaceToTheTop, Spiderweb,
+  Spin, Swooshy, TimesUp, VeryReasonable, Zig): net +11 maps, replays pruned. Cornucopia overruns: all 6 carriers
+  were in FH2 (flight) the turn before; the fm<0 fallback ran c_gp1's Nav.moveTo with ~2,000 bytecodes left.
+  c_flee4 = c_flee1 + FLEE1_MIN_LEFT 3500, GUARD 4000, FLEE4_FALLBACK_LEFT 5000 (else one Nav.moveAway step);
+  Flee4Test 69 cases. Ablations from c_flee4, one switch off each: c_flee5 DROP, c_flee6 MEMORY, c_flee7 MOVE,
+  c_flee8 LIGHTEN; VM job abl-flee4 (200 games vs c_gp1, panel maps, both sides, seeds map and 1101).
+
+## 2026-10-16 22:58 PDT — Rating history fixed (owner, PROMPTS 121): stale chart, frozen replica ratings
+- Owner: "rating-history.md doesn't have c_pack1 or c_gp1". Two causes. (1) tools/rating_history.py's label layout
+  grew with the trial candidates (40+ labels, ~5M pair-cost calls): 34 min per run, so progress-refresh.sh's
+  `timeout 900` killed it silently at 15:4x and the .md/.png stayed at 10-15 20:43 PDT. The layout now prices every
+  candidate of a label at once with cached per-pair arrays (same arithmetic): byte-identical PNG and .md on the same
+  bundle, 124 s offline, 41 s live. progress-refresh.sh now names a failed or timed-out step ("!! <step> FAILED")
+  and exits 1. (2) Replica match 7880 (sprintBot vs pranayagra.finalbotfinal, ranked, created 10-16 01:00 PDT) sat
+  in RUN for 21 h; siarnaq rates in creation order, so 340 finished participations, all 24 of c_gp1's ranked
+  matches among them, had no rating. Staff Cancel + Recalculate (tools/galaxy/cancel-match.sh 7880 --cancel): 0
+  unrated, vibe23 1653 -> 1710. The watcher's STUCK_MATCH scan read only the newest 400 matches via the API and
+  7880 had left that window; it now adds every RUN match from galaxy's database (run_ids_cmd). c_pack1 (#175)
+  never played a ranked match (validated 14:38-15:04 PDT, replaced by c_gp1 #176): the .md now says so.
+- c_expl1 screen PASS (marginal): h2h 11/20, roster info-only net -7 (arch_jm -3, horde -2, swarm -2), 148 games
+  clean. All-maps h2h queued before any trial (VM expl1-h2h, 206 games). c_flee4 on Cornucopia (map seed, side B):
+  2 overruns (down from 6), both on the turn after FH2; won r2000 on islands.
+- 23:42 PDT c_adlo2 rejected (panel gauntlet/20261017-034428-panel-c_adlo2 vs c_gp1's: identical 91, gained 3, lost
+  6, net -3, -1.0 SE; island margin -217 rounds, t -2.0): c_adlo1's parameter settings do not carry over to c_gp1.
+  c_gp1 re-validated as submission 178. c_flee9 = c_flee4 + FLEE9_HOLD (a flight check that leaves the carrier in
+  place with < 9,000 bytecodes left collects if at its well and ends the turn): debug trace of c_flee4's overrun on
+  the VM, a ghost flight scored and stayed at 5,413 used and gather took 7,109 more. Flee9Test 69 cases. VM:
+  flee9-panel (56 games vs c_gp1: panel both sides seeds map/1101, Cornucopia/MassiveL seeds 2-5) and expl1-h2h run
+  beside abl-flee4.

@@ -69,11 +69,27 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   is built on it.
 - **c_expl1 (workflow, 16:00 PDT)** = c_keep2 + frontier exploration for a carrier with no known well of its role
   (driver repro c_gp1 vs c_keep2 side A: SoundWave Mn@250 66 vs 446, Turtle 39 vs 176: wandering matters there).
+  Screen PASS (22:40 PDT, marginal: h2h 11/20, roster info-only net -7). All-maps h2h queued before any trial (VM
+  expl1-h2h, 206 games, behind abl-flee4).
 - **c_flee1 (workflow, 16:39 PDT)** = c_gp1 + carrier survival. Ranked 8190-8237: in lost games our carriers die
   14.0 per game by r300 vs theirs 6.6 (wins 3.8 vs 16.8), in F 614 / G 450 / C 178 / V 174, in our own third
   (prog quartiles 0.10/0.20/0.31; the hot-well memory covers front wells only).
+  Screen FAIL (21:14 PDT): h2h 8/20, 6 carrier overruns on Cornucopia (all on flight turns). flee1-h2h (all 103
+  maps both sides vs c_gp1) DONE: 114/206, won both sides 26 maps, lost both 15 (AllElements, Cube, Forest, Frog,
+  IslandHopping, IslandHoppingTwo, Minefield, MoonPhases, RaceToTheTop, Spiderweb, Spin, Swooshy, TimesUp,
+  VeryReasonable, Zig): net +11 maps overall but weak on the large panel maps.
+- **c_flee4 (21:40 PDT)** = c_flee1 with bytecode headroom on flight turns (FLEE1_MIN_LEFT 3500, GUARD 4000; the
+  fallback c_gp1 flight runs only with FLEE4_FALLBACK_LEFT 5000 left, else one Nav.moveAway step). Ablations from it,
+  one sub-switch off each: c_flee5 DROP, c_flee6 MEMORY, c_flee7 MOVE, c_flee8 LIGHTEN. VM job abl-flee4
+  (20261017-045104, BOT=c_gp1, test/cells/abl-flee4-panel.txt: 5 variants x panel maps x both sides x seeds map/1101).
+- **c_flee9 (23:30 PDT)** = c_flee4 + FLEE9_HOLD (a flight check that stays with < 9,000 bytecodes left ends the turn
+  after collecting): c_flee4 still overran twice on Cornucopia (gather after a ghost flight that stayed). VM run
+  flee9-panel (test/cells/flee9-panel.txt, 56 games vs c_gp1).
 - **c_adlo2 (17:25 PDT)** = tools/param.py make c_gp1 with c_adlo1's settings (c_adlo1 screen PASS 11/20 vs
-  c_well9): screen vs c_gp1 on the VM (20261017-002503-scr-c_adlo2-dc0032eb1894).
+  c_well9): screen PASS (20:44 PDT, h2h 13/20 vs c_gp1); REJECTED 23:42 PDT (panel net -3, island margin t -2.0).
+- **Rating history fixed (22:58 PDT, PROMPTS 121):** replica match 7880 stuck in RUN 21 h froze every rating
+  (cancelled + re-rated: 1653 -> 1710); the watcher now also reads RUN matches from galaxy's DB; rating_history.py's
+  label layout vectorized (34 min -> 41 s); progress-refresh.sh names failed steps.
 - **Watcher fix (08:34 PDT):** SCREEN_DONE never fired before (the VM probe expanded on the driver); it does now.
 
 - **Owner idea (PROMPTS 108): a jmerle mimic as a sparring partner.** `tools/sa_extract.py` + ReplayDump `--sa` wrote
