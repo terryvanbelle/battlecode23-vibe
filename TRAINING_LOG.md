@@ -2146,7 +2146,7 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   open-addressing hash (64 slots, O(1) lookups, no RNG eviction). Hunt1Test 16 checks. VM hunt1-h2h queued.
 - 06:19 PDT c_flee9 screen FAIL (progress/screens/c_flee9-8ef1bc98cf8c.json): basics PASS (0 overruns, 0 exceptions),
   h2h 8/20 vs c_gp1 on the panel maps (flee9-h2h on the same maps 9/20; its +13 maps are off the panel). Not trialled.
-- 07:10 PDT VM all-maps runs vs c_gp1 (103 maps x both sides, seed map): hunt1-h2h 107/206 (won both sides 12 maps,
+- 07:08 PDT VM all-maps runs vs c_gp1 (103 maps x both sides, seed map): hunt1-h2h 107/206 (won both sides 12 maps,
   lost both 8; panel maps 12/20, Cornucopia and Forest won both), mn1-h2h 107/206 (15/11; panel 9/20, Cornucopia lost
   both), sym1-h2h 106/206 (21/18; panel 10/20). self-all (c_gp1 mirror, every map): side A 50/103, so self-play has no
   systematic side bias (ranked side A 0.47 vs B 0.55 since 10-14 is not a bot asymmetry). Near-identical builds split
