@@ -2035,3 +2035,18 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   kept), stale replay-dump caches and class trees. battlecode-dev 1.9 -> 3.7 GB free: Oct 8 fidelity extracts (10,
   results/summaries kept), codex-recovery, old class trees, dev/diagnostic replays, journal to 100 MB. Kept: the
   replica's replay store (/srv, 4.3 GB of our matches), running jobs, other projects' dirs; battlecode-dev2 untouched.
+- 18:45 PDT c_flee1 workflow DONE (9 agents; research/diagnosis/2026-10-16-carrier-deaths.md). Replay diagnosis, 12 lost
+  games, 230 carrier deaths by r300 (each is 8 launcher hits): RETURN (walks back right after losing sight of a
+  raider; 64% the turn after the sighting, 85% within r2 34 of our HQ) 53% of deaths; INTO (flee step toward home
+  through the raiders) 24%; STUCK 11%; AWAY 3%; FRESH 3%. Once hit, ours die 0.86 vs theirs 0.57; ours hover at r2
+  18-29 (median r2 to the shooter 5 rounds after the first hit 26 vs 40). c_flee1 = c_gp1 + 4-round threat memory
+  (ghost flee), r2 36 stand-off in Nav.can, scored two-step flee over all visible/remembered fighters, deposit first
+  next to an HQ, throw cargo when hit while >= 14 kg, drop a home well after a second flight within 30 rounds;
+  sub-switches FLEE1_MOVE/MEMORY/BANK/LIGHTEN/DROP; Flee1Test 69 cases. Driver River 1101 c_gp1 vs c_flee1 (B):
+  B won r535 conquest; carriers dead by r300 7 vs 13; 0 exceptions, 0 overruns. Screen queued
+  (20261017-014229-scr-c_flee1-b9c3e3993ad4).
+- 18:45 PDT c_expl1 workflow DONE (9 agents) = c_keep2 + frontier explore: 5-tile grid of uncovered points (MapMem bits,
+  cloud points stood on, mirror-covered once symmetry is decided), per-HQ fan slot claim in Comms 55 (only while
+  islands < 35), resumable pass under a 6,000 bytecode floor, neighbour hand-off; old explore as fallback. Offline
+  sim: mean turns to a known well 15.2 -> ~10 (SoundWave 28.7 -> 11.8, Turtle 42.1 -> 21.6; Cat 1.2 -> 4.5).
+  Expl1Test 639,256 cases (2 s). Screen queued (20261017-014454-scr-c_expl1-9ed33910e495).
