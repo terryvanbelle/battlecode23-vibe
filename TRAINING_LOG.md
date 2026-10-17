@@ -2193,3 +2193,6 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - 14:00 PDT c_hunt1 trial (submission 181) **REJECTED**: panel vs c_gp1's (paired.py) 98 games identical, gained 1
   (pranayagra.finalbotfinal), lost 1 (georgezhang02.CB_tuning2), net 0; island-rounds margin +109 (t 0.82). The raid
   extension rarely fires against the field. c_gp1 stays validated (182).
+- 14:23 PDT c_hr1 screen PASS (a 8/8, b h2h 13/20 vs c_gp1, c info-only net -2, d 128 games clean; arch_horde excluded:
+  compile-failed on the VM, as arch_adecon in c_rot1's screen: intermittent, under load). c_hr2 unit tests PASS.
+  c_hr1 waits for c_rot1's panel (c_hr2 may supersede it: hr2-h2h running).
