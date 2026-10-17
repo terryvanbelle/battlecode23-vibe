@@ -2101,3 +2101,9 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   Overruns only with MEMORY on and only on Cornucopia (base 3, DROP off 3; 0 for MEMORY/MOVE/LIGHTEN off), as the
   debug trace said (ghost flight, then gather). MEMORY off mines more: mean Mn 6,232 vs 5,751 (+8%). The flee package
   is about even with c_gp1 on the panel maps (c_flee1 was +11 maps over all 103). Replays pruned.
+- 01:22 PDT Basics gap found mining c_gp1's ranked losses (telemetry_query econ --ranked --by map since 10-14): our
+  Mn collected by r100 is 0-35% of the opponent's on 8 maps (SoundWave 0/380, Spin 16/165, Turtle 11/111, Orbit
+  25/148, Quiet 64/270, Rewind 136/534, Scatter 202/588, maptestsmall 93/265; 0.9-1.3x elsewhere). Turtle 8248 g2:
+  our Mn carriers spent 586 turns in X (explore) and none mining; one HQ of each team sits in a walled pocket ~33
+  walking tiles from its wells. Workflow econ-weak-maps (one agent per map + synthesis) and VM econ8-self (c_gp1
+  self-play on the 8 maps, both sides, map seed, 16 games) running.

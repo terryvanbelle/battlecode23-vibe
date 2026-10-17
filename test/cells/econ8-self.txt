@@ -1,0 +1,17 @@
+# c_gp1 self-play on the 8 ranked maps where our Mn@100 is <= 0.35x the opponent's (telemetry_query econ, ranked since 10-14): baseline for the econ-weak-maps fix
+c_gp1 SoundWave A map
+c_gp1 SoundWave B map
+c_gp1 Spin A map
+c_gp1 Spin B map
+c_gp1 Turtle A map
+c_gp1 Turtle B map
+c_gp1 Orbit A map
+c_gp1 Orbit B map
+c_gp1 Quiet A map
+c_gp1 Quiet B map
+c_gp1 Rewind A map
+c_gp1 Rewind B map
+c_gp1 Scatter A map
+c_gp1 Scatter B map
+c_gp1 maptestsmall A map
+c_gp1 maptestsmall B map
