@@ -2050,3 +2050,8 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   islands < 35), resumable pass under a 6,000 bytecode floor, neighbour hand-off; old explore as fallback. Offline
   sim: mean turns to a known well 15.2 -> ~10 (SoundWave 28.7 -> 11.8, Turtle 42.1 -> 21.6; Cat 1.2 -> 4.5).
   Expl1Test 639,256 cases (2 s). Screen queued (20261017-014454-scr-c_expl1-9ed33910e495).
+- 19:22 PDT race-micro2 DONE (research/race/20261016-191511-race-micro2/; c_knob2 = c_well9's micro knobs as the base, 9 points, rungs
+  8/16/32 units vs c_well9, arch_jm, arch_swarm, arch_ampmid): final c_rc01 47/64, c_rc04 45, base 44, c_rc05 42;
+  winner c_rc01 +3 over 64 paired games (noise). Rung-1 share by level: AHEAD_MIN 0 .469 / 1 .625 / 2 .635;
+  HOLD_THREAT 1 .635 / 2 .594 / 3 .500; STAND_THREAT -1 .675 / 0 .625 / 1 .656 / 2 .344: the base values are
+  best on each knob. Micro knobs are at a local optimum; nothing exported.

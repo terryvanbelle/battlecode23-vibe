@@ -1,0 +1,6 @@
+race 20261016-191511-race-micro2: rung 3/3, units 0-31 (32 units, 64 games a bot); kept: c_rc01 c_rc04 c_rc05
+ # bot        games    won  share   net      c_well9     arch_jm  arch_swarm arch_ampmid
+ 1 c_rc01        64     47  0.734    +3         8/16       11/16       14/16       14/16
+ 2 c_rc04        64     45  0.703    +1         8/16       10/16       12/16       15/16
+ 3 c_knob2       64     44  0.688  base         8/16       11/16       12/16       13/16
+ 4 c_rc05        64     42  0.656    -2         6/16        8/16       15/16       13/16

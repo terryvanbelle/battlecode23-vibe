@@ -1,0 +1,385 @@
+rung,bot,opp,map,seed,side,result,winner_side,rounds,reason,secs,exc_lines
+1,c_knob2,arch_jm,Forest,105180993,A,loss,B,2000,The winning team won by having more sky islands.,436,0
+1,c_knob2,c_well9,Cornucopia,211774130,A,loss,B,2000,The winning team won by having more sky islands.,557,0
+1,c_knob2,c_well9,Cornucopia,211774130,B,win,B,2000,The winning team won by having more sky islands.,578,0
+1,c_knob2,arch_jm,Forest,105180993,B,win,B,2000,The winning team won by having more sky islands.,595,0
+1,c_rc01,c_well9,Cornucopia,211774130,B,loss,A,2000,The winning team won by having more sky islands.,527,0
+1,c_rc01,c_well9,Cornucopia,211774130,A,loss,B,2000,The winning team won on tiebreakers (more reality anchors).,572,0
+1,c_rc01,arch_jm,Forest,105180993,B,win,B,2000,The winning team won by having more sky islands.,522,0
+1,c_rc02,c_well9,Cornucopia,211774130,A,loss,B,2000,The winning team won by having more sky islands.,529,0
+1,c_rc01,arch_jm,Forest,105180993,A,loss,B,1961,The winning team won by capturing 75% of sky islands.,538,0
+1,c_rc02,arch_jm,Forest,105180993,A,loss,B,2000,The winning team won by having more sky islands.,628,0
+1,c_rc02,c_well9,Cornucopia,211774130,B,loss,A,2000,The winning team won on tiebreakers (more reality anchors).,621,0
+1,c_rc02,arch_jm,Forest,105180993,B,win,B,2000,The winning team won by having more sky islands.,695,0
+1,c_rc03,c_well9,Cornucopia,211774130,A,win,A,2000,The winning team won by having more sky islands.,535,0
+1,c_rc03,c_well9,Cornucopia,211774130,B,loss,A,2000,The winning team won by having more sky islands.,554,0
+1,c_rc03,arch_jm,Forest,105180993,B,win,B,1770,The winning team won by capturing 75% of sky islands.,560,0
+1,c_rc04,c_well9,Cornucopia,211774130,A,win,A,2000,The winning team won by having more sky islands.,522,0
+1,c_rc04,c_well9,Cornucopia,211774130,B,loss,A,2000,The winning team won on tiebreakers (more reality anchors).,513,0
+1,c_rc03,arch_jm,Forest,105180993,A,loss,B,2000,The winning team won by having more sky islands.,582,0
+1,c_rc04,arch_jm,Forest,105180993,B,win,B,2000,The winning team won by having more sky islands.,641,0
+1,c_rc04,arch_jm,Forest,105180993,A,loss,B,2000,The winning team won by having more sky islands.,587,0
+1,c_rc05,c_well9,Cornucopia,211774130,B,loss,A,2000,The winning team won by having more sky islands.,473,0
+1,c_rc05,arch_jm,Forest,105180993,A,loss,B,2000,The winning team won by having more sky islands.,572,0
+1,c_rc05,c_well9,Cornucopia,211774130,A,win,A,2000,The winning team won by having more sky islands.,549,0
+1,c_rc05,arch_jm,Forest,105180993,B,loss,A,2000,The winning team won by having more sky islands.,604,0
+1,c_rc06,c_well9,Cornucopia,211774130,B,win,B,2000,The winning team won by having more sky islands.,549,0
+1,c_rc06,c_well9,Cornucopia,211774130,A,win,A,1940,The winning team won by capturing 75% of sky islands.,538,0
+1,c_rc06,arch_jm,Forest,105180993,B,win,B,2000,The winning team won by having more sky islands.,601,0
+1,c_rc06,arch_jm,Forest,105180993,A,loss,B,2000,The winning team won by having more sky islands.,592,0
+1,c_rc07,c_well9,Cornucopia,211774130,B,win,B,2000,The winning team won by having more sky islands.,514,0
+1,c_rc07,arch_jm,Forest,105180993,A,loss,B,2000,The winning team won by having more sky islands.,634,0
+1,c_rc07,c_well9,Cornucopia,211774130,A,win,A,2000,The winning team won by having more sky islands.,518,0
+1,c_rc08,c_well9,Cornucopia,211774130,A,loss,B,2000,The winning team won by having more sky islands.,594,0
+1,c_rc07,arch_jm,Forest,105180993,B,loss,A,1973,The winning team won by capturing 75% of sky islands.,658,0
+1,c_rc08,arch_jm,Forest,105180993,A,loss,B,1580,The winning team won by capturing 75% of sky islands.,438,0
+1,c_rc08,c_well9,Cornucopia,211774130,B,win,B,2000,The winning team won by having more sky islands.,512,0
+1,c_rc08,arch_jm,Forest,105180993,B,loss,A,2000,The winning team won by having more sky islands.,546,0
+1,c_rc09,c_well9,Cornucopia,211774130,B,loss,A,2000,The winning team won by having more sky islands.,523,0
+1,c_knob2,arch_jm,MassiveL,96616228,A,win,A,2000,The winning team won on tiebreakers (more reality anchors).,334,0
+1,c_rc09,c_well9,Cornucopia,211774130,A,loss,B,2000,The winning team won on tiebreakers (more mana net worth).,563,0
+1,c_rc09,arch_jm,Forest,105180993,A,loss,B,1799,The winning team won by capturing 75% of sky islands.,516,0
+1,c_knob2,arch_swarm,MassiveL,72726544,A,win,A,975,The winning team won by capturing 75% of sky islands.,107,0
+1,c_knob2,arch_swarm,MassiveL,72726544,B,win,B,1000,The winning team won by capturing 75% of sky islands.,108,0
+1,c_rc09,arch_jm,Forest,105180993,B,loss,A,2000,The winning team won by having more sky islands.,586,0
+1,c_knob2,arch_jm,MassiveL,96616228,B,win,B,2000,The winning team won by having more sky islands.,355,0
+1,c_rc01,arch_swarm,MassiveL,72726544,B,win,B,869,The winning team won by capturing 75% of sky islands.,97,0
+1,c_rc01,arch_jm,MassiveL,96616228,A,win,A,2000,The winning team won by having more sky islands.,400,0
+1,c_rc01,arch_swarm,MassiveL,72726544,A,win,A,1963,The winning team won by capturing 75% of sky islands.,262,0
+1,c_rc01,arch_jm,MassiveL,96616228,B,win,B,2000,The winning team won by having more sky islands.,336,0
+1,c_rc02,arch_swarm,MassiveL,72726544,B,win,B,787,The winning team won by capturing 75% of sky islands.,137,0
+1,c_rc02,arch_jm,MassiveL,96616228,B,win,B,2000,The winning team won by having more sky islands.,388,0
+1,c_rc02,arch_swarm,MassiveL,72726544,A,win,A,1359,The winning team won by capturing 75% of sky islands.,190,0
+1,c_rc02,arch_jm,MassiveL,96616228,A,win,A,2000,The winning team won by having more sky islands.,432,0
+1,c_rc03,arch_swarm,MassiveL,72726544,A,win,A,1010,The winning team won by capturing 75% of sky islands.,119,0
+1,c_rc03,arch_swarm,MassiveL,72726544,B,win,B,834,The winning team won by capturing 75% of sky islands.,96,0
+1,c_rc03,arch_jm,MassiveL,96616228,A,win,A,2000,The winning team won by having more sky islands.,366,0
+1,c_rc03,arch_jm,MassiveL,96616228,B,loss,A,2000,The winning team won by having more sky islands.,328,0
+1,c_rc04,arch_swarm,MassiveL,72726544,A,win,A,825,The winning team won by capturing 75% of sky islands.,102,0
+1,c_rc04,arch_jm,MassiveL,96616228,A,win,A,2000,The winning team won on tiebreakers (more reality anchors).,369,0
+1,c_rc04,arch_jm,MassiveL,96616228,B,win,B,2000,The winning team won by having more sky islands.,359,0
+1,c_rc04,arch_swarm,MassiveL,72726544,B,win,B,677,The winning team won by capturing 75% of sky islands.,73,0
+1,c_rc05,arch_swarm,MassiveL,72726544,A,win,A,1253,The winning team won by capturing 75% of sky islands.,103,0
+1,c_rc05,arch_jm,MassiveL,96616228,A,win,A,2000,The winning team won on tiebreakers (more reality anchors).,325,0
+1,c_rc05,arch_swarm,MassiveL,72726544,B,win,B,900,The winning team won by capturing 75% of sky islands.,87,0
+1,c_rc06,arch_swarm,MassiveL,72726544,A,win,A,690,The winning team won by capturing 75% of sky islands.,70,0
+1,c_rc05,arch_jm,MassiveL,96616228,B,win,B,2000,The winning team won by having more sky islands.,308,0
+1,c_rc06,arch_swarm,MassiveL,72726544,B,win,B,2000,The winning team won by having more sky islands.,221,0
+1,c_rc06,arch_jm,MassiveL,96616228,A,win,A,2000,The winning team won by having more sky islands.,332,0
+1,c_rc06,arch_jm,MassiveL,96616228,B,win,B,2000,The winning team won by having more sky islands.,325,0
+1,c_rc07,arch_jm,MassiveL,96616228,B,loss,A,2000,The winning team won by having more sky islands.,268,0
+1,c_rc07,arch_swarm,MassiveL,72726544,B,win,B,1527,The winning team won by capturing 75% of sky islands.,154,0
+1,c_rc07,arch_jm,MassiveL,96616228,A,win,A,2000,The winning team won on tiebreakers (more reality anchors).,310,0
+1,c_rc08,arch_swarm,MassiveL,72726544,A,win,A,1440,The winning team won by capturing 75% of sky islands.,143,0
+1,c_rc07,arch_swarm,MassiveL,72726544,A,win,A,2000,The winning team won by having more sky islands.,232,0
+1,c_rc08,arch_jm,MassiveL,96616228,A,win,A,2000,The winning team won by having more sky islands.,362,0
+1,c_rc08,arch_jm,MassiveL,96616228,B,win,B,2000,The winning team won by having more sky islands.,304,0
+1,c_rc08,arch_swarm,MassiveL,72726544,B,win,B,2000,The winning team won by having more sky islands.,235,0
+1,c_rc09,arch_swarm,MassiveL,72726544,A,win,A,1142,The winning team won by capturing 75% of sky islands.,123,0
+1,c_rc09,arch_jm,MassiveL,96616228,A,win,A,2000,The winning team won by having more sky islands.,327,0
+1,c_rc09,arch_jm,MassiveL,96616228,B,loss,A,2000,The winning team won by having more sky islands.,321,0
+1,c_knob2,c_well9,DefaultMap,159798154,A,win,A,740,The winning team won by capturing 75% of sky islands.,98,0
+1,c_knob2,c_well9,DefaultMap,159798154,B,loss,A,740,The winning team won by capturing 75% of sky islands.,85,0
+1,c_knob2,arch_swarm,BatSignal,125359561,B,win,B,662,The winning team won by capturing 75% of sky islands.,51,0
+1,c_knob2,arch_swarm,BatSignal,125359561,A,win,A,555,The winning team won by capturing 75% of sky islands.,42,0
+1,c_rc09,arch_swarm,MassiveL,72726544,B,win,B,1803,The winning team won by capturing 75% of sky islands.,178,0
+1,c_knob2,arch_ampmid,IslandHopping,54886966,B,win,B,744,The winning team won by capturing 75% of sky islands.,50,0
+1,c_knob2,arch_ampmid,DefaultMap,117096413,A,win,A,729,The winning team won by capturing 75% of sky islands.,67,0
+1,c_knob2,arch_ampmid,IslandHopping,54886966,A,loss,B,698,The winning team won by capturing 75% of sky islands.,52,0
+1,c_rc01,arch_swarm,BatSignal,125359561,A,win,A,642,The winning team won by capturing 75% of sky islands.,46,0
+1,c_knob2,arch_ampmid,DefaultMap,117096413,B,win,B,1104,The winning team won by capturing 75% of sky islands.,117,0
+1,c_rc01,c_well9,DefaultMap,159798154,B,win,B,853,The winning team won by capturing 75% of sky islands.,85,0
+1,c_rc01,c_well9,DefaultMap,159798154,A,loss,B,615,The winning team won by capturing 75% of sky islands.,61,0
+1,c_rc01,arch_ampmid,IslandHopping,54886966,A,loss,B,725,The winning team won by capturing 75% of sky islands.,51,0
+1,c_rc01,arch_swarm,BatSignal,125359561,B,win,B,558,The winning team won by capturing 75% of sky islands.,44,0
+1,c_rc01,arch_ampmid,IslandHopping,54886966,B,win,B,728,The winning team won by capturing 75% of sky islands.,54,0
+1,c_rc01,arch_ampmid,DefaultMap,117096413,B,win,B,540,The winning team won by capturing 75% of sky islands.,58,0
+1,c_rc02,c_well9,DefaultMap,159798154,A,loss,B,672,The winning team won by capturing 75% of sky islands.,106,0
+1,c_rc02,c_well9,DefaultMap,159798154,B,loss,A,547,The winning team won by capturing 75% of sky islands.,98,0
+1,c_rc02,arch_swarm,BatSignal,125359561,A,win,A,647,The winning team won by capturing 75% of sky islands.,49,0
+1,c_rc02,arch_swarm,BatSignal,125359561,B,win,B,702,The winning team won by capturing 75% of sky islands.,53,0
+1,c_rc02,arch_ampmid,IslandHopping,54886966,B,win,B,611,The winning team won by capturing 75% of sky islands.,35,0
+1,c_rc02,arch_ampmid,IslandHopping,54886966,A,loss,B,648,The winning team won by capturing 75% of sky islands.,39,0
+1,c_rc01,arch_ampmid,DefaultMap,117096413,A,win,A,1665,The winning team won by capturing 75% of sky islands.,266,0
+1,c_rc03,c_well9,DefaultMap,159798154,B,loss,A,467,The winning team won by capturing 75% of sky islands.,40,0
+1,c_rc03,c_well9,DefaultMap,159798154,A,loss,B,696,The winning team won by capturing 75% of sky islands.,56,0
+1,c_rc03,arch_swarm,BatSignal,125359561,B,win,B,597,The winning team won by capturing 75% of sky islands.,32,0
+1,c_rc02,arch_ampmid,DefaultMap,117096413,B,win,B,1027,The winning team won by capturing 75% of sky islands.,109,0
+1,c_rc03,arch_ampmid,IslandHopping,54886966,A,loss,B,683,The winning team won by capturing 75% of sky islands.,43,0
+1,c_rc03,arch_swarm,BatSignal,125359561,A,win,A,647,The winning team won by capturing 75% of sky islands.,39,0
+1,c_rc03,arch_ampmid,IslandHopping,54886966,B,win,B,716,The winning team won by capturing 75% of sky islands.,41,0
+1,c_rc03,arch_ampmid,DefaultMap,117096413,A,win,A,598,The winning team won by capturing 75% of sky islands.,50,0
+1,c_rc02,arch_ampmid,DefaultMap,117096413,A,win,A,1436,The winning team won by capturing 75% of sky islands.,145,0
+1,c_rc04,arch_swarm,BatSignal,125359561,A,win,A,647,The winning team won by capturing 75% of sky islands.,36,0
+1,c_rc04,c_well9,DefaultMap,159798154,B,loss,A,485,The winning team won by capturing 75% of sky islands.,42,0
+1,c_rc04,c_well9,DefaultMap,159798154,A,loss,B,774,The winning team won by capturing 75% of sky islands.,60,0
+1,c_rc04,arch_swarm,BatSignal,125359561,B,win,B,600,The winning team won by capturing 75% of sky islands.,45,0
+1,c_rc04,arch_ampmid,IslandHopping,54886966,A,loss,B,669,The winning team won by capturing 75% of sky islands.,49,0
+1,c_rc03,arch_ampmid,DefaultMap,117096413,B,win,B,745,The winning team won by capturing 75% of sky islands.,78,0
+1,c_rc04,arch_ampmid,IslandHopping,54886966,B,win,B,611,The winning team won by capturing 75% of sky islands.,45,0
+1,c_rc04,arch_ampmid,DefaultMap,117096413,A,win,A,451,The winning team won by capturing 75% of sky islands.,44,0
+1,c_rc04,arch_ampmid,DefaultMap,117096413,B,win,B,745,The winning team won by capturing 75% of sky islands.,74,0
+1,c_rc05,arch_swarm,BatSignal,125359561,A,win,A,694,The winning team won by capturing 75% of sky islands.,47,0
+1,c_rc05,c_well9,DefaultMap,159798154,B,loss,A,710,The winning team won by capturing 75% of sky islands.,65,0
+1,c_rc05,c_well9,DefaultMap,159798154,A,loss,B,1245,The winning team won by capturing 75% of sky islands.,122,0
+1,c_rc05,arch_ampmid,IslandHopping,54886966,A,loss,B,698,The winning team won by capturing 75% of sky islands.,48,0
+1,c_rc05,arch_swarm,BatSignal,125359561,B,win,B,658,The winning team won by capturing 75% of sky islands.,46,0
+1,c_rc05,arch_ampmid,IslandHopping,54886966,B,win,B,756,The winning team won by capturing 75% of sky islands.,58,0
+1,c_rc05,arch_ampmid,DefaultMap,117096413,A,win,A,700,The winning team won by capturing 75% of sky islands.,63,0
+1,c_rc06,c_well9,DefaultMap,159798154,B,loss,A,448,The winning team won by capturing 75% of sky islands.,44,0
+1,c_rc06,arch_swarm,BatSignal,125359561,A,win,A,614,The winning team won by capturing 75% of sky islands.,45,0
+1,c_rc05,arch_ampmid,DefaultMap,117096413,B,win,B,880,The winning team won by capturing 75% of sky islands.,86,0
+1,c_rc06,arch_ampmid,IslandHopping,54886966,A,loss,B,679,The winning team won by capturing 75% of sky islands.,40,0
+1,c_rc06,c_well9,DefaultMap,159798154,A,win,A,820,The winning team won by capturing 75% of sky islands.,67,0
+1,c_rc06,arch_ampmid,DefaultMap,117096413,A,win,A,532,The winning team won by capturing 75% of sky islands.,34,0
+1,c_rc06,arch_ampmid,DefaultMap,117096413,B,win,B,911,The winning team won by capturing 75% of sky islands.,115,0
+1,c_rc07,c_well9,DefaultMap,159798154,B,loss,A,482,The winning team won by capturing 75% of sky islands.,33,0
+1,c_rc07,arch_swarm,BatSignal,125359561,A,loss,B,405,The winning team won by capturing 75% of sky islands.,19,0
+1,c_rc06,arch_swarm,BatSignal,125359561,B,win,B,578,The winning team won by capturing 75% of sky islands.,26,0
+1,c_rc07,arch_ampmid,IslandHopping,54886966,A,loss,B,683,The winning team won by capturing 75% of sky islands.,33,0
+1,c_rc07,c_well9,DefaultMap,159798154,A,loss,B,505,The winning team won by capturing 75% of sky islands.,35,0
+1,c_rc07,arch_swarm,BatSignal,125359561,B,win,B,685,The winning team won by capturing 75% of sky islands.,37,0
+1,c_rc07,arch_ampmid,DefaultMap,117096413,A,loss,B,785,The winning team won by capturing 75% of sky islands.,51,0
+1,c_rc07,arch_ampmid,DefaultMap,117096413,B,loss,A,534,The winning team won by capturing 75% of sky islands.,43,0
+1,c_rc07,arch_ampmid,IslandHopping,54886966,B,loss,A,653,The winning team won by capturing 75% of sky islands.,41,0
+1,c_rc08,c_well9,DefaultMap,159798154,A,loss,B,823,The winning team won by capturing 75% of sky islands.,69,0
+1,c_rc06,arch_ampmid,IslandHopping,54886966,B,loss,A,665,The winning team won by capturing 75% of sky islands.,38,0
+1,c_rc08,arch_swarm,BatSignal,125359561,A,win,A,596,The winning team won by capturing 75% of sky islands.,38,0
+1,c_rc08,arch_ampmid,IslandHopping,54886966,A,loss,B,681,The winning team won by capturing 75% of sky islands.,42,0
+1,c_rc08,c_well9,DefaultMap,159798154,B,loss,A,772,The winning team won by capturing 75% of sky islands.,66,0
+1,c_rc08,arch_ampmid,DefaultMap,117096413,A,win,A,728,The winning team won by capturing 75% of sky islands.,47,0
+1,c_rc08,arch_swarm,BatSignal,125359561,B,win,B,583,The winning team won by capturing 75% of sky islands.,29,0
+1,c_rc08,arch_ampmid,DefaultMap,117096413,B,win,B,514,The winning team won by capturing 75% of sky islands.,34,0
+1,c_rc08,arch_ampmid,IslandHopping,54886966,B,loss,A,701,The winning team won by capturing 75% of sky islands.,24,0
+1,c_rc09,c_well9,DefaultMap,159798154,B,loss,A,780,The winning team won by capturing 75% of sky islands.,52,0
+1,c_rc09,arch_ampmid,IslandHopping,54886966,A,loss,B,731,The winning team won by capturing 75% of sky islands.,36,0
+1,c_rc09,c_well9,DefaultMap,159798154,A,loss,B,739,The winning team won by capturing 75% of sky islands.,56,0
+1,c_rc09,arch_swarm,BatSignal,125359561,B,win,B,494,The winning team won by capturing 75% of sky islands.,21,0
+1,c_rc09,arch_ampmid,IslandHopping,54886966,B,loss,A,661,The winning team won by capturing 75% of sky islands.,30,0
+1,c_rc09,arch_ampmid,DefaultMap,117096413,B,loss,A,610,The winning team won by capturing 75% of sky islands.,36,0
+1,c_rc09,arch_swarm,BatSignal,125359561,A,loss,B,369,The winning team won by capturing 75% of sky islands.,14,0
+1,c_rc09,arch_ampmid,DefaultMap,117096413,A,win,A,887,The winning team won by capturing 75% of sky islands.,50,0
+2,c_knob2,c_well9,Forest,63202538,A,loss,B,2000,The winning team won by having more sky islands.,285,0
+2,c_rc04,c_well9,Forest,63202538,A,win,A,1405,The winning team won by capturing 75% of sky islands.,208,0
+2,c_rc04,c_well9,Forest,63202538,B,win,B,2000,The winning team won by having more sky islands.,295,0
+2,c_rc01,c_well9,Forest,63202538,A,win,A,2000,The winning team won by having more sky islands.,256,0
+2,c_rc06,c_well9,Forest,63202538,A,loss,B,2000,The winning team won by having more sky islands.,297,0
+2,c_rc01,c_well9,Forest,63202538,B,win,B,2000,The winning team won by having more sky islands.,353,0
+2,c_rc06,c_well9,Forest,63202538,B,loss,A,2000,The winning team won by having more sky islands.,364,0
+2,c_rc05,c_well9,Forest,63202538,A,loss,B,2000,The winning team won by having more sky islands.,349,0
+2,c_rc05,c_well9,Forest,63202538,B,win,B,1924,The winning team won by capturing 75% of sky islands.,335,0
+2,c_rc03,c_well9,Forest,63202538,B,win,B,1721,The winning team won by capturing 75% of sky islands.,252,0
+2,c_knob2,c_well9,MassiveL,137403551,B,loss,A,2000,The winning team won by having more sky islands.,215,0
+2,c_rc03,c_well9,Forest,63202538,A,loss,B,2000,The winning team won on tiebreakers (more reality anchors).,318,0
+2,c_knob2,arch_ampmid,MassiveL,42705450,A,win,A,1125,The winning team won by capturing 75% of sky islands.,66,0
+2,c_knob2,c_well9,MassiveL,137403551,A,win,A,2000,The winning team won by having more sky islands.,194,0
+2,c_knob2,arch_ampmid,MassiveL,42705450,B,win,B,1000,The winning team won by capturing 75% of sky islands.,56,0
+2,c_rc06,arch_ampmid,MassiveL,42705450,A,win,A,1454,The winning team won by capturing 75% of sky islands.,86,0
+2,c_knob2,c_well9,Forest,63202538,B,win,B,2000,The winning team won by having more sky islands.,293,0
+2,c_rc06,arch_ampmid,MassiveL,42705450,B,win,B,869,The winning team won by capturing 75% of sky islands.,48,0
+2,c_rc06,c_well9,MassiveL,137403551,A,loss,B,2000,The winning team won on tiebreakers (more reality anchors).,200,0
+2,c_rc04,c_well9,MassiveL,137403551,B,win,B,2000,The winning team won on tiebreakers (more reality anchors).,185,0
+2,c_rc04,c_well9,MassiveL,137403551,A,loss,B,2000,The winning team won by having more sky islands.,197,0
+2,c_rc04,arch_ampmid,MassiveL,42705450,A,win,A,1811,The winning team won by capturing 75% of sky islands.,125,0
+2,c_rc06,c_well9,MassiveL,137403551,B,loss,A,2000,The winning team won by having more sky islands.,200,0
+2,c_rc01,c_well9,MassiveL,137403551,A,win,A,2000,The winning team won by having more sky islands.,191,0
+2,c_rc01,arch_ampmid,MassiveL,42705450,B,win,B,959,The winning team won by capturing 75% of sky islands.,55,0
+2,c_rc01,c_well9,MassiveL,137403551,B,loss,A,2000,The winning team won by having more sky islands.,202,0
+2,c_rc01,arch_ampmid,MassiveL,42705450,A,win,A,810,The winning team won by capturing 75% of sky islands.,61,0
+2,c_rc04,arch_ampmid,MassiveL,42705450,B,win,B,1039,The winning team won by capturing 75% of sky islands.,74,0
+2,c_rc05,arch_ampmid,MassiveL,42705450,B,win,B,1435,The winning team won by capturing 75% of sky islands.,100,0
+2,c_rc05,c_well9,MassiveL,137403551,B,win,B,2000,The winning team won by having more sky islands.,240,0
+2,c_rc03,c_well9,MassiveL,137403551,A,loss,B,2000,The winning team won by having more sky islands.,226,0
+2,c_rc03,c_well9,MassiveL,137403551,B,loss,A,2000,The winning team won by having more sky islands.,208,0
+2,c_rc05,arch_ampmid,MassiveL,42705450,A,win,A,1740,The winning team won by capturing 75% of sky islands.,146,0
+2,c_rc05,c_well9,MassiveL,137403551,A,loss,B,2000,The winning team won by having more sky islands.,194,0
+2,c_rc03,arch_ampmid,MassiveL,42705450,A,win,A,1720,The winning team won by capturing 75% of sky islands.,108,0
+2,c_knob2,arch_swarm,Maze,48863164,A,loss,B,631,The winning team won by capturing 75% of sky islands.,43,0
+2,c_knob2,arch_jm,Maze,209474510,B,win,B,401,The winning team won by capturing 75% of sky islands.,26,0
+2,c_knob2,arch_ampmid,BatSignal,199688525,A,win,A,679,The winning team won by capturing 75% of sky islands.,27,0
+2,c_knob2,arch_ampmid,BatSignal,199688525,B,win,B,446,The winning team won by capturing 75% of sky islands.,13,0
+2,c_rc03,arch_ampmid,MassiveL,42705450,B,win,B,757,The winning team won by capturing 75% of sky islands.,48,0
+2,c_knob2,arch_jm,Maze,209474510,A,win,A,389,The winning team won by capturing 75% of sky islands.,27,0
+2,c_knob2,arch_swarm,IslandHopping,26786701,A,loss,B,545,The winning team won by capturing 75% of sky islands.,23,0
+2,c_rc06,arch_jm,Maze,209474510,A,loss,B,630,The winning team won by capturing 75% of sky islands.,65,0
+2,c_knob2,arch_jm,ReverseFunnel,4917461,A,win,A,378,The winning team won by capturing 75% of sky islands.,42,0
+2,c_rc06,arch_jm,Maze,209474510,B,loss,A,669,The winning team won by capturing 75% of sky islands.,57,0
+2,c_knob2,arch_jm,ReverseFunnel,4917461,B,loss,A,622,The winning team won by capturing 75% of sky islands.,41,0
+2,c_knob2,arch_swarm,Maze,48863164,B,win,B,413,The winning team won by capturing 75% of sky islands.,35,0
+2,c_rc06,arch_swarm,Maze,48863164,A,win,A,488,The winning team won by capturing 75% of sky islands.,39,0
+2,c_rc06,arch_ampmid,BatSignal,199688525,B,win,B,472,The winning team won by capturing 75% of sky islands.,14,0
+2,c_rc06,arch_jm,ReverseFunnel,4917461,A,win,A,889,The winning team won by capturing 75% of sky islands.,42,0
+2,c_rc06,arch_jm,ReverseFunnel,4917461,B,loss,A,509,The winning team won by capturing 75% of sky islands.,27,0
+2,c_rc06,arch_swarm,Maze,48863164,B,win,B,361,The winning team won by capturing 75% of sky islands.,22,0
+2,c_knob2,arch_swarm,IslandHopping,26786701,B,win,B,641,The winning team won by capturing 75% of sky islands.,22,0
+2,c_rc06,arch_swarm,IslandHopping,26786701,A,win,A,853,The winning team won by capturing 75% of sky islands.,35,0
+2,c_rc04,arch_jm,Maze,209474510,B,win,B,481,The winning team won by capturing 75% of sky islands.,28,0
+2,c_rc06,arch_ampmid,BatSignal,199688525,A,win,A,845,The winning team won by capturing 75% of sky islands.,26,0
+2,c_rc06,arch_swarm,IslandHopping,26786701,B,win,B,958,The winning team won by capturing 75% of sky islands.,29,0
+2,c_rc04,arch_ampmid,BatSignal,199688525,A,win,A,720,The winning team won by capturing 75% of sky islands.,21,0
+2,c_rc04,arch_jm,Maze,209474510,A,win,A,463,The winning team won by capturing 75% of sky islands.,25,0
+2,c_rc04,arch_ampmid,BatSignal,199688525,B,win,B,530,The winning team won by capturing 75% of sky islands.,17,0
+2,c_rc04,arch_jm,ReverseFunnel,4917461,B,loss,A,622,The winning team won by capturing 75% of sky islands.,34,0
+2,c_rc04,arch_swarm,Maze,48863164,A,win,A,430,The winning team won by capturing 75% of sky islands.,23,0
+2,c_rc04,arch_swarm,IslandHopping,26786701,A,loss,B,726,The winning team won by capturing 75% of sky islands.,17,0
+2,c_rc04,arch_swarm,IslandHopping,26786701,B,loss,A,641,The winning team won by capturing 75% of sky islands.,17,0
+2,c_rc01,arch_jm,Maze,209474510,A,win,A,370,The winning team won by capturing 75% of sky islands.,20,0
+2,c_rc01,arch_jm,Maze,209474510,B,win,B,418,The winning team won by capturing 75% of sky islands.,30,0
+2,c_rc01,arch_swarm,Maze,48863164,B,win,B,413,The winning team won by capturing 75% of sky islands.,30,0
+2,c_rc04,arch_swarm,Maze,48863164,B,win,B,428,The winning team won by capturing 75% of sky islands.,34,0
+2,c_rc04,arch_jm,ReverseFunnel,4917461,A,win,A,378,The winning team won by capturing 75% of sky islands.,37,0
+2,c_rc01,arch_ampmid,BatSignal,199688525,A,win,A,720,The winning team won by capturing 75% of sky islands.,47,0
+2,c_rc01,arch_jm,ReverseFunnel,4917461,A,win,A,378,The winning team won by capturing 75% of sky islands.,34,0
+2,c_rc01,arch_jm,ReverseFunnel,4917461,B,loss,A,622,The winning team won by capturing 75% of sky islands.,54,0
+2,c_rc01,arch_swarm,IslandHopping,26786701,B,loss,A,507,The winning team won by capturing 75% of sky islands.,33,0
+2,c_rc01,arch_ampmid,BatSignal,199688525,B,win,B,489,The winning team won by capturing 75% of sky islands.,30,0
+2,c_rc05,arch_jm,Maze,209474510,B,win,B,432,The winning team won by capturing 75% of sky islands.,47,0
+2,c_rc05,arch_jm,Maze,209474510,A,loss,B,541,The winning team won by capturing 75% of sky islands.,61,0
+2,c_rc05,arch_swarm,Maze,48863164,A,win,A,490,The winning team won by capturing 75% of sky islands.,51,0
+2,c_rc05,arch_ampmid,BatSignal,199688525,A,win,A,687,The winning team won by capturing 75% of sky islands.,45,0
+2,c_rc01,arch_swarm,Maze,48863164,A,win,A,425,The winning team won by capturing 75% of sky islands.,41,0
+2,c_rc05,arch_swarm,Maze,48863164,B,win,B,435,The winning team won by capturing 75% of sky islands.,45,0
+2,c_rc05,arch_jm,ReverseFunnel,4917461,A,win,A,378,The winning team won by capturing 75% of sky islands.,37,0
+2,c_rc05,arch_swarm,IslandHopping,26786701,A,win,A,754,The winning team won by capturing 75% of sky islands.,44,0
+2,c_rc05,arch_jm,ReverseFunnel,4917461,B,loss,A,616,The winning team won by capturing 75% of sky islands.,55,0
+2,c_rc03,arch_jm,Maze,209474510,A,win,A,399,The winning team won by capturing 75% of sky islands.,43,0
+2,c_rc01,arch_swarm,IslandHopping,26786701,A,win,A,1288,The winning team won by capturing 75% of sky islands.,61,0
+2,c_rc05,arch_swarm,IslandHopping,26786701,B,win,B,633,The winning team won by capturing 75% of sky islands.,40,0
+2,c_rc05,arch_ampmid,BatSignal,199688525,B,win,B,446,The winning team won by capturing 75% of sky islands.,29,0
+2,c_rc03,arch_swarm,Maze,48863164,B,win,B,428,The winning team won by capturing 75% of sky islands.,52,0
+2,c_rc03,arch_jm,Maze,209474510,B,win,B,481,The winning team won by capturing 75% of sky islands.,60,0
+2,c_rc03,arch_swarm,Maze,48863164,A,win,A,437,The winning team won by capturing 75% of sky islands.,50,0
+2,c_rc03,arch_ampmid,BatSignal,199688525,B,win,B,455,The winning team won by capturing 75% of sky islands.,35,0
+2,c_rc03,arch_ampmid,BatSignal,199688525,A,win,A,720,The winning team won by capturing 75% of sky islands.,54,0
+2,c_rc03,arch_jm,ReverseFunnel,4917461,B,loss,A,622,The winning team won by capturing 75% of sky islands.,57,0
+2,c_rc03,arch_jm,ReverseFunnel,4917461,A,win,A,378,The winning team won by capturing 75% of sky islands.,39,0
+2,c_rc03,arch_swarm,IslandHopping,26786701,B,win,B,803,The winning team won by capturing 75% of sky islands.,56,0
+2,c_rc03,arch_swarm,IslandHopping,26786701,A,win,A,1228,The winning team won by capturing 75% of sky islands.,68,0
+3,c_knob2,arch_swarm,Forest,7066392,B,win,B,1542,The winning team won by capturing 75% of sky islands.,369,0
+3,c_knob2,arch_jm,Cornucopia,53606206,B,loss,A,2000,The winning team won by having more sky islands.,523,0
+3,c_knob2,arch_ampmid,Cornucopia,252166014,A,loss,B,2000,The winning team won by having more sky islands.,339,0
+3,c_knob2,arch_jm,Cornucopia,53606206,A,win,A,2000,The winning team won by having more sky islands.,755,0
+3,c_knob2,arch_ampmid,Forest,123573952,A,win,A,2000,The winning team won by having more sky islands.,528,0
+3,c_knob2,arch_ampmid,Forest,123573952,B,win,B,2000,The winning team won by having more sky islands.,558,0
+3,c_knob2,arch_ampmid,Cornucopia,252166014,B,loss,A,2000,The winning team won by having more sky islands.,750,0
+3,c_knob2,arch_swarm,Forest,7066392,A,win,A,2000,The winning team won by having more sky islands.,771,0
+3,c_rc01,arch_swarm,Forest,7066392,A,win,A,2000,The winning team won by having more sky islands.,603,0
+3,c_rc01,arch_jm,Cornucopia,53606206,A,win,A,2000,The winning team won by having more sky islands.,855,0
+3,c_rc01,arch_ampmid,Cornucopia,252166014,B,win,B,1385,The winning team won by capturing 75% of sky islands.,271,0
+3,c_rc01,arch_ampmid,Cornucopia,252166014,A,loss,B,2000,The winning team won on tiebreakers (more reality anchors).,412,0
+3,c_rc01,arch_jm,Cornucopia,53606206,B,loss,A,2000,The winning team won by having more sky islands.,563,0
+3,c_rc01,arch_ampmid,Forest,123573952,A,win,A,1834,The winning team won by capturing 75% of sky islands.,532,0
+3,c_rc04,arch_jm,Cornucopia,53606206,A,loss,B,2000,The winning team won by having more sky islands.,583,0
+3,c_rc01,arch_swarm,Forest,7066392,B,win,B,1715,The winning team won by capturing 75% of sky islands.,488,0
+3,c_rc04,arch_jm,Cornucopia,53606206,B,loss,A,2000,The winning team won by having more sky islands.,574,0
+3,c_rc01,arch_ampmid,Forest,123573952,B,win,B,2000,The winning team won by having more sky islands.,516,0
+3,c_rc04,arch_swarm,Forest,7066392,B,win,B,2000,The winning team won by having more sky islands.,564,0
+3,c_rc04,arch_ampmid,Cornucopia,252166014,A,win,A,2000,The winning team won by having more sky islands.,448,0
+3,c_rc04,arch_ampmid,Cornucopia,252166014,B,win,B,2000,The winning team won by having more sky islands.,484,0
+3,c_rc04,arch_swarm,Forest,7066392,A,win,A,1944,The winning team won by capturing 75% of sky islands.,585,0
+3,c_rc04,arch_ampmid,Forest,123573952,A,win,A,1939,The winning team won by capturing 75% of sky islands.,519,0
+3,c_rc05,arch_jm,Cornucopia,53606206,A,loss,B,2000,The winning team won by having more sky islands.,483,0
+3,c_rc05,arch_jm,Cornucopia,53606206,B,loss,A,2000,The winning team won by having more sky islands.,526,0
+3,c_rc04,arch_ampmid,Forest,123573952,B,win,B,2000,The winning team won by having more sky islands.,674,0
+3,c_rc05,arch_swarm,Forest,7066392,A,win,A,2000,The winning team won by having more sky islands.,649,0
+3,c_rc05,arch_swarm,Forest,7066392,B,win,B,2000,The winning team won by having more sky islands.,626,0
+3,c_rc05,arch_ampmid,Cornucopia,252166014,B,loss,A,2000,The winning team won on tiebreakers (more reality anchors).,519,0
+3,c_rc05,arch_ampmid,Cornucopia,252166014,A,loss,B,2000,The winning team won by having more sky islands.,436,0
+3,c_knob2,c_well9,Maze,65042250,B,loss,A,438,The winning team won by capturing 75% of sky islands.,61,0
+3,c_knob2,c_well9,Maze,65042250,A,win,A,438,The winning team won by capturing 75% of sky islands.,55,0
+3,c_knob2,arch_jm,Hah,87201187,B,loss,A,414,The winning team won by capturing 75% of sky islands.,46,0
+3,c_knob2,arch_jm,Hah,87201187,A,win,A,428,The winning team won by capturing 75% of sky islands.,45,0
+3,c_knob2,arch_swarm,Hah,107509188,A,loss,B,382,The winning team won by capturing 75% of sky islands.,41,0
+3,c_knob2,arch_swarm,Hah,107509188,B,win,B,476,The winning team won by capturing 75% of sky islands.,50,0
+3,c_knob2,arch_ampmid,Cat,247084207,A,win,A,477,The winning team won by capturing 75% of sky islands.,47,0
+3,c_knob2,arch_ampmid,Cat,247084207,B,win,B,814,The winning team won by capturing 75% of sky islands.,83,0
+3,c_rc05,arch_ampmid,Forest,123573952,A,win,A,1737,The winning team won by capturing 75% of sky islands.,495,0
+3,c_knob2,c_well9,IslandHopping,228391098,A,win,A,664,The winning team won by capturing 75% of sky islands.,63,0
+3,c_rc05,arch_ampmid,Forest,123573952,B,win,B,2000,The winning team won by having more sky islands.,531,0
+3,c_knob2,c_well9,IslandHopping,228391098,B,loss,A,664,The winning team won by capturing 75% of sky islands.,59,0
+3,c_knob2,arch_ampmid,ReverseFunnel,221447893,A,win,A,531,The winning team won by capturing 75% of sky islands.,66,0
+3,c_knob2,c_well9,Cat,209893011,A,loss,B,448,The winning team won by capturing 75% of sky islands.,43,0
+3,c_knob2,arch_ampmid,ReverseFunnel,221447893,B,win,B,546,The winning team won by capturing 75% of sky islands.,64,0
+3,c_knob2,arch_jm,BatSignal,2207223,A,win,A,561,The winning team won by capturing 75% of sky islands.,48,0
+3,c_knob2,arch_jm,BatSignal,2207223,B,loss,A,474,The winning team won by capturing 75% of sky islands.,39,0
+3,c_knob2,arch_swarm,Cat,51163090,A,win,A,498,The winning team won by capturing 75% of sky islands.,43,0
+3,c_knob2,c_well9,Cat,209893011,B,win,B,448,The winning team won by capturing 75% of sky islands.,38,0
+3,c_knob2,arch_swarm,Cat,51163090,B,loss,A,472,The winning team won by capturing 75% of sky islands.,41,0
+3,c_knob2,c_well9,ReverseFunnel,258112985,B,loss,A,409,The winning team won by capturing 75% of sky islands.,43,0
+3,c_knob2,c_well9,ReverseFunnel,258112985,A,win,A,409,The winning team won by capturing 75% of sky islands.,43,0
+3,c_knob2,arch_jm,DefaultMap,30310667,A,win,A,454,The winning team won by capturing 75% of sky islands.,54,0
+3,c_knob2,arch_jm,DefaultMap,30310667,B,win,B,512,The winning team won by capturing 75% of sky islands.,61,0
+3,c_knob2,arch_swarm,ReverseFunnel,118124906,B,win,B,518,The winning team won by capturing 75% of sky islands.,48,0
+3,c_knob2,arch_swarm,ReverseFunnel,118124906,A,win,A,458,The winning team won by capturing 75% of sky islands.,47,0
+3,c_rc01,arch_jm,Hah,87201187,A,win,A,414,The winning team won by capturing 75% of sky islands.,40,0
+3,c_rc01,c_well9,Maze,65042250,A,win,A,512,The winning team won by capturing 75% of sky islands.,68,0
+3,c_rc01,c_well9,Maze,65042250,B,loss,A,499,The winning team won by capturing 75% of sky islands.,63,0
+3,c_rc01,arch_swarm,Hah,107509188,B,win,B,352,The winning team won by capturing 75% of sky islands.,34,0
+3,c_rc01,arch_jm,Hah,87201187,B,loss,A,414,The winning team won by capturing 75% of sky islands.,45,0
+3,c_rc01,arch_swarm,Hah,107509188,A,win,A,686,The winning team won by capturing 75% of sky islands.,72,0
+3,c_rc01,arch_ampmid,Cat,247084207,A,win,A,550,The winning team won by capturing 75% of sky islands.,51,0
+3,c_rc01,arch_ampmid,Cat,247084207,B,win,B,433,The winning team won by capturing 75% of sky islands.,38,0
+3,c_rc01,c_well9,IslandHopping,228391098,A,win,A,562,The winning team won by capturing 75% of sky islands.,43,0
+3,c_rc01,arch_ampmid,ReverseFunnel,221447893,A,win,A,531,The winning team won by capturing 75% of sky islands.,58,0
+3,c_rc01,arch_ampmid,ReverseFunnel,221447893,B,win,B,546,The winning team won by capturing 75% of sky islands.,59,0
+3,c_rc01,c_well9,Cat,209893011,A,loss,B,535,The winning team won by capturing 75% of sky islands.,49,0
+3,c_rc01,c_well9,IslandHopping,228391098,B,loss,A,551,The winning team won by capturing 75% of sky islands.,43,0
+3,c_rc01,arch_jm,BatSignal,2207223,A,win,A,550,The winning team won by capturing 75% of sky islands.,44,0
+3,c_rc01,c_well9,Cat,209893011,B,win,B,448,The winning team won by capturing 75% of sky islands.,37,0
+3,c_rc01,arch_jm,BatSignal,2207223,B,loss,A,459,The winning team won by capturing 75% of sky islands.,36,0
+3,c_rc01,arch_swarm,Cat,51163090,A,win,A,538,The winning team won by capturing 75% of sky islands.,43,0
+3,c_rc01,c_well9,ReverseFunnel,258112985,A,win,A,409,The winning team won by capturing 75% of sky islands.,43,0
+3,c_rc01,arch_swarm,Cat,51163090,B,loss,A,583,The winning team won by capturing 75% of sky islands.,48,0
+3,c_rc01,arch_jm,DefaultMap,30310667,A,win,A,499,The winning team won by capturing 75% of sky islands.,58,0
+3,c_rc01,arch_jm,DefaultMap,30310667,B,win,B,452,The winning team won by capturing 75% of sky islands.,55,0
+3,c_rc01,arch_swarm,ReverseFunnel,118124906,A,win,A,458,The winning team won by capturing 75% of sky islands.,45,0
+3,c_rc01,c_well9,ReverseFunnel,258112985,B,loss,A,409,The winning team won by capturing 75% of sky islands.,44,0
+3,c_rc01,arch_swarm,ReverseFunnel,118124906,B,win,B,518,The winning team won by capturing 75% of sky islands.,52,0
+3,c_rc04,c_well9,Maze,65042250,B,loss,A,390,The winning team won by capturing 75% of sky islands.,48,0
+3,c_rc04,arch_jm,Hah,87201187,A,win,A,456,The winning team won by capturing 75% of sky islands.,43,0
+3,c_rc04,arch_swarm,Hah,107509188,A,loss,B,387,The winning team won by capturing 75% of sky islands.,34,0
+3,c_rc04,arch_jm,Hah,87201187,B,loss,A,452,The winning team won by capturing 75% of sky islands.,45,0
+3,c_rc04,arch_swarm,Hah,107509188,B,win,B,352,The winning team won by capturing 75% of sky islands.,82,0
+3,c_rc04,arch_ampmid,Cat,247084207,A,win,A,550,The winning team won by capturing 75% of sky islands.,99,0
+3,c_rc04,arch_ampmid,Cat,247084207,B,win,B,433,The winning team won by capturing 75% of sky islands.,47,0
+3,c_rc04,c_well9,IslandHopping,228391098,A,win,A,603,The winning team won by capturing 75% of sky islands.,46,0
+3,c_rc04,c_well9,Maze,65042250,A,win,A,849,The winning team won by capturing 75% of sky islands.,176,0
+3,c_rc04,arch_ampmid,ReverseFunnel,221447893,A,win,A,531,The winning team won by capturing 75% of sky islands.,55,0
+3,c_rc04,arch_ampmid,ReverseFunnel,221447893,B,win,B,546,The winning team won by capturing 75% of sky islands.,56,0
+3,c_rc04,c_well9,IslandHopping,228391098,B,loss,A,716,The winning team won by capturing 75% of sky islands.,57,0
+3,c_rc04,c_well9,Cat,209893011,A,loss,B,521,The winning team won by capturing 75% of sky islands.,47,0
+3,c_rc04,c_well9,Cat,209893011,B,win,B,448,The winning team won by capturing 75% of sky islands.,40,0
+3,c_rc04,arch_jm,BatSignal,2207223,B,loss,A,477,The winning team won by capturing 75% of sky islands.,37,0
+3,c_rc04,arch_swarm,Cat,51163090,A,win,A,479,The winning team won by capturing 75% of sky islands.,37,0
+3,c_rc04,arch_jm,BatSignal,2207223,A,win,A,547,The winning team won by capturing 75% of sky islands.,42,0
+3,c_rc04,arch_swarm,Cat,51163090,B,loss,A,494,The winning team won by capturing 75% of sky islands.,41,0
+3,c_rc04,c_well9,ReverseFunnel,258112985,B,loss,A,409,The winning team won by capturing 75% of sky islands.,39,0
+3,c_rc04,arch_jm,DefaultMap,30310667,A,win,A,515,The winning team won by capturing 75% of sky islands.,59,0
+3,c_rc04,c_well9,ReverseFunnel,258112985,A,win,A,409,The winning team won by capturing 75% of sky islands.,40,0
+3,c_rc04,arch_swarm,ReverseFunnel,118124906,A,win,A,458,The winning team won by capturing 75% of sky islands.,46,0
+3,c_rc04,arch_swarm,ReverseFunnel,118124906,B,win,B,518,The winning team won by capturing 75% of sky islands.,52,0
+3,c_rc04,arch_jm,DefaultMap,30310667,B,win,B,433,The winning team won by capturing 75% of sky islands.,49,0
+3,c_rc05,c_well9,Maze,65042250,B,loss,A,497,The winning team won by capturing 75% of sky islands.,61,0
+3,c_rc05,arch_jm,Hah,87201187,A,win,A,410,The winning team won by capturing 75% of sky islands.,45,0
+3,c_rc05,c_well9,Maze,65042250,A,loss,B,354,The winning team won by capturing 75% of sky islands.,48,0
+3,c_rc05,arch_swarm,Hah,107509188,A,win,A,375,The winning team won by capturing 75% of sky islands.,36,0
+3,c_rc05,arch_ampmid,Cat,247084207,A,win,A,449,The winning team won by capturing 75% of sky islands.,38,0
+3,c_rc05,arch_jm,Hah,87201187,B,loss,A,414,The winning team won by capturing 75% of sky islands.,42,0
+3,c_rc05,arch_ampmid,Cat,247084207,B,win,B,485,The winning team won by capturing 75% of sky islands.,41,0
+3,c_rc05,arch_swarm,Hah,107509188,B,win,B,432,The winning team won by capturing 75% of sky islands.,44,0
+3,c_rc05,c_well9,IslandHopping,228391098,A,win,A,630,The winning team won by capturing 75% of sky islands.,46,0
+3,c_rc05,arch_ampmid,ReverseFunnel,221447893,A,win,A,692,The winning team won by capturing 75% of sky islands.,69,0
+3,c_rc05,c_well9,IslandHopping,228391098,B,loss,A,603,The winning team won by capturing 75% of sky islands.,53,0
+3,c_rc05,arch_ampmid,ReverseFunnel,221447893,B,win,B,546,The winning team won by capturing 75% of sky islands.,66,0
+3,c_rc05,c_well9,Cat,209893011,A,loss,B,448,The winning team won by capturing 75% of sky islands.,46,0
+3,c_rc05,c_well9,Cat,209893011,B,win,B,436,The winning team won by capturing 75% of sky islands.,41,0
+3,c_rc05,arch_jm,BatSignal,2207223,A,win,A,561,The winning team won by capturing 75% of sky islands.,46,0
+3,c_rc05,arch_jm,BatSignal,2207223,B,loss,A,474,The winning team won by capturing 75% of sky islands.,38,0
+3,c_rc05,arch_swarm,Cat,51163090,A,win,A,546,The winning team won by capturing 75% of sky islands.,47,0
+3,c_rc05,c_well9,ReverseFunnel,258112985,A,win,A,398,The winning team won by capturing 75% of sky islands.,43,0
+3,c_rc05,arch_swarm,Cat,51163090,B,loss,A,472,The winning team won by capturing 75% of sky islands.,42,0
+3,c_rc05,c_well9,ReverseFunnel,258112985,B,loss,A,407,The winning team won by capturing 75% of sky islands.,47,0
+3,c_rc05,arch_swarm,ReverseFunnel,118124906,A,win,A,452,The winning team won by capturing 75% of sky islands.,47,0
+3,c_rc05,arch_jm,DefaultMap,30310667,A,win,A,663,The winning team won by capturing 75% of sky islands.,89,0
+3,c_rc05,arch_swarm,ReverseFunnel,118124906,B,win,B,634,The winning team won by capturing 75% of sky islands.,60,0
+3,c_rc05,arch_jm,DefaultMap,30310667,B,win,B,465,The winning team won by capturing 75% of sky islands.,52,0

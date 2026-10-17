@@ -57,13 +57,9 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   numeric constants with ranges and 10 constraints; `sample` = random valid settings). `tools/swiss.py` runs a Swiss
   tournament of the base plus random variants (`init` [--pool A,B,.. --k K for a focused search], `run`,
   `standings`, `analyse`, `export DIR BOT NEWPKG`). First run done 11:16 PDT (below).
-- **Race of the micro knobs (12:15 PDT)**: `tools/race.py` (successive halving against c_well9 + arch_jm + arch_swarm
-  + arch_ampmid on the 10 panel maps; the base is the never-cut control; `standings`, `analyse`, `export`; the watcher
-  reports RACE_DONE). Run **gauntlet/20261016-191511-race-micro2** on the VM (log logs/race-micro2.log): c_knob2
-  (c_well9 + three micro knobs at c_well9's values: AHEAD_MIN 2, HOLD_THREAT 1, STAND_THREAT -1) and 9 one-factor and
-  combined points, 384 games, rungs 8/16/32 units, ~6-8 h. On RACE_DONE: copy config, bots, units, games, census,
-  rung*.txt and final.txt to research/race/<run>/, run `analyse`; a winner that beats the base by a clear paired net
-  gets `export`ed and screened (the screen is the independent check: the race selected on its own cells).
+- **Race of the micro knobs DONE (19:21 PDT)** (research/race/20261016-191511-race-micro2/, `tools/race.py`):
+  c_well9's values AHEAD_MIN 2, HOLD_THREAT 1, STAND_THREAT -1 are best on each knob; winner c_rc01 +3 over 64
+  paired games (noise): nothing exported. Micro knobs are at a local optimum.
 - **c_sim1 rejected** (screen FAIL 14:56 PDT, h2h 5/20 vs c_well9): judging "ahead" by a focus-fire simulation
   (engage 2v1/3v2 at health, stand after firing) loses clearly to the count rule and kiting.
 - **c_keep2 parked (18:13 PDT)** = c_gp1 + C.HOT_KEEP_MN (a mana carrier keeps the nearest hot mana well for a
