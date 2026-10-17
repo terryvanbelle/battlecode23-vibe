@@ -92,7 +92,7 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   panel maps 10/20).
 - **c_hunt1** = c_gp1 + C.HUNT (after the siege target's raid wells are cleared the raid goes on to the other enemy
   HQs' predicted wells; hashed raided-well table). hunt1-h2h 107/206 (won both 12, lost both 8; panel maps 12/20).
-  Screen PASS 08:00 PDT 10-17. **Trial (submission 181) started 09:05 PDT 10-17** (restart state above).
+  Screen PASS 08:00 PDT 10-17. Trial (submission 181) **REJECTED 13:59 PDT 10-17**: panel net 0 (98 identical).
 - **c_rot1** = param c_gp1 SIEGE_ROTATE_FROM 300 / SIEGE_ROTATE 100 (the army steps through the enemy HQs). rot1-h2h
   DONE 115/206 (won both 16, lost both 4; panel maps 12/20). Screen queued 08:37 PDT (`tools/screen.py collect c_rot1`).
 - **c_hr1** = param c_hunt1 + c_rot1's rotation. hr1-h2h DONE 117/206 (won both 20, lost both 6; panel 13/20); screen queued 12:28 PDT. **c_rot2** (ROTATE_FROM 200) and **c_rot3**

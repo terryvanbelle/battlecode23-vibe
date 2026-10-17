@@ -2190,3 +2190,6 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   seen, and from r300 siegeTarget cycled the army between those guesses (c_hr1's launchers turned back north at
   r320-380; 11 vs 25 launchers at r500). **c_hr2** = c_hr1 + ROT_KNOWN (rotate only when MapMem.decided() or every
   enemy HQ is seen; pure rotRank, Hr2Test). hr2-h2h queued; unit tests running.
+- 14:00 PDT c_hunt1 trial (submission 181) **REJECTED**: panel vs c_gp1's (paired.py) 98 games identical, gained 1
+  (pranayagra.finalbotfinal), lost 1 (georgezhang02.CB_tuning2), net 0; island-rounds margin +109 (t 0.82). The raid
+  extension rarely fires against the field. c_gp1 stays validated (182).
