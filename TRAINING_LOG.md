@@ -2159,3 +2159,9 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   with SIEGE_ROTATE_FROM 300, SIEGE_ROTATE 100 (Cornucopia 8613 g2 r765: ~30 launchers held the ring at one enemy HQ
   while 12 enemy carriers mined between our HQs; c_hunt1 extends only once the target's raid wells are cleared, which
   a ring in constant contact never does). VM rot1-h2h (all maps both sides vs c_gp1) queued.
+- 08:38 PDT rot1-h2h DONE: c_rot1 115/206 vs c_gp1 (won both sides 16 maps: BattleSuns, Cave, Cee, Cornucopia,
+  Eyelands, FishCake, Fractured, Grievance, IslandHoppingTwo, KingdomRush, LookingGlass, MoonPhases, Potions,
+  ReverseFunnel, Spots, Tightrope; lost both 4: Buggy, Lines, ThirtyFive, USA; net +12 maps, the best map signal after
+  flee9's +13; panel maps 12/20 with Cornucopia and ReverseFunnel won both). Screen c_rot1 queued
+  (20261017-153742). c_hr1 = param c_hunt1 with c_rot1's rotation (stack of the two siege fixes): VM hr1-h2h queued.
+- 09:05 PDT trial-start c_hunt1 (submission 181) after the 09:00 autoscrim; panel requests 4406 on.
