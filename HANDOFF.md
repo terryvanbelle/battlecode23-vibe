@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-17 10:45 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
+Updated 2026-10-17 14:00 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
 archived in `research/diagnosis/2026-10-12-handoff-inflight.md`). On 2026-10-12 18:48 PDT every galaxy unit stopped and
 the VM queue runner exited on a STOP file, with no recorded reason; both were restarted on 2026-10-14 (the replica in
 the morning, the runner at 11:47 PDT). `tools/watch_events.py` now reports either failure (REPLICA_DOWN,
@@ -50,16 +50,14 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-17 10:45 PDT)
+## In flight (2026-10-17 14:00 PDT)
 
-- **Restart state (10:45 PDT 10-17).** The c_hunt1 trial (submission 181) runs nohup'd on the driver
-  (`tools/ladder_policy.py trial-start c_hunt1`, log `logs/trial-c_hunt1.log`, requests 4406-4415, run dir
-  `gauntlet/20261017-160519-panel-c_hunt1`). When its results.csv exists:
-  `python3 tools/paired.py gauntlet/20261017-160519-panel-c_hunt1 gauntlet/20261016-170213-panel-c_gp1`, then
+- **State (14:00 PDT 10-17).** c_rot1 trial (submission 183, nohup'd `trial-start c_rot1`, log
+  `logs/trial-c_rot1.log`, run dir `gauntlet/20261017-183626-panel-c_rot1`): on PANEL/its results.csv,
+  `python3 tools/paired.py gauntlet/20261017-183626-panel-c_rot1 gauntlet/20261016-170213-panel-c_gp1`, then
   `tools/ladder_policy.py trial-end --accept|--reject` (accept -> `tools/progress-refresh.sh`, push progress/ and
-  research/matches/). VM jobs: hr1-h2h (184/206), rot2-h2h (50), rot3-h2h (76), c_rot1 screen at stage c
-  (stage b h2h 12/20 on the panel maps); `tools/screen.py collect c_rot1` on SCREEN_DONE. `tools/vm-stop.sh <name>`
-  stops one of our detached VM jobs (owner, PROMPTS 125; never battlecode-dev2).
+  research/matches/). VM: c_hr1 screen (collect on SCREEN_DONE), hr1-h2h-r (random seeds), hr2-h2h.
+  `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125; never battlecode-dev2).
 - **Owner's parameter-search project (PROMPTS 114; practice session, bold attempts welcome).** `tools/param.py`
   builds a package with C.java constants overridden at build time (`make BASE NEW NAME=VALUE ...`; `space` = 73
   numeric constants with ranges and 10 constraints; `sample` = random valid settings). `tools/swiss.py` runs a Swiss
