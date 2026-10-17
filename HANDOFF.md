@@ -82,8 +82,8 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   190 vs 67. mn1-h2h (all maps) running.
 - **c_sym1** = c_gp1 + SYM_CENTROID (undecided symmetry: launchers march to the predicted HQs' centroid). sym1-h2h running.
 - **c_flee9** = c_flee4 + FLEE9_HOLD: 0 overruns in 56 games; panel 20/40 vs c_gp1 (noise). flee9-h2h DONE: 116/206
-  vs c_gp1 (+13 maps: won both 29, lost both 16, the same 16 as c_flee1). Screen queued 05:42 PDT
-  (20261017-124217-scr-c_flee9-8ef1bc98cf8c; `tools/screen.py collect c_flee9`), then trial.
+  vs c_gp1 (+13 maps: won both 29, lost both 16, the same 16 as c_flee1). **Screen FAIL 06:19 PDT** (h2h 8/20 on
+  the panel maps; flee9-h2h there 9/20): not trialled.
 - **c_flee1 (workflow, 16:39 PDT)** = c_gp1 + carrier survival. Ranked 8190-8237: in lost games our carriers die
   14.0 per game by r300 vs theirs 6.6 (wins 3.8 vs 16.8), in F 614 / G 450 / C 178 / V 174, in our own third
   (prog quartiles 0.10/0.20/0.31; the hot-well memory covers front wells only).

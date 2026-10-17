@@ -2135,3 +2135,14 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   Sprint1, vrangr1; net -3, sign p 0.25); c_gp1 resubmitted as 180. Local expl1-h2h +7 did not transfer (the panel's
   maps and opponents barely exercise blind search). flee9-h2h DONE 116/206 vs c_gp1: won both sides 29 maps, lost both
   16 (identical list to c_flee1's), split 58. Screen c_flee9 queued (20261017-124217).
+- 05:53 PDT Panel losses with an army lead: 13 of c_expl1's 32 panel losses (and 27 in panel matches 8211-8230) had
+  launchers at r250 >= theirs. Cornucopia (3 HQs a side) vs awesomelemonade 8616 g2: launchers 27/12 at r250, we
+  killed 1 enemy carrier per 100 rounds in r200-500 while theirs grew 21 -> 40 and their launchers 12 -> 56 by r550
+  (pranayagra 8617 g2: 25/11, 0 carriers killed r200-400, their launchers 11 -> 33 in r250-350). Launcher turns in the
+  mid phase: S/N (stand, nothing) at the enemy HQ 48%. Map at r450 (8613 g2, vrangr1): our ring held (10,18) while their
+  carriers mined beside their HQs (48,18) and (29,51). The carrier raid (raidWell) covers only predicted wells within
+  r2 100 of the siege target. c_hunt1 = c_gp1 + C.HUNT: once those are all cleared the raid goes on to the other
+  enemy HQs' predicted wells (nearest the siege target first) before the ring; the raided-well table becomes an
+  open-addressing hash (64 slots, O(1) lookups, no RNG eviction). Hunt1Test 16 checks. VM hunt1-h2h queued.
+- 06:19 PDT c_flee9 screen FAIL (progress/screens/c_flee9-8ef1bc98cf8c.json): basics PASS (0 overruns, 0 exceptions),
+  h2h 8/20 vs c_gp1 on the panel maps (flee9-h2h on the same maps 9/20; its +13 maps are off the panel). Not trialled.
