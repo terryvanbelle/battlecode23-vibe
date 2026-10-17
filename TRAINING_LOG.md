@@ -2020,3 +2020,8 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   only). Cee 8236 g0: carriers built 18/19 by r250 but alive 11/17. Workflow c_flee1 (on c_gp1: replay diagnosis,
   3 designs, judge, implement, review) and c_expl1 (frontier exploration, on c_keep2) running. keep2-h2h 40/83 at
   16:30 (both-sides maps: Fractured 2-0; Contraction, Checkmate2 0-2). progress/ pushed 16:05 (e86cc9f; 23 reports).
+- 17:26 PDT c_adlo1 screen (vs c_well9, its base): PASS, h2h 11/20, roster info net +0, basics 148 games clean. Ported
+  to the incumbent: c_adlo2 = tools/param.py make c_gp1 (AD_EARLY_EVERY 12, AD_LATE_EVERY 7, CAP_MAX 40,
+  CAP_PER_MN_WELL 7, ANCHOR_START 330); its screen vs c_gp1 queued (20261017-002503-scr-c_adlo2-dc0032eb1894;
+  --min-disk-gb 1.5: the VM has 1.9 GB free, replays are not the bulk). keep2-h2h 73/148 (both-sides maps: won
+  Fractured, RockWall; lost Checkmate2, Contraction, PipesAndParabolas; Orbit 1-1).
