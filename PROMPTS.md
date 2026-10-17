@@ -556,3 +556,15 @@ If you have several candidates waiting for a panel run, does it make sense to ha
 ## 123. 2026-10-17 08:23 PDT
 
 Sounds good, thanks
+
+## 124. 2026-10-17 10:34 PDT
+
+What can I do to allow you to kill VM processes?
+
+## 125. 2026-10-17 10:36 PDT
+
+I actually don't have any problems with you killing any processes on either VM, if you feel it's necessary
+
+## 126. 2026-10-17 10:39 PDT
+
+Added bash permissions for vm-stop.sh.  Let me know when it's safe to restart

@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-15 12:20 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
+Updated 2026-10-17 10:45 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
 archived in `research/diagnosis/2026-10-12-handoff-inflight.md`). On 2026-10-12 18:48 PDT every galaxy unit stopped and
 the VM queue runner exited on a STOP file, with no recorded reason; both were restarted on 2026-10-14 (the replica in
 the morning, the runner at 11:47 PDT). `tools/watch_events.py` now reports either failure (REPLICA_DOWN,
@@ -50,8 +50,16 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-16 15:42 PDT)
+## In flight (2026-10-17 10:45 PDT)
 
+- **Restart state (10:45 PDT 10-17).** The c_hunt1 trial (submission 181) runs nohup'd on the driver
+  (`tools/ladder_policy.py trial-start c_hunt1`, log `logs/trial-c_hunt1.log`, requests 4406-4415, run dir
+  `gauntlet/20261017-160519-panel-c_hunt1`). When its results.csv exists:
+  `python3 tools/paired.py gauntlet/20261017-160519-panel-c_hunt1 gauntlet/20261016-170213-panel-c_gp1`, then
+  `tools/ladder_policy.py trial-end --accept|--reject` (accept -> `tools/progress-refresh.sh`, push progress/ and
+  research/matches/). VM jobs: hr1-h2h (184/206), rot2-h2h (50), rot3-h2h (76), c_rot1 screen at stage c
+  (stage b h2h 12/20 on the panel maps); `tools/screen.py collect c_rot1` on SCREEN_DONE. `tools/vm-stop.sh <name>`
+  stops one of our detached VM jobs (owner, PROMPTS 125; never battlecode-dev2).
 - **Owner's parameter-search project (PROMPTS 114; practice session, bold attempts welcome).** `tools/param.py`
   builds a package with C.java constants overridden at build time (`make BASE NEW NAME=VALUE ...`; `space` = 73
   numeric constants with ranges and 10 constraints; `sample` = random valid settings). `tools/swiss.py` runs a Swiss
@@ -84,10 +92,11 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   panel maps 10/20).
 - **c_hunt1** = c_gp1 + C.HUNT (after the siege target's raid wells are cleared the raid goes on to the other enemy
   HQs' predicted wells; hashed raided-well table). hunt1-h2h 107/206 (won both 12, lost both 8; panel maps 12/20).
-  Screen PASS 08:00 PDT 10-17. **Trial to start after the 09:00 PDT autoscrim** (`tools/ladder_policy.py trial-start c_hunt1`).
+  Screen PASS 08:00 PDT 10-17. **Trial (submission 181) started 09:05 PDT 10-17** (restart state above).
 - **c_rot1** = param c_gp1 SIEGE_ROTATE_FROM 300 / SIEGE_ROTATE 100 (the army steps through the enemy HQs). rot1-h2h
   DONE 115/206 (won both 16, lost both 4; panel maps 12/20). Screen queued 08:37 PDT (`tools/screen.py collect c_rot1`).
-- **c_hr1** = param c_hunt1 + c_rot1's rotation. hr1-h2h queued.
+- **c_hr1** = param c_hunt1 + c_rot1's rotation. hr1-h2h running. **c_rot2** (ROTATE_FROM 200) and **c_rot3**
+  (ROTATE 50) = timing variants of c_rot1; rot2-h2h and rot3-h2h running.
 - **c_flee9** = c_flee4 + FLEE9_HOLD: 0 overruns in 56 games; panel 20/40 vs c_gp1 (noise). flee9-h2h DONE: 116/206
   vs c_gp1 (+13 maps: won both 29, lost both 16, the same 16 as c_flee1). **Screen FAIL 06:19 PDT** (h2h 8/20 on
   the panel maps; flee9-h2h there 9/20): not trialled.

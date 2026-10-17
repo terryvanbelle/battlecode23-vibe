@@ -417,6 +417,37 @@ class ReplayDumpSaTest(unittest.TestCase):
             self.assertEqual(sum(int(r['n_attacks']) for r in ours), 154)
 
 
+class VmStopTest(unittest.TestCase):
+    """tools/vm-stop.sh (owner, PROMPTS 124): refuses bad names and pgids offline; the remote command checks the group
+    leader (bash, running in our repo) before signalling the group, and touches battlecode-dev only."""
+    def run_stop(self, *args, env=None):
+        e = dict(os.environ, **(env or {}))
+        return subprocess.run([str(TOOLS / 'vm-stop.sh'), *args], capture_output=True, text=True, env=e)
+
+    def test_refuses_bad_input_offline(self):
+        for args in (['../etc'], ['.hidden'], ['a b'], ['--pgid', '12a'], ['--pgid'], []):
+            r = self.run_stop(*args, env={'DRY': '1'})
+            self.assertEqual(r.returncode, 2, args)
+
+    def test_remote_command_guards(self):
+        r = self.run_stop('rot2-h2h', env={'DRY': '1'})
+        self.assertEqual(r.returncode, 0)
+        cmd = r.stdout
+        self.assertIn('cat logs/rot2-h2h.pgid', cmd)
+        self.assertIn('readlink /proc/$g/cwd', cmd)       # leader must run in our repo
+        self.assertIn('$HOME/projects/vibe/2023', cmd)
+        self.assertIn('ps -o comm= -p $g', cmd)            # leader must be bash
+        self.assertLess(cmd.index('readlink'), cmd.index('kill -TERM -- -$g'))
+        self.assertIn('>> logs/rot2-h2h.log', cmd)
+        r = self.run_stop('--pgid', '3589252', env={'DRY': '1'})
+        self.assertIn('g=$(echo 3589252)', r.stdout)
+        self.assertNotIn('>> logs/', r.stdout)
+
+    def test_vm_is_battlecode_dev(self):
+        self.assertIn('VM=battlecode-dev;', (TOOLS / 'vm.sh').read_text())
+        self.assertIn('echo \\$! > logs/$NAME.pgid', (TOOLS / 'vm-run.sh').read_text())
+
+
 class WatchEventsTest(unittest.TestCase):
     """tools/watch_events.py pure parts (owner, PROMPTS 90): the watcher that wakes the session on events."""
     @classmethod
