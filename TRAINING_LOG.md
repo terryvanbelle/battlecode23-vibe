@@ -2214,3 +2214,6 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   71/100, losses spread over all 10 maps (jmerle 6, awesomelemonade 6, vrangr1 5, pranayagra 5, NotLLeon 3,
   britacatalin 2, georgezhang 1). Ranked reports (last 150): wins Mn@100 ratio median 1.44, losses 0.87; 160 of 392
   losses at par or ahead in launchers at r250. Workflow panel-loss-diagnosis running (4 groups + verify/synthesis).
+- 16:51 PDT vs c_hr1, all maps both sides (map seeds): hr4-h2h (SIEGE_ROTATE_FROM 250) 112/206, won both 14 / lost both 5
+  (+9 maps), panel maps 11/20; hr3-h2h (SIEGE_ROTATE 150) 97/206, 4/10 (-6): slower rotation is worse, an earlier
+  start better. c_hr4: random-seed h2h (hr4-h2h-r) and screen (20261017-235104-scr-c_hr4-03ad65820c33) queued.

@@ -54,7 +54,8 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
 
 - **State (15:17 PDT 10-17).** **c_hr1 is the validated build (submission 185, accepted 15:17 PDT)**: c_gp1 + C.HUNT
   + siege rotation (SIEGE_ROTATE_FROM 300, SIEGE_ROTATE 100). Screens and h2h now run vs c_hr1. c_rot1 rejected
-  (subsumed); c_hr2 (rotate only on known HQs) dropped, net -9 games vs c_hr1. VM: hr1-h2h-r (random seeds).
+  (subsumed); c_hr2 (rotate only on known HQs) dropped, net -9 games vs c_hr1; c_hr3 (ROTATE 150) -6 maps vs c_hr1.
+  c_hr4 (ROTATE_FROM 250) +9 maps vs c_hr1: screen and random-seed h2h (hr4-h2h-r) running.
   `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125; never battlecode-dev2).
 - **Owner's parameter-search project (PROMPTS 114; practice session, bold attempts welcome).** `tools/param.py`
   builds a package with C.java constants overridden at build time (`make BASE NEW NAME=VALUE ...`; `space` = 73
