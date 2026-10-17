@@ -2209,3 +2209,8 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - 15:17 PDT hr2-h2h (c_hr2 = c_hr1 + ROT_KNOWN) 108/206: vs hr1-h2h game by game 127 identical, gained 11 (USA B among
   them), lost 20: net -9. Rotating between symmetry guesses pays on most maps (the cycle visits the candidates,
   eliminating wrong ones and finding the real HQs), though it costs USA. c_hr2 dropped.
+- 16:00 PDT hr1-h2h-r DONE: c_hr1 vs c_gp1, random seeds, 115/206 (55.8%); with hr1-h2h 232/412 (56.3%). c_hr3/c_hr4
+  unit tests PASS; hr3-h2h, hr4-h2h vs c_hr1 running. VM replays of analyzed runs pruned (2.4 GB free). c_hr1's panel:
+  71/100, losses spread over all 10 maps (jmerle 6, awesomelemonade 6, vrangr1 5, pranayagra 5, NotLLeon 3,
+  britacatalin 2, georgezhang 1). Ranked reports (last 150): wins Mn@100 ratio median 1.44, losses 0.87; 160 of 392
+  losses at par or ahead in launchers at r250. Workflow panel-loss-diagnosis running (4 groups + verify/synthesis).
