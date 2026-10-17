@@ -2055,3 +2055,8 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   winner c_rc01 +3 over 64 paired games (noise). Rung-1 share by level: AHEAD_MIN 0 .469 / 1 .625 / 2 .635;
   HOLD_THREAT 1 .635 / 2 .594 / 3 .500; STAND_THREAT -1 .675 / 0 .625 / 1 .656 / 2 .344: the base values are
   best on each knob. Micro knobs are at a local optimum; nothing exported.
+- 20:44 PDT c_adlo2 screen (vs c_gp1): PASS, h2h 13/20, roster info net +3, basics 148 games clean. Panel trial started
+  (tools/ladder_policy.py trial-start c_adlo2; logs/trial-c_adlo2.log). flee1-h2h (c_flee1 vs c_gp1, 103 maps both
+  sides) 34/60 at 20:12 (both-sides maps won 7, lost 3: AllElements, Cube, Forest). Driver Forest 1101 c_gp1 vs
+  c_flee1 (B): A won r2000 on islands; B's carriers dead by r400 7 vs 11, Mn@100 523 vs 434, but Mn@300 1654 vs
+  1940 and L@600 32 vs 67: fewer deaths, less mid-game mining (stand-off/drop timidity is the suspect).
