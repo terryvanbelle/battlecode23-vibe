@@ -79,8 +79,9 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   Quiet, Spin (VM self-all audits every map).
 - **c_mn1** = c_expl1 + MN_TRIP / MN_AVOID_JUMP / MN_BANK (a fallback well lasts one trip once a role well is known;
   site-only role well -> fallback at once; no well with cargo -> bank). econ8 7/16 vs c_gp1 (c_expl1 8/16); Spin A Mn@250
-  190 vs 67. mn1-h2h (all maps) running.
-- **c_sym1** = c_gp1 + SYM_CENTROID (undecided symmetry: launchers march to the predicted HQs' centroid). sym1-h2h running.
+  190 vs 67. mn1-h2h DONE 107/206 (won both 15, lost both 11; panel maps 9/20).
+- **c_sym1** = c_gp1 + SYM_CENTROID (undecided symmetry: launchers march to the predicted HQs' centroid). sym1-h2h DONE 106/206 (21/18;
+  panel maps 10/20).
 - **c_flee9** = c_flee4 + FLEE9_HOLD: 0 overruns in 56 games; panel 20/40 vs c_gp1 (noise). flee9-h2h DONE: 116/206
   vs c_gp1 (+13 maps: won both 29, lost both 16, the same 16 as c_flee1). **Screen FAIL 06:19 PDT** (h2h 8/20 on
   the panel maps; flee9-h2h there 9/20): not trialled.
