@@ -2172,3 +2172,5 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - 11:25 PDT STUCK_MATCH 8689 (ranked autoscrim 09:00 PDT, battlecode-archive.sprintBot vs pranayagra.finalbotfinaltwo,
   RUN > 1 h): cancelled + re-rated (tools/galaxy/cancel-match.sh 8689 --cancel, now CAN). The same pairing hung as
   7880 on 10-16 (sprintBot vs pranayagra.finalbotfinal): a repeat offender; not our match.
+- 11:37 PDT c_rot1 screen PASS (a 8/8, b h2h 12/20 vs c_gp1, c roster info-only net -2, d 128 games clean). Next
+  panel candidate after c_hunt1 (trial-park/trial-decide once c_hunt1's panel matches all exist).
