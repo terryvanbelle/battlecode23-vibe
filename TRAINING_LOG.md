@@ -2118,3 +2118,11 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   Mn1Test 13 checks; unit-tests PASS. c_flee9 flee9-panel DONE: 30/56, 0 overruns (Cornucopia/MassiveL seeds 2-5
   included), panel 20/40 = noise; flee9-h2h (all maps both sides) queued. VM econ8-mn1 / econ8-expl1 (8 maps both
   sides vs c_gp1, KEEP_ALL) running; c_expl1 trial-start submitted.
+- 03:35 PDT econ8 h2h vs c_gp1 (8 weak maps both sides, map seed): c_mn1 7/16, c_expl1 8/16. c_mn1's Mn: Spin as A
+  @250 190 vs c_expl1 67 (won), Orbit as B @250 363 vs 280 (Ad 624 vs 1172); SoundWave identical Mn yet c_mn1 lost both
+  on the r2000 tiebreak that c_expl1 won (late-game chaos: one seed is too thin). Side bias: ranked since 10-14 side A
+  75-84 (0.47), B 63-51 (0.55). Offline (all 103 maps): siegeTarget's first target is a fake reflection image for both
+  sides on 87 maps, side-dependent on only 3. c_sym1 = c_gp1 + SYM_CENTROID (undecided symmetry, no enemy HQ seen:
+  launchers march to the centroid of the predicted enemy HQs until r2 20 of it; Quiet diagnosis: both corners marched
+  to (3,16) first, the split group met the opponent's four 1-0 v 4). Sym1Test 7 checks; unit-tests PASS. VM queued:
+  mn1-h2h, sym1-h2h (all maps both sides vs c_gp1), self-all (c_gp1 mirror, every map, side A: side-bias audit).
