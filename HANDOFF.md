@@ -70,8 +70,8 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
 - **c_expl1 (workflow, 16:00 PDT)** = c_keep2 + frontier exploration for a carrier with no known well of its role
   (driver repro c_gp1 vs c_keep2 side A: SoundWave Mn@250 66 vs 446, Turtle 39 vs 176: wandering matters there).
   Screen PASS (22:40 PDT, marginal: h2h 11/20, roster info-only net -7). expl1-h2h DONE (01:59 PDT 10-17): 110/206
-  vs c_gp1 (+7, ~1 SE), maps won both 15 / lost both 8; SoundWave and Turtle won both sides. **Trial started 02:15 PDT
-  (submission 179, unranked panel).**
+  vs c_gp1 (+7, ~1 SE), maps won both 15 / lost both 8; SoundWave and Turtle won both sides. Trial (submission 179) **REJECTED 05:41 PDT 10-17**: panel 68/100
+  vs c_gp1's 71, 97 games identical, lost 3 (awesomelemonade, Sprint1, vrangr1), net -3; c_gp1 resubmitted (180).
 - **Basics gap: early Mn on 8 maps (10-17 01:22 PDT)**: ranked Mn@100 0-35% of the opponent's on SoundWave, Spin,
   Turtle, Orbit, Quiet, Rewind, Scatter, maptestsmall (0.9-1.3x elsewhere). Workflow econ-weak-maps: blind opening
   search (SoundWave/Turtle/Scatter: c_expl1's target), dead-end well choice (Orbit/Spin), combat symptoms
@@ -81,7 +81,9 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   site-only role well -> fallback at once; no well with cargo -> bank). econ8 7/16 vs c_gp1 (c_expl1 8/16); Spin A Mn@250
   190 vs 67. mn1-h2h (all maps) running.
 - **c_sym1** = c_gp1 + SYM_CENTROID (undecided symmetry: launchers march to the predicted HQs' centroid). sym1-h2h running.
-- **c_flee9** = c_flee4 + FLEE9_HOLD: 0 overruns in 56 games; panel 20/40 vs c_gp1 (noise). flee9-h2h running.
+- **c_flee9** = c_flee4 + FLEE9_HOLD: 0 overruns in 56 games; panel 20/40 vs c_gp1 (noise). flee9-h2h DONE: 116/206
+  vs c_gp1 (+13 maps: won both 29, lost both 16, the same 16 as c_flee1). Screen queued 05:42 PDT
+  (20261017-124217-scr-c_flee9-8ef1bc98cf8c; `tools/screen.py collect c_flee9`), then trial.
 - **c_flee1 (workflow, 16:39 PDT)** = c_gp1 + carrier survival. Ranked 8190-8237: in lost games our carriers die
   14.0 per game by r300 vs theirs 6.6 (wins 3.8 vs 16.8), in F 614 / G 450 / C 178 / V 174, in our own third
   (prog quartiles 0.10/0.20/0.31; the hot-well memory covers front wells only).

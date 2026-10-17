@@ -2131,3 +2131,7 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   or refused connection (any method) and on any network error for a GET, 6 times 5-160 s apart
   (test_network_failures_resend_only_when_safe); unit-tests PASS. Panel resumed (RESUME=gauntlet/20261017-091445-
   panel-c_expl1). Interim VM: flee9-h2h 85/147 (57.8%), mn1-h2h 13/24, sym1-h2h 10/25, self-all 30/103.
+- 05:42 PDT c_expl1 trial REJECTED: panel 68/100 vs c_gp1's 71 (paired: 97 identical, lost 3 vs awesomelemonade,
+  Sprint1, vrangr1; net -3, sign p 0.25); c_gp1 resubmitted as 180. Local expl1-h2h +7 did not transfer (the panel's
+  maps and opponents barely exercise blind search). flee9-h2h DONE 116/206 vs c_gp1: won both sides 29 maps, lost both
+  16 (identical list to c_flee1's), split 58. Screen c_flee9 queued (20261017-124217).
