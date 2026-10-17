@@ -2060,3 +2060,8 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   sides) 34/60 at 20:12 (both-sides maps won 7, lost 3: AllElements, Cube, Forest). Driver Forest 1101 c_gp1 vs
   c_flee1 (B): A won r2000 on islands; B's carriers dead by r400 7 vs 11, Mn@100 523 vs 434, but Mn@300 1654 vs
   1940 and L@600 32 vs 67: fewer deaths, less mid-game mining (stand-off/drop timidity is the suspect).
+- 21:14 PDT c_flee1 screen (vs c_gp1, panel maps): FAIL, h2h 8/20, basics (d) over 6 (all on Cornucopia, side B;
+  near-limit turns 2,114/2,381 on Cornucopia; 29-298 elsewhere). flee1-h2h at 146/206: 85/146, won both sides 21
+  maps, lost both 9 (AllElements, Cube, Forest, Frog, IslandHopping, IslandHoppingTwo, Minefield, MoonPhases,
+  RaceToTheTop): strong in self-play overall, weak on the large panel maps. Next: the overrun source (Cornucopia
+  replay), then ablations of the FLEE1 sub-switches on the panel maps.
