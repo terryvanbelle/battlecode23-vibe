@@ -2196,3 +2196,5 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - 14:23 PDT c_hr1 screen PASS (a 8/8, b h2h 13/20 vs c_gp1, c info-only net -2, d 128 games clean; arch_horde excluded:
   compile-failed on the VM, as arch_adecon in c_rot1's screen: intermittent, under load). c_hr2 unit tests PASS.
   c_hr1 waits for c_rot1's panel (c_hr2 may supersede it: hr2-h2h running).
+- 14:24 PDT c_rot1 trial parked (panel matches 8812-8821; c_gp1 active as 184); c_hr1 trial-start (submission 185,
+  requests 4427 on, log logs/trial-c_hr1.log).

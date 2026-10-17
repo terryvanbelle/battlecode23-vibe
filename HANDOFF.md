@@ -52,11 +52,12 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
 
 ## In flight (2026-10-17 14:00 PDT)
 
-- **State (14:00 PDT 10-17).** c_rot1 trial (submission 183, nohup'd `trial-start c_rot1`, log
+- **State (14:24 PDT 10-17).** c_rot1 trial PARKED (submission 183, matches 8812-8821; decide with `trial-decide c_rot1`), log
   `logs/trial-c_rot1.log`, run dir `gauntlet/20261017-183626-panel-c_rot1`): on PANEL/its results.csv,
   `python3 tools/paired.py gauntlet/20261017-183626-panel-c_rot1 gauntlet/20261016-170213-panel-c_gp1`, then
   `tools/ladder_policy.py trial-end --accept|--reject` (accept -> `tools/progress-refresh.sh`, push progress/ and
-  research/matches/). VM: c_hr1 screen (collect on SCREEN_DONE), hr1-h2h-r (random seeds), hr2-h2h.
+  research/matches/). c_hr1 trial running (submission 185, log `logs/trial-c_hr1.log`; screen PASS 13/20; decide with
+  trial-end). VM: hr1-h2h-r (random seeds), hr2-h2h.
   `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125; never battlecode-dev2).
 - **Owner's parameter-search project (PROMPTS 114; practice session, bold attempts welcome).** `tools/param.py`
   builds a package with C.java constants overridden at build time (`make BASE NEW NAME=VALUE ...`; `space` = 73
