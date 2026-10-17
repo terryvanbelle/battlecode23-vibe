@@ -2095,3 +2095,9 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   the VM, a ghost flight scored and stayed at 5,413 used and gather took 7,109 more. Flee9Test 69 cases. VM:
   flee9-panel (56 games vs c_gp1: panel both sides seeds map/1101, Cornucopia/MassiveL seeds 2-5) and expl1-h2h run
   beside abl-flee4.
+- 00:35 PDT abl-flee4 DONE (vs c_gp1, panel maps both sides, seeds map + 1101, 40 games each; the variant's score):
+  c_flee4 base 21/40 (map 8, 1101 13), c_flee5 DROP off 18 (paired vs base +1 -4), c_flee6 MEMORY off 20 (+5 -6),
+  c_flee7 MOVE off 17 (+3 -7), c_flee8 LIGHTEN off 22 (+4 -3; map seeds 11/20). All within noise (SD ~3 on 40).
+  Overruns only with MEMORY on and only on Cornucopia (base 3, DROP off 3; 0 for MEMORY/MOVE/LIGHTEN off), as the
+  debug trace said (ghost flight, then gather). MEMORY off mines more: mean Mn 6,232 vs 5,751 (+8%). The flee package
+  is about even with c_gp1 on the panel maps (c_flee1 was +11 maps over all 103). Replays pruned.
