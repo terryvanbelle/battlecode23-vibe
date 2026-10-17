@@ -2217,3 +2217,11 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - 16:51 PDT vs c_hr1, all maps both sides (map seeds): hr4-h2h (SIEGE_ROTATE_FROM 250) 112/206, won both 14 / lost both 5
   (+9 maps), panel maps 11/20; hr3-h2h (SIEGE_ROTATE 150) 97/206, 4/10 (-6): slower rotation is worse, an earlier
   start better. c_hr4: random-seed h2h (hr4-h2h-r) and screen (20261017-235104-scr-c_hr4-03ad65820c33) queued.
+- 16:58 PDT panel-loss-diagnosis DONE (research/diagnosis/2026-10-17-panel-losses-c_hr1.md; c_hr1 panel 72-28 by
+  results.csv). The losses are mostly decided by carriers dying at HOME wells before r300 (12.6 a game in losses vs
+  3.3 in wins; builds equal), inside even launcher fights; the enemy army doubles ours by ~r280 in 25/28 losses
+  (1/72 wins). Hot-well marks (c_well6) cover front wells only. Last step: islands; our launchers spend ~0 turns on
+  enemy islands in losses (2.65 per enemy-held round in wins) even at one island short of conquest. Rejected as
+  causes: piecemeal arrival (an effect), far-well raid, blind fire. Plans: c_isle1 (conquest-threat: even-id
+  launchers take the nearest enemy island; sticky 'theirs' slot; ablation c_isle2) and c_drop1 (a second flight from
+  the same well drops it for 40 rounds, home wells included, no hold). Workflow build-c_isle1 implementing both.
