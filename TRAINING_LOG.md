@@ -2029,3 +2029,9 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   both sides Fractured, RockWall, Spin, TimesUp; lost Checkmate2, Contraction, PipesAndParabolas, Sun); Orbit,
   SoundWave, Turtle 1-1. Neutral in self-play: c_keep2 parked, not screened (PROMPTS 102). Its replays pruned (VM
   2.4 GB free).
+- 18:27 PDT disk purge (owner, PROMPTS 120). Driver 5.1 -> 8.9 GB free: run replays except the c_gp1/c_pack1 panels
+  (32 dirs), match replays before 7600 (492 files, extracts and reports kept; the replica keeps every replay of our
+  matches), build/codex-recovery bulk (Oct 12-13 progress snapshots and logs; the 20261012T191037Z recovery bundle
+  kept), stale replay-dump caches and class trees. battlecode-dev 1.9 -> 3.7 GB free: Oct 8 fidelity extracts (10,
+  results/summaries kept), codex-recovery, old class trees, dev/diagnostic replays, journal to 100 MB. Kept: the
+  replica's replay store (/srv, 4.3 GB of our matches), running jobs, other projects' dirs; battlecode-dev2 untouched.

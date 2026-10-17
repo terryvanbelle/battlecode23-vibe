@@ -540,3 +540,7 @@ What's the status of c_gp1?
 ## 119. 2026-10-16 15:24 PDT
 
 Please update the progress directory whenever accepting a new candidate
+
+## 120. 2026-10-16 18:22 PDT
+
+Please feel free to purge anything from either VM disk that you don't think you'll need anymore
