@@ -2025,3 +2025,7 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   CAP_PER_MN_WELL 7, ANCHOR_START 330); its screen vs c_gp1 queued (20261017-002503-scr-c_adlo2-dc0032eb1894;
   --min-disk-gb 1.5: the VM has 1.9 GB free, replays are not the bulk). keep2-h2h 73/148 (both-sides maps: won
   Fractured, RockWall; lost Checkmate2, Contraction, PipesAndParabolas; Orbit 1-1).
+- 18:13 PDT keep2-h2h DONE (c_keep2 vs c_gp1, 103 maps both sides, census): 103/206, net 0; the fix moved 8 maps (won
+  both sides Fractured, RockWall, Spin, TimesUp; lost Checkmate2, Contraction, PipesAndParabolas, Sun); Orbit,
+  SoundWave, Turtle 1-1. Neutral in self-play: c_keep2 parked, not screened (PROMPTS 102). Its replays pruned (VM
+  2.4 GB free).

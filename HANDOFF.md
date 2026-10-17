@@ -66,12 +66,18 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   gets `export`ed and screened (the screen is the independent check: the race selected on its own cells).
 - **c_sim1 rejected** (screen FAIL 14:56 PDT, h2h 5/20 vs c_well9): judging "ahead" by a focus-fire simulation
   (engage 2v1/3v2 at health, stand after firing) loses clearly to the count rule and kiting.
-- **c_keep2 (15:10 PDT)** = c_gp1 + C.HOT_KEEP_MN: when every known mana well is hot, a mana carrier keeps the one
-  nearest our HQ for a trip instead of mining any cool (Ad) well. Why: from c_well9 on, Orbit (only mana wells on
-  the centre column) gave Mn@100 10-11 vs 142-168 in ranked play (driver repro: c_well9 Mn 15/31, Ad 528/563 at r100;
-  c_mend2 89/77 Mn). Ranked games on non-panel maps: 21% have our Mn@100 below 60% of theirs (we win 15% of those);
-  never on panel maps. c_keep1 = the same fix on c_pack1 (driver check only). Next: Orbit delivery game, the maps
-  where every mana well is a front well (scratchpad map dumps), then a screen on those maps.
+- **c_keep2 parked (18:13 PDT)** = c_gp1 + C.HOT_KEEP_MN (a mana carrier keeps the nearest hot mana well for a
+  trip when every known one is hot; Orbit mined Ad after the first enemy launcher, Mn@100 10-11 vs 142-168 ranked).
+  keep2-h2h vs c_gp1, all 103 maps both sides: 103/206, net 0 (won both sides Fractured, RockWall, Spin, TimesUp;
+  lost Checkmate2, Contraction, PipesAndParabolas, Sun; Orbit 1-1): not a positive result, not submitted. c_expl1
+  is built on it.
+- **c_expl1 (workflow, 16:00 PDT)** = c_keep2 + frontier exploration for a carrier with no known well of its role
+  (driver repro c_gp1 vs c_keep2 side A: SoundWave Mn@250 66 vs 446, Turtle 39 vs 176: wandering matters there).
+- **c_flee1 (workflow, 16:39 PDT)** = c_gp1 + carrier survival. Ranked 8190-8237: in lost games our carriers die
+  14.0 per game by r300 vs theirs 6.6 (wins 3.8 vs 16.8), in F 614 / G 450 / C 178 / V 174, in our own third
+  (prog quartiles 0.10/0.20/0.31; the hot-well memory covers front wells only).
+- **c_adlo2 (17:25 PDT)** = tools/param.py make c_gp1 with c_adlo1's settings (c_adlo1 screen PASS 11/20 vs
+  c_well9): screen vs c_gp1 on the VM (20261017-002503-scr-c_adlo2-dc0032eb1894).
 - **Watcher fix (08:34 PDT):** SCREEN_DONE never fired before (the VM probe expanded on the driver); it does now.
 
 - **Owner idea (PROMPTS 108): a jmerle mimic as a sparring partner.** `tools/sa_extract.py` + ReplayDump `--sa` wrote
