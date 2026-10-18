@@ -50,18 +50,20 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-18 00:17 PDT)
+## In flight (2026-10-18 05:51 PDT)
 
-- **State (00:17 PDT 10-18).** **c_isle1 is the validated build (submission 186, accepted 22:46 PDT 10-17)** = c_hr1
-  (c_gp1 + C.HUNT + siege rotation FROM 300 / every 100) + C.ISLE_THREAT (an enemy 1-2 islands short of conquest
-  sends even-id marching launchers to the nearest enemy island; sticky 'theirs' slot). Panel-loss diagnosis:
-  research/diagnosis/2026-10-17-panel-losses-c_hr1.md; launcher-micro diagnosis:
-  research/diagnosis/2026-10-18-launcher-micro-vs-strong.md (micro at parity; concentration and carrier survival
-  decide). **c_di1** = c_isle1 + c_drop1's well drop: 108/206 vs c_isle1 (map signal +5, panel maps 12/20); its
-  screen and di1-h2h-r (random seeds) run on the VM; trial it next if the screen passes (outside the autoscrim
-  windows 01:00/09:00/17:00 PDT). Workflow ghost-uhit-build is building c_gh1 (c_di1 + GHOST) and c_uh1 (c_di1 +
-  UHIT). c_hr2/c_hr3/c_hr4 dropped (rotation timing is at its optimum). VM: at most two runs at a time.
-  `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125; never battlecode-dev2).
+- **State (05:51 PDT 10-18).** **c_isle1 is the validated build (submission 188, resubmitted at the c_di1 reject)** =
+  c_hr1 (c_gp1 + C.HUNT + siege rotation FROM 300 / every 100) + C.ISLE_THREAT (an enemy 1-2 islands short of
+  conquest sends even-id marching launchers to the nearest enemy island; sticky 'theirs' slot). Diagnoses:
+  research/diagnosis/2026-10-17-panel-losses-c_hr1.md and 2026-10-18-launcher-micro-vs-strong.md (micro at parity;
+  concentration and carrier survival decide). **c_di1** (c_isle1 + c_drop1's well drop) REJECTED: 210/412 locally but
+  panel net -2. c_gh1/c_uh1/c_gren1 were built on c_di1; their DROP-off twins c_gh2 (GHOST: 2-round fighter memory in
+  'ahead'), c_uh2 (UHIT: leave a cloud when hit unseen, then fire at memory) and c_gren2 (GREN: a besieged HQ turns
+  idle Ad into grenadier carriers that throw 40-50 damage) are c_isle1 + one arm each. Local: c_gh1 106/206 vs c_di1
+  (signal +3); c_gren1 99/206 (signal -4: parked). On the VM: gh2-h2h-r (vs c_isle1, random seeds), uh2-h2h (map
+  seeds). Next: the best of them to a screen and a trial outside the autoscrim windows (01:00/09:00/17:00 PDT).
+  VM: at most two runs at a time. `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125;
+  never battlecode-dev2).
 - **Owner's parameter-search project (PROMPTS 114; practice session, bold attempts welcome).** `tools/param.py`
   builds a package with C.java constants overridden at build time (`make BASE NEW NAME=VALUE ...`; `space` = 73
   numeric constants with ranges and 10 constraints; `sample` = random valid settings). `tools/swiss.py` runs a Swiss
