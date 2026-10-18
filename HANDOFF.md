@@ -50,18 +50,17 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-18 05:51 PDT)
+## In flight (2026-10-18 08:44 PDT)
 
-- **State (05:51 PDT 10-18).** **c_isle1 is the validated build (submission 188, resubmitted at the c_di1 reject)** =
-  c_hr1 (c_gp1 + C.HUNT + siege rotation FROM 300 / every 100) + C.ISLE_THREAT (an enemy 1-2 islands short of
-  conquest sends even-id marching launchers to the nearest enemy island; sticky 'theirs' slot). Diagnoses:
-  research/diagnosis/2026-10-17-panel-losses-c_hr1.md and 2026-10-18-launcher-micro-vs-strong.md (micro at parity;
-  concentration and carrier survival decide). **c_di1** (c_isle1 + c_drop1's well drop) REJECTED: 210/412 locally but
-  panel net -2. c_gh1/c_uh1/c_gren1 were built on c_di1; their DROP-off twins c_gh2 (GHOST: 2-round fighter memory in
-  'ahead'), c_uh2 (UHIT: leave a cloud when hit unseen, then fire at memory) and c_gren2 (GREN: a besieged HQ turns
-  idle Ad into grenadier carriers that throw 40-50 damage) are c_isle1 + one arm each. Local: c_gh1 106/206 vs c_di1
-  (signal +3); c_gren1 99/206 (signal -4: parked). On the VM: gh2-h2h-r (vs c_isle1, random seeds), uh2-h2h (map
-  seeds). Next: the best of them to a screen and a trial outside the autoscrim windows (01:00/09:00/17:00 PDT).
+- **State (08:44 PDT 10-18).** **c_isle1 is the validated build (submission 188)** = c_hr1 (c_gp1 + C.HUNT + siege
+  rotation FROM 300 / every 100) + C.ISLE_THREAT. Diagnoses: research/diagnosis/2026-10-17-panel-losses-c_hr1.md and
+  2026-10-18-launcher-micro-vs-strong.md (micro at parity; concentration, production after r100 and carrier survival
+  decide). Rejected since: c_di1 (panel net -2), c_gh2 GHOST (screen b 9/20; panel maps 17/40 locally), c_uh2 UHIT
+  (95/206), c_gren1/2 GREN (parked, 99/206). Screen (b) predicts the panel (b >= 12: mean net +1.7; b <= 9: -2.6).
+- **Running: abl1** (plateau step 2), gauntlet/20261018-154424-abl1 on the VM, 1240 games: c_isle1 vs c_ab01..15 (one
+  switch off each; build/abl1/ on the VM, legend.txt there) on the panel maps, 4 fixed seeds, c_ab00 identity
+  baseline. Analyse with the paired script (scratchpad abl1/analyse.py: results.csv legend.txt); an ablation that
+  gains on the panel maps becomes a src/ package, then screen and trial outside 01:00/09:00/17:00 PDT.
   VM: at most two runs at a time. `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125;
   never battlecode-dev2).
 - **Attempts table (owner, PROMPTS 130).** `progress/ATTEMPTS.md` (from `progress/attempts.csv`, `tools/attempts.py`)
