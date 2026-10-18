@@ -2251,3 +2251,4 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   became a r1095 loss), net +1 (0.58 SE); island-rounds +106 (t 1.01); 0 overruns, 0 exceptions. Local neutral
   (102/206). Every measure non-negative and the flips are the island race the change targets: **c_isle1 ACCEPTED**
   (validated 186). drop1-h2h-r (random seeds) 112/206: c_drop1 220/412 vs c_hr1 over two samples (53.4%).
+- 23:14 PDT c_drop1 screen PASS vs c_hr1 (h2h 12/20, basics clean over 148 games). c_di1 = c_isle1 + c_drop1's Carrier/DROP (tests copied as Di1Isle1Test, Di1Drop1Test: both pass); di1-h2h vs c_isle1 running.
