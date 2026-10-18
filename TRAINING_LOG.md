@@ -2252,3 +2252,4 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   (102/206). Every measure non-negative and the flips are the island race the change targets: **c_isle1 ACCEPTED**
   (validated 186). drop1-h2h-r (random seeds) 112/206: c_drop1 220/412 vs c_hr1 over two samples (53.4%).
 - 23:14 PDT c_drop1 screen PASS vs c_hr1 (h2h 12/20, basics clean over 148 games). c_di1 = c_isle1 + c_drop1's Carrier/DROP (tests copied as Di1Isle1Test, Di1Drop1Test: both pass); di1-h2h vs c_isle1 running.
+- 00:08 PDT c_di1 unit-tests PASS (committed 8b7f9bf). di1-h2h (map seeds) vs c_isle1 108/206 (asA 51, asB 57), map signal +5 (10 both-sides wins, 5 both-sides losses), panel maps 12/20. Screen c_di1 and di1-h2h-r (random seeds) queued.
