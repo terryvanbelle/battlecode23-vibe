@@ -2230,3 +2230,5 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   fired for half of them), c_isle2 (ISLE_STICKY off), c_drop1 (Drop1Test 28317 cases; review fixed 4 defects: a later
   flight changed the handed-back well, a role change stranded the carrier, the c_mid1 site could be dropped, the
   drop count was not in telemetry). isle1-h2h and drop1-h2h vs c_hr1 queued (VM load 34); unit tests running.
+- 18:15 PDT STUCK_MATCH 8860 (ranked autoscrim 17:00 PDT, ethanlabelle.v19 vs CyrilSharma.finalBot, RUN > 1 h; not
+  ours): cancelled + re-rated (tools/galaxy/cancel-match.sh 8860 --cancel).
