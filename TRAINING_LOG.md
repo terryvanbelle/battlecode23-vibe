@@ -2283,3 +2283,15 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   and production knobs on c_loose1 plus identity c_ec00 (CAP_MAX 45, CAP_PER_MN_WELL 12, CAP_MIN_PER_HQ 9,
   CAP_GROW_ROUNDS 25, AD_NEED 100, AD_EARLY_EVERY 4, AD_LATE_EVERY 3/6, ANCHOR_START 400, ANCHOR_MIN_LAUNCHERS 20,
   CARRIER_RETURN_LOAD 39, AD_BANK_CAP 300): the panel losses are to army size, which production sets.
+- 16:01 PDT loose1-panel-losses workflow done (4 lenses, adversarial verify, judge; 9 agents):
+  research/diagnosis/2026-10-18-panel-losses-c_loose1.md. 16 of 21 losses are army collapses first (median r300): a
+  mana gap from r100 to r300 with an even launcher trade (r200-300: they collect 908 Mn per 100 rounds, we 547); 38-54%
+  of it is the middle wells, the rest fewer live carriers (HQs pressured 32% of SL buckets vs 14% in SW) and less Mn
+  per carrier (fleeing 6.5% of carrier turns vs 0.7%; Ad mined while Ad floats, 213 vs 67 at r300). c_loose1 cut our
+  carrier deaths 3.83 a game (t -3.6). Small maps (BatSignal, Hah, ReverseFunnel: 9 of 21 losses) lose the island
+  race: first anchor waits for r400 in 12 of 19 games, enemy islands undercounted, a ReverseFunnel anchor sink (23
+  built, 0 placed). abl2 so far: AURA_SAFE off +2, MEND off -4, PROBE off -4, HOT off -3 (62 games). Built src/c_lx0 =
+  c_loose1 + ANCHOR_SLACK (99 off), ANCHOR_RESERVE_MAX (2000 off), MID_URGENT (true = c_loose1); abl4 (build/abl4 on
+  the VM, 680 cells, queued for abl2's slot): ANCHOR_BLIND_FROM 250, ISLE_MARGIN_SMALL 2, ANCHOR_SLACK 3,
+  ANCHOR_RESERVE_MAX 50, MID_URGENT false, HOT_HOME_D2 48 + HOT_FRONT_PCT 20, BLIND 250 + SLACK 3, AD_BANK_CAP 100;
+  identity c_lx00 must replay abl2's c_lb00 games exactly.
