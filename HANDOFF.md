@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-17 22:47 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
+Updated 2026-10-17 22:46 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
 archived in `research/diagnosis/2026-10-12-handoff-inflight.md`). On 2026-10-12 18:48 PDT every galaxy unit stopped and
 the VM queue runner exited on a STOP file, with no recorded reason; both were restarted on 2026-10-14 (the replica in
 the morning, the runner at 11:47 PDT). `tools/watch_events.py` now reports either failure (REPLICA_DOWN,
@@ -50,9 +50,9 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-17 22:47 PDT)
+## In flight (2026-10-17 22:46 PDT)
 
-- **State (22:47 PDT 10-17).** **c_isle1 is the validated build (submission 186, accepted 22:46 PDT)** = c_hr1
+- **State (22:46 PDT 10-17).** **c_isle1 is the validated build (submission 186, accepted 22:46 PDT)** = c_hr1
   (c_gp1 + C.HUNT + siege rotation FROM 300 / every 100) + C.ISLE_THREAT (an enemy 1-2 islands short of conquest
   sends even-id marching launchers to the nearest enemy island; sticky 'theirs' slot). Panel-loss diagnosis:
   research/diagnosis/2026-10-17-panel-losses-c_hr1.md. c_drop1 (drop a well after a second flight, based on c_hr1)
