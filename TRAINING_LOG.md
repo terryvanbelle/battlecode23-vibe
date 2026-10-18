@@ -2232,3 +2232,7 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   drop count was not in telemetry). isle1-h2h and drop1-h2h vs c_hr1 queued (VM load 34); unit tests running.
 - 18:15 PDT STUCK_MATCH 8860 (ranked autoscrim 17:00 PDT, ethanlabelle.v19 vs CyrilSharma.finalBot, RUN > 1 h; not
   ours): cancelled + re-rated (tools/galaxy/cancel-match.sh 8860 --cancel).
+- 20:48 PDT vs c_hr1, all maps both sides: hr4-h2h-r (random seeds) 94/206: with hr4-h2h 206/412, exactly even: c_hr4
+  dropped. drop1-h2h 108/206, won both 12 / lost both 7 (+5 maps), panel maps 12/20: mildly positive, screen queued.
+  isle1-h2h 102/206, 8/9, panel 10/20: neutral locally, as expected (its trigger, an enemy one island short of
+  conquest, is a field-loss pattern that self-play rarely reaches); c_isle2 not run.
