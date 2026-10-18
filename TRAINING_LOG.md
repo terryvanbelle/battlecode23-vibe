@@ -2225,3 +2225,8 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   causes: piecemeal arrival (an effect), far-well raid, blind fire. Plans: c_isle1 (conquest-threat: even-id
   launchers take the nearest enemy island; sticky 'theirs' slot; ablation c_isle2) and c_drop1 (a second flight from
   the same well drops it for 40 rounds, home wells included, no hold). Workflow build-c_isle1 implementing both.
+- 17:20 PDT build-c_isle1 workflow DONE (implement + adversarial review): c_isle1 (Isle1Test 1920 checks; review fixed
+  the stale-target drop: a launcher marches on the other parity from its island scan, so "seen this round" never
+  fired for half of them), c_isle2 (ISLE_STICKY off), c_drop1 (Drop1Test 28317 cases; review fixed 4 defects: a later
+  flight changed the handed-back well, a role change stranded the carrier, the c_mid1 site could be dropped, the
+  drop count was not in telemetry). isle1-h2h and drop1-h2h vs c_hr1 queued (VM load 34); unit tests running.
