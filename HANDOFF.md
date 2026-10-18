@@ -64,6 +64,10 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   seeds). Next: the best of them to a screen and a trial outside the autoscrim windows (01:00/09:00/17:00 PDT).
   VM: at most two runs at a time. `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125;
   never battlecode-dev2).
+- **Attempts table (owner, PROMPTS 130).** `progress/ATTEMPTS.md` (from `progress/attempts.csv`, `tools/attempts.py`)
+  lists every attempt with its funnel scores. Update it at every result: `attempts.py h2h <pkg> <results.csv>
+  [--random]` for a local h2h, `set <pkg> field=...` for descriptions, panels and outcomes; screens and panel scores
+  fill through `sync`. `attempts.py refresh` (also run by progress-refresh.sh) exits 1 if a src package has no row.
 - **Owner's parameter-search project (PROMPTS 114; practice session, bold attempts welcome).** `tools/param.py`
   builds a package with C.java constants overridden at build time (`make BASE NEW NAME=VALUE ...`; `space` = 73
   numeric constants with ranges and 10 constraints; `sample` = random valid settings). `tools/swiss.py` runs a Swiss

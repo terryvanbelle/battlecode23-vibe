@@ -2381,6 +2381,89 @@ class RatingHistoryTest(unittest.TestCase):
         self.assertEqual(self.rh.crossings((0.0, 1.0), (1.0, 0.0), [(0.0, 0.0), (1.0, 1.0)]), 1)   # two leaders
 
 
+class AttemptsTest(unittest.TestCase):
+    """tools/attempts.py (owner, PROMPTS 130): set / append, the h2h cell and its signal, sync fills only empty cells
+    from screens, panel runs and the ladder history, check lists packages without a row, render writes every row."""
+    @classmethod
+    def setUpClass(cls):
+        cls.at = load('attempts', 'attempts.py')
+
+    def repo(self):
+        t = Path(tempfile.mkdtemp())
+        for p in ('c_a1', 'c_b1', 'c_c1', 'arch_x', 'bot', 'examplefuncsplayer'):
+            (t / 'src' / p).mkdir(parents=True)
+        (t / 'progress' / 'screens').mkdir(parents=True)
+        rec = {'candidate': 'c_a1', 'verdict': 'PASS', 'finished': '2026-10-18T01:00:00+00:00', 'stages': {
+            'a': {'wins': 8, 'games': 8}, 'b': {'wins': 12, 'games': 20},
+            'c': {'pooled': {'g': 0, 'l': 0, 'net': 0}, 'info_pooled': {'net': 1}},
+            'd': {'over': 0, 'exceptions': 0, 'deaths_self': 0}}}
+        (t / 'progress' / 'screens' / 'c_a1-x.json').write_text(json.dumps(rec))
+        old = dict(rec, verdict='FAIL', finished='2026-10-17T01:00:00+00:00')
+        (t / 'progress' / 'screens' / 'c_a1-y.json').write_text(json.dumps(old))
+        (t / 'progress' / 'ladder-state.json').write_text(json.dumps({'trial': None, 'history': [
+            {'event': 'trial-start', 'package': 'c_a1', 'submission': 7},
+            {'event': 'reject', 'package': 'c_a1', 'submission': 7},
+            {'event': 'trial-start', 'package': 'c_b1', 'submission': 8},
+            {'event': 'accept', 'package': 'c_b1', 'submission': 8}]}))
+        pd = t / 'gauntlet' / '20261018-111111-panel-c_a1'
+        pd.mkdir(parents=True)
+        (pd / 'results.csv').write_text('opponent,map,bot_side,winner_side,rounds,bot_result\n'
+                                        + 'x,M1,A,A,1,win\n' * 3 + 'x,M2,A,B,1,loss\n')
+        return t
+
+    def test_set_append_and_unknown_field(self):
+        rows = []
+        self.at.set_fields(rows, 'c_a1', ['description=one change', 'h2h_map=100/206 vs c_z'])
+        self.at.set_fields(rows, 'c_a1', ['h2h_map+=101/206 vs c_y', 'base=c_z'])
+        r = rows[0]
+        self.assertEqual(r['h2h_map'], '100/206 vs c_z; 101/206 vs c_y')
+        self.assertEqual(r['base'], 'c_z')
+        self.at.set_fields(rows, 'c_b1', ['panel+=70/100'])
+        self.assertEqual(rows[1]['panel'], '70/100')
+        with self.assertRaises(SystemExit):
+            self.at.set_fields(rows, 'c_a1', ['nosuch=1'])
+        with self.assertRaises(SystemExit):
+            self.at.set_fields(rows, 'c_a1', ['novalue'])
+
+    def test_h2h_cell_signal(self):
+        t = Path(tempfile.mkdtemp())
+        lines = ['opponent,map,bot_side,winner_side,rounds,bot_result']
+        for m, res in (('M1', ('win', 'win')), ('M2', ('win', 'loss')), ('M3', ('loss', 'loss')), ('M4', ('win', 'win'))):
+            lines += [f'c_z,{m},A,A,1,{res[0]}', f'c_z,{m},B,B,1,{res[1]}']
+        (t / 'r.csv').write_text('\n'.join(lines) + '\n')
+        self.assertEqual(self.at.h2h_cell(t / 'r.csv'), '5/8 vs c_z, signal +1')
+
+    def test_sync_fills_only_empty_cells(self):
+        t = self.repo()
+        rows = [dict({c: '' for c in self.at.COLUMNS}, codename='c_a1'),
+                dict({c: '' for c in self.at.COLUMNS}, codename='c_b1', screen='hand-written', outcome='in trial')]
+        self.at.sync(rows, t)
+        a, b = rows
+        self.assertEqual(a['screen'], 'PASS: a 8/8, b 12/20, c +1 info, d clean')   # the latest record, not the FAIL
+        self.assertEqual(a['panel'], '3/4')
+        self.assertEqual(a['outcome'], 'REJECTED (panel)')
+        self.assertEqual(b['screen'], 'hand-written')
+        self.assertEqual(b['outcome'], 'ACCEPTED (sub 8)')                          # 'in trial' is replaced
+        b['outcome'] = 'REJECTED (panel): net -3'
+        self.at.sync(rows, t)
+        self.assertEqual(b['outcome'], 'REJECTED (panel): net -3')                  # a filled cell is kept
+
+    def test_check_render_roundtrip(self):
+        t = self.repo()
+        rows = [dict({c: '' for c in self.at.COLUMNS}, codename='c_a1', date='2026-10-18', description='a | b',
+                     outcome='ACCEPTED (sub 3)')]
+        self.assertEqual(self.at.missing(rows, t), ['c_b1', 'c_c1'])                 # archetypes, bot, starter excluded
+        csvp, md = t / 'progress' / 'attempts.csv', t / 'progress' / 'ATTEMPTS.md'
+        self.at.save(rows, csvp)
+        back = self.at.load(csvp)
+        self.assertEqual(back[0]['description'], 'a | b')
+        self.at.render(back, md)
+        text = md.read_text()
+        self.assertIn('| `c_a1` | 2026-10-18 |', text)
+        self.assertIn('a \\| b', text)
+        self.assertIn('1 accepted', text)
+
+
 class ParamTest(unittest.TestCase):
     """tools/param.py (owner, PROMPTS 114): C.java overrides at build time and the random search space."""
     @classmethod
