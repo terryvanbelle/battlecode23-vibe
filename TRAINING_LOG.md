@@ -2295,3 +2295,7 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   the VM, 680 cells, queued for abl2's slot): ANCHOR_BLIND_FROM 250, ISLE_MARGIN_SMALL 2, ANCHOR_SLACK 3,
   ANCHOR_RESERVE_MAX 50, MID_URGENT false, HOT_HOME_D2 48 + HOT_FRONT_PCT 20, BLIND 250 + SLACK 3, AD_BANK_CAP 100;
   identity c_lx00 must replay abl2's c_lb00 games exactly.
+- 16:33 PDT abl2: HOT off net -7 (Cornucopia -4), MID off -6 (Cornucopia -4, Forest -4): both earn their keep, so
+  the diagnosis's HOT and MID changes stay in abl4. abl3: CAP_MAX 45 +2 (neutral). abl4 extended to 920 cells with
+  three Mid-squad knobs for the middle-well part of the mana gap (MID_MOD 2, MID_TOUR 200, MID_P_LO/HI 30/70), and
+  queued on the VM to start when abl2 writes its summary (job abl4 waits; abl4-prune follows it).
