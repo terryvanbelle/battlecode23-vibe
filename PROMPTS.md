@@ -572,8 +572,11 @@ Added bash permissions for vm-stop.sh.  Let me know when it's safe to restart
 ## 127. 2026-10-17 11:34 PDT
 ok, you should be back now after the restart
 
-## 128. 2026-10-18 19:51 PDT
+## 128. 2026-10-17 19:51 PDT
 Why the suddenly high load on the vm?
 
-## 129. 2026-10-18 19:52 PDT
+## 129. 2026-10-17 19:52 PDT
 No, it's fine
+
+## 130. 2026-10-18 07:41 PDT
+Can you create a file in progress that contains a table covering every attempt we make?  Columns would be codename, brief description, and then columns for its scores at each stage of the acceptance funnel.  Keep it up to date with every attempt
