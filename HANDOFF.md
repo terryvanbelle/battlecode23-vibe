@@ -58,7 +58,9 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   c_hr4 (ROTATE_FROM 250) even over 412 games vs c_hr1: dropped. From the c_hr1 panel-loss diagnosis
   (research/diagnosis/2026-10-17-panel-losses-c_hr1.md): c_drop1 (drop a well after a second flight) +5 maps vs
   c_hr1, screen running 20:48 PDT 10-17 (`tools/screen.py collect c_drop1`); c_isle1 (conquest-threat island response)
-  neutral locally (102/206), a field-only trigger; c_isle2 (no sticky slot) not run. VM: at most two runs at a time.
+  neutral locally (102/206), a field-only trigger: trial (submission 186, --skip-screen) started 21:48 PDT 10-17,
+  decide with paired.py vs gauntlet/20261017-212413-panel-c_hr1 then trial-end; c_isle2 (no sticky slot) not run.
+  VM: at most two runs at a time.
   `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125; never battlecode-dev2).
 - **Owner's parameter-search project (PROMPTS 114; practice session, bold attempts welcome).** `tools/param.py`
   builds a package with C.java constants overridden at build time (`make BASE NEW NAME=VALUE ...`; `space` = 73

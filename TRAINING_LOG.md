@@ -2237,3 +2237,7 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   isle1-h2h 102/206, 8/9, panel 10/20: neutral locally, as expected (its trigger, an enemy one island short of
   conquest, is a field-loss pattern that self-play rarely reaches); c_isle2 not run.
 - 21:01 PDT c_hr4 screen PASS (h2h 11/20, basics clean) but 206/412 over two all-maps samples vs c_hr1: not trialled.
+- 21:48 PDT c_isle1 trial-start --skip-screen (submission 186, requests 4467 on, log logs/trial-c_isle1.log): its
+  trigger is field-only (an enemy 1-2 islands short of conquest: 0/72 c_hr1 panel wins, 7 losses), local h2h neutral;
+  the ladder was idle until the 01:00 PDT autoscrim. Basics (overruns) come from the panel census. Rating with c_hr1
+  1681 over 35 rated matches (c_gp1 1690).
