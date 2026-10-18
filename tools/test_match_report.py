@@ -335,6 +335,24 @@ class MatchReportSyntheticTest(unittest.TestCase):
                   '| 1000 | 10/12 | 8/9 | 2000/3000 |', 'Anomalies: overruns:2, exc:6'):
             self.assertIn(s, txt)
 
+    def test_well_source0_by_package(self):
+        """WELL source 0 is c_keep1's kept_hot or c_evac1's evac pick (the 3-bit field is full): labelled by package."""
+        mr = self.mr
+        src = self.tmp / 'src'
+        for pkg, evac in (('c_keep1', None), ('c_evac1', 'true'), ('c_evac0', 'false')):
+            (src / pkg).mkdir(parents=True, exist_ok=True)
+            body = f'    public static final boolean EVAC = {evac};\n' if evac else ''
+            (src / pkg / 'C.java').write_text(f'package {pkg};\npublic final class C {{\n{body}}}\n')
+        self.assertEqual([mr.well_src0(t, str(src)) for t in ('c_keep1', 'c_evac1', 'c_evac0', 'vibe23', None, '../x')],
+                         ['kept_hot', 'evac', 'kept_hot', 'kept_hot|evac', 'kept_hot|evac', 'kept_hot|evac'])
+        d = mr.Dots()
+        for s in (0, 0, 2):
+            d.add({'kind': 'WELL', 'source': s})
+        self.assertEqual(d.summary()['well_sources'], {'kept_hot': 2, 'seen': 1})
+        self.assertEqual(d.summary('evac')['well_sources'], {'evac': 2, 'seen': 1})
+        # the side's team picks the label: vibe23 (a replica team, no package dir) gets the neutral one
+        self.assertEqual(mr.tele_summary(self.ex, 0, 'A', d, None)['dots']['well_sources'], {'kept_hot|evac': 2, 'seen': 1})
+
 
 # ---------------------------------------------------------------- C.8 item 2: robustness
 class MatchReportRobustTest(unittest.TestCase):

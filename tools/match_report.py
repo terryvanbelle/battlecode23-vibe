@@ -62,6 +62,7 @@ TIER2 = ('exposed_end', 'group_p50', 'trip_cycle_p50', 'partial_loads', 'carrier
 TYPE_KEY = {'H': 'HQ', 'C': 'C', 'L': 'L', 'A': 'A', 'D': 'D', 'B': 'B'}
 PHASES = ('open', 'mid', 'late')
 WELL_SRC = {0: 'kept_hot', 1: 'shared', 2: 'seen', 3: 'any_shared', 4: 'any_seen', 5: 'crowd_switch', 6: 'cool', 7: 'any_cool'}
+WELL_SRC0 = ('kept_hot', 'evac', 'kept_hot|evac')     # source 0's two meanings (the 3-bit field is full), and unknown
 OBJ_KIND = {0: 'sighting', 1: 'enemy_island', 2: 'enemy_hq', 3: 'centre', 4: 'regroup_ally', 5: 'regroup_home',
             6: 'follow', 7: 'home_defence'}
 ANCH_EV = {1: 'target', 2: 'rejected', 3: 'retarget', 4: 'timeout', 5: 'returned', 6: 'placed', 7: 'took'}
@@ -382,9 +383,11 @@ class Dots:
                 'stepin_outnumbered': rnd(f['stepin_out'] / n), 'outnumbered': rnd(f['out'] / n),
                 'moved': rnd(f['moved'] / n), 'fired': rnd(f['fired'] / n), 'guard_breaks': f['guard_breaks']}
 
-    def summary(self):
+    def summary(self, src0=WELL_SRC[0]):
+        """src0: the label of WELL source 0 for this side's package (well_src0)."""
         last = list(self.cntm.values())
-        return {'roles': dict(self.roles), 'role_hq_mn_p50': median(self.role_mn), 'well_sources': dict(self.wells),
+        wells = {src0 if k == WELL_SRC[0] else k: v for k, v in self.wells.items()}
+        return {'roles': dict(self.roles), 'role_hq_mn_p50': median(self.role_mn), 'well_sources': wells,
                 'obj': dict(self.obj), 'anchor': dict(self.anch),
                 'bug': {'n': len(self.bug), 'p90_moves': pctl(self.bug, 0.9), 'reasons': dict(self.bug_reason)},
                 'sym_decided': self.sym_r, 'sym_conflicts': self.sym_conflicts,
@@ -394,6 +397,16 @@ class Dots:
                 'tele_max_cost': max((num(c.get('tele_max_cost')) or 0 for c in last), default=None),
                 'tele_errors': sum(num(c.get('tele_errors')) or 0 for c in last),
                 'tele_deferrals': sum(num(c.get('tele_deferrals')) or 0 for c in last)}
+
+
+def well_src0(team, src=None):
+    """WELL source 0's label for a side: 'evac' (c_evac1's evacRepick) when src/<team> is a package of ours with C.EVAC
+    on, 'kept_hot' (c_keep1's kept hot well) for any other package, 'kept_hot|evac' when the team names no package here
+    (a replica team: the report does not know its submission's package)."""
+    c = os.path.join(src or os.path.join(REPO, 'src'), str(team), 'C.java')
+    if not re.fullmatch(r'\w+', str(team or '')) or not os.path.exists(c):
+        return WELL_SRC0[2]
+    return WELL_SRC0[1] if re.search(r'\bboolean EVAC = true;', read_text(c)) else WELL_SRC0[0]
 
 
 def read_dots(path, games=None):
@@ -552,7 +565,7 @@ def tele_summary(ex, gi, s, dots, letter_mm):
             'eng_codes': dict(sorted(codes.items())),
             'events': dict(sorted(dots.kinds.items())) if dots else {},
             'trip': dots.trip() if dots else None, 'fight': dots.fights() if dots else None,
-            'dots': dots.summary() if dots else None}
+            'dots': dots.summary(well_src0(g.get('team') or c.get('team'))) if dots else None}
 
 
 def stall_runs(ex, gi, us):

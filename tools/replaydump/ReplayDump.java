@@ -679,7 +679,7 @@ public class ReplayDump {
     // Shared constants of TELEMETRY.md section 1 (the bot's src/bot/Telemetry.java holds the same values).
     static final int MAGIC = 0x7E1E0001, SYNC_CODE = 42, BCC_GUARD = 300;
     static final String ALPHA = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_";
-    static final String LET_C = "!GCWSXRDFVTKQEYP", LET_L = "NFHMSGW!", LET_HQ = ".bgpwcastx?????!", LET_A = "FCSH";
+    static final String LET_C = "!GCWSXRDFVTKQEYP", LET_L = "NFHMSGW!", LET_HQ = ".bgpwcastxr????!", LET_A = "FCSH";
     static final int[] VALUE = {0, 50, 45, 45, 200, 150};      // unit value (resource cost); HQ 0
     static final String[] OBJ_NAMES = {"sighting", "enemy_island", "enemy_hq", "centre"};
     static final String[] DIR9 = {"CENTER", "NORTH", "NORTHEAST", "EAST", "SOUTHEAST", "SOUTH", "SOUTHWEST", "WEST", "NORTHWEST"};
