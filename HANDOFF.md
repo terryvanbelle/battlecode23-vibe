@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-17 15:17 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
+Updated 2026-10-17 20:48 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
 archived in `research/diagnosis/2026-10-12-handoff-inflight.md`). On 2026-10-12 18:48 PDT every galaxy unit stopped and
 the VM queue runner exited on a STOP file, with no recorded reason; both were restarted on 2026-10-14 (the replica in
 the morning, the runner at 11:47 PDT). `tools/watch_events.py` now reports either failure (REPLICA_DOWN,
@@ -50,12 +50,15 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-17 15:17 PDT)
+## In flight (2026-10-17 20:48 PDT)
 
-- **State (15:17 PDT 10-17).** **c_hr1 is the validated build (submission 185, accepted 15:17 PDT)**: c_gp1 + C.HUNT
+- **State (20:48 PDT 10-17).** **c_hr1 is the validated build (submission 185, accepted 15:17 PDT)**: c_gp1 + C.HUNT
   + siege rotation (SIEGE_ROTATE_FROM 300, SIEGE_ROTATE 100). Screens and h2h now run vs c_hr1. c_rot1 rejected
   (subsumed); c_hr2 (rotate only on known HQs) dropped, net -9 games vs c_hr1; c_hr3 (ROTATE 150) -6 maps vs c_hr1.
-  c_hr4 (ROTATE_FROM 250) +9 maps vs c_hr1: screen and random-seed h2h (hr4-h2h-r) running.
+  c_hr4 (ROTATE_FROM 250) even over 412 games vs c_hr1: dropped. From the c_hr1 panel-loss diagnosis
+  (research/diagnosis/2026-10-17-panel-losses-c_hr1.md): c_drop1 (drop a well after a second flight) +5 maps vs
+  c_hr1, screen running 20:48 PDT 10-17 (`tools/screen.py collect c_drop1`); c_isle1 (conquest-threat island response)
+  neutral locally (102/206), a field-only trigger; c_isle2 (no sticky slot) not run. VM: at most two runs at a time.
   `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125; never battlecode-dev2).
 - **Owner's parameter-search project (PROMPTS 114; practice session, bold attempts welcome).** `tools/param.py`
   builds a package with C.java constants overridden at build time (`make BASE NEW NAME=VALUE ...`; `space` = 73
