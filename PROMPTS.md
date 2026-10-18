@@ -574,3 +574,6 @@ ok, you should be back now after the restart
 
 ## 128. 2026-10-18 19:51 PDT
 Why the suddenly high load on the vm?
+
+## 129. 2026-10-18 19:52 PDT
+No, it's fine
