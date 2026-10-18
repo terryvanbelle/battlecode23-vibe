@@ -115,6 +115,16 @@ that beat us but does not explain their wins; the principle stands (it was free)
   -8 vs c_gp1 and island-rounds -727 (t -3.53) vs c_well9, on whose panel it tied. Its screen h2h was 9/20. A
   parameter search needs field-like opponents (archetypes, panel cells) in its scoring, and its winner still faces
   the panel (TRAINING_LOG 2026-10-16 15:42).
+- **Ablate what we carry, on the panel maps, with fixed seeds and an identity baseline.** c_isle1 still carried launcher
+  cohesion (C.ARMY, from c_army1 on 10-07, built against an early study of the top bots). One switch off per build,
+  the 10 panel maps x both sides x 4 fixed seeds, paired cell by cell with an identity copy (games are deterministic:
+  inert switches flip 0-9 of 80 cells): ARMY off 60/80, net +20 (z 3.2); PACK off -15. As c_loose1 it took screen
+  (b) 15/20, roster +17 and panel net +6 (79/100; the strong bots 23/40 vs 17/40). A rule accepted early under
+  other code can become the largest drag; a sweep of 15 switches costs about 1200 games (TRAINING_LOG 2026-10-18
+  13:34).
+- **Screen (b) predicts the panel.** Over 43 trials with a panel net: b >= 12 (16 trials) mean net +1.7, b 10-11 (10)
+  -0.3, b <= 9 (7) -2.6. A borderline screen is a reject, even with a positive all-maps h2h (c_gh2: 217/412 overall,
+  17/40 on the panel maps) (TRAINING_LOG 2026-10-18 08:41).
 - **Overlap trials.** A replica match plays the submission active when it is created, so a candidate needs to be active
   only while its panel's matches are created (about a minute); park it and run the next. Serial trials gave one per
   8-hour window behind the autoscrim backlog (TRAINING_LOG 2026-10-11 01:03).
