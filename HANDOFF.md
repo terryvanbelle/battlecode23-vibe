@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-17 22:46 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
+Updated 2026-10-18 14:14 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
 archived in `research/diagnosis/2026-10-12-handoff-inflight.md`). On 2026-10-12 18:48 PDT every galaxy unit stopped and
 the VM queue runner exited on a STOP file, with no recorded reason; both were restarted on 2026-10-14 (the replica in
 the morning, the runner at 11:47 PDT). `tools/watch_events.py` now reports either failure (REPLICA_DOWN,
@@ -8,11 +8,17 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
 
 ## Standing
 
-- **Validated build g_iter13 = c_gp1** (submission 176, accepted 2026-10-16 15:04 PDT): c_guard1 (c_mid1's
+- **Validated build c_loose1** (submission 189, accepted 2026-10-18 13:34 PDT): c_isle1 with C.ARMY false (no
+  launcher cohesion gate; found by the abl1 ablation sweep, +20 net on the panel maps). Panel 79/100
+  (`gauntlet/20261018-194500-panel-c_loose1`): vs c_isle1 84 identical, gained 11, lost 5, net +6 (+1.50 SE); strong
+  bots 23/40 vs 17/40. Judge candidates against c_loose1's panel.
+- Before it **c_isle1** (submission 186, accepted 2026-10-17 22:46 PDT): c_hr1 plus island-race changes. Panel vs
+  c_hr1 net +1, island-rounds +106 (t 1.01). Before that **c_hr1** (submission 185, accepted 2026-10-17 15:17 PDT):
+  c_gp1 plus symmetry-guess rotation and hunting; net +1 vs c_gp1's panel, local h2h 232/412.
+- Before them **g_iter13 = c_gp1** (submission 176, accepted 2026-10-16 15:04 PDT): c_guard1 (c_mid1's
   contested mana-well site + home-well defence: carriers report raiders they fled, launchers answer fresh sightings
   in the home zone) plus c_pack1's packing. Panel 71/100 (`gauntlet/20261016-170213-panel-c_gp1`): vs c_pack1 net +4
   (+0.94 SE; Cornucopia 4-0, Forest 3-0), carrier deaths -10.1 a game (t -2.96); vs c_well9 net +8 (+1.89 SE).
-  Judge candidates against c_gp1's panel.
 - Before it **g_iter12 = c_pack1** (submission 175, accepted 2026-10-16 14:38 PDT): g_iter11 (c_well9) plus
   well packing (C.PACK: near its well a carrier takes the nearest free collect square; a collector steps onto a free
   well tile). Panel 67/100 (`gauntlet/20261016-160153-panel-c_pack1`): vs c_well9 86 identical, gained 9, lost 5,
@@ -50,19 +56,26 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-18 08:44 PDT)
+## In flight (2026-10-18 14:49 PDT)
 
-- **State (08:44 PDT 10-18).** **c_isle1 is the validated build (submission 188)** = c_hr1 (c_gp1 + C.HUNT + siege
-  rotation FROM 300 / every 100) + C.ISLE_THREAT. Diagnoses: research/diagnosis/2026-10-17-panel-losses-c_hr1.md and
-  2026-10-18-launcher-micro-vs-strong.md (micro at parity; concentration, production after r100 and carrier survival
-  decide). Rejected since: c_di1 (panel net -2), c_gh2 GHOST (screen b 9/20; panel maps 17/40 locally), c_uh2 UHIT
-  (95/206), c_gren1/2 GREN (parked, 99/206). Screen (b) predicts the panel (b >= 12: mean net +1.7; b <= 9: -2.6).
-- **Running: abl1** (plateau step 2), gauntlet/20261018-154424-abl1 on the VM, 1240 games: c_isle1 vs c_ab01..15 (one
-  switch off each; build/abl1/ on the VM, legend.txt there) on the panel maps, 4 fixed seeds, c_ab00 identity
-  baseline. Analyse with the paired script (scratchpad abl1/analyse.py: results.csv legend.txt); an ablation that
-  gains on the panel maps becomes a src/ package, then screen and trial outside 01:00/09:00/17:00 PDT.
-  VM: at most two runs at a time. `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125;
-  never battlecode-dev2).
+- **State (14:49 PDT 10-18).** **c_loose1 is the validated build (submission 189, accepted 13:34)** = c_isle1 with
+  C.ARMY false (no launcher cohesion: no waiting for GROUP_MIN in vision, no follow, no regroup). Found by the abl1
+  ablation sweep (c_ab03 59/79 vs c_isle1 on the panel maps, paired net +20); screen PASS (b 15/20, roster +17);
+  panel 79/100, net +6 vs c_isle1, strong bots 23/40 vs 17/40. Diagnoses: research/diagnosis/2026-10-17-panel-
+  losses-c_hr1.md, 2026-10-18-launcher-micro-vs-strong.md, 2026-10-18-structural-designs.md (c_evac1's spec).
+  c_evac2 (c_loose1 + raided-zone evacuation) dropped at 14:35: 30/67 on the panel maps, paired net -3.
+- **Running on the VM (two runs, the limit):** abl2 (gauntlet/20261018-203655-abl2, 1000 games): c_loose1 vs
+  c_lb01..12 = one switch each (AURA_SAFE, MEND, PROBE, HOT, MID, GUARD, HUNT, ISLE_THREAT off, SIEGE_ROTATE_FROM
+  2000, RECALL off, ARMY on with GROUP_MIN 2 / 3). abl3 (gauntlet/20261018-213333-abl3, 1000 games): c_loose1 vs
+  c_ec01..12 = one economy or production knob each (legend in build/abl3/legend.txt). Both: panel maps x both sides
+  x 4 fixed seeds, identity baseline c_lb00 / c_ec00; build/abl2/ and build/abl3/ on the VM hold src, legend.txt and
+  analyse.py (`python3 build/abl3/analyse.py <results.csv> build/abl3/legend.txt`; results.raw needs the header
+  line `opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed` prepended); wins are the ablation's.
+  abl2-prune and abl3-prune delete their replays. An ablation with a clearly positive paired net becomes a src
+  package (`tools/param.py make c_loose1 c_<name> KEY=VAL`), then screen and trial. Never wrap trial-start in
+  `timeout` (it kills the block; resume with RESUME=<run> tools/contest.py block test/cells/panel-v1.txt --tag
+  panel-<pkg>). `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125; never
+  battlecode-dev2).
 - **Attempts table (owner, PROMPTS 130).** `progress/ATTEMPTS.md` (from `progress/attempts.csv`, `tools/attempts.py`)
   lists every attempt with its funnel scores. Update it at every result: `attempts.py h2h <pkg> <results.csv>
   [--random]` for a local h2h, `set <pkg> field=...` for descriptions, panels and outcomes; screens and panel scores
@@ -219,7 +232,7 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   `gauntlet/20261009-082005-panel-c_nav4`. Earlier: g_iter2 = c_swarm1 (`...-210429-panel1-c_swarm1`, 40/100), g_iter1 =
   c_line8a (`...-180016-panel1-c_line8a`, 33/100), g_iter0 (`...-011350-panel1-g_iter0`, 31/100). Local cells vs the
   previous incumbent: `test/cells/self-swarm1-panel.txt`; the pre-trial screen (`tools/screen.py`) reads the current
-  validated package from `progress/ladder-state.json` (last recorded: c_isle1).
+  validated package from `progress/ladder-state.json` (last recorded: c_loose1).
 - Ranked vs unranked follows `docs/LADDER_STRATEGY.md` (owner, PROMPTS 17-18), state in `progress/ladder-state.json`:
   `tools/ladder_policy.py ranked` runs detached on the driver (PID 3179283 since 2026-10-14 11:46 PDT; log
   `logs/ranked-policy.log`): ranked challenges upward
