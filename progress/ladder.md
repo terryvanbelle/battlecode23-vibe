@@ -1,6 +1,6 @@
 # Galaxy replica ladder
 
-Snapshot of the Rankings page of our private galaxy replica (https://galaxy.136-86-167-127.sslip.io/bc23/rankings), taken Oct 17 22:53 PDT. Written by `tools/galaxy/snapshot.py`: regenerate it, do not edit it. The live site, with replays, is described in ACCESS.md.
+Snapshot of the Rankings page of our private galaxy replica (https://galaxy.136-86-167-127.sslip.io/bc23/rankings), taken Oct 18 13:45 PDT. Written by `tools/galaxy/snapshot.py`: regenerate it, do not edit it. The live site, with replays, is described in ACCESS.md.
 
 **Rating is the galaxy replica's displayed rating**: siarnaq's penalized Elo, mean − 1500·0.85^n after n rated matches, so every team starts at 0 and climbs over its first ~20 ranked matches. It is not the Bradley-Terry fit of `progress/ELO.md`. 88 teams (88 with an accepted submission). Games W-L counts the games recorded in `progress/games.csv` from the replica (88 teams have some); our team is **vibe23**, whose builds appear there as `us:<package>`.
 
@@ -8,116 +8,116 @@ Snapshot of the Rankings page of our private galaxy replica (https://galaxy.136-
 
 | # | Team | Rating | Games W-L | Submission |
 |---:|---|---:|---|---|
-| 1 | maxwelljones14.MPWorking | 1820.6 | 180-87 | accepted |
-| 2 | awesomelemonade.finalBot | 1797.9 | 532-168 | accepted |
-| 3 | carlguo866.submit26\_final | 1773.3 | 167-115 | accepted |
-| 4 | IvanGeffner.fortytwo | 1768.4 | 202-104 | accepted |
-| 5 | vrangr1.AFinalsBot | 1748.4 | 493-216 | accepted |
-| 6 | georgezhang02.FB\_ZZZ | 1731.5 | 216-135 | accepted |
-| 7 | battlecode-archive.sprintBot | 1724.8 | 213-144 | accepted |
-| 8 | pranayagra.finalbotfinal | 1709.3 | 519-322 | accepted |
-| 9 | AnOvercookedFork.quals | 1704.1 | 190-125 | accepted |
-| 10 | jmerle.camel\_case\_v30\_final | 1703.4 | 504-307 | accepted |
-| 11 | pranayagra.finalbotfinaltwo | 1685.7 | 200-136 | accepted |
-| 12 | **vibe23** | 1681.1 | 3436-2823 | accepted |
-| 13 | CyrilSharma.finalBot | 1673.7 | 240-183 | accepted |
-| 14 | georgezhang02.CB\_tuning2 | 1663.6 | 387-481 | accepted |
-| 15 | NotLLeon.v7 | 1650.5 | 406-462 | accepted |
-| 16 | britacatalin.FinalBot | 1635.3 | 337-474 | accepted |
-| 17 | VarunVejalla.karel | 1630.1 | 230-229 | accepted |
-| 18 | ethanlabelle.dev | 1628.2 | 237-204 | accepted |
-| 19 | VarunVejalla.ali8 | 1627.0 | 189-159 | accepted |
-| 20 | GabeG888.v8o1 | 1623.9 | 197-154 | accepted |
-| 21 | GabeG888.v8 | 1615.3 | 204-159 | accepted |
-| 22 | programjames.fourthbot | 1609.8 | 201-165 | accepted |
-| 23 | ethanlabelle.v19 | 1602.8 | 218-226 | accepted |
-| 24 | DannyZhang686.pqual2 | 1597.5 | 204-189 | accepted |
-| 25 | louishu17.louisv10 | 1591.5 | 186-156 | accepted |
-| 26 | NicholasKelly15.gopher10 | 1584.1 | 181-149 | accepted |
-| 27 | TheK098.qp1\_7\_sprint\_1 | 1580.2 | 208-176 | accepted |
-| 28 | battlecode-archive.Sprint1 | 1572.7 | 236-542 | accepted |
-| 29 | ipince.bobby | 1571.2 | 172-155 | accepted |
-| 30 | reeceyang.v5anaconda | 1570.0 | 272-539 | accepted |
-| 31 | SampleProvider.SPAARK | 1569.2 | 177-165 | accepted |
-| 32 | beaverbois.USQualifiers | 1567.0 | 206-181 | accepted |
-| 33 | louishu17.wouisv8 | 1562.0 | 190-179 | accepted |
-| 34 | polyllc.poly | 1557.3 | 166-164 | accepted |
-| 35 | legobridge.tacoplayer | 1549.6 | 187-203 | accepted |
-| 36 | SteamBlizzard.newVnewME | 1546.0 | 200-196 | accepted |
-| 37 | toyat522.bot5a | 1545.9 | 195-204 | accepted |
-| 38 | kevinli405.maggi3 | 1545.3 | 205-206 | accepted |
-| 39 | elgoldie.head\_v5 | 1545.2 | 189-189 | accepted |
-| 40 | ColtG5.rexv9 | 1536.7 | 202-203 | accepted |
-| 41 | DukeBas.\_main | 1534.2 | 216-183 | accepted |
-| 42 | kevinli405.maggi3\_2 | 1529.2 | 217-203 | accepted |
-| 43 | yaonam.PoonPoonv4 | 1528.9 | 247-603 | accepted |
-| 44 | BrysonJGalapon.friday | 1526.9 | 207-189 | accepted |
-| 45 | mama4294.currentPlayer | 1521.3 | 211-209 | accepted |
-| 46 | nail-e.Barry | 1519.6 | 202-203 | accepted |
-| 47 | Nawlej.PoonPoon | 1517.2 | 185-184 | accepted |
-| 48 | prisms-cs-club.prisms10 | 1516.7 | 217-194 | accepted |
-| 49 | aj-chau.attempt1 | 1508.8 | 214-206 | accepted |
-| 50 | JfeMak.realplayer2 | 1504.6 | 233-232 | accepted |
-| 51 | ipince.bobby\_v2 | 1498.4 | 234-231 | accepted |
-| 52 | BrysonJGalapon.aloha | 1492.1 | 252-240 | accepted |
-| 53 | andrewgopher.gopherbot | 1490.9 | 214-245 | accepted |
-| 54 | bewuwy.deathbot4 | 1480.4 | 250-254 | accepted |
-| 55 | SDainard-PDX.Team\_Player | 1477.9 | 210-237 | accepted |
-| 56 | PSUtblock.sprint\_four\_player | 1468.7 | 215-235 | accepted |
-| 57 | SampleProvider.SPAARK\_1\_12\_2023 | 1467.7 | 261-240 | accepted |
-| 58 | Nawlej.PoonPoonv3 | 1466.7 | 236-259 | accepted |
-| 59 | NolanChai.nolan\_1 | 1460.0 | 246-261 | accepted |
-| 60 | andrewgopher.gopherbot1 | 1446.0 | 222-249 | accepted |
-| 61 | jyorkio.elicompbot | 1444.6 | 236-244 | accepted |
-| 62 | Juanbri02.matfisplayer1 | 1431.2 | 248-247 | accepted |
-| 63 | vontell.regressiongames | 1411.4 | 244-266 | accepted |
-| 64 | michael-tyl.hqrewrite | 1409.8 | 227-241 | accepted |
-| 65 | legobridge.kushalplayer | 1409.3 | 215-241 | accepted |
-| 66 | SteamBlizzard.Block | 1407.9 | 238-266 | accepted |
-| 67 | Patela171.Battlecode2023\_Robot | 1403.5 | 229-254 | accepted |
-| 68 | mama4294.learningBot | 1395.9 | 250-254 | accepted |
-| 69 | JackLee9355.jackPlayer | 1392.2 | 201-255 | accepted |
-| 70 | Chahat08.toph | 1391.4 | 234-264 | accepted |
-| 71 | ax-95174.MPAction | 1388.5 | 228-270 | accepted |
-| 72 | nail-e.Dante | 1377.6 | 260-256 | accepted |
-| 73 | remember-to-hydrate.sprint\_1 | 1362.5 | 237-270 | accepted |
-| 74 | Swordman51.AdeptusAstartes2 | 1349.6 | 258-279 | accepted |
-| 75 | anicolao.submission | 1347.2 | 257-292 | accepted |
-| 76 | toyat522.bot5 | 1339.2 | 249-306 | accepted |
-| 77 | monmouth-college-cs.elicompbot | 1332.3 | 257-307 | accepted |
-| 78 | Chahat08.lazarus | 1332.2 | 256-299 | accepted |
-| 79 | Vinceyou1.Player1 | 1331.1 | 233-265 | accepted |
-| 80 | michael-tyl.cc\_v0\_5\_0\_6 | 1329.2 | 280-314 | accepted |
-| 81 | addiesteward.elicompbot | 1320.9 | 242-289 | accepted |
-| 82 | anicolao.jumbled | 1281.1 | 267-303 | accepted |
-| 83 | ShatterXD.SRNNbot | 1257.9 | 267-291 | accepted |
-| 84 | NotLLeon.player | 1209.4 | 260-274 | accepted |
-| 85 | CodeClash-ai.mysubmission | 1142.5 | 271-296 | accepted |
-| 86 | addiesteward.NDeClaw | 1137.0 | 234-276 | accepted |
-| 87 | Yooncw0223.lec3player | 908.5 | 91-395 | accepted |
-| 88 | andrewkbank.First | 799.6 | 56-343 | accepted |
+| 1 | carlguo866.submit26\_final | 1826.6 | 178-116 | accepted |
+| 2 | maxwelljones14.MPWorking | 1818.2 | 187-92 | accepted |
+| 3 | awesomelemonade.finalBot | 1806.4 | 552-180 | accepted |
+| 4 | IvanGeffner.fortytwo | 1770.7 | 206-112 | accepted |
+| 5 | pranayagra.finalbotfinal | 1758.6 | 559-353 | accepted |
+| 6 | pranayagra.finalbotfinaltwo | 1730.8 | 214-140 | accepted |
+| 7 | georgezhang02.FB\_ZZZ | 1721.4 | 237-147 | accepted |
+| 8 | vrangr1.AFinalsBot | 1718.8 | 505-236 | accepted |
+| 9 | AnOvercookedFork.quals | 1710.1 | 202-134 | accepted |
+| 10 | battlecode-archive.sprintBot | 1694.0 | 236-172 | accepted |
+| 11 | CyrilSharma.finalBot | 1692.5 | 269-208 | accepted |
+| 12 | jmerle.camel\_case\_v30\_final | 1678.0 | 536-343 | accepted |
+| 13 | **vibe23** | 1667.4 | 3685-2990 | accepted |
+| 14 | VarunVejalla.karel | 1653.5 | 239-232 | accepted |
+| 15 | NotLLeon.v7 | 1639.0 | 416-487 | accepted |
+| 16 | ethanlabelle.dev | 1637.0 | 242-211 | accepted |
+| 17 | VarunVejalla.ali8 | 1634.0 | 196-164 | accepted |
+| 18 | georgezhang02.CB\_tuning2 | 1633.4 | 397-509 | accepted |
+| 19 | ethanlabelle.v19 | 1625.0 | 224-232 | accepted |
+| 20 | britacatalin.FinalBot | 1616.8 | 343-503 | accepted |
+| 21 | GabeG888.v8o1 | 1616.1 | 203-160 | accepted |
+| 22 | GabeG888.v8 | 1615.5 | 211-164 | accepted |
+| 23 | DannyZhang686.pqual2 | 1611.4 | 214-191 | accepted |
+| 24 | battlecode-archive.Sprint1 | 1594.8 | 245-565 | accepted |
+| 25 | programjames.fourthbot | 1586.5 | 204-174 | accepted |
+| 26 | louishu17.louisv10 | 1583.9 | 191-163 | accepted |
+| 27 | TheK098.qp1\_7\_sprint\_1 | 1583.8 | 214-182 | accepted |
+| 28 | louishu17.wouisv8 | 1583.1 | 195-186 | accepted |
+| 29 | SampleProvider.SPAARK | 1578.0 | 182-172 | accepted |
+| 30 | ipince.bobby | 1574.3 | 179-160 | accepted |
+| 31 | NicholasKelly15.gopher10 | 1570.2 | 188-154 | accepted |
+| 32 | reeceyang.v5anaconda | 1568.7 | 276-567 | accepted |
+| 33 | legobridge.tacoplayer | 1563.9 | 193-209 | accepted |
+| 34 | toyat522.bot5a | 1554.1 | 203-208 | accepted |
+| 35 | elgoldie.head\_v5 | 1551.1 | 196-194 | accepted |
+| 36 | SteamBlizzard.newVnewME | 1547.3 | 206-202 | accepted |
+| 37 | DukeBas.\_main | 1545.7 | 220-191 | accepted |
+| 38 | beaverbois.USQualifiers | 1544.8 | 212-187 | accepted |
+| 39 | kevinli405.maggi3\_2 | 1543.9 | 223-209 | accepted |
+| 40 | kevinli405.maggi3 | 1531.4 | 214-209 | accepted |
+| 41 | ColtG5.rexv9 | 1529.6 | 208-209 | accepted |
+| 42 | polyllc.poly | 1526.9 | 169-173 | accepted |
+| 43 | aj-chau.attempt1 | 1524.3 | 221-211 | accepted |
+| 44 | mama4294.currentPlayer | 1521.8 | 217-215 | accepted |
+| 45 | BrysonJGalapon.friday | 1520.6 | 213-195 | accepted |
+| 46 | Nawlej.PoonPoon | 1518.0 | 189-192 | accepted |
+| 47 | nail-e.Barry | 1512.7 | 210-207 | accepted |
+| 48 | prisms-cs-club.prisms10 | 1507.5 | 221-202 | accepted |
+| 49 | yaonam.PoonPoonv4 | 1506.9 | 253-629 | accepted |
+| 50 | bewuwy.deathbot4 | 1503.4 | 258-258 | accepted |
+| 51 | ipince.bobby\_v2 | 1496.2 | 239-238 | accepted |
+| 52 | NolanChai.nolan\_1 | 1493.1 | 256-263 | accepted |
+| 53 | BrysonJGalapon.aloha | 1490.8 | 256-248 | accepted |
+| 54 | andrewgopher.gopherbot | 1490.4 | 218-253 | accepted |
+| 55 | JfeMak.realplayer2 | 1486.8 | 239-238 | accepted |
+| 56 | PSUtblock.sprint\_four\_player | 1484.3 | 220-242 | accepted |
+| 57 | SampleProvider.SPAARK\_1\_12\_2023 | 1469.6 | 270-243 | accepted |
+| 58 | Nawlej.PoonPoonv3 | 1466.7 | 242-265 | accepted |
+| 59 | SDainard-PDX.Team\_Player | 1455.5 | 216-243 | accepted |
+| 60 | Juanbri02.matfisplayer1 | 1452.5 | 257-250 | accepted |
+| 61 | legobridge.kushalplayer | 1449.2 | 227-241 | accepted |
+| 62 | jyorkio.elicompbot | 1427.3 | 238-254 | accepted |
+| 63 | andrewgopher.gopherbot1 | 1425.3 | 229-254 | accepted |
+| 64 | vontell.regressiongames | 1406.9 | 249-273 | accepted |
+| 65 | remember-to-hydrate.sprint\_1 | 1396.8 | 247-272 | accepted |
+| 66 | nail-e.Dante | 1395.9 | 265-263 | accepted |
+| 67 | michael-tyl.hqrewrite | 1389.7 | 228-252 | accepted |
+| 68 | ax-95174.MPAction | 1388.9 | 233-277 | accepted |
+| 69 | SteamBlizzard.Block | 1386.5 | 243-273 | accepted |
+| 70 | Patela171.Battlecode2023\_Robot | 1386.4 | 232-263 | accepted |
+| 71 | mama4294.learningBot | 1382.3 | 254-262 | accepted |
+| 72 | JackLee9355.jackPlayer | 1377.1 | 208-260 | accepted |
+| 73 | Chahat08.toph | 1371.9 | 238-272 | accepted |
+| 74 | anicolao.submission | 1355.7 | 264-297 | accepted |
+| 75 | Swordman51.AdeptusAstartes2 | 1350.0 | 266-283 | accepted |
+| 76 | toyat522.bot5 | 1333.7 | 255-312 | accepted |
+| 77 | Vinceyou1.Player1 | 1333.3 | 237-273 | accepted |
+| 78 | michael-tyl.cc\_v0\_5\_0\_6 | 1332.9 | 287-319 | accepted |
+| 79 | addiesteward.elicompbot | 1324.5 | 248-295 | accepted |
+| 80 | Chahat08.lazarus | 1311.7 | 258-309 | accepted |
+| 81 | anicolao.jumbled | 1305.5 | 276-306 | accepted |
+| 82 | monmouth-college-cs.elicompbot | 1304.8 | 262-314 | accepted |
+| 83 | ShatterXD.SRNNbot | 1276.5 | 276-294 | accepted |
+| 84 | NotLLeon.player | 1198.7 | 265-281 | accepted |
+| 85 | CodeClash-ai.mysubmission | 1139.5 | 279-300 | accepted |
+| 86 | addiesteward.NDeClaw | 1120.6 | 241-281 | accepted |
+| 87 | Yooncw0223.lec3player | 901.2 | 95-403 | accepted |
+| 88 | andrewkbank.First | 789.3 | 56-355 | accepted |
 
 ## Latest matches
 
 | Match | Created | Player 0 | Score | Player 1 | Maps | Type | Status |
 |---:|---|---|---|---|---|---|---|
-| 9050 | Oct 17 22:51 PDT | AnOvercookedFork.quals | ?–? | **vibe23** | Sakura, LightWork, Buggy | ranked | RUN |
-| 9049 | Oct 17 22:46 PDT | AnOvercookedFork.quals | ?–? | **vibe23** | Pakbot, Cornucopia, SmallElements | ranked | RUN |
-| 9048 | Oct 17 21:48 PDT | **vibe23** | 9–1 | britacatalin.FinalBot | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
-| 9047 | Oct 17 21:48 PDT | **vibe23** | 10–0 | yaonam.PoonPoonv4 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
-| 9046 | Oct 17 21:47 PDT | **vibe23** | 10–0 | reeceyang.v5anaconda | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
-| 9045 | Oct 17 21:47 PDT | **vibe23** | 10–0 | battlecode-archive.Sprint1 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
-| 9044 | Oct 17 21:47 PDT | **vibe23** | 7–3 | NotLLeon.v7 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
-| 9043 | Oct 17 21:47 PDT | **vibe23** | 5–5 | pranayagra.finalbotfinal | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
-| 9042 | Oct 17 21:47 PDT | **vibe23** | 3–7 | awesomelemonade.finalBot | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
-| 9041 | Oct 17 21:47 PDT | **vibe23** | 10–0 | georgezhang02.CB\_tuning2 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
-| 9040 | Oct 17 21:47 PDT | **vibe23** | 4–6 | jmerle.camel\_case\_v30\_final | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
-| 9039 | Oct 17 21:47 PDT | **vibe23** | 5–5 | vrangr1.AFinalsBot | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
-| 9038 | Oct 17 21:37 PDT | **vibe23** | 1–2 | pranayagra.finalbotfinal | Pakbot, ThirtyFive, Pathfind | ranked | OK! |
-| 9037 | Oct 17 21:31 PDT | **vibe23** | 1–2 | georgezhang02.FB\_ZZZ | IslandHoppingTwo, TimesUp, HotAirBalloon | ranked | OK! |
-| 9036 | Oct 17 21:26 PDT | **vibe23** | 1–2 | georgezhang02.FB\_ZZZ | VeryReasonable, Flower, BatSignal | ranked | OK! |
-| 9035 | Oct 17 21:21 PDT | georgezhang02.FB\_ZZZ | 1–2 | **vibe23** | Eyelands, Buggy, USA | ranked | OK! |
-| 9034 | Oct 17 21:16 PDT | jmerle.camel\_case\_v30\_final | 1–2 | **vibe23** | Pizza, Flower, Star | ranked | OK! |
-| 9033 | Oct 17 21:11 PDT | **vibe23** | 1–2 | jmerle.camel\_case\_v30\_final | IslandHopping, Maze, Piglets | ranked | OK! |
-| 9032 | Oct 17 21:06 PDT | jmerle.camel\_case\_v30\_final | 1–2 | **vibe23** | ThirtyFive, Jail, Rainbow | ranked | OK! |
-| 9031 | Oct 17 21:00 PDT | **vibe23** | 1–2 | battlecode-archive.sprintBot | Lines, Risk, BowAndArrow | ranked | OK! |
+| 9486 | Oct 18 13:40 PDT | battlecode-archive.sprintBot | ?–? | **vibe23** | Rectangle, Pit, River | ranked | RUN |
+| 9485 | Oct 18 13:35 PDT | **vibe23** | 2–1 | CyrilSharma.finalBot | BatSignal, Sus, Swooshy | ranked | OK! |
+| 9484 | Oct 18 12:45 PDT | **vibe23** | 9–1 | britacatalin.FinalBot | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 9483 | Oct 18 12:45 PDT | **vibe23** | 9–1 | yaonam.PoonPoonv4 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 9482 | Oct 18 12:45 PDT | **vibe23** | 10–0 | reeceyang.v5anaconda | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 9481 | Oct 18 12:45 PDT | **vibe23** | 10–0 | battlecode-archive.Sprint1 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 9480 | Oct 18 12:45 PDT | **vibe23** | 9–1 | NotLLeon.v7 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 9479 | Oct 18 12:45 PDT | **vibe23** | 7–3 | pranayagra.finalbotfinal | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 9478 | Oct 18 12:45 PDT | **vibe23** | 4–6 | awesomelemonade.finalBot | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 9477 | Oct 18 12:45 PDT | **vibe23** | 9–1 | georgezhang02.CB\_tuning2 | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 9476 | Oct 18 12:45 PDT | **vibe23** | 5–5 | jmerle.camel\_case\_v30\_final | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 9475 | Oct 18 12:45 PDT | **vibe23** | 7–3 | vrangr1.AFinalsBot | DefaultMap, Maze, Forest, ReverseFunnel, Cat, IslandHopping, Hah, BatSignal, Cornucopia, MassiveL | unranked | OK! |
+| 9474 | Oct 18 12:43 PDT | **vibe23** | 0–3 | pranayagra.finalbotfinal | AllElements, Spiderweb, HotAirBalloon | ranked | OK! |
+| 9473 | Oct 18 12:38 PDT | **vibe23** | 1–2 | pranayagra.finalbotfinal | Scatter, IslandHopping, AllElements | ranked | OK! |
+| 9472 | Oct 18 12:32 PDT | **vibe23** | 1–2 | CyrilSharma.finalBot | Turtle, Lantern, Sine | ranked | OK! |
+| 9471 | Oct 18 12:26 PDT | CyrilSharma.finalBot | 1–2 | **vibe23** | Clown, ReverseFunnel, Sine | ranked | OK! |
+| 9470 | Oct 18 12:21 PDT | **vibe23** | 0–3 | CyrilSharma.finalBot | Quiet, CrownJewels, Diagonal | ranked | OK! |
+| 9469 | Oct 18 10:58 PDT | **vibe23** | 3–0 | CyrilSharma.finalBot | SweetDreams, Spiderweb, Flower | ranked | OK! |
+| 9468 | Oct 18 10:32 PDT | **vibe23** | 2–1 | CyrilSharma.finalBot | RaceToTheTop, HotAirBalloon, Pillars | ranked | OK! |
+| 9467 | Oct 18 09:00 PDT | beaverbois.USQualifiers | 2–1 | kevinli405.maggi3\_2 | BattleSuns, SmallElements, MassiveL | ranked | OK! |

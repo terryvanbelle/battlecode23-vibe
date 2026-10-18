@@ -1,9 +1,9 @@
 {
  "validated": {
-  "submission": 188,
-  "package": "c_isle1",
-  "since": "2026-10-18T05:46:01.544812+00:00",
-  "panel_run": "gauntlet/20261018-044752-panel-c_isle1"
+  "submission": 189,
+  "package": "c_loose1",
+  "since": "2026-10-18T20:34:00.816274+00:00",
+  "panel_run": null
  },
  "trial": null,
  "history": [
@@ -826,6 +826,19 @@
    "event": "reject",
    "submission": 187,
    "package": "c_di1"
+  },
+  {
+   "at": "2026-10-18T19:45:00.683311+00:00",
+   "event": "trial-start",
+   "submission": 189,
+   "package": "c_loose1",
+   "screen_skipped": "screen (a) 8/8 and (b) 15/20 vs c_isle1 (PASS is 11); the information-only roster stage was still running; abl1 c_ab03 (same code) 60/80 on the panel maps, paired net +20"
+  },
+  {
+   "at": "2026-10-18T20:34:01.106182+00:00",
+   "event": "accept",
+   "submission": 189,
+   "package": "c_loose1"
   }
  ],
  "parked": []
