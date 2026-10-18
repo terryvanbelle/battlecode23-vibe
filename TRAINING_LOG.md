@@ -2241,3 +2241,8 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   trigger is field-only (an enemy 1-2 islands short of conquest: 0/72 c_hr1 panel wins, 7 losses), local h2h neutral;
   the ladder was idle until the 01:00 PDT autoscrim. Basics (overruns) come from the panel census. Rating with c_hr1
   1681 over 35 rated matches (c_gp1 1690).
+- 21:55 PDT c_hr1 panel engagements starting r<=300 (exch = enemy value lost / ours): in LOSSES ahead-mid won 0.70,
+  exch 0.98; par-mid 0.35, 0.81; par-home 0.44, 0.75; behind-home n 81, 0.52. In WINS ahead-mid 0.90, 2.64; par-mid
+  0.61, 1.99; par-home 0.65, 1.25. Against the strongest bots our fights trade about even even when ahead: a combat
+  gap that self-play micro tuning cannot see. Workflow micro-gap-diagnosis running (3 CSV lenses, 1 replay pass,
+  verify/synthesis).
