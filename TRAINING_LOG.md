@@ -2236,3 +2236,4 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   dropped. drop1-h2h 108/206, won both 12 / lost both 7 (+5 maps), panel maps 12/20: mildly positive, screen queued.
   isle1-h2h 102/206, 8/9, panel 10/20: neutral locally, as expected (its trigger, an enemy one island short of
   conquest, is a field-loss pattern that self-play rarely reaches); c_isle2 not run.
+- 21:01 PDT c_hr4 screen PASS (h2h 11/20, basics clean) but 206/412 over two all-maps samples vs c_hr1: not trialled.
