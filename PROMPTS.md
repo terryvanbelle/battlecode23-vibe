@@ -571,3 +571,6 @@ Added bash permissions for vm-stop.sh.  Let me know when it's safe to restart
 
 ## 127. 2026-10-17 11:34 PDT
 ok, you should be back now after the restart
+
+## 128. 2026-10-18 19:51 PDT
+Why the suddenly high load on the vm?
