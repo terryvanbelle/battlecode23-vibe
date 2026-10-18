@@ -2246,3 +2246,8 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   0.61, 1.99; par-home 0.65, 1.25. Against the strongest bots our fights trade about even even when ahead: a combat
   gap that self-play micro tuning cannot see. Workflow micro-gap-diagnosis running (3 CSV lenses, 1 replay pass,
   verify/synthesis).
+- 22:46 PDT c_isle1 panel (submission 186) vs c_hr1's: 97 identical, gained 2 (georgezhang02 and britacatalin on
+  Cornucopia: r2000 tiebreak losses became conquest wins r1358/r1909), lost 1 (awesomelemonade Cornucopia: a r2000 win
+  became a r1095 loss), net +1 (0.58 SE); island-rounds +106 (t 1.01); 0 overruns, 0 exceptions. Local neutral
+  (102/206). Every measure non-negative and the flips are the island race the change targets: **c_isle1 ACCEPTED**
+  (validated 186). drop1-h2h-r (random seeds) 112/206: c_drop1 220/412 vs c_hr1 over two samples (53.4%).

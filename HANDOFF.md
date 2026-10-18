@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-17 20:48 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
+Updated 2026-10-17 22:47 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
 archived in `research/diagnosis/2026-10-12-handoff-inflight.md`). On 2026-10-12 18:48 PDT every galaxy unit stopped and
 the VM queue runner exited on a STOP file, with no recorded reason; both were restarted on 2026-10-14 (the replica in
 the morning, the runner at 11:47 PDT). `tools/watch_events.py` now reports either failure (REPLICA_DOWN,
@@ -50,18 +50,16 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-17 20:48 PDT)
+## In flight (2026-10-17 22:47 PDT)
 
-- **State (20:48 PDT 10-17).** **c_hr1 is the validated build (submission 185, accepted 15:17 PDT)**: c_gp1 + C.HUNT
-  + siege rotation (SIEGE_ROTATE_FROM 300, SIEGE_ROTATE 100). Screens and h2h now run vs c_hr1. c_rot1 rejected
-  (subsumed); c_hr2 (rotate only on known HQs) dropped, net -9 games vs c_hr1; c_hr3 (ROTATE 150) -6 maps vs c_hr1.
-  c_hr4 (ROTATE_FROM 250) even over 412 games vs c_hr1: dropped. From the c_hr1 panel-loss diagnosis
-  (research/diagnosis/2026-10-17-panel-losses-c_hr1.md): c_drop1 (drop a well after a second flight) +5 maps vs
-  c_hr1, screen running 20:48 PDT 10-17 (`tools/screen.py collect c_drop1`); c_isle1 (conquest-threat island response)
-  neutral locally (102/206), a field-only trigger: trial (submission 186, --skip-screen) started 21:48 PDT 10-17,
-  decide with paired.py vs gauntlet/20261017-212413-panel-c_hr1 then trial-end; c_isle2 (no sticky slot) not run.
-  VM: at most two runs at a time.
-  `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125; never battlecode-dev2).
+- **State (22:47 PDT 10-17).** **c_isle1 is the validated build (submission 186, accepted 22:46 PDT)** = c_hr1
+  (c_gp1 + C.HUNT + siege rotation FROM 300 / every 100) + C.ISLE_THREAT (an enemy 1-2 islands short of conquest
+  sends even-id marching launchers to the nearest enemy island; sticky 'theirs' slot). Panel-loss diagnosis:
+  research/diagnosis/2026-10-17-panel-losses-c_hr1.md. c_drop1 (drop a well after a second flight, based on c_hr1)
+  220/412 vs c_hr1; its screen is running (vs c_hr1): stack it on c_isle1 next. c_hr2/c_hr3/c_hr4 dropped (rotation
+  timing is at its optimum). Workflow micro-gap-diagnosis running: vs strong bots our fights trade about even when
+  ahead. VM: at most two runs at a time. `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner,
+  PROMPTS 125; never battlecode-dev2).
 - **Owner's parameter-search project (PROMPTS 114; practice session, bold attempts welcome).** `tools/param.py`
   builds a package with C.java constants overridden at build time (`make BASE NEW NAME=VALUE ...`; `space` = 73
   numeric constants with ranges and 10 constraints; `sample` = random valid settings). `tools/swiss.py` runs a Swiss
@@ -214,7 +212,7 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   `gauntlet/20261009-082005-panel-c_nav4`. Earlier: g_iter2 = c_swarm1 (`...-210429-panel1-c_swarm1`, 40/100), g_iter1 =
   c_line8a (`...-180016-panel1-c_line8a`, 33/100), g_iter0 (`...-011350-panel1-g_iter0`, 31/100). Local cells vs the
   previous incumbent: `test/cells/self-swarm1-panel.txt`; the pre-trial screen (`tools/screen.py`) reads the current
-  validated package from `progress/ladder-state.json` (last recorded: c_hr1).
+  validated package from `progress/ladder-state.json` (last recorded: c_isle1).
 - Ranked vs unranked follows `docs/LADDER_STRATEGY.md` (owner, PROMPTS 17-18), state in `progress/ladder-state.json`:
   `tools/ladder_policy.py ranked` runs detached on the driver (PID 3179283 since 2026-10-14 11:46 PDT; log
   `logs/ranked-policy.log`): ranked challenges upward

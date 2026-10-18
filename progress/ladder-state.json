@@ -1,19 +1,11 @@
 {
  "validated": {
-  "submission": 185,
-  "package": "c_hr1",
-  "since": "2026-10-17T22:16:54.703229+00:00",
-  "panel_run": "gauntlet/20261017-212413-panel-c_hr1"
- },
- "trial": {
   "submission": 186,
   "package": "c_isle1",
-  "started": "2026-10-18T04:47:42.062405+00:00",
-  "panel": "test/cells/panel-v1.txt",
-  "run_dir": "gauntlet/20261018-044752-panel-c_isle1",
-  "pid": 3829189,
-  "hash": "89fd5df4cf97"
+  "since": "2026-10-18T05:46:01.544812+00:00",
+  "panel_run": "gauntlet/20261018-044752-panel-c_isle1"
  },
+ "trial": null,
  "history": [
   {
    "at": "2026-10-08T02:35:39.835215+00:00",
@@ -815,6 +807,12 @@
    "submission": 186,
    "package": "c_isle1",
    "screen_skipped": "field-only trigger (enemy 1-2 islands short of conquest, 0/72 c_hr1 panel wins); local h2h vs c_hr1 neutral 102/206 as expected; ladder idle until the 01:00 PDT autoscrim"
+  },
+  {
+   "at": "2026-10-18T05:46:01.809647+00:00",
+   "event": "accept",
+   "submission": 186,
+   "package": "c_isle1"
   }
  ],
  "parked": []
