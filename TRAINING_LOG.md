@@ -2428,3 +2428,14 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - **abl9** (VM gauntlet/20261019-210733-abl9, vs c_adp1, 388 games): identity c_k900 40; JOIN_MIN 2, GATE_DEFICIT
   800, CAMP_MIN 2 on panel maps x both sides x 4 seeds (80 each); SPAWN_POCKET 4 on Clown/Jail/ThirtyFive x 2 x 4;
   CENTRE_SKIP_R2 100 on the 21 centre maps x 2 x 2.
+
+## 2026-10-19 16:43 PDT: abl9 results; c_gd1 built for the panel
+
+- **abl9 + abl9b** (vs c_adp1; identity c_k900 86 games): JOIN_MIN 2 net -6 (7/13, z -1.3), CAMP_MIN 2 -3 (3/6),
+  GATE_DEFICIT_UNTIL 800 inert (0 of 80 changed), SPAWN_POCKET 4 +1 (8/7 of 24 on Clown/Jail/ThirtyFive; ThirtyFive
+  +1; ThirtyFive still_L 0.51-0.55 vs 0.58-0.61 in the same games), CENTRE_SKIP_R2 100 net 0 (SoundWave +2, Lantern +2,
+  River +1, Fractured -2, Maze -2, PairedProgramming -1). The gauntlet keeps only BOT-loss replays, so kept replays
+  cannot pair.
+- JOIN_MIN and CAMP_MIN dropped (negative in self-play); CENTRE_SKIP held (net 0, -2 on the panel map Maze).
+- **c_gd1** = c_kx0 + AD_PRESS_MN + GATE_DEFICIT_UNTIL 800 + SPAWN_POCKET 4 (unit tests PASS): panel trial after the
+  17:00 autoscrim (GATE_DEFICIT is panel-only; SPAWN_POCKET is inert on panel maps).
