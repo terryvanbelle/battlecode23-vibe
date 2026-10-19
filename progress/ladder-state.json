@@ -1,9 +1,9 @@
 {
  "validated": {
-  "submission": 191,
-  "package": "c_loose1",
-  "since": "2026-10-18T20:34:00.816274+00:00",
-  "panel_run": null
+  "submission": 192,
+  "package": "c_eco3",
+  "since": "2026-10-19T13:29:15.279429+00:00",
+  "panel_run": "gauntlet/20261019-123523-panel-c_eco3"
  },
  "trial": null,
  "history": [
@@ -852,6 +852,19 @@
    "event": "reject",
    "submission": 190,
    "package": "c_sm1"
+  },
+  {
+   "at": "2026-10-19T12:35:23.224757+00:00",
+   "event": "trial-start",
+   "submission": 192,
+   "package": "c_eco3",
+   "screen_skipped": "param-only package (c_loose1 + CAP_MAX 45, AD_NEED 100, ANCHOR_START 400, ANCHOR_MIN_LAUNCHERS 20); abl5 sweep c_st02 with the identical constants: 80 paired games vs c_loose1 on the panel maps, net +6 (z 1.5), basics code unchanged"
+  },
+  {
+   "at": "2026-10-19T13:29:16.023690+00:00",
+   "event": "accept",
+   "submission": 192,
+   "package": "c_eco3"
   }
  ],
  "parked": []

@@ -8,10 +8,14 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
 
 ## Standing
 
-- **Validated build c_loose1** (submission 189, accepted 2026-10-18 13:34 PDT): c_isle1 with C.ARMY false (no
+- **Validated build c_eco3** (submission 192, accepted 2026-10-19 06:29 PDT): c_loose1 with CAP_MAX 45, AD_NEED 100,
+  ANCHOR_START 400, ANCHOR_MIN_LAUNCHERS 20 (abl5 stack of abl3 economy near-misses, self-play net +6). Panel 82/100
+  (`gauntlet/20261019-123523-panel-c_eco3`): vs c_loose1 97 identical, gained 3, lost 0, net +3 (+1.73 SE);
+  island-rounds -196 (later first anchor). Judge candidates against c_eco3's panel.
+- Before it **c_loose1** (submission 189, accepted 2026-10-18 13:34 PDT): c_isle1 with C.ARMY false (no
   launcher cohesion gate; found by the abl1 ablation sweep, +20 net on the panel maps). Panel 79/100
   (`gauntlet/20261018-194500-panel-c_loose1`): vs c_isle1 84 identical, gained 11, lost 5, net +6 (+1.50 SE); strong
-  bots 23/40 vs 17/40. Judge candidates against c_loose1's panel.
+  bots 23/40 vs 17/40.
 - Before it **c_isle1** (submission 186, accepted 2026-10-17 22:46 PDT): c_hr1 plus island-race changes. Panel vs
   c_hr1 net +1, island-rounds +106 (t 1.01). Before that **c_hr1** (submission 185, accepted 2026-10-17 15:17 PDT):
   c_gp1 plus symmetry-guess rotation and hunting; net +1 vs c_gp1's panel, local h2h 232/412.
@@ -56,26 +60,23 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-19 05:36 PDT)
+## In flight (2026-10-19 06:35 PDT)
 
-- **State (05:36 PDT 10-19).** **c_loose1 is the validated build (submission 189/191, accepted 13:34 10-18)** =
-  c_isle1 with C.ARMY false (no launcher cohesion: no waiting for GROUP_MIN in vision, no follow, no regroup). Found
-  by the abl1 ablation sweep (c_ab03 59/79 vs c_isle1 on the panel maps, paired net +20); screen PASS (b 15/20,
-  roster +17); panel 79/100, net +6 vs c_isle1, strong bots 23/40 vs 17/40. Diagnoses: research/diagnosis/2026-10-17-
-  panel-losses-c_hr1.md, 2026-10-18-launcher-micro-vs-strong.md, 2026-10-18-structural-designs.md,
-  2026-10-18-panel-losses-c_loose1.md. c_evac2 dropped (14:35 10-18); **c_sm1 rejected 05:36 PDT 10-19** (panel
-  80/100, 99 of 100 games identical to c_loose1, net +1; small-map island-rounds +23..+90, Cornucopia -1413).
-- **Running on the VM (two runs, the limit):** the c_sm1 screen (20261019-105251-scr-c_sm1-5282467d56a4, roster at
-  84/120; information only now; `tools/screen.py collect c_sm1`) and the c_eco3 screen (src/c_eco3 = c_loose1 with
-  CAP_MAX 45, AD_NEED 100, ANCHOR_START 400, ANCHOR_MIN_LAUNCHERS 20; abl5 c_st02 net +6 vs c_loose1). Trial c_eco3
-  after the 09:00 PDT autoscrim round if its screen passes (`ladder_policy.py trial-start c_eco3` in the background,
-  never wrapped in `timeout`; then `tools/paired.py <cand_run> gauntlet/20261018-194500-panel-c_loose1`). Paused: abl4
-  at 855/1160 (rest in build/abl4/cells-rest.txt; resume as TAG=abl4b with CELLS=build/abl4/cells-rest.txt, classes in
-  build/abl4/classes) when a slot frees. Sweeps abl1-abl5 on the VM under build/abl*/ (src, legend.txt, analyse.py;
-  results.raw needs the header `opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed`; wins are the
-  ablation's). Self-play sweeps cannot judge levers aimed at strong-bot mechanisms (abl4: island levers change 0-3 of
-  80 games): those go to the panel. `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125;
-  never battlecode-dev2).
+- **State (06:35 PDT 10-19).** **c_eco3 is the validated build (submission 192, accepted 06:29)**, see Standing.
+  Rejected today: c_sm1 (05:36; panel 80/100, 99 of 100 games identical to c_loose1, net +1; screen FAIL (b) 10/20).
+  Diagnoses: research/diagnosis/2026-10-18-panel-losses-c_loose1.md (mana gap r100-300; middle wells 38-54% of it;
+  small maps lose the island race) and the earlier ones it cites.
+- **Running on the VM:** abl4b (rest of abl4: 305 cells, build/abl4/cells-rest.txt, classes build/abl4/classes, base
+  c_loose1; combine with gauntlet/*-abl4 for the analysis). Next panel candidate: c_mid3 (MID_URGENT false, MID_MOD
+  2, on c_eco3's constants via c_lx0, whose switch defaults reproduce c_loose1). A panel trial must end before the
+  next autoscrim (09:00, 17:00, 01:00 PDT); `ladder_policy.py trial-start <pkg>` in the background (never wrapped in
+  `timeout`), then `tools/paired.py <cand_run> gauntlet/20261019-123523-panel-c_eco3`, then `trial-end`. A
+  param-only candidate with a self-play sweep behind it may skip the screen (`--skip-screen "<reason>"`; c_eco3
+  did). Sweeps abl1-abl5 on the VM under build/abl*/ (src, legend.txt, analyse.py; results.raw needs the header
+  `opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed`; wins are the ablation's). Self-play sweeps
+  cannot judge levers aimed at strong-bot mechanisms (abl4: island levers change 0-3 of 80 games): those go to the
+  panel. The VM queue (queue/pending, queue/running) is serial; cancelled jobs go to queue/cancelled.
+  `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125; never battlecode-dev2).
 - **Attempts table (owner, PROMPTS 130).** `progress/ATTEMPTS.md` (from `progress/attempts.csv`, `tools/attempts.py`)
   lists every attempt with its funnel scores. Update it at every result: `attempts.py h2h <pkg> <results.csv>
   [--random]` for a local h2h, `set <pkg> field=...` for descriptions, panels and outcomes; screens and panel scores
@@ -232,7 +233,7 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   `gauntlet/20261009-082005-panel-c_nav4`. Earlier: g_iter2 = c_swarm1 (`...-210429-panel1-c_swarm1`, 40/100), g_iter1 =
   c_line8a (`...-180016-panel1-c_line8a`, 33/100), g_iter0 (`...-011350-panel1-g_iter0`, 31/100). Local cells vs the
   previous incumbent: `test/cells/self-swarm1-panel.txt`; the pre-trial screen (`tools/screen.py`) reads the current
-  validated package from `progress/ladder-state.json` (last recorded: c_loose1).
+  validated package from `progress/ladder-state.json` (last recorded: c_eco3).
 - Ranked vs unranked follows `docs/LADDER_STRATEGY.md` (owner, PROMPTS 17-18), state in `progress/ladder-state.json`:
   `tools/ladder_policy.py ranked` runs detached on the driver (PID 3179283 since 2026-10-14 11:46 PDT; log
   `logs/ranked-policy.log`): ranked challenges upward

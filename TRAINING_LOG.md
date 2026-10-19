@@ -2355,3 +2355,14 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   anchors on a 5-island map where we already win). Mean -92 (t -0.88).
 - Lesson: the small-map losses are decided before anchors matter (army collapse first, as the diagnosis said);
   anchor timing alone does not flip them. Next: c_eco3 screen (started 05:35 PDT).
+
+### 06:29 PDT: c_eco3 ACCEPTED (panel, submission 192)
+- c_eco3 = c_loose1 with CAP_MAX 45, AD_NEED 100, ANCHOR_START 400, ANCHOR_MIN_LAUNCHERS 20 (abl5 stack c_st02 of
+  four abl3 near-misses, self-play net +6, z 1.5). Screen skipped with a recorded reason (param-only; the sweep is 80
+  paired games against c_loose1). Trial started 05:43, panel gauntlet/20261019-123523-panel-c_eco3: 82/100 vs
+  c_loose1's 79. Paired: 97 identical, gained 3 (georgezhang02, jmerle, pranayagra), lost 0, net +3 (+1.73 SE,
+  sign p 0.25).
+- Island-rounds -196 per game (t -1.50): the first anchor comes 65-247 rounds later on every map and Cornucopia
+  (-1085, a map we win anyway) carries most of it. The economy trade cost islands and bought results.
+- c_sm1 screen (information only after its panel reject): FAIL, (b) 10/20, roster net +0, basics clean.
+- Next: rebase c_mid3 (MID_URGENT false, MID_MOD 2) on c_eco3; abl4b running (305 cells).
