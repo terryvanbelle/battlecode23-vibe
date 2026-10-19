@@ -20,6 +20,17 @@ The replica runs every match with `-Dbc.engine.show-indicators=false` (`tools/re
 same as the real galaxy). With that flag set, the engine drops every indicator string, dot and line before writing the
 replay.
 
+Rechecked 2026-10-19 (owner, PROMPTS 131-132) on replica replay 990f5131 (3 games, 1,644 rounds): 0 indicator strings, 0
+dots and 0 lines against 160,212 robot-turns of bytecodesUsed. The positive control `test/fixtures/telemetry-selfplay.bc23`
+(a local game, indicators on) has 9,098 strings for 9,098 robot-turns. The viewer can still look as if debug data were
+present, for two reasons:
+- **The "Indicator String:" field.** The robot panel always shows it, blank when the replay has none.
+- **Large circles.** These come from game data:
+  - the selected robot's action and vision rings (keys N and M show them for every robot);
+  - destabilize effects: a radius-5 circle in the caster's colour for 5 rounds. In 990f5131 FourNations, IvanGeffner's
+    destabilizers cast at (23,30) in r784 and (23,31) in r788.
+- **Real indicator dots** are 0.3 tiles across and hidden unless V or C is pressed.
+
 Two kinds of data survive:
 
 - the public game state: spawns, actions, positions, deaths, HP and inventory deltas, team totals and island owners;
