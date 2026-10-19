@@ -2326,3 +2326,11 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   not arise in self-play, so these levers can only be judged on the panel. abl5 started (stack of the abl3
   near-misses, 360 cells): c_st01 CAP_MAX 45 + AD_NEED 100 + ANCHOR_START 400; c_st02 = c_st01 + ANCHOR_MIN_LAUNCHERS
   20; c_st03 CAP_MAX 45 + AD_NEED 100; c_st04 ANCHOR_START 400 + ANCHOR_MIN_LAUNCHERS 20.
+
+## 2026-10-19
+
+- 01:13 PDT built src/c_sm1 = c_lx0 + ANCHOR_BLIND_FROM 250 + ISLE_MARGIN_SMALL 2 + ANCHOR_SLACK 3 +
+  ANCHOR_RESERVE_MAX 50 (diagnosis 2026-10-18-panel-losses-c_loose1 changes 1-4, the small-map island race and the
+  dead anchor reserve). Self-play cannot judge it (abl4: the four levers change 0-3 of 80 games each), so it goes to the
+  panel: screen when abl5 frees a VM slot, trial after the 01:00 PDT autoscrim round. Unit tests PASS. abl4 so far:
+  ANCHOR_RESERVE_MAX 50 +1, MID_URGENT false -2; abl5: c_st01 (CAP_MAX 45 + AD_NEED 100 + ANCHOR_START 400) +3 (n 70).
