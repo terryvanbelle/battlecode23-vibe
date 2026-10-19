@@ -2410,3 +2410,21 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   1769. Ranked vs carlguo866 11/30, vs maxwelljones14 6/18 (neither is on the panel). In our 31 losses to them median
   Mn@100 292 vs 373 and L@250 6 vs 19; in our 17 wins Mn@100 598 vs 347. Workflow diag-top2 (4 analysts +
   synthesis) on the 16 matches.
+
+## 2026-10-19 14:41 PDT: diag-top2 (carlguo866, maxwelljones14); five switches in c_kx0; sweep abl9
+
+- **Diagnosis** research/diagnosis/2026-10-19-top2.md (workflow diag-top2: 4 analysts + synthesis, 48 ranked games).
+  The openings are identical (4 launchers + 4 carriers per HQ). M1 (17 of 31 losses): we lose the home economy by
+  r150: the opponent's launchers camp our home Mn well (frontGate calls it home, so it never turns hot), our carriers
+  die there (105 vs 17 by r100), Mn binds (launchers r101-250 210 vs 407). M2 (5): the first launcher war lost at
+  parity (our victims die 2 v 2, theirs 5 v 1.5). M3 (9): midgame islands (they hold one at r300, we at r470; the
+  deficit clause closes our anchor gate 0.73 of samples). Basics: sealed spawn pockets (Jail 2 carriers, ThirtyFive 3
+  of 4 opening launchers stuck all game). Per-shot micro is even (51 vs 48 hits per 100 contact turns).
+- **c_kx0 switches** (defaults = c_eco3/c_adp1; unit tests PASS): SPAWN_POCKET (HQ.sealed: flood fill per spawn tile,
+  cached), JOIN_MIN (lone kind-0 launcher near home waits for a partner, FORM_MAX_TURNS cap), CENTRE_SKIP_R2 (no
+  centre-first leg next to an enemy HQ), GATE_DEFICIT_UNTIL (island-deficit gate clause ends earlier), CAMP_MIN (a
+  camped home well turns hot; the synthesis's edit was inert because markHot/hotLocal filter by front(): hotCamp
+  carries it). Static scan: pockets of 1-3 tiles only on Clown, Jail, ThirtyFive.
+- **abl9** (VM gauntlet/20261019-210733-abl9, vs c_adp1, 388 games): identity c_k900 40; JOIN_MIN 2, GATE_DEFICIT
+  800, CAMP_MIN 2 on panel maps x both sides x 4 seeds (80 each); SPAWN_POCKET 4 on Clown/Jail/ThirtyFive x 2 x 4;
+  CENTRE_SKIP_R2 100 on the 21 centre maps x 2 x 2.

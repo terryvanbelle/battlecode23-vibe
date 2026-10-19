@@ -32,6 +32,7 @@ public final class Launcher {
      *  2 predicted enemy HQ, 3 centre, or c_mend1's mending island: march sets kind 3 for a mender). Never read by
      *  decisions. */
     static int mode, objKind = 3;
+    static int joinTurns;   // diag-top2 (C.JOIN_MIN): consecutive turns held waiting for a partner
     // telemetry only: OBJ (effective objective kind 0-7 and its location; the last one emitted) and FIGHT words
     static int objEff = -1, lastObjKind = -1, shots0, fightShots, firstTarget, fightA, fightB, fightC;
     static MapLocation objLoc, lastObjLoc;
@@ -404,6 +405,14 @@ public final class Launcher {
             }
         }
         if (objective == null) return;
+        // diag-top2 (C.JOIN_MIN): near home a lone launcher waits for a partner before a sighting, recall or guard
+        // objective (kind 0), at most FORM_MAX_TURNS turns in a row (mode S)
+        if (C.JOIN_MIN > 1) {
+            if (objKind == 0 && !mend && 1 + G.nAllyFighters < C.JOIN_MIN) {
+                MapLocation h = HQState.nearest(G.here);
+                if (h != null && G.here.distanceSquaredTo(h) <= C.FORM_R2 && ++joinTurns <= C.FORM_MAX_TURNS) return;
+            } else joinTurns = 0;
+        }
         // c_mend1: within r2 4 of a square of the island (heal range, RULES 8.1) hold (mode S); 100 bytecodes, menders only
         if (mend && G.rc.senseNearbyIslandLocations(4, mendIsland).length > 0) return;
         // an enemy island in sight (c_mend1: or a mender's own island, farther than r2 4): each launcher takes the

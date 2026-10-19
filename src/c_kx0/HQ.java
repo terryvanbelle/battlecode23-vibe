@@ -65,7 +65,8 @@ public final class HQ {
         // C.ANCHOR_BLIND_PERIOD rounds (replaces islandToTake: any unreported island let the HQs build anchors that
         // couriers carried with no target and lost)
         Comms.islandStats(rc.getIslandCount());
-        boolean gate = G.round >= C.ANCHOR_GATE_UNTIL || (!Comms.anyPressed() && Comms.islThem <= Comms.islUs);
+        boolean gate = G.round >= C.ANCHOR_GATE_UNTIL
+            || (!Comms.anyPressed() && (G.round >= C.GATE_DEFICIT_UNTIL || Comms.islThem <= Comms.islUs));
         boolean anchorAllowed = gate && (Comms.islLocNeutral > 0 || (Comms.islUnloc > 0 && G.round >= C.ANCHOR_BLIND_FROM
             && G.round - lastAnchorRound >= C.ANCHOR_BLIND_PERIOD));
         int guard;
@@ -209,10 +210,43 @@ public final class HQ {
             MapLocation l = spawnTiles[i];
             if (!rc.canBuildRobot(t, l)) continue;
             long d = tileThreat(i) * 100_000L + l.distanceSquaredTo(goal);
-            if (d < bd) { bd = d; best = l; }
+            if (d < bd && (C.SPAWN_POCKET == 0 || !sealed(i))) { bd = d; best = l; }
         }
         if (best == null) { tileFail = true; return false; }
         rc.buildRobot(t, best);
         return true;
+    }
+
+    /** diag-top2 (C.SPAWN_POCKET): per spawn tile 0 unknown, 1 open, 2 sealed; walls never change, so cached. */
+    static byte[] pocket;
+
+    /** Whether spawn tile i lies in an 8-connected passable region of at most C.SPAWN_POCKET tiles (walls and HQs
+     *  closed; a current, an unsensed tile or a region past the limit is an exit). Called only for a buildable tile
+     *  that would become the best, so at most a few flood fills of C.SPAWN_POCKET + 1 tiles a game. */
+    static boolean sealed(int i) throws GameActionException {
+        if (pocket == null) pocket = new byte[spawnTiles.length];
+        if (pocket[i] != 0) return pocket[i] == 2;
+        RobotController rc = G.rc;
+        MapLocation[] q = new MapLocation[C.SPAWN_POCKET + 1];
+        q[0] = spawnTiles[i];
+        int n = 1;
+        boolean open = rc.senseMapInfo(q[0]).getCurrentDirection() != Direction.CENTER;
+        for (int h = 0; h < n && !open; h++) {
+            for (int k = 8; --k >= 0; ) {
+                MapLocation x = q[h].add(G.DIRS[k]);
+                if (!rc.onTheMap(x)) continue;
+                boolean seen = false;
+                for (int j = n; --j >= 0; ) if (q[j].equals(x)) { seen = true; break; }
+                if (seen) continue;
+                if (!rc.canSenseLocation(x)) { open = true; break; }
+                if (!rc.sensePassability(x)) continue;
+                RobotInfo r = rc.senseRobotAtLocation(x);
+                if (r != null && r.type == RobotType.HEADQUARTERS) continue;
+                if (n > C.SPAWN_POCKET - 1 || rc.senseMapInfo(x).getCurrentDirection() != Direction.CENTER) { open = true; break; }
+                q[n++] = x;
+            }
+        }
+        pocket[i] = (byte) (open ? 1 : 2);
+        return !open;
     }
 }

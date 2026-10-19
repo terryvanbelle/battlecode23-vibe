@@ -212,10 +212,16 @@ public final class Carrier {
             && G.here.distanceSquaredTo(well) <= C.MID_AREA_R2 && screened(threat.location, bd)) return false;
         // c_well6: a fighter near this carrier's front well makes the front wells around it hot (gather() drops the
         // well; marked in the shared list at the next write turn)
-        if (C.HOT && well != null && well.distanceSquaredTo(threat.location) <= C.HOT_NEAR_D2 && front(well)) {
-            hotSpot = threat.location;
-            hotUntil = G.round + C.HOT_LOCAL;
-            hotPending = true;
+        if (C.HOT && well != null && well.distanceSquaredTo(threat.location) <= C.HOT_NEAR_D2) {
+            boolean fr = front(well);
+            // diag-top2 (C.CAMP_MIN): a home well camped by CAMP_MIN enemy fighters with no ally fighter turns hot too
+            boolean camp = !fr && C.CAMP_MIN > 0 && G.nEnemyFighters >= C.CAMP_MIN && G.nAllyFighters == 0;
+            if (fr || camp) {
+                hotSpot = threat.location;
+                hotUntil = G.round + C.HOT_LOCAL;
+                hotPending = true;
+                if (C.CAMP_MIN > 0) hotCamp = camp;
+            }
         }
         int w = rc.getWeight();
         boolean threw = false;
@@ -491,6 +497,8 @@ public final class Carrier {
     static MapLocation hotSpot;
     static int hotUntil, hotRound = -1, nHot, ehqRound = -1;
     static boolean hotPending;
+    /** diag-top2 (C.CAMP_MIN): the hot spot is a camp at home: wells near it are hot whether front or not. */
+    static boolean hotCamp;
     static int[] hotEnc = new int[16];
     static MapLocation[] hotEhq;
 
@@ -543,7 +551,7 @@ public final class Carrier {
             int c = Comms.read(i);
             if (c == 0) break;
             MapLocation l = G.dec(c & 0xfff);
-            if (l.distanceSquaredTo(hotSpot) <= C.HOT_NEAR_D2 && front(l)) Comms.setHotSlot(i);
+            if (l.distanceSquaredTo(hotSpot) <= C.HOT_NEAR_D2 && (hotCamp || front(l))) Comms.setHotSlot(i);
         }
         hotRound = -1;                                              // the cache reloads with the new marks
     }
@@ -558,7 +566,7 @@ public final class Carrier {
     /** Whether l is a front well near this carrier's own hot spot (distance first: front() only near the spot). */
     static boolean hotLocal(MapLocation l) throws GameActionException {
         if (C.MID && G.round < midAvoidUntil && Mid.isSite(l)) return true;   // c_mid1: a carrier leaving the site
-        return G.round < hotUntil && l.distanceSquaredTo(hotSpot) <= C.HOT_NEAR_D2 && front(l);
+        return G.round < hotUntil && l.distanceSquaredTo(hotSpot) <= C.HOT_NEAR_D2 && (hotCamp || front(l));
     }
 
     /** Whether l is hot for this carrier: near its own hot spot or marked hot in the shared list. */
@@ -707,7 +715,9 @@ public final class Carrier {
         // 13 of 28 early trips ended in death while exploring)
         if (C.ROLES == 3 && role == 2 && !centreTried) {
             MapLocation c = new MapLocation(G.W / 2, G.H / 2);
-            if (G.here.distanceSquaredTo(c) <= 8 || Nav.stuckOn(c)) centreTried = true;
+            // diag-top2 (C.CENTRE_SKIP_R2): no centre leg when the centre lies next to an enemy HQ candidate (SoundWave)
+            if (G.here.distanceSquaredTo(c) <= 8 || Nav.stuckOn(c)
+                || (C.CENTRE_SKIP_R2 > 0 && minD2(c, MapMem.enemyHQs()) <= C.CENTRE_SKIP_R2)) centreTried = true;
             else { moveTwice(c); return; }
         }
         if (exploreTarget == null || G.here.distanceSquaredTo(exploreTarget) <= 8 || Nav.stuckOn(exploreTarget)) {
