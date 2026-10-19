@@ -2307,3 +2307,10 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   +2 (n 80), HUNT off -7, GUARD off +1; abl3: CAP_MIN_PER_HQ 9 -2, CAP_GROW_ROUNDS 25 -2, AD_NEED 100 +1 (n 67).
   Ladder (17:57 PDT snapshot): vibe23 #5, 1732.7; c_loose1 ranked 129/196, weakest vs awesomelemonade 5/19 and
   carlguo866 5/15 (not on the panel).
+- 22:12 PDT abl2 DONE (stopped at 981/1000; c_lb12 decided): on c_loose1 no switch is worth removing. Paired net vs
+  identity c_lb00 (n 80): AURA_SAFE off +2, MEND off -4, PROBE off -4, HOT off -7, MID off -5, GUARD off +1, HUNT off
+  -7, ISLE_THREAT off +2, SIEGE_ROTATE_FROM 2000 -1, RECALL off -1, ARMY on GROUP_MIN 2 -23 (z -4.0), GROUP_MIN 3 -18
+  (n 60). Cohesion stays off; HOT, MID, HUNT, MEND, PROBE earn their keep; AURA_SAFE, GUARD, ISLE_THREAT, RECALL and
+  SIEGE_ROTATE are dead weight on the panel maps (candidates for bytecode savings, not for a win). abl3 so far:
+  AD_LATE_EVERY 3 -6 and 6 -5 (4 is the local optimum), AD_EARLY_EVERY 4 -1, AD_NEED 100 +2, ANCHOR_START 400 +3
+  (z 0.9), CAP_MAX 45 +2. abl4 started (gauntlet/20261019-051106-abl4, 1160 cells).
