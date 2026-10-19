@@ -583,3 +583,6 @@ Can you create a file in progress that contains a table covering every attempt w
 
 ## 131. 2026-10-19 09:21 PDT
 I was replaying replays/990f5131-70ad-4fc9-8c1a-7d343f6e1d36.bc23, and I noticed large circles on the screen.  I was also able to view the (empty) indicator string of a specific bot.  These observations suggest to me that debug information is available in the replica replays after all.  Can you confirm?  I know you originally concluded that it wasn't available
+
+## 132. 2026-10-19 09:26 PDT
+At round 788 I see two large circles drawn near the center top
