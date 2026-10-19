@@ -2340,3 +2340,9 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   add up. Built src/c_eco3 = c_st02 (unit tests PASS). abl4: BLIND 250 + SLACK 3 -1 (inert), AD_BANK_CAP 100 -2
   (n 63), MID_URGENT false -1, HOT_HOME_D2 48 + HOT_FRONT_PCT 20 0. Candidates now pull anchors opposite ways: c_sm1
   (earlier on small maps, the diagnosis vs strong bots) and c_eco3 (later, self-play); the panel decides.
+- 04:59 PDT c_sm1 screen (20261019-105251-scr-c_sm1-5282467d56a4): (a) 8/8, (b) 10/20 vs c_loose1 = the identity
+  level, as abl4 predicted for self-play-inert levers; (c) roster and (d) basics still running. Trial c_sm1 started
+  (submission 190, --skip-screen with that reason, requests 4614-4623, logs/trial-c_sm1.log) to finish before the
+  09:00 PDT autoscrim. abl4 paused at 855/1160 to keep two VM runs (rest: build/abl4/cells-rest.txt, 305 cells:
+  c_lx11 MID band, c_lx12 MEND_HP 120, c_lx13 MEND_R2 256, c_lx14 SCREEN_ALL). abl4 so far: AD_BANK_CAP 100 -1,
+  MID_MOD 2 +1, MID_TOUR 200 -2.

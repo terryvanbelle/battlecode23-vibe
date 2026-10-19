@@ -56,29 +56,25 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-18 22:12 PDT)
+## In flight (2026-10-19 04:59 PDT)
 
-- **State (22:12 PDT 10-18).** **c_loose1 is the validated build (submission 189, accepted 13:34)** = c_isle1 with
+- **State (04:59 PDT 10-19).** **c_loose1 is the validated build (submission 189, accepted 13:34)** = c_isle1 with
   C.ARMY false (no launcher cohesion: no waiting for GROUP_MIN in vision, no follow, no regroup). Found by the abl1
   ablation sweep (c_ab03 59/79 vs c_isle1 on the panel maps, paired net +20); screen PASS (b 15/20, roster +17);
   panel 79/100, net +6 vs c_isle1, strong bots 23/40 vs 17/40. Diagnoses: research/diagnosis/2026-10-17-panel-
   losses-c_hr1.md, 2026-10-18-launcher-micro-vs-strong.md, 2026-10-18-structural-designs.md (c_evac1's spec).
   c_evac2 (c_loose1 + raided-zone evacuation) dropped at 14:35: 30/67 on the panel maps, paired net -3.
-- **Running on the VM (two runs, the limit):** abl2 (gauntlet/20261018-203655-abl2, 1000 games): c_loose1 vs
-  c_lb01..12 = one switch each (AURA_SAFE, MEND, PROBE, HOT, MID, GUARD, HUNT, ISLE_THREAT off, SIEGE_ROTATE_FROM
-  2000, RECALL off, ARMY on with GROUP_MIN 2 / 3). abl3 (gauntlet/20261018-213333-abl3, 1000 games): c_loose1 vs
-  c_ec01..12 = one economy or production knob each (legend in build/abl3/legend.txt). Both: panel maps x both sides
-  x 4 fixed seeds, identity baseline c_lb00 / c_ec00; build/abl2/ and build/abl3/ on the VM hold src, legend.txt and
-  analyse.py (`python3 build/abl3/analyse.py <results.csv> build/abl3/legend.txt`; results.raw needs the header
-  line `opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed` prepended); wins are the ablation's.
-  abl2-prune and abl3-prune delete their replays. abl4 (build/abl4, 1160 cells, 14 levers from
-  research/diagnosis/2026-10-18-panel-losses-c_loose1.md on src/c_lx0 = c_loose1 + identity-default ANCHOR_SLACK,
-  ANCHOR_RESERVE_MAX, MID_URGENT, SCREEN_ALL) runs as gauntlet/20261019-051106-abl4 (started 22:11 PDT after abl2, which is done: no switch worth removing, cohesion stays off, TRAINING_LOG 22:12); its identity c_lx00 must
-  replay abl2's c_lb00 games exactly (same winner and rounds). An ablation with a clearly positive paired net becomes a src
-  package (`tools/param.py make c_loose1 c_<name> KEY=VAL`), then screen and trial. Never wrap trial-start in
-  `timeout` (it kills the block; resume with RESUME=<run> tools/contest.py block test/cells/panel-v1.txt --tag
-  panel-<pkg>). `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125; never
-  battlecode-dev2).
+- **Running on the VM (two runs, the limit):** trial c_sm1 (submission 190, panel requests 4614-4623,
+  logs/trial-c_sm1.log; decide with `tools/paired.py <cand_run> gauntlet/20261018-194500-panel-c_loose1` then
+  `ladder_policy.py trial-end --accept|--reject`) and its screen (20261019-105251-scr-c_sm1-5282467d56a4: (a) 8/8,
+  (b) 10/20, (c)/(d) running; `tools/screen.py collect c_sm1`). Next: screen and trial src/c_eco3 (economy stack,
+  abl5 c_st02 net +6 vs c_loose1), after the 09:00 PDT autoscrim round. Paused: abl4 at 855/1160 (rest in
+  build/abl4/cells-rest.txt; resume as TAG=abl4b with CELLS=build/abl4/cells-rest.txt, classes in
+  build/abl4/classes). Sweeps abl1-abl5 on the VM under build/abl*/ (src, legend.txt, analyse.py; results.raw needs the
+  header `opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed`; wins are the ablation's). Self-play sweeps
+  cannot judge levers aimed at strong-bot mechanisms (abl4: island levers change 0-3 of 80 games): those go to the
+  panel. Never wrap trial-start in `timeout`. `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner,
+  PROMPTS 125; never battlecode-dev2).
 - **Attempts table (owner, PROMPTS 130).** `progress/ATTEMPTS.md` (from `progress/attempts.csv`, `tools/attempts.py`)
   lists every attempt with its funnel scores. Update it at every result: `attempts.py h2h <pkg> <results.csv>
   [--random]` for a local h2h, `set <pkg> field=...` for descriptions, panels and outcomes; screens and panel scores
