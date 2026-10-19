@@ -207,7 +207,8 @@ public final class Carrier {
         if (C.MID && well != null && G.here.distanceSquaredTo(well) <= C.MID_AREA_R2 && Mid.isSite(well)) {
             if (!returning && G.nAllyFighters > G.nEnemyFighters && bd > C.MID_SAFE_R2 && screened(threat.location, bd)) return false;
             if (G.nEnemyFighters > G.nAllyFighters) midLeave();
-        }
+        } else if (C.SCREEN_ALL && well != null && !returning && G.nAllyFighters > G.nEnemyFighters && bd > C.MID_SAFE_R2
+            && G.here.distanceSquaredTo(well) <= C.MID_AREA_R2 && screened(threat.location, bd)) return false;
         // c_well6: a fighter near this carrier's front well makes the front wells around it hot (gather() drops the
         // well; marked in the shared list at the next write turn)
         if (C.HOT && well != null && well.distanceSquaredTo(threat.location) <= C.HOT_NEAR_D2 && front(well)) {

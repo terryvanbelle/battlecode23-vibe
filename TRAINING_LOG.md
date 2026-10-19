@@ -2299,3 +2299,11 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   the diagnosis's HOT and MID changes stay in abl4. abl3: CAP_MAX 45 +2 (neutral). abl4 extended to 920 cells with
   three Mid-squad knobs for the middle-well part of the mana gap (MID_MOD 2, MID_TOUR 200, MID_P_LO/HI 30/70), and
   queued on the VM to start when abl2 writes its summary (job abl4 waits; abl4-prune follows it).
+- 18:54 PDT c_lx0 gains a fourth identity-default switch, SCREEN_ALL (false = c_loose1): true extends c_mid1's site
+  rule to every well (a gathering carrier within r2 64 of its well keeps mining while our fighters outnumber theirs in
+  vision, none is in attack range and one of our launchers is nearer the threat; diagnosis 1.3: our carriers flee on
+  6.5% of turns in strong-bot losses vs 0.7% in wins). Unit tests PASS. abl4 rebuilt from it: 14 variants plus
+  identity, 1160 cells (adds MEND_HP 120, MEND_R2 256, SCREEN_ALL true), still waiting for abl2. abl2: ISLE_THREAT off
+  +2 (n 80), HUNT off -7, GUARD off +1; abl3: CAP_MIN_PER_HQ 9 -2, CAP_GROW_ROUNDS 25 -2, AD_NEED 100 +1 (n 67).
+  Ladder (17:57 PDT snapshot): vibe23 #5, 1732.7; c_loose1 ranked 129/196, weakest vs awesomelemonade 5/19 and
+  carlguo866 5/15 (not on the panel).

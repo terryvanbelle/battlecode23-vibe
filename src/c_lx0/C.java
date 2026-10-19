@@ -351,6 +351,11 @@ public final class C {
     /** c_lx0 (change 5): false drops Mid.pick's 'urgent' test (a site must be the nearest mana well to one of our HQs),
      *  so the squad also holds in-band mana wells on Hah, BatSignal, Maze, MassiveL, ReverseFunnel. true = c_loose1. */
     public static final boolean MID_URGENT = true;
+    /** c_lx0 (diagnosis 2026-10-18-panel-losses-c_loose1, 1.3: our carriers flee on 6.5% of turns in strong-bot losses vs
+     *  0.7% in wins; theirs keep mining under pressure): true extends c_mid1's site rule to every well. A gathering
+     *  carrier within r2 MID_AREA_R2 of its well keeps mining while our fighters outnumber theirs in vision, no
+     *  fighter is within r2 MID_SAFE_R2 and one of our launchers stands nearer the threat. false = c_loose1. */
+    public static final boolean SCREEN_ALL = false;
     public static final int MID_P_LO = 35, MID_P_HI = 65;
     /** ... and farther than r2 MID_HOME_D2 from our nearest HQ (HOT_HOME_D2's line): DefaultMap's (7,21), r2 34 from
      *  (4,26), is held by our carriers from r0 (3,268 Mn a game; we win 17/24) and Maze's (27,18), r2 45 from (21,21),
