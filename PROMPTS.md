@@ -580,3 +580,6 @@ No, it's fine
 
 ## 130. 2026-10-18 07:41 PDT
 Can you create a file in progress that contains a table covering every attempt we make?  Columns would be codename, brief description, and then columns for its scores at each stage of the acceptance funnel.  Keep it up to date with every attempt
+
+## 131. 2026-10-19 09:21 PDT
+I was replaying replays/990f5131-70ad-4fc9-8c1a-7d343f6e1d36.bc23, and I noticed large circles on the screen.  I was also able to view the (empty) indicator string of a specific bot.  These observations suggest to me that debug information is available in the replica replays after all.  Can you confirm?  I know you originally concluded that it wasn't available
