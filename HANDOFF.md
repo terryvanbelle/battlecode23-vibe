@@ -60,23 +60,34 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-19 06:35 PDT)
+## In flight (2026-10-19 11:58 PDT)
 
-- **State (06:35 PDT 10-19).** **c_eco3 is the validated build (submission 192, accepted 06:29)**, see Standing.
-  Rejected today: c_sm1 (05:36; panel 80/100, 99 of 100 games identical to c_loose1, net +1; screen FAIL (b) 10/20).
-  Diagnoses: research/diagnosis/2026-10-18-panel-losses-c_loose1.md (mana gap r100-300; middle wells 38-54% of it;
-  small maps lose the island race) and the earlier ones it cites.
-- **Running on the VM:** abl4b (rest of abl4: 305 cells, build/abl4/cells-rest.txt, classes build/abl4/classes, base
-  c_loose1; combine with gauntlet/*-abl4 for the analysis). Next panel candidate: c_mid3 (MID_URGENT false, MID_MOD
-  2, on c_eco3's constants via c_lx0, whose switch defaults reproduce c_loose1). A panel trial must end before the
-  next autoscrim (09:00, 17:00, 01:00 PDT); `ladder_policy.py trial-start <pkg>` in the background (never wrapped in
-  `timeout`), then `tools/paired.py <cand_run> gauntlet/20261019-123523-panel-c_eco3`, then `trial-end`. A
-  param-only candidate with a self-play sweep behind it may skip the screen (`--skip-screen "<reason>"`; c_eco3
-  did). Sweeps abl1-abl5 on the VM under build/abl*/ (src, legend.txt, analyse.py; results.raw needs the header
-  `opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed`; wins are the ablation's). Self-play sweeps
+- **State (11:58 PDT 10-19).** **c_eco3 is the validated build (submission 192, accepted 06:29)**, see Standing; panel
+  gauntlet/20261019-123523-panel-c_eco3 82/100 (losses: awesomelemonade 6, jmerle 4, vrangr1 3, pranayagra 2).
+  Ladder #5 (1767) behind carlguo866 1826, awesomelemonade 1826, maxwelljones14 1805, IvanGeffner 1769; ranked
+  record vs carlguo866 11/30 and maxwelljones14 6/18 (neither is on the panel). Rejected today: c_sm1 (05:36).
+  Diagnosis of awesomelemonade: research/diagnosis/2026-10-19-awesomelemonade.md (ranked changes KILL_STEP 1/2,
+  ISLE_MARGIN_SMALL 2, AD_PRESS_MN).
+- **Running (11:58 PDT).** Trial c_adp1 (submission 193, AD_PRESS_MN on c_kx0; screen REDUCED, abl8 net +2; panel
+  gauntlet/20261019-182439-panel-c_adp1, log logs/trial-c_adp1.log); decide with `tools/paired.py <run>
+  gauntlet/20261019-123523-panel-c_eco3`, then `trial-end`. Driver: fetching the 16 ranked matches vs carlguo866 and
+  maxwelljones14 into build/top2/ for a diagnosis.
+- **Done today.** abl6 (c_mid3 family: MID_URGENT false + MID_MOD 2 net -3, MID_MOD 1 -2, MID_MOD 2 alone 0: c_mid3
+  dropped), abl7 (KILL_STEP 1 net 0, 2 net -2), abl8 (AD_PRESS_MN +2), ks1-h2h (c_ks1 101/206 vs c_eco3: dropped).
+  **src/c_kx0** is the switch base (c_eco3 constants; KILL_STEP 0 and AD_PRESS_MN false reproduce c_eco3); build
+  variants with `tools/param.py make c_kx0 <new> KEY=VAL`. Replica match 10023 (sprintBot vs pranayagra.finalbotfinal,
+  the same pairing as 7880) stuck in RUN: cancelled 11:57 PDT with `tools/galaxy/cancel-match.sh 10023 --cancel`.
+- **How to run things.** A panel trial must end before the next autoscrim (09:00, 17:00, 01:00 PDT);
+  `ladder_policy.py trial-start <pkg>` in the background (never wrapped in `timeout`). A param-only candidate with a
+  self-play sweep behind it may skip the screen (`--skip-screen "<reason>"`). A full screen of a new package runs the
+  whole roster (268 games); `tools/screen.py <pkg> --no-wait --roster none --rerun` runs a REDUCED screen (never
+  admits a trial by itself). Sweeps abl1-abl8 under build/abl*/ on the VM (src, cells.txt, legend.txt, analyse.py;
+  results.raw needs the header `opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed`). Self-play sweeps
   cannot judge levers aimed at strong-bot mechanisms (abl4: island levers change 0-3 of 80 games): those go to the
-  panel. The VM queue (queue/pending, queue/running) is serial; cancelled jobs go to queue/cancelled.
-  `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125; never battlecode-dev2).
+  panel. The VM queue (queue/pending, queue/running) is serial; cancelled jobs go to queue/cancelled; a queue job
+  shares the runner's pgid, so stop it by its process tree, not vm-stop. `tools/vm-stop.sh <name>` stops a detached
+  job (owner, PROMPTS 125; never battlecode-dev2). VM disk: 2.7 GB free after the 10-19 purge (screen.py refuses
+  under 2.0 GB).
 - **Attempts table (owner, PROMPTS 130).** `progress/ATTEMPTS.md` (from `progress/attempts.csv`, `tools/attempts.py`)
   lists every attempt with its funnel scores. Update it at every result: `attempts.py h2h <pkg> <results.csv>
   [--random]` for a local h2h, `set <pkg> field=...` for descriptions, panels and outcomes; screens and panel scores

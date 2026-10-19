@@ -5,7 +5,15 @@
   "since": "2026-10-19T13:29:15.279429+00:00",
   "panel_run": "gauntlet/20261019-123523-panel-c_eco3"
  },
- "trial": null,
+ "trial": {
+  "submission": 193,
+  "package": "c_adp1",
+  "started": "2026-10-19T18:24:18.799198+00:00",
+  "panel": "test/cells/panel-v1.txt",
+  "run_dir": "gauntlet/20261019-182439-panel-c_adp1",
+  "pid": 4154732,
+  "hash": "e4278035bd21"
+ },
  "history": [
   {
    "at": "2026-10-08T02:35:39.835215+00:00",
@@ -865,6 +873,13 @@
    "event": "accept",
    "submission": 192,
    "package": "c_eco3"
+  },
+  {
+   "at": "2026-10-19T18:24:39.439181+00:00",
+   "event": "trial-start",
+   "submission": 193,
+   "package": "c_adp1",
+   "screen_skipped": "c_kx0 switch AD_PRESS_MN=true; screen (reduced, --roster none) basics PASS 28/28 clean, (b) 10/20; abl8 paired sweep vs c_eco3 80 games net +2 (gained 3, lost 1); the mechanism (pressed HQ, 51% of HQ rows in awesomelemonade losses, 1% in wins) is rare in self-play, so the panel judges it"
   }
  ],
  "parked": []
