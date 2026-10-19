@@ -2380,3 +2380,18 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - Built src/c_kx0 (c_ex0 + C.KILL_STEP, 0 = identical bytecode up to local slots), c_ks1 (kill tile = one threat
   less, +5,000) and c_ks2 (plus focus on the lowest-HP fighter in range). abl7 on the VM: identity c_k700 and
   KILL_STEP 1/2 vs c_eco3, 80 games each (micro, so self-play can judge it).
+
+### 10:48 PDT: abl6-abl8; replica replay indicators rechecked; c_adp1 screen
+- abl6 (middle squad, vs c_eco3, 80 games each): c_mid3 (MID_URGENT false + MID_MOD 2) net -3, MID_MOD 1 net -2,
+  MID_MOD 2 alone 0. c_mid3 dropped (not positive).
+- abl7 (KILL_STEP): 1 = net 0 (8/8 discordant), 2 = net -2. c_ks2 dropped; c_ks1 gets a 103-map h2h vs c_eco3
+  (ks1-h2h, running) before any panel.
+- abl8 (AD_PRESS_MN): net +2 (gained 3, lost 1). c_adp1 screen queued with --roster none (c_eco3 has no cached roster
+  games, so the full screen would end too late for a trial before 17:00); stage (a)/(b)/(d) only.
+- Owner PROMPTS 131-132: replica replays carry no indicator data (0 strings, dots or lines over 160,212 robot-turns of
+  990f5131; control fixture 9,098 of 9,098). The circles were IvanGeffner's destabilize effects (r784, r788 at
+  (23,30-31) on FourNations) and the selected robot's range rings; the "Indicator String:" field is always shown.
+  docs/TELEMETRY.md section 0 notes it.
+- VM disk 1.66 GB: purged old sweep replays (abl2-abl5, evac1/2-p4), build/classes-evac1/2, /var/log/syslog.1 and
+  journald archives to 50M (2.4 GB free). Replica replays older than 4 days hold 2.8 GB; not touched (the owner views
+  them on the site).
