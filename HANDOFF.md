@@ -56,25 +56,26 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-19 04:59 PDT)
+## In flight (2026-10-19 05:36 PDT)
 
-- **State (04:59 PDT 10-19).** **c_loose1 is the validated build (submission 189, accepted 13:34)** = c_isle1 with
-  C.ARMY false (no launcher cohesion: no waiting for GROUP_MIN in vision, no follow, no regroup). Found by the abl1
-  ablation sweep (c_ab03 59/79 vs c_isle1 on the panel maps, paired net +20); screen PASS (b 15/20, roster +17);
-  panel 79/100, net +6 vs c_isle1, strong bots 23/40 vs 17/40. Diagnoses: research/diagnosis/2026-10-17-panel-
-  losses-c_hr1.md, 2026-10-18-launcher-micro-vs-strong.md, 2026-10-18-structural-designs.md (c_evac1's spec).
-  c_evac2 (c_loose1 + raided-zone evacuation) dropped at 14:35: 30/67 on the panel maps, paired net -3.
-- **Running on the VM (two runs, the limit):** trial c_sm1 (submission 190, panel requests 4614-4623,
-  logs/trial-c_sm1.log; decide with `tools/paired.py <cand_run> gauntlet/20261018-194500-panel-c_loose1` then
-  `ladder_policy.py trial-end --accept|--reject`) and its screen (20261019-105251-scr-c_sm1-5282467d56a4: (a) 8/8,
-  (b) 10/20, (c)/(d) running; `tools/screen.py collect c_sm1`). Next: screen and trial src/c_eco3 (economy stack,
-  abl5 c_st02 net +6 vs c_loose1), after the 09:00 PDT autoscrim round. Paused: abl4 at 855/1160 (rest in
-  build/abl4/cells-rest.txt; resume as TAG=abl4b with CELLS=build/abl4/cells-rest.txt, classes in
-  build/abl4/classes). Sweeps abl1-abl5 on the VM under build/abl*/ (src, legend.txt, analyse.py; results.raw needs the
-  header `opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed`; wins are the ablation's). Self-play sweeps
-  cannot judge levers aimed at strong-bot mechanisms (abl4: island levers change 0-3 of 80 games): those go to the
-  panel. Never wrap trial-start in `timeout`. `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner,
-  PROMPTS 125; never battlecode-dev2).
+- **State (05:36 PDT 10-19).** **c_loose1 is the validated build (submission 189/191, accepted 13:34 10-18)** =
+  c_isle1 with C.ARMY false (no launcher cohesion: no waiting for GROUP_MIN in vision, no follow, no regroup). Found
+  by the abl1 ablation sweep (c_ab03 59/79 vs c_isle1 on the panel maps, paired net +20); screen PASS (b 15/20,
+  roster +17); panel 79/100, net +6 vs c_isle1, strong bots 23/40 vs 17/40. Diagnoses: research/diagnosis/2026-10-17-
+  panel-losses-c_hr1.md, 2026-10-18-launcher-micro-vs-strong.md, 2026-10-18-structural-designs.md,
+  2026-10-18-panel-losses-c_loose1.md. c_evac2 dropped (14:35 10-18); **c_sm1 rejected 05:36 PDT 10-19** (panel
+  80/100, 99 of 100 games identical to c_loose1, net +1; small-map island-rounds +23..+90, Cornucopia -1413).
+- **Running on the VM (two runs, the limit):** the c_sm1 screen (20261019-105251-scr-c_sm1-5282467d56a4, roster at
+  84/120; information only now; `tools/screen.py collect c_sm1`) and the c_eco3 screen (src/c_eco3 = c_loose1 with
+  CAP_MAX 45, AD_NEED 100, ANCHOR_START 400, ANCHOR_MIN_LAUNCHERS 20; abl5 c_st02 net +6 vs c_loose1). Trial c_eco3
+  after the 09:00 PDT autoscrim round if its screen passes (`ladder_policy.py trial-start c_eco3` in the background,
+  never wrapped in `timeout`; then `tools/paired.py <cand_run> gauntlet/20261018-194500-panel-c_loose1`). Paused: abl4
+  at 855/1160 (rest in build/abl4/cells-rest.txt; resume as TAG=abl4b with CELLS=build/abl4/cells-rest.txt, classes in
+  build/abl4/classes) when a slot frees. Sweeps abl1-abl5 on the VM under build/abl*/ (src, legend.txt, analyse.py;
+  results.raw needs the header `opponent,map,bot_side,winner_side,rounds,bot_result,reason,seed`; wins are the
+  ablation's). Self-play sweeps cannot judge levers aimed at strong-bot mechanisms (abl4: island levers change 0-3 of
+  80 games): those go to the panel. `tools/vm-stop.sh <name>` stops one of our detached VM jobs (owner, PROMPTS 125;
+  never battlecode-dev2).
 - **Attempts table (owner, PROMPTS 130).** `progress/ATTEMPTS.md` (from `progress/attempts.csv`, `tools/attempts.py`)
   lists every attempt with its funnel scores. Update it at every result: `attempts.py h2h <pkg> <results.csv>
   [--random]` for a local h2h, `set <pkg> field=...` for descriptions, panels and outcomes; screens and panel scores

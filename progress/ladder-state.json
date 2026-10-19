@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 189,
+  "submission": 191,
   "package": "c_loose1",
   "since": "2026-10-18T20:34:00.816274+00:00",
   "panel_run": null
@@ -839,6 +839,19 @@
    "event": "accept",
    "submission": 189,
    "package": "c_loose1"
+  },
+  {
+   "at": "2026-10-19T11:59:03.063901+00:00",
+   "event": "trial-start",
+   "submission": 190,
+   "package": "c_sm1",
+   "screen_skipped": "self-play-inert levers (abl4: 0-3 of 80 games changed each); screen (a) 8/8, (b) 10/20 = identity level; (c)/(d) running in parallel; must finish before the 09:00 PDT autoscrim"
+  },
+  {
+   "at": "2026-10-19T12:32:44.522785+00:00",
+   "event": "reject",
+   "submission": 190,
+   "package": "c_sm1"
   }
  ],
  "parked": []

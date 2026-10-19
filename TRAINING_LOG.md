@@ -2346,3 +2346,12 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   09:00 PDT autoscrim. abl4 paused at 855/1160 to keep two VM runs (rest: build/abl4/cells-rest.txt, 305 cells:
   c_lx11 MID band, c_lx12 MEND_HP 120, c_lx13 MEND_R2 256, c_lx14 SCREEN_ALL). abl4 so far: AD_BANK_CAP 100 -1,
   MID_MOD 2 +1, MID_TOUR 200 -2.
+
+### 05:36 PDT: c_sm1 rejected (panel, submission 190)
+- Panel gauntlet/20261019-115903-panel-c_sm1: 80/100. Paired vs c_loose1: 99 of 100 games identical, gained 1
+  (jmerle), lost 0, net +1 (p = 1).
+- Island-rounds per game vs c_loose1 by map: BatSignal +90, Hah +60, ReverseFunnel +23 (the small maps the levers
+  aimed at moved a little but no result flipped); Cornucopia -1413 (anchors built -4.9: ANCHOR_SLACK 3 starves
+  anchors on a 5-island map where we already win). Mean -92 (t -0.88).
+- Lesson: the small-map losses are decided before anchors matter (army collapse first, as the diagnosis said);
+  anchor timing alone does not flip them. Next: c_eco3 screen (started 05:35 PDT).
