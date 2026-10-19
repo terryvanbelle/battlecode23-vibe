@@ -2314,3 +2314,6 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   SIEGE_ROTATE are dead weight on the panel maps (candidates for bytecode savings, not for a win). abl3 so far:
   AD_LATE_EVERY 3 -6 and 6 -5 (4 is the local optimum), AD_EARLY_EVERY 4 -1, AD_NEED 100 +2, ANCHOR_START 400 +3
   (z 0.9), CAP_MAX 45 +2. abl4 started (gauntlet/20261019-051106-abl4, 1160 cells).
+- 23:05 PDT abl4 identity check: c_lx00 (c_lx0 copy) replays abl2's c_lb00 games exactly, 39/39 (winner side and
+  rounds): ANCHOR_SLACK, ANCHOR_RESERVE_MAX, MID_URGENT and SCREEN_ALL are inert at their defaults. abl3: ANCHOR_START
+  400 +3 (z 0.9), ANCHOR_MIN_LAUNCHERS 20 +1, CARRIER_RETURN_LOAD 39 -8 (n 79).
