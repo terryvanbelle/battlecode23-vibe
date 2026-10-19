@@ -2366,3 +2366,17 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   (-1085, a map we win anyway) carries most of it. The economy trade cost islands and bought results.
 - c_sm1 screen (information only after its panel reject): FAIL, (b) 10/20, roster net +0, basics clean.
 - Next: rebase c_mid3 (MID_URGENT false, MID_MOD 2) on c_eco3; abl4b running (305 cells).
+
+### 08:16 PDT: abl4 complete; awesomelemonade diagnosis; KILL_STEP built (abl7)
+- abl4 + abl4b (1160 games, c_lx0 levers vs c_loose1): every lever within +-2 of identity over 80 games (MEND_HP 120
+  +1, MEND_R2 256 -1, SCREEN_ALL -1, MID_P 30/70 -2, MID_MOD 2 +1, RESERVE 50 +1). Nothing to take forward from
+  self-play.
+- Workflow diag-awesomelemonade (research/diagnosis/2026-10-19-awesomelemonade.md; 19 distinct losses, panel and
+  ranked): at equal armies before r300 our exchange is 0.89 vs it (1.19 vs the other strong bots). Its step-in hits
+  kill 0.157 vs our 0.080 (S4 0.112/0.115); 27% of our step-in hits go to a target 40+ HP healthier than a reachable
+  one (its 16%); it chains same-round kills (42% of kills take 2+ hits that round, ours 24%). Our parity hold never
+  lets a launcher step in for a one-shot kill. Fortress verified (damage per kill 197 -> 289 after its first anchor,
+  it heals 27% of damage taken) but second-order. Late losses: HQ code 't' 57% of HQ turns with 185 Ad idle.
+- Built src/c_kx0 (c_ex0 + C.KILL_STEP, 0 = identical bytecode up to local slots), c_ks1 (kill tile = one threat
+  less, +5,000) and c_ks2 (plus focus on the lowest-HP fighter in range). abl7 on the VM: identity c_k700 and
+  KILL_STEP 1/2 vs c_eco3, 80 games each (micro, so self-play can judge it).
