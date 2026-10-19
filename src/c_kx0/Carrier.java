@@ -170,7 +170,8 @@ public final class Carrier {
      *  (Comms.AD_FLAGS: under C.AD_NEED and room under the carrier cap), and from C.AD_ROLE_FROM one in C.AD_LATE_EVERY
      *  (anchors). */
     static int swarmRole() throws GameActionException {
-        if (G.round >= C.AD_ROLE_FROM && G.id % C.AD_LATE_EVERY == 0) return 1;
+        if (G.round >= C.AD_ROLE_FROM && G.id % C.AD_LATE_EVERY == 0
+            && !(C.AD_PRESS_MN && Comms.pressed(Comms.hqIndex(HQState.nearest(G.here))))) return 1;
         if (G.id % C.AD_EARLY_EVERY == 0 && Comms.adFlag(Comms.hqIndex(HQState.nearest(G.here)))) return 1;
         return 2;
     }

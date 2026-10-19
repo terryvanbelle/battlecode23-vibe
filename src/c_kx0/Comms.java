@@ -127,6 +127,9 @@ public final class Comms {
         if (n != v) put(AD_FLAGS, n);
     }
 
+    /** c_adp1: whether HQ hq (HQ_LOC order) is pressed. */
+    public static boolean pressed(int hq) throws GameActionException { return hq >= 0 && (read(AD_FLAGS) >> (PRESS_SHIFT + hq) & 1) != 0; }
+
     /** c_anc3: whether any of our HQs is pressed. */
     public static boolean anyPressed() throws GameActionException { return (read(AD_FLAGS) >>> PRESS_SHIFT & 15) != 0; }
 
