@@ -8,10 +8,14 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
 
 ## Standing
 
-- **Validated build c_eco3** (submission 192, accepted 2026-10-19 06:29 PDT): c_loose1 with CAP_MAX 45, AD_NEED 100,
+- **Validated build c_adp1** (submission 193, accepted 2026-10-19 13:05 PDT): c_kx0 (c_eco3's code with switches)
+  with AD_PRESS_MN true (no late Ad carrier role while the carrier's nearest HQ is pressed). Panel 83/100
+  (`gauntlet/20261019-182439-panel-c_adp1`): vs c_eco3 99 identical, gained 1 (britacatalin), lost 0, net +1; abl8
+  self-play net +2. Judge candidates against c_adp1's panel; build variants on c_adp1 (or c_kx0 with AD_PRESS_MN=true).
+- Before it **c_eco3** (submission 192, accepted 2026-10-19 06:29 PDT): c_loose1 with CAP_MAX 45, AD_NEED 100,
   ANCHOR_START 400, ANCHOR_MIN_LAUNCHERS 20 (abl5 stack of abl3 economy near-misses, self-play net +6). Panel 82/100
   (`gauntlet/20261019-123523-panel-c_eco3`): vs c_loose1 97 identical, gained 3, lost 0, net +3 (+1.73 SE);
-  island-rounds -196 (later first anchor). Judge candidates against c_eco3's panel.
+  island-rounds -196 (later first anchor). 
 - Before it **c_loose1** (submission 189, accepted 2026-10-18 13:34 PDT): c_isle1 with C.ARMY false (no
   launcher cohesion gate; found by the abl1 ablation sweep, +20 net on the panel maps). Panel 79/100
   (`gauntlet/20261018-194500-panel-c_loose1`): vs c_isle1 84 identical, gained 11, lost 5, net +6 (+1.50 SE); strong
@@ -60,18 +64,18 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-19 11:58 PDT)
+## In flight (2026-10-19 13:05 PDT)
 
-- **State (11:58 PDT 10-19).** **c_eco3 is the validated build (submission 192, accepted 06:29)**, see Standing; panel
+- **State (13:05 PDT 10-19).** **c_adp1 is the validated build (submission 193, accepted 13:05)**, see Standing; c_eco3 panel
   gauntlet/20261019-123523-panel-c_eco3 82/100 (losses: awesomelemonade 6, jmerle 4, vrangr1 3, pranayagra 2).
   Ladder #5 (1767) behind carlguo866 1826, awesomelemonade 1826, maxwelljones14 1805, IvanGeffner 1769; ranked
   record vs carlguo866 11/30 and maxwelljones14 6/18 (neither is on the panel). Rejected today: c_sm1 (05:36).
   Diagnosis of awesomelemonade: research/diagnosis/2026-10-19-awesomelemonade.md (ranked changes KILL_STEP 1/2,
   ISLE_MARGIN_SMALL 2, AD_PRESS_MN).
-- **Running (11:58 PDT).** Trial c_adp1 (submission 193, AD_PRESS_MN on c_kx0; screen REDUCED, abl8 net +2; panel
-  gauntlet/20261019-182439-panel-c_adp1, log logs/trial-c_adp1.log); decide with `tools/paired.py <run>
-  gauntlet/20261019-123523-panel-c_eco3`, then `trial-end`. Driver: fetching the 16 ranked matches vs carlguo866 and
-  maxwelljones14 into build/top2/ for a diagnosis.
+- **Running (13:05 PDT).** c_adp1 accepted 13:05 (panel 83/100, net +1 vs c_eco3). Workflow diag-top2 diagnoses the
+  16 ranked matches vs carlguo866 and maxwelljones14 (build/top2/replays; matches/<id>/extract; reports
+  research/matches/<id>.md); output research/diagnosis/2026-10-19-top2.md. Our losses there: median Mn@100 292 vs
+  373 (wins 598 vs 347), L@250 6 vs 19.
 - **Done today.** abl6 (c_mid3 family: MID_URGENT false + MID_MOD 2 net -3, MID_MOD 1 -2, MID_MOD 2 alone 0: c_mid3
   dropped), abl7 (KILL_STEP 1 net 0, 2 net -2), abl8 (AD_PRESS_MN +2), ks1-h2h (c_ks1 101/206 vs c_eco3: dropped).
   **src/c_kx0** is the switch base (c_eco3 constants; KILL_STEP 0 and AD_PRESS_MN false reproduce c_eco3); build
@@ -244,7 +248,7 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   `gauntlet/20261009-082005-panel-c_nav4`. Earlier: g_iter2 = c_swarm1 (`...-210429-panel1-c_swarm1`, 40/100), g_iter1 =
   c_line8a (`...-180016-panel1-c_line8a`, 33/100), g_iter0 (`...-011350-panel1-g_iter0`, 31/100). Local cells vs the
   previous incumbent: `test/cells/self-swarm1-panel.txt`; the pre-trial screen (`tools/screen.py`) reads the current
-  validated package from `progress/ladder-state.json` (last recorded: c_eco3).
+  validated package from `progress/ladder-state.json` (last recorded: c_adp1).
 - Ranked vs unranked follows `docs/LADDER_STRATEGY.md` (owner, PROMPTS 17-18), state in `progress/ladder-state.json`:
   `tools/ladder_policy.py ranked` runs detached on the driver (PID 3179283 since 2026-10-14 11:46 PDT; log
   `logs/ranked-policy.log`): ranked challenges upward

@@ -2395,3 +2395,18 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - VM disk 1.66 GB: purged old sweep replays (abl2-abl5, evac1/2-p4), build/classes-evac1/2, /var/log/syslog.1 and
   journald archives to 50M (2.4 GB free). Replica replays older than 4 days hold 2.8 GB; not touched (the owner views
   them on the site).
+
+## 2026-10-19 13:05 PDT: c_adp1 ACCEPTED; c_ks1 dropped; match 10023 cancelled; top-2 diagnosis started
+
+- **c_adp1 accepted (submission 193)**: c_kx0 with AD_PRESS_MN true. Panel gauntlet/20261019-182439-panel-c_adp1
+  83/100; paired vs c_eco3's panel: 99 identical, gained 1 (britacatalin), lost 0, net +1 (+1.00 SE); island-rounds
+  +60 (t +0.74). With abl8 (gained 3, lost 1) the change gains 4 and loses 1 over 180 paired games. awesomelemonade
+  stays 4/10, so the targeted mechanism flipped no AL game. Accepted on the c_hr1/c_isle1 precedent (net +1, nothing
+  lost) and the low risk to wins (pressed HQ in 1% of rows of wins).
+- **c_ks1 dropped**: ks1-h2h (gauntlet/20261019-170220-ks1-h2h, 103 maps both sides) 101/206 vs c_eco3, signal -2.
+- **Replica match 10023** (sprintBot vs pranayagra.finalbotfinal, autoscrim 09:00) stuck in RUN: cancelled 11:57 with
+  tools/galaxy/cancel-match.sh --cancel. The same pairing stuck before (7880).
+- **Top-2 gap**: ladder #5 (1767) behind carlguo866 1826, awesomelemonade 1826, maxwelljones14 1805, IvanGeffner
+  1769. Ranked vs carlguo866 11/30, vs maxwelljones14 6/18 (neither is on the panel). In our 31 losses to them median
+  Mn@100 292 vs 373 and L@250 6 vs 19; in our 17 wins Mn@100 598 vs 347. Workflow diag-top2 (4 analysts +
+  synthesis) on the 16 matches.

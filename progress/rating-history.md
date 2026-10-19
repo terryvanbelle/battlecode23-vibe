@@ -1,10 +1,10 @@
 # Rating history (replica)
 
-The replica's Team Settings > Rating History chart for vibe23: siarnaq's penalized displayed rating after each rated (ranked, non-tournament) scrimmage, from `GET /api/compete/bc23/match/historical_rating/`, with each submission's first completed rated match marked. Regenerate with `tools/rating_history.py`; data fetched 2026-10-19 06:36 PDT.
+The replica's Team Settings > Rating History chart for vibe23: siarnaq's penalized displayed rating after each rated (ranked, non-tournament) scrimmage, from `GET /api/compete/bc23/match/historical_rating/`, with each submission's first completed rated match marked. Regenerate with `tools/rating_history.py`; data fetched 2026-10-19 13:19 PDT.
 
 ![rating history](rating-history.png)
 
-790 rated matches; latest rating 1,763 (2026-10-19 06:29 PDT). Times are Pacific; the replica's own chart shows UTC (galaxy sets Highcharts `time.useUTC` under an axis titled "Local Date & Time"), so it reads 7 h later than this page.
+818 rated matches; latest rating 1,768 (2026-10-19 13:12 PDT). Times are Pacific; the replica's own chart shows UTC (galaxy sets Highcharts `time.useUTC` under an axis titled "Local Date & Time"), so it reads 7 h later than this page.
 
 Kind: validated = the submission an init/accept event of progress/ladder-state.json names; re-upload = another upload of a build validated at some point; trial = a build never validated.
 
@@ -44,7 +44,8 @@ Kind: validated = the submission an init/accept event of progress/ladder-state.j
 | #188 | c_isle1 | re-upload | 9257 | 2026-10-18 05:19 | 1,693 | 1,706 | 46 |
 | #189 | c_loose1 | validated | 9485 | 2026-10-18 13:35 | 1,662 | 1,667 | 61 |
 | #191 | c_loose1 | re-upload | 9900 | 2026-10-19 05:32 | 1,751 | 1,758 | 1 |
-| #192 | c_eco3 | validated | 9911 | 2026-10-19 06:29 | 1,758 | 1,763 | 1 |
+| #192 | c_eco3 | validated | 9911 | 2026-10-19 06:29 | 1,758 | 1,763 | 27 |
+| #193 | c_adp1 | validated | 10120 | 2026-10-19 13:06 | 1,764 | 1,762 | 2 |
 
 \* Not a missing value: the API's old_rating for our first rated match. Siarnaq displays the penalized rating Elo mean - 1500 x 0.85^n (n = rated games so far), which starts at 1500 - 1500 = 0.
 
@@ -58,61 +59,62 @@ The chart's left axis starts at 1,400 (owner, PROMPTS 45): 28 rated matches belo
 
 Our Bradley-Terry fit, as in [ELO.md](ELO.md): `tools/elolib.py` over every recorded game of progress/games.csv, each build its own player; +- 95% = 1.96 SE; a rating is relative to that fit's mean, so it compares only within the fit. Every rating below is today's fit, drawn over the build's rated tenure or at its trial start. The chart's right axis is the left one relabelled through
 
-**BT = -5,018.0 + 4.075 x galaxy rating** (r = 0.972, 64 teams; residual SD 100 BT = 25 galaxy points),
+**BT = -5,035.5 + 4.079 x galaxy rating** (r = 0.974, 66 teams; residual SD 100 BT = 24 galaxy points),
 
-a least-squares fit over the field teams of the replica's Rankings page that our fit also rates, with a galaxy rating of at least 1,400 and at least 30 BT games (not us, not a stock baseline). One galaxy point is about 4.1 BT points: siarnaq's match-level Elo (K 24) compresses the scale, so BT numbers never go on the galaxy axis raw. "As galaxy" = (BT - a) / b, where the line puts a team that strong. It is not exact: single field teams sit within ±48 galaxy points of the line 95% of the time; the line also misfits locally: the 3 field teams within 40 galaxy points of our latest rating (1,763) rate 26 galaxy points above what their BT converts to, on average. The +- 95% column, and the chart's green bands and bars, carry the BT fit's SE alone (±9 to ±25 galaxy points here), so a gap between "As galaxy" and "Galaxy at end of tenure" compares with ±48, not with them. Our galaxy rating carries over from build to build; each build is its own BT player.
+a least-squares fit over the field teams of the replica's Rankings page that our fit also rates, with a galaxy rating of at least 1,400 and at least 30 BT games (not us, not a stock baseline). One galaxy point is about 4.1 BT points: siarnaq's match-level Elo (K 24) compresses the scale, so BT numbers never go on the galaxy axis raw. "As galaxy" = (BT - a) / b, where the line puts a team that strong. It is not exact: single field teams sit within ±48 galaxy points of the line 95% of the time; the line also misfits locally: the 4 field teams within 40 galaxy points of our latest rating (1,768) rate 18 galaxy points above what their BT converts to, on average. The +- 95% column, and the chart's green bands and bars, carry the BT fit's SE alone (±9 to ±25 galaxy points here), so a gap between "As galaxy" and "Galaxy at end of tenure" compares with ±48, not with them. Our galaxy rating carries over from build to build; each build is its own BT player.
 
 | Build | Rated tenure (PDT) | BT rating | +- 95% | BT games | As galaxy | Galaxy at end of tenure |
 |---|---|---:|---:|---:|---:|---:|
-| g_iter0 | 10-07 18:45 to 10-08 12:44 | 1,588 | 52 | 456 | 1,621 | 1,491 |
-| c_line8a | 10-08 12:44 to 10-08 17:00 | 1,607 | 75 | 139 | 1,626 | 1,484 |
-| c_swarm1 | 10-08 17:00 to 10-09 04:14 | 1,649 | 52 | 271 | 1,636 | 1,563 |
-| c_nav4 | 10-09 04:14 to 10-09 09:28 | 1,731 | 56 | 221 | 1,656 | 1,583 |
-| c_nav5 | 10-09 09:28 to 10-09 13:14 | 1,768 | 75 | 126 | 1,665 | 1,589 |
-| c_nav6 | 10-09 13:14 to 10-09 15:14 | 1,753 | 74 | 129 | 1,662 | 1,582 |
-| c_anc3 | 10-09 15:14 to 10-09 21:39 | 1,828 | 65 | 163 | 1,680 | 1,587 |
-| c_def3 | 10-09 21:39 to 10-10 06:14 | 1,857 | 59 | 199 | 1,687 | 1,622 |
-| c_aura2 | 10-10 06:14 to 10-10 22:44 | 1,826 | 47 | 314 | 1,680 | 1,601 |
-| c_bc1 | 10-10 22:44 to 10-11 06:08 | 1,856 | 65 | 164 | 1,687 | 1,647 |
-| c_mend2 | 10-11 06:08 to 10-15 12:19 | 1,856 | 38 | 612 | 1,687 | 1,662 |
-| c_well9 | 10-15 12:19 to 10-16 15:11 | 1,851 | 51 | 260 | 1,686 | 1,657 |
-| c_gp1 | 10-16 15:11 to 10-17 15:17 | 1,983 | 58 | 205 | 1,718 | 1,693 |
-| c_hr1 | 10-17 15:17 to 10-17 22:46 | 1,969 | 59 | 195 | 1,715 | 1,681 |
-| c_isle1 | 10-17 22:46 to 10-18 13:35 | 1,934 | 48 | 303 | 1,706 | 1,662 |
-| c_loose1 | 10-18 13:35 to 10-19 06:29 | 2,053 | 52 | 278 | 1,735 | 1,758 |
-| c_eco3 | 10-19 06:29 to now | 2,131 | 100 | 100 | 1,754 | 1,763 (latest) |
+| g_iter0 | 10-07 18:45 to 10-08 12:44 | 1,582 | 52 | 456 | 1,622 | 1,491 |
+| c_line8a | 10-08 12:44 to 10-08 17:00 | 1,600 | 74 | 139 | 1,627 | 1,484 |
+| c_swarm1 | 10-08 17:00 to 10-09 04:14 | 1,643 | 52 | 271 | 1,637 | 1,563 |
+| c_nav4 | 10-09 04:14 to 10-09 09:28 | 1,724 | 56 | 221 | 1,657 | 1,583 |
+| c_nav5 | 10-09 09:28 to 10-09 13:14 | 1,761 | 75 | 126 | 1,666 | 1,589 |
+| c_nav6 | 10-09 13:14 to 10-09 15:14 | 1,746 | 74 | 129 | 1,663 | 1,582 |
+| c_anc3 | 10-09 15:14 to 10-09 21:39 | 1,821 | 65 | 163 | 1,681 | 1,587 |
+| c_def3 | 10-09 21:39 to 10-10 06:14 | 1,849 | 59 | 199 | 1,688 | 1,622 |
+| c_aura2 | 10-10 06:14 to 10-10 22:44 | 1,820 | 47 | 314 | 1,681 | 1,601 |
+| c_bc1 | 10-10 22:44 to 10-11 06:08 | 1,849 | 65 | 164 | 1,688 | 1,647 |
+| c_mend2 | 10-11 06:08 to 10-15 12:19 | 1,849 | 37 | 612 | 1,688 | 1,662 |
+| c_well9 | 10-15 12:19 to 10-16 15:11 | 1,844 | 51 | 260 | 1,687 | 1,657 |
+| c_gp1 | 10-16 15:11 to 10-17 15:17 | 1,977 | 58 | 205 | 1,719 | 1,693 |
+| c_hr1 | 10-17 15:17 to 10-17 22:46 | 1,963 | 59 | 195 | 1,716 | 1,681 |
+| c_isle1 | 10-17 22:46 to 10-18 13:35 | 1,928 | 48 | 303 | 1,707 | 1,662 |
+| c_loose1 | 10-18 13:35 to 10-19 06:29 | 2,049 | 52 | 278 | 1,737 | 1,758 |
+| c_eco3 | 10-19 06:29 to 10-19 13:06 | 2,098 | 65 | 179 | 1,749 | 1,764 |
+| c_adp1 | 10-19 13:06 to now | 2,139 | 102 | 100 | 1,759 | 1,768 (latest) |
 
 Trial candidates that never played a rated match (hollow diamonds, at their trial start):
 
 | Build | Trial start (PDT) | BT rating | +- 95% | BT games | As galaxy |
 |---|---|---:|---:|---:|---:|
-| c_line4 | 10-07 22:09 | 1,478 | 97 | 100 | 1,594 |
-| c_line5 | 10-08 01:05 | 1,518 | 94 | 100 | 1,604 |
-| c_line6 | 10-08 05:26 | 1,568 | 91 | 100 | 1,616 |
-| c_line7m | 10-08 09:05 | 1,556 | 92 | 100 | 1,613 |
-| c_flee3 | 10-10 01:02 | 1,830 | 85 | 100 | 1,680 |
-| c_well5 | 10-10 11:39 | 1,914 | 87 | 100 | 1,701 |
-| c_spread2 | 10-10 13:20 | 1,882 | 86 | 100 | 1,693 |
-| c_scout1 | 10-10 17:10 | 1,872 | 86 | 100 | 1,691 |
-| c_well7 | 10-11 01:02 | 1,872 | 86 | 100 | 1,691 |
-| c_end2 | 10-11 01:46 | 1,840 | 85 | 100 | 1,683 |
-| c_bc3 | 10-11 09:14 | 1,882 | 86 | 100 | 1,693 |
-| c_blind1 | 10-14 09:00 | 1,903 | 86 | 100 | 1,699 |
-| c_mend3 | 10-14 09:01 | 1,882 | 86 | 100 | 1,693 |
-| c_seam1 | 10-14 10:01 | 1,861 | 86 | 100 | 1,688 |
-| c_blind2 | 10-14 10:22 | 1,903 | 86 | 100 | 1,699 |
-| c_seam2 | 10-14 15:19 | 1,861 | 86 | 100 | 1,688 |
-| c_cap1 | 10-14 17:13 | 1,861 | 86 | 100 | 1,688 |
-| c_thr1 | 10-14 17:57 | 1,872 | 86 | 100 | 1,691 |
-| c_open1 | 10-15 01:02 | 1,830 | 85 | 100 | 1,680 |
-| c_siege1 | 10-15 05:48 | 1,851 | 85 | 100 | 1,686 |
-| c_well10 | 10-15 17:32 | 1,893 | 86 | 100 | 1,696 |
-| c_mid1 | 10-16 01:06 | 1,893 | 86 | 100 | 1,696 |
-| c_pack1 | 10-16 09:01 | 1,947 | 88 | 100 | 1,709 |
-| c_tune1 | 10-16 11:43 | 1,903 | 86 | 100 | 1,699 |
-| c_adlo2 | 10-16 20:44 | 1,958 | 88 | 100 | 1,712 |
-| c_expl1 | 10-17 02:14 | 1,958 | 88 | 100 | 1,712 |
-| c_hunt1 | 10-17 09:05 | 1,991 | 89 | 100 | 1,720 |
-| c_rot1 | 10-17 11:36 | 2,003 | 90 | 100 | 1,723 |
-| c_di1 | 10-18 04:11 | 1,991 | 89 | 100 | 1,720 |
-| c_sm1 | 10-19 04:59 | 2,103 | 97 | 100 | 1,747 |
+| c_line4 | 10-07 22:09 | 1,471 | 97 | 100 | 1,595 |
+| c_line5 | 10-08 01:05 | 1,511 | 94 | 100 | 1,605 |
+| c_line6 | 10-08 05:26 | 1,561 | 91 | 100 | 1,617 |
+| c_line7m | 10-08 09:05 | 1,549 | 92 | 100 | 1,614 |
+| c_flee3 | 10-10 01:02 | 1,823 | 85 | 100 | 1,681 |
+| c_well5 | 10-10 11:39 | 1,907 | 87 | 100 | 1,702 |
+| c_spread2 | 10-10 13:20 | 1,875 | 86 | 100 | 1,694 |
+| c_scout1 | 10-10 17:10 | 1,865 | 86 | 100 | 1,692 |
+| c_well7 | 10-11 01:02 | 1,865 | 86 | 100 | 1,692 |
+| c_end2 | 10-11 01:46 | 1,833 | 85 | 100 | 1,684 |
+| c_bc3 | 10-11 09:14 | 1,875 | 86 | 100 | 1,694 |
+| c_blind1 | 10-14 09:00 | 1,896 | 86 | 100 | 1,699 |
+| c_mend3 | 10-14 09:01 | 1,875 | 86 | 100 | 1,694 |
+| c_seam1 | 10-14 10:01 | 1,854 | 86 | 100 | 1,689 |
+| c_blind2 | 10-14 10:22 | 1,896 | 86 | 100 | 1,699 |
+| c_seam2 | 10-14 15:19 | 1,854 | 86 | 100 | 1,689 |
+| c_cap1 | 10-14 17:13 | 1,854 | 86 | 100 | 1,689 |
+| c_thr1 | 10-14 17:57 | 1,865 | 86 | 100 | 1,692 |
+| c_open1 | 10-15 01:02 | 1,823 | 85 | 100 | 1,681 |
+| c_siege1 | 10-15 05:48 | 1,843 | 85 | 100 | 1,686 |
+| c_well10 | 10-15 17:32 | 1,886 | 86 | 100 | 1,697 |
+| c_mid1 | 10-16 01:06 | 1,886 | 86 | 100 | 1,697 |
+| c_pack1 | 10-16 09:01 | 1,940 | 88 | 100 | 1,710 |
+| c_tune1 | 10-16 11:43 | 1,896 | 86 | 100 | 1,699 |
+| c_adlo2 | 10-16 20:44 | 1,951 | 88 | 100 | 1,713 |
+| c_expl1 | 10-17 02:14 | 1,951 | 88 | 100 | 1,713 |
+| c_hunt1 | 10-17 09:05 | 1,985 | 89 | 100 | 1,721 |
+| c_rot1 | 10-17 11:36 | 1,996 | 90 | 100 | 1,724 |
+| c_di1 | 10-18 04:11 | 1,985 | 89 | 100 | 1,721 |
+| c_sm1 | 10-19 04:59 | 2,096 | 97 | 100 | 1,748 |
