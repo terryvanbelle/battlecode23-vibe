@@ -2334,3 +2334,9 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   dead anchor reserve). Self-play cannot judge it (abl4: the four levers change 0-3 of 80 games each), so it goes to the
   panel: screen when abl5 frees a VM slot, trial after the 01:00 PDT autoscrim round. Unit tests PASS. abl4 so far:
   ANCHOR_RESERVE_MAX 50 +1, MID_URGENT false -2; abl5: c_st01 (CAP_MAX 45 + AD_NEED 100 + ANCHOR_START 400) +3 (n 70).
+- 03:46 PDT abl5 (stacks of abl3 near-misses vs c_loose1, paired with identity c_st00, n 80): c_st01 CAP_MAX 45 +
+  AD_NEED 100 + ANCHOR_START 400 +4 (z 1.0); c_st02 = c_st01 + ANCHOR_MIN_LAUNCHERS 20 +6 (46/80, gained 11, lost 5,
+  z 1.5); c_st03 CAP_MAX 45 + AD_NEED 100 +3; c_st04 ANCHOR_START 400 + ANCHOR_MIN_LAUNCHERS 20 +4 (n 47). The parts
+  add up. Built src/c_eco3 = c_st02 (unit tests PASS). abl4: BLIND 250 + SLACK 3 -1 (inert), AD_BANK_CAP 100 -2
+  (n 63), MID_URGENT false -1, HOT_HOME_D2 48 + HOT_FRONT_PCT 20 0. Candidates now pull anchors opposite ways: c_sm1
+  (earlier on small maps, the diagnosis vs strong bots) and c_eco3 (later, self-play); the panel decides.
