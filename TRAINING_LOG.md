@@ -2317,3 +2317,12 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - 23:05 PDT abl4 identity check: c_lx00 (c_lx0 copy) replays abl2's c_lb00 games exactly, 39/39 (winner side and
   rounds): ANCHOR_SLACK, ANCHOR_RESERVE_MAX, MID_URGENT and SCREEN_ALL are inert at their defaults. abl3: ANCHOR_START
   400 +3 (z 0.9), ANCHOR_MIN_LAUNCHERS 20 +1, CARRIER_RETURN_LOAD 39 -8 (n 79).
+- 23:53 PDT abl3 DONE (gauntlet/20261018-213333-abl3, 1000 games): no economy knob is clearly positive on c_loose1.
+  Paired net vs identity c_ec00 (n 80): CAP_MAX 45 +2, CAP_PER_MN_WELL 12 -1, CAP_MIN_PER_HQ 9 -2, CAP_GROW_ROUNDS 25
+  -2, AD_NEED 100 +2, AD_EARLY_EVERY 4 -1, AD_LATE_EVERY 3 -5, 6 -5, ANCHOR_START 400 +3, ANCHOR_MIN_LAUNCHERS 20 +1,
+  CARRIER_RETURN_LOAD 39 -8, AD_BANK_CAP 300 -1. The current values sit at or near a local optimum in self-play.
+  abl4 so far: ANCHOR_BLIND_FROM 250 -1 (3 games changed), ISLE_MARGIN_SMALL 2 and ANCHOR_SLACK 3 change 0 of 80
+  games: the strong-bot mechanisms the diagnosis found (late blind anchors, anchor sinks, enemy island fortresses) do
+  not arise in self-play, so these levers can only be judged on the panel. abl5 started (stack of the abl3
+  near-misses, 360 cells): c_st01 CAP_MAX 45 + AD_NEED 100 + ANCHOR_START 400; c_st02 = c_st01 + ANCHOR_MIN_LAUNCHERS
+  20; c_st03 CAP_MAX 45 + AD_NEED 100; c_st04 ANCHOR_START 400 + ANCHOR_MIN_LAUNCHERS 20.
