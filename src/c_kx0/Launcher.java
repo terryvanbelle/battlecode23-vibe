@@ -26,6 +26,9 @@ import battlecode.common.*;
  * c_gh1 (C.GHOST, ported from c_gh2): fight()'s 'ahead' also subtracts up to C.GHOST_MAX enemy fighters this launcher
  * saw at most C.GHOST_AGE rounds ago within r2 C.GHOST_R2 that it cannot sense now (ghostAhead; c_blind2's fighter
  * memory, remember).
+ * diag-top2 (C.OPEN_CAMP): a launcher born before C.CAMP_BORN takes the predicted enemy home mana well (campTarget)
+ * after the sighting, recall and guard and before the site, until C.CAMP_UNTIL, and holds r2 C.CAMP_MIN_R2..
+ * C.CAMP_HOLD_R2 from it (campHold); fight() takes the carriers that come. Compiled out when false.
  */
 public final class Launcher {
     public static int shots, steppedIn, kited;   // diagnostics
@@ -68,6 +71,7 @@ public final class Launcher {
         RobotController rc = G.rc;
         MapLocation at = G.here;                    // where G.startTurn sensed G.enemies
         if (C.TELEMETRY) { shots0 = shots; firstTarget = 0; fought = false; objEff = -1; }
+        if (C.OPEN_CAMP && campFrom == null) campFrom = at;   // diag-top2: the spawn tile (first turn), next to its HQ
         MapMem.scan();
         if ((G.round + G.id) % 4 == 0) MapMem.scanIslands();
         MapMem.syncSym();
@@ -540,6 +544,7 @@ public final class Launcher {
         // c_mend1: a mender's objective is its island tile (kind 3, which telemetry otherwise uses only for the centre)
         boolean mend = C.MEND && mending;
         if (mend) { objective = mendTile; objIsland = mendIsland; objKind = 3; objHQ = null; objRaid = null; objRing = null; objMid = null; recalled = false; guardObj = false; }
+        if (C.OPEN_CAMP && mend) objCamp = null;          // diag-top2: a mender does not camp
         // c_nav3: plan the long march to the team target from the first turn, while forming up at home (a field built
         // only after hitting a wall arrived too late: launchers filled dead-end corridors on Target first)
         if (!mend) {
@@ -547,11 +552,12 @@ public final class Launcher {
             // r2 C.FIELD_NEAR_D2 of it, and the site is far from the siege target), also on a turn whose objective is a
             // sighting or a recall: Field.request restarts the field on every change of target
             MapLocation plan = objMid != null ? objMid : midSite != null ? midSite : objHQ;
+            if (C.OPEN_CAMP && objCamp != null) plan = objCamp;   // diag-top2: a camper plans toward the camp well
             if (plan == null) { MapLocation[] ehq = enemyHQs(); if (ehq.length > 0) plan = siegeTarget(ehq); }
             if (plan != null && G.here.distanceSquaredTo(plan) > C.FIELD_FAR_D2) Field.request(plan, true);
         }
         mode = 4;                                   // S, unless a move below is taken
-        if (C.TELEMETRY) { objEff = recalled ? 7 : objMid != null ? 8 : objKind; objLoc = objective; }   // c_def2: a recall is kind 7 (home defence); c_mid1: the site 8
+        if (C.TELEMETRY) { objEff = C.OPEN_CAMP && objCamp != null ? 9 : recalled ? 7 : objMid != null ? 8 : objKind; objLoc = objective; }   // c_def2: a recall is kind 7 (home defence); c_mid1: the site 8; diag-top2: the camp 9
         // c_aura1: inside a seen enemy HQ's aura (r2 9), step outward first (aura tiles allowed only strictly outward,
         // Nav.auraStepOK); with no free outward tile, today's logic below
         if (C.AURA_SAFE && G.rc.isMovementReady()) {
@@ -597,6 +603,8 @@ public final class Launcher {
             boolean real = G.rc.senseWell(objRaid) != null;
             clearRaid(objRaid, real ? G.round : G.round + 5000);
         }
+        // diag-top2 (C.OPEN_CAMP): at the camp well, hold in the band (S) or step out of the collect tiles
+        if (C.OPEN_CAMP && objCamp != null && campHold()) return;
         // c_mid1: within r2 C.MID_HOLD_R2 of the site, hold on a hold tile or step to one (midHold)
         if (objMid != null && G.here.distanceSquaredTo(objMid) <= C.MID_HOLD_R2) { midHold(); return; }
         // the siege ring around the enemy HQ: hold at r2 RING_MIN..RING_MAX, outside the aura
@@ -1077,6 +1085,7 @@ public final class Launcher {
         objRaid = null;
         objRing = null;
         objMid = null;
+        if (C.OPEN_CAMP) objCamp = null;
         // c_mid1: a squad member's site (null for every other launcher and while no site is published). Its tour starts
         // when it first comes within r2 C.MID_AREA_R2 of the site; C.MID_TOUR rounds later it leaves the squad for good
         MapLocation site = G.squad ? Mid.site() : null;
@@ -1137,6 +1146,12 @@ public final class Launcher {
                 }
             }
         }
+        // diag-top2 (C.OPEN_CAMP): an opening launcher camps the predicted enemy home mana well before the site, enemy
+        // islands and the siege (the top two's opening); telemetry code kind 2 (with the raid, ring and site), OBJ kind 9
+        if (C.OPEN_CAMP && G.spawnRound < C.CAMP_BORN && G.round < C.CAMP_UNTIL) {
+            MapLocation c = campTarget();
+            if (c != null) { objKind = 2; objCamp = c; return c; }
+        }
         // c_mid1: the site, before enemy islands (the island hunt from r0 would pull the holders away); telemetry code
         // kind 2 (the 2-bit field is full), OBJ kind 8
         if (site != null) { objKind = 2; objMid = site; return site; }
@@ -1186,5 +1201,97 @@ public final class Launcher {
         }
         objKind = 3;
         return new MapLocation(G.W / 2, G.H / 2);
+    }
+
+    // ---------------------------------------------------------------- diag-top2: the opening camp (C.OPEN_CAMP)
+    /** C.OPEN_CAMP: this turn's objective is the camp well (objCamp, set by pickObjective); campFrom: the spawn tile (run,
+     *  first turn). Cache (campTarget): the camp well campWell, the home mana well campHome it mirrors and the symmetry
+     *  campSym used, computed under symmetry mask campCand (0: never; MapMem.cand is never 0) and our HQ list campOurs;
+     *  campRetry: the round of the next search while no mana well is known; campSeen: the camp well has been sensed and
+     *  is there; campDead: it was sensed and is not (no camp until the mask changes). Every field starts at its default
+     *  value, so class initialisation does no extra work when the switch is off. */
+    static MapLocation objCamp, campFrom, campWell, campHome;
+    static MapLocation[] campOurs;
+    static int campCand, campSym, campRetry;
+    static boolean campSeen, campDead;
+
+    /**
+     * diag-top2: the predicted enemy home mana well, or null (the normal objectives then). Recomputed only when the
+     * symmetry mask or our HQ list (a new array every turn through r3, HQState.refresh) changes, and while no mana well
+     * is known every C.CAMP_RETRY rounds, with C.CAMP_MIN_LEFT bytecodes left (a short turn retries on the next one).
+     * Home: our HQ nearest the spawn tile (the HQ that built this launcher; ties to the lower location code). Its mana
+     * well: the nearest known to it, shared slot or this launcher's own sighting, the shared one on a tie
+     * (Carrier.gather's choice beside the HQ, Carrier.nearerTo, inlined: no Carrier class load). The camp well: its image
+     * under campSymOf. No RNG (HQState.nearest breaks ties by RNG).
+     */
+    static MapLocation campTarget() throws GameActionException {
+        MapLocation[] ours = HQState.ourHQs;
+        if (ours == null || ours.length == 0 || campFrom == null) return null;
+        if (MapMem.cand != campCand || ours != campOurs) {
+            campCand = MapMem.cand; campOurs = ours; campWell = null; campSeen = false; campDead = false; campRetry = G.round;
+        }
+        if (campDead) return null;
+        if (campWell != null || G.round < campRetry || Clock.getBytecodesLeft() < C.CAMP_MIN_LEFT) return campWell;
+        campRetry = G.round + C.CAMP_RETRY;
+        MapLocation home = null;
+        int bd = Integer.MAX_VALUE;
+        for (int k = ours.length; --k >= 0; ) {
+            MapLocation h = ours[k];
+            int d = campFrom.distanceSquaredTo(h);
+            if (d < bd || (d == bd && G.enc(h) < G.enc(home))) { bd = d; home = h; }
+        }
+        MapLocation a = Comms.nearestWell(home, 2), b = MapMem.nearestSeenWell(home, 2);
+        MapLocation w = a == null || (b != null && home.distanceSquaredTo(b) < home.distanceSquaredTo(a)) ? b : a;
+        if (w == null) return null;
+        int s = campSymOf(home);
+        MapLocation t = MapMem.img(s, w);
+        if (!G.onMap(t.x, t.y)) return null;
+        campHome = w; campSym = s; campWell = t;
+        return t;
+    }
+
+    /** diag-top2: the symmetry the camp mirrors under. The one candidate left; otherwise the first surviving candidate
+     *  (ROT, FLIP_X, FLIP_Y) under which home's image is the siege target (siegeTarget(enemyHQs()), both cached): the
+     *  camp then lies on the army's first route, where the guess is tested soonest (a predicted HQ seen empty
+     *  eliminates its candidate, MapMem.observeHQs) and a wrong guess costs the shortest walk (the target is the image
+     *  nearest our centroid; shipped maps: ROT-only 44, VERT 42, HORI-only 16, RULES 10.2, so the prior barely favours
+     *  ROT); otherwise computePredWells's choice (the lowest bit). */
+    static int campSymOf(MapLocation home) {
+        int c = MapMem.cand;
+        if (c == 1 || c == 2 || c == 4) return c;
+        MapLocation[] ehq = enemyHQs();
+        if (ehq.length > 0) {
+            MapLocation st = siegeTarget(ehq);
+            for (int s = 1; s <= 4; s <<= 1) if ((c & s) != 0 && MapMem.img(s, home).equals(st)) return s;
+        }
+        return (c & 1) != 0 ? 1 : (c & 2) != 0 ? 2 : 4;
+    }
+
+    /**
+     * diag-top2: a camper in march (no enemy in sight). The first time the camp well is in sight (within r2 20 and
+     * sensed) it is checked: no well there means the guess was wrong, so the camp ends until the symmetry mask changes
+     * and the candidate is eliminated (MapMem.checkWell's evidence: every shipped map mirrors its wells, RULES 10.2;
+     * the last candidate is never removed), and the march goes on this turn. Within r2 C.CAMP_HOLD_R2 of the well it
+     * holds (S, still, as the top two's blocks) and fight() takes the carriers that come into vision; nearer than r2
+     * C.CAMP_MIN_R2 (a collect tile) it steps away. Returns whether it took the turn.
+     */
+    static boolean campHold() throws GameActionException {
+        MapLocation w = objCamp;
+        int d = G.here.distanceSquaredTo(w);
+        if (!campSeen && d <= 20 && G.rc.canSenseLocation(w)) {
+            if (G.rc.senseWell(w) == null) {
+                campDead = true;
+                MapMem.eliminate(campSym, 2, campHome.x, campHome.y);
+                return false;
+            }
+            campSeen = true;
+        }
+        if (d > C.CAMP_HOLD_R2) return false;
+        if (d >= C.CAMP_MIN_R2) return true;               // S: hold
+        mode = 3;
+        Nav.avoid = true;
+        Nav.moveAway(w);
+        Nav.avoid = false;
+        return true;
     }
 }
