@@ -2550,3 +2550,5 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - **C.MEMSHOT** in c_kx0 (an action still unused at the end of the turn fires at memPick's tile: an enemy fighter seen
   at most MEMSHOT_AGE 2 rounds ago, tile within r2 16, not sensable now, the robot not in vision; MEM = GHOST ||
   MEMSHOT; false = c_eco3). **c_ms1** = c_gd1 + SHOOT_KNOWN + MEMSHOT: ms1-h2h running on the VM; unit tests running.
+- 03:58 PDT STUCK_MATCH 10487 (ranked autoscrim 01:00 PDT, battlecode-archive.sprintBot vs pranayagra.finalbotfinaltwo,
+  RUN > 1 h; the repeat offender of 7880 and 8689; not ours): cancelled + re-rated (tools/galaxy/cancel-match.sh).
