@@ -2639,3 +2639,10 @@ the plumbing. Verified and applied:
   strong bots' cloud play, so BLIND_AGE 30 is parked for a panel stack if a cloud candidate goes ahead).
 - **se-h2h** (c_gd1 vs each variant, 103 maps x A/B, map seeds): c_se1 (SAFE_EXPLORE) 99/206, signal -8; c_se2 (+
   CENTRE_SKIP_R2 100) 94/206, signal -18 (paired with c_se1: 5 better, 10 worse). Both dropped: local runs say no.
+
+## 2026-10-20 13:17 PDT: c_ms1 rejected on the two-block rule
+
+- Block 2 (trial 207, v2b, us as B, gauntlet/20261020-162425-panel2b-c_ms1): 51/100 vs c_gd1's 49; 88 identical,
+  gained 7, lost 5, net +2 (t +0.58), island-rounds +241 (t +2.22). With block 1 (+2, D 12): net +4, D 24, t +0.82 <
+  1.5: rejected (trial-decide 207, sibling 205 with it); c_gd1 stays validated (submission 208). A positive near-miss:
+  SHOOT_KNOWN + MEMSHOT is kept to stack with the next candidate.
