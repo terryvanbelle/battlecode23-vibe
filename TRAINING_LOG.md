@@ -2637,3 +2637,5 @@ the plumbing. Verified and applied:
 - **abl15** (68 games each vs c_ms1, paired with identity c_k1500): MEMSHOT_AGE 10 net -5, BLINDSHOT (age 10) -2,
   BLINDSHOT + BLIND_AGE 30 +3 (D 15, t +0.77). Noise; BLINDSHOT stays off (self-play cannot judge a lever aimed at
   strong bots' cloud play, so BLIND_AGE 30 is parked for a panel stack if a cloud candidate goes ahead).
+- **se-h2h** (c_gd1 vs each variant, 103 maps x A/B, map seeds): c_se1 (SAFE_EXPLORE) 99/206, signal -8; c_se2 (+
+  CENTRE_SKIP_R2 100) 94/206, signal -18 (paired with c_se1: 5 better, 10 worse). Both dropped: local runs say no.
