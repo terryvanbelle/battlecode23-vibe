@@ -5,6 +5,9 @@
      "change": "first panel: ten field bots spread over the ladder, ten maps"},
     {"version": "v2", "cells": "test/cells/panel-v2.txt", "from": "2026-10-20T13:21:26Z",
      "change": "v1 saturated (c_gd1 86/100) and map-narrow: the ten opponents nearest us by BT, 100 distinct maps",
-     "block2": "test/cells/panel-v2b.txt"}
+     "block2": "test/cells/panel-v2b.txt"},
+    {"version": "v3", "cells": "test/cells/panel-v3.txt", "from": "2026-10-20T17:12:00Z",
+     "change": "v2's cells with the side mixed per line (owner, PROMPTS 137-138): five opponents as team A and five as team B in each block, so block 1 measures both sides; controls composed from v2 and v2b games",
+     "block2": "test/cells/panel-v3b.txt"}
   ]
 }

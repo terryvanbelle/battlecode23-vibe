@@ -2617,3 +2617,20 @@ the plumbing. Verified and applied:
   calibration (LEARNINGS) was measured on maps the screen and panel shared, so it is suspended for v2 until recalibrated.
 - c_gd1 on v2 so far (7 of 10 matches): 35/70 (maxwell 6-4, awesomelemonade 3-7, carlguo 3-7, Ivan 6-4, vrangr1 6-4,
   pranayagra2 6-4, jmerle 5-5). The review's pre-registered test: <= 60/100 refutes the BT rank-1 claim.
+
+## 2026-10-20 10:12 PDT: panel v3 (mixed sides), c_gd1's standing, c_ms1 block 1
+
+- **Panel v3 (owner, PROMPTS 137-138).** v2's cells with the side mixed per line: maxwell, carlguo, Ivan, jmerle,
+  CyrilSharma as team A; awesomelemonade, vrangr1, AnOvercookedFork, FB_ZZZ, pranayagra2 as team B; v3b swaps them.
+  Chosen so c_gd1 scores 54/100 in each block (v2 59 + v2b 49 = 108). Galaxy's '?' (SHUFFLED) was rejected: siarnaq's
+  determine_order flips a coin for player A per request before alternating, so reruns pair with a control on only half
+  the lines. Controls composed from c_gd1's v2/v2b games (tools/compose_run.py, no new games).
+- **c_gd1 standing.** v2 59/100 (A), v2b 49/100 (B): side B costs about 10 games per 100 (awesomelemonade 1-9, carlguo
+  2-8, Ivan 3-7 as B). Refreshed BT 2046 +- 43, rank 11 of 140, 5th against field bots: the BT rank 1 came from
+  panel-v1 games alone (panel-only ratings run about 34 high).
+- **c_ms1 v2 block 1** (trial 205): 61/100, 88 identical, gained 7, lost 5, net +2 (t +0.58): block 2 (v2b) plays.
+- **Diagnosis of v2 losses (c_gd1).** In 10 of 100 games our Mn@100 was under half the opponent's (8 lost); 27% of
+  early trips died before collecting there (7% elsewhere): explorers (X) on Turtle, SoundWave, Lantern r14-80; G on
+  Barcode/Jail; F on BowAndArrow. Candidates c_se1 (SAFE_EXPLORE: up to 4 explore draws, the first not nearer the enemy
+  HQs than home) and c_se2 (+ CENTRE_SKIP_R2 100) in se-h2h.
+- **abl14** (vs identity): MEMSHOT_AGE 1 net +1, AGE 4 +2, LEFT 1200 0: noise, MEMSHOT stays at age 2.

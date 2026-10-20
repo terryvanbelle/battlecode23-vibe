@@ -3,11 +3,13 @@
   "submission": 208,
   "package": "c_gd1",
   "since": "2026-10-20T04:17:53.777349+00:00",
-  "panel_run": "gauntlet/20261020-132038-panel2-c_gd1",
+  "panel_run": "gauntlet/20261020-171028-ctl3-c_gd1",
   "panel_runs": {
    "test/cells/panel-v1.txt": "gauntlet/20261020-001652-panel-c_gd1",
    "test/cells/panel-v2.txt": "gauntlet/20261020-132038-panel2-c_gd1",
-   "test/cells/panel-v2b.txt": "gauntlet/20261020-143228-panel2b-c_gd1"
+   "test/cells/panel-v2b.txt": "gauntlet/20261020-143228-panel2b-c_gd1",
+   "test/cells/panel-v3.txt": "gauntlet/20261020-171028-ctl3-c_gd1",
+   "test/cells/panel-v3b.txt": "gauntlet/20261020-171028-ctl3b-c_gd1"
   }
  },
  "trial": null,
@@ -1080,6 +1082,22 @@
    "submission": 207,
    "package": "c_ms1",
    "validated_resubmitted": 208
+  },
+  {
+   "at": "2026-10-20T17:10:51.916282+00:00",
+   "event": "control",
+   "package": "c_gd1",
+   "run": "gauntlet/20261020-171028-ctl3-c_gd1",
+   "cells": "test/cells/panel-v3.txt",
+   "previous": null
+  },
+  {
+   "at": "2026-10-20T17:10:52.047507+00:00",
+   "event": "control",
+   "package": "c_gd1",
+   "run": "gauntlet/20261020-171028-ctl3b-c_gd1",
+   "cells": "test/cells/panel-v3b.txt",
+   "previous": null
   }
  ],
  "parked": [

@@ -1,0 +1,18 @@
+# Evaluation panel v3 (owner, PROMPTS 137-138; docs/LADDER_STRATEGY.md "Panel versions"): the cells of panel v2 with
+# the side mixed per line, so every block measures both sides. '+' = us as team A, '-' = us as team B, both on the
+# map's own spawns (galaxy's '?' is not used: it flips a coin for player A per request, so a rerun pairs with its
+# control on only half the lines). Five opponents per side, chosen so the control c_gd1 scores 54/100 in each block
+# (A/B per opponent: Ivan 6/3, carlguo 3/2, maxwell 6/5, jmerle 5/5, Cyril 10/10 here as A; awesomelemonade 3/1,
+# vrangr1 6/7, AnOvercookedFork 6/4, FB_ZZZ 8/6, pranayagra2 6/6 here as B). Block 2 is test/cells/panel-v3b.txt,
+# the same lines with the sides swapped. Every v3 and v3b line is a v2 or v2b line, so a build's v3 and v3b runs can
+# be composed from its v2 and v2b games (tools/compose_run.py).
+maxwelljones14.MPWorking Repetition,Buggy,KingdomRush,Star,Scatter,Rainbow,Flower,Frog,ReverseFunnel,Cee +
+awesomelemonade.finalBot Divergence,ArtistRendition,SmallElements,Movepls,VeryReasonable,Turtle,ThirtyFive,Sakura,Spin,Minefield -
+carlguo866.submit26_final RaceToTheTop,TimesUp,Jail,Cube,Crossword,PairedProgramming,AbsoluteW,Grievance,Spiderweb,Lantern +
+IvanGeffner.fortytwo Potions,TreasureMap,SoundWave,maptestsmall,Sine,Sus,Pillars,SweetDreams,FourNations,DefaultMap +
+vrangr1.AFinalsBot Clown,AllElements,Maze,ExtremelyMid,Spots,Orbit,Rectangle,Risk,BuildSite,Grapes -
+AnOvercookedFork.quals LookingGlass,Snowflake,Spiral,Sun,MoonPhases,Forest,Zig,Lines,RockWall,Elephant -
+georgezhang02.FB_ZZZ Marsh,Piglets,PipesAndParabolas,HideAndSeek,Hah,FishCake,MassiveL,Sneaky,Heart,Cornucopia -
+pranayagra.finalbotfinaltwo Tacocat,Barcode,Cat,HotAirBalloon,IslandHoppingTwo,Tightrope,Resign,Pizza,Diagonal,USA -
+jmerle.camel_case_v30_final Squares,IslandHopping,Quiet,Swooshy,Checkmate2,Eyelands,Pit,River,BowAndArrow,CrownJewels +
+CyrilSharma.finalBot LightWork,Pathfind,Dreamy,Rewind,TicTacToe,Cave,BatSignal,SomethingFishy,Pakbot,Fractured +

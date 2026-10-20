@@ -2755,6 +2755,40 @@ class GamesCoverageTest(unittest.TestCase):
             self.assertEqual(list(gc.missing(g, os.path.join(d, 'runs'))), ['8'])
 
 
+class ComposeRunTest(unittest.TestCase):
+    def test_mixed_sides_from_two_blocks(self):
+        import csv, importlib.util, tempfile
+        sp = importlib.util.spec_from_file_location('cr', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'compose_run.py'))
+        cr = importlib.util.module_from_spec(sp); sp.loader.exec_module(cr)
+        with tempfile.TemporaryDirectory() as d:
+            def run(name, order, side, pkg='p1'):
+                r = os.path.join(d, name); os.makedirs(os.path.join(r, 'replays'))
+                open(os.path.join(d, name + '.txt'), 'w').write(f'x M,N {order}\ny O,P {order}\n')
+                open(os.path.join(r, 'provenance.txt'), 'w').write(f'team=t cells={name}.txt package={pkg}\nincomplete=0\n')
+                open(os.path.join(r, 'results.csv'), 'w').write('opponent,map,bot_side,bot_result,match\n' + ''.join(
+                    f'{o},{m},{side},{"win" if side == "A" else "loss"},{o}{side}\n' for o, ms in (('x', 'MN'), ('y', 'OP')) for m in ms))
+                open(os.path.join(r, 'census.csv'), 'w').write('cell_opponent,map\nx,M\nx,N\ny,O\ny,P\n')
+                open(os.path.join(r, 'requests.jsonl'), 'w').write(f'{{"opponent": "x", "order": "{order}"}}\n{{"opponent": "y", "order": "{order}"}}\n')
+                for o in 'xy':
+                    open(os.path.join(r, 'replays', f'{o}{side}.bc23'), 'w').write(side)
+                return r
+            a, b = run('a', '+', 'A'), run('b', '-', 'B')
+            open(os.path.join(d, 'v3.txt'), 'w').write('# mixed\nx M,N +\ny O,P -\n')
+            out = os.path.join(d, 'c')
+            self.assertEqual(cr.compose('v3.txt', [a, b], out, repo=d), 4)
+            with open(os.path.join(out, 'results.csv')) as fh:
+                got = [(r['opponent'], r['bot_side']) for r in csv.DictReader(fh)]
+            self.assertEqual(got, [('x', 'A'), ('x', 'A'), ('y', 'B'), ('y', 'B')])
+            self.assertEqual(sorted(os.listdir(os.path.join(out, 'replays'))), ['xA.bc23', 'yB.bc23'])
+            self.assertIn('cells=v3.txt package=p1', open(os.path.join(out, 'provenance.txt')).read())
+            self.assertEqual(len(open(os.path.join(out, 'requests.jsonl')).readlines()), 2)
+            open(os.path.join(d, 'v4.txt'), 'w').write('x M,N -\n')            # no source played x as B
+            with self.assertRaises(ValueError):
+                cr.compose('v4.txt', [a], os.path.join(d, 'e'), repo=d)
+            with self.assertRaises(ValueError):                                # two packages
+                cr.compose('v3.txt', [a, run('f', '-', 'B', pkg='p2')], os.path.join(d, 'g'), repo=d)
+
+
 if __name__ == '__main__':
     r = unittest.main(exit=False, verbosity=0).result
     print(f"test_tools: {r.testsRun} tests, {len(r.failures)} failures, {len(r.errors)} errors")

@@ -120,7 +120,9 @@ These rules balance uniformity with accuracy.
   change and its reason). Old versions stay, so old runs remain interpretable.
 - **Control first.** Before any candidate uses a new version, the validated build plays it
   (`tools/contest.py block <cells> --tag panelN-<package>`), and `tools/ladder_policy.py set-control <run>` records
-  that run as its `panel_run`. trial-start defaults to the current version and refuses a panel the validated build's
+  that run as its `panel_run`. When every line of the new version is a line of runs it already has (same opponent,
+  maps and order), the control is composed from those games instead (`tools/compose_run.py <cells> --from <runs>
+  --out gauntlet/<stamp>-ctlN-<package>`; never named `-panel`, so no tool counts the games twice). trial-start defaults to the current version and refuses a panel the validated build's
   `panel_run` did not play. The control run also bridges the versions through the BT ratings (the same build on both).
 - **Recorded everywhere.** The attempts table prefixes each panel score with its version, and the progress graphs
   (field-score, progress and rating-history charts) mark every alteration with a dashed orange line at its commit time.
@@ -133,14 +135,16 @@ These rules balance uniformity with accuracy.
 |---|---|---|---|
 | v1 | 2026-10-07 17:52 | `test/cells/panel-v1.txt` | first panel: ten field bots spread over the ladder, ten maps |
 | v2 | 2026-10-20 06:21 | `test/cells/panel-v2.txt` | v1 saturated (c_gd1 86/100) and map-narrow: the ten opponents nearest us by BT, 100 distinct maps |
+| v3 | 2026-10-20 10:12 | `test/cells/panel-v3.txt` | v2's cells with the side mixed per line (owner, PROMPTS 137-138): five opponents as A, five as B; block 2 swaps them; controls composed from v2 and v2b games (c_gd1 54/100 in each block) |
 
 **Panel decision rule** (from the first v2 decision; panel review 2026-10-20, which found that the habit of accepting at
 net +1 to +3 on one 100-game panel accepts about 44% of null candidates). D = gained + lost (the discordant cells),
 t = net / sqrt(D), both from `tools/paired.py` against the validated build's control on the same cells file.
-- **Block 1** (`test/cells/panel-v2.txt`, us as team A): accept at t >= 1.5 with net >= +3; reject at net <= 0;
+- **Block 1** (the current version's cells, `test/cells/panel-v3.txt`: five opponents with us as team A and five as
+  team B, so one block measures both sides; on v2 it was all team A): accept at t >= 1.5 with net >= +3; reject at net <= 0;
   otherwise play block 2.
-- **Block 2** (`test/cells/panel-v2b.txt`: the same cells with order `-`, us as team B; a second trial-start with
-  `--panel test/cells/panel-v2b.txt`): accept at a cumulative (block 1 + block 2) t >= 1.5 with net >= +3, else reject.
+- **Block 2** (the version's `block2`, `test/cells/panel-v3b.txt`: the same lines with the sides swapped; v2b on v2;
+  a second trial-start with `--panel test/cells/panel-v3b.txt`): accept at a cumulative (block 1 + block 2) t >= 1.5 with net >= +3, else reject.
   A positive near-miss is kept to be stacked (`TRAINING_ALGORITHM.md` step 8).
 - Simulated before use (D ~ Poisson, two blocks): P(accept) for a true net of -3 / 0 / +3 / +5 per block is
   0.01 / 0.11 / 0.46 / 0.76 at D about 12.6 (sibling builds) and 0.02 / 0.11 / 0.32 / 0.54 at D about 24, at about 1.4
@@ -149,7 +153,7 @@ t = net / sqrt(D), both from `tools/paired.py` against the validated build's con
 - **Basics exception**, named as one in the log: a candidate that removes a basics failure (exceptions, overruns,
   self-deaths, stuck units), with delivery shown, may be accepted at block-1 net >= 0.
 - Every decision reports gained, lost, D, t and the sign-test p, and the attempts table records the version.
-- The validated build plays block 2 once per version (its control); `paired.py` refuses runs from different cells
+- The validated build plays block 2 once per version (its control; composed when its games already cover the cells); `paired.py` refuses runs from different cells
   files, runs matching fewer than 90% of cells, and incomplete runs.
 
 ## Pre-trial screen
