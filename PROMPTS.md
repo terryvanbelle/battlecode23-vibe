@@ -595,3 +595,6 @@ I think we might need to adjust our panel
 
 ## 135. 2026-10-20 06:46 PDT
 That all sounds good for the panel.  I understand the value of having a common yardstick, but we should build in some kind of rules that balance uniformity with accuracy.  I look forward to hearing what the reviewers say
+
+## 136. 2026-10-20 06:48 PDT
+That sounds good.  Also make sure that any panel alterations are marked in the progress graphs
