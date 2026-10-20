@@ -598,3 +598,6 @@ That all sounds good for the panel.  I understand the value of having a common y
 
 ## 136. 2026-10-20 06:48 PDT
 That sounds good.  Also make sure that any panel alterations are marked in the progress graphs
+
+## 137. 2026-10-20 09:59 PDT
+Can the v2 panel be a mix of side A and side B games instead of two separate panels?
