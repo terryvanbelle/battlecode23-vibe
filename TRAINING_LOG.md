@@ -2439,3 +2439,19 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - JOIN_MIN and CAMP_MIN dropped (negative in self-play); CENTRE_SKIP held (net 0, -2 on the panel map Maze).
 - **c_gd1** = c_kx0 + AD_PRESS_MN + GATE_DEFICIT_UNTIL 800 + SPAWN_POCKET 4 (unit tests PASS): panel trial after the
   17:00 autoscrim (GATE_DEFICIT is panel-only; SPAWN_POCKET is inert on panel maps).
+
+## 2026-10-19 18:28 PDT: c_gd1 and c_gx1 parked; IvanGeffner probe; GHOST and OPEN_CAMP switches; abl10, abl11
+
+- **IvanGeffner after the accept**: c_adp1 (sub 193) went 1/24 in ranked games vs IvanGeffner, c_eco3 (sub 192)
+  11/15. 9 of c_eco3's 11 wins were IvanGeffner resigning at r401; the maps of the two sets barely overlap, the one
+  shared (AllElements) replayed identically, and the record before c_eco3 was 6/33. Likely map draw, not
+  AD_PRESS_MN. Probe ivan-probe (logs/ivan-probe.log; matches 10334-10336): c_adp1 replays c_eco3's ranked wins
+  9922, 9933 and 10037 on the same maps and order; identical games would clear AD_PRESS_MN.
+- **c_gd1 parked** (submission 194, panel matches 10337-10346, run gauntlet/20261020-001652-panel-c_gd1).
+- **GHOST** ported into c_kx0 (agent; bytecode-identical when off; Gh2Test PASS on the ON build). abl10 (vs c_adp1,
+  panel maps x 2 x 4): net -2 (7/9). **c_gx1** = c_adp1 + GHOST: trial (submission 196) parked 18:28, panel matches
+  10347-10356.
+- **OPEN_CAMP** in c_kx0 (agent; javap-identical when off): plateau step 4, copy the offence that beats us.
+  Launchers born before r60 march to the mirror of their HQ's nearest Mn well (the enemy's home well; symmetry:
+  single candidate, else the one mapping our HQ to the siege target) and hold r2 4-9 from it until r200. abl11 (VM,
+  vs c_adp1, 160 games): c_k1101 (hold r2 4-9) and c_k1102 (hold r2 20).

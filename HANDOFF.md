@@ -64,7 +64,7 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-19 13:05 PDT)
+## In flight (2026-10-19 18:28 PDT)
 
 - **State (13:05 PDT 10-19).** **c_adp1 is the validated build (submission 193, accepted 13:05)**, see Standing; c_eco3 panel
   gauntlet/20261019-123523-panel-c_eco3 82/100 (losses: awesomelemonade 6, jmerle 4, vrangr1 3, pranayagra 2).
@@ -72,10 +72,13 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   record vs carlguo866 11/30 and maxwelljones14 6/18 (neither is on the panel). Rejected today: c_sm1 (05:36).
   Diagnosis of awesomelemonade: research/diagnosis/2026-10-19-awesomelemonade.md (ranked changes KILL_STEP 1/2,
   ISLE_MARGIN_SMALL 2, AD_PRESS_MN).
-- **Running (13:05 PDT).** c_adp1 accepted 13:05 (panel 83/100, net +1 vs c_eco3). Workflow diag-top2 diagnoses the
-  16 ranked matches vs carlguo866 and maxwelljones14 (build/top2/replays; matches/<id>/extract; reports
-  research/matches/<id>.md); output research/diagnosis/2026-10-19-top2.md. Our losses there: median Mn@100 292 vs
-  373 (wins 598 vs 347), L@250 6 vs 19.
+- **Running (18:28 PDT).** Parked trials c_gd1 (sub 194: GATE_DEFICIT_UNTIL 800 + SPAWN_POCKET 4) and c_gx1 (sub
+  196: GHOST); decide each with `ladder_policy.py status` (prints the paired.py command) and `trial-decide`. Probe
+  ivan-probe (logs/ivan-probe.log) checks whether c_adp1 replays c_eco3's IvanGeffner wins identically (c_adp1 1/24
+  vs IvanGeffner ranked, c_eco3 11/15, likely map draw). VM: abl11 (OPEN_CAMP, build/abl11, legend there; analyse
+  with the scratch analyse.py against abl9's identity c_k900 rows). diag-top2 (research/diagnosis/2026-10-19-top2.md)
+  ranked SPAWN_POCKET, JOIN_MIN, CENTRE_SKIP_R2, GATE_DEFICIT_UNTIL, CAMP_MIN: abl9 gave -6 (JOIN), -3 (CAMP), 0
+  (CENTRE), inert (GATE), +1 (POCKET). c_kx0 also has GHOST and OPEN_CAMP (all off by default).
 - **Done today.** abl6 (c_mid3 family: MID_URGENT false + MID_MOD 2 net -3, MID_MOD 1 -2, MID_MOD 2 alone 0: c_mid3
   dropped), abl7 (KILL_STEP 1 net 0, 2 net -2), abl8 (AD_PRESS_MN +2), ks1-h2h (c_ks1 101/206 vs c_eco3: dropped).
   **src/c_kx0** is the switch base (c_eco3 constants; KILL_STEP 0 and AD_PRESS_MN false reproduce c_eco3); build
