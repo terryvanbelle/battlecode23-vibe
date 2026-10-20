@@ -2506,3 +2506,7 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
 - Plateau protocol step 1 (last bot audit 2026-10-07): workflow `audit-c_gd1` (4 lenses: shared state, movement and
   jams, launcher combat, economy; one adversarial verifier per lens; read-only, no JVM). c_im1 unit tests running; its
   trial waits for the 01:00 PDT autoscrim (trial window 2.5 h). abl13 at 78/144.
+- 23:14 PDT **abl13 (BANK_FROM) inert in self-play**: gauntlet/20261020-031646-abl13 vs c_adp1, 8 r2000-prone maps x 2
+  sides x 3 seeds: identity c_k1300 30/48, c_k1301 (1850) 30/48 with 48 of 48 games identical, c_k1302 (1700) 30/48 with
+  47 identical (SoundWave differs, same result). 20 identity games reach r2000 (14 W, 6 L) and none flip. c_bk1 parked
+  as a field-only lever to stack on a later candidate. c_im1 committed (b172f29, unit tests PASS); trial after 01:00.
