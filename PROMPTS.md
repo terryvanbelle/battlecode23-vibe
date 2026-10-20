@@ -604,3 +604,9 @@ Can the v2 panel be a mix of side A and side B games instead of two separate pan
 
 ## 138. 2026-10-20 10:08 PDT
 V3 plans sound good
+
+## 139. 2026-10-20 11:45 PDT
+In the past we've had a rule that all decisions have to be symmetrical
+
+## 140. 2026-10-20 11:46 PDT
+On the other hand, most opponents on the panel won't be 

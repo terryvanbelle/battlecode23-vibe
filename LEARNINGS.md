@@ -26,7 +26,17 @@ that beat us but does not explain their wins; the principle stands (it was free)
    each action by its context (what the actor could see, where it aimed, terrain, timing, target) and compare the
    distributions: the teams that beat us, the teams we beat, us. Shot and damage totals alone cannot distinguish
    missed visible attacks from attacks outside vision.
-3. **In a live contest, lurk on the contest's discussion channels (e.g. Discord) for ideas.** Strategies are discussed
+3. **Every decision is symmetric (play symmetry; owner, PROMPTS 139; bc20 DESIGN, bc22 LEARNINGS, bc26
+   TRAINING_ALGORITHM).** Two mirrored teams must face mirrored choices: tie-breaks among directions or targets go by
+   the robot's own geometry or score, never a fixed compass order, the engine's row-major sensing order ("first found"),
+   a team constant, or an ID that correlates with team or spawn order. Check it with a mirror match (the bot against a
+   byte-identical copy, every map, both sides): a persistent lopsided split on one map is a fixable bug, not luck.
+   Caution from bc22 and bc26: a fair replacement can cost strength (a consistent arbitrary preference gave cohesion;
+   one fix made the strong side worse without helping the weak one), so a symmetry fix still faces the usual gates.
+   **[2023]** The rule was not carried into this year's documents until 2026-10-20: pooled self-play of our builds
+   (12,438 games) splits Risk 2-67 and Grievance 75-4 by side, and c_gd1 scores 59 as team A and 49 as team B on the
+   same panel cells; the audit is in TRAINING_LOG 2026-10-20.
+4. **In a live contest, lurk on the contest's discussion channels (e.g. Discord) for ideas.** Strategies are discussed
    while the contest runs. In a practice replay of a past year this is excluded: the old discussions are second-hand
    strategy content for that year, like its post-mortems (CLAUDE.md rule 4).
 
