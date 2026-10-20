@@ -53,7 +53,7 @@ public final class Launcher {
      *  slots). Slot of a robot: way 0 or 1 of set (ID & MEM_SET_MASK), i.e. slot 2*set or 2*set+1. Read only by
      *  ghostAhead (and memPick); nothing goes to the shared array. The arrays are built by memReset (no
      *  class-initialisation work when false). */
-    static final boolean MEM = C.GHOST;
+    static final boolean MEM = C.GHOST || C.MEMSHOT;
     static final int MEM_SET_MASK = C.MEM_N / 2 - 1, MEM_NONE = -1000;
     static int[] memId, memRound;
     static MapLocation[] memLoc;
@@ -70,6 +70,8 @@ public final class Launcher {
      *  (diagnostics only). */
     static RobotInfo[] preEnemies;
     static int knownShots;
+    /** C.MEMSHOT: shots at remembered tiles (diagnostics only). */
+    static int memShots;
 
     static void run() throws GameActionException {
         RobotController rc = G.rc;
@@ -99,6 +101,10 @@ public final class Launcher {
                 shoot();
                 if (rc.isActionReady()) G.enemies = now; else knownShots++;
             }
+            // C.MEMSHOT: an action still unused fires at the remembered tile of an enemy fighter seen within
+            // C.MEMSHOT_AGE rounds and out of sight now (a cloud at either end); an empty or allied tile takes 0
+            if (C.MEMSHOT && rc.isActionReady() && rc.getRoundNum() == G.round && Clock.getBytecodesLeft() > C.MEMSHOT_LEFT
+                && G.round - memLast <= C.MEMSHOT_AGE) memShot(rc);
         }
         G.note = String.valueOf((char) ('0' + objKind));
         G.extra = ",pn=" + pinnedSeen + ",ua=" + unsafeStepsAvoided + (C.ARMY ? ",rg=" + regroups + ",fo=" + follows : "");
@@ -354,6 +360,18 @@ public final class Launcher {
             }
         }
         return best;
+    }
+
+    /** C.MEMSHOT: fire at memPick's best candidate (sightings at most C.MEMSHOT_AGE rounds old, tiles within r2 16 that
+     *  this launcher cannot sense and can attack, robots not in vision); none: the action stays unused. */
+    static void memShot(RobotController rc) throws GameActionException {
+        int skip = memBlocked(rc, G.round, G.here, C.MEMSHOT_AGE, C.MEMSHOT_LEFT);
+        int c = memPick(G.round, G.here, skip, C.MEMSHOT_AGE);
+        if (c < 0) return;
+        MapLocation t = memTile(c);
+        if (!rc.canAttack(t)) return;
+        rc.attack(t);
+        memShots++;
     }
 
     /** The tile of memPick's candidate bit. */
