@@ -2671,3 +2671,8 @@ Report: `research/diagnosis/2026-10-20-side-asymmetry.md` (workflow, 3 investiga
 - 14:50 PDT **c_r1a delivery shown** (local, seed 777, team B vs c_gd1 as A; round-1 SPAWN_UNIT per HQ from the
   replays): Turtle 5+5 (identity c_r1i 2+5), LookingGlass 5+5+5 (identity 4+4+2). The cliff is real and the fix
   removes it; c_gd1's own A HQ#7 on LookingGlass built 4 in both games.
+- 15:45 PDT **r1 sweeps** (103 maps x A/B, one explicit random seed per map shared by every arm, vs c_gd1; identity
+  c_r1i 102/206, as A 47, as B 55). Paired with identity: c_r1a (round-1 fix) net -7 (26-33, D 59, t -0.91; as B 54
+  vs 55): the fix delivers but wins nothing here; c_r1c (SIEGE_SYM) net 0 (11-11, D 22); c_r1b (both) net -1 (D 65).
+  None goes to the panel alone. SIEGE_SYM is neutral and follows the play-symmetry rule: it rides in the next stack.
+  Next: r1-m (c_r1a + SHOOT_KNOWN + MEMSHOT) and r1-n (c_ms1 alone and c_ms1 + SIEGE_SYM) on the same cells.
