@@ -69,6 +69,8 @@ public final class HQ {
             || (!Comms.anyPressed() && (G.round >= C.GATE_DEFICIT_UNTIL || Comms.islThem <= Comms.islUs));
         boolean anchorAllowed = gate && (Comms.islLocNeutral > 0 || (Comms.islUnloc > 0 && G.round >= C.ANCHOR_BLIND_FROM
             && G.round - lastAnchorRound >= C.ANCHOR_BLIND_PERIOD));
+        // C.BANK_FROM: keep the mana for the round-2000 tiebreak while the islands are tied and this HQ is safe
+        boolean bank = G.round >= C.BANK_FROM && !threatened && Comms.islUs == Comms.islThem;
         int guard;
         for (guard = 0; guard < 6 && rc.isActionReady() && Clock.getBytecodesLeft() > 7000; guard++) {
             int ad = rc.getResourceAmount(ResourceType.ADAMANTIUM), mn = rc.getResourceAmount(ResourceType.MANA);
@@ -90,7 +92,7 @@ public final class HQ {
             boolean room = carrierRoom();
             // arch_swarm: a launcher whenever Mn >= 45, then a carrier whenever Ad >= 50 under the cap; no amplifiers
             // (round 1: 4 launchers then 1 carrier, as every S1 member opens: first builds LLLL C)
-            if (batchOK && mn - resMn >= 45 && tryBuild(RobotType.LAUNCHER)) { launchersBuilt++; continue; }
+            if (batchOK && !bank && mn - resMn >= 45 && tryBuild(RobotType.LAUNCHER)) { launchersBuilt++; continue; }
             if (!threatened && ad - resAd >= 50 && room && tryBuild(RobotType.CARRIER)) { carriersBuilt++; pendingCarriers++; continue; }
             reason = Telemetry.hqReason(tileFail, wantAnchor, batchOK, threatened, room, ad, mn, resAd, resMn);
             break;
