@@ -1,10 +1,14 @@
 # Evaluation panel v2 (galaxy replica; owner, PROMPTS 133-134, 2026-10-20): one unranked request per line = 10 maps,
-# requester first ('+'), alternate order (odd games HQ-flipped). Ten opponents nearest us by the BT fit
+# requester first ('+': galaxy never alternates under '+', so every game is us as team A on the map's own spawns;
+# only '?' alternates). Ten opponents nearest us by the BT fit
 # (progress/ELO.md 2026-10-20: ranks 3-33, the incumbent's expected score about 30-80%), replacing v1's, which
 # c_gd1 beat 86/100 (NotLLeon.v7, georgezhang02.CB_tuning2, britacatalin, yaonam, Sprint1 9-10 of 10). Maps: 100
 # distinct maps of the 103 (seeded shuffle, 10 per opponent): v1 put all 100 games on 10 maps, about 525 of our
 # games each against about 40 on every other map, while the ladder plays all 103 evenly. Not on it:
-# battlecode-archive.sprintBot (in every stuck replica match so far). Dropped maps: BattleSuns, Contraction, Target.
+# battlecode-archive.sprintBot (in most stuck replica matches: 7880, 8689, 10023, 10487, 10538; not 8860) and
+# pranayagra.finalbotfinal (rank 20, our second most frequent ladder opponent, but c_gd1's expected score is 90%,
+# outside the band; CyrilSharma, rank 33, is at 67%). Dropped maps: BattleSuns, Contraction, Target. Rules for
+# versions: docs/LADDER_STRATEGY.md "Panel versions"; registry test/cells/panels.json.
 maxwelljones14.MPWorking Repetition,Buggy,KingdomRush,Star,Scatter,Rainbow,Flower,Frog,ReverseFunnel,Cee +
 awesomelemonade.finalBot Divergence,ArtistRendition,SmallElements,Movepls,VeryReasonable,Turtle,ThirtyFive,Sakura,Spin,Minefield +
 carlguo866.submit26_final RaceToTheTop,TimesUp,Jail,Cube,Crossword,PairedProgramming,AbsoluteW,Grievance,Spiderweb,Lantern +

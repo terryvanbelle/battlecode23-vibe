@@ -47,6 +47,7 @@ Z95 = 1.96
 SURFACE, INK, INK2, GRID = '#fcfcfb', '#0b0b0b', '#52514e', '#e6e5e0'
 CURVE = '#2a78d6'
 BTC = '#1baf7a'       # our Bradley-Terry fit (right axis)
+PANELC = '#d9822b'    # a panel alteration (owner, PROMPTS 136)
 KINDS = {   # kind -> (marker colour, filled marker?, legend text)
     'validated': ('#eb6834', True, 'first rated match: the build was validated with this submission'),
     'reupload': ('#eb6834', False, 'first rated match: re-upload of an already validated build'),
@@ -446,6 +447,13 @@ def draw(points, table, bundle, path, bt=None, bt_note=''):
                 ax.axvline(d, color=INK2, lw=1, zorder=1)
                 ax.annotate(t.get('name_long') or t.get('name_short') or '', (d, 0.02), xycoords=('data', 'axes fraction'),
                             xytext=(3, 0), textcoords='offset points', fontsize=8, color=INK2, rotation=90, va='bottom')
+    # panel alterations (owner, PROMPTS 136): every evaluation panel version after the first (test/cells/panels.json)
+    for v in elolib.panel_versions()[1:]:
+        d = to_pdt(v['from'])
+        if x0 <= d <= x1:
+            ax.axvline(d, color=PANELC, lw=1, ls='--', zorder=1)
+            ax.annotate(f"panel {v['version']}", (d, 0.02), xycoords=('data', 'axes fraction'), xytext=(3, 0),
+                        textcoords='offset points', fontsize=8, color=PANELC, rotation=90, va='bottom')
     # each submission's first rated match: a dotted line, a ringed marker on the curve, a label above the plot. The
     # surface ring sits under the curve (it only cuts the dotted line), so close markers never hide a segment. A first
     # rated match under the floor is a down triangle on it.

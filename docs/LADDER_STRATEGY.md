@@ -24,8 +24,8 @@ means making it active, and while it is active, autoscrims and every accepted in
 ## The policy
 
 **1. Learn with unranked games.**
-- Every candidate is judged on a fixed unranked panel (`test/cells/panel-v1.txt`: ten opponents rated near or above
-  us, ten maps, order `+`). Its results are paired game for game with the validated build's panel results.
+- Every candidate is judged on the current unranked panel (the last version in `test/cells/panels.json`; see
+  "Panel versions" below). Its results are paired game for game with the validated build's run on the same version.
 - Unranked probes also serve diagnostics: reproducing a loss on a chosen map, or studying a top team.
 
 **2. Bank rating with ranked games, and only with a validated build active.**
@@ -85,7 +85,7 @@ exist, the candidate need not stay active.
 - After any accept (`trial-end --accept` or `trial-decide --accept`), regenerate `progress/` with
   `tools/progress-refresh.sh` and commit and push it with `research/matches/` (owner, PROMPTS 119); both commands print
   this step.
-- Overlapping panels have identical cells. `tools/contest.py block` therefore records the block's submission in each
+- Overlapping panels of one panel version have identical cells. `tools/contest.py block` therefore records the block's submission in each
   request of `requests.jsonl`, and it pairs a match with a request only if our participant row carries it. For
   `trial-start`, the block's submission is the candidate's; otherwise it is the one active when the block starts. The
   block stops before a request if another submission is active. A resumed run keeps the submission its requests name;
@@ -103,10 +103,61 @@ exist, the candidate need not stay active.
 **5. Endgame.** Before a submission freeze or tournament seeding, run no trials. Keep the best validated build active,
 and spend the ranked budget early enough for the rating to converge.
 
+## Panel versions
+
+Owner, PROMPTS 134-136: the panel is a common yardstick, but one that no longer separates builds measures nothing.
+These rules balance uniformity with accuracy.
+
+- **Fixed within a version.** Every candidate on a version plays the same cells and is paired against the validated
+  build's run on that version. A version never changes while a trial is open or parked.
+- **Refresh triggers.** A version is reviewed when the validated build's run shows any of:
+  - an opponent at 9-10 of 10 (it no longer discriminates), or one at 0-1 of 10;
+  - an opponent whose BT expected score against the validated build lies outside about 25-80%;
+  - a whole-panel score above about 80% (saturated: few games can be gained, and a net of +-1 is noise);
+  - a map set much narrower than the ladder's (the ladder plays all 103 maps evenly).
+- **Partial and versioned.** A refresh replaces only the opponents or maps that triggered it where it can, and makes
+  a new file `test/cells/panel-vN.txt` plus an entry in `test/cells/panels.json` (version, cells, commit time, the
+  change and its reason). Old versions stay, so old runs remain interpretable.
+- **Control first.** Before any candidate uses a new version, the validated build plays it
+  (`tools/contest.py block <cells> --tag panelN-<package>`), and `tools/ladder_policy.py set-control <run>` records
+  that run as its `panel_run`. trial-start defaults to the current version and refuses a panel the validated build's
+  `panel_run` did not play. The control run also bridges the versions through the BT ratings (the same build on both).
+- **Recorded everywhere.** The attempts table prefixes each panel score with its version, and the progress graphs
+  (field-score, progress and rating-history charts) mark every alteration with a dashed orange line at its commit time.
+- **Ratings from one panel are biased.** A build whose BT games all come from one fixed panel is rated about 34 points
+  high on average (up to 82; panel review 2026-10-20: refit on panel-v1 games only, 13 of 14 builds over-predicted
+  their other games). Never report standing or choose ranked opponents from a panel-only rating.
+- A candidate rejected on a saturated version may be retried on the next one.
+
+| version | from (PDT) | cells | change |
+|---|---|---|---|
+| v1 | 2026-10-07 17:52 | `test/cells/panel-v1.txt` | first panel: ten field bots spread over the ladder, ten maps |
+| v2 | 2026-10-20 06:21 | `test/cells/panel-v2.txt` | v1 saturated (c_gd1 86/100) and map-narrow: the ten opponents nearest us by BT, 100 distinct maps |
+
+**Panel decision rule** (from the first v2 decision; panel review 2026-10-20, which found that the habit of accepting at
+net +1 to +3 on one 100-game panel accepts about 44% of null candidates). D = gained + lost (the discordant cells),
+t = net / sqrt(D), both from `tools/paired.py` against the validated build's control on the same cells file.
+- **Block 1** (`test/cells/panel-v2.txt`, us as team A): accept at t >= 1.5 with net >= +3; reject at net <= 0;
+  otherwise play block 2.
+- **Block 2** (`test/cells/panel-v2b.txt`: the same cells with order `-`, us as team B; a second trial-start with
+  `--panel test/cells/panel-v2b.txt`): accept at a cumulative (block 1 + block 2) t >= 1.5 with net >= +3, else reject.
+  A positive near-miss is kept to be stacked (`TRAINING_ALGORITHM.md` step 8).
+- Simulated before use (D ~ Poisson, two blocks): P(accept) for a true net of -3 / 0 / +3 / +5 per block is
+  0.01 / 0.11 / 0.46 / 0.76 at D about 12.6 (sibling builds) and 0.02 / 0.11 / 0.32 / 0.54 at D about 24, at about 1.4
+  blocks per null candidate. A real +3 is often missed: candidates with pooled local evidence (an all-maps h2h
+  signal) should come in bigger, or as stacks.
+- **Basics exception**, named as one in the log: a candidate that removes a basics failure (exceptions, overruns,
+  self-deaths, stuck units), with delivery shown, may be accepted at block-1 net >= 0.
+- Every decision reports gained, lost, D, t and the sign-test p, and the attempts table records the version.
+- The validated build plays block 2 once per version (its control); `paired.py` refuses runs from different cells
+  files, runs matching fewer than 90% of cells, and incomplete runs.
+
 ## Pre-trial screen
 
 Owner, PROMPTS 22-23: a candidate is screened locally before it uses replica games (design: `docs/ARCHETYPES.md`
-section 5). `tools/screen.py <package>` queues one job on the VM (standing queue, `MAXJOBS=2`; every game on the map's
+section 5). Stage (b) still plays panel v1's 10 maps (`tools/screen.py` PANEL_MAPS); since panel v2 the all-maps
+head-to-head (103 maps x both sides) is the main local evidence, and the screen's calibration against the panel is
+suspended until it is re-measured on v2. `tools/screen.py <package>` queues one job on the VM (standing queue, `MAXJOBS=2`; every game on the map's
 own seed, both sides) and judges it on the driver:
 
 | stage | games | bar |
@@ -134,6 +185,7 @@ writes a `.reduced` record that never admits a trial. Exit codes: 0 PASS, 1 FAIL
 tools/ladder_policy.py status                       # state, active and validated submissions, mode, next autoscrim
 tools/screen.py <package> [--no-wait]               # the pre-trial screen (VM job; collect with tools/screen.py collect)
 tools/ladder_policy.py trial-start <package>        # submit a candidate and run the panel (long: run it detached)
+tools/ladder_policy.py set-control <run>            # a finished run of the validated build on a new panel version
                                                     # refuses without a passing screen; --skip-screen "<reason>"
 tools/ladder_policy.py trial-end --accept|--reject  # decided by tools/paired.py on the two panel runs
 tools/ladder_policy.py trial-park                   # once every panel match exists (waits up to 20 min): the

@@ -8,7 +8,7 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
 
 ## Standing
 
-- **Validated build c_gd1** (submission 198, accepted 2026-10-19 21:17 PDT): c_kx0 with AD_PRESS_MN true,
+- **Validated build c_gd1** (submission 198, accepted 2026-10-19 21:17 PDT; active again as submission 204 after the parked trials): c_kx0 with AD_PRESS_MN true,
   GATE_DEFICIT_UNTIL 800 (the anchor gate drops its island-deficit clause from r800) and SPAWN_POCKET 4 (no spawns into
   sealed pockets of <= 4 tiles). Panel 86/100 (`gauntlet/20261020-001652-panel-c_gd1`): vs c_adp1 91 identical, gained
   6, lost 3, net +3 (+1.0 SE). Judge candidates against c_gd1's panel; build variants with `tools/param.py make c_kx0
@@ -67,22 +67,27 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-20 04:02 PDT)
+## In flight (2026-10-20 06:58 PDT)
 
-- **State (04:02 PDT 10-20).** **c_gd1 is the validated build (submission 198)**, see Standing. Judge every panel
-  against `gauntlet/20261020-001652-panel-c_gd1` with `tools/paired.py`. Why we lose (TRAINING_LOG 10-20): half our
-  losses already trail by r150 (kills -7.4, Mn -210); home raids follow a launcher deficit, they do not cause it; our
-  Ad bank sits idle (425 by r600 against awesomelemonade, theirs ~90). Audit of c_gd1 (workflow, 17 findings):
+- **State (06:58 PDT 10-20).** **c_gd1 is the validated build (submission 204)**, see Standing; BT rank 1 on its 100
+  panel-v1 games alone (selection: v1 is saturated). Why we lose (TRAINING_LOG 10-20): half our losses already trail
+  by r150 (kills -7.4, Mn -210); home raids follow a launcher deficit. Audit of c_gd1:
   `research/diagnosis/2026-10-20-audit-c_gd1.md`.
-- **Parked panels (decide on PANEL_DONE with `trial-decide`).** c_im1 (trial 199, c_gd1 + ISLE_MARGIN_SMALL 2,
-  panel-only lever). c_fw1 (trial 201, c_gd1 + FIELD_WALL_SIDE: a known wall downhill rebuilds the distance field
-  even when a sidestep exists; h2h 100/206 signal -3, 0 stuck carriers against c_gd1's 7). If c_fw1 is accepted,
-  stack later trials on it.
-- **Cloud fire (TRAINING_LOG 10-20 03:45).** In contact on a cloud ours land 0.26 hits a turn, theirs 0.36; they fire
-  18,503 unseen shots from clouds and hit 31%. Switches in c_kx0: SHOOT_KNOWN (after a step onto a cloud, fire at the
-  positions sensed before the move) and MEMSHOT (an unused action fires at the remembered tile of a fighter seen within
-  2 rounds). c_sk1 = c_gd1 + SHOOT_KNOWN: h2h 103/206 signal 0. c_ms1 = c_sk1 + MEMSHOT: ms1-h2h on the VM; if it is
-  not negative and fires, trial it (window: start by 06:30 PDT or after 09:00).
+- **Panel v2 (owner, PROMPTS 133-136).** v1 is saturated (c_gd1 86/100) and map-narrow, so `test/cells/panel-v2.txt`
+  (the ten opponents nearest us by BT, 100 distinct maps) is current; versions and rules: `test/cells/panels.json`,
+  docs/LADDER_STRATEGY.md "Panel versions". The control run of c_gd1 on v2 plays now (`tools/contest.py block
+  test/cells/panel-v2.txt --tag panel2-c_gd1`, gauntlet/20261020-132038-panel2-c_gd1, log logs/panel2-c_gd1.log).
+  When it ends: `tools/ladder_policy.py set-control gauntlet/20261020-132038-panel2-c_gd1` (trial-start refuses v2
+  until then), report c_gd1's v2 score and BT to the owner. A panel-rules review workflow (3 lenses + synthesis) runs.
+- **Decided 10-20.** c_im1 (trial 199) net -1 and c_fw1 (trial 201) net -1: rejected. c_ms1 (trial 203, c_gd1 +
+  SHOOT_KNOWN + MEMSHOT; h2h 120/206 signal +17) net -1 on v1 (-0.58 SE): rejected on v1, retry on v2 once its control
+  is set (a fresh package name, e.g. c_ms2, if needed).
+- **Cloud fire (TRAINING_LOG 10-20 03:45, 05:06).** With an enemy launcher within r2 16 on a clear square ours attack
+  79% of turns, theirs 97%; 7,031 of our 7,061 idle in-range turns had the enemy on a cloud. Switches in c_kx0:
+  SHOOT_KNOWN, MEMSHOT (age 2), BLINDSHOT (an unused action fires at the unsensable tile within r2 5-16 nearest the
+  newest sighting, or after an unseen hit nearest the enemy HQ). VM sweeps: abl14 (c_ms1 vs MEMSHOT_AGE 1/4,
+  MEMSHOT_LEFT 1200, identity c_k1400) nearly done; abl15 (vs c_ms1: identity c_k1500, MEMSHOT_AGE 10, BLINDSHOT,
+  BLINDSHOT + BLIND_AGE 30) starts when abl14 writes. Score = c_ms1's losses per variant against identity.
 - **Parked ideas.** c_bk1 (BANK_FROM, inert in self-play: field-only, stack on a later candidate). Low-value audit
   fixes in the audit record. STUCK_MATCH from sprintBot vs pranayagra.finalbotfinal* recurs (7880, 8689, 10023,
   10487): cancel with `tools/galaxy/cancel-match.sh <id> --cancel`.

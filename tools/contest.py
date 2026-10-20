@@ -309,11 +309,14 @@ def answers(match, req, team_id, floor):
     floor, against the same opponent and on the same map set (compared as sets: the API does not keep the requested
     order, and the detail view lists maps alphabetically). When the entry records the block's submission, our
     participant row must also carry it: two overlapping panels of identical cells (a parked trial's and the next
-    trial's) differ only there. Entries written before the field existed, and match rows without a submission key (an
+    trial's) differ only there. A '+' or '-' request also fixes our side (A or B). Entries written before the field existed, and match rows without a submission key (an
     API that does not expose it; the replica's does), keep the old rule. A row whose submission is null never answers
     a recorded submission. trial-park does not use this fallback (ladder_policy.panel_created)."""
     if not (match['id'] > floor and opponent_name(match, team_id) == req['opponent']
             and sorted(match.get('maps') or []) == sorted(req['maps'])):
+        return False
+    # a fixed order fixes our side ('+' requester first = A, '-' = B): panel blocks v2 and v2b share opponents and maps
+    if req.get('order') in ('+', '-') and our_label(match, team_id) != ('A' if req['order'] == '+' else 'B'):
         return False
     row = next((p for p in match['participants'] if p['team'] == team_id), {})
     return req.get('submission') is None or 'submission' not in row or row['submission'] == req['submission']
@@ -405,7 +408,7 @@ def first_provenance_submission(run):
     return int(v) if v.isdigit() else None
 
 
-def block(cells_file, tag, poll=60, max_wait=6 * 3600, run=None, submission=None):
+def block(cells_file, tag, poll=60, max_wait=12 * 3600, run=None, submission=None):
     """Issue every request of the block (waiting out galaxy's hourly limit), wait for the matches, download them and
     write a run directory (`run`, else $RESUME, else a new gauntlet/<stamp>-<tag>). Requests are recorded in the run
     directory as they are made, so a crash can be resumed by re-running with RESUME=<dir>.
@@ -484,6 +487,10 @@ def block(cells_file, tag, poll=60, max_wait=6 * 3600, run=None, submission=None
         if pending:
             time.sleep(poll)
     write_run(run, rows, census_rows)
+    # a partial run must never pass as finished (panel review 2026-10-20): paired.py and ladder_policy refuse it; the
+    # line is written every time, so a RESUME that completes the run appends incomplete=0 (the last value wins)
+    with open(os.path.join(run, 'provenance.txt'), 'a') as fh:
+        fh.write(f'incomplete={len(pending)} unresolved_requests={",".join(map(str, sorted(pending))) or "-"}\n')
     print(f'{run}: {len(rows)} games from {len(found)} matches; {len(pending)} requests unresolved')
     return run
 

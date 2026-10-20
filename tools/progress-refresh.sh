@@ -17,6 +17,9 @@ step () {   # step <name> <timeout s> <lines of output kept> <command ...>
 }
 echo "== start $(date -u +%H:%M)"
 step results 5400 3 python3 tools/galaxy/results.py
+# every match our runs downloaded must reach games.csv (panel review 2026-10-20); one --full pass backfills a gap
+python3 tools/games_coverage.py > /dev/null 2>&1 || step "results --full" 5400 3 python3 tools/galaxy/results.py --full
+step coverage 120 3 python3 tools/games_coverage.py
 step elo 900 2 tools/.venv/bin/python tools/elo.py --quiet
 step "field score" 900 3 tools/.venv/bin/python tools/field_score.py
 step "rating history" 900 2 tools/.venv/bin/python tools/rating_history.py

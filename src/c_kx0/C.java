@@ -2,6 +2,7 @@ package c_kx0;
 // c_kx0 = c_ex0 (c_eco3 with switch defaults) + C.KILL_STEP (fight(): step-in kill shots and focus; 0 = c_eco3)
 // + C.AD_PRESS_MN (no late Ad role while the nearest HQ is pressed; false = c_eco3)
 // + diag-top2 switches SPAWN_POCKET, JOIN_MIN, CENTRE_SKIP_R2, GATE_DEFICIT_UNTIL, CAMP_MIN (defaults = c_eco3)
+// + C.SAFE_EXPLORE (explore targets no nearer an enemy HQ candidate than home; false = c_eco3).
 // + C.GHOST (c_gh2's fighter memory in fight()'s 'ahead': fighters seen lately and hidden now; false = c_eco3).
 // + C.OPEN_CAMP (diag-top2: opening launchers camp the predicted enemy home mana well until CAMP_UNTIL; false = c_eco3).
 // + C.BANK_FROM (round-2000 tiebreak: no launchers while islands are tied and the HQ is safe; 2001 = c_eco3).
@@ -151,6 +152,11 @@ public final class C {
     /** diag-top2 (CENTRE_SKIP_R2): a mana carrier skips explore()'s centre-first leg when the map centre lies within
      *  this r2 of an enemy HQ candidate (SoundWave: explore 0.71 of turns, Mn by r100 0 vs 449). 0 = c_eco3. */
     public static final int CENTRE_SKIP_R2 = 0;
+    /** SAFE_EXPLORE (panel v2 diagnosis 2026-10-20): explore()'s random target is redrawn (up to 4 draws) while it lies
+     *  nearer an enemy HQ candidate than home does; else the farthest draw. In the v2 control's games with Mn@100 under
+     *  half the opponent's, 27% of early trips died before collecting (7% elsewhere); on Turtle, SoundWave and Lantern
+     *  they died exploring (X) at r14-80. false = c_eco3. */
+    public static final boolean SAFE_EXPLORE = false;
     /** arch_swarm: a carrier still for this many turns while travelling or waiting steps aside (Carrier.unjam). */
     public static final int UNJAM_TURNS = 5;
     /** diag-top2 (SPAWN_POCKET, basics): the HQ never spawns on a tile whose 8-connected passable region (walls and HQs

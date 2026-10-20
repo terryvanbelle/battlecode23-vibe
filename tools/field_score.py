@@ -12,7 +12,8 @@ submissions' ratings scatter more than their standard errors, and with a handful
 narrow). The fitted and projected ratings are mapped to field score, vs higher and rank through tools/elolib.py
 against the current ladder ratings, so the projection stays inside 0-100 by construction. Every build is a point
 dated by its submission (the trial-start of a candidate, the init of the first validated build); rejected candidates
-are hollow and not fitted. Times are PDT (owner, PROMPTS 28)."""
+are hollow and not fitted. Every panel alteration (test/cells/panels.json) is a dashed orange line labelled with
+its version (owner, PROMPTS 136). Times are PDT (owner, PROMPTS 28)."""
 import argparse, datetime as dt, json, math, os, sys
 _venv = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.venv', 'bin', 'python')
 if os.path.exists(_venv) and '.venv' not in sys.prefix and __name__ == '__main__': os.execv(_venv, [_venv] + sys.argv)
@@ -117,6 +118,15 @@ def main():
         print('no projection yet (needs 3 submissions spanning half a day): measured points only')
 
     import matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt
+    # panel alterations (owner, PROMPTS 136): every version after the first, as a dashed line on each plot
+    ALTER = [(v['version'], v['from'].astimezone(PDT).replace(tzinfo=None)) for v in elolib.panel_versions()[1:]]
+
+    def mark_panels(axes, top):
+        for name, d in ALTER:
+            for ax in axes:
+                ax.axvline(d, color='tab:orange', lw=1, ls='--', zorder=1)
+            top.annotate(f'panel {name}', (d, 1), xycoords=('data', 'axes fraction'), xytext=(3, -3),
+                         textcoords='offset points', fontsize=7, color='tab:orange', rotation=90, va='top')
 
     def draw(weeks, path):
         HZ = HORIZONS[:weeks] if FIT else []
@@ -204,6 +214,7 @@ def main():
             r, e = proj(days(d)); ax4.plot([d], [rank_of(r)], 's', color='tab:red', ms=6)
             ax4.annotate(f'{name}: #{rank_of(r)} of {len(rated) + 1}', (d, rank_of(r)), textcoords='offset points',
                          xytext=(-8, -14), fontsize=8, ha='right', color='tab:red')
+        mark_panels((ax1, ax2, ax3, ax4), ax1)
         ax4.axvline(now, color='0.6', lw=0.8, ls=':'); ax4.invert_yaxis()
         ax4.set_ylabel(f'rank among the {len(rated)} ladder bots (1 = top)')
         ax4.set_xlabel('submission (PDT); (n) = bots above'); ax4.grid(alpha=.3); ax4.legend(fontsize=8, loc='lower right')
@@ -221,6 +232,14 @@ def main():
     a1.set_title(f'Accepted builds on the ladder ({len(rows)} games vs {len(rated)} rated ladder bots)')
     a2.plot(x, fs, 'o-', color='#2471a3'); a2.set_ylabel('expected field score %'); a2.set_ylim(0, 100); a2.grid(alpha=.3)
     a2.set_xticks(list(x)); a2.set_xticklabels(lab, fontsize=8)
+    for name, d in ALTER:   # between the builds submitted before and after the alteration
+        k = sum(dd < d for dd, _ in subs)
+        if k:
+            for ax in (a1, a2):
+                ax.axvline(k - 0.5, color='tab:orange', lw=1, ls='--')
+            a2.annotate(f'panel {name}', (k - 0.5, 2), xytext=(3, 0), textcoords='offset points', fontsize=8,
+                        color='tab:orange', rotation=90, va='bottom')
+            a2.set_xlim(-0.5, max(len(subs) - 0.5, k - 0.5 + 0.4))
     for i, v in enumerate(fs):
         a2.annotate(f'{v:.0f}%', (i, v), textcoords='offset points', xytext=(0, 6), ha='center', fontsize=8)
     fig.tight_layout(); out = os.path.join(o.outdir, 'progress.png'); fig.savefig(out, dpi=110); plt.close(fig)

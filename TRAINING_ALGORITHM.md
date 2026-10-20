@@ -172,7 +172,7 @@ reads current on every accept: the ladder view, the charts, the handoff.
 | delivery mini-block | 24 paired cells, extended to 48, 96, 192 while inconclusive |
 | mirror screen | sequential test on discordant pairs, p0 0.50, p1 0.58, alpha = beta = 0.05, batches of 16, cap 320 pairs |
 | band | the 20 field bots rated nearest the incumbent; refreshed with fresh seeds at every accept |
-| ship rule | looks at 240 / 480 / 720 paired cells; ship at t >= 3.0 at the first look or t >= 2.3 later with net wins >= 0; stop when t < 0.5 at look 1 or < 1.0 at look 2 (re-simulate power before first use) |
+| ship rule | replica panel (from 2026-10-20): two 100-cell blocks, t = net / sqrt(D); accept at t >= 1.5 and net >= +3 after block 1 or cumulatively after block 2, reject at block-1 net <= 0 (docs/LADDER_STRATEGY.md "Panel decision rule"; simulated P(accept) 0.11 at a null, 0.46 at +3 per block). Local seeded cells: looks at 240 / 480 / 720; ship at t >= 3.0 at the first look or t >= 2.3 later |
 | pair cap in the rating fit | 200 games per pair |
 | rejects before leaving an area | 3 |
 | structural attempts | at least 1 in every 4 |

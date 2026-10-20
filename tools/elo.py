@@ -95,6 +95,15 @@ def recent_run(bot):
         w, n = vs[p, bot]
         if n > 0: return f"{(n - w) / n:.0%} ({elolib.build_of(p)} {n - w}-{w}{'*' if n < RUN_MIN else ''})"   # our wins
     return ''
+# Panel-only builds (panel review 2026-10-20): a build whose games nearly all come from fixed panel runs is rated high
+# (refit on panel-v1 games only, 13 of 14 builds over-predicted their other games, by about 34 points on average)
+import csv, glob
+panel_runs = set()
+for f in glob.glob(os.path.join(elolib.REPO, 'gauntlet', '*-panel*', 'results.csv')):
+    with open(f, newline='') as fh:
+        panel_runs |= {'galaxy-' + r['match'] for r in csv.DictReader(fh) if r.get('match')}
+on_panel = collections.Counter(t for r in rows if r['run'] in panel_runs for t in (r['teamA'], r['teamB']) if elolib.is_ours(t))
+PANEL_ONLY = {p for p in ours if games[p] and on_panel[p] >= 0.9 * games[p]}
 def higher_field(p):   # expected score against only the ladder bots rated above p
     up = [b for b in rated if R[b] > R[p]]
     return f"{elolib.field_score(R, p, up):.1%} (vs {len(up)})" if up else '-'
@@ -114,15 +123,18 @@ lines = ["# Ladder", "",
          "vs higher = the same against only the ladder bots rated above the build, with their count):", "",
          "| build | rating | rank | games | record | field score | vs higher |", "|---|---|---|---|---|---|---|"]
 for p in ours:
-    lines.append(f"| {elolib.build_of(p)} | {R[p]:.0f} +- {1.96 * SE[p]:.0f} | {rank[p]} of {len(table)} | {games[p]} | "
+    lines.append(f"| {elolib.build_of(p)}{' (P)' if p in PANEL_ONLY else ''} | {R[p]:.0f} +- {1.96 * SE[p]:.0f} | {rank[p]} of {len(table)} | {games[p]} | "
                  f"{wins[p]}-{games[p] - wins[p]} | {elolib.field_score(R, p, rated):.1%} | {higher_field(p)} |")
+lines += ["", f"(P) = panel-only: at least 90% of the build's games come from fixed panel runs (gauntlet/*-panel*), "
+          "so its rating is biased high (about +34 on average, up to +82, in a refit of panel-v1 games only; panel "
+          "review 2026-10-20); its rank is not a standing."]
 lines += ["", f"Our record = OUR win rate (our W-L) against the bot by the incumbent "
           f"({elolib.build_of(incumbent) if incumbent else '-'}), whatever the count; * marks fewer than {RUN_MIN} games "
           f"(+- 18 points at 95% for 30 games, +- 20 for 24); a bot the incumbent never met shows the most recent of our "
           f"builds that did; blank if none has.", "",
           "| rank | player | rating | +- 95% | games | W-L | our record |", "|---|---|---|---|---|---|---|"]
 for i, (r, p) in enumerate(table):
-    name = f"**{p}**" if elolib.is_ours(p) else p
+    name = (f"**{p}**" + (" (P)" if p in PANEL_ONLY else "")) if elolib.is_ours(p) else p
     lines.append(f"| {i + 1} | {name} | {r:.0f} | {1.96 * SE[p]:.0f} | {games[p]} | {wins[p]}-{games[p] - wins[p]} | "
                  f"{'' if elolib.is_ours(p) else recent_run(p)} |")
 if unrated: lines += ["", "Not yet met: " + ", ".join(unrated)]

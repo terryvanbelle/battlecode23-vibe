@@ -1034,6 +1034,27 @@ class LadderPolicyTest(unittest.TestCase):
         ev = s['history'][-1]
         self.assertEqual((ev['event'], ev['submission'], ev['trial_submission']), ('accept', 33, 30))
 
+    def test_trial_decide_merges_blocks(self):
+        """Block 1 and block 2 of one candidate (same package and code hash, two panels): one decision covers both;
+        an accept records a control per panel, a reject drops both."""
+        import io, json, contextlib
+        b2 = self.parked(submission=32, panel='pb.txt', run='gauntlet/x-panel2b-cand', run_dir='gauntlet/x-panel2b-cand')
+        other = self.parked(submission=35, package='cand2')
+        st, calls = self.trial_env(state=self.parked_state(self.parked(), b2, other),
+                                   submit=self.recorder('submit', {'id': 33}))
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_decide('32', True)
+        s = json.loads(st.read_text())
+        self.assertEqual([p['submission'] for p in s['parked']], [35])
+        self.assertEqual(s['validated']['panel_runs'], {'p.txt': 'gauntlet/x-panel-cand',
+                                                        'pb.txt': 'gauntlet/x-panel2b-cand'})
+        self.assertEqual(s['history'][-1]['blocks'], ['gauntlet/x-panel-cand'])
+        st, calls = self.trial_env(state=self.parked_state(self.parked(), b2))
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.p.cmd_trial_decide('30', False)
+        s = json.loads(st.read_text())
+        self.assertEqual((s['parked'], s['history'][-1]['blocks']), ([], ['gauntlet/x-panel2b-cand']))
+
     def test_trial_decide_refusals(self):
         import io, json, contextlib
         playing = tempfile.mkdtemp()
@@ -2718,6 +2739,20 @@ class RaceTest(unittest.TestCase):
                 self.assertIn('HOLD_THREAT', self.r.analyse(d))
         finally:
             self.r.build, self.r.swiss.play = build, play
+
+
+class GamesCoverageTest(unittest.TestCase):
+    def test_missing(self):
+        import importlib.util, tempfile
+        sp = importlib.util.spec_from_file_location('gc', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'games_coverage.py'))
+        gc = importlib.util.module_from_spec(sp); sp.loader.exec_module(gc)
+        with tempfile.TemporaryDirectory() as d:
+            g = os.path.join(d, 'games.csv')
+            open(g, 'w').write('run,seq,teamA,teamB,map,winner,rounds,reason,seed\ngalaxy-7,1,us:a,b,M,A,10,,map\n')
+            os.makedirs(os.path.join(d, 'runs', 'r1'))
+            open(os.path.join(d, 'runs', 'r1', 'results.csv'), 'w').write(
+                'opponent,map,bot_result,match\nb,M,win,7\nb,N,loss,8\nb,O,win,\n')
+            self.assertEqual(list(gc.missing(g, os.path.join(d, 'runs'))), ['8'])
 
 
 if __name__ == '__main__':

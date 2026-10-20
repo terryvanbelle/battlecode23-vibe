@@ -1,0 +1,14 @@
+# Evaluation panel v2, block 2 (panel review 2026-10-20; docs/LADDER_STRATEGY.md "Panel decision rule"): the cells
+# of test/cells/panel-v2.txt with order '-' (requester second: every game is us as team B on the map's own spawns).
+# Played only when block 1 is inconclusive, by the candidate and once by
+# the validated build (its control); paired with the control's block 2.
+maxwelljones14.MPWorking Repetition,Buggy,KingdomRush,Star,Scatter,Rainbow,Flower,Frog,ReverseFunnel,Cee -
+awesomelemonade.finalBot Divergence,ArtistRendition,SmallElements,Movepls,VeryReasonable,Turtle,ThirtyFive,Sakura,Spin,Minefield -
+carlguo866.submit26_final RaceToTheTop,TimesUp,Jail,Cube,Crossword,PairedProgramming,AbsoluteW,Grievance,Spiderweb,Lantern -
+IvanGeffner.fortytwo Potions,TreasureMap,SoundWave,maptestsmall,Sine,Sus,Pillars,SweetDreams,FourNations,DefaultMap -
+vrangr1.AFinalsBot Clown,AllElements,Maze,ExtremelyMid,Spots,Orbit,Rectangle,Risk,BuildSite,Grapes -
+AnOvercookedFork.quals LookingGlass,Snowflake,Spiral,Sun,MoonPhases,Forest,Zig,Lines,RockWall,Elephant -
+georgezhang02.FB_ZZZ Marsh,Piglets,PipesAndParabolas,HideAndSeek,Hah,FishCake,MassiveL,Sneaky,Heart,Cornucopia -
+pranayagra.finalbotfinaltwo Tacocat,Barcode,Cat,HotAirBalloon,IslandHoppingTwo,Tightrope,Resign,Pizza,Diagonal,USA -
+jmerle.camel_case_v30_final Squares,IslandHopping,Quiet,Swooshy,Checkmate2,Eyelands,Pit,River,BowAndArrow,CrownJewels -
+CyrilSharma.finalBot LightWork,Pathfind,Dreamy,Rewind,TicTacToe,Cave,BatSignal,SomethingFishy,Pakbot,Fractured -

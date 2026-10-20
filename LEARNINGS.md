@@ -124,7 +124,14 @@ that beat us but does not explain their wins; the principle stands (it was free)
   13:34).
 - **Screen (b) predicts the panel.** Over 43 trials with a panel net: b >= 12 (16 trials) mean net +1.7, b 10-11 (10)
   -0.3, b <= 9 (7) -2.6. A borderline screen is a reject, even with a positive all-maps h2h (c_gh2: 217/412 overall,
-  17/40 on the panel maps) (TRAINING_LOG 2026-10-18 08:41).
+  17/40 on the panel maps) (TRAINING_LOG 2026-10-18 08:41). Measured on panel v1, whose 10 maps the screen shares: suspended for panel v2
+  until recalibrated (TRAINING_LOG 2026-10-20 07:10).
+- **A fixed panel saturates and flatters the builds tuned on it.** Panel v1 reached 86/100 for c_gd1 with 87 of 100
+  cells never flipping; our late builds beat their BT expectation on its 10 maps (+12.7 wins in 133 ladder games) and
+  fell short elsewhere (-40.6 in 1382); a BT rating from panel games only ran ~34 points high (13 of 14 builds). And a
+  raw net of +1..+3 on one 100-game panel accepts ~44% of null candidates. So: version the panel, refresh it on the
+  triggers in docs/LADDER_STRATEGY.md, decide in t units with a pre-simulated two-block rule, and never report standing
+  from a panel-only rating (TRAINING_LOG 2026-10-20 07:10).
 - **Overlap trials.** A replica match plays the submission active when it is created, so a candidate needs to be active
   only while its panel's matches are created (about a minute); park it and run the next. Serial trials gave one per
   8-hour window behind the autoscrim backlog (TRAINING_LOG 2026-10-11 01:03).

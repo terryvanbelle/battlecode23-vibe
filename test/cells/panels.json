@@ -1,0 +1,10 @@
+{
+  "_doc": "Evaluation panel versions, oldest first (owner, PROMPTS 135-136; the rules are in docs/LADDER_STRATEGY.md). 'from' is the UTC time the version was committed; the progress graphs mark every alteration there. The last version is current: tools/ladder_policy.py trial-start defaults to it and refuses a panel the validated build's panel_run did not play.",
+  "versions": [
+    {"version": "v1", "cells": "test/cells/panel-v1.txt", "from": "2026-10-08T00:52:53Z",
+     "change": "first panel: ten field bots spread over the ladder, ten maps"},
+    {"version": "v2", "cells": "test/cells/panel-v2.txt", "from": "2026-10-20T13:21:26Z",
+     "change": "v1 saturated (c_gd1 86/100) and map-narrow: the ten opponents nearest us by BT, 100 distinct maps",
+     "block2": "test/cells/panel-v2b.txt"}
+  ]
+}

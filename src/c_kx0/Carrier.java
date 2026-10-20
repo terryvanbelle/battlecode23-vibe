@@ -722,10 +722,24 @@ public final class Carrier {
         }
         if (exploreTarget == null || G.here.distanceSquaredTo(exploreTarget) <= 8 || Nav.stuckOn(exploreTarget)) {
             MapLocation home = HQState.nearest(G.here);
-            Direction d = G.DIRS[G.rand(8)];
-            int r = 8 + G.rand(8);
-            int x = (home == null ? G.here.x : home.x) + d.dx * r, y = (home == null ? G.here.y : home.y) + d.dy * r;
-            exploreTarget = new MapLocation(Math.max(0, Math.min(G.W - 1, x)), Math.max(0, Math.min(G.H - 1, y)));
+            int bx = home == null ? G.here.x : home.x, by = home == null ? G.here.y : home.y;
+            // C.SAFE_EXPLORE (panel v2, 2026-10-20): up to 4 draws, the first whose target lies no nearer an enemy HQ
+            // candidate than home does, else the draw farthest from them (Turtle, SoundWave, Lantern: early carriers
+            // died exploring toward the enemy before collecting). One draw = c_gd1.
+            MapLocation[] en = C.SAFE_EXPLORE ? MapMem.enemyHQs() : null;
+            int homeD = C.SAFE_EXPLORE ? minD2(new MapLocation(bx, by), en) : 0, bestD = -1;
+            MapLocation best = null;
+            for (int k = C.SAFE_EXPLORE ? 4 : 1; --k >= 0; ) {
+                Direction d = G.DIRS[G.rand(8)];
+                int r = 8 + G.rand(8);
+                int x = bx + d.dx * r, y = by + d.dy * r;
+                MapLocation t = new MapLocation(Math.max(0, Math.min(G.W - 1, x)), Math.max(0, Math.min(G.H - 1, y)));
+                if (!C.SAFE_EXPLORE) { best = t; break; }
+                int dd = minD2(t, en);
+                if (dd >= homeD) { best = t; break; }
+                if (dd > bestD) { bestD = dd; best = t; }
+            }
+            exploreTarget = best;
         }
         moveTwice(exploreTarget);
     }

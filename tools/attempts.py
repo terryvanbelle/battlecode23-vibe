@@ -137,6 +137,16 @@ def screens_by_package(repo=REPO):
     return best
 
 
+def panel_version(run):
+    """The panel version a run played (its provenance.txt cells= looked up in test/cells/panels.json), or None."""
+    try:
+        cells = next((w[6:] for w in (run / 'provenance.txt').read_text().split() if w.startswith('cells=')), None)
+        reg = json.loads((REPO / 'test' / 'cells' / 'panels.json').read_text())['versions']
+    except (OSError, ValueError, KeyError):
+        return None
+    return next((v['version'] for v in reg if cells and Path(v['cells']) == Path(cells)), None)
+
+
 def panel_scores(repo=REPO):
     """{package: 'W/N'} from the latest gauntlet/*-panel-<package>/results.csv."""
     out = {}
@@ -148,7 +158,8 @@ def panel_scores(repo=REPO):
         with open(f, newline='') as fh:
             rows = list(csv.DictReader(fh))
         if rows:
-            out[name] = f"{sum(r['bot_result'] == 'win' for r in rows)}/{len(rows)}"
+            ver = panel_version(Path(d))
+            out[name] = (f'{ver}: ' if ver else '') + f"{sum(r['bot_result'] == 'win' for r in rows)}/{len(rows)}"
     return out
 
 
@@ -232,7 +243,9 @@ def render(rows, path=None):
         'with the incumbent (net; "info" = no gating archetype); (d) overruns, exceptions and self-deaths over all '
         'candidate games.',
         '3. **Panel trial**: 100 games on the replica against 10 field bots; *net* = games gained minus games lost '
-        'against the validated build\'s panel (`tools/paired.py`; most games are identical).',
+        'against the validated build\'s panel (`tools/paired.py`; most games are identical). The panel is versioned '
+        '(`test/cells/panels.json`, prefix v1/v2; rows without a prefix played v1): v1 from 2026-10-07, v2 from '
+        '2026-10-20 (the ten opponents nearest us by BT, 100 distinct maps).',
         '4. **Outcome**: accepted (submission id), rejected, dropped before the next stage, parked or subsumed.',
         '',
         'Totals: ' + ', '.join(f'{v} {k}' for k, v in sorted(kinds.items(), key=lambda kv: -kv[1]))

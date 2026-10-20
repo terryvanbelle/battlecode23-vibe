@@ -190,6 +190,29 @@ def ladder_state():
     return d if isinstance(d, dict) else {}
 
 
+PANELS = os.path.join(REPO, 'test', 'cells', 'panels.json')
+
+
+def panel_versions():
+    """The evaluation panel versions, oldest first, from test/cells/panels.json (owner, PROMPTS 135-136): a list of
+    dicts with version, cells (a path relative to REPO), from (an aware UTC datetime) and change; [] when missing."""
+    import json, datetime as dt
+    try:
+        with open(PANELS) as fh:
+            vs = json.load(fh).get('versions', [])
+    except (OSError, ValueError):
+        return []
+    return [dict(v, **{'from': dt.datetime.fromisoformat(v['from'].replace('Z', '+00:00'))}) for v in vs]
+
+
+def panel_version_of(cells):
+    """The version name of a panel cells path (as recorded by trial-start or a run's provenance), or None."""
+    if not cells:
+        return None
+    rel = os.path.relpath(os.path.abspath(cells if os.path.isabs(cells) else os.path.join(REPO, cells)), REPO)
+    return next((v['version'] for v in panel_versions() if os.path.normpath(v['cells']) == rel), None)
+
+
 def validated_build(state=None):
     """The validated build (a package name) recorded by tools/ladder_policy.py in progress/ladder-state.json, or None.
     Since the replica cutover (2026-10-07) accepted builds keep their package names (c_nav5, ...), not g_iterN."""

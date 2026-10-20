@@ -26,7 +26,8 @@ States (progress/ladder-state.json):
 
     tools/ladder_policy.py status
     tools/ladder_policy.py init <submission id> <package>      # declare the validated build (once)
-    tools/ladder_policy.py trial-start <package> [--panel test/cells/panel-v1.txt] [--tag T] [--force]
+    tools/ladder_policy.py trial-start <package> [--panel CELLS] [--tag T] [--force]   # default: the current panel
+    tools/ladder_policy.py set-control <run>                     # a finished panel run of the validated build
                                             [--skip-screen "<reason>"]
     tools/ladder_policy.py trial-end --accept | --reject
     tools/ladder_policy.py trial-park                           # once every panel match exists (waits up to 20 min)
@@ -280,7 +281,7 @@ def cmd_status():
         run = panel_run(p)
         # compared with the panel run of the build validated NOW (another parked trial may have been accepted since)
         print(f'parked: {p.get("package")} (submission {p.get("submission")}) since {pdt(p.get("parked"))}: ' +
-              (f'panel done ({run}); tools/paired.py {run} {v.get("panel_run")}, then trial-decide '
+              (f'panel done ({run}); tools/paired.py {run} {control_for(v, p.get("panel"))}, then trial-decide '
                f'{p.get("submission")} --accept|--reject' if run else
                f'panel playing (run {p.get("run_dir")}, trial-start pid {p.get("pid")})'))
     print(f'mode {ranked_mode(n_rated(ms), parse_t(v.get("since")), now)}; next autoscrim {nxt}')
@@ -328,6 +329,11 @@ def cmd_trial_start(package, panel, tag, force, skip_screen=None):
         if not sub or sub['id'] != v.get('submission'):
             raise SystemExit(f'the active submission is not the validated build ({sub and sub["id"]} vs '
                              f'{v.get("submission")})')
+        # candidates pair against the validated build on the same panel (a build with no panel run yet: the first trial)
+        if (v.get('panel_run') or v.get('panel_runs')) and not control_for(v, panel):
+            raise SystemExit(f'the validated build {v.get("package")} has no finished run on {panel}: run its control '
+                             f'(tools/contest.py block {panel} --tag <panelN>-{v.get("package")}), record it with '
+                             f'set-control <run>, then start the trial')
         now = utcnow()
         nxt = next_autoscrim(now)
         if not force and not trial_window_ok(nxt, now):
@@ -392,7 +398,8 @@ def cmd_trial_end(accept):
             raise SystemExit('no trial in progress')
         if accept:
             s['validated'] = {'submission': t['submission'], 'package': t['package'], 'since': utcnow().isoformat(),
-                              'panel_run': t.get('run')}
+                              'panel_run': t.get('run'),
+                              'panel_runs': {cells_key(t['panel']): t['run']} if t.get('panel') and t.get('run') else {}}
             event = 'accept'
         else:
             v = s['validated']
@@ -410,6 +417,101 @@ def cmd_trial_end(accept):
     print(event, t['package'], '- validated build is', s['validated'])
     if event == 'accept':
         print(ACCEPT_NEXT)
+
+
+def run_cells(run):
+    """The panel cells a finished run played (its provenance.txt's cells=), or None when unknown."""
+    try:
+        with open(os.path.join(REPO, run, 'provenance.txt')) as fh:
+            prov = fh.read().split()
+    except (OSError, TypeError):
+        return None
+    return next((w[6:] for w in prov if w.startswith('cells=')), None)
+
+
+def cells_key(p):
+    """A cells path relative to REPO, normalised (the key of validated['panel_runs'])."""
+    return os.path.normpath(os.path.relpath(os.path.abspath(p if os.path.isabs(p) else os.path.join(REPO, p)), REPO))
+
+
+def same_cells(a, b):
+    return cells_key(a) == cells_key(b)
+
+
+def control_for(v, cells):
+    """The validated build's finished run on the panel `cells` (panel review 2026-10-20: one control per cells file,
+    validated['panel_runs']; else its panel_run when that played `cells`), or None."""
+    if not cells:
+        return v.get('panel_run')
+    runs = v.get('panel_runs') or {}
+    if cells_key(cells) in runs:
+        return runs[cells_key(cells)]
+    r = v.get('panel_run')
+    rc = run_cells(r)
+    return r if r and (rc is None or same_cells(rc, cells)) else None   # a run without provenance: taken as is
+
+
+def run_problem(run):
+    """Why a finished panel run cannot be used for a decision (incomplete, short of its cells' games), else None."""
+    try:
+        prov = open(os.path.join(REPO, run, 'provenance.txt')).read().split()
+    except (OSError, TypeError):
+        return None                                     # a run from before provenance: nothing to check
+    kv = dict(w.split('=', 1) for w in prov if '=' in w)   # the last value wins (a resume appends)
+    if kv.get('incomplete', '0') != '0':
+        return f'{run} is incomplete ({kv["incomplete"]} requests unresolved): resume it with RESUME={run}'
+    cells = kv.get('cells')
+    if cells:
+        want = sum(len(maps) for _, maps, _ in contest.read_cells(os.path.join(REPO, cells) if not os.path.isabs(cells) else cells))
+        try:
+            with open(os.path.join(REPO, run, 'results.csv')) as fh:
+                got = sum(1 for _ in fh) - 1
+        except OSError:
+            got = 0
+        if got < want:
+            return f'{run} has {got} games of the {want} its panel {cells} plays'
+    return None
+
+
+def cmd_set_control(run):
+    """Record a finished run of the validated build (a control on a new panel version, owner, PROMPTS 135) as its
+    panel_run: candidates are then paired against it and trial-start defaults to that run's panel."""
+    with state_lock():
+        s = load_state()
+        v = s.get('validated') or {}
+        rel = os.path.relpath(os.path.abspath(run), REPO)
+        if not os.path.exists(os.path.join(REPO, rel, 'results.csv')):
+            raise SystemExit(f'{rel}: no results.csv (the run is not finished)')
+        prov = open(os.path.join(REPO, rel, 'provenance.txt')).read().split()
+        pkg = next((w[8:] for w in prov if w.startswith('package=')), None)
+        if pkg != v.get('package'):
+            raise SystemExit(f'{rel} played {pkg}, not the validated build {v.get("package")}')
+        bad = run_problem(rel)
+        if bad:
+            raise SystemExit(bad)
+        cells = run_cells(rel)
+        if not cells:
+            raise SystemExit(f'{rel}: no cells= in its provenance.txt')
+        runs = v.setdefault('panel_runs', {})
+        if v.get('panel_run') and run_cells(v['panel_run']):
+            runs.setdefault(cells_key(run_cells(v['panel_run'])), v['panel_run'])   # keep the previous control
+        old = runs.get(cells_key(cells))
+        runs[cells_key(cells)] = rel
+        if same_cells(cells, current_panel()):          # panel_run stays the current version's block-1 control
+            v['panel_run'] = rel
+        s['history'].append({'at': utcnow().isoformat(), 'event': 'control', 'package': pkg, 'run': rel,
+                             'cells': cells, 'previous': old})
+        save_state(s)
+    print('validated build', pkg, 'control on', cells, ':', old, '->', rel)
+
+
+def current_panel():
+    """The current evaluation panel's cells (the last version of test/cells/panels.json; owner, PROMPTS 135)."""
+    if os.path.join(REPO, 'tools') not in sys.path:
+        sys.path.insert(0, os.path.join(REPO, 'tools'))
+    import elolib
+    vs = elolib.panel_versions()
+    return vs[-1]['cells'] if vs else 'test/cells/panel-v1.txt'
 
 
 def panel_cells(t):
@@ -479,6 +581,18 @@ def cmd_trial_decide(key, accept):
         if not run:
             raise SystemExit(f'the panel of {p["package"]} (submission {p["submission"]}) is still playing '
                              f'(run {p.get("run_dir")}, trial-start pid {p.get("pid")})')
+        bad = run_problem(run)
+        if bad:
+            raise SystemExit(bad)
+        # the other blocks of the same candidate (docs/LADDER_STRATEGY.md "Panel decision rule": block 1 on v2, block
+        # 2 on v2b): parked entries of this package and code hash; one decision covers them all
+        sibs = [q for q in s.get('parked') or [] if q is not p and q.get('package') == p['package']
+                and q.get('hash') == p.get('hash')]
+        for q in sibs:
+            if not panel_run(q):
+                raise SystemExit(f'block {q.get("submission")} of {p["package"]} is still playing (run {q.get("run_dir")})')
+            if run_problem(panel_run(q)):
+                raise SystemExit(run_problem(panel_run(q)))
         if accept:
             if s.get('trial'):
                 raise SystemExit(f'a trial is in progress ({s["trial"].get("package")}, submission '
@@ -491,15 +605,18 @@ def cmd_trial_decide(key, accept):
             done = contest.wait_submission(new['id'])
             if done['status'] != 'OK!' or not done['accepted']:
                 raise SystemExit(f'resubmitting {p["package"]} failed: {done["status"]}; it stays parked')
+            runs = {cells_key(q['panel']): panel_run(q) for q in sibs + [p] if q.get('panel')}
+            cur = runs.get(cells_key(current_panel()))
             s['validated'] = {'submission': new['id'], 'package': p['package'], 'since': utcnow().isoformat(),
-                              'panel_run': run}
+                              'panel_run': cur or run, 'panel_runs': runs}
             # an accept event names the submission that became the validated build (tools/rating_history.py kind_of)
             ev = {'event': 'accept', 'submission': new['id'], 'package': p['package'],
                   'trial_submission': p['submission']}
         else:
             ev = {'event': 'reject', 'submission': p['submission'], 'package': p['package']}
-        s['parked'] = [q for q in s['parked'] if q is not p]
-        s['history'].append(dict({'at': utcnow().isoformat()}, **ev, parked=True, run=run))
+        s['parked'] = [q for q in s['parked'] if q is not p and q not in sibs]
+        s['history'].append(dict({'at': utcnow().isoformat()}, **ev, parked=True, run=run,
+                                 **({'blocks': [panel_run(q) for q in sibs]} if sibs else {})))
         save_state(s)
     print(ev['event'], p['package'], '- validated build is', s['validated'])
     if ev['event'] == 'accept':
@@ -619,7 +736,7 @@ def main():
     sp = ap.add_subparsers(dest='cmd', required=True)
     sp.add_parser('status')
     s = sp.add_parser('init'); s.add_argument('submission', type=int); s.add_argument('package')
-    s = sp.add_parser('trial-start'); s.add_argument('package'); s.add_argument('--panel', default='test/cells/panel-v1.txt')
+    s = sp.add_parser('trial-start'); s.add_argument('package'); s.add_argument('--panel', default=current_panel())
     s.add_argument('--tag'); s.add_argument('--force', action='store_true', help='ignore the autoscrim window only')
     s.add_argument('--skip-screen', metavar='REASON', help='start without a passing pre-trial screen (logged)')
     s = sp.add_parser('trial-end'); g = s.add_mutually_exclusive_group(required=True)
@@ -629,11 +746,14 @@ def main():
     g = s.add_mutually_exclusive_group(required=True)
     g.add_argument('--accept', action='store_true'); g.add_argument('--reject', action='store_true')
     sp.add_parser('ranked')
+    s = sp.add_parser('set-control'); s.add_argument('run', help='a finished panel run of the validated build')
     a = ap.parse_args()
     if a.cmd == 'status':
         cmd_status()
     elif a.cmd == 'init':
         cmd_init(a.submission, a.package)
+    elif a.cmd == 'set-control':
+        cmd_set_control(a.run)
     elif a.cmd == 'trial-start':
         cmd_trial_start(a.package, a.panel, a.tag, a.force, a.skip_screen)
     elif a.cmd == 'trial-end':

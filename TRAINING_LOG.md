@@ -2593,3 +2593,27 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   field bots nearest us by BT (ranks 3-33), 100 distinct maps, 10 per opponent; sprintBot left off (stuck matches).
   c_gd1's control run on it started 06:20 PDT (`contest.py block`, tag panel2-c_gd1); a review workflow (statistics,
   operations, representativeness) checks the design before any candidate is judged on it. c_fw1 and c_ms1 stay on v1.
+
+## 2026-10-20 07:10 PDT — panel v2 review (owner, PROMPTS 135): decision rule, per-panel controls, panel-only ratings
+
+Workflow (stats, ops, representativeness lenses + a verifying synthesis). Verdict: keep the v2 cells; fix the rule and
+the plumbing. Verified and applied:
+- **Decision rule.** Accepting at net +1..+3 on one 100-game panel accepts ~44% of null candidates (16-24% of harmful
+  ones). New rule (docs/LADDER_STRATEGY.md "Panel decision rule"): t = net / sqrt(D); block 1 (v2, us as A) accepts at
+  t >= 1.5 with net >= +3, rejects at net <= 0, else block 2 (test/cells/panel-v2b.txt, the same cells with order
+  '-', us as B) and a cumulative t >= 1.5. Simulated (scratchpad seqsim.py): P(accept) at a true net -3/0/+3/+5 per
+  block 0.01/0.11/0.46/0.76 at D 12.6. Basics fixes may pass at block-1 net >= 0, named as the exception.
+- **Plumbing.** One control per cells file (validated.panel_runs; `ladder_policy.py set-control <run>`); trial-start
+  defaults to the current panel and refuses one without a control; paired.py exits 2 on runs of different cells files,
+  < 90% matched cells or an incomplete run, and prints D and t; a block waits 12 h (was 6) and writes incomplete=N;
+  answers() checks our side for '+'/'-' requests (v2 and v2b share opponents and maps).
+- **Ratings.** Panel-only BT ratings run ~34 high (refit on panel-v1 games only: 13 of 14 builds over-predicted their
+  other games, 1268 wins expected vs 1119); ELO.md marks them (P). games.csv lacked 31 run matches (c_gx1's 3-7 match
+  10350; the c_im1, c_fw1, c_ms1 panels): tools/games_coverage.py now runs in progress-refresh.sh (backfills with
+  results.py --full once, then fails loudly).
+- **Facts corrected.** Under '+' galaxy never alternates: all 4,600 panel games are us as team A on the map's own
+  spawns (the v1/v2 headers said odd games were HQ-flipped). sprintBot is not in every stuck match (8860).
+- **Open.** The screen and race tools still use the 10 v1 maps (tools/screen.py PANEL_MAPS); the screen-predicts-panel
+  calibration (LEARNINGS) was measured on maps the screen and panel shared, so it is suspended for v2 until recalibrated.
+- c_gd1 on v2 so far (7 of 10 matches): 35/70 (maxwell 6-4, awesomelemonade 3-7, carlguo 3-7, Ivan 6-4, vrangr1 6-4,
+  pranayagra2 6-4, jmerle 5-5). The review's pre-registered test: <= 60/100 refutes the BT rank-1 claim.
