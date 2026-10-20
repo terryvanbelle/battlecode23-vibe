@@ -2487,3 +2487,22 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   the panel (diag-top2 M3) or replica noise between builds; trial-decide --accept at 21:17 PDT.
 - 21:46 PDT **c_gx1 rejected** (GHOST): parked panel gauntlet/20261020-012643-panel-c_gx1 vs c_adp1's panel 98 identical,
   gained 1, lost 1 (net 0); vs c_gd1's net -3. With abl10's -2 in self-play, GHOST is closed.
+
+## 2026-10-19 22:26 PDT: home raids are a consequence; audit of c_gd1 launched
+- **Home-raid metric** (`raid.py`, ranked matches >= 9400): an undefended home raid before r600 (enemy group >= 4 at prog
+  <= 0.2 from our side, <= 1 of ours) appears in 67% of 343 losses and 15% of 689 wins. prog is measured from side A's
+  HQs (ReplayDump: dA/(dA+dB)) and mirrored for side B; hq.csv of 10346 g2 confirms the sides. But at the first raid our
+  live launchers trail theirs by >= 2 in 199 of 229 raided losses (ahead in 21); in raided wins we lead in 60 of 100.
+  The raid follows a lost army; a recall defence would bring home an army that is already outnumbered. Not pursued.
+- **Launcher-lead arcs** (alive L, us minus them, at r150/250/400/600; `arc.py`): losses `----` 38%, `---.` 12%; wins
+  `+++.`/`++++` 74%. Half of our losses trail by r150. In those 197 losses at r150: built_L -3.3, alive_L -6.7, kills
+  -7.4, coll_Mn -210, alive_C -4.6. Behind at r150: carlguo866 46%, maxwelljones14 48%, AnOvercookedFork 43%,
+  IvanGeffner 37%, awesomelemonade 36%, jmerle 35%; vrangr1/georgezhang02/yaonam 10%, NotLLeon/Sprint1/reeceyang 0%.
+  Averages per opponent are level at r30-150 (built_L 24.3 vs 23.3 carlguo866, 27.5 vs 26.3 awesomelemonade), so it is
+  per-game variance in early fights (diag-top2 M1/M2), not the build order.
+- **Pinned resource**: vs awesomelemonade our HQ bank of Ad averages 128 at r200, 262 at r450, 425 at r600 (theirs ~90);
+  vs carlguo866 88/211/356. Field census: no team but IvanGeffner (Ex in 26% of games, destabilizers 1.8/game) and
+  vrangr1 (7%) uses elixir; awesomelemonade builds 195 launchers per game to our 152.
+- Plateau protocol step 1 (last bot audit 2026-10-07): workflow `audit-c_gd1` (4 lenses: shared state, movement and
+  jams, launcher combat, economy; one adversarial verifier per lens; read-only, no JVM). c_im1 unit tests running; its
+  trial waits for the 01:00 PDT autoscrim (trial window 2.5 h). abl13 at 78/144.
