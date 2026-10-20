@@ -2510,3 +2510,23 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   sides x 3 seeds: identity c_k1300 30/48, c_k1301 (1850) 30/48 with 48 of 48 games identical, c_k1302 (1700) 30/48 with
   47 identical (SoundWave differs, same result). 20 identity games reach r2000 (14 W, 6 L) and none flip. c_bk1 parked
   as a field-only lever to stack on a later candidate. c_im1 committed (b172f29, unit tests PASS); trial after 01:00.
+
+## 2026-10-20 01:18 PDT: audit-c_gd1 (3 of 4 lenses verified); FIELD_WALL_SIDE; c_im1 trial parked
+- **audit-c_gd1** (shared state, movement, economy verified; combat lens still running). Verdicts:
+  - CONFIRMED, medium: **stale field with a sidestep** (Nav.java:145). A field is rebuilt only when no downhill and no
+    same-wave square is free (Nav:157), so a carrier whose downhill squares proved to be walls sidesteps and steps back
+    (moveTwice A->B->A) for the rest of the game. c_gd1 panel: carriers still 100+ rounds on x=5 in 10 of 10 Forest
+    games (3,2,1,3,5,3,2,1,2,8; 9,243 carrier-rounds; 10337 g4 #10780 1,110 rounds); ranked 9913 g1 PairedProgramming
+    #10151 444 rounds (a loss), 9929 g0 Forest #10840 416. The verifier rebuilt the stale fields (levels 4 vs a true
+    13) and reproduced the loop. These are the V13 "frozen carriers" of diag-top2, now located.
+  - CONFIRMED, low (mostly in won games): island news published 1 turn in 5 (phantom islands in 17 of 609 games, all
+    in wins); ISLE_STICKY overwriting neutral with a 15-round-old 'theirs' (1 game of 609); blind anchors carried with
+    no target (99.4% of the wasted turns in wins); the carrier census partial at phase 32 of each epoch and the carrier
+    room spent twice (both bind in won games); anchors taken with no island target.
+  - PLAUSIBLE, low: Potions corridor plug (the proposed fix would not clear the observed stall); unjam blind to a
+    within-turn oscillation; MassiveL crowd switching (2 of 10 panel games, both won); island slots carry no time.
+- **C.FIELD_WALL_SIDE** in c_kx0 (Nav.moveTo: wallDown requests the rebuild, throttled by FIELD_RESTART, before the
+  sidestep; false = c_eco3). Identity copy c_fw0 vs c_gd1: javap differs only by the dead GHOST/OPEN_CAMP methods and
+  BANK_FROM's never-true round test. **c_fw1** = c_gd1 + FIELD_WALL_SIDE: fw1-h2h (103 maps x 2 sides vs c_gd1,
+  SEED_MODE=map, replays kept for the stuck-carrier count) running on the VM; unit tests running.
+- **c_im1** trial 199 started 01:12 after the 01:00 autoscrim; parked 01:18 (panel 10567-10576), c_gd1 active as 200.
