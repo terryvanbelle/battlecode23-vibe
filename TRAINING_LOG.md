@@ -2568,3 +2568,28 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   49,389, since c_gd1 fires only at robots it sees); its hits cannot be told from ordinary ones in the dump. Trial 203
   parked 04:55 PDT (panel matches 10587-10596). abl14 on the VM: c_ms1 vs MEMSHOT_AGE 1 / 4, MEMSHOT_LEFT 1200 and an
   identity copy, 34 maps x both sides (build/abl14/legend.txt).
+- 05:06 PDT STUCK_MATCH 10538 (ranked autoscrim 01:00 PDT, battlecode-archive.sprintBot vs jmerle.camel_case_v30_final;
+  not ours; sprintBot is in every stuck match so far): cancelled + re-rated (tools/galaxy/cancel-match.sh).
+- 05:06 PDT **Clear-ground contact** (the 51 per-turn dumps vs strong teams, `scratchpad/cloud/c4.py`, `c5.py`): with
+  an enemy launcher within r2 16 at turn start on a clear square, ours attack on 79% of turns, theirs 97%; with the
+  nearest at r2 17-20, 0.35 vs 0.55. Of our 7,061 in-range turns without an attack, 7,031 had that enemy on a cloud
+  (cloud tiles learnt from on_cloud), none were first turns, 65 other; theirs 832 / 46 / 140. So the in-range gap is
+  vision into clouds, which they fire through and we did not. MEMSHOT (memory at most 2 rounds) covers part; new
+  switch **C.BLINDSHOT** (an action still unused fires at the unsensable tile within r2 5-16 nearest the newest
+  sighting within BLIND_AGE 10, or after an unseen hit nearest the predicted enemy HQ). abl15 (after abl14 on the VM,
+  vs c_ms1, 34 maps x both sides): identity, MEMSHOT_AGE 10, BLINDSHOT, BLINDSHOT + BLIND_AGE 30.
+- 05:46 PDT **c_im1 rejected** (trial 199, `gauntlet/20261020-081316-panel-c_im1` vs c_gd1's panel): identical 99,
+  gained 0, lost 1 (jmerle), net -1; island-rounds -2.2 (t -1.73). ISLE_MARGIN_SMALL 2 is inert on the panel as in
+  self-play (abl4). c_gd1 stays validated (submission 204).
+- 06:27 PDT **c_fw1 rejected** (trial 201, `gauntlet/20261020-095116-panel-c_fw1` vs c_gd1's panel): identical 95,
+  gained 2, lost 3 (jmerle 0-2, vrangr1 0-1; NotLLeon and yaonam +1), net -1 (-0.45 SE), island-rounds -51 (t -0.77).
+  Forest carriers' still share 0.39 against c_gd1's 0.40 (no visible delivery on the panel), h2h signal -3: not
+  submitted (PROMPTS 102). FIELD_WALL_SIDE stays in c_kx0 (false).
+- 06:27 PDT **Panel v2** (owner, PROMPTS 133-134: confirm c_gd1's BT rank 1; adjust the panel). c_gd1's 2176 +- 108 is
+  fit from its 100 panel-v1 games only (the panel that selected it) and it never met the three teams just below it;
+  c_adp1, nearly the same bot, is 2055 (9-21 vs carlguo866, 9-22 vs IvanGeffner). v1 is saturated (c_gd1 86/100, five
+  opponents 9-10 of 10; 91-99 cells identical between candidates) and map-narrow (all games on 10 maps: about 525 of
+  our games each against about 40 on every other map; the ladder plays 103 evenly). `test/cells/panel-v2.txt`: the ten
+  field bots nearest us by BT (ranks 3-33), 100 distinct maps, 10 per opponent; sprintBot left off (stuck matches).
+  c_gd1's control run on it started 06:20 PDT (`contest.py block`, tag panel2-c_gd1); a review workflow (statistics,
+  operations, representativeness) checks the design before any candidate is judged on it. c_fw1 and c_ms1 stay on v1.
