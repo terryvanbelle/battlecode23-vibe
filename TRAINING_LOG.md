@@ -2563,7 +2563,7 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   MEMSHOT carries it: an action still unused at the end of the turn fires at the remembered tile of a fighter seen
   within 2 rounds (c_blind2's memory, whose GHOST never fired on its panel). Trial started at once (panel window
   before the 09:00 autoscrim); basics and miss counts from 30 loss replays running on the VM.
-- 05:05 PDT c_ms1 basics and delivery (30 loss replays of ms1-h2h, our side): exceptions 0, overruns 0, near-limit
+- 05:01 PDT c_ms1 basics and delivery (30 loss replays of ms1-h2h, our side): exceptions 0, overruns 0, near-limit
   turns 4,590 (c_sk1's 30: 5,764). MEMSHOT fires: 905 launcher attacks hit nothing (about 30 a game; c_sk1 0 of
   49,389, since c_gd1 fires only at robots it sees); its hits cannot be told from ordinary ones in the dump. Trial 203
   parked 04:55 PDT (panel matches 10587-10596). abl14 on the VM: c_ms1 vs MEMSHOT_AGE 1 / 4, MEMSHOT_LEFT 1200 and an
