@@ -1,6 +1,6 @@
 {
  "validated": {
-  "submission": 198,
+  "submission": 202,
   "package": "c_gd1",
   "since": "2026-10-20T04:17:53.777349+00:00",
   "panel_run": "gauntlet/20261020-001652-panel-c_gd1"
@@ -937,7 +937,80 @@
    "package": "c_gx1",
    "parked": true,
    "run": "gauntlet/20261020-012643-panel-c_gx1"
+  },
+  {
+   "at": "2026-10-20T08:13:16.767901+00:00",
+   "event": "trial-start",
+   "submission": 199,
+   "package": "c_im1",
+   "screen_skipped": "c_kx0 param build: c_gd1 + ISLE_MARGIN_SMALL 2 (panel-only lever, awesomelemonade diagnosis ranked change 3; inert in self-play abl4 c_lx02, like GATE_DEFICIT before c_gd1's +3)"
+  },
+  {
+   "at": "2026-10-20T08:18:25.760317+00:00",
+   "event": "park",
+   "submission": 199,
+   "package": "c_im1",
+   "validated_resubmitted": 200
+  },
+  {
+   "at": "2026-10-20T09:51:16.364511+00:00",
+   "event": "trial-start",
+   "submission": 201,
+   "package": "c_fw1",
+   "screen_skipped": "basics fix (rule 9): c_gd1 + FIELD_WALL_SIDE (audit-c_gd1 confirmed: stale distance field with a sidestep froze 1-8 carriers in 10 of 10 Forest panel games); h2h 100/206 signal -3 vs c_gd1, delivery 0 stuck carriers vs 7"
+  },
+  {
+   "at": "2026-10-20T09:55:19.611647+00:00",
+   "event": "park",
+   "submission": 201,
+   "package": "c_fw1",
+   "validated_resubmitted": 202
   }
  ],
- "parked": []
+ "parked": [
+  {
+   "run_dir": "gauntlet/20261020-081316-panel-c_im1",
+   "pid": 108091,
+   "submission": 199,
+   "package": "c_im1",
+   "started": "2026-10-20T08:12:56.382707+00:00",
+   "panel": "test/cells/panel-v1.txt",
+   "hash": "79b32d72abc1",
+   "parked": "2026-10-20T08:18:25.760233+00:00",
+   "panel_matches": [
+    10567,
+    10568,
+    10569,
+    10570,
+    10571,
+    10572,
+    10573,
+    10574,
+    10575,
+    10576
+   ]
+  },
+  {
+   "run_dir": "gauntlet/20261020-095116-panel-c_fw1",
+   "pid": 127014,
+   "submission": 201,
+   "package": "c_fw1",
+   "started": "2026-10-20T09:50:53.614951+00:00",
+   "panel": "test/cells/panel-v1.txt",
+   "hash": "2b013f053fec",
+   "parked": "2026-10-20T09:55:19.611539+00:00",
+   "panel_matches": [
+    10577,
+    10578,
+    10579,
+    10580,
+    10581,
+    10582,
+    10583,
+    10584,
+    10585,
+    10586
+   ]
+  }
+ ]
 }

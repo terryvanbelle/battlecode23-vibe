@@ -66,6 +66,10 @@ public final class Launcher {
     /** c_gh1: fight() turns (action ready, not mending: where 'ahead' decides) on which the ghosts turned vision's
      *  'ahead' into the parity hold; diagnostics only. */
     static int ghostFlips;
+    /** C.SHOOT_KNOWN: the enemies sensed at the start of the turn, and the shots fired after a move at their positions
+     *  (diagnostics only). */
+    static RobotInfo[] preEnemies;
+    static int knownShots;
 
     static void run() throws GameActionException {
         RobotController rc = G.rc;
@@ -78,6 +82,7 @@ public final class Launcher {
         report();
         track();
         shoot();
+        if (C.SHOOT_KNOWN) preEnemies = G.enemies;  // this turn's positions (no robot moves during our turn)
         if (C.MEND) mendUpdate();
         if (rc.isMovementReady()) {
             if (hasHittableEnemies()) { mode = 1; fight(); }
@@ -85,7 +90,16 @@ public final class Launcher {
         } else mode = hasHittableEnemies() ? 2 : 0;
         // bytecodes: a robot that has not moved sees the same enemies (none acts during our turn, and shoot() re-senses
         // after each attack), so the re-sense (100) runs only after a move or an overrun; every standing turn paid it
-        if (rc.isActionReady()) { G.here = rc.getLocation(); if (enemiesStale(at)) refreshEnemies(); shoot(); }
+        if (rc.isActionReady()) { G.here = rc.getLocation(); if (enemiesStale(at)) refreshEnemies(); shoot();
+            // C.SHOOT_KNOWN: a step onto a cloud senses only r2 4, but the positions sensed before the move are still
+            // exact (no robot acts during our turn; an attack needs no vision): fire at them (not after an overrun)
+            if (C.SHOOT_KNOWN && rc.isActionReady() && rc.getRoundNum() == G.round && !G.here.equals(at)) {
+                RobotInfo[] now = G.enemies;
+                G.enemies = preEnemies;
+                shoot();
+                if (rc.isActionReady()) G.enemies = now; else knownShots++;
+            }
+        }
         G.note = String.valueOf((char) ('0' + objKind));
         G.extra = ",pn=" + pinnedSeen + ",ua=" + unsafeStepsAvoided + (C.ARMY ? ",rg=" + regroups + ",fo=" + follows : "");
         if (C.GHOST) ghostStats();

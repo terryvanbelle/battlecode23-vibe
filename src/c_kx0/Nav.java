@@ -142,6 +142,8 @@ public final class Nav {
                 }
                 // downhill; behind robots, wait two turns, then sidestep on the same wave, then (a jam in a corridor:
                 // robots going both ways) step back one wave every other turn
+                // C.FIELD_WALL_SIDE: a known wall downhill means the field is out of date, sidestep or not
+                if (C.FIELD_WALL_SIDE && down == null && wallDown) { Field.stale = true; Field.request(ft, true); }
                 Direction go = down != null ? down : side;
                 if (go == null && fieldWaits >= 2 && (fieldWaits & 1) == 0) go = up2;
                 if (go != null) {
