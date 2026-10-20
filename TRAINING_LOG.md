@@ -2668,3 +2668,6 @@ Report: `research/diagnosis/2026-10-20-side-asymmetry.md` (workflow, 3 investiga
   VM r1-a (c_r1a, c_r1i) and r1-b (c_r1b, c_r1c): 103 maps x A/B, one explicit random seed per map shared by every
   arm, vs c_gd1; score paired against c_r1i. VM disk was at 359 MB free: replays of 8 finished sweeps purged (1.6 GB
   free).
+- 14:50 PDT **c_r1a delivery shown** (local, seed 777, team B vs c_gd1 as A; round-1 SPAWN_UNIT per HQ from the
+  replays): Turtle 5+5 (identity c_r1i 2+5), LookingGlass 5+5+5 (identity 4+4+2). The cliff is real and the fix
+  removes it; c_gd1's own A HQ#7 on LookingGlass built 4 in both games.
