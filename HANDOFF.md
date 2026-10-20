@@ -8,10 +8,13 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
 
 ## Standing
 
-- **Validated build c_adp1** (submission 193, accepted 2026-10-19 13:05 PDT): c_kx0 (c_eco3's code with switches)
-  with AD_PRESS_MN true (no late Ad carrier role while the carrier's nearest HQ is pressed). Panel 83/100
-  (`gauntlet/20261019-182439-panel-c_adp1`): vs c_eco3 99 identical, gained 1 (britacatalin), lost 0, net +1; abl8
-  self-play net +2. Judge candidates against c_adp1's panel; build variants on c_adp1 (or c_kx0 with AD_PRESS_MN=true).
+- **Validated build c_gd1** (submission 198, accepted 2026-10-19 21:17 PDT): c_kx0 with AD_PRESS_MN true,
+  GATE_DEFICIT_UNTIL 800 (the anchor gate drops its island-deficit clause from r800) and SPAWN_POCKET 4 (no spawns into
+  sealed pockets of <= 4 tiles). Panel 86/100 (`gauntlet/20261020-001652-panel-c_gd1`): vs c_adp1 91 identical, gained
+  6, lost 3, net +3 (+1.0 SE). Judge candidates against c_gd1's panel; build variants with `tools/param.py make c_kx0
+  <new> AD_PRESS_MN=true GATE_DEFICIT_UNTIL=800 SPAWN_POCKET=4 KEY=VAL`.
+- Before it **c_adp1** (submission 193, accepted 2026-10-19 13:05 PDT): c_kx0 with AD_PRESS_MN true. Panel 83/100
+  (`gauntlet/20261019-182439-panel-c_adp1`): vs c_eco3 99 identical, gained 1, lost 0, net +1.
 - Before it **c_eco3** (submission 192, accepted 2026-10-19 06:29 PDT): c_loose1 with CAP_MAX 45, AD_NEED 100,
   ANCHOR_START 400, ANCHOR_MIN_LAUNCHERS 20 (abl5 stack of abl3 economy near-misses, self-play net +6). Panel 82/100
   (`gauntlet/20261019-123523-panel-c_eco3`): vs c_loose1 97 identical, gained 3, lost 0, net +3 (+1.73 SE);
@@ -64,21 +67,16 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-19 18:28 PDT)
+## In flight (2026-10-19 21:17 PDT)
 
-- **State (13:05 PDT 10-19).** **c_adp1 is the validated build (submission 193, accepted 13:05)**, see Standing; c_eco3 panel
-  gauntlet/20261019-123523-panel-c_eco3 82/100 (losses: awesomelemonade 6, jmerle 4, vrangr1 3, pranayagra 2).
-  Ladder #5 (1767) behind carlguo866 1826, awesomelemonade 1826, maxwelljones14 1805, IvanGeffner 1769; ranked
-  record vs carlguo866 11/30 and maxwelljones14 6/18 (neither is on the panel). Rejected today: c_sm1 (05:36).
-  Diagnosis of awesomelemonade: research/diagnosis/2026-10-19-awesomelemonade.md (ranked changes KILL_STEP 1/2,
-  ISLE_MARGIN_SMALL 2, AD_PRESS_MN).
-- **Running (18:28 PDT).** Parked trials c_gd1 (sub 194: GATE_DEFICIT_UNTIL 800 + SPAWN_POCKET 4) and c_gx1 (sub
-  196: GHOST); decide each with `ladder_policy.py status` (prints the paired.py command) and `trial-decide`. Probe
-  ivan-probe (logs/ivan-probe.log) checks whether c_adp1 replays c_eco3's IvanGeffner wins identically (c_adp1 1/24
-  vs IvanGeffner ranked, c_eco3 11/15, likely map draw). VM: abl11 (OPEN_CAMP, build/abl11, legend there; analyse
-  with the scratch analyse.py against abl9's identity c_k900 rows). diag-top2 (research/diagnosis/2026-10-19-top2.md)
-  ranked SPAWN_POCKET, JOIN_MIN, CENTRE_SKIP_R2, GATE_DEFICIT_UNTIL, CAMP_MIN: abl9 gave -6 (JOIN), -3 (CAMP), 0
-  (CENTRE), inert (GATE), +1 (POCKET). c_kx0 also has GHOST and OPEN_CAMP (all off by default).
+- **State (21:17 PDT 10-19).** **c_gd1 is the validated build (submission 198)**, see Standing. Rating 1712 (BURST).
+  Ranked record vs carlguo866 11/30 and maxwelljones14 6/18 (neither is on the panel); diagnosis of the top two:
+  research/diagnosis/2026-10-19-top2.md (M1: their launchers camp our home Mn well by r150).
+- **Running (21:17 PDT).** Parked trial c_gx1 (sub 196: c_adp1 + GHOST; abl10 self-play net -2): when its panel is
+  done, pair it with c_adp1's panel (GHOST's own effect) and c_gd1's (the decision); a positive GHOST is rebuilt on
+  c_gd1. VM: cp1-h2h (c_cp1 = c_adp1 + OPEN_CAMP vs c_adp1, 103 maps both sides; abl11 self-play net +6, z +1.0): if
+  positive, trial c_gd1 + OPEN_CAMP. abl13 (BANK_FROM 1850/1700 vs c_adp1 on 8 r2000-prone maps; scratch legend
+  in build/abl13). IvanGeffner probe done: map draw, AD_PRESS_MN cleared (TRAINING_LOG 20:30).
 - **Done today.** abl6 (c_mid3 family: MID_URGENT false + MID_MOD 2 net -3, MID_MOD 1 -2, MID_MOD 2 alone 0: c_mid3
   dropped), abl7 (KILL_STEP 1 net 0, 2 net -2), abl8 (AD_PRESS_MN +2), ks1-h2h (c_ks1 101/206 vs c_eco3: dropped).
   **src/c_kx0** is the switch base (c_eco3 constants; KILL_STEP 0 and AD_PRESS_MN false reproduce c_eco3); build
@@ -251,7 +249,7 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   `gauntlet/20261009-082005-panel-c_nav4`. Earlier: g_iter2 = c_swarm1 (`...-210429-panel1-c_swarm1`, 40/100), g_iter1 =
   c_line8a (`...-180016-panel1-c_line8a`, 33/100), g_iter0 (`...-011350-panel1-g_iter0`, 31/100). Local cells vs the
   previous incumbent: `test/cells/self-swarm1-panel.txt`; the pre-trial screen (`tools/screen.py`) reads the current
-  validated package from `progress/ladder-state.json` (last recorded: c_adp1).
+  validated package from `progress/ladder-state.json` (last recorded: c_gd1).
 - Ranked vs unranked follows `docs/LADDER_STRATEGY.md` (owner, PROMPTS 17-18), state in `progress/ladder-state.json`:
   `tools/ladder_policy.py ranked` runs detached on the driver (PID 3179283 since 2026-10-14 11:46 PDT; log
   `logs/ranked-policy.log`): ranked challenges upward

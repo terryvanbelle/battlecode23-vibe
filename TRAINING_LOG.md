@@ -2455,3 +2455,35 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   Launchers born before r60 march to the mirror of their HQ's nearest Mn well (the enemy's home well; symmetry:
   single candidate, else the one mapping our HQ to the siege target) and hold r2 4-9 from it until r200. abl11 (VM,
   vs c_adp1, 160 games): c_k1101 (hold r2 4-9) and c_k1102 (hold r2 20).
+
+## 2026-10-19 20:30 PDT: OPEN_CAMP +6 (c_cp1 to h2h); defences inert vs a camper; IvanGeffner cleared; BANK_FROM; jams
+
+- **abl11 (OPEN_CAMP, vs c_adp1, 8 panel maps x both sides x 5 seeds, paired with abl9's identity c_k900)**: c_k1101
+  (hold r2 4-9) 46/80, gained 21, lost 15, net +6 (z +1.0; Cat -4, Cornucopia +4); c_k1102 (hold r2 20) net +4.
+  **c_cp1** = c_kx0 AD_PRESS_MN + OPEN_CAMP (= c_k1101): cp1-h2h (103 maps both sides vs c_adp1) running on the VM.
+- **abl12 (defences vs the camper c_k1101, 80 games each)**: c_adp1 34/80, CAMP_MIN 2 36/80, JOIN_MIN 2 31/80. Inert
+  within noise and negative in self-play (abl9): neither defence goes forward; the third leg (both) was stopped.
+- **IvanGeffner probe (matches 10334-10336)**: c_adp1 replays c_eco3's ranked wins 9922/9933/10037 on the same maps
+  with the same results (8 of 9 wins, the same Marsh tiebreak loss). The 1/24 vs 11/15 gap was the map draw, not
+  AD_PRESS_MN. IvanGeffner resigns at r401 on many maps (5 of these 9 games).
+- **Tiebreak audit (ranked, matches >= 9400)**: 25 of 318 games reached r2000 and we lost 16, mostly after losing the
+  fights (12 tb_islands). LookingGlass 9493/9500/9502: islands tied 4-4, lost on Mn (136 banked vs 2,166 after
+  collecting 35k vs 18k). Re-anchoring an own island counts 0 for tiebreak 2 (RULES 8.4), so the lever is the bank:
+  **C.BANK_FROM** (c_kx0; from that round an unthreatened HQ builds no launchers while the shared island counts are
+  tied). abl13: c_k1301 (1850) and c_k1302 (1700) vs c_adp1 on 8 r2000-prone maps (LookingGlass, Potions,
+  Cornucopia, Forest, Fractured, SoundWave, ThirtyFive, Cee) x both sides x 3 seeds, identity c_k1300.
+- **Jams**: ranked 10146 Potions (lost the islands tiebreak by 1 while ahead 20 to 10 launchers at r1000): from r915
+  at least 15 of our units froze in the HQ pocket (the 1-wide corridor y=11 x 31-36 and the 2-wide column x 38-39) and
+  the HQ could not build (665 Mn floated). Since match 9400 only Potions shows jam losses (2 of 4 games); self-play on
+  Potions did not reproduce it (one carrier stuck 1,296 rounds in a bottle room). Cornucopia 10114 (won the r2000
+  tiebreak with 734 launchers to 4): couriers spent hundreds of turns in E (no target) and Y; islands 2, 5, 7 were
+  never taken, likely stale enemy-owned island slots (a launcher far from an HQ cannot write the neutral sighting).
+
+## 2026-10-19 21:17 PDT: c_gd1 ACCEPTED (submission 198)
+
+- Parked panel gauntlet/20261020-001652-panel-c_gd1: 86/100; paired with c_adp1's panel: 91 identical, gained 6, lost 3,
+  net +3 (+1.00 SE; jmerle +2, awesomelemonade +1, pranayagra +1, vrangr1 1-1, britacatalin -1). GATE_DEFICIT_UNTIL
+  800 was inert in self-play (abl9 c_k902) and SPAWN_POCKET 4 touches no panel map, so the gain is the deficit gate on
+  the panel (diag-top2 M3) or replica noise between builds; trial-decide --accept at 21:17 PDT.
+- 21:46 PDT **c_gx1 rejected** (GHOST): parked panel gauntlet/20261020-012643-panel-c_gx1 vs c_adp1's panel 98 identical,
+  gained 1, lost 1 (net 0); vs c_gd1's net -3. With abl10's -2 in self-play, GHOST is closed.

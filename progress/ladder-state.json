@@ -1,9 +1,9 @@
 {
  "validated": {
-  "submission": 193,
-  "package": "c_adp1",
-  "since": "2026-10-19T20:05:44.555843+00:00",
-  "panel_run": "gauntlet/20261019-182439-panel-c_adp1"
+  "submission": 198,
+  "package": "c_gd1",
+  "since": "2026-10-20T04:17:53.777349+00:00",
+  "panel_run": "gauntlet/20261020-001652-panel-c_gd1"
  },
  "trial": null,
  "history": [
@@ -878,6 +878,65 @@
    "event": "accept",
    "submission": 193,
    "package": "c_adp1"
+  },
+  {
+   "at": "2026-10-20T00:16:52.310028+00:00",
+   "event": "trial-start",
+   "submission": 194,
+   "package": "c_gd1",
+   "screen_skipped": "c_kx0 param build: GATE_DEFICIT_UNTIL 800 (abl9 c_k902: inert in self-play, 0 of 80 changed; panel-only lever from diag-top2 M3) + SPAWN_POCKET 4 (abl9 c_k904 +1 of 24 on the only pocket maps Clown/Jail/ThirtyFive, none on the panel) + AD_PRESS_MN (c_adp1)"
+  },
+  {
+   "at": "2026-10-20T00:32:42.071456+00:00",
+   "event": "park",
+   "submission": 194,
+   "package": "c_gd1",
+   "validated_resubmitted": 195
+  },
+  {
+   "at": "2026-10-20T01:26:43.755721+00:00",
+   "event": "trial-start",
+   "submission": 196,
+   "package": "c_gx1",
+   "screen_skipped": "c_kx0 param build: GHOST (c_gh2's fighter memory in fight()'s 'ahead', ported bytecode-identical when off) + AD_PRESS_MN; abl10 vs c_adp1 80 games net -2 (7/9, z -0.5, noise); targets the strong-bot pattern diag-top2 analyst 0 found (enemies standing between our vision r2 20 and their reach r2 26), which self-play cannot judge; c_gh2 h2h 107/206 +4"
+  },
+  {
+   "at": "2026-10-20T01:28:20.978167+00:00",
+   "event": "park",
+   "submission": 196,
+   "package": "c_gx1",
+   "validated_resubmitted": 197
+  },
+  {
+   "at": "2026-10-20T04:16:49.774873+00:00",
+   "event": "panel-done",
+   "submission": 194,
+   "package": "c_gd1",
+   "run": "gauntlet/20261020-001652-panel-c_gd1"
+  },
+  {
+   "at": "2026-10-20T04:17:53.777421+00:00",
+   "event": "accept",
+   "submission": 198,
+   "package": "c_gd1",
+   "trial_submission": 194,
+   "parked": true,
+   "run": "gauntlet/20261020-001652-panel-c_gd1"
+  },
+  {
+   "at": "2026-10-20T04:45:34.797539+00:00",
+   "event": "panel-done",
+   "submission": 196,
+   "package": "c_gx1",
+   "run": "gauntlet/20261020-012643-panel-c_gx1"
+  },
+  {
+   "at": "2026-10-20T04:46:08.322812+00:00",
+   "event": "reject",
+   "submission": 196,
+   "package": "c_gx1",
+   "parked": true,
+   "run": "gauntlet/20261020-012643-panel-c_gx1"
   }
  ],
  "parked": []
