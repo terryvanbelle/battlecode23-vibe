@@ -2646,3 +2646,25 @@ the plumbing. Verified and applied:
   gained 7, lost 5, net +2 (t +0.58), island-rounds +241 (t +2.22). With block 1 (+2, D 12): net +4, D 24, t +0.82 <
   1.5: rejected (trial-decide 207, sibling 205 with it); c_gd1 stays validated (submission 208). A positive near-miss:
   SHOOT_KNOWN + MEMSHOT is kept to stack with the next candidate.
+
+## 2026-10-20 13:25 PDT: side asymmetry audit (owner, PROMPTS 139-140), candidates c_r1a-c
+
+Report: `research/diagnosis/2026-10-20-side-asymmetry.md` (workflow, 3 investigations + synthesis).
+- **Maps and engine are not the cause.** All 103 maps are exactly symmetric per team; moving first wins 49.2% with
+  random seeds (90/183 identical-bot games). Squares (adjacent central HQs) is the one move-order map.
+- **Most per-map self-play bias was measurement.** Map-seed games are deterministic (robot IDs come from the seed and
+  our roles, wall hand and RNG key on the ID), so near-identical builds replayed one game per cell: same side won both
+  games of a paired cell 75.8% (map seed) vs 52.6% (random seeds). LEARNINGS: run h2h on explicit random seeds.
+- **What survives random seeds is our code** (144 of 144 symmetry-transformed games diverged, 52% changed winner):
+  seed-locked maps (Risk, Heart, Spiral, ...) via ID-keyed decisions; position-locked maps (Grievance, Diagonal,
+  Rectangle, Sneaky, TicTacToe, Tightrope, SmallElements) via non-equivariant code, chiefly the siege target from a
+  rounded-down HQ centroid with ties to low x then y (rounding up flipped Grievance, TicTacToe, Sneaky).
+- **Panel gap (A 59, B 49):** move order 0, map features 0, siege-target mismatch 0-5, rest unexplained (chance or
+  the field's own side dependence; over 468 paired replica cells for all builds A minus B is +1.3 +- 2.0 pp).
+- **A basics failure found: the round-1 build cliff.** With SPAWN_POCKET (c_gd1) tryBuild ran a flood fill for every
+  improving tile; the 7,000 reserve stopped round-1 HQs at 1-4 of 5 builds (B short 91 of 194, A 56).
+- **Candidates** (src/c_kx0 switches, defaults = c_gd1): SPAWN_TWO_STEP + R1_BUILD_LEFT 4500 (c_r1a), SIEGE_SYM
+  (exact centroid, mirror-consistent ties once the symmetry is decided; c_r1c), both (c_r1b); identity c_r1i.
+  VM r1-a (c_r1a, c_r1i) and r1-b (c_r1b, c_r1c): 103 maps x A/B, one explicit random seed per map shared by every
+  arm, vs c_gd1; score paired against c_r1i. VM disk was at 359 MB free: replays of 8 finished sweeps purged (1.6 GB
+  free).

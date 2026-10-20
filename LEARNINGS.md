@@ -65,6 +65,12 @@ that beat us but does not explain their wins; the principle stands (it was free)
 
 ### Measurement
 
+- **A head-to-head on the map's own seed is one deterministic game per map and side, not a sample** (side audit
+  2026-10-20). The seed fixes every spawned robot's ID, and our code keys roles, wall-following hand and its random
+  stream on the ID, so near-identical builds replay the same games: the same side won both games of a paired cell in
+  75.8% of 3,275 map-seed cells and 52.6% of 515 random-seed cells; excess between-map variance 0.083 against 0.0095.
+  Per-map "side bias" in map-seed self-play (Risk 2-67) was mostly this replay. Run head-to-heads on explicit random
+  seeds, the same seed for both sides; a map-seed run counts one draw per cell however many builds repeat it.
 - **Check what a metric measures before naming the mechanism.** A miss fraction called `blind_rate` was mistaken for
   attacks outside vision. Replay endpoints also follow current pushes and do not timestamp movement; preserve unknown
   shot geometries and rate bounds instead of guessing attack positions (TRAINING_LOG 2026-10-12).
