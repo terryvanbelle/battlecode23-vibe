@@ -2558,3 +2558,8 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   shots at a tile out of reach from the start square (only SHOOT_KNOWN can fire them) 269 vs 10, about 9 a game. The
   switch fires; self-play is neutral, as it should be when both sides fight in the same clouds. Its target is the
   strong-team cloud gap (0.26 vs 0.36 hits a contact turn): panel lever, rides on c_ms1.
+- 04:58 PDT **ms1-h2h** (`gauntlet/20261020-102943-ms1-h2h`, c_ms1 = c_gd1 + SHOOT_KNOWN + MEMSHOT vs c_gd1, 103 maps x
+  both sides): **120/206 (58.3%), signal +17** (z +2.4; as A 62, as B 58). SHOOT_KNOWN alone (c_sk1) was 103/206, so
+  MEMSHOT carries it: an action still unused at the end of the turn fires at the remembered tile of a fighter seen
+  within 2 rounds (c_blind2's memory, whose GHOST never fired on its panel). Trial started at once (panel window
+  before the 09:00 autoscrim); basics and miss counts from 30 loss replays running on the VM.
