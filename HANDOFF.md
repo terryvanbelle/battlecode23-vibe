@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-18 14:14 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
+Updated 2026-10-20 04:02 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
 archived in `research/diagnosis/2026-10-12-handoff-inflight.md`). On 2026-10-12 18:48 PDT every galaxy unit stopped and
 the VM queue runner exited on a STOP file, with no recorded reason; both were restarted on 2026-10-14 (the replica in
 the morning, the runner at 11:47 PDT). `tools/watch_events.py` now reports either failure (REPLICA_DOWN,
@@ -67,17 +67,26 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-19 21:17 PDT)
+## In flight (2026-10-20 04:02 PDT)
 
-- **State (21:17 PDT 10-19).** **c_gd1 is the validated build (submission 198)**, see Standing. Rating 1712 (BURST).
-  Ranked record vs carlguo866 11/30 and maxwelljones14 6/18 (neither is on the panel); diagnosis of the top two:
-  research/diagnosis/2026-10-19-top2.md (M1: their launchers camp our home Mn well by r150).
-- **Running (21:17 PDT).** Parked trial c_gx1 (sub 196: c_adp1 + GHOST; abl10 self-play net -2): when its panel is
-  done, pair it with c_adp1's panel (GHOST's own effect) and c_gd1's (the decision); a positive GHOST is rebuilt on
-  c_gd1. VM: cp1-h2h (c_cp1 = c_adp1 + OPEN_CAMP vs c_adp1, 103 maps both sides; abl11 self-play net +6, z +1.0): if
-  positive, trial c_gd1 + OPEN_CAMP. abl13 (BANK_FROM 1850/1700 vs c_adp1 on 8 r2000-prone maps; scratch legend
-  in build/abl13). IvanGeffner probe done: map draw, AD_PRESS_MN cleared (TRAINING_LOG 20:30).
-- **Done today.** abl6 (c_mid3 family: MID_URGENT false + MID_MOD 2 net -3, MID_MOD 1 -2, MID_MOD 2 alone 0: c_mid3
+- **State (04:02 PDT 10-20).** **c_gd1 is the validated build (submission 198)**, see Standing. Judge every panel
+  against `gauntlet/20261020-001652-panel-c_gd1` with `tools/paired.py`. Why we lose (TRAINING_LOG 10-20): half our
+  losses already trail by r150 (kills -7.4, Mn -210); home raids follow a launcher deficit, they do not cause it; our
+  Ad bank sits idle (425 by r600 against awesomelemonade, theirs ~90). Audit of c_gd1 (workflow, 17 findings):
+  `research/diagnosis/2026-10-20-audit-c_gd1.md`.
+- **Parked panels (decide on PANEL_DONE with `trial-decide`).** c_im1 (trial 199, c_gd1 + ISLE_MARGIN_SMALL 2,
+  panel-only lever). c_fw1 (trial 201, c_gd1 + FIELD_WALL_SIDE: a known wall downhill rebuilds the distance field
+  even when a sidestep exists; h2h 100/206 signal -3, 0 stuck carriers against c_gd1's 7). If c_fw1 is accepted,
+  stack later trials on it.
+- **Cloud fire (TRAINING_LOG 10-20 03:45).** In contact on a cloud ours land 0.26 hits a turn, theirs 0.36; they fire
+  18,503 unseen shots from clouds and hit 31%. Switches in c_kx0: SHOOT_KNOWN (after a step onto a cloud, fire at the
+  positions sensed before the move) and MEMSHOT (an unused action fires at the remembered tile of a fighter seen within
+  2 rounds). c_sk1 = c_gd1 + SHOOT_KNOWN: h2h 103/206 signal 0. c_ms1 = c_sk1 + MEMSHOT: ms1-h2h on the VM; if it is
+  not negative and fires, trial it (window: start by 06:30 PDT or after 09:00).
+- **Parked ideas.** c_bk1 (BANK_FROM, inert in self-play: field-only, stack on a later candidate). Low-value audit
+  fixes in the audit record. STUCK_MATCH from sprintBot vs pranayagra.finalbotfinal* recurs (7880, 8689, 10023,
+  10487): cancel with `tools/galaxy/cancel-match.sh <id> --cancel`.
+- **Done 10-19.** abl6 (c_mid3 family: MID_URGENT false + MID_MOD 2 net -3, MID_MOD 1 -2, MID_MOD 2 alone 0: c_mid3
   dropped), abl7 (KILL_STEP 1 net 0, 2 net -2), abl8 (AD_PRESS_MN +2), ks1-h2h (c_ks1 101/206 vs c_eco3: dropped).
   **src/c_kx0** is the switch base (c_eco3 constants; KILL_STEP 0 and AD_PRESS_MN false reproduce c_eco3); build
   variants with `tools/param.py make c_kx0 <new> KEY=VAL`. Replica match 10023 (sprintBot vs pranayagra.finalbotfinal,
