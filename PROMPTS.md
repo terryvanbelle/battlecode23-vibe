@@ -601,3 +601,6 @@ That sounds good.  Also make sure that any panel alterations are marked in the p
 
 ## 137. 2026-10-20 09:59 PDT
 Can the v2 panel be a mix of side A and side B games instead of two separate panels?
+
+## 138. 2026-10-20 10:08 PDT
+V3 plans sound good
