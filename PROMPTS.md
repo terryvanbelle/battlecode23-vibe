@@ -586,3 +586,9 @@ I was replaying replays/990f5131-70ad-4fc9-8c1a-7d343f6e1d36.bc23, and I noticed
 
 ## 132. 2026-10-19 09:26 PDT
 At round 788 I see two large circles drawn near the center top
+
+## 133. 2026-10-20 06:14 PDT
+Looks like we're in first position, at least according to BT, good work!  Can we do some more games with c_gd1 to shrink the confidence interval and confirm?
+
+## 134. 2026-10-20 06:17 PDT
+I think we might need to adjust our panel
