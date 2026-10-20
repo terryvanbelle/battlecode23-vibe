@@ -53,7 +53,7 @@ public final class Launcher {
      *  slots). Slot of a robot: way 0 or 1 of set (ID & MEM_SET_MASK), i.e. slot 2*set or 2*set+1. Read only by
      *  ghostAhead (and memPick); nothing goes to the shared array. The arrays are built by memReset (no
      *  class-initialisation work when false). */
-    static final boolean MEM = C.GHOST || C.MEMSHOT;
+    static final boolean MEM = C.GHOST || C.MEMSHOT || C.BLINDSHOT;
     static final int MEM_SET_MASK = C.MEM_N / 2 - 1, MEM_NONE = -1000;
     static int[] memId, memRound;
     static MapLocation[] memLoc;
@@ -105,7 +105,9 @@ public final class Launcher {
             // C.MEMSHOT_AGE rounds and out of sight now (a cloud at either end); an empty or allied tile takes 0
             if (C.MEMSHOT && rc.isActionReady() && rc.getRoundNum() == G.round && Clock.getBytecodesLeft() > C.MEMSHOT_LEFT
                 && G.round - memLast <= C.MEMSHOT_AGE) memShot(rc);
+            if (C.BLINDSHOT && rc.isActionReady() && rc.getRoundNum() == G.round && Clock.getBytecodesLeft() > C.BLIND_LEFT) blindShot(rc);
         }
+        if (C.BLINDSHOT) { prevHp = rc.getHealth(); prevHpRound = G.round; }
         G.note = String.valueOf((char) ('0' + objKind));
         G.extra = ",pn=" + pinnedSeen + ",ua=" + unsafeStepsAvoided + (C.ARMY ? ",rg=" + regroups + ",fo=" + follows : "");
         if (C.GHOST) ghostStats();
@@ -372,6 +374,38 @@ public final class Launcher {
         if (!rc.canAttack(t)) return;
         rc.attack(t);
         memShots++;
+    }
+
+    /** C.BLINDSHOT: this launcher's health at the end of its previous turn, that turn's round, and shots fired. */
+    static int prevHp = -1, prevHpRound = -10, blindShots;
+    /** Offsets with r2 5..16: the attack disc less the r2 4 that vision always reaches (even into a cloud). */
+    static final int[] BLIND_DX = {-4, -3, -3, -3, -3, -3, -2, -2, -2, -2, -2, -2, -1, -1, -1, -1, 0, 0, 0, 0, 1, 1,
+        1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4},
+        BLIND_DY = {0, -2, -1, 0, 1, 2, -3, -2, -1, 1, 2, 3, -3, -2, 2, 3, -4, -3, 3, 4, -3, -2, 2, 3, -3, -2, -1, 1,
+        2, 3, -2, -1, 0, 1, 2, 0};
+
+    /** C.BLINDSHOT: fire at the tile within r2 5-16 that is on the map, not a known wall, not sensable now, and nearest
+     *  the anchor (C.BLINDSHOT's doc); no anchor or no such tile: the action stays unused. */
+    static void blindShot(RobotController rc) throws GameActionException {
+        MapLocation anchor = null;
+        int newest = MEM_NONE, ns = -1;
+        for (int s = C.MEM_N; --s >= 0; ) if (memRound[s] > newest && memLoc[s] != null) { newest = memRound[s]; ns = s; }
+        if (ns >= 0 && G.round - newest <= C.BLIND_AGE) anchor = memLoc[ns];
+        else if (prevHpRound == G.round - 1 && rc.getHealth() < prevHp && G.nEnemyFighters == 0)
+            anchor = G.nearest(G.here, MapMem.enemyHQs());
+        if (anchor == null) return;
+        int hx = G.here.x, hy = G.here.y, ax = anchor.x, ay = anchor.y, bd = Integer.MAX_VALUE;
+        MapLocation best = null;
+        for (int k = BLIND_DX.length; --k >= 0; ) {
+            int x = hx + BLIND_DX[k], y = hy + BLIND_DY[k];
+            if (!G.onMap(x, y)) continue;
+            int d = (x - ax) * (x - ax) + (y - ay) * (y - ay);
+            if (d >= bd || MapMem.isWall(x, y)) continue;
+            MapLocation t = new MapLocation(x, y);
+            if (rc.canSenseLocation(t)) continue;
+            bd = d; best = t;
+        }
+        if (best != null && rc.canAttack(best)) { rc.attack(best); blindShots++; }
     }
 
     /** The tile of memPick's candidate bit. */
