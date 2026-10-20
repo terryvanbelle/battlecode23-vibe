@@ -23,6 +23,9 @@ import battlecode.common.*;
  * turn); a launcher that reaches it and sees nobody skips it until it is stamped again.
  * c_isle1 (C.ISLE_THREAT): when the enemy is C.ISLE_MARGIN_SMALL (C.ISLE_MARGIN_LARGE on large maps) islands short of
  * conquest, an even-id launcher in march takes the nearest enemy-held island before any sighting (islandScan).
+ * c_gh1 (C.GHOST, ported from c_gh2): fight()'s 'ahead' also subtracts up to C.GHOST_MAX enemy fighters this launcher
+ * saw at most C.GHOST_AGE rounds ago within r2 C.GHOST_R2 that it cannot sense now (ghostAhead; c_blind2's fighter
+ * memory, remember).
  */
 public final class Launcher {
     public static int shots, steppedIn, kited;   // diagnostics
@@ -42,6 +45,24 @@ public final class Launcher {
     static boolean mending;
     static MapLocation mendTile;
     static int mendIsland, mendCheck;
+    /** c_gh1: fighter memory (c_blind2's, compiled out when C.GHOST is false: c_eco3 then): own sightings of enemy
+     *  launchers and destabilizers only (HQs take no damage; carriers and amplifiers would evict fighters from so few
+     *  slots). Slot of a robot: way 0 or 1 of set (ID & MEM_SET_MASK), i.e. slot 2*set or 2*set+1. Read only by
+     *  ghostAhead (and memPick); nothing goes to the shared array. The arrays are built by memReset (no
+     *  class-initialisation work when false). */
+    static final boolean MEM = C.GHOST;
+    static final int MEM_SET_MASK = C.MEM_N / 2 - 1, MEM_NONE = -1000;
+    static int[] memId, memRound;
+    static MapLocation[] memLoc;
+    /** Direction of the robot's last displacement between two of our sightings (null: none observed yet). */
+    static Direction[] memDir;
+    /** Round of the newest sighting recorded (memForget leaves it): ghostAhead skips the memory when it is older than
+     *  C.GHOST_AGE, so a turn with no fresh memory costs vision's test plus about 10. */
+    static int memLast;
+    static { if (MEM) memReset(); }
+    /** c_gh1: fight() turns (action ready, not mending: where 'ahead' decides) on which the ghosts turned vision's
+     *  'ahead' into the parity hold; diagnostics only. */
+    static int ghostFlips;
 
     static void run() throws GameActionException {
         RobotController rc = G.rc;
@@ -63,6 +84,7 @@ public final class Launcher {
         if (rc.isActionReady()) { G.here = rc.getLocation(); if (enemiesStale(at)) refreshEnemies(); shoot(); }
         G.note = String.valueOf((char) ('0' + objKind));
         G.extra = ",pn=" + pinnedSeen + ",ua=" + unsafeStepsAvoided + (C.ARMY ? ",rg=" + regroups + ",fo=" + follows : "");
+        if (C.GHOST) ghostStats();
         Telemetry.code = Telemetry.launcherCode(mode, objKind, G.nEnemyFighters > G.nAllyFighters + 1);
         if (C.TELEMETRY) {
             if (fought) Telemetry.dot(Telemetry.FIGHT, fightA | (shots - shots0 - fightShots & 3) << 14, fightB, fightC,
@@ -178,6 +200,7 @@ public final class Launcher {
             if (best == null) return;
             rc.attack(best.location);
             shots++;
+            if (MEM && best.health <= 20) memForget(best.ID);   // c_gh1: killed, not hiding
             if (C.TELEMETRY && firstTarget == 0) firstTarget = best.ID;
             refreshEnemies();
         }
@@ -221,6 +244,7 @@ public final class Launcher {
                 }
                 break;
             }
+            if (MEM) remember(e, G.round);   // c_gh1: the fighter memory's sightings (no RC calls)
             ids[n] = e.ID;
             locs[n++] = e.location;
         }
@@ -232,6 +256,137 @@ public final class Launcher {
         for (int k = nPinned; --k >= 0; ) if (pinnedIds[k] == id) return true;
         return false;
     }
+
+    // ---------------------------------------------------------------- fighter memory (c_blind2, via c_gh2; C.GHOST)
+    /** Every slot empty (class initialisation when MEM; tests). */
+    static void memReset() {
+        memId = new int[C.MEM_N]; memRound = new int[C.MEM_N]; memLoc = new MapLocation[C.MEM_N]; memDir = new Direction[C.MEM_N];
+        for (int k = C.MEM_N; --k >= 0; ) memRound[k] = MEM_NONE;
+        memLast = MEM_NONE;
+    }
+
+    /** Record one sighting of enemy fighter e at `round`, in place by ID (way 0, then way 1 of its set); a new ID takes
+     *  the way with the older sighting (way 0 on a tie). A changed location sets the robot's last movement direction; a
+     *  new ID clears it. Called from track()'s fighter loop (no loop of its own); no RC calls. */
+    static void remember(RobotInfo e, int round) {
+        int id = e.ID, s = (id & MEM_SET_MASK) << 1;
+        MapLocation l = e.location;
+        if (memId[s] != id && memId[++s] != id) {    // neither way holds it: s is way 1
+            if (memRound[s - 1] <= memRound[s]) s--;
+            memId[s] = id;
+            memDir[s] = null;
+        } else {
+            MapLocation was = memLoc[s];
+            if (!was.equals(l)) memDir[s] = was.directionTo(l);
+        }
+        memLoc[s] = l;
+        memRound[s] = memLast = round;
+    }
+
+    /** Forget a robot (our own ordinary attack killed it); no-op when it is not remembered. */
+    static void memForget(int id) {
+        int s = (id & MEM_SET_MASK) << 1;
+        if (memId[s] != id && memId[++s] != id) return;
+        memId[s] = 0; memRound[s] = MEM_NONE; memLoc[s] = null; memDir[s] = null;
+    }
+
+    /** memPick's skip bits for this turn, one pass with each fresh candidate checked once: both bits of a slot whose
+     *  robot is in vision now (canSenseRobot: it is not hiding there), and each tile within r2 16 that this launcher can
+     *  sense now (the robot is not on it: it is not in vision) or cannot attack. Slots older than `age` and tiles beyond
+     *  r2 16 cost no RC call (memPick never offers them). Stops before a slot's RC calls under `minLeft`, leaving the
+     *  slots after it unchecked: the caller re-checks the budget before memPick. (c_blind2's, with C.BLIND_MEM_AGE and
+     *  C.BLIND_SCAN_LEFT as arguments; no caller here, kept for Gh2Test's memory cases.) */
+    static int memBlocked(RobotController rc, int now, MapLocation here, int age, int minLeft) {
+        int skip = 0;
+        for (int s = C.MEM_N; --s >= 0; ) {
+            int r = memRound[s];
+            if (now - r > age) continue;
+            MapLocation l = memLoc[s], x = null;
+            Direction d = memDir[s];
+            if (d != null && r < now) x = l.add(d);
+            boolean inL = here.distanceSquaredTo(l) <= 16, inX = x != null && here.distanceSquaredTo(x) <= 16;
+            if (!inL && !inX) continue;
+            if (Clock.getBytecodesLeft() < minLeft) break;
+            int b = s << 1;
+            if (rc.canSenseRobot(memId[s])) { skip |= 3 << b; continue; }
+            if (inL && (rc.canSenseLocation(l) || !rc.canAttack(l))) skip |= 1 << b;
+            if (inX && (rc.canSenseLocation(x) || !rc.canAttack(x))) skip |= 2 << b;
+        }
+        return skip;
+    }
+
+    /** Pure (no RC calls): the best memory candidate whose bit is not in skip, or -1. Bit 2s is slot s's remembered
+     *  tile; bit 2s+1 is that tile plus the robot's last movement direction, offered only for a sighting at least one
+     *  round old (a robot seen this round has not moved since: no robot acts during our turn). A candidate's sighting is
+     *  at most `age` rounds old at `now`, and its tile is on the map and within the launcher's attack r2 16 of `here`.
+     *  Order: the most recent sighting first; within a round, every remembered tile before any extrapolated tile; then
+     *  the lower slot. Vision, sensing and legality are memBlocked's (its bits in skip). (c_blind2's; no caller here.) */
+    static int memPick(int now, MapLocation here, int skip, int age) {
+        int best = -1, bk = Integer.MIN_VALUE;
+        for (int s = C.MEM_N; --s >= 0; ) {
+            int r = memRound[s];
+            if (now - r > age) continue;
+            int b = s << 1, k = r << 1 | 1;
+            MapLocation l = memLoc[s];
+            if ((skip >>> b & 1) == 0 && k >= bk && here.distanceSquaredTo(l) <= 16) { bk = k; best = b; }
+            Direction d = memDir[s];
+            if (d != null && r < now && (skip >>> b & 2) == 0 && k - 1 >= bk) {
+                MapLocation x = l.add(d);
+                if (G.onMap(x.x, x.y) && here.distanceSquaredTo(x) <= 16) { bk = k - 1; best = b | 1; }
+            }
+        }
+        return best;
+    }
+
+    /** The tile of memPick's candidate bit. */
+    static MapLocation memTile(int code) {
+        MapLocation l = memLoc[code >> 1];
+        return (code & 1) == 0 ? l : l.add(memDir[code >> 1]);
+    }
+
+    // ---------------------------------------------------------------- c_gh1: GHOST
+    /** c_gh1: ",gf=<flips>" first in G.extra, so the 64-character cut (Telemetry.indicatorString) drops trailing fields
+     *  CNTT also carries rather than this one; only once a flip is counted (c_blind2's blindStats rule), so a launcher
+     *  with none publishes c_eco3's string, every field kept. */
+    static void ghostStats() { if (ghostFlips > 0) G.extra = ",gf=" + ghostFlips + G.extra; }
+
+    /** c_gh1: fight()'s 'ahead': vision's lead (our launchers in vision plus self, minus enemy fighters in vision) less
+     *  the ghosts (ghostCount of the fresh candidates not sensed now, at most C.GHOST_MAX), ahead at 2 or more. The
+     *  memory is consulted only when vision alone says ahead, a sighting is at most C.GHOST_AGE rounds old (memLast)
+     *  and C.GHOST_MIN_LEFT bytecodes are left; otherwise vision's test (c_eco3's). Counts a flip (ahead by vision, not
+     *  with the ghosts). No RNG; at most C.MEM_N canSenseRobot calls. */
+    static boolean ghostAhead(RobotController rc, MapLocation here) {
+        int nA = G.nAllyFighters, nE = G.nEnemyFighters;
+        if (!aheadLead(nA, nE, 0)) return false;
+        if (G.round - memLast > C.GHOST_AGE || Clock.getBytecodesLeft() < C.GHOST_MIN_LEFT) return true;
+        int cand = ghostCandidates(G.round, here);
+        if (cand == 0) return true;
+        if (aheadLead(nA, nE, ghostCount(cand, ghostSensed(rc, cand), C.GHOST_MAX))) return true;
+        ghostFlips++;
+        return false;
+    }
+
+    /** c_gh1, pure: the bit mask of slots s whose sighting is at most C.GHOST_AGE rounds old at `now` and whose tile is
+     *  within r2 C.GHOST_R2 of `here` (an empty slot's MEM_NONE round is never fresh, so its null tile is never read). */
+    static int ghostCandidates(int now, MapLocation here) {
+        int cand = 0;
+        for (int s = C.MEM_N; --s >= 0; )
+            if (now - memRound[s] <= C.GHOST_AGE && here.distanceSquaredTo(memLoc[s]) <= C.GHOST_R2) cand |= 1 << s;
+        return cand;
+    }
+
+    /** c_gh1: the bits of cand whose robot this launcher can sense now (in vision: not a ghost). */
+    static int ghostSensed(RobotController rc, int cand) {
+        int sensed = 0;
+        for (int s = C.MEM_N; --s >= 0; ) if ((cand >>> s & 1) != 0 && rc.canSenseRobot(memId[s])) sensed |= 1 << s;
+        return sensed;
+    }
+
+    /** c_gh1, pure: the ghosts, candidates not sensed now, capped at max. */
+    static int ghostCount(int cand, int sensed, int max) { return Math.min(max, Integer.bitCount(cand & ~sensed)); }
+
+    /** c_gh1, pure: arch_swarm's 'ahead' (allies in vision plus self, minus enemy fighters, by 2 or more) less ghosts. */
+    static boolean aheadLead(int nAlly, int nEnemy, int ghosts) { return nAlly + 1 - nEnemy - ghosts >= 2; }
 
     /**
      * Score the 9 tiles (lexicographic). threat(tile) = enemy fighters that can hit the tile on their next turn (r2 16 if
@@ -252,6 +407,10 @@ public final class Launcher {
         // step in to fire; otherwise the parity hold (members started 54-80% of engagements 2+ ahead and won 91-98% of those)
         boolean ahead = G.nAllyFighters + 1 - G.nEnemyFighters >= 2;
         MapLocation here = rc.getLocation();
+        // c_gh1: less the fighters seen lately and hidden now, only where 'ahead' decides: the not-ready scores are the
+        // same in both branches and a mender ignores it (no canSenseRobot, no flip counted on those turns); ghostAhead
+        // repeats vision's test above first, so it can only turn 'ahead' off
+        if (C.GHOST && ready && !(C.MEND && mending)) ahead = ghostAhead(rc, here);
         // per-enemy data computed once (audit R2): kind 0 = hittable non-fighter, 1 = fighter, 2 = HQ; killable = one shot
         // c_nav6: every fighter and HQ, but at most C.FIGHT_MAX_OTHERS non-fighters (48 enemy carriers in vision made
         // the 9-tile scoring cost ~6,500 bytecodes and overran: Cornucopia vs georgezhang, r1801); a tile needs only one
