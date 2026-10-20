@@ -2552,3 +2552,9 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   MEMSHOT; false = c_eco3). **c_ms1** = c_gd1 + SHOOT_KNOWN + MEMSHOT: ms1-h2h running on the VM; unit tests running.
 - 03:58 PDT STUCK_MATCH 10487 (ranked autoscrim 01:00 PDT, battlecode-archive.sprintBot vs pranayagra.finalbotfinaltwo,
   RUN > 1 h; the repeat offender of 7880 and 8689; not ours): cancelled + re-rated (tools/galaxy/cancel-match.sh).
+- 04:09 PDT **sk1-h2h** (`gauntlet/20261020-091449-sk1-h2h`, c_sk1 = c_gd1 + SHOOT_KNOWN vs c_gd1, 103 maps x both
+  sides): 103/206, signal 0. Delivery (30 loss replays each, `--sa` rows, cloud tiles learnt from on_cloud): after a
+  step onto a cloud, shots at a tile out of cloud vision 1,095 of 5,498 step-ins (c_fw1's run: 587 of 6,617); of those,
+  shots at a tile out of reach from the start square (only SHOOT_KNOWN can fire them) 269 vs 10, about 9 a game. The
+  switch fires; self-play is neutral, as it should be when both sides fight in the same clouds. Its target is the
+  strong-team cloud gap (0.26 vs 0.36 hits a contact turn): panel lever, rides on c_ms1.
