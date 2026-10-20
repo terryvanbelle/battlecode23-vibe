@@ -695,18 +695,38 @@ public final class Launcher {
         // written after it is built, so a call with the same two arrays and rank returns the last answer (150-250 per
         // call, once or twice a march turn; ehq comes from the cached enemyHQs() below)
         if (ehq == stEhq && o == stOurs && rank == stRank && o != null && o.length > 0) return stHq;
-        MapLocation from = ourCentroid();
         boolean[] used = new boolean[n];
         MapLocation hq = null;
-        for (int r = 0; r <= rank; r++) {
-            int bd = Integer.MAX_VALUE, bi = -1;
-            for (int i = n; --i >= 0; ) {
-                if (used[i]) continue;
-                int d = from.distanceSquaredTo(ehq[i]);
-                if (d < bd || (d == bd && G.enc(ehq[i]) < G.enc(ehq[bi]))) { bd = d; bi = i; }
+        if (C.SIEGE_SYM && o != null && o.length > 0) {
+            // exact centroid: n*e - sum, squared; ties by the target (team A) or its image (team B) once decided
+            int m = o.length, sx = 0, sy = 0;
+            for (int i = m; --i >= 0; ) { sx += o[i].x; sy += o[i].y; }
+            int s = MapMem.decided() ? (MapMem.cand & -MapMem.cand) : 0;
+            boolean b = s != 0 && G.rc.getTeam() == Team.B;
+            int[] key = new int[n];
+            for (int i = n; --i >= 0; ) key[i] = G.enc(b ? MapMem.img(s, ehq[i]) : ehq[i]);
+            for (int r = 0; r <= rank; r++) {
+                int bd = Integer.MAX_VALUE, bi = -1;
+                for (int i = n; --i >= 0; ) {
+                    if (used[i]) continue;
+                    int dx = m * ehq[i].x - sx, dy = m * ehq[i].y - sy, d = dx * dx + dy * dy;
+                    if (d < bd || (d == bd && key[i] < key[bi])) { bd = d; bi = i; }
+                }
+                used[bi] = true;
+                hq = ehq[bi];
             }
-            used[bi] = true;
-            hq = ehq[bi];
+        } else {
+            MapLocation from = ourCentroid();
+            for (int r = 0; r <= rank; r++) {
+                int bd = Integer.MAX_VALUE, bi = -1;
+                for (int i = n; --i >= 0; ) {
+                    if (used[i]) continue;
+                    int d = from.distanceSquaredTo(ehq[i]);
+                    if (d < bd || (d == bd && G.enc(ehq[i]) < G.enc(ehq[bi]))) { bd = d; bi = i; }
+                }
+                used[bi] = true;
+                hq = ehq[bi];
+            }
         }
         stEhq = ehq; stOurs = o; stRank = rank; stHq = hq;
         return hq;

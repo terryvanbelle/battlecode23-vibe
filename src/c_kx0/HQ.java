@@ -72,7 +72,7 @@ public final class HQ {
         // C.BANK_FROM: keep the mana for the round-2000 tiebreak while the islands are tied and this HQ is safe
         boolean bank = G.round >= C.BANK_FROM && !threatened && Comms.islUs == Comms.islThem;
         int guard;
-        for (guard = 0; guard < 6 && rc.isActionReady() && Clock.getBytecodesLeft() > 7000; guard++) {
+        for (guard = 0; guard < 6 && rc.isActionReady() && Clock.getBytecodesLeft() > (G.round == 1 ? C.R1_BUILD_LEFT : 7000); guard++) {
             int ad = rc.getResourceAmount(ResourceType.ADAMANTIUM), mn = rc.getResourceAmount(ResourceType.MANA);
             boolean wantAnchor = !threatened && G.round >= C.ANCHOR_START && launchersBuilt >= C.ANCHOR_MIN_LAUNCHERS
                 && rc.getNumAnchors(Anchor.STANDARD) == 0 && G.round - lastAnchorRound >= C.ANCHOR_PERIOD && anchorAllowed
@@ -206,13 +206,32 @@ public final class HQ {
         }
         if (goal == null) goal = new MapLocation(G.W / 2, G.H / 2);
         MapLocation best = null;
-        long bd = Long.MAX_VALUE;
-        for (int i = spawnTiles.length; --i >= 0; ) {
-            if (Clock.getBytecodesLeft() < 3500) break;       // keep the turn: the best tile so far, or none
-            MapLocation l = spawnTiles[i];
-            if (!rc.canBuildRobot(t, l)) continue;
-            long d = tileThreat(i) * 100_000L + l.distanceSquaredTo(goal);
-            if (d < bd && (C.SPAWN_POCKET == 0 || !sealed(i))) { bd = d; best = l; }
+        if (C.SPAWN_TWO_STEP && C.SPAWN_POCKET != 0) {
+            // the nearest buildable tile not known sealed, then one fill for it; a sealed one is cached and the scan
+            // repeats (the old loop's choice: the nearest open tile, ties to the first in this scan order)
+            for (;;) {
+                long bd = Long.MAX_VALUE;
+                int bi = -1;
+                for (int i = spawnTiles.length; --i >= 0; ) {
+                    if (Clock.getBytecodesLeft() < 3500) break;
+                    if (pocket != null && pocket[i] == 2) continue;
+                    MapLocation l = spawnTiles[i];
+                    if (!rc.canBuildRobot(t, l)) continue;
+                    long d = tileThreat(i) * 100_000L + l.distanceSquaredTo(goal);
+                    if (d < bd) { bd = d; bi = i; }
+                }
+                if (bi < 0) break;
+                if (!sealed(bi)) { best = spawnTiles[bi]; break; }
+            }
+        } else {
+            long bd = Long.MAX_VALUE;
+            for (int i = spawnTiles.length; --i >= 0; ) {
+                if (Clock.getBytecodesLeft() < 3500) break;       // keep the turn: the best tile so far, or none
+                MapLocation l = spawnTiles[i];
+                if (!rc.canBuildRobot(t, l)) continue;
+                long d = tileThreat(i) * 100_000L + l.distanceSquaredTo(goal);
+                if (d < bd && (C.SPAWN_POCKET == 0 || !sealed(i))) { bd = d; best = l; }
+            }
         }
         if (best == null) { tileFail = true; return false; }
         rc.buildRobot(t, best);
