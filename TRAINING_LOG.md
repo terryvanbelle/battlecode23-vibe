@@ -2530,3 +2530,23 @@ spawn kills are a symptom of an already-lost front. Rejected; c_mend2 remains va
   BANK_FROM's never-true round test. **c_fw1** = c_gd1 + FIELD_WALL_SIDE: fw1-h2h (103 maps x 2 sides vs c_gd1,
   SEED_MODE=map, replays kept for the stuck-carrier count) running on the VM; unit tests running.
 - **c_im1** trial 199 started 01:12 after the 01:00 autoscrim; parked 01:18 (panel 10567-10576), c_gd1 active as 200.
+
+## 2026-10-20 03:29 PDT: combat lens, SHOOT_KNOWN, cloud-fire contrast, MEMSHOT; c_fw1 delivered and on trial
+- **fw1-h2h** (c_fw1 vs c_gd1, 103 maps x 2 sides): 100/206, signal -3 (neutral). Delivery from the kept replays of
+  Forest, MassiveL, PairedProgramming x both sides: carriers still 100+ rounds c_fw1 0 in 6 games; c_gd1 5 (2,285
+  rounds) on Forest side A and 1 on PairedProgramming in each game; 0 exceptions, 0 overruns. A basics fix with
+  delivery shown: trial 201 started 02:50, parked 02:55 (panel 10577-10586; c_gd1 active as 202).
+- **Combat lens** (audit-c_gd1): CONFIRMED low-medium, a step-in onto a cloud loses the planned shot (vision r2 4 after
+  the move; ours attacked after 4 of 258 cloud step-ins vs strong teams, theirs 274 of 274) -> C.SHOOT_KNOWN, c_sk1
+  (sk1-h2h running). CONFIRMED low: aura avoidance ignores the end-of-round current push (deaths in won games); a
+  launcher with its action spent steps randomly 1 turn in 3 (rand(3) beats CENTER +1); C.MICRO2 is never read.
+  PLAUSIBLE: track() resets the pinned list on blind turns. Record: research/diagnosis/2026-10-20-audit-c_gd1.md.
+- **Cloud-fire contrast** (per-turn launcher dumps of 51 games vs strong teams, `cloud/c2.py`, `c3.py`): in contact
+  (an enemy launcher within r2 20 by replay truth) both sides stand on clouds about as often (ours 32.9%, theirs
+  30.5%) and lose as much HP the next turn (5.4 from a cloud, 8.2 from clear). But hits per contact turn: on a cloud
+  ours 0.26, theirs 0.36; on clear ours 0.58, theirs 0.60. From clouds they fire 18,503 shots at d2 > 4 (unseen) and
+  hit 5,648 (31%); ours fire only at what they see (3,258 such shots, all hits). About 45 hits (900 damage) a game.
+  c_blind2's memory targeting never fired on its panel (100/100 games identical to c_blind1): the idea is untested.
+- **C.MEMSHOT** in c_kx0 (an action still unused at the end of the turn fires at memPick's tile: an enemy fighter seen
+  at most MEMSHOT_AGE 2 rounds ago, tile within r2 16, not sensable now, the robot not in vision; MEM = GHOST ||
+  MEMSHOT; false = c_eco3). **c_ms1** = c_gd1 + SHOOT_KNOWN + MEMSHOT: ms1-h2h running on the VM; unit tests running.
