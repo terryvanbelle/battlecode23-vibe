@@ -2634,3 +2634,6 @@ the plumbing. Verified and applied:
   Barcode/Jail; F on BowAndArrow. Candidates c_se1 (SAFE_EXPLORE: up to 4 explore draws, the first not nearer the enemy
   HQs than home) and c_se2 (+ CENTRE_SKIP_R2 100) in se-h2h.
 - **abl14** (vs identity): MEMSHOT_AGE 1 net +1, AGE 4 +2, LEFT 1200 0: noise, MEMSHOT stays at age 2.
+- **abl15** (68 games each vs c_ms1, paired with identity c_k1500): MEMSHOT_AGE 10 net -5, BLINDSHOT (age 10) -2,
+  BLINDSHOT + BLIND_AGE 30 +3 (D 15, t +0.77). Noise; BLINDSHOT stays off (self-play cannot judge a lever aimed at
+  strong bots' cloud play, so BLIND_AGE 30 is parked for a panel stack if a cloud candidate goes ahead).
