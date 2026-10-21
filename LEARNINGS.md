@@ -123,6 +123,12 @@ that beat us but does not explain their wins; the principle stands (it was free)
   production, while enemy centre wells supply903/544kg of the945/471kg Mana gaps duringr101–250. Neither side
   upgraded throughr1000. Worker counts and whole-trip totals could not identify this; pair action targets with
   signed inventory changes and reconcile the totals (`research/diagnosis/2026-10-12-forest-mana-capacity.md`).
+- **A self-play win against the incumbent does not predict a panel win (confirmed 2026-10-20).** On the same 206
+  random-seed cells against c_gd1, c_ms1 (cloud fire) gained 35 and lost 13 against the identity build (net +22, t
+  +3.18), but it scored net +4 over two panel blocks (t +0.82) and was rejected. A fix aimed at the incumbent's own
+  blind spot can exploit only the incumbent. Score each part of a stack against the same cells: here the round-1
+  build fix and SIEGE_SYM added -5 and +1 on top of c_ms1 (c_r1s +17, c_r1n +23), so c_ms1 accounted for all of
+  the stack's gain. A self-play edge earns a panel trial, never an accept.
 
 ### Process and gates
 

@@ -1,6 +1,6 @@
 # HANDOFF.md — current state (keep this current at every accept)
 
-Updated 2026-10-20 04:02 PDT. The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
+Updated 2026-10-21 06:12 PDT (session shut down; see In flight). The CLI session on claude-driver runs the project (the 2026-10-12 web-session state is
 archived in `research/diagnosis/2026-10-12-handoff-inflight.md`). On 2026-10-12 18:48 PDT every galaxy unit stopped and
 the VM queue runner exited on a STOP file, with no recorded reason; both were restarted on 2026-10-14 (the replica in
 the morning, the runner at 11:47 PDT). `tools/watch_events.py` now reports either failure (REPLICA_DOWN,
@@ -67,43 +67,43 @@ QUEUE_RUNNER_DEAD) and must be armed at the end of every turn (CLAUDE.md rule 7)
   no launcher still 40+ rounds; 0 overruns.
 
 
-## In flight (2026-10-20 10:12 PDT)
+## In flight (2026-10-21 06:12 PDT: session shut down by the owner)
 
-- **State (10:12 PDT 10-20).** **c_gd1 is the validated build (submission 208)**, see Standing. BT 2046 +- 43, rank 11
-  of 140 and 5th against field bots (awesomelemonade 2127, carlguo 2123, maxwell 2117, Ivan 2101 above it); the
-  rank-1 reading came from its panel-v1 games alone and is refuted (v2 59/100). Why we lose (TRAINING_LOG 10-20): half
-  our losses already trail by r150; on v2 the 10 games where our Mn@100 was under half theirs went 2-8, with 27% of
-  early trips dying before collecting (7% elsewhere). Audit: `research/diagnosis/2026-10-20-audit-c_gd1.md`.
-- **Panel v3 is current (owner, PROMPTS 137-138).** `test/cells/panel-v3.txt` = v2's cells with the side mixed per
-  line (five opponents as A, five as B); block 2 `test/cells/panel-v3b.txt` swaps them. c_gd1's controls were composed
-  from its v2 and v2b games (`tools/compose_run.py`; gauntlet/20261020-171028-ctl3-c_gd1 and -ctl3b-c_gd1, 54/100
-  each) and recorded with set-control. Galaxy's '?' order is not used: it flips a coin for player A per request.
-  Decision rule: docs/LADDER_STRATEGY.md "Panel decision rule" (block 1 accept at t >= 1.5 and net >= +3, reject at net
-  <= 0, else block 2; cumulative t >= 1.5 and net >= +3). trial-start defaults to v3.
-- **c_ms1 (c_gd1 + SHOOT_KNOWN + MEMSHOT) is mid-decision on v2.** Block 1 (trial 205, v2, us as A): net +2, D 12,
-  t +0.58. Block 2 (trial 207, v2b, us as B, matches 10809-10818) plays; when PANEL_DONE comes: `tools/paired.py
-  <its run> gauntlet/20261020-143228-panel2b-c_gd1`, add block 1, then `tools/ladder_policy.py trial-decide 207
-  --accept|--reject` (decides parked sibling 205 too). If accepted, compose its v3/v3b controls from its v2 and v2b
-  runs and set-control them.
-- **Sweeps on the VM.** se-h2h (c_gd1 vs c_se1 = c_gd1 + SAFE_EXPLORE, c_se2 = c_se1 + CENTRE_SKIP_R2 100; 103 maps x
-  A/B; build/se): score c_gd1's losses per variant. abl15 (vs c_ms1: identity c_k1500, MEMSHOT_AGE 10, BLINDSHOT,
-  BLINDSHOT + BLIND_AGE 30): score against identity. abl14 done: all noise (MEMSHOT_AGE 1 +1, 4 +2, LEFT 1200 0).
-- **Decided 10-20.** c_im1 (trial 199) and c_fw1 (trial 201) net -1: rejected on v1. c_ms1 net -1 on v1 (trial 203):
-  rejected there, retried on v2 as above.
-- **Cloud fire (TRAINING_LOG 10-20 03:45, 05:06).** With an enemy launcher within r2 16 on a clear square ours attack
-  79% of turns, theirs 97%; 7,031 of our 7,061 idle in-range turns had the enemy on a cloud. Switches in c_kx0:
-  SHOOT_KNOWN, MEMSHOT (age 2), BLINDSHOT (an unused action fires at the unsensable tile within r2 5-16 nearest the
-  newest sighting, or after an unseen hit nearest the enemy HQ). VM sweeps: abl14 (c_ms1 vs MEMSHOT_AGE 1/4,
-  MEMSHOT_LEFT 1200, identity c_k1400) nearly done; abl15 (vs c_ms1: identity c_k1500, MEMSHOT_AGE 10, BLINDSHOT,
-  BLINDSHOT + BLIND_AGE 30) starts when abl14 writes. Score = c_ms1's losses per variant against identity.
-- **Parked ideas.** c_bk1 (BANK_FROM, inert in self-play: field-only, stack on a later candidate). Low-value audit
-  fixes in the audit record. STUCK_MATCH from sprintBot vs pranayagra.finalbotfinal* recurs (7880, 8689, 10023,
-  10487): cancel with `tools/galaxy/cancel-match.sh <id> --cancel`.
-- **Done 10-19.** abl6 (c_mid3 family: MID_URGENT false + MID_MOD 2 net -3, MID_MOD 1 -2, MID_MOD 2 alone 0: c_mid3
-  dropped), abl7 (KILL_STEP 1 net 0, 2 net -2), abl8 (AD_PRESS_MN +2), ks1-h2h (c_ks1 101/206 vs c_eco3: dropped).
-  **src/c_kx0** is the switch base (c_eco3 constants; KILL_STEP 0 and AD_PRESS_MN false reproduce c_eco3); build
-  variants with `tools/param.py make c_kx0 <new> KEY=VAL`. Replica match 10023 (sprintBot vs pranayagra.finalbotfinal,
-  the same pairing as 7880) stuck in RUN: cancelled 11:57 PDT with `tools/galaxy/cancel-match.sh 10023 --cancel`.
+- **Shutdown state (06:12 PDT 10-21).** The owner ended the session. On the VM, every process this project started
+  is stopped: the galaxy units (`sudo bash tools/galaxy/deploy/galaxy-setup.sh stop`), postgresql, and the queue
+  runner. The units stay *enabled*, so a VM reboot restarts the replica. On the driver, the ranked loop
+  (`ladder_policy.py ranked`) and all watchers are killed, and the scratchpad is cleared. **To resume:**
+  1. `sudo systemctl start postgresql`, then `sudo bash tools/galaxy/deploy/galaxy-setup.sh start` on the VM,
+     and check it with `... status`.
+  2. `tools/vm-run.sh queue-runner 'bash tools/vm-queue.sh'`.
+  3. Restart `python3 tools/ladder_policy.py ranked` on the driver in the background.
+  4. Arm `tools/watch_events.py`.
+  The match in flight at shutdown (an autoscrim game, awesomelemonade vs c_gd1) was interrupted and saturn requeues
+  it on restart.
+- **Validated build: c_gd1 (submission 208)**, see Standing. BT 2046 +- 43, rank 11 of 140, 5th against field bots
+  (awesomelemonade 2127, carlguo 2123, maxwell 2117, Ivan 2101). Why we lose: half our losses trail by r150. On v2,
+  the 10 games where our Mn@100 was under half theirs went 2-8 (audit:
+  `research/diagnosis/2026-10-20-audit-c_gd1.md`).
+- **Panel v3 is current (owner, PROMPTS 137-138).** `test/cells/panel-v3.txt` is v2's cells with the side mixed per
+  line; block 2 `panel-v3b.txt` swaps the sides. c_gd1's controls were composed from its v2/v2b games by
+  `tools/compose_run.py` (54/100 each). Decision rule: docs/LADDER_STRATEGY.md. Panel changes are marked on the
+  progress charts.
+- **Play symmetry is a standing rule (owner, PROMPTS 139; TRAINING_ALGORITHM basics item 7, LEARNINGS §1).** Audit:
+  `research/diagnosis/2026-10-20-side-asymmetry.md`. Map-seed games are deterministic, so h2h sweeps use an explicit
+  random seed per map, the same for both sides (`random.Random('r1-'+map)`). Each variant is scored paired against
+  an identity build on the same cells.
+- **Decided 10-20.** c_ms1 (SHOOT_KNOWN + MEMSHOT) **rejected** on the panel (net +4, D 24, t +0.82 over two blocks)
+  despite net +22 vs identity in self-play: see the LEARNINGS lesson "A self-play win against the incumbent does
+  not predict a panel win". c_se1/c_se2 (SAFE_EXPLORE) dropped (-8, -18). abl14/abl15 MEMSHOT/BLINDSHOT ablations
+  were noise.
+- **Round-1 build cliff and SIEGE_SYM (c_kx0 switches, committed 9fc7332).** C.SPAWN_TWO_STEP + C.R1_BUILD_LEFT fix
+  the cliff: round-1 HQs build 5 of 5 where they built 2-4, but the fix scores net -7 vs identity. SIEGE_SYM (exact
+  siege centroid, mirror-consistent ties) scores net 0. Stacks on c_ms1: c_r1m +19, c_r1s +17, c_r1n +23, against
+  c_ms1 alone +22, so none was trialled. Both switches stay default off. Being fair, the round-1 fix is the right
+  basics answer; turn it on in the next candidate that clears the panel without it costing.
+- **Next targets** (TRAINING_ALGORITHM §2): the early economy gap (Mn@100, early trips dying before collecting) is
+  the largest measured loss cause. c_bk1 (BANK_FROM) is parked for stacking. STUCK_MATCH from sprintBot vs
+  pranayagra.finalbotfinal* recurs; cancel it with `tools/galaxy/cancel-match.sh <id> --cancel`.
 - **How to run things.** A panel trial must end before the next autoscrim (09:00, 17:00, 01:00 PDT);
   `ladder_policy.py trial-start <pkg>` in the background (never wrapped in `timeout`). A param-only candidate with a
   self-play sweep behind it may skip the screen (`--skip-screen "<reason>"`). A full screen of a new package runs the

@@ -2676,3 +2676,12 @@ Report: `research/diagnosis/2026-10-20-side-asymmetry.md` (workflow, 3 investiga
   vs 55): the fix delivers but wins nothing here; c_r1c (SIEGE_SYM) net 0 (11-11, D 22); c_r1b (both) net -1 (D 65).
   None goes to the panel alone. SIEGE_SYM is neutral and follows the play-symmetry rule: it rides in the next stack.
   Next: r1-m (c_r1a + SHOOT_KNOWN + MEMSHOT) and r1-n (c_ms1 alone and c_ms1 + SIEGE_SYM) on the same cells.
+
+## 2026-10-21 06:12 PDT: r1-n / r1-s results; session shut down (owner, PROMPTS 142)
+Random-seed h2h vs c_gd1 (206 cells, paired against identity c_r1i, 102/206): c_ms1 alone 124/206, net +22 (D 48,
+t +3.18); c_r1n (c_ms1 + SIEGE_SYM) 125, net +23; c_r1s (c_r1a + SHOOT_KNOWN + MEMSHOT + SIEGE_SYM) 119, net +17;
+c_r1m 121, net +19. All of the stack's gain comes from c_ms1, which the panel rejected (net +4 over two blocks), so
+none of these was trialled. LEARNINGS §3 gains the lesson "A self-play win against the incumbent does not predict a
+panel win". Shutdown: the galaxy units, postgresql and the queue runner are stopped on the VM; the ranked loop and
+watchers are stopped on the driver; the r1 replays and build dirs on the VM are purged. Resume steps are in HANDOFF
+"In flight".
